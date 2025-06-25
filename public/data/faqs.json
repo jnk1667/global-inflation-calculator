@@ -1,0 +1,34 @@
+{
+  "faqs": [
+    {
+      "id": "1",
+      "question": "How accurate is your inflation data?",
+      "answer": "Our data comes directly from official government sources: US Bureau of Labor Statistics, UK Office for National Statistics, Statistics Canada, Australian Bureau of Statistics, and Eurostat. We update this data monthly to ensure accuracy."
+    },
+    {
+      "id": "2",
+      "question": "Which currencies and time periods do you support?",
+      "answer": "We support 5 major currencies: USD (from 1913), GBP (from 1947), EUR (from 1996), CAD (from 1914), and AUD (from 1948). This gives you over 100 years of historical data for most currencies."
+    },
+    {
+      "id": "3",
+      "question": "Is this service completely free?",
+      "answer": "Yes! Our inflation calculator is completely free to use with no registration required. We support the service through advertising to keep it free for everyone."
+    },
+    {
+      "id": "4",
+      "question": "How do you calculate inflation?",
+      "answer": "We use the Consumer Price Index (CPI) from each country's official statistics bureau. The calculation compares the CPI value from your selected year to the current year to determine the equivalent purchasing power."
+    },
+    {
+      "id": "5",
+      "question": "Can I use this for business or academic purposes?",
+      "answer": "Our tool is perfect for research, education, business planning, and personal finance. All data comes from official government sources, making it reliable for professional use."
+    },
+    {
+      "id": "6",
+      "question": "How often is the data updated?",
+      "answer": "We automatically update our inflation data monthly when new CPI figures are released by government statistics agencies. This ensures you always have the most current information."
+    }
+  ]
+}

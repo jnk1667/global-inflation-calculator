@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Enhanced mobile-friendly slider styles */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.slider::-webkit-slider-track {
+  background: #e5e7eb;
+  height: 12px;
+  border-radius: 6px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #3b82f6;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 3px solid white;
+  touch-action: manipulation;
+}
+
+.slider::-moz-range-track {
+  background: #e5e7eb;
+  height: 12px;
+  border-radius: 6px;
+  border: none;
+}
+
+.slider::-moz-range-thumb {
+  background: #3b82f6;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  touch-action: manipulation;
+}
+
+/* Ad container styles */
+.ad-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  .slider::-webkit-slider-thumb {
+    height: 36px;
+    width: 36px;
+  }
+
+  .slider::-moz-range-thumb {
+    height: 36px;
+    width: 36px;
+  }
+
+  .slider::-webkit-slider-track {
+    height: 16px;
+  }
+
+  .slider::-moz-range-track {
+    height: 16px;
+  }
+}
+
+/* Enhanced slider styles */
+.enhanced-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  height: 12px;
+  border-radius: 6px;
+}
+
+.enhanced-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  border: 3px solid white;
+  transition: all 0.2s ease;
+}
+
+.enhanced-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+}
+
+.enhanced-slider::-moz-range-thumb {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  transition: all 0.2s ease;
+}
+
+.enhanced-slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Chart animations */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chart-container {
+  animation: slideInUp 0.6s ease-out;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Touch-friendly button improvements */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Improved focus styles for mobile accessibility */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Better mobile typography */
+@media (max-width: 640px) {
+  body {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
