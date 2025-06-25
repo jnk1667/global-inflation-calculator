@@ -2,7 +2,9 @@
 
 import InflationCalculator from "@/components/inflation-calculator"
 import FAQ from "@/components/faq"
+import AdBanner from "@/components/ad-banner"
 import { ErrorBoundary } from "@/components/error-boundary"
+import SocialShare from "@/components/social-share"
 
 export default function Home() {
   return (
@@ -21,9 +23,23 @@ export default function Home() {
           </div>
         </header>
 
+        {/* Top Ad Banner */}
+        <ErrorBoundary>
+          <div className="bg-white border-b">
+            <div className="container mx-auto px-4 py-4">
+              <AdBanner slot="header" format="horizontal" className="max-w-full" />
+            </div>
+          </div>
+        </ErrorBoundary>
+
         <main className="container mx-auto px-4 py-8">
           {/* Main Calculator */}
           <InflationCalculator />
+
+          {/* Social Share Section */}
+          <div className="mt-12">
+            <SocialShare />
+          </div>
 
           {/* FAQ Section */}
           <div className="mt-16">
