@@ -8,6 +8,13 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+  },
+  experimental: {
+    staticGenerationTimeout: 60,
+    staticGenerationMaxConcurrency: 1,
+  },
+  generateBuildId: async () => {
+    return 'build-' + Date.now()
   }
 }
 
