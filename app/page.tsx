@@ -1,84 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
 import InflationCalculator from "@/components/inflation-calculator"
-import CurrencyComparisonChart from "@/components/currency-comparison-chart"
-import PurchasingPowerVisual from "@/components/purchasing-power-visual"
-import SimpleLineChart from "@/components/simple-line-chart"
 import FAQ from "@/components/faq"
-import SocialShare from "@/components/social-share"
-import AdBanner from "@/components/ad-banner"
-import UsageStats from "@/components/usage-stats"
 import { ErrorBoundary } from "@/components/error-boundary"
-import LoadingSpinner from "@/components/loading-spinner"
 
 export default function HomePage() {
-  const [inflationData, setInflationData] = useState<any>({})
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [calculatorResults, setCalculatorResults] = useState<any>(null)
-
-  useEffect(() => {
-    const loadInflationData = async () => {
-      try {
-        setIsLoading(true)
-        const currencies = ["usd", "gbp", "eur", "cad", "aud"]
-        const dataPromises = currencies.map(async (currency) => {
-          const response = await fetch(`/data/${currency}-inflation.json`)
-          if (!response.ok) {
-            throw new Error(`Failed to load ${currency.toUpperCase()} data`)
-          }
-          return response.json()
-        })
-
-        const results = await Promise.all(dataPromises)
-        const data: any = {}
-
-        results.forEach((result) => {
-          data[result.currency] = result
-        })
-
-        setInflationData(data)
-      } catch (err) {
-        console.error("Error loading inflation data:", err)
-        setError(err instanceof Error ? err.message : "Failed to load data")
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    loadInflationData()
-  }, [])
-
-  const handleCalculatorUpdate = (results: any) => {
-    setCalculatorResults(results)
-  }
-
-  if (isLoading) {
-    return <LoadingSpinner />
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="max-w-md mx-auto">
-          <CardContent className="p-8 text-center">
-            <div className="text-4xl mb-4">⚠️</div>
-            <h2 className="text-xl font-semibold mb-2">Data Loading Error</h2>
-            <p className="text-gray-600 mb-4">{error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Retry
-            </button>
-          </CardContent>
-        </Card>
-      </div>
-    )
-  }
-
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -95,57 +21,14 @@ export default function HomePage() {
           </div>
         </header>
 
-        <main className="container mx-auto px-4 py-8 space-y-8">
-          {/* Usage Stats */}
-          <UsageStats />
-
-          {/* Ad Banner */}
-          <AdBanner position="top" />
-
+        <main className="container mx-auto px-4 py-8">
           {/* Main Calculator */}
-          <InflationCalculator inflationData={inflationData} onUpdate={handleCalculatorUpdate} />
-
-          {/* Results Section */}
-          {calculatorResults && (
-            <div className="space-y-8">
-              {/* Line Chart */}
-              <SimpleLineChart
-                data={calculatorResults.chartData}
-                currency={calculatorResults.currency}
-                symbol={calculatorResults.symbol}
-                fromYear={calculatorResults.fromYear}
-                toYear={calculatorResults.toYear}
-              />
-
-              {/* Purchasing Power Visual */}
-              <PurchasingPowerVisual
-                originalAmount={calculatorResults.originalAmount}
-                adjustedAmount={calculatorResults.adjustedAmount}
-                currency={calculatorResults.currency}
-                symbol={calculatorResults.symbol}
-                fromYear={calculatorResults.fromYear}
-              />
-
-              {/* Currency Comparison */}
-              <CurrencyComparisonChart
-                amount={calculatorResults.originalAmount.toString()}
-                fromYear={calculatorResults.fromYear}
-                inflationData={inflationData}
-              />
-            </div>
-          )}
-
-          {/* Ad Banner */}
-          <AdBanner position="middle" />
+          <InflationCalculator />
 
           {/* FAQ Section */}
-          <FAQ />
-
-          {/* Social Share */}
-          <SocialShare />
-
-          {/* Ad Banner */}
-          <AdBanner position="bottom" />
+          <div className="mt-16">
+            <FAQ />
+          </div>
         </main>
 
         {/* Footer */}
