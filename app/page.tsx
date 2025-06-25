@@ -4,18 +4,24 @@ import InflationCalculator from "@/components/inflation-calculator"
 import FAQ from "@/components/faq"
 import { ErrorBoundary } from "@/components/error-boundary"
 
-export default function HomePage() {
+export default function Home() {
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold text-center mb-8">🌍 Global Inflation Calculator</h1>
-          <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-            <h2 className="text-2xl font-semibold mb-4">✅ New Version Deployed!</h2>
-            <p className="text-gray-600">If you see this message, the deployment is working.</p>
-            <p className="text-sm text-gray-500 mt-4">Next step: Load the full calculator component</p>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        {/* Header */}
+        <header className="bg-white shadow-sm border-b">
+          <div className="container mx-auto px-4 py-6">
+            <div className="text-center">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">🌍 Global Inflation Calculator</h1>
+              <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                Calculate how inflation affects your money over time across different currencies. See real purchasing
+                power changes from 1913 to 2025.
+              </p>
+            </div>
           </div>
+        </header>
 
+        <main className="container mx-auto px-4 py-8">
           {/* Main Calculator */}
           <InflationCalculator />
 
@@ -23,7 +29,7 @@ export default function HomePage() {
           <div className="mt-16">
             <FAQ />
           </div>
-        </div>
+        </main>
 
         {/* Footer */}
         <footer className="bg-gray-900 text-white py-12 mt-16">
