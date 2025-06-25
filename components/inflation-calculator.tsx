@@ -208,9 +208,9 @@ export default function InflationCalculator() {
             return [
               code,
               {
-                data: generateSampleData(info.earliest, currentYear, getSampleInflationRate(code)),
+                data: generateSampleData(info.earliest, currentYear - 1, getSampleInflationRate(code)), // 🎯 Exclude current year
                 ...info,
-                latest: currentYear, // 🎯 Dynamic latest year
+                latest: currentYear - 1, // 🎯 Latest year is previous year
               },
             ]
           }
@@ -221,20 +221,20 @@ export default function InflationCalculator() {
             throw new Error(`Invalid or empty data structure for ${code}`)
           }
 
-          // 🔄 Determine actual latest year from data
+          // 🔄 Determine actual latest year from data (excluding current year)
           const years = Object.keys(data.data)
             .map(Number)
-            .filter((year) => !isNaN(year))
+            .filter((year) => !isNaN(year) && year < currentYear) // 🎯 Exclude current year
             .sort((a, b) => b - a)
 
-          const actualLatestYear = years.length > 0 ? years[0] : currentYear
+          const actualLatestYear = years.length > 0 ? years[0] : currentYear - 1
 
           return [
             code,
             {
               ...data,
               ...info,
-              latest: Math.max(actualLatestYear, data.latest || currentYear), // Use the most recent
+              latest: Math.max(actualLatestYear, data.latest || currentYear - 1), // Use the most recent (but not current year)
             },
           ]
         } catch (error) {
@@ -242,9 +242,9 @@ export default function InflationCalculator() {
           return [
             code,
             {
-              data: generateSampleData(info.earliest, currentYear, getSampleInflationRate(code)),
+              data: generateSampleData(info.earliest, currentYear - 1, getSampleInflationRate(code)), // 🎯 Exclude current year
               ...info,
-              latest: currentYear,
+              latest: currentYear - 1,
             },
           ]
         }
@@ -269,9 +269,9 @@ export default function InflationCalculator() {
       const fallbackData: CurrencyData = {}
       Object.entries(CURRENCY_INFO).forEach(([code, info]) => {
         fallbackData[code] = {
-          data: generateSampleData(info.earliest, currentYear, getSampleInflationRate(code)),
+          data: generateSampleData(info.earliest, currentYear - 1, getSampleInflationRate(code)), // 🎯 Exclude current year
           ...info,
-          latest: currentYear,
+          latest: currentYear - 1,
         }
       })
       setInflationData(fallbackData)
@@ -342,7 +342,7 @@ export default function InflationCalculator() {
     return data
   }, [])
 
-  // Enhanced calculation result with dynamic current year
+  // Enhanced calculation result with dynamic current year (using latest available data year)
   const calculationResult = useMemo((): CalculationResult | null => {
     if (!inflationData || !amount || !fromYear || inputError) return null
 
@@ -353,14 +353,16 @@ export default function InflationCalculator() {
     if (!currencyData || !currencyData.data) return null
 
     const fromInflation = currencyData.data[fromYear.toString()]
-    const currentInflation = currencyData.data[currentYear.toString()]
+    // 🎯 Use latest available year instead of current year
+    const latestYear = currencyData.latest
+    const currentInflation = currencyData.data[latestYear.toString()]
 
     if (!fromInflation || !currentInflation || fromInflation <= 0 || currentInflation <= 0) return null
 
     try {
       const adjustedAmount = numAmount * (currentInflation / fromInflation)
       const totalInflation = ((adjustedAmount - numAmount) / numAmount) * 100
-      const yearsDifference = currentYear - fromYear
+      const yearsDifference = latestYear - fromYear
       const annualizedInflation =
         yearsDifference > 0 ? (Math.pow(adjustedAmount / numAmount, 1 / yearsDifference) - 1) * 100 : 0
 
@@ -379,17 +381,17 @@ export default function InflationCalculator() {
         annualizedInflation: Number(annualizedInflation.toFixed(3)),
         yearsDifference,
         fromYear,
-        currentYear, // 🎯 Dynamic current year
+        currentYear: latestYear, // 🎯 Use latest available year
       }
     } catch (error) {
       console.error("Calculation error:", error)
       return null
     }
-  }, [amount, fromYear, currency, inflationData, inputError, currentYear])
+  }, [amount, fromYear, currency, inflationData, inputError])
 
   const currentCurrency = useMemo(() => inflationData?.[currency], [inflationData, currency])
 
-  // Enhanced chart data generation with dynamic current year
+  // Enhanced chart data generation with latest available year
   const chartData = useMemo(() => {
     if (!inflationData || !calculationResult) return []
 
@@ -398,14 +400,15 @@ export default function InflationCalculator() {
 
     const data = []
     const baseAmount = calculationResult.originalAmount
-    const yearRange = currentYear - fromYear
+    const latestYear = currencyData.latest
+    const yearRange = latestYear - fromYear
 
     if (!isFinite(baseAmount) || baseAmount <= 0 || yearRange <= 0) return []
 
     try {
       const stepSize = Math.max(1, Math.floor(yearRange / Math.min(20, yearRange)))
 
-      for (let year = fromYear; year <= currentYear; year += stepSize) {
+      for (let year = fromYear; year <= latestYear; year += stepSize) {
         const yearStr = year.toString()
         if (currencyData.data[yearStr]) {
           const fromInflation = currencyData.data[fromYear.toString()]
@@ -426,9 +429,9 @@ export default function InflationCalculator() {
         }
       }
 
-      if (data.length === 0 || data[data.length - 1]?.year !== currentYear) {
+      if (data.length === 0 || data[data.length - 1]?.year !== latestYear) {
         const fromInflation = currencyData.data[fromYear.toString()]
-        const currentInflation = currencyData.data[currentYear.toString()]
+        const currentInflation = currencyData.data[latestYear.toString()]
         if (
           fromInflation &&
           currentInflation &&
@@ -438,7 +441,7 @@ export default function InflationCalculator() {
         ) {
           const adjustedValue = baseAmount * (currentInflation / fromInflation)
           if (isFinite(adjustedValue) && adjustedValue > 0) {
-            data.push({ year: currentYear, value: Number(adjustedValue.toFixed(2)) })
+            data.push({ year: latestYear, value: Number(adjustedValue.toFixed(2)) })
           }
         }
       }
@@ -448,9 +451,9 @@ export default function InflationCalculator() {
       console.error("Chart data generation error:", error)
       return []
     }
-  }, [inflationData, calculationResult, currency, fromYear, currentYear])
+  }, [inflationData, calculationResult, currency, fromYear])
 
-  // 🎯 Dynamic decade markers calculation
+  // 🎯 Dynamic decade markers calculation (exclude current year from display)
   const decadeMarkers = useMemo(() => {
     if (!currentCurrency) return []
 
@@ -471,12 +474,14 @@ export default function InflationCalculator() {
     const firstMarker = Math.ceil(startYear / interval) * interval
 
     for (let year = firstMarker; year <= endYear; year += interval) {
-      if (year >= startYear && year <= endYear) {
+      if (year >= startYear && year <= endYear && year < currentYear) {
+        // 🎯 Exclude current year from markers
         markers.push(year)
       }
     }
 
-    if (markers.length > 0 && markers[markers.length - 1] !== endYear) {
+    // Don't add the end year if it's the current year (to prevent overlap)
+    if (endYear < currentYear && markers.length > 0 && markers[markers.length - 1] !== endYear) {
       markers.push(endYear)
     }
 
@@ -491,24 +496,24 @@ export default function InflationCalculator() {
     }
 
     return markers
-  }, [currentCurrency])
+  }, [currentCurrency, currentYear])
 
-  // 🎯 Dynamic quick year buttons
+  // 🎯 Dynamic quick year buttons (excluding current year)
   const quickYearButtons = useMemo(() => {
     const baseYears = [1950, 1970, 1990, 2000, 2010, 2015, 2020]
 
-    // Add recent years dynamically but exclude current year if too close to 2020
+    // Add recent years dynamically but exclude current year
     const recentYears = []
     for (let i = 3; i >= 1; i--) {
       const year = currentYear - i
-      if (year > 2020 && year < currentYear - 1) {
-        // Exclude current year and year before
+      if (year > 2020 && year < currentYear) {
+        // Exclude current year
         recentYears.push(year)
       }
     }
 
     return [...baseYears, ...recentYears].filter(
-      (year) => year >= (currentCurrency?.earliest || 1913) && year <= (currentCurrency?.latest || currentYear),
+      (year) => year >= (currentCurrency?.earliest || 1913) && year <= (currentCurrency?.latest || currentYear - 1), // 🎯 Exclude current year
     )
   }, [currentYear, currentCurrency])
 
@@ -696,18 +701,18 @@ export default function InflationCalculator() {
                     <input
                       type="range"
                       min={currentCurrency?.earliest || 1913}
-                      max={currentCurrency?.latest || currentYear}
+                      max={currentCurrency?.latest || currentYear - 1} // 🎯 Exclude current year
                       value={fromYear}
                       onChange={(e) => setFromYear(Number.parseInt(e.target.value))}
                       className="w-full h-6 sm:h-3 bg-gradient-to-r from-blue-200 to-blue-400 rounded-lg appearance-none cursor-pointer touch-manipulation slider transition-all"
                       style={{
                         background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
                           ((fromYear - (currentCurrency?.earliest || 1913)) /
-                            ((currentCurrency?.latest || currentYear) - (currentCurrency?.earliest || 1913))) *
+                            ((currentCurrency?.latest || currentYear - 1) - (currentCurrency?.earliest || 1913))) *
                           100
                         }%, #e5e7eb ${
                           ((fromYear - (currentCurrency?.earliest || 1913)) /
-                            ((currentCurrency?.latest || currentYear) - (currentCurrency?.earliest || 1913))) *
+                            ((currentCurrency?.latest || currentYear - 1) - (currentCurrency?.earliest || 1913))) *
                           100
                         }%, #e5e7eb 100%)`,
                       }}
@@ -718,7 +723,7 @@ export default function InflationCalculator() {
                     <div className="relative mt-2 px-1" style={{ height: "20px" }}>
                       {decadeMarkers.map((year) => {
                         const startYear = currentCurrency?.earliest || 1913
-                        const endYear = currentCurrency?.latest || currentYear
+                        const endYear = currentCurrency?.latest || currentYear - 1
                         const position = ((year - startYear) / (endYear - startYear)) * 100
 
                         return (
@@ -736,7 +741,7 @@ export default function InflationCalculator() {
                       })}
                     </div>
 
-                    {/* 🎯 Dynamic Quick Year Buttons */}
+                    {/* 🎯 Dynamic Quick Year Buttons (excluding current year) */}
                     <div className="grid grid-cols-3 sm:flex sm:flex-wrap sm:justify-center gap-2 mt-4">
                       {quickYearButtons.map((year) => (
                         <button

@@ -5,40 +5,47 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-
-interface FAQItem {
-  id: string
-  question: string
-  answer: string
-}
-
-interface SiteSettings {
-  title: string
-  description: string
-  keywords: string
-  contactEmail: string
-}
+import { supabase, type FAQ, type SiteSettings } from "@/lib/supabase"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export default function AdminPanel() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState("")
-  const [faqs, setFaqs] = useState<FAQItem[]>([])
+  const [faqs, setFaqs] = useState<FAQ[]>([])
   const [settings, setSettings] = useState<SiteSettings>({
+    id: "main",
     title: "Global Inflation Calculator",
     description: "Free inflation calculator for comparing currency values",
     keywords: "inflation calculator, currency, historical prices",
-    contactEmail: "admin@example.com",
+    contact_email: "admin@example.com",
   })
   const [activeTab, setActiveTab] = useState("faqs")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
 
-  const ADMIN_PASSWORD = "YourSecurePassword123!" // Change this!
+  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "YourSecurePassword123!"
+
+  const showMessage = (message: string, type: "success" | "error") => {
+    if (type === "success") {
+      setSuccess(message)
+      setError(null)
+    } else {
+      setError(message)
+      setSuccess(null)
+    }
+    setTimeout(() => {
+      setSuccess(null)
+      setError(null)
+    }, 5000)
+  }
 
   const handleLogin = () => {
     if (password === ADMIN_PASSWORD) {
       setIsAuthenticated(true)
       localStorage.setItem("adminAuth", "true")
     } else {
-      alert("Incorrect password")
+      showMessage("Incorrect password", "error")
     }
   }
 
@@ -48,52 +55,143 @@ export default function AdminPanel() {
       setIsAuthenticated(true)
     }
 
-    // Load existing data
-    loadFAQs()
-    loadSettings()
-  }, [])
+    if (isAuthenticated) {
+      loadFAQs()
+      loadSettings()
+    }
+  }, [isAuthenticated])
 
   const loadFAQs = async () => {
     try {
-      const response = await fetch("/data/faqs.json")
-      const data = await response.json()
-      setFaqs(data.faqs || [])
+      setLoading(true)
+      const { data, error } = await supabase.from("faqs").select("*").order("created_at", { ascending: true })
+
+      if (error) {
+        // Fallback to localStorage if database fails
+        const localFaqs = localStorage.getItem("faqs")
+        if (localFaqs) {
+          const parsed = JSON.parse(localFaqs)
+          setFaqs(parsed.faqs || [])
+        }
+        console.log("Using localStorage fallback for FAQs")
+      } else {
+        setFaqs(data || [])
+      }
     } catch (error) {
-      console.log("Could not load FAQs")
+      console.log("Could not load FAQs from database, using localStorage")
+      const localFaqs = localStorage.getItem("faqs")
+      if (localFaqs) {
+        const parsed = JSON.parse(localFaqs)
+        setFaqs(parsed.faqs || [])
+      }
+    } finally {
+      setLoading(false)
     }
   }
 
   const loadSettings = async () => {
     try {
-      const response = await fetch("/data/settings.json")
-      const data = await response.json()
-      setSettings(data)
+      setLoading(true)
+      const { data, error } = await supabase.from("site_settings").select("*").eq("id", "main").single()
+
+      if (error) {
+        // Fallback to localStorage if database fails
+        const localSettings = localStorage.getItem("settings")
+        if (localSettings) {
+          setSettings(JSON.parse(localSettings))
+        }
+        console.log("Using localStorage fallback for settings")
+      } else if (data) {
+        setSettings({
+          id: data.id,
+          title: data.title,
+          description: data.description,
+          keywords: data.keywords,
+          contact_email: data.contact_email,
+        })
+      }
     } catch (error) {
-      console.log("Could not load settings")
+      console.log("Could not load settings from database, using localStorage")
+      const localSettings = localStorage.getItem("settings")
+      if (localSettings) {
+        setSettings(JSON.parse(localSettings))
+      }
+    } finally {
+      setLoading(false)
     }
   }
 
   const saveFAQs = async () => {
     try {
-      // In a real implementation, this would save to your backend
+      setLoading(true)
+
+      // First, delete all existing FAQs
+      const { error: deleteError } = await supabase.from("faqs").delete().neq("id", "impossible-id") // Delete all
+
+      if (deleteError) {
+        throw deleteError
+      }
+
+      // Then insert all current FAQs
+      if (faqs.length > 0) {
+        const { error: insertError } = await supabase.from("faqs").insert(
+          faqs.map((faq) => ({
+            id: faq.id,
+            question: faq.question,
+            answer: faq.answer,
+          })),
+        )
+
+        if (insertError) {
+          throw insertError
+        }
+      }
+
+      // Also save to localStorage as backup
       localStorage.setItem("faqs", JSON.stringify({ faqs }))
-      alert("FAQs saved successfully!")
+      showMessage("FAQs saved successfully to database!", "success")
     } catch (error) {
-      alert("Failed to save FAQs")
+      console.error("Database save failed:", error)
+      // Fallback to localStorage
+      localStorage.setItem("faqs", JSON.stringify({ faqs }))
+      showMessage("FAQs saved to local storage (database unavailable)", "success")
+    } finally {
+      setLoading(false)
     }
   }
 
   const saveSettings = async () => {
     try {
+      setLoading(true)
+
+      const { error } = await supabase.from("site_settings").upsert({
+        id: "main",
+        title: settings.title,
+        description: settings.description,
+        keywords: settings.keywords,
+        contact_email: settings.contact_email,
+        updated_at: new Date().toISOString(),
+      })
+
+      if (error) {
+        throw error
+      }
+
+      // Also save to localStorage as backup
       localStorage.setItem("settings", JSON.stringify(settings))
-      alert("Settings saved successfully!")
+      showMessage("Settings saved successfully to database!", "success")
     } catch (error) {
-      alert("Failed to save settings")
+      console.error("Database save failed:", error)
+      // Fallback to localStorage
+      localStorage.setItem("settings", JSON.stringify(settings))
+      showMessage("Settings saved to local storage (database unavailable)", "success")
+    } finally {
+      setLoading(false)
     }
   }
 
   const addFAQ = () => {
-    const newFAQ: FAQItem = {
+    const newFAQ: FAQ = {
       id: Date.now().toString(),
       question: "",
       answer: "",
@@ -105,9 +203,17 @@ export default function AdminPanel() {
     setFaqs(faqs.map((faq) => (faq.id === id ? { ...faq, [field]: value } : faq)))
   }
 
-  const deleteFAQ = (id: string) => {
+  const deleteFAQ = async (id: string) => {
     if (confirm("Are you sure you want to delete this FAQ?")) {
+      // Remove from local state
       setFaqs(faqs.filter((faq) => faq.id !== id))
+
+      // Also try to delete from database
+      try {
+        await supabase.from("faqs").delete().eq("id", id)
+      } catch (error) {
+        console.log("Could not delete from database, will sync on next save")
+      }
     }
   }
 
@@ -125,6 +231,11 @@ export default function AdminPanel() {
             <CardTitle className="text-center">🔒 Admin Access</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+            {error && (
+              <Alert className="border-red-200 bg-red-50">
+                <AlertDescription className="text-red-800">{error}</AlertDescription>
+              </Alert>
+            )}
             <Input
               type="password"
               placeholder="Enter admin password"
@@ -146,13 +257,28 @@ export default function AdminPanel() {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">📝 Content Manager</h1>
-          <Button onClick={logout} variant="outline">
-            Logout
-          </Button>
+          <div className="flex items-center space-x-4">
+            {loading && <div className="text-sm text-gray-600">Saving...</div>}
+            <Button onClick={logout} variant="outline">
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Messages */}
+        {success && (
+          <Alert className="mb-6 border-green-200 bg-green-50">
+            <AlertDescription className="text-green-800">{success}</AlertDescription>
+          </Alert>
+        )}
+        {error && (
+          <Alert className="mb-6 border-red-200 bg-red-50">
+            <AlertDescription className="text-red-800">{error}</AlertDescription>
+          </Alert>
+        )}
+
         {/* Tab Navigation */}
         <div className="flex space-x-4 mb-8">
           <Button onClick={() => setActiveTab("faqs")} variant={activeTab === "faqs" ? "default" : "outline"}>
@@ -172,9 +298,11 @@ export default function AdminPanel() {
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Manage FAQs</h2>
               <div className="space-x-2">
-                <Button onClick={addFAQ}>+ Add FAQ</Button>
-                <Button onClick={saveFAQs} className="bg-green-600 hover:bg-green-700">
-                  💾 Save All
+                <Button onClick={addFAQ} disabled={loading}>
+                  + Add FAQ
+                </Button>
+                <Button onClick={saveFAQs} disabled={loading} className="bg-green-600 hover:bg-green-700">
+                  💾 {loading ? "Saving..." : "Save All"}
                 </Button>
               </div>
             </div>
@@ -188,6 +316,7 @@ export default function AdminPanel() {
                       value={faq.question}
                       onChange={(e) => updateFAQ(faq.id, "question", e.target.value)}
                       placeholder="Enter FAQ question"
+                      disabled={loading}
                     />
                   </div>
                   <div>
@@ -197,6 +326,7 @@ export default function AdminPanel() {
                       onChange={(e) => updateFAQ(faq.id, "answer", e.target.value)}
                       placeholder="Enter FAQ answer"
                       rows={3}
+                      disabled={loading}
                     />
                   </div>
                   <div className="flex justify-end">
@@ -204,6 +334,7 @@ export default function AdminPanel() {
                       onClick={() => deleteFAQ(faq.id)}
                       variant="outline"
                       className="text-red-600 hover:text-red-700"
+                      disabled={loading}
                     >
                       🗑️ Delete
                     </Button>
@@ -219,8 +350,8 @@ export default function AdminPanel() {
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Site Settings</h2>
-              <Button onClick={saveSettings} className="bg-green-600 hover:bg-green-700">
-                💾 Save Settings
+              <Button onClick={saveSettings} disabled={loading} className="bg-green-600 hover:bg-green-700">
+                💾 {loading ? "Saving..." : "Save Settings"}
               </Button>
             </div>
 
@@ -228,7 +359,11 @@ export default function AdminPanel() {
               <CardContent className="p-6 space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">Site Title:</label>
-                  <Input value={settings.title} onChange={(e) => setSettings({ ...settings, title: e.target.value })} />
+                  <Input
+                    value={settings.title}
+                    onChange={(e) => setSettings({ ...settings, title: e.target.value })}
+                    disabled={loading}
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Meta Description:</label>
@@ -236,6 +371,7 @@ export default function AdminPanel() {
                     value={settings.description}
                     onChange={(e) => setSettings({ ...settings, description: e.target.value })}
                     rows={2}
+                    disabled={loading}
                   />
                 </div>
                 <div>
@@ -243,14 +379,16 @@ export default function AdminPanel() {
                   <Input
                     value={settings.keywords}
                     onChange={(e) => setSettings({ ...settings, keywords: e.target.value })}
+                    disabled={loading}
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Contact Email:</label>
                   <Input
                     type="email"
-                    value={settings.contactEmail}
-                    onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
+                    value={settings.contact_email}
+                    onChange={(e) => setSettings({ ...settings, contact_email: e.target.value })}
+                    disabled={loading}
                   />
                 </div>
               </CardContent>
