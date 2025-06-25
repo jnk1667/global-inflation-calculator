@@ -66,19 +66,47 @@ export default function AdminPanel() {
       setLoading(true)
       const { data, error } = await supabase.from("faqs").select("*").order("created_at", { ascending: true })
 
-      if (error) {
-        // Fallback to localStorage if database fails
+      if (error || !data || data.length === 0) {
+        // Try to load from static JSON file first
+        try {
+          const response = await fetch("/data/faqs.json")
+          const jsonData = await response.json()
+          if (jsonData.faqs && jsonData.faqs.length > 0) {
+            setFaqs(jsonData.faqs)
+            console.log("Loaded FAQs from static JSON file")
+            return
+          }
+        } catch (jsonError) {
+          console.log("Could not load from JSON file")
+        }
+
+        // Fallback to localStorage if database and JSON fail
         const localFaqs = localStorage.getItem("faqs")
         if (localFaqs) {
           const parsed = JSON.parse(localFaqs)
           setFaqs(parsed.faqs || [])
+          console.log("Using localStorage fallback for FAQs")
         }
-        console.log("Using localStorage fallback for FAQs")
       } else {
         setFaqs(data || [])
       }
     } catch (error) {
-      console.log("Could not load FAQs from database, using localStorage")
+      console.log("Could not load FAQs from database, trying alternatives")
+
+      // Try static JSON file
+      try {
+        const response = await fetch("/data/faqs.json")
+        const jsonData = await response.json()
+        if (jsonData.faqs) {
+          setFaqs(jsonData.faqs)
+          console.log("Loaded FAQs from static JSON file")
+          return
+        }
+      } catch (jsonError) {
+        console.log("Could not load from JSON file")
+      }
+
+      // Final fallback to localStorage
       const localFaqs = localStorage.getItem("faqs")
       if (localFaqs) {
         const parsed = JSON.parse(localFaqs)
