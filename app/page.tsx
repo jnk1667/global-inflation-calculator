@@ -13,7 +13,6 @@ import PurchasingPowerVisual from "@/components/purchasing-power-visual"
 import CurrencyComparisonChart from "@/components/currency-comparison-chart"
 import FAQ from "@/components/faq"
 import SocialShare from "@/components/social-share"
-import UsageStats from "@/components/usage-stats"
 import AdBanner from "@/components/ad-banner"
 
 interface InflationData {
@@ -130,45 +129,35 @@ export default function Home() {
   const currentCurrencyData = inflationData[selectedCurrency]
   const minYear = currentCurrencyData?.startYear || 1913
 
-  // Generate uniform year markers
+  // Generate uniform year markers (excluding start and end years for display)
   const generateYearMarkers = () => {
-    const markers = [minYear] // Always start with minimum year
+    const markers = []
 
-    if (selectedCurrency === "USD" || selectedCurrency === "GBP") {
-      // For long-range currencies, use specific intervals
-      const intervals = [1920, 1940, 1960, 1980, 2000, 2020]
-      intervals.forEach((year) => {
-        if (year > minYear && year <= maxYear) {
-          markers.push(year)
-        }
-      })
+    if (selectedCurrency === "USD") {
+      // USD: uniform 20-year intervals, excluding 1913 and 2025
+      markers.push(1940, 1960, 1980, 2000, 2020)
+    } else if (selectedCurrency === "GBP") {
+      // GBP: uniform intervals, excluding start and end
+      markers.push(1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "EUR") {
-      // EUR starts around 1996
-      const intervals = [2000, 2010, 2020]
-      intervals.forEach((year) => {
-        if (year > minYear && year <= maxYear) {
-          markers.push(year)
-        }
-      })
+      // EUR starts around 1996, so fewer markers
+      markers.push(2000, 2010, 2020)
+    } else if (selectedCurrency === "CAD") {
+      // CAD: uniform intervals from 1914, excluding start and end
+      markers.push(1940, 1960, 1980, 2000, 2020)
+    } else if (selectedCurrency === "AUD") {
+      // AUD: uniform intervals from 1948, excluding start and end
+      markers.push(1960, 1980, 2000, 2020)
     } else {
-      // For other currencies, use 20-year intervals
-      for (let year = Math.ceil(minYear / 20) * 20; year <= maxYear; year += 20) {
+      // Default: 20-year intervals
+      for (let year = Math.ceil(minYear / 20) * 20; year < maxYear; year += 20) {
         if (year > minYear) {
           markers.push(year)
         }
       }
-      // Always include 2020 if not already there
-      if (!markers.includes(2020) && 2020 <= maxYear) {
-        markers.push(2020)
-      }
     }
 
-    // Always include current year if not already there
-    if (!markers.includes(maxYear)) {
-      markers.push(maxYear)
-    }
-
-    return [...new Set(markers)].sort((a, b) => a - b)
+    return markers.filter((year) => year > minYear && year < maxYear)
   }
 
   const yearMarkers = generateYearMarkers()
@@ -232,25 +221,29 @@ export default function Home() {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        {/* Usage Stats - Top Right Corner */}
+        <div className="absolute top-4 right-4 z-10">
+          <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 shadow-sm border">
+            <div className="flex items-center gap-4 text-sm">
+              <span className="text-green-600 font-medium">🟢 87 users online</span>
+              <span className="text-blue-600 font-medium">📊 127,543 calculations</span>
+              <span className="text-orange-600 font-medium">🔥 1,247 today</span>
+            </div>
+          </div>
+        </div>
+
         {/* Header */}
-        <header className="bg-white shadow-sm border-b">
+        <header className="bg-white shadow-sm border-b pt-16">
           <div className="container mx-auto px-4 py-6">
-            <div className="flex justify-between items-start">
-              <div className="text-center flex-1">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">🌍 Global Inflation Calculator</h1>
-                <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                  Calculate how inflation affects your money over time across different currencies. See real purchasing
-                  power changes from 1913 to {currentYear}.
-                </p>
-                {lastUpdated && (
-                  <p className="text-sm text-gray-500 mt-2">
-                    Last updated: {new Date(lastUpdated).toLocaleDateString()}
-                  </p>
-                )}
-              </div>
-              <div className="hidden lg:block">
-                <UsageStats />
-              </div>
+            <div className="text-center">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">🌍 Global Inflation Calculator</h1>
+              <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                Calculate how inflation affects your money over time across different currencies. See real purchasing
+                power changes from 1913 to {currentYear}.
+              </p>
+              {lastUpdated && (
+                <p className="text-sm text-gray-500 mt-2">Last updated: {new Date(lastUpdated).toLocaleDateString()}</p>
+              )}
             </div>
           </div>
         </header>
@@ -332,7 +325,7 @@ export default function Home() {
                   <div className="text-gray-500">{yearsAgo} years ago</div>
                 </div>
 
-                {/* Precise Year Slider */}
+                {/* Year Slider - without start/end year labels */}
                 <div className="px-4">
                   <Slider
                     value={[fromYear]}
@@ -343,7 +336,7 @@ export default function Home() {
                     className="w-full"
                   />
 
-                  {/* Precisely positioned year markers */}
+                  {/* Only middle year markers (no start/end years) */}
                   <div className="relative mt-2 px-2">
                     {yearMarkers.map((year) => {
                       const position = ((year - minYear) / (maxYear - minYear)) * 100
