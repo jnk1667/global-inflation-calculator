@@ -353,7 +353,7 @@ export default function Home() {
                   />
 
                   {/* Currency-specific year markers */}
-                  <div className="relative mt-6 px-2">
+                  <div className="relative mt-8 px-2">
                     {yearMarkers.map((year) => {
                       const position = ((year - minYear) / (maxYear - minYear)) * 100
                       return (
@@ -374,7 +374,7 @@ export default function Home() {
                 </div>
 
                 {/* Info text */}
-                <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-3 rounded mt-12">
+                <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-3 rounded mt-16">
                   💡 Drag the slider or tap the year buttons above • Data available from {minYear} to {currentYear} •
                   Updated June 2025
                 </div>
