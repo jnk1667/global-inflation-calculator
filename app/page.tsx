@@ -51,7 +51,8 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<string>("")
 
-  const currentYear = 2025
+  const currentYear = new Date().getFullYear()
+  const maxYear = currentYear // This will be 2025 in 2025, 2026 in 2026, etc.
 
   // Load inflation data
   useEffect(() => {
@@ -128,20 +129,46 @@ export default function Home() {
   // Get current currency data
   const currentCurrencyData = inflationData[selectedCurrency]
   const minYear = currentCurrencyData?.startYear || 1913
-  const maxYear = 2024
 
-  // Generate precise year markers
+  // Generate uniform year markers
   const generateYearMarkers = () => {
+    const markers = [minYear] // Always start with minimum year
+
     if (selectedCurrency === "USD" || selectedCurrency === "GBP") {
-      return [1913, 1970, 1990, 2000, 2010, 2015, 2020]
+      // For long-range currencies, use specific intervals
+      const intervals = [1920, 1940, 1960, 1980, 2000, 2020]
+      intervals.forEach((year) => {
+        if (year > minYear && year <= maxYear) {
+          markers.push(year)
+        }
+      })
     } else if (selectedCurrency === "EUR") {
-      return [1996, 2000, 2010, 2020]
-    } else if (selectedCurrency === "CAD") {
-      return [1914, 1970, 1990, 2000, 2010, 2020]
-    } else if (selectedCurrency === "AUD") {
-      return [1948, 1970, 1990, 2000, 2010, 2020]
+      // EUR starts around 1996
+      const intervals = [2000, 2010, 2020]
+      intervals.forEach((year) => {
+        if (year > minYear && year <= maxYear) {
+          markers.push(year)
+        }
+      })
+    } else {
+      // For other currencies, use 20-year intervals
+      for (let year = Math.ceil(minYear / 20) * 20; year <= maxYear; year += 20) {
+        if (year > minYear) {
+          markers.push(year)
+        }
+      }
+      // Always include 2020 if not already there
+      if (!markers.includes(2020) && 2020 <= maxYear) {
+        markers.push(2020)
+      }
     }
-    return [minYear, 2000, 2010, 2020]
+
+    // Always include current year if not already there
+    if (!markers.includes(maxYear)) {
+      markers.push(maxYear)
+    }
+
+    return [...new Set(markers)].sort((a, b) => a - b)
   }
 
   const yearMarkers = generateYearMarkers()
@@ -208,15 +235,22 @@ export default function Home() {
         {/* Header */}
         <header className="bg-white shadow-sm border-b">
           <div className="container mx-auto px-4 py-6">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">🌍 Global Inflation Calculator</h1>
-              <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                Calculate how inflation affects your money over time across different currencies. See real purchasing
-                power changes from 1913 to 2025.
-              </p>
-              {lastUpdated && (
-                <p className="text-sm text-gray-500 mt-2">Last updated: {new Date(lastUpdated).toLocaleDateString()}</p>
-              )}
+            <div className="flex justify-between items-start">
+              <div className="text-center flex-1">
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">🌍 Global Inflation Calculator</h1>
+                <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                  Calculate how inflation affects your money over time across different currencies. See real purchasing
+                  power changes from 1913 to {currentYear}.
+                </p>
+                {lastUpdated && (
+                  <p className="text-sm text-gray-500 mt-2">
+                    Last updated: {new Date(lastUpdated).toLocaleDateString()}
+                  </p>
+                )}
+              </div>
+              <div className="hidden lg:block">
+                <UsageStats />
+              </div>
             </div>
           </div>
         </header>
@@ -329,8 +363,8 @@ export default function Home() {
 
                 {/* Info text */}
                 <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-3 rounded mt-8">
-                  💡 Drag the slider or tap the year buttons above • Data available from {minYear} to 2025 • Updated
-                  June 2025
+                  💡 Drag the slider or tap the year buttons above • Data available from {minYear} to {currentYear} •
+                  Updated June 2025
                 </div>
               </div>
             </CardContent>
@@ -460,9 +494,6 @@ export default function Home() {
           {/* Social Share */}
           <SocialShare />
 
-          {/* Usage Stats - moved above FAQ */}
-          <UsageStats />
-
           {/* FAQ */}
           <FAQ />
 
@@ -479,7 +510,7 @@ export default function Home() {
               <div>
                 <h3 className="text-xl font-semibold mb-4">Global Inflation Calculator</h3>
                 <p className="text-gray-300">
-                  Track inflation across major world currencies with historical data from 1913 to 2025.
+                  Track inflation across major world currencies with historical data from 1913 to {currentYear}.
                 </p>
               </div>
               <div>
