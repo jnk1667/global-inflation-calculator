@@ -4,7 +4,7 @@ import InflationCalculator from "@/components/inflation-calculator"
 import FAQ from "@/components/faq"
 import { ErrorBoundary } from "@/components/error-boundary"
 import SocialShare from "@/components/social-share"
-import { BannerAd, SquareAd } from "@/components/ad-units"
+import AdBanner from "@/components/ad-banner"
 
 export default function Home() {
   return (
@@ -27,7 +27,7 @@ export default function Home() {
         <ErrorBoundary>
           <div className="bg-white border-b">
             <div className="container mx-auto px-4 py-4">
-              <BannerAd adSlot="1234567890" className="max-w-full" />
+              <AdBanner slot="header" format="horizontal" className="max-w-full" />
             </div>
           </div>
         </ErrorBoundary>
@@ -38,7 +38,7 @@ export default function Home() {
 
           {/* Middle Ad */}
           <div className="my-12 flex justify-center">
-            <SquareAd adSlot="0987654321" />
+            <AdBanner slot="middle" format="square" />
           </div>
 
           {/* Social Share Section */}
@@ -53,7 +53,7 @@ export default function Home() {
 
           {/* Bottom Ad */}
           <div className="mt-12 flex justify-center">
-            <BannerAd adSlot="1122334455" />
+            <AdBanner slot="footer" format="horizontal" />
           </div>
         </main>
 
