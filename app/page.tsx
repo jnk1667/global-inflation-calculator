@@ -1,23 +1,15 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ErrorBoundary } from "@/components/error-boundary"
 import LoadingSpinner from "@/components/loading-spinner"
-import SimpleLineChart from "@/components/simple-line-chart"
-import PurchasingPowerVisual from "@/components/purchasing-power-visual"
-import CurrencyComparisonChart from "@/components/currency-comparison-chart"
 import FAQ from "@/components/faq"
 import SocialShare from "@/components/social-share"
-import UsageStats from "@/components/usage-stats"
 import AdBanner from "@/components/ad-banner"
 
 interface InflationData {
@@ -37,21 +29,20 @@ interface AllInflationData {
 
 // Currency definitions
 const currencies = {
-  USD: { symbol: "$", name: "US Dollar", flag: "🇺🇸" },
-  GBP: { symbol: "£", name: "British Pound", flag: "🇬🇧" },
-  EUR: { symbol: "€", name: "Euro", flag: "🇪🇺" },
-  CAD: { symbol: "C$", name: "Canadian Dollar", flag: "🇨🇦" },
-  AUD: { symbol: "A$", name: "Australian Dollar", flag: "🇦🇺" },
+  USD: { symbol: "$", name: "US Dollar", flag: "🇺🇸", code: "US" },
+  GBP: { symbol: "£", name: "British Pound", flag: "🇬🇧", code: "GB" },
+  EUR: { symbol: "€", name: "Euro", flag: "🇪🇺", code: "EU" },
+  CAD: { symbol: "C$", name: "Canadian Dollar", flag: "🇨🇦", code: "CA" },
+  AUD: { symbol: "A$", name: "Australian Dollar", flag: "🇦🇺", code: "AU" },
 }
 
 export default function Home() {
   const [amount, setAmount] = useState("100")
-  const [fromYear, setFromYear] = useState(2000)
+  const [fromYear, setFromYear] = useState(2020)
   const [selectedCurrency, setSelectedCurrency] = useState("USD")
   const [inflationData, setInflationData] = useState<AllInflationData>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [lastUpdated, setLastUpdated] = useState<string>("")
 
   const currentYear = 2025
   const minYear = 1913
@@ -67,16 +58,11 @@ export default function Home() {
         const loadedData: AllInflationData = {}
         let successCount = 0
 
-        // Try to load each currency
         for (const [code, info] of Object.entries(currencies)) {
           try {
-            console.log(`Loading ${code} data...`)
             const response = await fetch(`/data/${code.toLowerCase()}-inflation.json`)
-
             if (response.ok) {
               const data = await response.json()
-              console.log(`${code} data loaded:`, Object.keys(data.data || {}).length, "years")
-
               loadedData[code] = {
                 data: data.data || {},
                 symbol: info.symbol,
@@ -84,43 +70,19 @@ export default function Home() {
                 flag: info.flag,
               }
               successCount++
-            } else {
-              console.warn(`Failed to load ${code} data: ${response.status}`)
             }
           } catch (err) {
             console.warn(`Error loading ${code} data:`, err)
           }
         }
 
-        // If we have at least one currency, proceed
         if (successCount > 0) {
-          console.log(`Successfully loaded ${successCount} currencies`)
           setInflationData(loadedData)
-
-          // Set default currency to first available
-          const availableCurrencies = Object.keys(loadedData)
-          if (availableCurrencies.length > 0 && !loadedData[selectedCurrency]) {
-            setSelectedCurrency(availableCurrencies[0])
-          }
         } else {
-          throw new Error(
-            "No inflation data files could be loaded. Please check that the data files exist in /public/data/",
-          )
-        }
-
-        // Try to load timestamp
-        try {
-          const timestampResponse = await fetch("/data/last-updated.json")
-          if (timestampResponse.ok) {
-            const timestampData = await timestampResponse.json()
-            setLastUpdated(timestampData.lastUpdated || "")
-          }
-        } catch (err) {
-          console.warn("Could not load timestamp:", err)
+          throw new Error("No inflation data could be loaded")
         }
       } catch (err) {
-        console.error("Error loading inflation data:", err)
-        setError(err instanceof Error ? err.message : "Failed to load inflation data. Please try again later.")
+        setError("Failed to load inflation data. Please try again later.")
       } finally {
         setLoading(false)
       }
@@ -133,14 +95,14 @@ export default function Home() {
   const calculateInflation = () => {
     const currencyData = inflationData[selectedCurrency]
     if (!currencyData || !currencyData.data) {
-      return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [] }
+      return { adjustedAmount: 0, totalInflation: 0, annualRate: 0 }
     }
 
     const fromInflation = currencyData.data[fromYear.toString()]
     const currentInflation = currencyData.data[currentYear.toString()]
 
     if (!fromInflation || !currentInflation || fromInflation <= 0) {
-      return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [] }
+      return { adjustedAmount: 0, totalInflation: 0, annualRate: 0 }
     }
 
     const adjustedAmount = (Number.parseFloat(amount) * currentInflation) / fromInflation
@@ -148,29 +110,15 @@ export default function Home() {
     const years = currentYear - fromYear
     const annualRate = years > 0 ? Math.pow(adjustedAmount / Number.parseFloat(amount), 1 / years) - 1 : 0
 
-    // Generate chart data
-    const chartData = []
-    for (let year = fromYear; year <= currentYear; year += Math.max(1, Math.floor((currentYear - fromYear) / 20))) {
-      const yearInflation = currencyData.data[year.toString()]
-      if (yearInflation && yearInflation > 0) {
-        const yearValue = (Number.parseFloat(amount) * yearInflation) / fromInflation
-        chartData.push({ year, value: yearValue })
-      }
-    }
-
-    // Always include the final year
-    if (chartData.length === 0 || chartData[chartData.length - 1].year !== currentYear) {
-      chartData.push({ year: currentYear, value: adjustedAmount })
-    }
-
-    return { adjustedAmount, totalInflation, annualRate: annualRate * 100, chartData }
+    return { adjustedAmount, totalInflation, annualRate: annualRate * 100 }
   }
 
-  const { adjustedAmount, totalInflation, annualRate, chartData } = calculateInflation()
+  const { adjustedAmount, totalInflation, annualRate } = calculateInflation()
+  const yearsAgo = currentYear - fromYear
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <LoadingSpinner />
       </div>
     )
@@ -178,19 +126,15 @@ export default function Home() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="min-h-screen bg-gray-50">
         {/* Header */}
         <header className="bg-white shadow-sm border-b">
           <div className="container mx-auto px-4 py-6">
             <div className="text-center">
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">🌍 Global Inflation Calculator</h1>
               <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                Calculate how inflation affects your money over time across different currencies. See real purchasing
-                power changes from 1913 to 2025.
+                Calculate how inflation affects your money over time across different currencies.
               </p>
-              {lastUpdated && (
-                <p className="text-sm text-gray-500 mt-2">Last updated: {new Date(lastUpdated).toLocaleDateString()}</p>
-              )}
             </div>
           </div>
         </header>
@@ -202,72 +146,67 @@ export default function Home() {
           </div>
         </div>
 
-        <main className="container mx-auto px-4 py-8 space-y-8">
+        <main className="container mx-auto px-4 py-8 max-w-4xl">
           {error && (
-            <Alert className="bg-red-50 border-red-200">
+            <Alert className="bg-red-50 border-red-200 mb-6">
               <AlertDescription className="text-red-800">{error}</AlertDescription>
             </Alert>
           )}
 
-          {/* Debug info */}
-          {Object.keys(inflationData).length > 0 && (
-            <div className="text-sm text-gray-500 text-center">
-              Loaded currencies: {Object.keys(inflationData).join(", ")}
-            </div>
-          )}
-
-          {/* Main Calculator */}
-          <Card className="bg-white shadow-lg border-0">
-            <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg">
-              <CardTitle className="text-2xl font-bold text-center">💰 Inflation Calculator</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6 space-y-6">
-              {/* Currency Selection */}
-              <div className="space-y-2">
-                <Label htmlFor="currency" className="text-base font-semibold">
-                  Currency
-                </Label>
-                <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(inflationData).map(([code, data]) => (
-                      <SelectItem key={code} value={code}>
-                        <span className="flex items-center gap-2">
-                          <span>{data.flag}</span>
-                          <span>{code}</span>
-                          <span className="text-gray-500">- {data.name}</span>
-                        </span>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Amount Input */}
-              <div className="space-y-2">
-                <Label htmlFor="amount" className="text-base font-semibold">
-                  Amount ({inflationData[selectedCurrency]?.symbol || "$"})
-                </Label>
+          <div className="bg-white rounded-lg shadow-lg p-6 space-y-8">
+            {/* Amount Input */}
+            <div className="space-y-2">
+              <label className="text-sm text-gray-600">Enter Amount ($0.0 - $1,000,000,000,000)</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">
+                  {inflationData[selectedCurrency]?.symbol || "$"}
+                </span>
                 <Input
-                  id="amount"
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Enter amount"
-                  className="text-lg"
+                  className="pl-8 text-lg h-12 border-gray-300"
+                  placeholder="100"
                 />
+              </div>
+            </div>
+
+            {/* Currency Selection */}
+            <div className="space-y-3">
+              <label className="text-sm text-gray-600 font-medium">Select Currency</label>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                {Object.entries(currencies).map(([code, info]) => (
+                  <Card
+                    key={code}
+                    className={`cursor-pointer transition-all hover:shadow-md ${
+                      selectedCurrency === code
+                        ? "border-blue-500 border-2 bg-blue-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                    onClick={() => setSelectedCurrency(code)}
+                  >
+                    <CardContent className="p-4 text-center">
+                      <div className="text-lg font-bold text-gray-900">{info.code}</div>
+                      <div className="text-xs text-blue-600 font-medium">{code}</div>
+                      <div className="text-xs text-gray-500 mt-1">{info.name}</div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Year Selection */}
+            <div className="space-y-4">
+              <label className="text-sm text-gray-600 font-medium">From Year</label>
+
+              {/* Large Year Display */}
+              <div className="text-center">
+                <div className="text-6xl font-bold text-blue-600 mb-2">{fromYear}</div>
+                <div className="text-gray-500">{yearsAgo} years ago</div>
               </div>
 
               {/* Year Slider */}
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <Label className="text-base font-semibold">From Year: {fromYear}</Label>
-                  <Badge variant="outline" className="text-sm">
-                    {currentYear - fromYear} years ago
-                  </Badge>
-                </div>
+              <div className="px-4">
                 <Slider
                   value={[fromYear]}
                   onValueChange={(value) => setFromYear(value[0])}
@@ -276,87 +215,82 @@ export default function Home() {
                   step={1}
                   className="w-full"
                 />
-                <div className="flex justify-between text-sm text-gray-500">
-                  <span>{minYear}</span>
-                  <span>{maxYear}</span>
+
+                {/* Year markers */}
+                <div className="flex justify-between text-xs text-gray-400 mt-2 px-2">
+                  <span>1913</span>
+                  <span>1970</span>
+                  <span>1990</span>
+                  <span>2000</span>
+                  <span>2010</span>
+                  <span>2015</span>
+                  <span>2020</span>
+                  <span>2025</span>
                 </div>
               </div>
 
-              <Separator />
+              {/* Info text */}
+              <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-3 rounded">
+                💡 Drag the slider or tap the year buttons above • Data available from 1913 to 2025 • Updated June 2025
+              </div>
+            </div>
+          </div>
 
-              {/* Results */}
-              {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <div className="text-2xl font-bold text-blue-600">
-                      {inflationData[selectedCurrency]?.symbol}
-                      {adjustedAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                    </div>
-                    <div className="text-sm text-gray-600">Today's Value</div>
+          {/* Results Section */}
+          {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
+            <div className="mt-8 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg text-white p-8">
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <span className="text-2xl">🔥</span>
+                  <h2 className="text-2xl font-bold">Inflation Impact</h2>
+                </div>
+
+                <div className="text-5xl font-bold mb-4">
+                  {inflationData[selectedCurrency]?.symbol}
+                  {adjustedAmount.toFixed(2)}
+                </div>
+
+                <div className="text-xl mb-8 opacity-90">
+                  {inflationData[selectedCurrency]?.symbol}
+                  {amount} in {fromYear} equals {inflationData[selectedCurrency]?.symbol}
+                  {adjustedAmount.toFixed(2)} in {currentYear}
+                </div>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                    <div className="text-2xl font-bold">{totalInflation.toFixed(1)}%</div>
+                    <div className="text-sm opacity-80">Total Inflation</div>
                   </div>
-                  <div className="text-center p-4 bg-red-50 rounded-lg">
-                    <div className="text-2xl font-bold text-red-600">
-                      {totalInflation > 0 ? "+" : ""}
-                      {totalInflation.toFixed(1)}%
-                    </div>
-                    <div className="text-sm text-gray-600">Total Inflation</div>
+                  <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                    <div className="text-2xl font-bold">{annualRate.toFixed(2)}%</div>
+                    <div className="text-sm opacity-80">Annual Average</div>
                   </div>
-                  <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <div className="text-2xl font-bold text-green-600">{annualRate.toFixed(2)}%</div>
-                    <div className="text-sm text-gray-600">Annual Rate</div>
+                  <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                    <div className="text-2xl font-bold">{yearsAgo}</div>
+                    <div className="text-sm opacity-80">Years</div>
                   </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
 
-          {/* Charts and Visualizations */}
-          {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
-            <Tabs defaultValue="chart" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="chart">📈 Chart</TabsTrigger>
-                <TabsTrigger value="purchasing">🛒 Purchasing Power</TabsTrigger>
-                <TabsTrigger value="comparison">🌍 Compare</TabsTrigger>
-                <TabsTrigger value="stats">📊 Stats</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="chart" className="space-y-4">
-                <Card className="bg-white shadow-lg border-0">
-                  <CardHeader>
-                    <CardTitle className="text-xl">
-                      📈 Inflation Over Time ({fromYear} - {currentYear})
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-64 md:h-80">
-                      <SimpleLineChart
-                        data={chartData}
-                        currency={inflationData[selectedCurrency]?.symbol || "$"}
-                        fromYear={fromYear}
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="purchasing" className="space-y-4">
-                <PurchasingPowerVisual
-                  originalAmount={Number.parseFloat(amount)}
-                  adjustedAmount={adjustedAmount}
-                  currency={selectedCurrency}
-                  symbol={inflationData[selectedCurrency]?.symbol || "$"}
-                  fromYear={fromYear}
-                />
-              </TabsContent>
-
-              <TabsContent value="comparison" className="space-y-4">
-                <CurrencyComparisonChart amount={amount} fromYear={fromYear} inflationData={inflationData} />
-              </TabsContent>
-
-              <TabsContent value="stats" className="space-y-4">
-                <UsageStats />
-              </TabsContent>
-            </Tabs>
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Button variant="outline" className="bg-white text-blue-600 hover:bg-gray-50">
+                    📤 Share Result
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="bg-white text-blue-600 hover:bg-gray-50"
+                    onClick={() => {
+                      setAmount("100")
+                      setFromYear(2020)
+                      setSelectedCurrency("USD")
+                    }}
+                  >
+                    🔄 Reset
+                  </Button>
+                </div>
+              </div>
+            </div>
           )}
 
           {/* Middle Ad */}
