@@ -19,7 +19,6 @@ import FAQ from "@/components/faq"
 import SocialShare from "@/components/social-share"
 import UsageStats from "@/components/usage-stats"
 import AdBanner from "@/components/ad-banner"
-import { currencies } from "@/data/currencies"
 
 interface InflationData {
   [year: string]: number
@@ -34,6 +33,15 @@ interface CurrencyData {
 
 interface AllInflationData {
   [currency: string]: CurrencyData
+}
+
+// Currency definitions
+const currencies = {
+  USD: { symbol: "$", name: "US Dollar", flag: "🇺🇸" },
+  GBP: { symbol: "£", name: "British Pound", flag: "🇬🇧" },
+  EUR: { symbol: "€", name: "Euro", flag: "🇪🇺" },
+  CAD: { symbol: "C$", name: "Canadian Dollar", flag: "🇨🇦" },
+  AUD: { symbol: "A$", name: "Australian Dollar", flag: "🇦🇺" },
 }
 
 export default function Home() {
@@ -56,40 +64,51 @@ export default function Home() {
       setError(null)
 
       try {
-        const currencyPromises = Object.entries(currencies).map(async ([code, info]) => {
+        const loadedData: AllInflationData = {}
+        let successCount = 0
+
+        // Try to load each currency
+        for (const [code, info] of Object.entries(currencies)) {
           try {
+            console.log(`Loading ${code} data...`)
             const response = await fetch(`/data/${code.toLowerCase()}-inflation.json`)
-            if (!response.ok) {
-              console.warn(`Failed to load ${code} data:`, response.status)
-              return null
-            }
-            const data = await response.json()
-            return [
-              code,
-              {
+
+            if (response.ok) {
+              const data = await response.json()
+              console.log(`${code} data loaded:`, Object.keys(data.data || {}).length, "years")
+
+              loadedData[code] = {
                 data: data.data || {},
                 symbol: info.symbol,
                 name: info.name,
                 flag: info.flag,
-              },
-            ]
+              }
+              successCount++
+            } else {
+              console.warn(`Failed to load ${code} data: ${response.status}`)
+            }
           } catch (err) {
             console.warn(`Error loading ${code} data:`, err)
-            return null
           }
-        })
-
-        const results = await Promise.all(currencyPromises)
-        const validResults = results.filter((result): result is [string, CurrencyData] => result !== null)
-
-        if (validResults.length === 0) {
-          throw new Error("No inflation data could be loaded")
         }
 
-        const inflationDataObj = Object.fromEntries(validResults)
-        setInflationData(inflationDataObj)
+        // If we have at least one currency, proceed
+        if (successCount > 0) {
+          console.log(`Successfully loaded ${successCount} currencies`)
+          setInflationData(loadedData)
 
-        // Load last updated timestamp
+          // Set default currency to first available
+          const availableCurrencies = Object.keys(loadedData)
+          if (availableCurrencies.length > 0 && !loadedData[selectedCurrency]) {
+            setSelectedCurrency(availableCurrencies[0])
+          }
+        } else {
+          throw new Error(
+            "No inflation data files could be loaded. Please check that the data files exist in /public/data/",
+          )
+        }
+
+        // Try to load timestamp
         try {
           const timestampResponse = await fetch("/data/last-updated.json")
           if (timestampResponse.ok) {
@@ -101,7 +120,7 @@ export default function Home() {
         }
       } catch (err) {
         console.error("Error loading inflation data:", err)
-        setError("Failed to load inflation data. Please try again later.")
+        setError(err instanceof Error ? err.message : "Failed to load inflation data. Please try again later.")
       } finally {
         setLoading(false)
       }
@@ -190,6 +209,13 @@ export default function Home() {
             </Alert>
           )}
 
+          {/* Debug info */}
+          {Object.keys(inflationData).length > 0 && (
+            <div className="text-sm text-gray-500 text-center">
+              Loaded currencies: {Object.keys(inflationData).join(", ")}
+            </div>
+          )}
+
           {/* Main Calculator */}
           <Card className="bg-white shadow-lg border-0">
             <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg">
@@ -206,12 +232,12 @@ export default function Home() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {Object.entries(currencies).map(([code, info]) => (
+                    {Object.entries(inflationData).map(([code, data]) => (
                       <SelectItem key={code} value={code}>
                         <span className="flex items-center gap-2">
-                          <span>{info.flag}</span>
+                          <span>{data.flag}</span>
                           <span>{code}</span>
-                          <span className="text-gray-500">- {info.name}</span>
+                          <span className="text-gray-500">- {data.name}</span>
                         </span>
                       </SelectItem>
                     ))}
@@ -222,7 +248,7 @@ export default function Home() {
               {/* Amount Input */}
               <div className="space-y-2">
                 <Label htmlFor="amount" className="text-base font-semibold">
-                  Amount ({currencies[selectedCurrency]?.symbol || "$"})
+                  Amount ({inflationData[selectedCurrency]?.symbol || "$"})
                 </Label>
                 <Input
                   id="amount"
@@ -263,7 +289,7 @@ export default function Home() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-blue-50 rounded-lg">
                     <div className="text-2xl font-bold text-blue-600">
-                      {currencies[selectedCurrency]?.symbol}
+                      {inflationData[selectedCurrency]?.symbol}
                       {adjustedAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                     </div>
                     <div className="text-sm text-gray-600">Today's Value</div>
@@ -305,7 +331,7 @@ export default function Home() {
                     <div className="h-64 md:h-80">
                       <SimpleLineChart
                         data={chartData}
-                        currency={currencies[selectedCurrency]?.symbol || "$"}
+                        currency={inflationData[selectedCurrency]?.symbol || "$"}
                         fromYear={fromYear}
                       />
                     </div>
@@ -318,7 +344,7 @@ export default function Home() {
                   originalAmount={Number.parseFloat(amount)}
                   adjustedAmount={adjustedAmount}
                   currency={selectedCurrency}
-                  symbol={currencies[selectedCurrency]?.symbol || "$"}
+                  symbol={inflationData[selectedCurrency]?.symbol || "$"}
                   fromYear={fromYear}
                 />
               </TabsContent>
