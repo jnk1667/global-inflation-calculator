@@ -59,7 +59,11 @@ export default function Home() {
 
   // Load inflation data
   useEffect(() => {
+    let isMounted = true
+
     const loadInflationData = async () => {
+      if (!isMounted) return
+
       setLoading(true)
       setError(null)
 
@@ -96,31 +100,30 @@ export default function Home() {
           }
         }
 
-        if (successCount > 0) {
-          setInflationData(loadedData)
-          setFromYear(2020)
-        } else {
-          throw new Error("No inflation data could be loaded")
-        }
-
-        // Load timestamp
-        try {
-          const timestampResponse = await fetch("/data/last-updated.json")
-          if (timestampResponse.ok) {
-            const timestampData = await timestampResponse.json()
-            setLastUpdated(timestampData.lastUpdated || "")
+        if (isMounted) {
+          if (successCount > 0) {
+            setInflationData(loadedData)
+            setFromYear(2020)
+          } else {
+            throw new Error("No inflation data could be loaded")
           }
-        } catch (err) {
-          console.warn("Could not load timestamp:", err)
         }
       } catch (err) {
-        setError("Failed to load inflation data. Please try again later.")
+        if (isMounted) {
+          setError("Failed to load inflation data. Please try again later.")
+        }
       } finally {
-        setLoading(false)
+        if (isMounted) {
+          setLoading(false)
+        }
       }
     }
 
     loadInflationData()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   // Handle currency change
@@ -132,8 +135,15 @@ export default function Home() {
 
   // Handle input changes
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value)
-    setHasCalculated(false) // Reset calculation state
+    const value = e.target.value
+    // Allow empty string, numbers, and decimal points
+    if (value === "" || /^\d*\.?\d*$/.test(value)) {
+      const numValue = Number.parseFloat(value)
+      if (value === "" || (numValue >= 0 && numValue <= 1000000000000)) {
+        setAmount(value)
+        setHasCalculated(false)
+      }
+    }
   }
 
   const handleYearChange = (value: number[]) => {
@@ -181,30 +191,48 @@ export default function Home() {
     const fromInflation = currentCurrencyData.data[fromYear.toString()]
     const currentInflation = currentCurrencyData.data[currentYear.toString()]
 
-    if (!fromInflation || !currentInflation || fromInflation <= 0) {
+    // Add additional safety checks
+    if (!fromInflation || !currentInflation || fromInflation <= 0 || currentInflation <= 0) {
       return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [] }
     }
 
-    const adjustedAmount = (Number.parseFloat(amount) * currentInflation) / fromInflation
-    const totalInflation = ((adjustedAmount - Number.parseFloat(amount)) / Number.parseFloat(amount)) * 100
-    const years = currentYear - fromYear
-    const annualRate = years > 0 ? Math.pow(adjustedAmount / Number.parseFloat(amount), 1 / years) - 1 : 0
+    const amountValue = Number.parseFloat(amount)
+    if (isNaN(amountValue) || amountValue <= 0) {
+      return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [] }
+    }
 
-    // Generate chart data
+    const adjustedAmount = (amountValue * currentInflation) / fromInflation
+    const totalInflation = ((adjustedAmount - amountValue) / amountValue) * 100
+    const years = currentYear - fromYear
+    const annualRate = years > 0 ? Math.pow(adjustedAmount / amountValue, 1 / years) - 1 : 0
+
+    // Generate chart data with better error handling
     const chartData = []
-    for (let year = fromYear; year <= currentYear; year += Math.max(1, Math.floor((currentYear - fromYear) / 20))) {
+    const stepSize = Math.max(1, Math.floor((currentYear - fromYear) / 20))
+
+    for (let year = fromYear; year <= currentYear; year += stepSize) {
       const yearInflation = currentCurrencyData.data[year.toString()]
-      if (yearInflation && yearInflation > 0) {
-        const yearValue = (Number.parseFloat(amount) * yearInflation) / fromInflation
-        chartData.push({ year, value: yearValue })
+      if (yearInflation && yearInflation > 0 && fromInflation > 0) {
+        const yearValue = (amountValue * yearInflation) / fromInflation
+        if (isFinite(yearValue) && yearValue > 0) {
+          chartData.push({ year, value: yearValue })
+        }
       }
     }
 
+    // Ensure we have the final year
     if (chartData.length === 0 || chartData[chartData.length - 1].year !== currentYear) {
-      chartData.push({ year: currentYear, value: adjustedAmount })
+      if (isFinite(adjustedAmount) && adjustedAmount > 0) {
+        chartData.push({ year: currentYear, value: adjustedAmount })
+      }
     }
 
-    return { adjustedAmount, totalInflation, annualRate: annualRate * 100, chartData }
+    return {
+      adjustedAmount: isFinite(adjustedAmount) ? adjustedAmount : 0,
+      totalInflation: isFinite(totalInflation) ? totalInflation : 0,
+      annualRate: isFinite(annualRate) ? annualRate * 100 : 0,
+      chartData,
+    }
   }
 
   const { adjustedAmount, totalInflation, annualRate, chartData } = calculateInflation()
