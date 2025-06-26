@@ -21,6 +21,8 @@ interface CurrencyData {
   symbol: string
   name: string
   flag: string
+  startYear: number
+  endYear: number
 }
 
 interface AllInflationData {
@@ -45,8 +47,6 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null)
 
   const currentYear = 2025
-  const minYear = 1913
-  const maxYear = currentYear
 
   // Load inflation data
   useEffect(() => {
@@ -63,13 +63,25 @@ export default function Home() {
             const response = await fetch(`/data/${code.toLowerCase()}-inflation.json`)
             if (response.ok) {
               const data = await response.json()
-              loadedData[code] = {
-                data: data.data || {},
-                symbol: info.symbol,
-                name: info.name,
-                flag: info.flag,
+              const inflationYears = Object.keys(data.data || {})
+                .map(Number)
+                .filter((year) => !isNaN(year))
+
+              if (inflationYears.length > 0) {
+                const startYear = Math.min(...inflationYears)
+                const endYear = Math.max(...inflationYears)
+
+                loadedData[code] = {
+                  data: data.data || {},
+                  symbol: info.symbol,
+                  name: info.name,
+                  flag: info.flag,
+                  startYear,
+                  endYear,
+                }
+                successCount++
+                console.log(`${code}: ${startYear} - ${endYear} (${inflationYears.length} years)`)
               }
-              successCount++
             }
           } catch (err) {
             console.warn(`Error loading ${code} data:`, err)
@@ -78,6 +90,10 @@ export default function Home() {
 
         if (successCount > 0) {
           setInflationData(loadedData)
+          // Set initial fromYear based on USD data
+          if (loadedData.USD) {
+            setFromYear(loadedData.USD.startYear)
+          }
         } else {
           throw new Error("No inflation data could be loaded")
         }
@@ -91,15 +107,28 @@ export default function Home() {
     loadInflationData()
   }, [])
 
+  // Handle currency change - reset year to currency's start year
+  const handleCurrencyChange = (currency: string) => {
+    setSelectedCurrency(currency)
+    const currencyData = inflationData[currency]
+    if (currencyData) {
+      setFromYear(currencyData.startYear)
+    }
+  }
+
+  // Get current currency data
+  const currentCurrencyData = inflationData[selectedCurrency]
+  const minYear = currentCurrencyData?.startYear || 1913
+  const maxYear = currentCurrencyData?.endYear || currentYear
+
   // Calculate inflation
   const calculateInflation = () => {
-    const currencyData = inflationData[selectedCurrency]
-    if (!currencyData || !currencyData.data) {
+    if (!currentCurrencyData || !currentCurrencyData.data) {
       return { adjustedAmount: 0, totalInflation: 0, annualRate: 0 }
     }
 
-    const fromInflation = currencyData.data[fromYear.toString()]
-    const currentInflation = currencyData.data[currentYear.toString()]
+    const fromInflation = currentCurrencyData.data[fromYear.toString()]
+    const currentInflation = currentCurrencyData.data[currentYear.toString()]
 
     if (!fromInflation || !currentInflation || fromInflation <= 0) {
       return { adjustedAmount: 0, totalInflation: 0, annualRate: 0 }
@@ -159,7 +188,7 @@ export default function Home() {
               <label className="text-sm text-gray-600">Enter Amount ($0.0 - $1,000,000,000,000)</label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">
-                  {inflationData[selectedCurrency]?.symbol || "$"}
+                  {currentCurrencyData?.symbol || "$"}
                 </span>
                 <Input
                   type="number"
@@ -175,23 +204,35 @@ export default function Home() {
             <div className="space-y-3">
               <label className="text-sm text-gray-600 font-medium">Select Currency</label>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                {Object.entries(currencies).map(([code, info]) => (
-                  <Card
-                    key={code}
-                    className={`cursor-pointer transition-all hover:shadow-md ${
-                      selectedCurrency === code
-                        ? "border-blue-500 border-2 bg-blue-50"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                    onClick={() => setSelectedCurrency(code)}
-                  >
-                    <CardContent className="p-4 text-center">
-                      <div className="text-lg font-bold text-gray-900">{info.code}</div>
-                      <div className="text-xs text-blue-600 font-medium">{code}</div>
-                      <div className="text-xs text-gray-500 mt-1">{info.name}</div>
-                    </CardContent>
-                  </Card>
-                ))}
+                {Object.entries(currencies).map(([code, info]) => {
+                  const currencyData = inflationData[code]
+                  const isAvailable = !!currencyData
+
+                  return (
+                    <Card
+                      key={code}
+                      className={`cursor-pointer transition-all hover:shadow-md ${
+                        selectedCurrency === code
+                          ? "border-blue-500 border-2 bg-blue-50"
+                          : isAvailable
+                            ? "border-gray-200 hover:border-gray-300"
+                            : "border-gray-100 bg-gray-50 cursor-not-allowed opacity-50"
+                      }`}
+                      onClick={() => isAvailable && handleCurrencyChange(code)}
+                    >
+                      <CardContent className="p-4 text-center">
+                        <div className="text-lg font-bold text-gray-900">{info.code}</div>
+                        <div className="text-xs text-blue-600 font-medium">{code}</div>
+                        <div className="text-xs text-gray-500 mt-1">{info.name}</div>
+                        {currencyData && (
+                          <div className="text-xs text-gray-400 mt-1">
+                            {currencyData.startYear}-{currencyData.endYear}
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  )
+                })}
               </div>
             </div>
 
@@ -216,22 +257,22 @@ export default function Home() {
                   className="w-full"
                 />
 
-                {/* Year markers */}
+                {/* Dynamic year markers based on currency */}
                 <div className="flex justify-between text-xs text-gray-400 mt-2 px-2">
-                  <span>1913</span>
-                  <span>1970</span>
-                  <span>1990</span>
-                  <span>2000</span>
-                  <span>2010</span>
-                  <span>2015</span>
-                  <span>2020</span>
-                  <span>2025</span>
+                  <span>{minYear}</span>
+                  {minYear < 1970 && <span>1970</span>}
+                  {minYear < 1990 && <span>1990</span>}
+                  {minYear < 2000 && <span>2000</span>}
+                  {minYear < 2010 && <span>2010</span>}
+                  {minYear < 2020 && <span>2020</span>}
+                  <span>{maxYear}</span>
                 </div>
               </div>
 
-              {/* Info text */}
+              {/* Info text with dynamic range */}
               <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-3 rounded">
-                💡 Drag the slider or tap the year buttons above • Data available from 1913 to 2025 • Updated June 2025
+                💡 Drag the slider or tap the year buttons above • Data available from {minYear} to {maxYear} • Updated
+                June 2025
               </div>
             </div>
           </div>
@@ -246,13 +287,13 @@ export default function Home() {
                 </div>
 
                 <div className="text-5xl font-bold mb-4">
-                  {inflationData[selectedCurrency]?.symbol}
+                  {currentCurrencyData?.symbol}
                   {adjustedAmount.toFixed(2)}
                 </div>
 
                 <div className="text-xl mb-8 opacity-90">
-                  {inflationData[selectedCurrency]?.symbol}
-                  {amount} in {fromYear} equals {inflationData[selectedCurrency]?.symbol}
+                  {currentCurrencyData?.symbol}
+                  {amount} in {fromYear} equals {currentCurrencyData?.symbol}
                   {adjustedAmount.toFixed(2)} in {currentYear}
                 </div>
 
@@ -282,8 +323,9 @@ export default function Home() {
                     className="bg-white text-blue-600 hover:bg-gray-50"
                     onClick={() => {
                       setAmount("100")
-                      setFromYear(2020)
-                      setSelectedCurrency("USD")
+                      if (currentCurrencyData) {
+                        setFromYear(currentCurrencyData.startYear)
+                      }
                     }}
                   >
                     🔄 Reset
@@ -316,9 +358,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
                 <h3 className="text-xl font-semibold mb-4">Global Inflation Calculator</h3>
-                <p className="text-gray-300">
-                  Track inflation across major world currencies with historical data from 1913 to 2025.
-                </p>
+                <p className="text-gray-300">Track inflation across major world currencies with historical data.</p>
               </div>
               <div>
                 <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
