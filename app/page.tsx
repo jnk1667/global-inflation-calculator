@@ -145,28 +145,28 @@ export default function Home() {
   const currentCurrencyData = inflationData[selectedCurrency]
   const minYear = currentCurrencyData?.startYear || 1913
 
-  // Generate uniform year markers (excluding start and end years for display)
+  // Generate currency-specific year markers
   const generateYearMarkers = () => {
     const markers = []
 
     if (selectedCurrency === "USD") {
-      markers.push(1940, 1960, 1980, 2000, 2020)
-    } else if (selectedCurrency === "GBP") {
-      markers.push(1940, 1960, 1980, 2000, 2020)
-    } else if (selectedCurrency === "EUR") {
-      markers.push(2000, 2010, 2020)
+      // USD: 1913-2025, 20-year spacing: 1920, 1940, 1960, 1980, 2000, 2020
+      markers.push(1920, 1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "CAD") {
-      markers.push(1940, 1960, 1980, 2000, 2020)
+      // CAD: 1914-2025, 20-year spacing: 1920, 1940, 1960, 1980, 2000, 2020
+      markers.push(1920, 1940, 1960, 1980, 2000, 2020)
+    } else if (selectedCurrency === "GBP") {
+      // GBP: 1947-2025, 10-year spacing: 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020
+      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
     } else if (selectedCurrency === "AUD") {
-      markers.push(1960, 1980, 2000, 2020)
-    } else {
-      for (let year = Math.ceil(minYear / 20) * 20; year < maxYear; year += 20) {
-        if (year > minYear) {
-          markers.push(year)
-        }
-      }
+      // AUD: 1948-2025, 10-year spacing: 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020
+      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
+    } else if (selectedCurrency === "EUR") {
+      // EUR: 1996-2025, 10-year spacing: 2000, 2010, 2020
+      markers.push(2000, 2010, 2020)
     }
 
+    // Filter markers to only show those within the valid range (excluding start/end years)
     return markers.filter((year) => year > minYear && year < maxYear)
   }
 
@@ -341,7 +341,7 @@ export default function Home() {
                   <div className="text-gray-500">{yearsAgo} years ago</div>
                 </div>
 
-                {/* Year Slider - without start/end year labels */}
+                {/* Currency-specific Year Slider */}
                 <div className="px-4">
                   <Slider
                     value={[fromYear]}
@@ -352,8 +352,8 @@ export default function Home() {
                     className="w-full"
                   />
 
-                  {/* Only middle year markers (no start/end years) */}
-                  <div className="relative mt-2 px-2">
+                  {/* Currency-specific year markers */}
+                  <div className="relative mt-4 px-2">
                     {yearMarkers.map((year) => {
                       const position = ((year - minYear) / (maxYear - minYear)) * 100
                       return (
@@ -363,7 +363,7 @@ export default function Home() {
                             setFromYear(year)
                             setHasCalculated(false)
                           }}
-                          className="absolute text-xs text-gray-400 hover:text-blue-600 cursor-pointer transition-colors transform -translate-x-1/2"
+                          className="absolute text-xs text-gray-400 hover:text-blue-600 cursor-pointer transition-colors transform -translate-x-1/2 font-medium"
                           style={{ left: `${position}%` }}
                         >
                           {year}
