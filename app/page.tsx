@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
@@ -50,9 +52,10 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<string>("")
+  const [hasCalculated, setHasCalculated] = useState(false)
 
   const currentYear = new Date().getFullYear()
-  const maxYear = currentYear // This will be 2025 in 2025, 2026 in 2026, etc.
+  const maxYear = currentYear
 
   // Load inflation data
   useEffect(() => {
@@ -124,6 +127,18 @@ export default function Home() {
   const handleCurrencyChange = (currency: string) => {
     setSelectedCurrency(currency)
     setFromYear(2020)
+    setHasCalculated(false) // Reset calculation state
+  }
+
+  // Handle input changes
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAmount(e.target.value)
+    setHasCalculated(false) // Reset calculation state
+  }
+
+  const handleYearChange = (value: number[]) => {
+    setFromYear(value[0])
+    setHasCalculated(false) // Reset calculation state
   }
 
   // Get current currency data
@@ -135,22 +150,16 @@ export default function Home() {
     const markers = []
 
     if (selectedCurrency === "USD") {
-      // USD: uniform 20-year intervals, excluding 1913 and 2025
       markers.push(1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "GBP") {
-      // GBP: uniform intervals, excluding start and end
       markers.push(1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "EUR") {
-      // EUR starts around 1996, so fewer markers
       markers.push(2000, 2010, 2020)
     } else if (selectedCurrency === "CAD") {
-      // CAD: uniform intervals from 1914, excluding start and end
       markers.push(1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "AUD") {
-      // AUD: uniform intervals from 1948, excluding start and end
       markers.push(1960, 1980, 2000, 2020)
     } else {
-      // Default: 20-year intervals
       for (let year = Math.ceil(minYear / 20) * 20; year < maxYear; year += 20) {
         if (year > minYear) {
           markers.push(year)
@@ -195,21 +204,26 @@ export default function Home() {
       chartData.push({ year: currentYear, value: adjustedAmount })
     }
 
-    // Trigger stats increment when calculation is performed
-    if (typeof window !== "undefined" && (window as any).incrementCalculation) {
-      ;(window as any).incrementCalculation()
-    }
-
     return { adjustedAmount, totalInflation, annualRate: annualRate * 100, chartData }
   }
 
   const { adjustedAmount, totalInflation, annualRate, chartData } = calculateInflation()
   const yearsAgo = currentYear - fromYear
 
+  // Effect to increment stats when a valid calculation is shown
+  useEffect(() => {
+    if (Number.parseFloat(amount) > 0 && adjustedAmount > 0 && !hasCalculated) {
+      // Only increment once per calculation change
+      if (typeof window !== "undefined" && (window as any).incrementCalculation) {
+        ;(window as any).incrementCalculation()
+      }
+      setHasCalculated(true)
+    }
+  }, [amount, fromYear, selectedCurrency, adjustedAmount, hasCalculated])
+
   // Get proper currency symbol with spacing
   const getCurrencyDisplay = (value: number) => {
     const symbol = currentCurrencyData?.symbol || "$"
-    // Add space for multi-character symbols like C$ and A$
     if (symbol.length > 1) {
       return `${symbol} ${value.toFixed(2)}`
     }
@@ -277,7 +291,7 @@ export default function Home() {
                   <Input
                     type="number"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
+                    onChange={handleAmountChange}
                     className={`text-lg h-12 border-gray-300 ${
                       currentCurrencyData?.symbol && currentCurrencyData.symbol.length > 1 ? "pl-12" : "pl-8"
                     }`}
@@ -331,7 +345,7 @@ export default function Home() {
                 <div className="px-4">
                   <Slider
                     value={[fromYear]}
-                    onValueChange={(value) => setFromYear(value[0])}
+                    onValueChange={handleYearChange}
                     min={minYear}
                     max={maxYear}
                     step={1}
@@ -345,7 +359,10 @@ export default function Home() {
                       return (
                         <button
                           key={year}
-                          onClick={() => setFromYear(year)}
+                          onClick={() => {
+                            setFromYear(year)
+                            setHasCalculated(false)
+                          }}
                           className="absolute text-xs text-gray-400 hover:text-blue-600 cursor-pointer transition-colors transform -translate-x-1/2"
                           style={{ left: `${position}%` }}
                         >
@@ -408,6 +425,7 @@ export default function Home() {
                     onClick={() => {
                       setAmount("100")
                       setFromYear(2020)
+                      setHasCalculated(false)
                     }}
                   >
                     🔄 Reset
