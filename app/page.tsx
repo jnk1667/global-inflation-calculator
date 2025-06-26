@@ -6,7 +6,6 @@ import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ErrorBoundary } from "@/components/error-boundary"
 import LoadingSpinner from "@/components/loading-spinner"
 import SimpleLineChart from "@/components/simple-line-chart"
@@ -97,7 +96,7 @@ export default function Home() {
           setInflationData(loadedData)
           // Set initial fromYear based on USD data
           if (loadedData.USD) {
-            setFromYear(loadedData.USD.startYear)
+            setFromYear(2020) // Default to 2020 as shown in screenshots
           }
         } else {
           throw new Error("No inflation data could be loaded")
@@ -123,49 +122,56 @@ export default function Home() {
     loadInflationData()
   }, [])
 
-  // Handle currency change - reset year to currency's start year
+  // Handle currency change - reset year to appropriate default
   const handleCurrencyChange = (currency: string) => {
     setSelectedCurrency(currency)
-    const currencyData = inflationData[currency]
-    if (currencyData) {
-      setFromYear(currencyData.startYear)
-    }
+    // Reset to 2020 for consistency as shown in screenshots
+    setFromYear(2020)
   }
 
   // Get current currency data
   const currentCurrencyData = inflationData[selectedCurrency]
   const minYear = currentCurrencyData?.startYear || 1913
-  const maxYear = currentCurrencyData?.endYear || currentYear
+  const maxYear = 2024 // End at 2024, not 2025
 
-  // Generate accurate year markers for slider
+  // Generate year markers with proper spacing (10-20 year intervals)
   const generateYearMarkers = () => {
     const markers = []
     const range = maxYear - minYear
 
-    // Always include start and end
+    // Always include start year
     markers.push(minYear)
 
-    if (range > 100) {
-      // For long ranges, show key decades
-      const decades = [1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020]
-      decades.forEach((year) => {
-        if (year > minYear && year < maxYear) {
+    if (selectedCurrency === "USD" || selectedCurrency === "GBP") {
+      // For long-range currencies (USD: 1913, GBP: similar)
+      // Use the exact pattern from screenshot: 1913, 1970, 1990, 2000, 2010, 2015, 2020
+      const usdMarkers = [1970, 1990, 2000, 2010, 2015, 2020]
+      usdMarkers.forEach((year) => {
+        if (year > minYear && year <= maxYear) {
           markers.push(year)
         }
       })
-    } else if (range > 50) {
-      // For medium ranges, show every 10-20 years
-      for (let year = minYear + 10; year < maxYear; year += 10) {
-        markers.push(year)
-      }
+    } else if (selectedCurrency === "EUR") {
+      // EUR starts around 1996, so fewer markers
+      const eurMarkers = [2000, 2010, 2020]
+      eurMarkers.forEach((year) => {
+        if (year > minYear && year <= maxYear) {
+          markers.push(year)
+        }
+      })
     } else {
-      // For short ranges, show every 5-10 years
-      for (let year = minYear + 5; year < maxYear; year += 5) {
-        markers.push(year)
+      // For other currencies, use 10-year intervals
+      for (let year = Math.ceil(minYear / 10) * 10; year <= maxYear; year += 10) {
+        if (year > minYear) {
+          markers.push(year)
+        }
+      }
+      // Always include 2020 if not already there
+      if (!markers.includes(2020) && 2020 <= maxYear) {
+        markers.push(2020)
       }
     }
 
-    markers.push(maxYear)
     return [...new Set(markers)].sort((a, b) => a - b)
   }
 
@@ -312,30 +318,24 @@ export default function Home() {
                   <div className="text-gray-500">{yearsAgo} years ago</div>
                 </div>
 
-                {/* Year Slider with accurate positioning */}
+                {/* Year Slider */}
                 <div className="px-4">
                   <Slider
                     value={[fromYear]}
                     onValueChange={(value) => setFromYear(value[0])}
                     min={minYear}
-                    max={maxYear - 1}
+                    max={maxYear}
                     step={1}
                     className="w-full"
                   />
 
-                  {/* Accurate year markers */}
+                  {/* Year markers - properly spaced, ending at 2020 */}
                   <div className="flex justify-between text-xs text-gray-400 mt-2 px-2">
-                    {yearMarkers.map((year, index) => (
+                    {yearMarkers.map((year) => (
                       <button
                         key={year}
                         onClick={() => setFromYear(year)}
                         className="hover:text-blue-600 cursor-pointer transition-colors"
-                        style={{
-                          position:
-                            index === 0 ? "absolute" : index === yearMarkers.length - 1 ? "absolute" : "relative",
-                          left: index === 0 ? "0%" : index === yearMarkers.length - 1 ? "auto" : "auto",
-                          right: index === yearMarkers.length - 1 ? "0%" : "auto",
-                        }}
                       >
                         {year}
                       </button>
@@ -345,8 +345,8 @@ export default function Home() {
 
                 {/* Info text */}
                 <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-3 rounded">
-                  💡 Drag the slider or tap the year buttons above • Data available from {minYear} to {maxYear} •
-                  Updated June 2025
+                  💡 Drag the slider or tap the year buttons above • Data available from {minYear} to 2025 • Updated
+                  June 2025
                 </div>
               </div>
             </CardContent>
@@ -398,9 +398,7 @@ export default function Home() {
                     className="bg-white text-blue-600 hover:bg-gray-50"
                     onClick={() => {
                       setAmount("100")
-                      if (currentCurrencyData) {
-                        setFromYear(currentCurrencyData.startYear)
-                      }
+                      setFromYear(2020)
                     }}
                   >
                     🔄 Reset
@@ -410,58 +408,76 @@ export default function Home() {
             </div>
           )}
 
-          {/* Detailed Analysis Tabs */}
+          {/* Currency Comparison Section */}
           {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
-            <Tabs defaultValue="chart" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="chart">📈 Chart</TabsTrigger>
-                <TabsTrigger value="purchasing">🛒 Purchasing Power</TabsTrigger>
-                <TabsTrigger value="comparison">🌍 Compare</TabsTrigger>
-                <TabsTrigger value="stats">📊 Stats</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="chart" className="space-y-4">
-                <Card className="bg-white shadow-lg border-0">
-                  <CardHeader>
-                    <CardTitle className="text-xl">
-                      📈 {currencies[selectedCurrency]?.name} Inflation Trend Over Time ({fromYear} - {currentYear})
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-64 md:h-80">
-                      <SimpleLineChart
-                        data={chartData}
-                        currency={currentCurrencyData?.symbol || "$"}
-                        fromYear={fromYear}
-                      />
-                    </div>
-                    <p className="text-sm text-gray-600 text-center mt-4">
-                      This chart shows how {currentCurrencyData?.symbol}
-                      {amount} from {fromYear} would grow due to inflation over time
-                    </p>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="purchasing" className="space-y-4">
-                <PurchasingPowerVisual
-                  originalAmount={Number.parseFloat(amount)}
-                  adjustedAmount={adjustedAmount}
-                  currency={selectedCurrency}
-                  symbol={currentCurrencyData?.symbol || "$"}
-                  fromYear={fromYear}
-                />
-              </TabsContent>
-
-              <TabsContent value="comparison" className="space-y-4">
+            <Card className="bg-white shadow-lg border-0">
+              <CardHeader>
+                <CardTitle className="text-xl flex items-center gap-2">🌍 Currency Inflation Comparison</CardTitle>
+              </CardHeader>
+              <CardContent>
                 <CurrencyComparisonChart amount={amount} fromYear={fromYear} inflationData={inflationData} />
-              </TabsContent>
-
-              <TabsContent value="stats" className="space-y-4">
-                <UsageStats />
-              </TabsContent>
-            </Tabs>
+              </CardContent>
+            </Card>
           )}
+
+          {/* Line Chart Section */}
+          {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
+            <Card className="bg-white shadow-lg border-0">
+              <CardHeader>
+                <CardTitle className="text-xl">
+                  📈 {currencies[selectedCurrency]?.name} Inflation Trend Over Time
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-64 md:h-80">
+                  <SimpleLineChart data={chartData} currency={currentCurrencyData?.symbol || "$"} fromYear={fromYear} />
+                </div>
+                <p className="text-sm text-gray-600 text-center mt-4">
+                  This chart shows how {currentCurrencyData?.symbol}
+                  {amount} from {fromYear} would grow due to inflation over time
+                </p>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Purchasing Power Section */}
+          {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
+            <PurchasingPowerVisual
+              originalAmount={Number.parseFloat(amount)}
+              adjustedAmount={adjustedAmount}
+              currency={selectedCurrency}
+              symbol={currentCurrencyData?.symbol || "$"}
+              fromYear={fromYear}
+            />
+          )}
+
+          {/* Historical Context Section */}
+          <Card className="bg-white shadow-lg border-0">
+            <CardHeader>
+              <CardTitle className="text-xl flex items-center gap-2">📚 Historical Context</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3">What was happening in {fromYear}:</h4>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    <li>• COVID-19 pandemic</li>
+                    <li>• Remote work boom</li>
+                    <li>• Supply chain disruptions</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3">Price comparisons:</h4>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    <li>• $3.19 Movie ticket</li>
+                    <li>• $2.17 Gallon of gas</li>
+                    <li>• $2.50 Loaf of bread</li>
+                    <li>• $27.95 New CD</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Middle Ad */}
           <div className="flex justify-center my-8">
@@ -470,6 +486,9 @@ export default function Home() {
 
           {/* Social Share */}
           <SocialShare />
+
+          {/* Usage Stats */}
+          <UsageStats />
 
           {/* FAQ */}
           <FAQ />
