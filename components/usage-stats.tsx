@@ -4,60 +4,72 @@ import { useState, useEffect } from "react"
 
 export default function UsageStats() {
   const [stats, setStats] = useState({
-    totalCalculations: 0,
-    todayCalculations: 0,
-    activeUsers: 0,
+    totalCalculations: 2847291,
+    todayCalculations: 4832,
+    activeUsers: 127,
   })
 
   useEffect(() => {
-    // Load stats from localStorage or API
+    // Load stats from localStorage with more realistic base numbers
     const loadStats = () => {
       try {
         const stored = localStorage.getItem("calculatorStats")
         if (stored) {
           const parsedStats = JSON.parse(stored)
-          // Validate the data structure
           if (parsedStats && typeof parsedStats === "object") {
             setStats({
-              totalCalculations: parsedStats.totalCalculations || 127543,
-              todayCalculations: parsedStats.todayCalculations || 1247,
-              activeUsers: parsedStats.activeUsers || 89,
+              totalCalculations: parsedStats.totalCalculations || 2847291,
+              todayCalculations: parsedStats.todayCalculations || 4832,
+              activeUsers: parsedStats.activeUsers || 127,
             })
           } else {
             throw new Error("Invalid stats format")
           }
         } else {
-          // Initialize with realistic numbers
+          // Initialize with compelling SEO numbers
           setStats({
-            totalCalculations: 127543,
-            todayCalculations: 1247,
-            activeUsers: 89,
+            totalCalculations: 2847291,
+            todayCalculations: 4832,
+            activeUsers: 127,
           })
         }
       } catch (error) {
-        // Fallback to default stats if localStorage is corrupted
         setStats({
-          totalCalculations: 127543,
-          todayCalculations: 1247,
-          activeUsers: 89,
+          totalCalculations: 2847291,
+          todayCalculations: 4832,
+          activeUsers: 127,
         })
       }
     }
 
     loadStats()
 
-    // Update active users count periodically
-    const interval = setInterval(() => {
-      setStats((prev) => ({
-        ...prev,
-        activeUsers: Math.max(50, prev.activeUsers + Math.floor(Math.random() * 10) - 5),
-      }))
-    }, 30000) // Update every 30 seconds
+    // Dynamic updates every 8-15 seconds for realism
+    const interval = setInterval(
+      () => {
+        setStats((prev) => {
+          const newStats = {
+            totalCalculations: prev.totalCalculations + Math.floor(Math.random() * 3) + 1, // 1-3 new calculations
+            todayCalculations: prev.todayCalculations + Math.floor(Math.random() * 3) + 1,
+            activeUsers: Math.max(89, Math.min(245, prev.activeUsers + Math.floor(Math.random() * 11) - 5)), // 89-245 range
+          }
+
+          try {
+            localStorage.setItem("calculatorStats", JSON.stringify(newStats))
+          } catch (error) {
+            // Handle localStorage errors silently
+          }
+
+          return newStats
+        })
+      },
+      Math.random() * 7000 + 8000,
+    ) // 8-15 second intervals
 
     return () => clearInterval(interval)
   }, [])
 
-  // Increment calculation count
+  // Increment calculation count when called globally
   const incrementCalculation = () => {
     setStats((prev) => {
       const newStats = {
@@ -68,7 +80,7 @@ export default function UsageStats() {
       try {
         localStorage.setItem("calculatorStats", JSON.stringify(newStats))
       } catch (error) {
-        // Handle localStorage quota exceeded or other errors
+        // Handle localStorage quota exceeded
       }
       return newStats
     })
@@ -80,13 +92,19 @@ export default function UsageStats() {
   }, [])
 
   return (
-    <div className="hidden md:flex items-center space-x-6 text-sm text-gray-600">
-      <div className="flex items-center space-x-2">
+    <div className="flex items-center gap-4 text-sm">
+      <div className="flex items-center gap-2">
         <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-        <span>{stats.activeUsers} users online</span>
+        <span className="text-green-600 font-medium transition-all duration-500">
+          🟢 {stats.activeUsers} users online
+        </span>
       </div>
-      <div>📊 {stats.totalCalculations.toLocaleString()} calculations</div>
-      <div>🔥 {stats.todayCalculations.toLocaleString()} today</div>
+      <span className="text-blue-600 font-medium transition-all duration-500">
+        📊 {stats.totalCalculations.toLocaleString()} calculations
+      </span>
+      <span className="text-orange-600 font-medium transition-all duration-500">
+        🔥 {stats.todayCalculations.toLocaleString()} today
+      </span>
     </div>
   )
 }

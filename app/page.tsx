@@ -14,6 +14,7 @@ import CurrencyComparisonChart from "@/components/currency-comparison-chart"
 import FAQ from "@/components/faq"
 import SocialShare from "@/components/social-share"
 import AdBanner from "@/components/ad-banner"
+import UsageStats from "@/components/usage-stats"
 
 interface InflationData {
   [year: string]: number
@@ -194,6 +195,11 @@ export default function Home() {
       chartData.push({ year: currentYear, value: adjustedAmount })
     }
 
+    // Trigger stats increment when calculation is performed
+    if (typeof window !== "undefined" && (window as any).incrementCalculation) {
+      ;(window as any).incrementCalculation()
+    }
+
     return { adjustedAmount, totalInflation, annualRate: annualRate * 100, chartData }
   }
 
@@ -223,12 +229,8 @@ export default function Home() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         {/* Usage Stats - Top Right Corner */}
         <div className="absolute top-4 right-4 z-10">
-          <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 shadow-sm border">
-            <div className="flex items-center gap-4 text-sm">
-              <span className="text-green-600 font-medium">🟢 87 users online</span>
-              <span className="text-blue-600 font-medium">📊 127,543 calculations</span>
-              <span className="text-orange-600 font-medium">🔥 1,247 today</span>
-            </div>
+          <div className="bg-white/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg border border-gray-200">
+            <UsageStats />
           </div>
         </div>
 
