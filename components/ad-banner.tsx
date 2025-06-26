@@ -12,13 +12,19 @@ export default function AdBanner({ slot, format, className = "" }: AdBannerProps
   const adRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // Initialize Google AdSense
-    try {
-      if (typeof window !== "undefined" && window.adsbygoogle && window.adsbygoogle.push) {
-        window.adsbygoogle.push({})
+    // Only initialize if we have a valid AdSense client ID
+    if (
+      process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID &&
+      process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID !== "ca-pub-xxxxxxxxxxxxxxxx" &&
+      process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID.startsWith("ca-pub-")
+    ) {
+      try {
+        if (typeof window !== "undefined" && window.adsbygoogle && window.adsbygoogle.push) {
+          window.adsbygoogle.push({})
+        }
+      } catch (error) {
+        console.warn("AdSense loading error:", error)
       }
-    } catch (error) {
-      // Silently handle AdSense loading errors
     }
   }, [])
 
@@ -37,8 +43,26 @@ export default function AdBanner({ slot, format, className = "" }: AdBannerProps
 
   const dimensions = getAdDimensions()
 
-  if (!slot) {
-    return null
+  // Don't render ads if no valid client ID is configured
+  if (
+    !process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ||
+    process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID === "ca-pub-xxxxxxxxxxxxxxxx" ||
+    !process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID.startsWith("ca-pub-")
+  ) {
+    return (
+      <div className={`ad-placeholder ${className}`} ref={adRef}>
+        <div className="text-xs text-gray-400 text-center mb-1">Advertisement Space</div>
+        <div
+          className="bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center text-gray-400 text-sm"
+          style={{
+            width: dimensions.width,
+            height: dimensions.height,
+          }}
+        >
+          Ad Space ({format})
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -51,7 +75,7 @@ export default function AdBanner({ slot, format, className = "" }: AdBannerProps
           width: dimensions.width,
           height: dimensions.height,
         }}
-        data-ad-client="ca-pub-YOUR-ADSENSE-ID"
+        data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}
         data-ad-slot={`your-ad-slot-${slot}`}
         data-ad-format={dimensions["data-ad-format"]}
         data-full-width-responsive="true"
