@@ -25,7 +25,9 @@ export default function PurchasingPowerVisual({
     !isFinite(originalAmount) ||
     !isFinite(adjustedAmount) ||
     originalAmount <= 0 ||
-    adjustedAmount <= 0
+    adjustedAmount <= 0 ||
+    !currency ||
+    !symbol
   ) {
     return (
       <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-0 shadow-lg">
