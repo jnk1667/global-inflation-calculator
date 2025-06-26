@@ -374,7 +374,7 @@ export default function Home() {
                 </div>
 
                 {/* Info text */}
-                <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-3 rounded mt-16">
+                <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-3 rounded mt-24">
                   💡 Drag the slider or tap the year buttons above • Data available from {minYear} to {currentYear} •
                   Updated June 2025
                 </div>
