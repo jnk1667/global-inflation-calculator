@@ -1,24 +1,42 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import Script from "next/script"
 import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
+import Script from "next/script"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Global Inflation Calculator - Calculate Historical Inflation Impact",
+  title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
   description:
-    "Calculate how inflation affects purchasing power across different currencies and time periods. Compare USD, EUR, GBP, CAD, and AUD inflation rates with historical data.",
+    "Calculate how inflation affects your money over time. Compare purchasing power across different currencies and years with our comprehensive inflation calculator.",
   keywords:
-    "inflation calculator, purchasing power, currency inflation, historical inflation rates, USD EUR GBP inflation",
+    "inflation calculator, purchasing power, historical inflation, currency calculator, cost of living, inflation rate",
   authors: [{ name: "Global Inflation Calculator" }],
+  creator: "Global Inflation Calculator",
+  publisher: "Global Inflation Calculator",
+  robots: "index, follow",
   openGraph: {
-    title: "Global Inflation Calculator",
-    description: "Calculate historical inflation impact across multiple currencies",
+    title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
+    description:
+      "Calculate how inflation affects your money over time. Compare purchasing power across different currencies and years.",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com",
+    siteName: "Global Inflation Calculator",
+    locale: "en_US",
     type: "website",
   },
-  robots: "index, follow",
+  twitter: {
+    card: "summary_large_image",
+    title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
+    description:
+      "Calculate how inflation affects your money over time. Compare purchasing power across different currencies and years.",
+    creator: "@globalinflation",
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
     generator: 'v0.dev'
 }
 
@@ -27,19 +45,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const hasValidGAId =
-    process.env.NEXT_PUBLIC_GA_TRACKING_ID && process.env.NEXT_PUBLIC_GA_TRACKING_ID !== "G-XXXXXXXXXX"
-
-  const hasValidAdSenseId =
-    process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID &&
-    process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID !== "ca-pub-xxxxxxxxxxxxxxxx" &&
-    process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID.startsWith("ca-pub-")
-
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Google Analytics - only load if valid ID is provided */}
-        {hasValidGAId && (
+        {/* Google Analytics */}
+        {process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`}
@@ -56,8 +66,8 @@ export default function RootLayout({
           </>
         )}
 
-        {/* Google AdSense - only load if valid client ID is provided */}
-        {hasValidAdSenseId && (
+        {/* Google AdSense */}
+        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
           <Script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
@@ -65,13 +75,13 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         )}
-
-        {/* Search Console Verification */}
-        {process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION && (
-          <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION} />
-        )}
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+          {children}
+          <Toaster />
+        </ThemeProvider>
+      </body>
     </html>
   )
 }
