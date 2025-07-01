@@ -23,6 +23,7 @@ export default function AdminPanel() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const [debugInfo, setDebugInfo] = useState<string>("")
 
   const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "YourSecurePassword123!"
 
@@ -56,27 +57,56 @@ export default function AdminPanel() {
     }
 
     if (isAuthenticated) {
+      testConnection()
       loadFAQs()
       loadSettings()
     }
   }, [isAuthenticated])
 
+  const testConnection = async () => {
+    try {
+      const { data, error } = await supabase.from("faqs").select("count", { count: "exact" })
+      if (error) {
+        setDebugInfo(`Connection test failed: ${error.message}`)
+      } else {
+        setDebugInfo(`Connection successful. FAQ count: ${data?.length || 0}`)
+      }
+    } catch (err) {
+      setDebugInfo(`Connection error: ${err}`)
+    }
+  }
+
   const loadFAQs = async () => {
     try {
       setLoading(true)
+      console.log("Attempting to load FAQs from database...")
+
       const { data, error } = await supabase.from("faqs").select("*").order("created_at", { ascending: true })
 
       if (error) {
-        console.error("Error loading FAQs:", error)
-        showMessage("Error loading FAQs from database", "error")
+        console.error("Supabase error:", error)
+        setDebugInfo(`FAQ Load Error: ${error.message} (Code: ${error.code})`)
+        showMessage(`Error loading FAQs: ${error.message}`, "error")
+
+        // Load default FAQs as fallback
+        setFaqs(defaultFAQs)
         return
       }
 
+      console.log("FAQs loaded successfully:", data)
       setFaqs(data || [])
-      console.log("Successfully loaded FAQs from database")
+      setDebugInfo(`Successfully loaded ${data?.length || 0} FAQs from database`)
+
+      if (!data || data.length === 0) {
+        showMessage("No FAQs found in database. You can add some below.", "error")
+      }
     } catch (error) {
       console.error("Failed to load FAQs:", error)
+      setDebugInfo(`Connection failed: ${error}`)
       showMessage("Failed to connect to database", "error")
+
+      // Load default FAQs as fallback
+      setFaqs(defaultFAQs)
     } finally {
       setLoading(false)
     }
@@ -85,11 +115,14 @@ export default function AdminPanel() {
   const loadSettings = async () => {
     try {
       setLoading(true)
+      console.log("Attempting to load settings from database...")
+
       const { data, error } = await supabase.from("site_settings").select("*").eq("id", "main").single()
 
       if (error) {
-        console.error("Error loading settings:", error)
-        showMessage("Error loading settings from database", "error")
+        console.error("Settings error:", error)
+        setDebugInfo((prev) => prev + ` | Settings Error: ${error.message}`)
+        showMessage(`Error loading settings: ${error.message}`, "error")
         return
       }
 
@@ -101,11 +134,13 @@ export default function AdminPanel() {
           keywords: data.keywords,
           contact_email: data.contact_email,
         })
-        console.log("Successfully loaded settings from database")
+        console.log("Settings loaded successfully:", data)
+        setDebugInfo((prev) => prev + " | Settings loaded successfully")
       }
     } catch (error) {
       console.error("Failed to load settings:", error)
-      showMessage("Failed to connect to database", "error")
+      setDebugInfo((prev) => prev + ` | Settings connection failed: ${error}`)
+      showMessage("Failed to connect to database for settings", "error")
     } finally {
       setLoading(false)
     }
@@ -114,11 +149,13 @@ export default function AdminPanel() {
   const saveFAQs = async () => {
     try {
       setLoading(true)
+      console.log("Attempting to save FAQs to database...")
 
       // First, delete all existing FAQs
-      const { error: deleteError } = await supabase.from("faqs").delete().neq("id", "impossible-id") // Delete all
+      const { error: deleteError } = await supabase.from("faqs").delete().neq("id", "impossible-id")
 
       if (deleteError) {
+        console.error("Delete error:", deleteError)
         throw deleteError
       }
 
@@ -133,15 +170,16 @@ export default function AdminPanel() {
         )
 
         if (insertError) {
+          console.error("Insert error:", insertError)
           throw insertError
         }
       }
 
       showMessage("FAQs saved successfully to database!", "success")
       console.log("FAQs saved to database successfully")
-    } catch (error) {
+    } catch (error: any) {
       console.error("Database save failed:", error)
-      showMessage("Failed to save FAQs to database", "error")
+      showMessage(`Failed to save FAQs: ${error.message}`, "error")
     } finally {
       setLoading(false)
     }
@@ -150,6 +188,7 @@ export default function AdminPanel() {
   const saveSettings = async () => {
     try {
       setLoading(true)
+      console.log("Attempting to save settings to database...")
 
       const { error } = await supabase.from("site_settings").upsert({
         id: "main",
@@ -161,14 +200,15 @@ export default function AdminPanel() {
       })
 
       if (error) {
+        console.error("Settings save error:", error)
         throw error
       }
 
       showMessage("Settings saved successfully to database!", "success")
       console.log("Settings saved to database successfully")
-    } catch (error) {
+    } catch (error: any) {
       console.error("Database save failed:", error)
-      showMessage("Failed to save settings to database", "error")
+      showMessage(`Failed to save settings: ${error.message}`, "error")
     } finally {
       setLoading(false)
     }
@@ -256,6 +296,15 @@ export default function AdminPanel() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Debug Info */}
+        {debugInfo && (
+          <Alert className="mb-6 border-blue-200 bg-blue-50">
+            <AlertDescription className="text-blue-800">
+              <strong>Debug Info:</strong> {debugInfo}
+            </AlertDescription>
+          </Alert>
+        )}
+
         {/* Messages */}
         {success && (
           <Alert className="mb-6 border-green-200 bg-green-50">
@@ -287,6 +336,9 @@ export default function AdminPanel() {
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Manage FAQs</h2>
               <div className="space-x-2">
+                <Button onClick={loadFAQs} disabled={loading} variant="outline">
+                  🔄 Reload
+                </Button>
                 <Button onClick={addFAQ} disabled={loading}>
                   + Add FAQ
                 </Button>
@@ -347,9 +399,14 @@ export default function AdminPanel() {
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Site Settings</h2>
-              <Button onClick={saveSettings} disabled={loading} className="bg-green-600 hover:bg-green-700">
-                💾 {loading ? "Saving..." : "Save Settings"}
-              </Button>
+              <div className="space-x-2">
+                <Button onClick={loadSettings} disabled={loading} variant="outline">
+                  🔄 Reload
+                </Button>
+                <Button onClick={saveSettings} disabled={loading} className="bg-green-600 hover:bg-green-700">
+                  💾 {loading ? "Saving..." : "Save Settings"}
+                </Button>
+              </div>
             </div>
 
             <Card>
@@ -451,3 +508,43 @@ export default function AdminPanel() {
     </div>
   )
 }
+
+// Default FAQs to use as fallback
+const defaultFAQs: FAQ[] = [
+  {
+    id: "1",
+    question: "How accurate is your inflation data?",
+    answer:
+      "Our data comes directly from official government sources: US Bureau of Labor Statistics, UK Office for National Statistics, Statistics Canada, Australian Bureau of Statistics, and Eurostat. We update this data monthly to ensure accuracy.",
+  },
+  {
+    id: "2",
+    question: "Which currencies and time periods do you support?",
+    answer:
+      "We support 5 major currencies: USD (from 1913), GBP (from 1947), EUR (from 1996), CAD (from 1914), and AUD (from 1948). This gives you over 100 years of historical data for most currencies.",
+  },
+  {
+    id: "3",
+    question: "Is this service completely free?",
+    answer:
+      "Yes! Our inflation calculator is completely free to use with no registration required. We support the service through advertising to keep it free for everyone.",
+  },
+  {
+    id: "4",
+    question: "How do you calculate inflation?",
+    answer:
+      "We use the Consumer Price Index (CPI) from each country's official statistics bureau. The calculation compares the CPI value from your selected year to the current year to determine the equivalent purchasing power.",
+  },
+  {
+    id: "5",
+    question: "Can I use this for business or academic purposes?",
+    answer:
+      "Our tool is perfect for research, education, business planning, and personal finance. All data comes from official government sources, making it reliable for professional use.",
+  },
+  {
+    id: "6",
+    question: "How often is the data updated?",
+    answer:
+      "We automatically update our inflation data monthly when new CPI figures are released by government statistics agencies. This ensures you always have the most current information.",
+  },
+]
