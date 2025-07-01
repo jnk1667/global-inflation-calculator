@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
+import { supabase } from "@/lib/supabase"
 
 interface FAQItem {
   id: string
@@ -12,21 +13,37 @@ interface FAQItem {
 export default function FAQ() {
   const [faqs, setFaqs] = useState<FAQItem[]>([])
   const [openItems, setOpenItems] = useState<Set<string>>(new Set())
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Load FAQs from your data file
-    const loadFAQs = async () => {
-      try {
-        const response = await fetch("/data/faqs.json")
-        const data = await response.json()
-        setFaqs(data.faqs || defaultFAQs)
-      } catch (error) {
-        setFaqs(defaultFAQs)
-      }
-    }
-
     loadFAQs()
   }, [])
+
+  const loadFAQs = async () => {
+    try {
+      setLoading(true)
+
+      // First try to load from Supabase database
+      const { data, error } = await supabase.from("faqs").select("*").order("created_at", { ascending: true })
+
+      if (data && data.length > 0) {
+        setFaqs(data)
+        console.log("Loaded FAQs from Supabase database")
+      } else {
+        // Fallback to static JSON file if database is empty
+        const response = await fetch("/data/faqs.json")
+        const jsonData = await response.json()
+        setFaqs(jsonData.faqs || defaultFAQs)
+        console.log("Loaded FAQs from static JSON file")
+      }
+    } catch (error) {
+      console.error("Error loading FAQs:", error)
+      // Final fallback to default FAQs
+      setFaqs(defaultFAQs)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const toggleItem = (id: string) => {
     const newOpenItems = new Set(openItems)
@@ -36,6 +53,17 @@ export default function FAQ() {
       newOpenItems.add(id)
     }
     setOpenItems(newOpenItems)
+  }
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -102,7 +130,7 @@ const defaultFAQs: FAQItem[] = [
     id: "2",
     question: "Which currencies and time periods do you support?",
     answer:
-      "We support 5 major currencies: USD (from 1913), GBP (from 1947), EUR (from 1996), CAD (from 1914), and AUD (from 1948). This gives you over 100 years of historical data for most currencies.",
+      "We support 5 major currencies: USD (from 1913), GBP (from 1947), EUR (from 1996), CAD (from 1914), and AUD (from 1948). This gives you over over 100 years of historical data for most currencies.",
   },
   {
     id: "3",

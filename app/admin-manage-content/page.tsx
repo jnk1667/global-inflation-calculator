@@ -17,7 +17,7 @@ export default function AdminPanel() {
     title: "Global Inflation Calculator",
     description: "Free inflation calculator for comparing currency values",
     keywords: "inflation calculator, currency, historical prices",
-    contact_email: "admin@example.com",
+    contact_email: "admin@globalinflationcalculator.com",
   })
   const [activeTab, setActiveTab] = useState("faqs")
   const [loading, setLoading] = useState(false)
@@ -66,52 +66,17 @@ export default function AdminPanel() {
       setLoading(true)
       const { data, error } = await supabase.from("faqs").select("*").order("created_at", { ascending: true })
 
-      if (error || !data || data.length === 0) {
-        // Try to load from static JSON file first
-        try {
-          const response = await fetch("/data/faqs.json")
-          const jsonData = await response.json()
-          if (jsonData.faqs && jsonData.faqs.length > 0) {
-            setFaqs(jsonData.faqs)
-            console.log("Loaded FAQs from static JSON file")
-            return
-          }
-        } catch (jsonError) {
-          console.log("Could not load from JSON file")
-        }
-
-        // Fallback to localStorage if database and JSON fail
-        const localFaqs = localStorage.getItem("faqs")
-        if (localFaqs) {
-          const parsed = JSON.parse(localFaqs)
-          setFaqs(parsed.faqs || [])
-          console.log("Using localStorage fallback for FAQs")
-        }
-      } else {
-        setFaqs(data || [])
+      if (error) {
+        console.error("Error loading FAQs:", error)
+        showMessage("Error loading FAQs from database", "error")
+        return
       }
+
+      setFaqs(data || [])
+      console.log("Successfully loaded FAQs from database")
     } catch (error) {
-      console.log("Could not load FAQs from database, trying alternatives")
-
-      // Try static JSON file
-      try {
-        const response = await fetch("/data/faqs.json")
-        const jsonData = await response.json()
-        if (jsonData.faqs) {
-          setFaqs(jsonData.faqs)
-          console.log("Loaded FAQs from static JSON file")
-          return
-        }
-      } catch (jsonError) {
-        console.log("Could not load from JSON file")
-      }
-
-      // Final fallback to localStorage
-      const localFaqs = localStorage.getItem("faqs")
-      if (localFaqs) {
-        const parsed = JSON.parse(localFaqs)
-        setFaqs(parsed.faqs || [])
-      }
+      console.error("Failed to load FAQs:", error)
+      showMessage("Failed to connect to database", "error")
     } finally {
       setLoading(false)
     }
@@ -123,13 +88,12 @@ export default function AdminPanel() {
       const { data, error } = await supabase.from("site_settings").select("*").eq("id", "main").single()
 
       if (error) {
-        // Fallback to localStorage if database fails
-        const localSettings = localStorage.getItem("settings")
-        if (localSettings) {
-          setSettings(JSON.parse(localSettings))
-        }
-        console.log("Using localStorage fallback for settings")
-      } else if (data) {
+        console.error("Error loading settings:", error)
+        showMessage("Error loading settings from database", "error")
+        return
+      }
+
+      if (data) {
         setSettings({
           id: data.id,
           title: data.title,
@@ -137,13 +101,11 @@ export default function AdminPanel() {
           keywords: data.keywords,
           contact_email: data.contact_email,
         })
+        console.log("Successfully loaded settings from database")
       }
     } catch (error) {
-      console.log("Could not load settings from database, using localStorage")
-      const localSettings = localStorage.getItem("settings")
-      if (localSettings) {
-        setSettings(JSON.parse(localSettings))
-      }
+      console.error("Failed to load settings:", error)
+      showMessage("Failed to connect to database", "error")
     } finally {
       setLoading(false)
     }
@@ -175,14 +137,11 @@ export default function AdminPanel() {
         }
       }
 
-      // Also save to localStorage as backup
-      localStorage.setItem("faqs", JSON.stringify({ faqs }))
       showMessage("FAQs saved successfully to database!", "success")
+      console.log("FAQs saved to database successfully")
     } catch (error) {
       console.error("Database save failed:", error)
-      // Fallback to localStorage
-      localStorage.setItem("faqs", JSON.stringify({ faqs }))
-      showMessage("FAQs saved to local storage (database unavailable)", "success")
+      showMessage("Failed to save FAQs to database", "error")
     } finally {
       setLoading(false)
     }
@@ -205,14 +164,11 @@ export default function AdminPanel() {
         throw error
       }
 
-      // Also save to localStorage as backup
-      localStorage.setItem("settings", JSON.stringify(settings))
       showMessage("Settings saved successfully to database!", "success")
+      console.log("Settings saved to database successfully")
     } catch (error) {
       console.error("Database save failed:", error)
-      // Fallback to localStorage
-      localStorage.setItem("settings", JSON.stringify(settings))
-      showMessage("Settings saved to local storage (database unavailable)", "success")
+      showMessage("Failed to save settings to database", "error")
     } finally {
       setLoading(false)
     }
@@ -238,9 +194,14 @@ export default function AdminPanel() {
 
       // Also try to delete from database
       try {
-        await supabase.from("faqs").delete().eq("id", id)
+        const { error } = await supabase.from("faqs").delete().eq("id", id)
+        if (error) {
+          console.error("Error deleting FAQ from database:", error)
+        } else {
+          console.log("FAQ deleted from database")
+        }
       } catch (error) {
-        console.log("Could not delete from database, will sync on next save")
+        console.error("Failed to delete from database:", error)
       }
     }
   }
@@ -286,7 +247,7 @@ export default function AdminPanel() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">📝 Content Manager</h1>
           <div className="flex items-center space-x-4">
-            {loading && <div className="text-sm text-gray-600">Saving...</div>}
+            {loading && <div className="text-sm text-gray-600">Loading...</div>}
             <Button onClick={logout} variant="outline">
               Logout
             </Button>
@@ -335,41 +296,49 @@ export default function AdminPanel() {
               </div>
             </div>
 
-            {faqs.map((faq) => (
-              <Card key={faq.id}>
-                <CardContent className="p-6 space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Question:</label>
-                    <Input
-                      value={faq.question}
-                      onChange={(e) => updateFAQ(faq.id, "question", e.target.value)}
-                      placeholder="Enter FAQ question"
-                      disabled={loading}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Answer:</label>
-                    <Textarea
-                      value={faq.answer}
-                      onChange={(e) => updateFAQ(faq.id, "answer", e.target.value)}
-                      placeholder="Enter FAQ answer"
-                      rows={3}
-                      disabled={loading}
-                    />
-                  </div>
-                  <div className="flex justify-end">
-                    <Button
-                      onClick={() => deleteFAQ(faq.id)}
-                      variant="outline"
-                      className="text-red-600 hover:text-red-700"
-                      disabled={loading}
-                    >
-                      🗑️ Delete
-                    </Button>
-                  </div>
+            {faqs.length === 0 ? (
+              <Card>
+                <CardContent className="p-6 text-center text-gray-500">
+                  No FAQs found. Click "Add FAQ" to create your first one.
                 </CardContent>
               </Card>
-            ))}
+            ) : (
+              faqs.map((faq) => (
+                <Card key={faq.id}>
+                  <CardContent className="p-6 space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Question:</label>
+                      <Input
+                        value={faq.question}
+                        onChange={(e) => updateFAQ(faq.id, "question", e.target.value)}
+                        placeholder="Enter FAQ question"
+                        disabled={loading}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Answer:</label>
+                      <Textarea
+                        value={faq.answer}
+                        onChange={(e) => updateFAQ(faq.id, "answer", e.target.value)}
+                        placeholder="Enter FAQ answer"
+                        rows={3}
+                        disabled={loading}
+                      />
+                    </div>
+                    <div className="flex justify-end">
+                      <Button
+                        onClick={() => deleteFAQ(faq.id)}
+                        variant="outline"
+                        className="text-red-600 hover:text-red-700"
+                        disabled={loading}
+                      >
+                        🗑️ Delete
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         )}
 
