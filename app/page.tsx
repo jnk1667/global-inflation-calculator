@@ -44,6 +44,76 @@ const currencies = {
   AUD: { symbol: "A$", name: "Australian Dollar", flag: "🇦🇺", code: "AU" },
 }
 
+// Historical context data by decade
+const getHistoricalContext = (year: number) => {
+  if (year >= 2020) {
+    return {
+      events: ["• COVID-19 pandemic", "• Remote work boom", "• Supply chain disruptions", "• Cryptocurrency surge"],
+      prices: ["• $12.50 Movie ticket", "• $3.45 Gallon of gas", "• $3.25 Loaf of bread", "• $5.50 Cup of coffee"],
+    }
+  } else if (year >= 2010) {
+    return {
+      events: [
+        "• Social media revolution",
+        "• Smartphone adoption",
+        "• Economic recovery post-2008",
+        "• Obama presidency",
+      ],
+      prices: ["• $7.89 Movie ticket", "• $2.79 Gallon of gas", "• $2.79 Loaf of bread", "• $2.45 Cup of coffee"],
+    }
+  } else if (year >= 2000) {
+    return {
+      events: ["• Dot-com boom and bust", "• 9/11 attacks", "• Iraq War", "• Bush presidency"],
+      prices: ["• $5.39 Movie ticket", "• $1.51 Gallon of gas", "• $1.99 Loaf of bread", "• $1.25 Cup of coffee"],
+    }
+  } else if (year >= 1990) {
+    return {
+      events: ["• End of Cold War", "• Gulf War", "• Internet emergence", "• Clinton presidency"],
+      prices: ["• $4.23 Movie ticket", "• $1.34 Gallon of gas", "• $0.70 Loaf of bread", "• $0.75 Cup of coffee"],
+    }
+  } else if (year >= 1980) {
+    return {
+      events: ["• Reagan presidency", "• High inflation period", "• Personal computers", "• MTV launches"],
+      prices: ["• $2.69 Movie ticket", "• $1.19 Gallon of gas", "• $0.50 Loaf of bread", "• $0.45 Cup of coffee"],
+    }
+  } else if (year >= 1970) {
+    return {
+      events: ["• Vietnam War", "• Oil crisis", "• Watergate scandal", "• Moon landing aftermath"],
+      prices: ["• $1.55 Movie ticket", "• $0.36 Gallon of gas", "• $0.25 Loaf of bread", "• $0.25 Cup of coffee"],
+    }
+  } else if (year >= 1960) {
+    return {
+      events: ["• Civil Rights Movement", "• JFK presidency", "• Space race", "• Beatles era"],
+      prices: ["• $0.69 Movie ticket", "• $0.31 Gallon of gas", "• $0.20 Loaf of bread", "• $0.15 Cup of coffee"],
+    }
+  } else if (year >= 1950) {
+    return {
+      events: ["• Post-WWII boom", "• Korean War", "• Suburban growth", "• TV becomes popular"],
+      prices: ["• $0.48 Movie ticket", "• $0.27 Gallon of gas", "• $0.14 Loaf of bread", "• $0.10 Cup of coffee"],
+    }
+  } else if (year >= 1940) {
+    return {
+      events: ["• World War II", "• Rationing and shortages", "• Women in workforce", "• Victory gardens"],
+      prices: ["• $0.23 Movie ticket", "• $0.18 Gallon of gas", "• $0.10 Loaf of bread", "• $0.05 Cup of coffee"],
+    }
+  } else if (year >= 1930) {
+    return {
+      events: ["• Great Depression", "• New Deal programs", "• Dust Bowl", "• Radio golden age"],
+      prices: ["• $0.20 Movie ticket", "• $0.18 Gallon of gas", "• $0.09 Loaf of bread", "• $0.05 Cup of coffee"],
+    }
+  } else if (year >= 1920) {
+    return {
+      events: ["• Roaring Twenties", "• Prohibition era", "• Jazz age", "• Stock market boom"],
+      prices: ["• $0.15 Movie ticket", "• $0.25 Gallon of gas", "• $0.08 Loaf of bread", "• $0.05 Cup of coffee"],
+    }
+  } else {
+    return {
+      events: ["• World War I", "• Spanish flu pandemic", "• Industrial revolution peak", "• Horse and buggy era"],
+      prices: ["• $0.10 Movie ticket", "• $0.20 Gallon of gas", "• $0.05 Loaf of bread", "• $0.03 Cup of coffee"],
+    }
+  }
+}
+
 export default function Home() {
   const [amount, setAmount] = useState("100")
   const [fromYear, setFromYear] = useState(2020)
@@ -151,6 +221,70 @@ export default function Home() {
     setHasCalculated(false) // Reset calculation state
   }
 
+  // Share result functionality with better error handling
+  const handleShareResult = async () => {
+    if (Number.parseFloat(amount) > 0 && adjustedAmount > 0) {
+      const shareText = `💰 Inflation Calculator Result: ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(adjustedAmount)} in ${currentYear}! That's ${totalInflation.toFixed(1)}% total inflation.`
+      const shareUrl = typeof window !== "undefined" ? window.location.href : ""
+
+      // Try clipboard first (most reliable)
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          const fullText = `${shareText} Check it out: ${shareUrl}`
+          await navigator.clipboard.writeText(fullText)
+          alert("✅ Result copied to clipboard! Share it anywhere you like.")
+          return
+        }
+      } catch (clipboardError) {
+        console.log("Clipboard not available, trying other methods")
+      }
+
+      // Try native share (mobile) with better error handling
+      try {
+        if (navigator.share && typeof navigator.share === "function") {
+          // Check if we can share (some browsers have navigator.share but it doesn't work)
+          await navigator.share({
+            title: "Global Inflation Calculator Result",
+            text: shareText,
+            url: shareUrl,
+          })
+          return
+        }
+      } catch (shareError) {
+        console.log("Native share failed, falling back to social media")
+      }
+
+      // Fallback to social media sharing
+      try {
+        const encodedText = encodeURIComponent(shareText)
+        const encodedUrl = encodeURIComponent(shareUrl)
+
+        // Create a simple share menu
+        const shareOptions = [
+          {
+            name: "Twitter",
+            url: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
+          },
+          {
+            name: "Facebook",
+            url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
+          },
+          {
+            name: "LinkedIn",
+            url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+          },
+        ]
+
+        // For now, just open Twitter (most common)
+        window.open(shareOptions[0].url, "_blank", "width=550,height=420")
+      } catch (fallbackError) {
+        // Final fallback - just show the text to copy manually
+        const fullText = `${shareText} ${shareUrl}`
+        prompt("Copy this text to share your result:", fullText)
+      }
+    }
+  }
+
   // Get current currency data
   const currentCurrencyData = inflationData[selectedCurrency]
   const minYear = currentCurrencyData?.startYear || 1913
@@ -237,6 +371,9 @@ export default function Home() {
 
   const { adjustedAmount, totalInflation, annualRate, chartData } = calculateInflation()
   const yearsAgo = currentYear - fromYear
+
+  // Get historical context for the selected year
+  const historicalContext = getHistoricalContext(fromYear)
 
   // Effect to increment stats when a valid calculation is shown
   useEffect(() => {
@@ -444,7 +581,11 @@ export default function Home() {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button variant="outline" className="bg-white text-blue-600 hover:bg-gray-50">
+                  <Button
+                    variant="outline"
+                    className="bg-white text-blue-600 hover:bg-gray-50"
+                    onClick={handleShareResult}
+                  >
                     📤 Share Result
                   </Button>
                   <Button
@@ -499,28 +640,27 @@ export default function Home() {
             />
           )}
 
-          {/* Historical Context Section */}
+          {/* Historical Context Section - Now Dynamic */}
           <Card className="bg-white shadow-lg border-0">
             <CardHeader>
-              <CardTitle className="text-xl flex items-center gap-2">📚 Historical Context</CardTitle>
+              <CardTitle className="text-xl flex items-center gap-2">📚 Historical Context for {fromYear}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-3">What was happening in {fromYear}:</h4>
                   <ul className="text-sm text-gray-600 space-y-1">
-                    <li>• COVID-19 pandemic</li>
-                    <li>• Remote work boom</li>
-                    <li>• Supply chain disruptions</li>
+                    {historicalContext.events.map((event, index) => (
+                      <li key={index}>{event}</li>
+                    ))}
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">Price comparisons:</h4>
+                  <h4 className="font-semibold text-gray-900 mb-3">Typical prices in {fromYear}:</h4>
                   <ul className="text-sm text-gray-600 space-y-1">
-                    <li>• $3.19 Movie ticket</li>
-                    <li>• $2.17 Gallon of gas</li>
-                    <li>• $2.50 Loaf of bread</li>
-                    <li>• $27.95 New CD</li>
+                    {historicalContext.prices.map((price, index) => (
+                      <li key={index}>{price}</li>
+                    ))}
                   </ul>
                 </div>
               </div>
