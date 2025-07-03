@@ -17,6 +17,7 @@ import FAQ from "@/components/faq"
 import SocialShare from "@/components/social-share"
 import AdBanner from "@/components/ad-banner"
 import UsageStats from "@/components/usage-stats"
+import { Globe } from "lucide-react"
 
 interface InflationData {
   [year: string]: number
@@ -417,7 +418,12 @@ export default function Home() {
         <header className="bg-white shadow-sm border-b pt-16">
           <div className="container mx-auto px-4 py-6">
             <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">🌍 Global Inflation Calculator</h1>
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <div className="flex-shrink-0">
+                  <Globe className="w-16 h-16 md:w-20 md:h-20 text-blue-600" />
+                </div>
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-900">Global Inflation Calculator</h1>
+              </div>
               <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
                 Calculate how inflation affects your money over time across different currencies. See real purchasing
                 power changes from 1913 to {currentYear}.
