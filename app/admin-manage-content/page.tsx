@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { supabase, type FAQ, type SiteSettings } from "@/lib/supabase"
+import { supabase, type FAQ, type SiteSettings, type SEOContent } from "@/lib/supabase"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export default function AdminPanel() {
@@ -18,6 +18,10 @@ export default function AdminPanel() {
     description: "Free inflation calculator for comparing currency values",
     keywords: "inflation calculator, currency, historical prices",
     contact_email: "admin@globalinflationcalculator.com",
+  })
+  const [seoContent, setSeoContent] = useState<SEOContent>({
+    id: "main_essay",
+    content: "",
   })
   const [activeTab, setActiveTab] = useState("faqs")
   const [loading, setLoading] = useState(false)
@@ -60,6 +64,7 @@ export default function AdminPanel() {
       testConnection()
       loadFAQs()
       loadSettings()
+      loadSEOContent()
     }
   }, [isAuthenticated])
 
@@ -146,6 +151,36 @@ export default function AdminPanel() {
     }
   }
 
+  const loadSEOContent = async () => {
+    try {
+      setLoading(true)
+      console.log("Attempting to load SEO content from database...")
+
+      const { data, error } = await supabase.from("seo_content").select("*").eq("id", "main_essay").single()
+
+      if (error) {
+        console.error("SEO content error:", error)
+        setDebugInfo((prev) => prev + ` | SEO Content Error: ${error.message}`)
+        // Don't show error message for SEO content as it's optional
+        return
+      }
+
+      if (data) {
+        setSeoContent({
+          id: data.id,
+          content: data.content,
+        })
+        console.log("SEO content loaded successfully")
+        setDebugInfo((prev) => prev + " | SEO content loaded successfully")
+      }
+    } catch (error) {
+      console.error("Failed to load SEO content:", error)
+      setDebugInfo((prev) => prev + ` | SEO content connection failed: ${error}`)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const saveFAQs = async () => {
     try {
       setLoading(true)
@@ -209,6 +244,32 @@ export default function AdminPanel() {
     } catch (error: any) {
       console.error("Database save failed:", error)
       showMessage(`Failed to save settings: ${error.message}`, "error")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const saveSEOContent = async () => {
+    try {
+      setLoading(true)
+      console.log("Attempting to save SEO content to database...")
+
+      const { error } = await supabase.from("seo_content").upsert({
+        id: "main_essay",
+        content: seoContent.content,
+        updated_at: new Date().toISOString(),
+      })
+
+      if (error) {
+        console.error("SEO content save error:", error)
+        throw error
+      }
+
+      showMessage("SEO content saved successfully to database!", "success")
+      console.log("SEO content saved to database successfully")
+    } catch (error: any) {
+      console.error("Database save failed:", error)
+      showMessage(`Failed to save SEO content: ${error.message}`, "error")
     } finally {
       setLoading(false)
     }
@@ -324,6 +385,9 @@ export default function AdminPanel() {
           </Button>
           <Button onClick={() => setActiveTab("settings")} variant={activeTab === "settings" ? "default" : "outline"}>
             ⚙️ Settings
+          </Button>
+          <Button onClick={() => setActiveTab("seo")} variant={activeTab === "seo" ? "default" : "outline"}>
+            📖 SEO Content
           </Button>
           <Button onClick={() => setActiveTab("analytics")} variant={activeTab === "analytics" ? "default" : "outline"}>
             📊 Analytics
@@ -444,6 +508,48 @@ export default function AdminPanel() {
                     onChange={(e) => setSettings({ ...settings, contact_email: e.target.value })}
                     disabled={loading}
                   />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* SEO Content Management */}
+        {activeTab === "seo" && (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-semibold">SEO Essay Content</h2>
+              <div className="space-x-2">
+                <Button onClick={loadSEOContent} disabled={loading} variant="outline">
+                  🔄 Reload
+                </Button>
+                <Button onClick={saveSEOContent} disabled={loading} className="bg-green-600 hover:bg-green-700">
+                  💾 {loading ? "Saving..." : "Save Content"}
+                </Button>
+              </div>
+            </div>
+
+            <Card>
+              <CardContent className="p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    SEO Essay Content (10,000+ characters recommended):
+                  </label>
+                  <div className="text-sm text-gray-600 mb-2">
+                    Current length: {seoContent.content.length} characters
+                  </div>
+                  <Textarea
+                    value={seoContent.content}
+                    onChange={(e) => setSeoContent({ ...seoContent, content: e.target.value })}
+                    placeholder="Enter comprehensive SEO content about inflation, economics, debt-backed currency, etc. Use # for main headings and ## for subheadings."
+                    rows={25}
+                    disabled={loading}
+                    className="font-mono text-sm"
+                  />
+                  <div className="text-xs text-gray-500 mt-2">
+                    💡 Use markdown-style formatting: # for main headings, ## for subheadings. This content appears
+                    between Historical Context and Social Share sections.
+                  </div>
                 </div>
               </CardContent>
             </Card>

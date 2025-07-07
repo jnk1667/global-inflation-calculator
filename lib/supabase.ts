@@ -26,3 +26,9 @@ export interface SiteSettings {
   contact_email: string
   updated_at?: string
 }
+
+export interface SEOContent {
+  id: string
+  content: string
+  updated_at?: string
+}
