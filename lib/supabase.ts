@@ -24,6 +24,7 @@ export interface SiteSettings {
   description: string
   keywords: string
   contact_email: string
+  logo_url?: string
   updated_at?: string
 }
 

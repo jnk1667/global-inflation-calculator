@@ -195,9 +195,27 @@ export default function Home() {
   const [lastUpdated, setLastUpdated] = useState<string>("")
   const [hasCalculated, setHasCalculated] = useState(false)
   const [seoEssay, setSeoEssay] = useState<string>(defaultSEOEssay)
+  const [logoUrl, setLogoUrl] = useState<string>("/images/globe-icon.png")
 
   const currentYear = new Date().getFullYear()
   const maxYear = currentYear
+
+  // Load site settings including logo
+  useEffect(() => {
+    const loadSiteSettings = async () => {
+      try {
+        const { data, error } = await supabase.from("site_settings").select("logo_url").eq("id", "main").single()
+
+        if (data && data.logo_url) {
+          setLogoUrl(data.logo_url)
+        }
+      } catch (err) {
+        console.log("Using default logo")
+      }
+    }
+
+    loadSiteSettings()
+  }, [])
 
   // Load SEO essay content
   useEffect(() => {
@@ -529,7 +547,7 @@ export default function Home() {
               <div className="flex items-center justify-center gap-4 mb-4">
                 <div className="flex-shrink-0">
                   <img
-                    src="/images/globe-icon.png"
+                    src={logoUrl || "/placeholder.svg"}
                     alt="Global Inflation Calculator Globe Icon"
                     className="w-16 h-16 md:w-20 md:h-20 rounded-full shadow-lg"
                     onError={(e) => {

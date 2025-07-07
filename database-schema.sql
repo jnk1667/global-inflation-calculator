@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS site_settings (
   description TEXT NOT NULL,
   keywords TEXT NOT NULL,
   contact_email TEXT NOT NULL,
+  logo_url TEXT,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -25,13 +26,14 @@ CREATE TABLE IF NOT EXISTS seo_content (
 );
 
 -- Insert default settings
-INSERT INTO site_settings (id, title, description, keywords, contact_email)
+INSERT INTO site_settings (id, title, description, keywords, contact_email, logo_url)
 VALUES (
   'main',
   'Global Inflation Calculator',
   'Free inflation calculator for comparing currency values',
   'inflation calculator, currency, historical prices',
-  'admin@example.com'
+  'admin@example.com',
+  '/images/globe-icon.png'
 ) ON CONFLICT (id) DO NOTHING;
 
 -- Insert default SEO content

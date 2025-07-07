@@ -1,12 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import type React from "react"
+
+import { useState, useEffect, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { supabase, type FAQ, type SiteSettings, type SEOContent } from "@/lib/supabase"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Upload, X } from "lucide-react"
 
 export default function AdminPanel() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -18,6 +21,7 @@ export default function AdminPanel() {
     description: "Free inflation calculator for comparing currency values",
     keywords: "inflation calculator, currency, historical prices",
     contact_email: "admin@globalinflationcalculator.com",
+    logo_url: "/images/globe-icon.png",
   })
   const [seoContent, setSeoContent] = useState<SEOContent>({
     id: "main_essay",
@@ -28,6 +32,8 @@ export default function AdminPanel() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const [debugInfo, setDebugInfo] = useState<string>("")
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "YourSecurePassword123!"
 
@@ -138,6 +144,7 @@ export default function AdminPanel() {
           description: data.description,
           keywords: data.keywords,
           contact_email: data.contact_email,
+          logo_url: data.logo_url || "/images/globe-icon.png",
         })
         console.log("Settings loaded successfully:", data)
         setDebugInfo((prev) => prev + " | Settings loaded successfully")
@@ -179,6 +186,75 @@ export default function AdminPanel() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      showMessage("Please select an image file", "error")
+      return
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      showMessage("Image must be smaller than 5MB", "error")
+      return
+    }
+
+    try {
+      setUploadingImage(true)
+
+      // Create a unique filename
+      const fileExt = file.name.split(".").pop()
+      const fileName = `logo-${Date.now()}.${fileExt}`
+
+      // Upload to Supabase Storage
+      const { data: uploadData, error: uploadError } = await supabase.storage.from("images").upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: false,
+      })
+
+      if (uploadError) {
+        console.error("Upload error:", uploadError)
+        showMessage(`Upload failed: ${uploadError.message}`, "error")
+        return
+      }
+
+      // Get the public URL
+      const { data: urlData } = supabase.storage.from("images").getPublicUrl(fileName)
+
+      if (urlData?.publicUrl) {
+        // Update settings with new logo URL
+        setSettings((prev) => ({
+          ...prev,
+          logo_url: urlData.publicUrl,
+        }))
+
+        showMessage("Image uploaded successfully!", "success")
+      } else {
+        showMessage("Failed to get image URL", "error")
+      }
+    } catch (error: any) {
+      console.error("Image upload failed:", error)
+      showMessage(`Upload failed: ${error.message}`, "error")
+    } finally {
+      setUploadingImage(false)
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""
+      }
+    }
+  }
+
+  const removeImage = () => {
+    setSettings((prev) => ({
+      ...prev,
+      logo_url: "",
+    }))
+    showMessage("Image removed. Don't forget to save settings.", "success")
   }
 
   const saveFAQs = async () => {
@@ -231,6 +307,7 @@ export default function AdminPanel() {
         description: settings.description,
         keywords: settings.keywords,
         contact_email: settings.contact_email,
+        logo_url: settings.logo_url,
         updated_at: new Date().toISOString(),
       })
 
@@ -474,7 +551,84 @@ export default function AdminPanel() {
             </div>
 
             <Card>
-              <CardContent className="p-6 space-y-4">
+              <CardContent className="p-6 space-y-6">
+                {/* Logo Upload Section */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">Site Logo:</label>
+                  <div className="space-y-4">
+                    {/* Current Logo Preview */}
+                    {settings.logo_url && (
+                      <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                        <img
+                          src={settings.logo_url || "/placeholder.svg"}
+                          alt="Current logo"
+                          className="w-16 h-16 object-cover rounded-lg border"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement
+                            target.src =
+                              "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M8 14s1.5 2 4 2 4-2 4-2'/%3E%3Cline x1='9' y1='9' x2='9.01' y2='9'/%3E%3Cline x1='15' y1='9' x2='15.01' y2='9'/%3E%3C/svg%3E"
+                          }}
+                        />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">Current Logo</p>
+                          <p className="text-xs text-gray-500 break-all">{settings.logo_url}</p>
+                        </div>
+                        <Button
+                          onClick={removeImage}
+                          variant="outline"
+                          size="sm"
+                          className="text-red-600 hover:text-red-700 bg-transparent"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    )}
+
+                    {/* Upload Button */}
+                    <div className="flex items-center space-x-4">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                      <Button
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={uploadingImage || loading}
+                        variant="outline"
+                        className="flex items-center space-x-2"
+                      >
+                        {uploadingImage ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                            <span>Uploading...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-4 h-4" />
+                            <span>Upload New Logo</span>
+                          </>
+                        )}
+                      </Button>
+                      <div className="text-xs text-gray-500">Max 5MB • JPG, PNG, GIF, WebP</div>
+                    </div>
+
+                    {/* Manual URL Input */}
+                    <div>
+                      <label className="block text-xs font-medium mb-1 text-gray-600">
+                        Or enter image URL manually:
+                      </label>
+                      <Input
+                        value={settings.logo_url || ""}
+                        onChange={(e) => setSettings({ ...settings, logo_url: e.target.value })}
+                        placeholder="https://example.com/logo.png"
+                        disabled={loading}
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium mb-2">Site Title:</label>
                   <Input
