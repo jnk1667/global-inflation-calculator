@@ -15,12 +15,12 @@ export default function CurrencyComparisonChart({ amount, fromYear, inflationDat
   const [startYear, setStartYear] = useState(1996)
   const [endYear, setEndYear] = useState(2025)
 
-  // Get available years based on data
+  // Get available years based on data - now uses absolute range
   const getAvailableYears = () => {
-    if (!inflationData) return { minYear: 1996, maxYear: 2025 }
+    if (!inflationData) return { minYear: 1913, maxYear: 2025 }
 
-    let minYear = 2025
-    let maxYear = 1996
+    let absoluteMinYear = 2025
+    let absoluteMaxYear = 1913
 
     Object.values(inflationData).forEach((data: any) => {
       if (data && data.data) {
@@ -28,13 +28,14 @@ export default function CurrencyComparisonChart({ amount, fromYear, inflationDat
           .map(Number)
           .filter((year) => !isNaN(year))
         if (years.length > 0) {
-          minYear = Math.min(minYear, Math.min(...years))
-          maxYear = Math.max(maxYear, Math.max(...years))
+          absoluteMinYear = Math.min(absoluteMinYear, Math.min(...years))
+          absoluteMaxYear = Math.max(absoluteMaxYear, Math.max(...years))
         }
       }
     })
 
-    return { minYear: Math.max(minYear, 1996), maxYear }
+    // Return the absolute earliest year available (should be 1913 from USD)
+    return { minYear: Math.max(absoluteMinYear, 1913), maxYear: absoluteMaxYear }
   }
 
   const { minYear, maxYear } = getAvailableYears()
@@ -45,6 +46,11 @@ export default function CurrencyComparisonChart({ amount, fromYear, inflationDat
     if (endYear > maxYear) setEndYear(maxYear)
     if (startYear >= endYear) setEndYear(Math.min(startYear + 1, maxYear))
   }, [minYear, maxYear, startYear, endYear])
+
+  // Update start year when fromYear prop changes
+  useEffect(() => {
+    setStartYear(fromYear)
+  }, [fromYear])
 
   if (!inflationData || !amount || Object.keys(inflationData).length === 0) {
     return (
@@ -74,6 +80,7 @@ export default function CurrencyComparisonChart({ amount, fromYear, inflationDat
   }
 
   const comparisonData = []
+  const availableCurrencies = []
 
   Object.entries(inflationData).forEach(([currency, data]: [string, any], index) => {
     if (!data || !data.data) return
@@ -101,6 +108,8 @@ export default function CurrencyComparisonChart({ amount, fromYear, inflationDat
           inflation: Number(totalInflation.toFixed(2)),
           color: COLORS[index % COLORS.length],
         })
+
+        availableCurrencies.push(currency)
       }
     }
   })
@@ -114,6 +123,10 @@ export default function CurrencyComparisonChart({ amount, fromYear, inflationDat
 
   // Prevent division by zero
   const safeMaxInflation = maxInflation > 0 ? maxInflation : 100
+
+  // Get list of excluded currencies for display
+  const allCurrencies = Object.keys(inflationData)
+  const excludedCurrencies = allCurrencies.filter((currency) => !availableCurrencies.includes(currency))
 
   return (
     <Card className="bg-white shadow-lg border-0 chart-container">
@@ -167,19 +180,42 @@ export default function CurrencyComparisonChart({ amount, fromYear, inflationDat
               </div>
             </div>
           </div>
+
+          {/* Show available currencies and excluded ones */}
+          <div className="text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-medium">Comparing:</span>
+              {availableCurrencies.map((currency, index) => (
+                <span key={currency} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">
+                  {currency}
+                </span>
+              ))}
+            </div>
+            {excludedCurrencies.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 mt-2">
+                <span className="font-medium text-gray-500">Excluded (no data for {startYear}):</span>
+                {excludedCurrencies.map((currency) => (
+                  <span key={currency} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+                    {currency}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="text-center mb-6">
           <p className="text-sm sm:text-base text-gray-600">
-            Comparing {numAmount} {comparisonData[0]?.symbol || "$"} inflation across currencies from {startYear} to{" "}
-            {endYear} ({endYear - startYear} years)
+            Comparing {numAmount} {comparisonData[0]?.symbol || "$"} inflation across {comparisonData.length} currencies
+            from {startYear} to {endYear} ({endYear - startYear} years)
           </p>
         </div>
 
         {comparisonData.length === 0 ? (
           <div className="text-center text-gray-500 py-8">
             <div className="text-4xl mb-2">📊</div>
-            <div>No data available for selected date range</div>
+            <div>No currencies have data available for the selected date range</div>
+            <div className="text-sm mt-2">Try selecting a more recent start year</div>
           </div>
         ) : (
           <>
@@ -282,6 +318,12 @@ export default function CurrencyComparisonChart({ amount, fromYear, inflationDat
                 {comparisonData.some((item) => item.inflation < 0) && (
                   <p>
                     • Some currencies experienced <strong>deflation</strong> (negative inflation) during this period
+                  </p>
+                )}
+                {excludedCurrencies.length > 0 && (
+                  <p>
+                    • <strong>{excludedCurrencies.length} currencies</strong> were excluded due to insufficient
+                    historical data for {startYear}
                   </p>
                 )}
               </div>
