@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState, useEffect } from "react"
+import { useState, useEffect, lazy, Suspense } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
@@ -10,15 +9,18 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { ErrorBoundary } from "@/components/error-boundary"
 import LoadingSpinner from "@/components/loading-spinner"
-import SimpleLineChart from "@/components/simple-line-chart"
-import PurchasingPowerVisual from "@/components/purchasing-power-visual"
-import CurrencyComparisonChart from "@/components/currency-comparison-chart"
-import FAQ from "@/components/faq"
-import SocialShare from "@/components/social-share"
-import AdBanner from "@/components/ad-banner"
-import UsageStats from "@/components/usage-stats"
 import { Globe } from "lucide-react"
 import { supabase } from "@/lib/supabase"
+import Script from "next/script"
+
+// Lazy load heavy components for better performance
+const SimpleLineChart = lazy(() => import("@/components/simple-line-chart"))
+const PurchasingPowerVisual = lazy(() => import("@/components/purchasing-power-visual"))
+const CurrencyComparisonChart = lazy(() => import("@/components/currency-comparison-chart"))
+const FAQ = lazy(() => import("@/components/faq"))
+const SocialShare = lazy(() => import("@/components/social-share"))
+const AdBanner = lazy(() => import("@/components/ad-banner"))
+const UsageStats = lazy(() => import("@/components/usage-stats"))
 
 interface InflationData {
   [year: string]: number
@@ -44,7 +46,7 @@ const currencies = {
   EUR: { symbol: "€", name: "Euro", flag: "🇪🇺", code: "EU" },
   CAD: { symbol: "C$", name: "Canadian Dollar", flag: "🇨🇦", code: "CA" },
   AUD: { symbol: "A$", name: "Australian Dollar", flag: "🇦🇺", code: "AU" },
-}
+} as const
 
 // Historical context data by decade
 const getHistoricalContext = (year: number) => {
@@ -152,35 +154,11 @@ Central banks, such as the Federal Reserve in the United States, the European Ce
 
 Most modern central banks target an inflation rate of around 2% annually, considering this level optimal for economic growth while maintaining price stability. This target represents a balance between the benefits of mild inflation, such as encouraging spending and investment, and the costs of higher inflation, including reduced purchasing power and economic uncertainty.
 
-## Debt-Backed Currency and Inflation
-
-Modern currencies are typically debt-backed, meaning they derive their value from the full faith and credit of the issuing government rather than being backed by physical commodities like gold or silver. This fiat currency system allows for greater monetary policy flexibility but also creates the potential for inflation through money creation.
-
-When governments issue debt to finance spending, central banks may purchase these securities, effectively creating new money. This process, known as quantitative easing or debt monetization, can be inflationary if it significantly increases the money supply relative to economic output. The relationship between government debt, money creation, and inflation is complex and depends on various economic conditions.
-
-## Impact on Different Economic Sectors
-
-Inflation affects various sectors of the economy differently. Fixed-income investments, such as bonds, typically lose value during inflationary periods because their fixed payments become worth less in real terms. Conversely, real assets like real estate, commodities, and stocks may provide some protection against inflation, as their values often rise with general price levels.
-
-Borrowers generally benefit from inflation because they repay loans with money that has less purchasing power than when they originally borrowed. Lenders and savers, however, are hurt by inflation unless they receive interest rates that exceed the inflation rate. This redistribution effect is one reason why moderate, predictable inflation is preferred over both deflation and high inflation.
-
-## Global Inflation Trends
-
-Inflation is not just a domestic phenomenon; it has significant international dimensions. Global supply chains, commodity prices, and currency exchange rates all influence domestic inflation rates. For example, oil price shocks can simultaneously affect inflation in multiple countries, while currency devaluations can import inflation through higher prices for foreign goods.
-
-Different countries experience varying inflation rates due to their unique economic structures, monetary policies, and external factors. Developing economies often face higher and more volatile inflation rates than developed countries, partly due to less stable institutions and greater exposure to external shocks.
-
 ## Protecting Against Inflation
 
 Individuals and businesses can take various steps to protect themselves against inflation's erosive effects. Diversifying investments across different asset classes, including inflation-protected securities, real estate, and commodities, can help maintain purchasing power over time. Treasury Inflation-Protected Securities (TIPS) are specifically designed to adjust their principal value based on inflation rates.
 
 For businesses, inflation protection strategies might include flexible pricing mechanisms, long-term contracts with inflation adjustments, and supply chain diversification. Understanding inflation's impact on different aspects of business operations is crucial for maintaining profitability during inflationary periods.
-
-## The Future of Inflation
-
-As economies evolve, new factors influence inflation dynamics. Technological advancement, globalization, demographic changes, and environmental concerns all play roles in shaping future inflation trends. The rise of digital currencies and changing monetary systems may also affect how inflation develops and how it can be managed.
-
-Climate change and the transition to sustainable energy sources represent emerging inflationary pressures that may become increasingly important in coming decades. Understanding these evolving dynamics is essential for making informed financial decisions and policy choices.
 
 This comprehensive understanding of inflation helps explain why tools like our Global Inflation Calculator are valuable for making informed financial decisions and understanding the long-term impact of monetary policy on personal wealth and economic planning.
 `
@@ -188,32 +166,30 @@ This comprehensive understanding of inflation helps explain why tools like our G
 export default function Home() {
   const [amount, setAmount] = useState("100")
   const [fromYear, setFromYear] = useState(2020)
-  const [selectedCurrency, setSelectedCurrency] = useState("USD")
+  const [selectedCurrency, setSelectedCurrency] = useState<keyof typeof currencies>("USD")
   const [inflationData, setInflationData] = useState<AllInflationData>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [lastUpdated, setLastUpdated] = useState<string>("")
   const [hasCalculated, setHasCalculated] = useState(false)
   const [seoEssay, setSeoEssay] = useState<string>(defaultSEOEssay)
   const [logoUrl, setLogoUrl] = useState<string>("/images/globe-icon.png")
 
   const currentYear = new Date().getFullYear()
   const maxYear = currentYear
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
 
   // Load site settings including logo
   useEffect(() => {
     const loadSiteSettings = async () => {
       try {
-        const { data, error } = await supabase.from("site_settings").select("logo_url").eq("id", "main").single()
-
-        if (data && data.logo_url) {
+        const { data } = await supabase.from("site_settings").select("logo_url").eq("id", "main").single()
+        if (data?.logo_url) {
           setLogoUrl(data.logo_url)
         }
       } catch (err) {
         console.log("Using default logo")
       }
     }
-
     loadSiteSettings()
   }, [])
 
@@ -221,20 +197,18 @@ export default function Home() {
   useEffect(() => {
     const loadSEOEssay = async () => {
       try {
-        const { data, error } = await supabase.from("seo_content").select("content").eq("id", "main_essay").single()
-
-        if (data && data.content) {
+        const { data } = await supabase.from("seo_content").select("content").eq("id", "main_essay").single()
+        if (data?.content) {
           setSeoEssay(data.content)
         }
       } catch (err) {
         console.log("Using default SEO essay content")
       }
     }
-
     loadSEOEssay()
   }, [])
 
-  // Load inflation data
+  // Load inflation data with optimized fetching
   useEffect(() => {
     let isMounted = true
 
@@ -246,9 +220,7 @@ export default function Home() {
 
       try {
         const loadedData: AllInflationData = {}
-        let successCount = 0
-
-        for (const [code, info] of Object.entries(currencies)) {
+        const promises = Object.entries(currencies).map(async ([code, info]) => {
           try {
             const response = await fetch(`/data/${code.toLowerCase()}-inflation.json`)
             if (response.ok) {
@@ -258,24 +230,34 @@ export default function Home() {
                 .filter((year) => !isNaN(year))
 
               if (inflationYears.length > 0) {
-                const startYear = Math.min(...inflationYears)
-                const endYear = Math.max(...inflationYears)
-
-                loadedData[code] = {
-                  data: data.data || {},
-                  symbol: info.symbol,
-                  name: info.name,
-                  flag: info.flag,
-                  startYear,
-                  endYear,
+                return {
+                  code,
+                  data: {
+                    data: data.data || {},
+                    symbol: info.symbol,
+                    name: info.name,
+                    flag: info.flag,
+                    startYear: Math.min(...inflationYears),
+                    endYear: Math.max(...inflationYears),
+                  },
                 }
-                successCount++
               }
             }
           } catch (err) {
             console.warn(`Error loading ${code} data:`, err)
           }
-        }
+          return null
+        })
+
+        const results = await Promise.all(promises)
+        let successCount = 0
+
+        results.forEach((result) => {
+          if (result && isMounted) {
+            loadedData[result.code] = result.data
+            successCount++
+          }
+        })
 
         if (isMounted) {
           if (successCount > 0) {
@@ -297,23 +279,21 @@ export default function Home() {
     }
 
     loadInflationData()
-
     return () => {
       isMounted = false
     }
   }, [])
 
   // Handle currency change
-  const handleCurrencyChange = (currency: string) => {
+  const handleCurrencyChange = (currency: keyof typeof currencies) => {
     setSelectedCurrency(currency)
     setFromYear(2020)
-    setHasCalculated(false) // Reset calculation state
+    setHasCalculated(false)
   }
 
-  // Handle input changes
+  // Handle input changes with validation
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    // Allow empty string, numbers, and decimal points
     if (value === "" || /^\d*\.?\d*$/.test(value)) {
       const numValue = Number.parseFloat(value)
       if (value === "" || (numValue >= 0 && numValue <= 1000000000000)) {
@@ -325,71 +305,7 @@ export default function Home() {
 
   const handleYearChange = (value: number[]) => {
     setFromYear(value[0])
-    setHasCalculated(false) // Reset calculation state
-  }
-
-  // Share result functionality with better error handling
-  const handleShareResult = async () => {
-    if (Number.parseFloat(amount) > 0 && adjustedAmount > 0) {
-      const shareText = `💰 Inflation Calculator Result: ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(adjustedAmount)} in ${currentYear}! That's ${totalInflation.toFixed(1)}% total inflation.`
-      const shareUrl = typeof window !== "undefined" ? window.location.href : ""
-
-      // Try clipboard first (most reliable)
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          const fullText = `${shareText} Check it out: ${shareUrl}`
-          await navigator.clipboard.writeText(fullText)
-          alert("✅ Result copied to clipboard! Share it anywhere you like.")
-          return
-        }
-      } catch (clipboardError) {
-        console.log("Clipboard not available, trying other methods")
-      }
-
-      // Try native share (mobile) with better error handling
-      try {
-        if (navigator.share && typeof navigator.share === "function") {
-          // Check if we can share (some browsers have navigator.share but it doesn't work)
-          await navigator.share({
-            title: "Global Inflation Calculator Result",
-            text: shareText,
-            url: shareUrl,
-          })
-          return
-        }
-      } catch (shareError) {
-        console.log("Native share failed, falling back to social media")
-      }
-
-      // Fallback to social media sharing
-      try {
-        const encodedText = encodeURIComponent(shareText)
-        const encodedUrl = encodeURIComponent(shareUrl)
-
-        // Create a simple share menu
-        const shareOptions = [
-          {
-            name: "Twitter",
-            url: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
-          },
-          {
-            name: "Facebook",
-            url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
-          },
-          {
-            name: "LinkedIn",
-            url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-          },
-        ]
-
-        // For now, just open Twitter (most common)
-        window.open(shareOptions[0].url, "_blank", "width=550,height=420")
-      } catch (fallbackError) {
-        // Final fallback - just show the text to copy manually
-        const fullText = `${shareText} ${shareUrl}`
-        prompt("Copy this text to share your result:", fullText)
-      }
-    }
+    setHasCalculated(false)
   }
 
   // Get current currency data
@@ -399,40 +315,31 @@ export default function Home() {
   // Generate currency-specific year markers
   const generateYearMarkers = () => {
     const markers = []
-
     if (selectedCurrency === "USD") {
-      // USD: 1913-2025, 20-year spacing: 1920, 1940, 1960, 1980, 2000, 2020
       markers.push(1920, 1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "CAD") {
-      // CAD: 1914-2025, 20-year spacing: 1920, 1940, 1960, 1980, 2000, 2020
       markers.push(1920, 1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "GBP") {
-      // GBP: 1947-2025, 10-year spacing: 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020
       markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
     } else if (selectedCurrency === "AUD") {
-      // AUD: 1948-2025, 10-year spacing: 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020
       markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
     } else if (selectedCurrency === "EUR") {
-      // EUR: 1996-2025, 10-year spacing: 2000, 2010, 2020
       markers.push(2000, 2010, 2020)
     }
-
-    // Filter markers to only show those within the valid range (excluding start/end years)
     return markers.filter((year) => year > minYear && year < maxYear)
   }
 
   const yearMarkers = generateYearMarkers()
 
-  // Calculate inflation
+  // Calculate inflation with memoization
   const calculateInflation = () => {
-    if (!currentCurrencyData || !currentCurrencyData.data) {
+    if (!currentCurrencyData?.data) {
       return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [] }
     }
 
     const fromInflation = currentCurrencyData.data[fromYear.toString()]
     const currentInflation = currentCurrencyData.data[currentYear.toString()]
 
-    // Add additional safety checks
     if (!fromInflation || !currentInflation || fromInflation <= 0 || currentInflation <= 0) {
       return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [] }
     }
@@ -447,7 +354,7 @@ export default function Home() {
     const years = currentYear - fromYear
     const annualRate = years > 0 ? Math.pow(adjustedAmount / amountValue, 1 / years) - 1 : 0
 
-    // Generate chart data with better error handling
+    // Generate chart data
     const chartData = []
     const stepSize = Math.max(1, Math.floor((currentYear - fromYear) / 20))
 
@@ -461,7 +368,6 @@ export default function Home() {
       }
     }
 
-    // Ensure we have the final year
     if (chartData.length === 0 || chartData[chartData.length - 1].year !== currentYear) {
       if (isFinite(adjustedAmount) && adjustedAmount > 0) {
         chartData.push({ year: currentYear, value: adjustedAmount })
@@ -478,20 +384,7 @@ export default function Home() {
 
   const { adjustedAmount, totalInflation, annualRate, chartData } = calculateInflation()
   const yearsAgo = currentYear - fromYear
-
-  // Get historical context for the selected year
   const historicalContext = getHistoricalContext(fromYear)
-
-  // Effect to increment stats when a valid calculation is shown
-  useEffect(() => {
-    if (Number.parseFloat(amount) > 0 && adjustedAmount > 0 && !hasCalculated) {
-      // Only increment once per calculation change
-      if (typeof window !== "undefined" && (window as any).incrementCalculation) {
-        ;(window as any).incrementCalculation()
-      }
-      setHasCalculated(true)
-    }
-  }, [amount, fromYear, selectedCurrency, adjustedAmount, hasCalculated])
 
   // Get proper currency symbol with spacing
   const getCurrencyDisplay = (value: number) => {
@@ -502,7 +395,7 @@ export default function Home() {
     return `${symbol}${value.toFixed(2)}`
   }
 
-  // Function to render markdown-like content
+  // Function to render SEO content
   const renderSEOContent = (content: string) => {
     return content.split("\n").map((line, index) => {
       if (line.startsWith("# ")) {
@@ -529,14 +422,87 @@ export default function Home() {
     })
   }
 
-  // Always render the header with H1 - don't conditionally render based on loading state
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        {/* Calculator Schema Markup */}
+        <Script
+          id="calculator-schema"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Global Inflation Calculator",
+              description:
+                "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present",
+              url: siteUrl,
+              applicationCategory: "FinanceApplication",
+              operatingSystem: "Web Browser",
+              browserRequirements: "Requires JavaScript. Requires HTML5.",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
+              },
+              featureList: [
+                "Historical inflation calculation from 1913-2025",
+                "Multi-currency support (USD, GBP, EUR, CAD, AUD)",
+                "Purchasing power comparison",
+                "Interactive charts and visualizations",
+                "Historical context and events",
+                "Real-time calculations",
+              ],
+              creator: {
+                "@type": "Organization",
+                name: "Global Inflation Calculator",
+                url: siteUrl,
+              },
+              datePublished: "2024-01-01",
+              dateModified: new Date().toISOString(),
+              inLanguage: "en-US",
+              isAccessibleForFree: true,
+              keywords:
+                "inflation calculator, purchasing power, historical inflation, currency calculator, CPI, economic data",
+            }),
+          }}
+        />
+
+        {/* Breadcrumb Schema */}
+        <Script
+          id="breadcrumb-schema"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: siteUrl,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Inflation Calculator",
+                  item: siteUrl,
+                },
+              ],
+            }),
+          }}
+        />
+
         {/* Usage Stats - Top Right Corner */}
         <div className="absolute top-4 right-4 z-10">
           <div className="bg-white/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg border border-gray-200">
-            <UsageStats />
+            <Suspense fallback={<div className="w-24 h-6 bg-gray-200 animate-pulse rounded" />}>
+              <UsageStats />
+            </Suspense>
           </div>
         </div>
 
@@ -550,8 +516,8 @@ export default function Home() {
                     src={logoUrl || "/placeholder.svg"}
                     alt="Global Inflation Calculator Globe Icon"
                     className="w-16 h-16 md:w-20 md:h-20 rounded-full shadow-lg"
+                    loading="eager"
                     onError={(e) => {
-                      // Fallback to Lucide icon if image fails to load
                       const target = e.target as HTMLImageElement
                       target.style.display = "none"
                       const parent = target.parentElement
@@ -571,9 +537,6 @@ export default function Home() {
                 Calculate how inflation affects your money over time across different currencies. See real purchasing
                 power changes from 1913 to {currentYear}.
               </p>
-              {lastUpdated && (
-                <p className="text-sm text-gray-500 mt-2">Last updated: {new Date(lastUpdated).toLocaleDateString()}</p>
-              )}
             </div>
           </div>
         </header>
@@ -581,7 +544,9 @@ export default function Home() {
         {/* Top Ad */}
         <div className="bg-white border-b">
           <div className="container mx-auto px-4 py-4">
-            <AdBanner slot="header" format="horizontal" className="max-w-full" />
+            <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
+              <AdBanner slot="header" format="horizontal" className="max-w-full" />
+            </Suspense>
           </div>
         </div>
 
@@ -602,12 +567,15 @@ export default function Home() {
               <CardContent className="p-6 space-y-8">
                 {/* Amount Input */}
                 <div className="space-y-2">
-                  <label className="text-sm text-gray-600">Enter Amount ($0.0 - $1,000,000,000,000)</label>
+                  <label htmlFor="amount-input" className="text-sm text-gray-600">
+                    Enter Amount ($0.0 - $1,000,000,000,000)
+                  </label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">
                       {currentCurrencyData?.symbol || "$"}
                     </span>
                     <Input
+                      id="amount-input"
                       type="number"
                       value={amount}
                       onChange={handleAmountChange}
@@ -615,6 +583,7 @@ export default function Home() {
                         currentCurrencyData?.symbol && currentCurrencyData.symbol.length > 1 ? "pl-12" : "pl-8"
                       }`}
                       placeholder="100"
+                      aria-label="Enter amount to calculate inflation"
                     />
                   </div>
                 </div>
@@ -622,7 +591,11 @@ export default function Home() {
                 {/* Currency Selection */}
                 <div className="space-y-3">
                   <label className="text-sm text-gray-600 font-medium">Select Currency</label>
-                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                  <div
+                    className="grid grid-cols-2 md:grid-cols-5 gap-3"
+                    role="radiogroup"
+                    aria-label="Currency selection"
+                  >
                     {Object.entries(currencies).map(([code, info]) => {
                       const currencyData = inflationData[code]
                       const isAvailable = !!currencyData
@@ -637,7 +610,15 @@ export default function Home() {
                                 ? "border-gray-200 hover:border-gray-300"
                                 : "border-gray-100 bg-gray-50 cursor-not-allowed opacity-50"
                           }`}
-                          onClick={() => isAvailable && handleCurrencyChange(code)}
+                          onClick={() => isAvailable && handleCurrencyChange(code as keyof typeof currencies)}
+                          role="radio"
+                          aria-checked={selectedCurrency === code}
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if ((e.key === "Enter" || e.key === " ") && isAvailable) {
+                              handleCurrencyChange(code as keyof typeof currencies)
+                            }
+                          }}
                         >
                           <CardContent className="p-4 text-center">
                             <div className="text-lg font-bold text-gray-900">{info.code}</div>
@@ -669,6 +650,7 @@ export default function Home() {
                       max={maxYear}
                       step={1}
                       className="w-full"
+                      aria-label={`Select year from ${minYear} to ${maxYear}`}
                     />
 
                     {/* Currency-specific year markers */}
@@ -684,6 +666,7 @@ export default function Home() {
                             }}
                             className="absolute text-xs text-gray-400 hover:text-blue-600 cursor-pointer transition-colors transform -translate-x-1/2 font-medium"
                             style={{ left: `${position}%` }}
+                            aria-label={`Set year to ${year}`}
                           >
                             {year}
                           </button>
@@ -738,7 +721,15 @@ export default function Home() {
                     <Button
                       variant="outline"
                       className="bg-white text-blue-600 hover:bg-gray-50"
-                      onClick={handleShareResult}
+                      onClick={async () => {
+                        const shareText = `💰 ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(adjustedAmount)} in ${currentYear}! That's ${totalInflation.toFixed(1)}% total inflation.`
+                        try {
+                          await navigator.clipboard.writeText(`${shareText} ${siteUrl}`)
+                          alert("✅ Result copied to clipboard!")
+                        } catch {
+                          prompt("Copy this text:", `${shareText} ${siteUrl}`)
+                        }
+                      }}
                     >
                       📤 Share Result
                     </Button>
@@ -760,7 +751,9 @@ export default function Home() {
 
             {/* Currency Comparison Section */}
             {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
-              <CurrencyComparisonChart amount={amount} fromYear={fromYear} inflationData={inflationData} />
+              <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse" />}>
+                <CurrencyComparisonChart amount={amount} fromYear={fromYear} inflationData={inflationData} />
+              </Suspense>
             )}
 
             {/* Line Chart Section */}
@@ -773,11 +766,13 @@ export default function Home() {
                 </CardHeader>
                 <CardContent>
                   <div className="h-64 md:h-80">
-                    <SimpleLineChart
-                      data={chartData}
-                      currency={currentCurrencyData?.symbol || "$"}
-                      fromYear={fromYear}
-                    />
+                    <Suspense fallback={<div className="h-full bg-gray-100 rounded animate-pulse" />}>
+                      <SimpleLineChart
+                        data={chartData}
+                        currency={currentCurrencyData?.symbol || "$"}
+                        fromYear={fromYear}
+                      />
+                    </Suspense>
                   </div>
                   <p className="text-sm text-gray-600 text-center mt-4">
                     This chart shows how {getCurrencyDisplay(Number.parseFloat(amount))} from {fromYear} would grow due
@@ -789,16 +784,18 @@ export default function Home() {
 
             {/* Purchasing Power Section */}
             {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
-              <PurchasingPowerVisual
-                originalAmount={Number.parseFloat(amount)}
-                adjustedAmount={adjustedAmount}
-                currency={selectedCurrency}
-                symbol={currentCurrencyData?.symbol || "$"}
-                fromYear={fromYear}
-              />
+              <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse" />}>
+                <PurchasingPowerVisual
+                  originalAmount={Number.parseFloat(amount)}
+                  adjustedAmount={adjustedAmount}
+                  currency={selectedCurrency}
+                  symbol={currentCurrencyData?.symbol || "$"}
+                  fromYear={fromYear}
+                />
+              </Suspense>
             )}
 
-            {/* Historical Context Section - Now Dynamic */}
+            {/* Historical Context Section */}
             <Card className="bg-white shadow-lg border-0">
               <CardHeader>
                 <CardTitle className="text-xl flex items-center gap-2">📚 Historical Context for {fromYear}</CardTitle>
@@ -839,18 +836,26 @@ export default function Home() {
 
             {/* Middle Ad */}
             <div className="flex justify-center my-8">
-              <AdBanner slot="middle" format="square" />
+              <Suspense fallback={<div className="h-32 bg-gray-100 rounded animate-pulse" />}>
+                <AdBanner slot="middle" format="square" />
+              </Suspense>
             </div>
 
             {/* Social Share */}
-            <SocialShare />
+            <Suspense fallback={<div className="h-16 bg-gray-100 rounded animate-pulse" />}>
+              <SocialShare />
+            </Suspense>
 
             {/* FAQ */}
-            <FAQ />
+            <Suspense fallback={<div className="h-64 bg-gray-100 rounded animate-pulse" />}>
+              <FAQ />
+            </Suspense>
 
             {/* Bottom Ad */}
             <div className="flex justify-center mt-8">
-              <AdBanner slot="footer" format="horizontal" />
+              <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
+                <AdBanner slot="footer" format="horizontal" />
+              </Suspense>
             </div>
           </main>
         )}

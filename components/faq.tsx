@@ -1,8 +1,9 @@
 "use client"
 
+import type React from "react"
 import { useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { supabase } from "@/lib/supabase"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 interface FAQItem {
   id: string
@@ -10,150 +11,98 @@ interface FAQItem {
   answer: string
 }
 
-export default function FAQ() {
+const FAQ: React.FC = () => {
   const [faqs, setFaqs] = useState<FAQItem[]>([])
-  const [openItems, setOpenItems] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const loadFAQs = async () => {
+      try {
+        const response = await fetch("/data/faqs.json")
+        if (response.ok) {
+          const data = await response.json()
+          setFaqs(data.faqs || [])
+        }
+      } catch (error) {
+        console.error("Error loading FAQs:", error)
+        // Fallback FAQs
+        setFaqs([
+          {
+            id: "what-is-inflation",
+            question: "What is inflation?",
+            answer:
+              "Inflation is the rate at which the general level of prices for goods and services rises, eroding purchasing power over time. When inflation occurs, each unit of currency buys fewer goods and services than it did previously.",
+          },
+          {
+            id: "how-calculated",
+            question: "How is inflation calculated?",
+            answer:
+              "Inflation is typically measured using price indices like the Consumer Price Index (CPI), which tracks the average change in prices paid by consumers for a basket of goods and services over time.",
+          },
+          {
+            id: "data-sources",
+            question: "Where does the data come from?",
+            answer:
+              "Our inflation data comes from official government sources including the US Bureau of Labor Statistics, UK Office for National Statistics, Eurostat, Statistics Canada, and the Australian Bureau of Statistics.",
+          },
+          {
+            id: "accuracy",
+            question: "How accurate are these calculations?",
+            answer:
+              "Our calculations use official government inflation data and are mathematically accurate. However, inflation affects different goods and services differently, so individual experiences may vary.",
+          },
+          {
+            id: "currencies",
+            question: "Which currencies are supported?",
+            answer:
+              "We currently support USD (US Dollar), GBP (British Pound), EUR (Euro), CAD (Canadian Dollar), and AUD (Australian Dollar), with historical data going back to 1913 for USD and varying start dates for other currencies.",
+          },
+        ])
+      } finally {
+        setLoading(false)
+      }
+    }
+
     loadFAQs()
   }, [])
 
-  const loadFAQs = async () => {
-    try {
-      setLoading(true)
-
-      // First try to load from Supabase database
-      const { data, error } = await supabase.from("faqs").select("*").order("created_at", { ascending: true })
-
-      if (data && data.length > 0) {
-        setFaqs(data)
-        console.log("Loaded FAQs from Supabase database")
-      } else {
-        // Fallback to static JSON file if database is empty
-        const response = await fetch("/data/faqs.json")
-        const jsonData = await response.json()
-        setFaqs(jsonData.faqs || defaultFAQs)
-        console.log("Loaded FAQs from static JSON file")
-      }
-    } catch (error) {
-      console.error("Error loading FAQs:", error)
-      // Final fallback to default FAQs
-      setFaqs(defaultFAQs)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const toggleItem = (id: string) => {
-    const newOpenItems = new Set(openItems)
-    if (newOpenItems.has(id)) {
-      newOpenItems.delete(id)
-    } else {
-      newOpenItems.add(id)
-    }
-    setOpenItems(newOpenItems)
-  }
-
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </div>
+      <Card className="bg-white shadow-lg border-0">
+        <CardHeader>
+          <CardTitle className="text-xl">❓ Frequently Asked Questions</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                <div className="h-3 bg-gray-100 rounded w-full"></div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     )
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-        <p className="text-gray-600">Everything you need to know about our inflation calculator</p>
-      </div>
-
-      <div className="space-y-4">
-        {faqs.map((faq) => (
-          <Card key={faq.id} className="border-0 shadow-sm">
-            <CardContent className="p-0">
-              <button
-                onClick={() => toggleItem(faq.id)}
-                className="w-full p-6 text-left hover:bg-gray-50 transition-colors"
-              >
-                <div className="flex justify-between items-center">
-                  <h3 className="font-semibold text-gray-900 pr-4">{faq.question}</h3>
-                  <div className={`transform transition-transform ${openItems.has(faq.id) ? "rotate-180" : ""}`}>▼</div>
-                </div>
-              </button>
-
-              {openItems.has(faq.id) && (
-                <div className="px-6 pb-6">
-                  <div className="text-gray-600 leading-relaxed">{faq.answer}</div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Schema markup for FAQ */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.question,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: faq.answer,
-              },
-            })),
-          }),
-        }}
-      />
-    </div>
+    <Card className="bg-white shadow-lg border-0">
+      <CardHeader>
+        <CardTitle className="text-xl">❓ Frequently Asked Questions</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Accordion type="single" collapsible className="w-full">
+          {faqs.map((faq) => (
+            <AccordionItem key={faq.id} value={faq.id}>
+              <AccordionTrigger className="text-left hover:text-blue-600">{faq.question}</AccordionTrigger>
+              <AccordionContent className="text-gray-600 leading-relaxed">{faq.answer}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </CardContent>
+    </Card>
   )
 }
 
-const defaultFAQs: FAQItem[] = [
-  {
-    id: "1",
-    question: "How accurate is your inflation data?",
-    answer:
-      "Our data comes directly from official government sources: US Bureau of Labor Statistics, UK Office for National Statistics, Statistics Canada, Australian Bureau of Statistics, and Eurostat. We update this data monthly to ensure accuracy.",
-  },
-  {
-    id: "2",
-    question: "Which currencies and time periods do you support?",
-    answer:
-      "We support 5 major currencies: USD (from 1913), GBP (from 1947), EUR (from 1996), CAD (from 1914), and AUD (from 1948). This gives you over over 100 years of historical data for most currencies.",
-  },
-  {
-    id: "3",
-    question: "Is this service completely free?",
-    answer:
-      "Yes! Our inflation calculator is completely free to use with no registration required. We support the service through advertising to keep it free for everyone.",
-  },
-  {
-    id: "4",
-    question: "How do you calculate inflation?",
-    answer:
-      "We use the Consumer Price Index (CPI) from each country's official statistics bureau. The calculation compares the CPI value from your selected year to the current year to determine the equivalent purchasing power.",
-  },
-  {
-    id: "5",
-    question: "Can I use this for business or academic purposes?",
-    answer:
-      "Our tool is perfect for research, education, business planning, and personal finance. All data comes from official government sources, making it reliable for professional use.",
-  },
-  {
-    id: "6",
-    question: "How often is the data updated?",
-    answer:
-      "We automatically update our inflation data monthly when new CPI figures are released by government statistics agencies. This ensures you always have the most current information.",
-  },
-]
+export default FAQ
