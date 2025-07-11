@@ -19,7 +19,7 @@ const PurchasingPowerVisual: React.FC<PurchasingPowerVisualProps> = ({
   fromYear,
 }) => {
   const currentYear = new Date().getFullYear()
-  const lossPercentage = ((adjustedAmount - originalAmount) / originalAmount) * 100
+  const inflationRate = ((adjustedAmount - originalAmount) / originalAmount) * 100
 
   const formatCurrency = (value: number) => {
     if (symbol.length > 1) {
@@ -28,98 +28,87 @@ const PurchasingPowerVisual: React.FC<PurchasingPowerVisualProps> = ({
     return `${symbol}${value.toFixed(2)}`
   }
 
-  const getExampleItems = (amount: number, year: number) => {
-    // Simplified example items based on historical prices
-    if (year >= 2020) {
-      return [
-        { item: "Coffee", count: Math.floor(amount / 5.5), price: 5.5 },
-        { item: "Movie tickets", count: Math.floor(amount / 12.5), price: 12.5 },
-        { item: "Gallons of gas", count: Math.floor(amount / 3.45), price: 3.45 },
-      ]
-    } else if (year >= 2000) {
-      return [
-        { item: "Coffee", count: Math.floor(amount / 1.25), price: 1.25 },
-        { item: "Movie tickets", count: Math.floor(amount / 5.39), price: 5.39 },
-        { item: "Gallons of gas", count: Math.floor(amount / 1.51), price: 1.51 },
-      ]
-    } else if (year >= 1980) {
-      return [
-        { item: "Coffee", count: Math.floor(amount / 0.45), price: 0.45 },
-        { item: "Movie tickets", count: Math.floor(amount / 2.69), price: 2.69 },
-        { item: "Gallons of gas", count: Math.floor(amount / 1.19), price: 1.19 },
-      ]
-    } else if (year >= 1960) {
-      return [
-        { item: "Coffee", count: Math.floor(amount / 0.15), price: 0.15 },
-        { item: "Movie tickets", count: Math.floor(amount / 0.69), price: 0.69 },
-        { item: "Gallons of gas", count: Math.floor(amount / 0.31), price: 0.31 },
-      ]
-    } else {
-      return [
-        { item: "Coffee", count: Math.floor(amount / 0.05), price: 0.05 },
-        { item: "Movie tickets", count: Math.floor(amount / 0.15), price: 0.15 },
-        { item: "Gallons of gas", count: Math.floor(amount / 0.2), price: 0.2 },
-      ]
-    }
-  }
-
-  const pastItems = getExampleItems(originalAmount, fromYear)
-  const currentItems = getExampleItems(originalAmount, currentYear)
+  // Calculate visual representation
+  const originalBars = Math.ceil(originalAmount / 10)
+  const adjustedBars = Math.ceil(adjustedAmount / 10)
+  const maxBars = Math.max(originalBars, adjustedBars, 10)
 
   return (
     <Card className="bg-white shadow-lg border-0">
       <CardHeader>
-        <CardTitle className="text-xl flex items-center gap-2">🛒 Purchasing Power Comparison</CardTitle>
+        <CardTitle className="text-xl">💰 Purchasing Power Comparison</CardTitle>
+        <div className="text-sm text-gray-600">Visual representation of how your money's buying power has changed</div>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Past purchasing power */}
-          <div className="bg-green-50 p-6 rounded-lg border border-green-200">
-            <h3 className="text-lg font-semibold text-green-800 mb-4">
-              What {formatCurrency(originalAmount)} could buy in {fromYear}:
-            </h3>
-            <div className="space-y-3">
-              {pastItems.map((item, index) => (
-                <div key={index} className="flex justify-between items-center">
-                  <span className="text-green-700">
-                    {item.count} {item.item}
-                  </span>
-                  <span className="text-sm text-green-600">@ {formatCurrency(item.price)} each</span>
-                </div>
+      <CardContent className="space-y-6">
+        {/* Summary */}
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-gray-900 mb-2">
+              {formatCurrency(originalAmount)} in {fromYear}
+            </div>
+            <div className="text-lg text-gray-600 mb-4">has the same buying power as</div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">
+              {formatCurrency(adjustedAmount)} in {currentYear}
+            </div>
+            <div className="text-sm text-gray-500">That's a {inflationRate.toFixed(1)}% increase due to inflation</div>
+          </div>
+        </div>
+
+        {/* Visual Bars */}
+        <div className="space-y-6">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-700">{fromYear} Value</span>
+              <span className="text-sm font-bold text-gray-900">{formatCurrency(originalAmount)}</span>
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {Array.from({ length: originalBars }, (_, i) => (
+                <div key={i} className="w-4 h-8 bg-blue-400 rounded-sm" />
               ))}
             </div>
           </div>
 
-          {/* Current purchasing power */}
-          <div className="bg-red-50 p-6 rounded-lg border border-red-200">
-            <h3 className="text-lg font-semibold text-red-800 mb-4">
-              What {formatCurrency(originalAmount)} can buy in {currentYear}:
-            </h3>
-            <div className="space-y-3">
-              {currentItems.map((item, index) => (
-                <div key={index} className="flex justify-between items-center">
-                  <span className="text-red-700">
-                    {item.count} {item.item}
-                  </span>
-                  <span className="text-sm text-red-600">@ {formatCurrency(item.price)} each</span>
-                </div>
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-700">{currentYear} Equivalent</span>
+              <span className="text-sm font-bold text-blue-600">{formatCurrency(adjustedAmount)}</span>
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {Array.from({ length: adjustedBars }, (_, i) => (
+                <div key={i} className="w-4 h-8 bg-blue-600 rounded-sm" />
               ))}
             </div>
           </div>
         </div>
 
-        {/* Summary */}
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <div className="text-center">
-            <div className="text-lg font-semibold text-blue-800 mb-2">Purchasing Power Impact</div>
-            <div className="text-blue-700">
-              Your money has {lossPercentage > 0 ? "lost" : "gained"} {Math.abs(lossPercentage).toFixed(1)}% of its
-              purchasing power over {currentYear - fromYear} years.
-            </div>
-            <div className="text-sm text-blue-600 mt-2">
-              You need {formatCurrency(adjustedAmount)} today to buy what {formatCurrency(originalAmount)} could buy in{" "}
-              {fromYear}.
-            </div>
+        {/* Explanation */}
+        <div className="bg-yellow-50 p-4 rounded-lg">
+          <div className="text-sm text-gray-700">
+            <strong>What this means:</strong> Due to inflation over {currentYear - fromYear} years, you would need{" "}
+            {formatCurrency(adjustedAmount)} today to buy the same goods and services that{" "}
+            {formatCurrency(originalAmount)} could buy in {fromYear}.
+          </div>
+        </div>
+
+        {/* Historical Context */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h4 className="font-semibold text-gray-900 mb-2">Then ({fromYear})</h4>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• Average car: $3,000-$5,000</li>
+              <li>• Average house: $17,000</li>
+              <li>• Gallon of gas: $0.36</li>
+              <li>• Movie ticket: $1.55</li>
+            </ul>
+          </div>
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h4 className="font-semibold text-gray-900 mb-2">Now ({currentYear})</h4>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• Average car: $35,000-$45,000</li>
+              <li>• Average house: $350,000</li>
+              <li>• Gallon of gas: $3.45</li>
+              <li>• Movie ticket: $12.50</li>
+            </ul>
           </div>
         </div>
       </CardContent>

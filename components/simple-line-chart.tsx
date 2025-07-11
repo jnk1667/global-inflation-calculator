@@ -22,7 +22,7 @@ const SimpleLineChart: React.FC<SimpleLineChartProps> = ({ data, currency, fromY
 
   const maxValue = Math.max(...data.map((d) => d.value))
   const minValue = Math.min(...data.map((d) => d.value))
-  const valueRange = maxValue - minValue
+  const valueRange = maxValue - minValue || 1
 
   const formatCurrency = (value: number) => {
     if (currency.length > 1) {
@@ -32,7 +32,7 @@ const SimpleLineChart: React.FC<SimpleLineChartProps> = ({ data, currency, fromY
   }
 
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full relative bg-white">
       <svg className="w-full h-full" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
         {/* Grid lines */}
         <defs>
@@ -43,14 +43,14 @@ const SimpleLineChart: React.FC<SimpleLineChartProps> = ({ data, currency, fromY
         <rect width="100%" height="100%" fill="url(#grid)" />
 
         {/* Chart area */}
-        <g transform="translate(60, 20)">
+        <g transform="translate(80, 20)">
           {/* Y-axis labels */}
           {[0, 0.25, 0.5, 0.75, 1].map((ratio, index) => {
             const y = 320 - ratio * 320
             const value = minValue + valueRange * ratio
             return (
               <g key={index}>
-                <line x1="0" y1={y} x2="680" y2={y} stroke="#f3f4f6" strokeWidth="1" />
+                <line x1="0" y1={y} x2="640" y2={y} stroke="#f3f4f6" strokeWidth="1" />
                 <text x="-10" y={y + 5} textAnchor="end" fontSize="12" fill="#6b7280">
                   {formatCurrency(value)}
                 </text>
@@ -62,7 +62,7 @@ const SimpleLineChart: React.FC<SimpleLineChartProps> = ({ data, currency, fromY
           {data
             .filter((_, index) => index % Math.ceil(data.length / 6) === 0)
             .map((point, index) => {
-              const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 680
+              const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 640
               return (
                 <text key={index} x={x} y="350" textAnchor="middle" fontSize="12" fill="#6b7280">
                   {point.year}
@@ -74,7 +74,7 @@ const SimpleLineChart: React.FC<SimpleLineChartProps> = ({ data, currency, fromY
           <path
             d={data
               .map((point, index) => {
-                const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 680
+                const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 640
                 const y = 320 - ((point.value - minValue) / valueRange) * 320
                 return `${index === 0 ? "M" : "L"} ${x} ${y}`
               })
@@ -88,7 +88,7 @@ const SimpleLineChart: React.FC<SimpleLineChartProps> = ({ data, currency, fromY
 
           {/* Data points */}
           {data.map((point, index) => {
-            const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 680
+            const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 640
             const y = 320 - ((point.value - minValue) / valueRange) * 320
             return (
               <circle key={index} cx={x} cy={y} r="4" fill="#3b82f6" stroke="white" strokeWidth="2">
@@ -96,6 +96,12 @@ const SimpleLineChart: React.FC<SimpleLineChartProps> = ({ data, currency, fromY
               </circle>
             )
           })}
+        </g>
+
+        {/* Axes */}
+        <g transform="translate(80, 20)">
+          <line x1="0" y1="320" x2="640" y2="320" stroke="#374151" strokeWidth="2" />
+          <line x1="0" y1="0" x2="0" y2="320" stroke="#374151" strokeWidth="2" />
         </g>
       </svg>
     </div>

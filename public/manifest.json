@@ -1,19 +1,19 @@
 {
   "name": "Global Inflation Calculator",
   "short_name": "Inflation Calc",
-  "description": "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present",
+  "description": "Calculate historical inflation and purchasing power across multiple currencies",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#3b82f6",
+  "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/images/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/images/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

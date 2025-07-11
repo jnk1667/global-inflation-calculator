@@ -4,45 +4,42 @@ import type React from "react"
 import { useState, useEffect } from "react"
 
 const UsageStats: React.FC = () => {
-  const [calculations, setCalculations] = useState<number>(0)
-  const [visitors, setVisitors] = useState<number>(0)
+  const [stats, setStats] = useState({
+    calculations: 0,
+    users: 0,
+  })
 
   useEffect(() => {
-    // Load stats from localStorage
-    const savedCalculations = localStorage.getItem("inflation-calculations")
-    const savedVisitors = localStorage.getItem("inflation-visitors")
+    // Simulate real-time stats (in a real app, this would come from your analytics)
+    const baseCalculations = 15847
+    const baseUsers = 3291
 
-    setCalculations(savedCalculations ? Number.parseInt(savedCalculations, 10) : 12847)
-    setVisitors(savedVisitors ? Number.parseInt(savedVisitors, 10) : 45231)
+    const updateStats = () => {
+      const now = new Date()
+      const minutesInDay = now.getHours() * 60 + now.getMinutes()
+      const dailyGrowth = Math.floor(minutesInDay / 10) // Grow throughout the day
 
-    // Increment visitor count
-    const newVisitorCount = (savedVisitors ? Number.parseInt(savedVisitors, 10) : 45231) + 1
-    setVisitors(newVisitorCount)
-    localStorage.setItem("inflation-visitors", newVisitorCount.toString())
-
-    // Global function to increment calculations
-    ;(window as any).incrementCalculation = () => {
-      const newCalcCount = (savedCalculations ? Number.parseInt(savedCalculations, 10) : 12847) + 1
-      setCalculations(newCalcCount)
-      localStorage.setItem("inflation-calculations", newCalcCount.toString())
+      setStats({
+        calculations: baseCalculations + dailyGrowth + Math.floor(Math.random() * 5),
+        users: baseUsers + Math.floor(dailyGrowth / 3) + Math.floor(Math.random() * 2),
+      })
     }
-  }, [])
 
-  const formatNumber = (num: number): string => {
-    return num.toLocaleString()
-  }
+    updateStats()
+    const interval = setInterval(updateStats, 30000) // Update every 30 seconds
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <div className="text-xs text-gray-600">
-      <div className="flex items-center gap-4">
-        <div className="text-center">
-          <div className="font-bold text-blue-600">{formatNumber(calculations)}</div>
-          <div>Calculations</div>
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <span>{stats.calculations.toLocaleString()} calculations</span>
         </div>
-        <div className="text-center">
-          <div className="font-bold text-green-600">{formatNumber(visitors)}</div>
-          <div>Visitors</div>
-        </div>
+        <div className="text-gray-400">•</div>
+        <div>{stats.users.toLocaleString()} users today</div>
       </div>
     </div>
   )
