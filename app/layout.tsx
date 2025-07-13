@@ -3,53 +3,34 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/toaster"
 import Script from "next/script"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+})
 
 export const metadata: Metadata = {
-  title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
+  title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
   description:
-    "Calculate historical inflation and purchasing power across USD, GBP, EUR, CAD, AUD from 1913 to 2025. See how money value changes over time with real economic data.",
-  keywords:
-    "inflation calculator, purchasing power, historical inflation, currency calculator, CPI, economic data, USD inflation, GBP inflation, EUR inflation, CAD inflation, AUD inflation",
-  authors: [{ name: "Global Inflation Calculator" }],
+    "Calculate how inflation affects your money over time. Compare purchasing power across different currencies and years with our comprehensive inflation calculator from 1913-2025.",
+  keywords: [
+    "inflation calculator",
+    "purchasing power",
+    "historical inflation",
+    "currency calculator",
+    "cost of living",
+    "inflation rate",
+    "CPI calculator",
+    "economic data",
+    "financial planning",
+    "money value",
+  ].join(", "),
+  authors: [{ name: "Global Inflation Calculator Team" }],
   creator: "Global Inflation Calculator",
   publisher: "Global Inflation Calculator",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"),
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
-    description:
-      "Calculate historical inflation and purchasing power across USD, GBP, EUR, CAD, AUD from 1913 to 2025. See how money value changes over time with real economic data.",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com",
-    siteName: "Global Inflation Calculator",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: "/images/globe-icon.png",
-        width: 1200,
-        height: 630,
-        alt: "Global Inflation Calculator",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
-    description:
-      "Calculate historical inflation and purchasing power across USD, GBP, EUR, CAD, AUD from 1913 to 2025. See how money value changes over time with real economic data.",
-    images: ["/images/globe-icon.png"],
-  },
   robots: {
     index: true,
     follow: true,
@@ -61,8 +42,36 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  openGraph: {
+    title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
+    description:
+      "Calculate how inflation affects your money over time. Compare purchasing power across different currencies and years from 1913-2025.",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com",
+    siteName: "Global Inflation Calculator",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Global Inflation Calculator - Historical Purchasing Power Tool",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
+    description:
+      "Calculate how inflation affects your money over time. Compare purchasing power across different currencies and years from 1913-2025.",
+    creator: "@globalinflation",
+    images: ["/images/og-image.png"],
+  },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com",
   },
     generator: 'v0.dev'
 }
@@ -72,18 +81,84 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Preconnect to external domains for performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+
+        {/* DNS prefetch for better performance */}
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//www.google-analytics.com" />
+
+        {/* Favicon and app icons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+
         <link rel="canonical" href="https://www.globalinflationcalculator.com/" />
-        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-          <Script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        )}
+
+        {/* Organization Schema */}
+        <Script
+          id="organization-schema"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Global Inflation Calculator",
+              url: siteUrl,
+              logo: `${siteUrl}/images/logo.png`,
+              description:
+                "Comprehensive inflation calculator providing historical purchasing power data across multiple currencies from 1913 to present.",
+              foundingDate: "2024",
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer service",
+                availableLanguage: "English",
+              },
+              sameAs: ["https://twitter.com/globalinflation"],
+            }),
+          }}
+        />
+
+        {/* Website Schema */}
+        <Script
+          id="website-schema"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Global Inflation Calculator",
+              url: siteUrl,
+              description:
+                "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: `${siteUrl}/?q={search_term_string}`,
+                },
+                "query-input": "required name=search_term_string",
+              },
+              publisher: {
+                "@type": "Organization",
+                name: "Global Inflation Calculator",
+              },
+            }),
+          }}
+        />
+
+        {/* Google Analytics - Optimized loading */}
         {process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
           <>
             <Script
@@ -95,10 +170,23 @@ export default function RootLayout({
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}');
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}', {
+                  page_title: document.title,
+                  page_location: window.location.href,
+                  send_page_view: true
+                });
               `}
             </Script>
           </>
+        )}
+
+        {/* Google AdSense - Optimized loading */}
+        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
+          <Script
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
+            crossOrigin="anonymous"
+            strategy="lazyOnload"
+          />
         )}
       </head>
       <body className={inter.className}>
