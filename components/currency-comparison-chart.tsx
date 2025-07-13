@@ -5,6 +5,7 @@ import { useState, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 
 interface InflationData {
   [year: string]: number
@@ -77,7 +78,22 @@ const CurrencyComparisonChart: React.FC<CurrencyComparisonChartProps> = ({ amoun
     return `${symbol}${value.toFixed(2)}`
   }
 
-  const maxValue = comparisonData.length > 0 ? Math.max(...comparisonData.map((d) => d.adjustedAmount)) : 0
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload
+      return (
+        <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
+          <p className="font-medium text-gray-900">{`${data.flag} ${data.name}`}</p>
+          <p className="text-blue-600 font-medium">
+            {`${formatCurrency(Number.parseFloat(amount), data.symbol)} → ${formatCurrency(data.adjustedAmount, data.symbol)}`}
+          </p>
+          <p className="text-gray-600 text-sm">{`Total Inflation: ${data.totalInflation.toFixed(1)}%`}</p>
+          <p className="text-gray-600 text-sm">{`Annual Average: ${data.annualRate.toFixed(2)}%`}</p>
+        </div>
+      )
+    }
+    return null
+  }
 
   if (comparisonData.length === 0) {
     return (
@@ -187,39 +203,17 @@ const CurrencyComparisonChart: React.FC<CurrencyComparisonChartProps> = ({ amoun
           </Button>
         </div>
 
-        {/* Custom Bar Chart */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="space-y-4">
-            {comparisonData.map((item, index) => {
-              const barWidth = maxValue > 0 ? (item.adjustedAmount / maxValue) * 100 : 0
-              const colors = ["bg-blue-500", "bg-green-500", "bg-purple-500", "bg-red-500", "bg-orange-500"]
-              const color = colors[index % colors.length]
-
-              return (
-                <div key={item.currency} className="space-y-2">
-                  <div className="flex justify-between items-center text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">{item.flag}</span>
-                      <span className="font-medium">{item.currency}</span>
-                      <span className="text-gray-500">{item.name}</span>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-bold text-blue-600">{formatCurrency(item.adjustedAmount, item.symbol)}</div>
-                      <div className="text-xs text-gray-500">{item.totalInflation.toFixed(1)}% total</div>
-                    </div>
-                  </div>
-                  <div className="relative bg-gray-200 rounded-full h-6">
-                    <div
-                      className={`${color} h-6 rounded-full flex items-center justify-end pr-2 text-white text-xs font-medium transition-all duration-500`}
-                      style={{ width: `${Math.max(barWidth, 5)}%` }}
-                    >
-                      {item.annualRate.toFixed(1)}%/yr
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+        {/* Chart */}
+        <div className="h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={comparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <XAxis dataKey="currency" stroke="#666" fontSize={12} />
+              <YAxis stroke="#666" fontSize={12} tickFormatter={(value) => `$${value.toFixed(0)}`} />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="adjustedAmount" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
 
         {/* Summary Stats */}
@@ -235,7 +229,10 @@ const CurrencyComparisonChart: React.FC<CurrencyComparisonChartProps> = ({ amoun
           <div className="bg-purple-50 p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-purple-600">
               {comparisonData.length > 0
-                ? `${(comparisonData.reduce((sum, item) => sum + item.annualRate, 0) / comparisonData.length).toFixed(1)}%`
+                ? `${comparisonData.reduce((sum, item) => sum + item.annualRate, 0) / comparisonData.length}`.slice(
+                    0,
+                    4,
+                  ) + "%"
                 : "0%"}
             </div>
             <div className="text-sm text-gray-600">Avg Annual Inflation</div>
