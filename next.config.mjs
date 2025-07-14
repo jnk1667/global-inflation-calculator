@@ -22,6 +22,16 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'global-inflation-calculator-git-main-jonoki67-4086s-projects.vercel.app' }],
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex' }]
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'global-inflation-calculator-ixi8huerk-jonoki67-4086s-projects.vercel.app' }],
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex' }]
+      },
+      {
         source: '/(.*)',
         headers: [
           {
