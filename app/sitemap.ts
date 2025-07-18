@@ -1,17 +1,16 @@
 import type { MetadataRoute } from "next"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com"
-
   return [
     {
-      url: baseUrl,
+      url: "https://www.globalinflationcalculator.com",
       lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1,
+      changeFrequency: "weekly",
+      priority: 1.0,
+      images: ["https://www.globalinflationcalculator.com/og-image.jpg"],
     },
     {
-      url: `${baseUrl}/admin-manage-content`,
+      url: "https://www.globalinflationcalculator.com/admin-manage-content",
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.3,
