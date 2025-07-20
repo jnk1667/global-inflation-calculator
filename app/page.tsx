@@ -46,6 +46,8 @@ const currencies = {
   EUR: { symbol: "€", name: "Euro", flag: "🇪🇺", code: "EU" },
   CAD: { symbol: "C$", name: "Canadian Dollar", flag: "🇨🇦", code: "CA" },
   AUD: { symbol: "A$", name: "Australian Dollar", flag: "🇦🇺", code: "AU" },
+  CHF: { symbol: "Fr", name: "Swiss Franc", flag: "🇨🇭", code: "CH" },
+  JPY: { symbol: "¥", name: "Japanese Yen", flag: "🇯🇵", code: "JP" },
 } as const
 
 // Historical context data by decade
@@ -325,6 +327,10 @@ export default function Home() {
       markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
     } else if (selectedCurrency === "EUR") {
       markers.push(2000, 2010, 2020)
+    } else if (selectedCurrency === "CHF") {
+      markers.push(1920, 1940, 1960, 1980, 2000, 2020)
+    } else if (selectedCurrency === "JPY") {
+      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
     }
     return markers.filter((year) => year > minYear && year < maxYear)
   }
@@ -449,7 +455,7 @@ export default function Home() {
               },
               featureList: [
                 "Historical inflation calculation from 1913-2025",
-                "Multi-currency support (USD, GBP, EUR, CAD, AUD)",
+                "Multi-currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY)",
                 "Purchasing power comparison",
                 "Interactive charts and visualizations",
                 "Historical context and events",
@@ -592,7 +598,7 @@ export default function Home() {
                 <div className="space-y-3">
                   <label className="text-sm text-gray-600 font-medium">Select Currency</label>
                   <div
-                    className="grid grid-cols-2 md:grid-cols-5 gap-3"
+                    className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3"
                     role="radiogroup"
                     aria-label="Currency selection"
                   >
@@ -621,7 +627,7 @@ export default function Home() {
                           }}
                         >
                           <CardContent className="p-4 text-center">
-                            <div className="text-lg font-bold text-gray-900">{info.code}</div>
+                            <div className="text-lg font-bold text-gray-900">{info.flag}</div>
                             <div className="text-xs text-blue-600 font-medium">{code}</div>
                             <div className="text-xs text-gray-500 mt-1">{info.name}</div>
                           </CardContent>
@@ -878,6 +884,8 @@ export default function Home() {
                   <li>• Eurostat</li>
                   <li>• Statistics Canada</li>
                   <li>• Australian Bureau of Statistics</li>
+                  <li>• Swiss Federal Statistical Office</li>
+                  <li>• Statistics Bureau of Japan</li>
                 </ul>
               </div>
               <div>

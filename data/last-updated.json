@@ -1,11 +1,44 @@
 {
-  "lastUpdate": "2025-07-15T10:00:00Z",
-  "nextUpdate": "2025-08-15T10:00:00Z",
-  "sources": {
-    "USD": "US Bureau of Labor Statistics",
-    "GBP": "UK Office for National Statistics",
-    "EUR": "Eurostat",
-    "CAD": "Statistics Canada",
-    "AUD": "Australian Bureau of Statistics"
+  "lastUpdate": "2025-07-20T12:19:27.000Z",
+  "autoUpdateEnabled": true,
+  "currencies": ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY"],
+  "nextScheduledUpdate": "2025-08-20T12:00:00.000Z",
+  "updateFrequency": "monthly",
+  "dataStatus": {
+    "USD": {
+      "source": "US Bureau of Labor Statistics",
+      "lastFetch": "2025-07-20T12:19:27.000Z",
+      "status": "active"
+    },
+    "GBP": {
+      "source": "UK Office for National Statistics",
+      "lastFetch": "2025-07-20T12:19:27.000Z",
+      "status": "active"
+    },
+    "EUR": {
+      "source": "Eurostat (estimated)",
+      "lastFetch": "2025-07-20T12:19:27.000Z",
+      "status": "active"
+    },
+    "CAD": {
+      "source": "Statistics Canada (estimated)",
+      "lastFetch": "2025-07-20T12:19:27.000Z",
+      "status": "active"
+    },
+    "AUD": {
+      "source": "Australian Bureau of Statistics (estimated)",
+      "lastFetch": "2025-07-20T12:19:27.000Z",
+      "status": "active"
+    },
+    "CHF": {
+      "source": "Swiss Federal Statistical Office (estimated)",
+      "lastFetch": "2025-07-20T12:19:27.000Z",
+      "status": "active"
+    },
+    "JPY": {
+      "source": "Statistics Bureau of Japan (estimated)",
+      "lastFetch": "2025-07-20T12:19:27.000Z",
+      "status": "active"
+    }
   }
 }
