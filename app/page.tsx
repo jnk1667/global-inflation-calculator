@@ -678,7 +678,7 @@ export default function Home() {
                   {/* Info text */}
                   <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-3 rounded mt-80">
                     💡 Drag the slider or tap the year buttons above • Data available from {minYear} to {currentYear} •
-                    Updated June 2025
+                    Updated July 2025
                   </div>
                 </div>
               </CardContent>
@@ -882,7 +882,7 @@ export default function Home() {
               </div>
               <div>
                 <h4 className="text-lg font-semibold mb-4">Last Updated</h4>
-                <p className="text-gray-300">June 2025</p>
+                <p className="text-gray-300">July 2025</p>
                 <p className="text-sm text-gray-400 mt-2">Data is updated monthly from official government sources.</p>
               </div>
             </div>
