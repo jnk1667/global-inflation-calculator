@@ -9,11 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
       images: ["https://www.globalinflationcalculator.com/og-image.jpg"],
     },
-    {
-      url: "https://www.globalinflationcalculator.com/admin-manage-content",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.3,
-    },
+    // Remove the admin-manage-content entry entirely
   ]
 }
