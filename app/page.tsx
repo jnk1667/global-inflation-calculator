@@ -174,7 +174,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null)
   const [hasCalculated, setHasCalculated] = useState(false)
   const [seoEssay, setSeoEssay] = useState<string>(defaultSEOEssay)
-  const [logoUrl, setLogoUrl] = useState<string>("/images/globe-icon.png")
+  const [logoUrl, setLogoUrl] = useState<string>("")
 
   const currentYear = new Date().getFullYear()
   const maxYear = currentYear
@@ -190,6 +190,8 @@ export default function Home() {
         }
       } catch (err) {
         console.log("Using default logo")
+        // Set fallback to empty string to use Globe icon
+        setLogoUrl("")
       }
     }
     loadSiteSettings()
@@ -518,24 +520,17 @@ export default function Home() {
             <div className="text-center">
               <div className="flex items-center justify-center gap-4 mb-4">
                 <div className="flex-shrink-0">
-                  <img
-                    src={logoUrl || "/placeholder.svg"}
-                    alt="Global Inflation Calculator Globe Icon"
-                    className="w-16 h-16 md:w-20 md:h-20 rounded-full shadow-lg"
-                    loading="eager"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      target.style.display = "none"
-                      const parent = target.parentElement
-                      if (parent && !parent.querySelector(".lucide-globe")) {
-                        const globeIcon = document.createElement("div")
-                        globeIcon.innerHTML =
-                          '<svg class="lucide-globe w-16 h-16 md:w-20 md:h-20 text-blue-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m6 12 6-6 6 6"/><path d="M8 12h8"/></svg>'
-                        parent.appendChild(globeIcon)
-                      }
-                    }}
-                  />
-                  <Globe className="w-16 h-16 md:w-20 md:h-20 text-blue-600 hidden" />
+                  {logoUrl ? (
+                    <img
+                      src={logoUrl || "/placeholder.svg"}
+                      alt="Global Inflation Calculator Globe Icon"
+                      className="w-16 h-16 md:w-20 md:h-20 rounded-full shadow-lg"
+                      loading="eager"
+                      onError={() => setLogoUrl("")}
+                    />
+                  ) : (
+                    <Globe className="w-16 h-16 md:w-20 md:h-20 text-blue-600" />
+                  )}
                 </div>
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-900">Global Inflation Calculator</h1>
               </div>
@@ -762,7 +757,7 @@ export default function Home() {
               </Suspense>
             )}
 
-            {/* Line Chart Section */}
+            {/* Line Chart Section - INCREASED HEIGHT EVEN MORE */}
             {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
               <Card className="bg-white shadow-lg border-0">
                 <CardHeader>
@@ -771,12 +766,16 @@ export default function Home() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-64 md:h-80">
+                  {/* INCREASED HEIGHT FROM h-96 md:h-[600px] TO h-[500px] md:h-[700px] */}
+                  <div className="h-[500px] md:h-[700px]">
                     <Suspense fallback={<div className="h-full bg-gray-100 rounded animate-pulse" />}>
                       <SimpleLineChart
                         data={chartData}
                         currency={currentCurrencyData?.symbol || "$"}
                         fromYear={fromYear}
+                        selectedCurrency={selectedCurrency}
+                        originalAmount={Number.parseFloat(amount)}
+                        allInflationData={inflationData}
                       />
                     </Suspense>
                   </div>
@@ -787,6 +786,13 @@ export default function Home() {
                 </CardContent>
               </Card>
             )}
+
+            {/* Large spacing section - enough for ad banner */}
+            <div className="py-16 my-16">
+              <Suspense fallback={<div className="h-32 bg-gray-100 rounded animate-pulse" />}>
+                <AdBanner slot="middle" format="horizontal" />
+              </Suspense>
+            </div>
 
             {/* Purchasing Power Section */}
             {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
