@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
     description:
       "Calculate how inflation affects your money over time. Compare purchasing power across different currencies and years from 1913-2025.",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com",
     siteName: "Global Inflation Calculator",
     locale: "en_US",
     type: "website",
@@ -70,9 +70,6 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
-  alternates: {
-    canonical: process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com",
-  },
     generator: 'v0.dev'
 }
 
@@ -81,7 +78,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"
 
   return (
     <html lang="en" suppressHydrationWarning>
