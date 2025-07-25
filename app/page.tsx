@@ -178,7 +178,7 @@ export default function Home() {
 
   const currentYear = new Date().getFullYear()
   const maxYear = currentYear
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"
 
   // Load site settings including logo
   useEffect(() => {
