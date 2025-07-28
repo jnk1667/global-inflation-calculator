@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "@/components/ui/toaster"
+import { ThemeToggle } from "@/components/theme-toggle"
 import Script from "next/script"
 
 const inter = Inter({
@@ -15,7 +15,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
   description:
-    "Calculate how inflation affects your money over time. Compare purchasing power across different currencies and years with our comprehensive inflation calculator from 1913-2025.",
+    "Calculate how inflation affects your money over time. Compare purchasing power across currencies with our inflation calculator from 1913-2025.",
   keywords: [
     "inflation calculator",
     "purchasing power",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
     description:
-      "Calculate how inflation affects your money over time. Compare purchasing power across different currencies and years from 1913-2025.",
+      "Calculate how inflation affects your money over time. Compare purchasing power across currencies with our inflation calculator from 1913-2025.",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com",
     siteName: "Global Inflation Calculator",
     locale: "en_US",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
     description:
-      "Calculate how inflation affects your money over time. Compare purchasing power across different currencies and years from 1913-2025.",
+      "Calculate how inflation affects your money over time. Compare purchasing power across currencies with our inflation calculator from 1913-2025.",
     creator: "@globalinflation",
     images: ["/images/og-image.png"],
   },
@@ -138,7 +138,7 @@ export default function RootLayout({
               name: "Global Inflation Calculator",
               url: siteUrl,
               description:
-                "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present",
+                "Calculate how inflation affects your money over time. Compare purchasing power across currencies with our inflation calculator from 1913-2025.",
               potentialAction: {
                 "@type": "SearchAction",
                 target: {
@@ -187,9 +187,9 @@ export default function RootLayout({
         )}
       </head>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange={false}>
+          <ThemeToggle />
           {children}
-          <Toaster />
         </ThemeProvider>
       </body>
     </html>
