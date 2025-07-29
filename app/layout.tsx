@@ -10,6 +10,8 @@ import Link from "next/link"
 
 const inter = Inter({ subsets: ["latin"] })
 
+const siteUrl = "https://www.globalinflationcalculator.com"
+
 export const metadata: Metadata = {
   title: "Global Inflation Calculator - Historical Inflation & Purchasing Power Calculator",
   description:
@@ -32,15 +34,15 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"),
+  metadataBase: new URL(siteUrl),
   alternates: {
-    canonical: "/",
+    canonical: siteUrl,
   },
   openGraph: {
     title: "Global Inflation Calculator - Historical Inflation & Purchasing Power Calculator",
     description:
       "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Free inflation calculator with data from official government sources.",
-    url: "/",
+    url: siteUrl,
     siteName: "Global Inflation Calculator",
     images: [
       {
@@ -172,8 +174,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Global Inflation Calculator",
-              url: process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com",
-              logo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"}/images/globe-icon.png`,
+              url: siteUrl,
+              logo: `${siteUrl}/images/globe-icon.png`,
               description: "Free inflation calculator with historical data from official government sources",
               sameAs: [],
               contactPoint: {

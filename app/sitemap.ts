@@ -1,14 +1,32 @@
 import type { MetadataRoute } from "next"
 
+const siteUrl = "https://www.globalinflationcalculator.com"
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://www.globalinflationcalculator.com",
+      url: siteUrl,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: "daily",
       priority: 1.0,
-      images: ["https://www.globalinflationcalculator.com/og-image.jpg"],
     },
-    // Remove the admin-manage-content entry entirely
+    {
+      url: `${siteUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${siteUrl}/privacy`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${siteUrl}/terms`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ]
 }

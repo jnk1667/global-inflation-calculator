@@ -1,104 +1,173 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import type { Metadata } from "next"
+import Link from "next/link"
+
+const siteUrl = "https://www.globalinflationcalculator.com"
+
+export const metadata: Metadata = {
+  title: "Privacy Policy - Global Inflation Calculator | Data Protection & Privacy",
+  description:
+    "Read our comprehensive privacy policy to understand how we collect, use, and protect your personal information when using our inflation calculator.",
+  keywords: [
+    "privacy policy",
+    "data protection",
+    "personal information",
+    "cookies policy",
+    "user privacy",
+    "data security",
+  ],
+  authors: [{ name: "Global Inflation Calculator" }],
+  creator: "Global Inflation Calculator",
+  publisher: "Global Inflation Calculator",
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: `${siteUrl}/privacy`,
+  },
+  openGraph: {
+    title: "Privacy Policy - Global Inflation Calculator",
+    description: "Read our comprehensive privacy policy to understand how we protect your personal information.",
+    url: `${siteUrl}/privacy`,
+    siteName: "Global Inflation Calculator",
+    images: [
+      {
+        url: "/images/globe-icon.png",
+        width: 1200,
+        height: 630,
+        alt: "Global Inflation Calculator Privacy Policy",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy - Global Inflation Calculator",
+    description: "Read our comprehensive privacy policy to understand how we protect your personal information.",
+    images: ["/images/globe-icon.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+}
 
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center">Privacy Policy</CardTitle>
-            <p className="text-center text-gray-600">Last updated: {new Date().toLocaleDateString()}</p>
-          </CardHeader>
-          <CardContent className="prose max-w-none">
-            <h2>Information We Collect</h2>
-            <p>
-              Global Inflation Calculator ("we," "our," or "us") collects information to provide better services to our
-              users. We collect information in the following ways:
+    <div className="min-h-screen bg-background pt-20 pb-12">
+      <div className="container mx-auto px-4 max-w-4xl">
+        <div className="bg-card rounded-lg shadow-lg p-8">
+          <h1 className="text-3xl font-bold text-foreground mb-8">Privacy Policy</h1>
+
+          <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
+            <p className="text-lg">
+              <strong>Last updated:</strong> {new Date().toLocaleDateString()}
             </p>
 
-            <h3>Information You Give Us</h3>
-            <ul>
-              <li>
-                When you use our inflation calculator, we may store your calculation preferences locally in your browser
-              </li>
-              <li>Any feedback or contact information you provide through our contact forms</li>
-            </ul>
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">1. Information We Collect</h2>
+              <p>
+                We collect information you provide directly to us, such as when you use our inflation calculator,
+                contact us, or interact with our website. This may include:
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Calculation inputs (amounts, dates, currencies)</li>
+                <li>Usage patterns and preferences</li>
+                <li>Device and browser information</li>
+                <li>IP address and location data</li>
+              </ul>
+            </section>
 
-            <h3>Information We Get from Your Use of Our Services</h3>
-            <ul>
-              <li>
-                <strong>Device Information:</strong> We collect device-specific information such as your hardware model,
-                operating system version, unique device identifiers, and mobile network information
-              </li>
-              <li>
-                <strong>Log Information:</strong> When you use our services, we automatically collect and store certain
-                information in server logs, including details of how you used our service, Internet protocol address,
-                and cookies
-              </li>
-              <li>
-                <strong>Analytics:</strong> We use Google Analytics to understand how visitors interact with our website
-              </li>
-            </ul>
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">2. How We Use Your Information</h2>
+              <p>We use the information we collect to:</p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Provide and improve our inflation calculator service</li>
+                <li>Analyze usage patterns to enhance user experience</li>
+                <li>Respond to your inquiries and provide customer support</li>
+                <li>Comply with legal obligations</li>
+              </ul>
+            </section>
 
-            <h2>How We Use Information We Collect</h2>
-            <p>We use the information we collect from all of our services to:</p>
-            <ul>
-              <li>Provide, maintain, protect and improve our services</li>
-              <li>Develop new services and features</li>
-              <li>Protect Global Inflation Calculator and our users</li>
-              <li>Provide you with relevant advertising through Google AdSense</li>
-            </ul>
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">3. Information Sharing</h2>
+              <p>
+                We do not sell, trade, or otherwise transfer your personal information to third parties without your
+                consent, except as described in this policy. We may share information:
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>With service providers who assist in operating our website</li>
+                <li>When required by law or to protect our rights</li>
+                <li>In connection with a business transfer or acquisition</li>
+              </ul>
+            </section>
 
-            <h2>Information We Share</h2>
-            <p>
-              We do not share personal information with companies, organizations and individuals outside of Global
-              Inflation Calculator unless one of the following circumstances applies:
-            </p>
-            <ul>
-              <li>
-                <strong>With your consent:</strong> We will share personal information when we have your consent
-              </li>
-              <li>
-                <strong>For legal reasons:</strong> We will share personal information if we believe that access, use,
-                preservation or disclosure is reasonably necessary
-              </li>
-            </ul>
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">4. Cookies and Tracking</h2>
+              <p>
+                We use cookies and similar tracking technologies to enhance your experience on our website. You can
+                control cookie settings through your browser preferences.
+              </p>
+            </section>
 
-            <h2>Advertising</h2>
-            <p>
-              We use Google AdSense to display advertisements on our website. Google AdSense uses cookies to serve ads
-              based on your prior visits to our website or other websites. You may opt out of personalized advertising
-              by visiting Google's Ads Settings.
-            </p>
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">5. Data Security</h2>
+              <p>
+                We implement appropriate security measures to protect your personal information against unauthorized
+                access, alteration, disclosure, or destruction. However, no method of transmission over the internet is
+                100% secure.
+              </p>
+            </section>
 
-            <h2>Cookies</h2>
-            <p>
-              We use cookies and similar technologies to provide and support our services and each of the uses outlined
-              and described in this Privacy Policy. You can control cookies through your browser settings and other
-              tools.
-            </p>
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">6. Your Rights</h2>
+              <p>You have the right to:</p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Access and update your personal information</li>
+                <li>Request deletion of your data</li>
+                <li>Opt-out of certain communications</li>
+                <li>Lodge a complaint with supervisory authorities</li>
+              </ul>
+            </section>
 
-            <h2>Data Security</h2>
-            <p>
-              We work hard to protect Global Inflation Calculator and our users from unauthorized access to or
-              unauthorized alteration, disclosure or destruction of information we hold.
-            </p>
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">7. Children's Privacy</h2>
+              <p>
+                Our service is not intended for children under 13 years of age. We do not knowingly collect personal
+                information from children under 13.
+              </p>
+            </section>
 
-            <h2>Changes to This Privacy Policy</h2>
-            <p>
-              Our Privacy Policy may change from time to time. We will post any privacy policy changes on this page and,
-              if the changes are significant, we will provide a more prominent notice.
-            </p>
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">8. Changes to This Policy</h2>
+              <p>
+                We may update this privacy policy from time to time. We will notify you of any changes by posting the
+                new policy on this page with an updated effective date.
+              </p>
+            </section>
 
-            <h2>Contact Us</h2>
-            <p>
-              If you have any questions about this Privacy Policy, please contact us at:{" "}
-              <a href="mailto:admin@globalinflationcalculator.com" className="text-blue-600 hover:underline">
-                admin@globalinflationcalculator.com
-              </a>
-            </p>
-          </CardContent>
-        </Card>
+            <section>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">9. Contact Us</h2>
+              <p>
+                If you have any questions about this Privacy Policy, please contact us at:{" "}
+                <a href="mailto:admin@globalinflationcalculator.com" className="text-primary hover:underline">
+                  admin@globalinflationcalculator.com
+                </a>
+              </p>
+            </section>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-border">
+            <Link href="/" className="inline-flex items-center text-primary hover:underline">
+              ← Back to Calculator
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   )

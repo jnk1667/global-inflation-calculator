@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 import { supabase, type AboutContent } from "@/lib/supabase"
-import { trackPageView } from "@/lib/analytics"
 import {
   Building2,
   User,
@@ -16,12 +17,11 @@ import {
   Mail,
   ExternalLink,
   Calculator,
-  TrendingUp,
   BarChart3,
+  TrendingUp,
   Database,
   Shield,
   Award,
-  Clock,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -39,13 +39,12 @@ export default function AboutClientPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    trackPageView("/about")
     loadAboutContent()
   }, [])
 
   const loadAboutContent = async () => {
     try {
-      const { data, error } = await supabase.from("about_content").select("*").order("section")
+      const { data, error } = await supabase.from("about_content").select("*").order("section", { ascending: true })
 
       if (data && !error) {
         setAboutContent(data)
@@ -57,6 +56,33 @@ export default function AboutClientPage() {
     }
   }
 
+  const renderContent = (content: string) => {
+    return content.split("\n\n").map((paragraph, index) => {
+      if (paragraph.startsWith("## ")) {
+        return (
+          <h3 key={index} className="text-xl font-semibold mt-6 mb-3 text-foreground">
+            {paragraph.replace("## ", "")}
+          </h3>
+        )
+      } else if (paragraph.startsWith("- ")) {
+        const items = paragraph.split("\n").filter((item) => item.startsWith("- "))
+        return (
+          <ul key={index} className="list-disc list-inside space-y-2 mb-4 text-muted-foreground">
+            {items.map((item, itemIndex) => (
+              <li key={itemIndex}>{item.replace("- ", "")}</li>
+            ))}
+          </ul>
+        )
+      } else {
+        return (
+          <p key={index} className="text-muted-foreground leading-relaxed mb-4">
+            {paragraph}
+          </p>
+        )
+      }
+    })
+  }
+
   const renderSocialLinks = (socialLinks: any) => {
     // Ensure socialLinks is an array and has content
     if (!socialLinks || !Array.isArray(socialLinks) || socialLinks.length === 0) {
@@ -65,16 +91,13 @@ export default function AboutClientPage() {
 
     return (
       <div className="flex flex-wrap gap-3 mt-4">
-        {socialLinks.map((link: any, index: number) => {
-          const IconComponent = socialIcons[link.platform as keyof typeof socialIcons]
-          if (!IconComponent || !link.url) return null
-
+        {socialLinks.map((link, index) => {
+          const IconComponent = socialIcons[link.icon as keyof typeof socialIcons] || ExternalLink
           return (
             <Button key={index} variant="outline" size="sm" asChild className="flex items-center gap-2 bg-transparent">
-              <a href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
                 <IconComponent className="w-4 h-4" />
-                {link.platform.charAt(0).toUpperCase() + link.platform.slice(1)}
-                <ExternalLink className="w-3 h-3" />
+                {link.platform}
               </a>
             </Button>
           )
@@ -82,9 +105,6 @@ export default function AboutClientPage() {
       </div>
     )
   }
-
-  const projectContent = aboutContent.find((content) => content.section === "project")
-  const adminContent = aboutContent.find((content) => content.section === "admin")
 
   if (loading) {
     return (
@@ -94,285 +114,323 @@ export default function AboutClientPage() {
     )
   }
 
+  const projectContent = aboutContent.find((content) => content.section === "project")
+  const adminContent = aboutContent.find((content) => content.section === "admin")
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-20">
       {/* Header */}
-      <header className="bg-card border-b">
+      <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-foreground mb-4">About Us</h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Learn about our mission to democratize financial data and meet the team behind the Global Inflation
+              Learn about our mission to make inflation data accessible and the team behind the Global Inflation
               Calculator.
             </p>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-12 max-w-6xl space-y-12">
-        {/* Project Section */}
-        {projectContent && (
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3 text-2xl">
-                <Building2 className="w-8 h-8 text-primary" />
-                {projectContent.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="prose prose-gray dark:prose-invert max-w-none">
-                {projectContent.content.split("\n\n").map((paragraph, index) => {
-                  if (paragraph.startsWith("## ")) {
-                    return (
-                      <h2 key={index} className="text-2xl font-semibold mt-8 mb-4 text-foreground">
-                        {paragraph.replace("## ", "")}
-                      </h2>
-                    )
-                  }
-                  if (paragraph.startsWith("- ")) {
-                    const listItems = paragraph.split("\n").filter((item) => item.startsWith("- "))
-                    return (
-                      <ul key={index} className="list-disc list-inside space-y-2 mb-4">
-                        {listItems.map((item, itemIndex) => (
-                          <li key={itemIndex} className="text-muted-foreground leading-relaxed">
-                            {item.replace("- ", "")}
-                          </li>
-                        ))}
-                      </ul>
-                    )
-                  }
-                  return (
-                    <p key={index} className="text-muted-foreground leading-relaxed mb-4">
-                      {paragraph}
-                    </p>
-                  )
-                })}
-              </div>
-              {renderSocialLinks(projectContent.social_links)}
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Admin Section */}
-        {adminContent && (
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3 text-2xl">
-                <User className="w-8 h-8 text-primary" />
-                {adminContent.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="prose prose-gray dark:prose-invert max-w-none">
-                {adminContent.content.split("\n\n").map((paragraph, index) => {
-                  if (paragraph.startsWith("## ")) {
-                    return (
-                      <h2 key={index} className="text-2xl font-semibold mt-8 mb-4 text-foreground">
-                        {paragraph.replace("## ", "")}
-                      </h2>
-                    )
-                  }
-                  if (paragraph.startsWith("- ")) {
-                    const listItems = paragraph.split("\n").filter((item) => item.startsWith("- "))
-                    return (
-                      <ul key={index} className="list-disc list-inside space-y-2 mb-4">
-                        {listItems.map((item, itemIndex) => (
-                          <li key={itemIndex} className="text-muted-foreground leading-relaxed">
-                            {item.replace("- ", "")}
-                          </li>
-                        ))}
-                      </ul>
-                    )
-                  }
-                  return (
-                    <p key={index} className="text-muted-foreground leading-relaxed mb-4">
-                      {paragraph}
-                    </p>
-                  )
-                })}
-              </div>
-              {renderSocialLinks(adminContent.social_links)}
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Default Content if no database content */}
-        {!projectContent && !adminContent && (
-          <>
-            <Card className="shadow-lg">
+      <main className="container mx-auto px-4 py-12 max-w-6xl">
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Project Section */}
+          {projectContent ? (
+            <Card className="h-fit">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-2xl">
                   <Building2 className="w-8 h-8 text-primary" />
-                  About Our Project
+                  {projectContent.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="prose prose-gray dark:prose-invert max-w-none">
+                  {renderContent(projectContent.content)}
+                </div>
+
+                {/* Project Features */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-foreground">Key Features</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Calculator className="w-4 h-4 text-primary" />
+                      <span>Free Calculator</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <BarChart3 className="w-4 h-4 text-primary" />
+                      <span>7 Currencies</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <TrendingUp className="w-4 h-4 text-primary" />
+                      <span>100+ Years Data</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Database className="w-4 h-4 text-primary" />
+                      <span>Official Sources</span>
+                    </div>
+                  </div>
+                </div>
+
+                {projectContent.social_links && renderSocialLinks(projectContent.social_links)}
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="h-fit">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-2xl">
+                  <Building2 className="w-8 h-8 text-primary" />
+                  About This Project
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="prose prose-gray dark:prose-invert max-w-none">
                   <p className="text-muted-foreground leading-relaxed mb-4">
-                    The Global Inflation Calculator is a comprehensive tool designed to help individuals, researchers,
-                    and financial professionals understand the impact of inflation across different currencies and time
-                    periods.
+                    The Global Inflation Calculator is a comprehensive financial tool designed to help individuals,
+                    researchers, and financial professionals understand the impact of inflation on purchasing power over
+                    time.
                   </p>
+                  <h3 className="text-xl font-semibold mt-6 mb-3 text-foreground">Our Mission</h3>
                   <p className="text-muted-foreground leading-relaxed mb-4">
-                    Our mission is to democratize access to accurate inflation data and provide intuitive tools for
-                    financial analysis. We believe that understanding inflation is crucial for making informed financial
-                    decisions, whether you're planning for retirement, analyzing historical investments, or conducting
-                    academic research.
+                    We believe that understanding inflation is crucial for making informed financial decisions. Our
+                    mission is to provide accurate, accessible, and comprehensive inflation data to help people
+                    understand how their money's value changes over time.
                   </p>
-                  <h2 className="text-2xl font-semibold mt-8 mb-4 text-foreground">Key Features</h2>
-                  <ul className="list-disc list-inside space-y-2 mb-4">
-                    <li className="text-muted-foreground leading-relaxed">
-                      Multi-currency support with official government data
-                    </li>
-                    <li className="text-muted-foreground leading-relaxed">Historical data spanning over 100 years</li>
-                    <li className="text-muted-foreground leading-relaxed">Interactive charts and visualizations</li>
-                    <li className="text-muted-foreground leading-relaxed">Real-time calculations and comparisons</li>
-                    <li className="text-muted-foreground leading-relaxed">Mobile-responsive design</li>
-                  </ul>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-foreground">Key Features</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Calculator className="w-4 h-4 text-primary" />
+                      <span>Free Calculator</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <BarChart3 className="w-4 h-4 text-primary" />
+                      <span>7 Currencies</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <TrendingUp className="w-4 h-4 text-primary" />
+                      <span>100+ Years Data</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Database className="w-4 h-4 text-primary" />
+                      <span>Official Sources</span>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
+          )}
 
-            <Card className="shadow-lg">
+          {/* Admin Section */}
+          {adminContent ? (
+            <Card className="h-fit">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-2xl">
                   <User className="w-8 h-8 text-primary" />
-                  About the Team
+                  {adminContent.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="prose prose-gray dark:prose-invert max-w-none">
+                  {renderContent(adminContent.content)}
+                </div>
+
+                {/* Credentials */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-foreground">Credentials & Expertise</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Award className="w-3 h-3" />
+                      Economics Background
+                    </Badge>
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Shield className="w-3 h-3" />
+                      10+ Years Experience
+                    </Badge>
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Database className="w-3 h-3" />
+                      Data Science Expert
+                    </Badge>
+                  </div>
+                </div>
+
+                {adminContent.social_links && renderSocialLinks(adminContent.social_links)}
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="h-fit">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-2xl">
+                  <User className="w-8 h-8 text-primary" />
+                  About the Administrator
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="prose prose-gray dark:prose-invert max-w-none">
                   <p className="text-muted-foreground leading-relaxed mb-4">
-                    Our team consists of financial analysts, data scientists, and web developers passionate about making
-                    financial data accessible to everyone.
+                    I am a financial data analyst and software developer with over 10 years of experience in economic
+                    research and web development. I created this calculator to bridge the gap between complex economic
+                    data and practical financial understanding.
                   </p>
+                  <h3 className="text-xl font-semibold mt-6 mb-3 text-foreground">Background</h3>
                   <p className="text-muted-foreground leading-relaxed mb-4">
-                    We are committed to maintaining the highest standards of data accuracy and user experience. All our
-                    data comes from official government statistical agencies, and we update our datasets regularly to
-                    ensure you have access to the most current information.
+                    My background includes work with government statistical agencies, financial institutions, and
+                    academic research organizations. I hold degrees in Economics and Computer Science.
                   </p>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-foreground">Credentials & Expertise</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Award className="w-3 h-3" />
+                      Economics Background
+                    </Badge>
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Shield className="w-3 h-3" />
+                      10+ Years Experience
+                    </Badge>
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Database className="w-3 h-3" />
+                      Data Science Expert
+                    </Badge>
+                  </div>
                 </div>
               </CardContent>
             </Card>
-          </>
-        )}
+          )}
+        </div>
+
+        <Separator className="my-12" />
 
         {/* Methodology Section */}
-        <Card className="shadow-lg">
+        <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-3 text-2xl">
-              <Calculator className="w-8 h-8 text-primary" />
+            <CardTitle className="text-2xl flex items-center gap-3">
+              <BarChart3 className="w-8 h-8 text-primary" />
               Methodology & Data Sources
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-8">
             {/* Calculation Formula */}
             <div>
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5" />
-                Inflation Calculation Formula
-              </h3>
+              <h3 className="text-xl font-semibold mb-4">Inflation Calculation Formula</h3>
               <div className="bg-muted p-6 rounded-lg">
-                <p className="text-sm text-muted-foreground mb-4">
-                  We use the Consumer Price Index (CPI) to calculate inflation-adjusted values:
-                </p>
-                <div className="font-mono text-center text-lg bg-background p-4 rounded border">
-                  Adjusted Value = Original Amount × (Current CPI / Historical CPI)
+                <div className="text-center mb-4">
+                  <code className="text-lg font-mono bg-background px-4 py-2 rounded border">
+                    Adjusted Amount = (Original Amount × Current CPI) ÷ Historical CPI
+                  </code>
                 </div>
-                <p className="text-sm text-muted-foreground mt-4">
-                  Annual inflation rate is calculated using the compound annual growth rate (CAGR) formula:
-                </p>
-                <div className="font-mono text-center text-lg bg-background p-4 rounded border mt-2">
-                  Annual Rate = ((Final Value / Initial Value)^(1/Years)) - 1
+                <div className="text-center mb-4">
+                  <code className="text-lg font-mono bg-background px-4 py-2 rounded border">
+                    Total Inflation = ((Adjusted Amount - Original Amount) ÷ Original Amount) × 100
+                  </code>
+                </div>
+                <div className="text-center">
+                  <code className="text-lg font-mono bg-background px-4 py-2 rounded border">
+                    Annual Rate = (Adjusted Amount ÷ Original Amount)^(1/Years) - 1
+                  </code>
                 </div>
               </div>
             </div>
 
             {/* Data Sources */}
             <div>
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Database className="w-5 h-5" />
-                Official Data Sources
-              </h3>
+              <h3 className="text-xl font-semibold mb-4">Official Data Sources</h3>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <div className="flex items-start gap-3">
                     <span className="text-2xl">🇺🇸</span>
                     <div>
-                      <div className="font-medium">United States</div>
-                      <div className="text-sm text-muted-foreground">Bureau of Labor Statistics</div>
+                      <h4 className="font-medium">United States</h4>
+                      <p className="text-sm text-muted-foreground">US Bureau of Labor Statistics (BLS)</p>
+                      <p className="text-xs text-muted-foreground">Consumer Price Index (CPI-U)</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <div className="flex items-start gap-3">
                     <span className="text-2xl">🇬🇧</span>
                     <div>
-                      <div className="font-medium">United Kingdom</div>
-                      <div className="text-sm text-muted-foreground">Office for National Statistics</div>
+                      <h4 className="font-medium">United Kingdom</h4>
+                      <p className="text-sm text-muted-foreground">Office for National Statistics (ONS)</p>
+                      <p className="text-xs text-muted-foreground">Retail Price Index (RPI)</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <div className="flex items-start gap-3">
                     <span className="text-2xl">🇪🇺</span>
                     <div>
-                      <div className="font-medium">European Union</div>
-                      <div className="text-sm text-muted-foreground">Eurostat</div>
+                      <h4 className="font-medium">European Union</h4>
+                      <p className="text-sm text-muted-foreground">Eurostat</p>
+                      <p className="text-xs text-muted-foreground">Harmonised Index of Consumer Prices (HICP)</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <div className="flex items-start gap-3">
                     <span className="text-2xl">🇨🇦</span>
                     <div>
-                      <div className="font-medium">Canada</div>
-                      <div className="text-sm text-muted-foreground">Statistics Canada</div>
+                      <h4 className="font-medium">Canada</h4>
+                      <p className="text-sm text-muted-foreground">Statistics Canada</p>
+                      <p className="text-xs text-muted-foreground">Consumer Price Index (CPI)</p>
                     </div>
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <div className="flex items-start gap-3">
                     <span className="text-2xl">🇦🇺</span>
                     <div>
-                      <div className="font-medium">Australia</div>
-                      <div className="text-sm text-muted-foreground">Australian Bureau of Statistics</div>
+                      <h4 className="font-medium">Australia</h4>
+                      <p className="text-sm text-muted-foreground">Australian Bureau of Statistics (ABS)</p>
+                      <p className="text-xs text-muted-foreground">Consumer Price Index (CPI)</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <div className="flex items-start gap-3">
                     <span className="text-2xl">🇨🇭</span>
                     <div>
-                      <div className="font-medium">Switzerland</div>
-                      <div className="text-sm text-muted-foreground">Federal Statistical Office</div>
+                      <h4 className="font-medium">Switzerland</h4>
+                      <p className="text-sm text-muted-foreground">Swiss Federal Statistical Office (FSO)</p>
+                      <p className="text-xs text-muted-foreground">Consumer Price Index (CPI)</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <div className="flex items-start gap-3">
                     <span className="text-2xl">🇯🇵</span>
                     <div>
-                      <div className="font-medium">Japan</div>
-                      <div className="text-sm text-muted-foreground">Statistics Bureau of Japan</div>
+                      <h4 className="font-medium">Japan</h4>
+                      <p className="text-sm text-muted-foreground">Statistics Bureau of Japan</p>
+                      <p className="text-xs text-muted-foreground">Consumer Price Index (CPI)</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Quality Assurance */}
+            {/* Data Quality */}
             <div>
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Shield className="w-5 h-5" />
-                Data Quality & Updates
-              </h3>
+              <h3 className="text-xl font-semibold mb-4">Data Quality & Updates</h3>
               <div className="grid md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-muted rounded-lg">
-                  <Clock className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <div className="font-medium">Monthly Updates</div>
-                  <div className="text-sm text-muted-foreground">Data refreshed monthly from official sources</div>
-                </div>
-                <div className="text-center p-4 bg-muted rounded-lg">
-                  <BarChart3 className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <div className="font-medium">100+ Years</div>
-                  <div className="text-sm text-muted-foreground">Historical data from 1913 to present</div>
-                </div>
-                <div className="text-center p-4 bg-muted rounded-lg">
-                  <Award className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <div className="font-medium">Verified Sources</div>
-                  <div className="text-sm text-muted-foreground">Only official government statistical agencies</div>
-                </div>
+                <Card>
+                  <CardContent className="p-4 text-center">
+                    <Shield className="w-8 h-8 text-primary mx-auto mb-2" />
+                    <h4 className="font-medium mb-2">Verified Sources</h4>
+                    <p className="text-sm text-muted-foreground">
+                      All data sourced directly from official government statistical agencies
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4 text-center">
+                    <TrendingUp className="w-8 h-8 text-primary mx-auto mb-2" />
+                    <h4 className="font-medium mb-2">Regular Updates</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Data updated monthly when new CPI figures are released
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4 text-center">
+                    <Database className="w-8 h-8 text-primary mx-auto mb-2" />
+                    <h4 className="font-medium mb-2">Historical Coverage</h4>
+                    <p className="text-sm text-muted-foreground">Comprehensive data from 1913 to present day</p>
+                  </CardContent>
+                </Card>
               </div>
             </div>
 
@@ -383,42 +441,22 @@ export default function AboutClientPage() {
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li>• This calculator is for educational and informational purposes only</li>
                   <li>• Results should not be used as the sole basis for financial decisions</li>
-                  <li>• CPI data may not reflect individual spending patterns or regional variations</li>
-                  <li>• Historical comparisons may not account for quality improvements in goods and services</li>
-                  <li>• Always consult with financial professionals for investment and planning decisions</li>
+                  <li>• Inflation affects different goods and services differently</li>
+                  <li>• Regional variations within countries are not reflected</li>
+                  <li>• Historical data may be subject to revisions by statistical agencies</li>
+                  <li>• Consult with financial professionals for investment advice</li>
                 </ul>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Contact Section */}
-        <Card className="shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-3 text-2xl">
-              <Mail className="w-8 h-8 text-primary" />
-              Contact & Support
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-center space-y-4">
-              <p className="text-muted-foreground">
-                Have questions, suggestions, or found an issue? We'd love to hear from you.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Button asChild variant="outline">
-                  <Link href="/contact">Contact Us</Link>
-                </Button>
-                <Button asChild variant="outline">
-                  <Link href="/privacy">Privacy Policy</Link>
-                </Button>
-                <Button asChild variant="outline">
-                  <Link href="/terms">Terms of Service</Link>
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Navigation */}
+        <div className="flex justify-center mt-12">
+          <Button asChild>
+            <Link href="/">← Back to Calculator</Link>
+          </Button>
+        </div>
       </main>
     </div>
   )
