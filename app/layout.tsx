@@ -10,7 +10,7 @@ import Link from "next/link"
 
 const inter = Inter({ subsets: ["latin"] })
 
-const siteUrl = "https://www.globalinflationcalculator.com"
+const siteUrl = "https://www.globalinflationcalculator.com/"
 
 export const metadata: Metadata = {
   title: "Global Inflation Calculator - Historical Inflation & Purchasing Power Calculator",
