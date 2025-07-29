@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from 'next/font/google'
+import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Toaster } from "@/components/ui/toaster"
@@ -87,9 +87,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Canonical URL */}
-        <link rel="canonical" href="https://www.globalinflationcalculator.com" />
-
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
           <>

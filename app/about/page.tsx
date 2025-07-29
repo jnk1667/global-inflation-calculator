@@ -60,10 +60,5 @@ export const metadata: Metadata = {
 }
 
 export default function AboutPage() {
-  return (
-    <>
-      <link rel="canonical" href="https://www.globalinflationcalculator.com/about" />
-      <AboutClientPage />
-    </>
-  )
+  return <AboutClientPage />
 }
