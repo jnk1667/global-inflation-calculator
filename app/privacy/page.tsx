@@ -59,116 +59,119 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-background pt-20 pb-12">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <div className="bg-card rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-foreground mb-8">Privacy Policy</h1>
+    <>
+      <link rel="canonical" href="https://www.globalinflationcalculator.com/privacy" />
+      <div className="min-h-screen bg-background pt-20 pb-12">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="bg-card rounded-lg shadow-lg p-8">
+            <h1 className="text-3xl font-bold text-foreground mb-8">Privacy Policy</h1>
 
-          <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
-            <p className="text-lg">
-              <strong>Last updated:</strong> {new Date().toLocaleDateString()}
-            </p>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">1. Information We Collect</h2>
-              <p>
-                We collect information you provide directly to us, such as when you use our inflation calculator,
-                contact us, or interact with our website. This may include:
+            <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
+              <p className="text-lg">
+                <strong>Last updated:</strong> {new Date().toLocaleDateString()}
               </p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Calculation inputs (amounts, dates, currencies)</li>
-                <li>Usage patterns and preferences</li>
-                <li>Device and browser information</li>
-                <li>IP address and location data</li>
-              </ul>
-            </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">2. How We Use Your Information</h2>
-              <p>We use the information we collect to:</p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Provide and improve our inflation calculator service</li>
-                <li>Analyze usage patterns to enhance user experience</li>
-                <li>Respond to your inquiries and provide customer support</li>
-                <li>Comply with legal obligations</li>
-              </ul>
-            </section>
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">1. Information We Collect</h2>
+                <p>
+                  We collect information you provide directly to us, such as when you use our inflation calculator,
+                  contact us, or interact with our website. This may include:
+                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>Calculation inputs (amounts, dates, currencies)</li>
+                  <li>Usage patterns and preferences</li>
+                  <li>Device and browser information</li>
+                  <li>IP address and location data</li>
+                </ul>
+              </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">3. Information Sharing</h2>
-              <p>
-                We do not sell, trade, or otherwise transfer your personal information to third parties without your
-                consent, except as described in this policy. We may share information:
-              </p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>With service providers who assist in operating our website</li>
-                <li>When required by law or to protect our rights</li>
-                <li>In connection with a business transfer or acquisition</li>
-              </ul>
-            </section>
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">2. How We Use Your Information</h2>
+                <p>We use the information we collect to:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>Provide and improve our inflation calculator service</li>
+                  <li>Analyze usage patterns to enhance user experience</li>
+                  <li>Respond to your inquiries and provide customer support</li>
+                  <li>Comply with legal obligations</li>
+                </ul>
+              </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">4. Cookies and Tracking</h2>
-              <p>
-                We use cookies and similar tracking technologies to enhance your experience on our website. You can
-                control cookie settings through your browser preferences.
-              </p>
-            </section>
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">3. Information Sharing</h2>
+                <p>
+                  We do not sell, trade, or otherwise transfer your personal information to third parties without your
+                  consent, except as described in this policy. We may share information:
+                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>With service providers who assist in operating our website</li>
+                  <li>When required by law or to protect our rights</li>
+                  <li>In connection with a business transfer or acquisition</li>
+                </ul>
+              </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">5. Data Security</h2>
-              <p>
-                We implement appropriate security measures to protect your personal information against unauthorized
-                access, alteration, disclosure, or destruction. However, no method of transmission over the internet is
-                100% secure.
-              </p>
-            </section>
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">4. Cookies and Tracking</h2>
+                <p>
+                  We use cookies and similar tracking technologies to enhance your experience on our website. You can
+                  control cookie settings through your browser preferences.
+                </p>
+              </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">6. Your Rights</h2>
-              <p>You have the right to:</p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Access and update your personal information</li>
-                <li>Request deletion of your data</li>
-                <li>Opt-out of certain communications</li>
-                <li>Lodge a complaint with supervisory authorities</li>
-              </ul>
-            </section>
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">5. Data Security</h2>
+                <p>
+                  We implement appropriate security measures to protect your personal information against unauthorized
+                  access, alteration, disclosure, or destruction. However, no method of transmission over the internet is
+                  100% secure.
+                </p>
+              </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">7. Children's Privacy</h2>
-              <p>
-                Our service is not intended for children under 13 years of age. We do not knowingly collect personal
-                information from children under 13.
-              </p>
-            </section>
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">6. Your Rights</h2>
+                <p>You have the right to:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>Access and update your personal information</li>
+                  <li>Request deletion of your data</li>
+                  <li>Opt-out of certain communications</li>
+                  <li>Lodge a complaint with supervisory authorities</li>
+                </ul>
+              </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">8. Changes to This Policy</h2>
-              <p>
-                We may update this privacy policy from time to time. We will notify you of any changes by posting the
-                new policy on this page with an updated effective date.
-              </p>
-            </section>
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">7. Children's Privacy</h2>
+                <p>
+                  Our service is not intended for children under 13 years of age. We do not knowingly collect personal
+                  information from children under 13.
+                </p>
+              </section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">9. Contact Us</h2>
-              <p>
-                If you have any questions about this Privacy Policy, please contact us at:{" "}
-                <a href="mailto:admin@globalinflationcalculator.com" className="text-primary hover:underline">
-                  admin@globalinflationcalculator.com
-                </a>
-              </p>
-            </section>
-          </div>
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">8. Changes to This Policy</h2>
+                <p>
+                  We may update this privacy policy from time to time. We will notify you of any changes by posting the
+                  new policy on this page with an updated effective date.
+                </p>
+              </section>
 
-          <div className="mt-8 pt-6 border-t border-border">
-            <Link href="/" className="inline-flex items-center text-primary hover:underline">
-              ← Back to Calculator
-            </Link>
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">9. Contact Us</h2>
+                <p>
+                  If you have any questions about this Privacy Policy, please contact us at:{" "}
+                  <a href="mailto:admin@globalinflationcalculator.com" className="text-primary hover:underline">
+                    admin@globalinflationcalculator.com
+                  </a>
+                </p>
+              </section>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-border">
+              <Link href="/" className="inline-flex items-center text-primary hover:underline">
+                ← Back to Calculator
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

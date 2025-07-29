@@ -15,9 +15,7 @@ export const metadata: Metadata = {
     },
   },
   metadataBase: new URL(siteUrl),
-  alternates: {
-    canonical: `${siteUrl}/admin-manage-content`,
-  },
+  // Remove alternates.canonical since this page should not be indexed
 }
 
 export default function AdminPage() {
