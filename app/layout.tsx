@@ -1,36 +1,65 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { Toaster } from "@/components/ui/toaster"
+import "./globals.css"
 import Script from "next/script"
+import Link from "next/link"
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  preload: true,
-})
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
+  title: "Global Inflation Calculator - Historical Inflation & Purchasing Power Calculator",
   description:
-    "Calculate how inflation affects your money over time. Compare purchasing power across currencies with our inflation calculator from 1913-2025.",
+    "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Free inflation calculator with data from official government sources.",
   keywords: [
     "inflation calculator",
     "purchasing power",
     "historical inflation",
     "currency calculator",
-    "cost of living",
-    "inflation rate",
-    "CPI calculator",
+    "CPI",
+    "consumer price index",
     "economic data",
-    "financial planning",
-    "money value",
-  ].join(", "),
-  authors: [{ name: "Global Inflation Calculator Team" }],
+    "financial calculator",
+  ],
+  authors: [{ name: "Global Inflation Calculator" }],
   creator: "Global Inflation Calculator",
   publisher: "Global Inflation Calculator",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Global Inflation Calculator - Historical Inflation & Purchasing Power Calculator",
+    description:
+      "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Free inflation calculator with data from official government sources.",
+    url: "/",
+    siteName: "Global Inflation Calculator",
+    images: [
+      {
+        url: "/images/globe-icon.png",
+        width: 1200,
+        height: 630,
+        alt: "Global Inflation Calculator",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Global Inflation Calculator - Historical Inflation & Purchasing Power Calculator",
+    description:
+      "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Free inflation calculator with data from official government sources.",
+    images: ["/images/globe-icon.png"],
+  },
   robots: {
     index: true,
     follow: true,
@@ -41,31 +70,6 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
-  },
-  openGraph: {
-    title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
-    description:
-      "Calculate how inflation affects your money over time. Compare purchasing power across currencies with our inflation calculator from 1913-2025.",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com",
-    siteName: "Global Inflation Calculator",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: "/images/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Global Inflation Calculator - Historical Purchasing Power Tool",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Global Inflation Calculator - Calculate Historical Purchasing Power",
-    description:
-      "Calculate how inflation affects your money over time. Compare purchasing power across currencies with our inflation calculator from 1913-2025.",
-    creator: "@globalinflation",
-    images: ["/images/og-image.png"],
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
@@ -78,84 +82,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect to external domains for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-
-        {/* DNS prefetch for better performance */}
-        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="//www.google-analytics.com" />
-
-        {/* Favicon and app icons */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-
-        <link rel="canonical" href="https://www.globalinflationcalculator.com/" />
-
-        {/* Organization Schema */}
-        <Script
-          id="organization-schema"
-          type="application/ld+json"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "Global Inflation Calculator",
-              url: siteUrl,
-              logo: `${siteUrl}/images/logo.png`,
-              description:
-                "Comprehensive inflation calculator providing historical purchasing power data across multiple currencies from 1913 to present.",
-              foundingDate: "2024",
-              contactPoint: {
-                "@type": "ContactPoint",
-                contactType: "customer service",
-                availableLanguage: "English",
-              },
-              sameAs: ["https://twitter.com/globalinflation"],
-            }),
-          }}
-        />
-
-        {/* Website Schema */}
-        <Script
-          id="website-schema"
-          type="application/ld+json"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "Global Inflation Calculator",
-              url: siteUrl,
-              description:
-                "Calculate how inflation affects your money over time. Compare purchasing power across currencies with our inflation calculator from 1913-2025.",
-              potentialAction: {
-                "@type": "SearchAction",
-                target: {
-                  "@type": "EntryPoint",
-                  urlTemplate: `${siteUrl}/?q={search_term_string}`,
-                },
-                "query-input": "required name=search_term_string",
-              },
-              publisher: {
-                "@type": "Organization",
-                name: "Global Inflation Calculator",
-              },
-            }),
-          }}
-        />
-
-        {/* Google Analytics - Optimized loading */}
+        {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
           <>
             <Script
@@ -168,29 +98,92 @@ export default function RootLayout({
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
                 gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}', {
-                  page_title: document.title,
                   page_location: window.location.href,
-                  send_page_view: true
+                  page_title: document.title,
                 });
               `}
             </Script>
           </>
         )}
 
-        {/* Google AdSense - Optimized loading */}
+        {/* Google AdSense */}
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
           <Script
+            async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
             crossOrigin="anonymous"
-            strategy="lazyOnload"
+            strategy="afterInteractive"
           />
         )}
+
+        {/* Preconnect to external domains */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+
+        {/* Favicon and app icons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+
+        {/* Additional meta tags */}
+        <meta name="theme-color" content="#2563eb" />
+        <meta name="color-scheme" content="light dark" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
       </head>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange={false}>
-          <ThemeToggle />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {/* Theme Toggle - Fixed Position */}
+          <div className="fixed top-4 left-4 z-50">
+            <ThemeToggle />
+          </div>
+
+          {/* Navigation */}
+          <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40 bg-background/95 backdrop-blur-sm border rounded-full px-6 py-2 shadow-lg">
+            <div className="flex items-center space-x-6">
+              <Link href="/" className="text-sm font-medium hover:text-primary transition-colors">
+                Home
+              </Link>
+              <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">
+                About
+              </Link>
+              <Link href="/privacy" className="text-sm font-medium hover:text-primary transition-colors">
+                Privacy
+              </Link>
+              <Link href="/terms" className="text-sm font-medium hover:text-primary transition-colors">
+                Terms
+              </Link>
+            </div>
+          </nav>
+
           {children}
+          <Toaster />
         </ThemeProvider>
+
+        {/* Schema.org structured data */}
+        <Script
+          id="organization-schema"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Global Inflation Calculator",
+              url: process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com",
+              logo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"}/images/globe-icon.png`,
+              description: "Free inflation calculator with historical data from official government sources",
+              sameAs: [],
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer service",
+                availableLanguage: "English",
+              },
+            }),
+          }}
+        />
       </body>
     </html>
   )

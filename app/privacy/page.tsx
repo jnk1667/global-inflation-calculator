@@ -92,9 +92,9 @@ export default function PrivacyPolicy() {
 
             <h2>Contact Us</h2>
             <p>
-              If you have any questions about this Privacy Policy, please contact us at:
-              <a href="mailto:privacy@globalinflationcalculator.com" className="text-blue-600 hover:underline">
-                privacy@globalinflationcalculator.com
+              If you have any questions about this Privacy Policy, please contact us at:{" "}
+              <a href="mailto:admin@globalinflationcalculator.com" className="text-blue-600 hover:underline">
+                admin@globalinflationcalculator.com
               </a>
             </p>
           </CardContent>

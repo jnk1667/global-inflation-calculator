@@ -82,9 +82,9 @@ export default function TermsOfService() {
 
             <h2>Contact Information</h2>
             <p>
-              If you have any questions about these Terms of Service, please contact us at:
-              <a href="mailto:legal@globalinflationcalculator.com" className="text-blue-600 hover:underline">
-                legal@globalinflationcalculator.com
+              If you have any questions about these Terms of Service, please contact us at:{" "}
+              <a href="mailto:admin@globalinflationcalculator.com" className="text-blue-600 hover:underline">
+                admin@globalinflationcalculator.com
               </a>
             </p>
           </CardContent>

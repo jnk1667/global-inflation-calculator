@@ -11,6 +11,7 @@ import { ErrorBoundary } from "@/components/error-boundary"
 import LoadingSpinner from "@/components/loading-spinner"
 import { Globe } from "lucide-react"
 import { supabase } from "@/lib/supabase"
+import { trackPageView } from "@/lib/analytics"
 import Script from "next/script"
 
 // Lazy load heavy components for better performance
@@ -179,6 +180,11 @@ export default function Home() {
   const currentYear = new Date().getFullYear()
   const maxYear = currentYear
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
+
+  // Track page view
+  useEffect(() => {
+    trackPageView("/")
+  }, [])
 
   // Load site settings including logo
   useEffect(() => {

@@ -1,23 +1,20 @@
-// Google Analytics tracking functions
-declare global {
-  interface Window {
-    gtag: (command: string, targetId: string, config?: any) => void
-  }
-}
+"use client"
 
-export const trackEvent = (eventName: string, parameters?: Record<string, any>) => {
+// Google Analytics tracking functions
+export const trackPageView = (url: string) => {
   if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("event", eventName, {
-      ...parameters,
-      timestamp: new Date().toISOString(),
+    window.gtag("config", process.env.NEXT_PUBLIC_GA_TRACKING_ID || "", {
+      page_location: url,
     })
   }
 }
 
-export const trackPageView = (url: string) => {
+export const trackEvent = (action: string, category: string, label?: string, value?: number) => {
   if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("config", process.env.NEXT_PUBLIC_GA_TRACKING_ID || "", {
-      page_path: url,
+    window.gtag("event", action, {
+      event_category: category,
+      event_label: label,
+      value: value,
     })
   }
 }
@@ -27,61 +24,29 @@ export const trackCalculation = (data: {
   amount: number
   fromYear: number
   toYear: number
-  totalInflation: number
 }) => {
-  trackEvent("inflation_calculation", {
-    currency: data.currency,
-    amount: data.amount,
-    from_year: data.fromYear,
-    to_year: data.toYear,
-    total_inflation: data.totalInflation,
-    event_category: "calculator",
-    event_label: `${data.currency}_${data.fromYear}_${data.toYear}`,
-  })
+  trackEvent("calculation", "inflation_calculator", `${data.currency}_${data.fromYear}_${data.toYear}`, data.amount)
 }
 
-export const trackCurrencyChange = (currency: string) => {
-  trackEvent("currency_change", {
-    currency,
-    event_category: "user_interaction",
-    event_label: currency,
-  })
+export const trackFeatureUsage = (feature: string, data?: any) => {
+  trackEvent("feature_usage", "calculator", feature, data ? JSON.stringify(data).length : undefined)
 }
 
-export const trackYearChange = (year: number) => {
-  trackEvent("year_change", {
-    year,
-    event_category: "user_interaction",
-    event_label: year.toString(),
-  })
+// Alias for backward compatibility
+export const trackInflationCalculation = trackCalculation
+
+// Default export for easier importing
+export default {
+  trackPageView,
+  trackEvent,
+  trackCalculation,
+  trackFeatureUsage,
+  trackInflationCalculation,
 }
 
-export const trackShare = (platform: string, result?: any) => {
-  trackEvent("share_result", {
-    platform,
-    event_category: "social",
-    event_label: platform,
-    ...(result && {
-      currency: result.currency,
-      total_inflation: result.totalInflation,
-    }),
-  })
-}
-
-export const trackError = (error: string, context?: string) => {
-  trackEvent("error", {
-    error_message: error,
-    error_context: context || "unknown",
-    event_category: "error",
-    event_label: error,
-  })
-}
-
-export const trackFeatureUsage = (feature: string, details?: Record<string, any>) => {
-  trackEvent("feature_usage", {
-    feature_name: feature,
-    event_category: "feature",
-    event_label: feature,
-    ...details,
-  })
+// Extend Window interface for TypeScript
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void
+  }
 }
