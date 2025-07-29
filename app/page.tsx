@@ -179,24 +179,39 @@ export default function Home() {
 
   const currentYear = new Date().getFullYear()
   const maxYear = currentYear
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"
 
   // Track page view
   useEffect(() => {
     trackPageView("/")
   }, [])
 
-  // Load site settings including logo
+  // Load site settings including logo - Fixed to handle errors properly
   useEffect(() => {
     const loadSiteSettings = async () => {
       try {
-        const { data } = await supabase.from("site_settings").select("logo_url").eq("id", "main").single()
-        if (data?.logo_url) {
-          setLogoUrl(data.logo_url)
+        const { data, error } = await supabase.from("site_settings").select("logo_url").eq("id", "main").single()
+
+        if (error) {
+          console.log("No site settings found, using default logo")
+          setLogoUrl("")
+          return
+        }
+
+        if (data?.logo_url && typeof data.logo_url === "string") {
+          // Validate that the logo_url is a proper URL
+          try {
+            new URL(data.logo_url)
+            setLogoUrl(data.logo_url)
+          } catch {
+            console.log("Invalid logo URL, using default")
+            setLogoUrl("")
+          }
+        } else {
+          setLogoUrl("")
         }
       } catch (err) {
-        console.log("Using default logo")
-        // Set fallback to empty string to use Globe icon
+        console.log("Error loading site settings:", err)
         setLogoUrl("")
       }
     }
@@ -207,12 +222,18 @@ export default function Home() {
   useEffect(() => {
     const loadSEOEssay = async () => {
       try {
-        const { data } = await supabase.from("seo_content").select("content").eq("id", "main_essay").single()
-        if (data?.content) {
-          setSeoEssay(data.content)
+        const { data, error } = await supabase.from("seo_content").select("content").eq("id", "main_essay").single()
+
+        if (error || !data?.content) {
+          console.log("Using default SEO essay content")
+          setSeoEssay(defaultSEOEssay)
+          return
         }
+
+        setSeoEssay(data.content)
       } catch (err) {
-        console.log("Using default SEO essay content")
+        console.log("Error loading SEO essay:", err)
+        setSeoEssay(defaultSEOEssay)
       }
     }
     loadSEOEssay()

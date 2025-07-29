@@ -88,7 +88,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Canonical URL */}
-        <link rel="canonical" href="https://www.globalinflationcalculator.com/" />
+        <link rel="canonical" href="https://www.globalinflationcalculator.com" />
 
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_TRACKING_ID && (

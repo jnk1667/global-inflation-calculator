@@ -1,235 +1,335 @@
 "use client"
 
+import type React from "react"
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { supabase, type FAQ, type SEOContent, type SiteSettings, type AboutContent } from "@/lib/supabase"
-import { Trash2, Plus, Save, Eye, EyeOff, Twitter, Linkedin, Github, Facebook, Instagram, Mail } from "lucide-react"
+import { supabase } from "@/lib/supabase"
+import {
+  Save,
+  Plus,
+  Trash2,
+  RefreshCw,
+  Settings,
+  Users,
+  BarChart3,
+  FileText,
+  ImageIcon,
+  HelpCircle,
+} from "lucide-react"
 
-export default function AdminContentPage() {
-  const [password, setPassword] = useState("")
+interface FAQ {
+  id: string
+  question: string
+  answer: string
+}
+
+interface SocialLink {
+  platform: string
+  url: string
+  icon: string
+}
+
+interface ContentData {
+  seo_essay: string
+  about_content: string
+  privacy_content: string
+  terms_content: string
+  social_links: SocialLink[]
+  logo_url: string
+  site_title: string
+  site_description: string
+}
+
+interface UsageData {
+  total_calculations: number
+  monthly_calculations: number
+  popular_currencies: string[]
+  popular_years: number[]
+}
+
+const AdminContentPage: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [faqs, setFaqs] = useState<FAQ[]>([])
-  const [seoContent, setSeoContent] = useState<SEOContent | null>(null)
-  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
-  const [aboutContent, setAboutContent] = useState<AboutContent[]>([])
+  const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState("")
+  const [error, setError] = useState("")
 
-  const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD
+  // Content state
+  const [content, setContent] = useState<ContentData>({
+    seo_essay: "",
+    about_content: "",
+    privacy_content: "",
+    terms_content: "",
+    social_links: [],
+    logo_url: "",
+    site_title: "Global Inflation Calculator",
+    site_description: "Calculate historical inflation and purchasing power across multiple currencies",
+  })
 
+  // FAQ state
+  const [faqs, setFaqs] = useState<FAQ[]>([])
+  const [newFaq, setNewFaq] = useState({ question: "", answer: "" })
+
+  // Usage stats state
+  const [usageStats, setUsageStats] = useState<UsageData>({
+    total_calculations: 0,
+    monthly_calculations: 0,
+    popular_currencies: [],
+    popular_years: [],
+  })
+
+  // Authentication
   const handleLogin = () => {
-    if (password === adminPassword) {
+    const envPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD
+
+    // Debug logging
+    console.log("=== ADMIN LOGIN DEBUG ===")
+    console.log("Entered password:", `"${password}"`, "Length:", password.length)
+    console.log("Environment password:", `"${envPassword}"`, "Length:", envPassword?.length || 0)
+    console.log("Environment password type:", typeof envPassword)
+    console.log("Exact match:", password === envPassword)
+    console.log("Trimmed match:", password.trim() === envPassword?.trim())
+    console.log("Environment variable set:", !!envPassword)
+
+    if (password === envPassword) {
       setIsAuthenticated(true)
+      setError("")
       loadAllContent()
     } else {
-      setMessage("Invalid password")
+      setError(`Invalid password. Entered: "${password}" | Expected: "${envPassword}"`)
     }
   }
 
+  // Load all content
   const loadAllContent = async () => {
     setLoading(true)
     try {
+      // Load main content
+      const { data: contentData } = await supabase.from("seo_content").select("*")
+
+      const { data: siteSettings } = await supabase.from("site_settings").select("*").eq("id", "main").single()
+
       // Load FAQs
-      const { data: faqData } = await supabase.from("faqs").select("*").order("order_index")
-      if (faqData) setFaqs(faqData)
+      const { data: faqData } = await supabase.from("faqs").select("*").order("id")
 
-      // Load SEO Content
-      const { data: seoData } = await supabase.from("seo_content").select("*").eq("id", "main_essay").single()
-      if (seoData) setSeoContent(seoData)
+      // Load usage stats
+      const { data: statsData } = await supabase
+        .from("usage_stats")
+        .select("*")
+        .order("date", { ascending: false })
+        .limit(30)
 
-      // Load Site Settings
-      const { data: settingsData } = await supabase.from("site_settings").select("*").eq("id", "main").single()
-      if (settingsData) setSiteSettings(settingsData)
+      // Process content data
+      if (contentData && contentData.length > 0) {
+        const contentMap: any = {}
+        contentData.forEach((item: any) => {
+          contentMap[item.id] = item.content
+        })
 
-      // Load About Content
-      const { data: aboutData } = await supabase.from("about_content").select("*").order("section")
-      if (aboutData) {
-        // Ensure social_links is always an array
-        const processedAboutData = aboutData.map((content) => ({
-          ...content,
-          social_links: Array.isArray(content.social_links) ? content.social_links : [],
+        setContent((prev) => ({
+          ...prev,
+          seo_essay: contentMap.main_essay || prev.seo_essay,
+          about_content: contentMap.about_page || prev.about_content,
+          privacy_content: contentMap.privacy_page || prev.privacy_content,
+          terms_content: contentMap.terms_page || prev.terms_content,
         }))
-        setAboutContent(processedAboutData)
       }
-    } catch (error) {
-      console.error("Error loading content:", error)
-      setMessage("Error loading content")
-    } finally {
-      setLoading(false)
-    }
-  }
 
-  const saveFAQs = async () => {
-    setLoading(true)
-    try {
-      for (const faq of faqs) {
-        if (faq.id.startsWith("new-")) {
-          const { id, ...faqData } = faq
-          await supabase.from("faqs").insert(faqData)
-        } else {
-          await supabase.from("faqs").update(faq).eq("id", faq.id)
-        }
+      // Process site settings
+      if (siteSettings) {
+        setContent((prev) => ({
+          ...prev,
+          logo_url: siteSettings.logo_url || prev.logo_url,
+          site_title: siteSettings.site_title || prev.site_title,
+          site_description: siteSettings.site_description || prev.site_description,
+          social_links: Array.isArray(siteSettings.social_links) ? siteSettings.social_links : [],
+        }))
       }
-      setMessage("FAQs saved successfully!")
-      loadAllContent()
-    } catch (error) {
-      console.error("Error saving FAQs:", error)
-      setMessage("Error saving FAQs")
+
+      // Process FAQs
+      if (faqData) {
+        setFaqs(faqData)
+      }
+
+      // Process usage stats
+      if (statsData) {
+        const totalCalcs = statsData.reduce((sum: number, stat: any) => sum + (stat.calculations || 0), 0)
+        const monthlyCalcs = statsData
+          .slice(0, 30)
+          .reduce((sum: number, stat: any) => sum + (stat.calculations || 0), 0)
+
+        setUsageStats({
+          total_calculations: totalCalcs,
+          monthly_calculations: monthlyCalcs,
+          popular_currencies: ["USD", "EUR", "GBP", "CAD", "AUD"],
+          popular_years: [2020, 2010, 2000, 1990, 1980],
+        })
+      }
+    } catch (err) {
+      console.error("Error loading content:", err)
+      setError("Failed to load content")
     } finally {
       setLoading(false)
     }
   }
 
-  const saveSEOContent = async () => {
-    if (!seoContent) return
-    setLoading(true)
+  // Save content
+  const saveContent = async (contentType: string, contentValue: string) => {
+    setSaving(true)
     try {
-      await supabase.from("seo_content").upsert(seoContent)
-      setMessage("SEO content saved successfully!")
-    } catch (error) {
-      console.error("Error saving SEO content:", error)
-      setMessage("Error saving SEO content")
+      const { error } = await supabase.from("seo_content").upsert({
+        id: contentType,
+        content: contentValue,
+        updated_at: new Date().toISOString(),
+      })
+
+      if (error) throw error
+      setMessage(`${contentType} saved successfully!`)
+      setTimeout(() => setMessage(""), 3000)
+    } catch (err) {
+      console.error("Error saving content:", err)
+      setError("Failed to save content")
     } finally {
-      setLoading(false)
+      setSaving(false)
     }
   }
 
+  // Save site settings
   const saveSiteSettings = async () => {
-    if (!siteSettings) return
-    setLoading(true)
+    setSaving(true)
     try {
-      await supabase.from("site_settings").upsert(siteSettings)
+      const { error } = await supabase.from("site_settings").upsert({
+        id: "main",
+        logo_url: content.logo_url,
+        site_title: content.site_title,
+        site_description: content.site_description,
+        social_links: content.social_links,
+        updated_at: new Date().toISOString(),
+      })
+
+      if (error) throw error
       setMessage("Site settings saved successfully!")
-    } catch (error) {
-      console.error("Error saving site settings:", error)
-      setMessage("Error saving site settings")
+      setTimeout(() => setMessage(""), 3000)
+    } catch (err) {
+      console.error("Error saving site settings:", err)
+      setError("Failed to save site settings")
     } finally {
-      setLoading(false)
+      setSaving(false)
     }
   }
 
-  const saveAboutContent = async () => {
-    setLoading(true)
+  // FAQ management
+  const addFaq = async () => {
+    if (!newFaq.question.trim() || !newFaq.answer.trim()) return
+
     try {
-      for (const content of aboutContent) {
-        await supabase.from("about_content").upsert(content)
+      const { data, error } = await supabase
+        .from("faqs")
+        .insert({
+          question: newFaq.question.trim(),
+          answer: newFaq.answer.trim(),
+        })
+        .select()
+
+      if (error) throw error
+
+      if (data && data[0]) {
+        setFaqs((prev) => [...prev, data[0]])
+        setNewFaq({ question: "", answer: "" })
+        setMessage("FAQ added successfully!")
+        setTimeout(() => setMessage(""), 3000)
       }
-      setMessage("About content saved successfully!")
-    } catch (error) {
-      console.error("Error saving about content:", error)
-      setMessage("Error saving about content")
-    } finally {
-      setLoading(false)
+    } catch (err) {
+      console.error("Error adding FAQ:", err)
+      setError("Failed to add FAQ")
     }
   }
 
-  const addFAQ = () => {
-    const newFAQ: FAQ = {
-      id: `new-${Date.now()}`,
-      question: "",
-      answer: "",
-      category: "general",
-      order_index: faqs.length,
-      is_active: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    }
-    setFaqs([...faqs, newFAQ])
-  }
+  const deleteFaq = async (id: string) => {
+    try {
+      const { error } = await supabase.from("faqs").delete().eq("id", id)
 
-  const deleteFAQ = async (id: string) => {
-    if (id.startsWith("new-")) {
-      setFaqs(faqs.filter((faq) => faq.id !== id))
-    } else {
-      try {
-        await supabase.from("faqs").delete().eq("id", id)
-        setFaqs(faqs.filter((faq) => faq.id !== id))
-        setMessage("FAQ deleted successfully!")
-      } catch (error) {
-        console.error("Error deleting FAQ:", error)
-        setMessage("Error deleting FAQ")
-      }
+      if (error) throw error
+
+      setFaqs((prev) => prev.filter((faq) => faq.id !== id))
+      setMessage("FAQ deleted successfully!")
+      setTimeout(() => setMessage(""), 3000)
+    } catch (err) {
+      console.error("Error deleting FAQ:", err)
+      setError("Failed to delete FAQ")
     }
   }
 
-  const updateFAQ = (id: string, field: keyof FAQ, value: any) => {
-    setFaqs(faqs.map((faq) => (faq.id === id ? { ...faq, [field]: value, updated_at: new Date().toISOString() } : faq)))
-  }
+  const updateFaq = async (id: string, question: string, answer: string) => {
+    try {
+      const { error } = await supabase.from("faqs").update({ question, answer }).eq("id", id)
 
-  const updateAboutContent = (id: string, field: keyof AboutContent, value: any) => {
-    setAboutContent(
-      aboutContent.map((content) =>
-        content.id === id ? { ...content, [field]: value, updated_at: new Date().toISOString() } : content,
-      ),
-    )
-  }
+      if (error) throw error
 
-  const addSocialLink = (contentId: string) => {
-    const content = aboutContent.find((c) => c.id === contentId)
-    if (content) {
-      const newLink = { platform: "twitter", url: "", icon: "twitter" }
-      const currentLinks = Array.isArray(content.social_links) ? content.social_links : []
-      const updatedLinks = [...currentLinks, newLink]
-      updateAboutContent(contentId, "social_links", updatedLinks)
+      setFaqs((prev) => prev.map((faq) => (faq.id === id ? { ...faq, question, answer } : faq)))
+      setMessage("FAQ updated successfully!")
+      setTimeout(() => setMessage(""), 3000)
+    } catch (err) {
+      console.error("Error updating FAQ:", err)
+      setError("Failed to update FAQ")
     }
   }
 
-  const removeSocialLink = (contentId: string, index: number) => {
-    const content = aboutContent.find((c) => c.id === contentId)
-    if (content && Array.isArray(content.social_links)) {
-      const updatedLinks = content.social_links.filter((_, i) => i !== index)
-      updateAboutContent(contentId, "social_links", updatedLinks)
-    }
+  // Social links management
+  const addSocialLink = () => {
+    const newLinks = [...content.social_links, { platform: "", url: "", icon: "" }]
+    setContent((prev) => ({ ...prev, social_links: newLinks }))
   }
 
-  const updateSocialLink = (contentId: string, index: number, field: string, value: string) => {
-    const content = aboutContent.find((c) => c.id === contentId)
-    if (content && Array.isArray(content.social_links)) {
-      const updatedLinks = content.social_links.map((link, i) => (i === index ? { ...link, [field]: value } : link))
-      updateAboutContent(contentId, "social_links", updatedLinks)
-    }
+  const removeSocialLink = (index: number) => {
+    const newLinks = content.social_links.filter((_, i) => i !== index)
+    setContent((prev) => ({ ...prev, social_links: newLinks }))
   }
 
-  const socialPlatforms = [
-    { value: "twitter", label: "Twitter", icon: Twitter },
-    { value: "linkedin", label: "LinkedIn", icon: Linkedin },
-    { value: "github", label: "GitHub", icon: Github },
-    { value: "facebook", label: "Facebook", icon: Facebook },
-    { value: "instagram", label: "Instagram", icon: Instagram },
-    { value: "email", label: "Email", icon: Mail },
-  ]
+  const updateSocialLink = (index: number, field: keyof SocialLink, value: string) => {
+    const newLinks = [...content.social_links]
+    newLinks[index] = { ...newLinks[index], [field]: value }
+    setContent((prev) => ({ ...prev, social_links: newLinks }))
+  }
 
+  // Login form
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Admin Login</CardTitle>
+            <CardTitle className="text-center">Admin Login</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="password">Password</Label>
               <Input
-                id="password"
                 type="password"
+                placeholder="Enter admin password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleLogin()}
               />
             </div>
+
+            {/* Debug info */}
+            <div className="text-xs text-gray-500 bg-gray-100 p-2 rounded">
+              Environment variable set: {process.env.NEXT_PUBLIC_ADMIN_PASSWORD ? "✅ Yes" : "❌ No"}
+            </div>
+
             <Button onClick={handleLogin} className="w-full">
               Login
             </Button>
-            {message && (
-              <Alert>
-                <AlertDescription>{message}</AlertDescription>
+
+            {error && (
+              <Alert className="bg-red-50 border-red-200">
+                <AlertDescription className="text-red-800 text-sm">{error}</AlertDescription>
               </Alert>
             )}
           </CardContent>
@@ -238,289 +338,406 @@ export default function AdminContentPage() {
     )
   }
 
+  // Main admin interface
   return (
-    <div className="min-h-screen bg-background">
-      <header className="bg-card border-b">
-        <div className="container mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Manage site content and settings</p>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-6xl mx-auto space-y-6">
+        {/* Header */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="w-6 h-6" />
+                  Admin Dashboard
+                </CardTitle>
+                <p className="text-gray-600">Manage site content and settings</p>
+              </div>
+              <Button variant="outline" onClick={() => setIsAuthenticated(false)}>
+                Logout
+              </Button>
+            </div>
+          </CardHeader>
+        </Card>
 
-      <main className="container mx-auto px-4 py-8">
+        {/* Messages */}
         {message && (
-          <Alert className="mb-6">
-            <AlertDescription>{message}</AlertDescription>
+          <Alert className="bg-green-50 border-green-200">
+            <AlertDescription className="text-green-800">{message}</AlertDescription>
           </Alert>
         )}
 
-        <Tabs defaultValue="faqs" className="space-y-6">
+        {error && (
+          <Alert className="bg-red-50 border-red-200">
+            <AlertDescription className="text-red-800">{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {/* Main Content */}
+        <Tabs defaultValue="content" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="faqs">FAQs</TabsTrigger>
-            <TabsTrigger value="seo">SEO Content</TabsTrigger>
-            <TabsTrigger value="settings">Site Settings</TabsTrigger>
-            <TabsTrigger value="about">About Us</TabsTrigger>
+            <TabsTrigger value="content" className="flex items-center gap-2">
+              <FileText className="w-4 h-4" />
+              Content
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center gap-2">
+              <Settings className="w-4 h-4" />
+              Settings
+            </TabsTrigger>
+            <TabsTrigger value="faqs" className="flex items-center gap-2">
+              <HelpCircle className="w-4 h-4" />
+              FAQs
+            </TabsTrigger>
+            <TabsTrigger value="stats" className="flex items-center gap-2">
+              <BarChart3 className="w-4 h-4" />
+              Stats
+            </TabsTrigger>
           </TabsList>
 
-          {/* FAQs Tab */}
-          <TabsContent value="faqs">
+          {/* Content Management */}
+          <TabsContent value="content" className="space-y-6">
+            {/* SEO Essay */}
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Manage FAQs</CardTitle>
-                <div className="space-x-2">
-                  <Button onClick={addFAQ} size="sm">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add FAQ
-                  </Button>
-                  <Button onClick={saveFAQs} disabled={loading}>
-                    <Save className="w-4 h-4 mr-2" />
-                    Save All
-                  </Button>
-                </div>
+              <CardHeader>
+                <CardTitle>SEO Essay Content</CardTitle>
+                <p className="text-sm text-gray-600">Main educational content for the homepage</p>
               </CardHeader>
               <CardContent className="space-y-4">
-                {faqs.map((faq, index) => (
-                  <Card key={faq.id} className="p-4">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <Badge variant={faq.is_active ? "default" : "secondary"}>
-                          {faq.is_active ? "Active" : "Inactive"}
-                        </Badge>
-                        <div className="space-x-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => updateFAQ(faq.id, "is_active", !faq.is_active)}
-                          >
-                            {faq.is_active ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                          </Button>
-                          <Button size="sm" variant="destructive" onClick={() => deleteFAQ(faq.id)}>
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                      <div className="grid gap-4">
-                        <div>
-                          <Label>Question</Label>
-                          <Input
-                            value={faq.question}
-                            onChange={(e) => updateFAQ(faq.id, "question", e.target.value)}
-                            placeholder="Enter FAQ question"
-                          />
-                        </div>
-                        <div>
-                          <Label>Answer</Label>
-                          <Textarea
-                            value={faq.answer}
-                            onChange={(e) => updateFAQ(faq.id, "answer", e.target.value)}
-                            placeholder="Enter FAQ answer"
-                            rows={3}
-                          />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <Label>Category</Label>
-                            <Input
-                              value={faq.category}
-                              onChange={(e) => updateFAQ(faq.id, "category", e.target.value)}
-                              placeholder="general"
-                            />
-                          </div>
-                          <div>
-                            <Label>Order</Label>
-                            <Input
-                              type="number"
-                              value={faq.order_index}
-                              onChange={(e) => updateFAQ(faq.id, "order_index", Number.parseInt(e.target.value))}
-                            />
-                          </div>
-                        </div>
-                      </div>
+                <Textarea
+                  value={content.seo_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, seo_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter SEO essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("main_essay", content.seo_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save SEO Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* About Page */}
+            <Card>
+              <CardHeader>
+                <CardTitle>About Page Content</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.about_content}
+                  onChange={(e) => setContent((prev) => ({ ...prev, about_content: e.target.value }))}
+                  rows={10}
+                  placeholder="Enter about page content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("about_page", content.about_content)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save About Content"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Privacy Policy */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Privacy Policy</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.privacy_content}
+                  onChange={(e) => setContent((prev) => ({ ...prev, privacy_content: e.target.value }))}
+                  rows={10}
+                  placeholder="Enter privacy policy content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("privacy_page", content.privacy_content)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Privacy Policy"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Terms of Service */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Terms of Service</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.terms_content}
+                  onChange={(e) => setContent((prev) => ({ ...prev, terms_content: e.target.value }))}
+                  rows={10}
+                  placeholder="Enter terms of service content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("terms_page", content.terms_content)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Terms of Service"}
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Site Settings */}
+          <TabsContent value="settings" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ImageIcon className="w-5 h-5" />
+                  Site Settings
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Site Title */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Site Title</label>
+                  <Input
+                    value={content.site_title}
+                    onChange={(e) => setContent((prev) => ({ ...prev, site_title: e.target.value }))}
+                    placeholder="Global Inflation Calculator"
+                  />
+                </div>
+
+                {/* Site Description */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Site Description</label>
+                  <Textarea
+                    value={content.site_description}
+                    onChange={(e) => setContent((prev) => ({ ...prev, site_description: e.target.value }))}
+                    rows={3}
+                    placeholder="Calculate historical inflation and purchasing power..."
+                  />
+                </div>
+
+                {/* Logo URL */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Logo URL</label>
+                  <Input
+                    value={content.logo_url}
+                    onChange={(e) => setContent((prev) => ({ ...prev, logo_url: e.target.value }))}
+                    placeholder="https://example.com/logo.png"
+                  />
+                  {content.logo_url && (
+                    <div className="mt-2">
+                      <img
+                        src={content.logo_url || "/placeholder.svg"}
+                        alt="Logo preview"
+                        className="w-16 h-16 rounded-full object-cover"
+                        onError={() => setError("Invalid logo URL")}
+                      />
                     </div>
-                  </Card>
+                  )}
+                </div>
+
+                {/* Social Links */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">Social Links</label>
+                    <Button
+                      onClick={addSocialLink}
+                      size="sm"
+                      variant="outline"
+                      className="flex items-center gap-2 bg-transparent"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add Link
+                    </Button>
+                  </div>
+
+                  {Array.isArray(content.social_links) &&
+                    content.social_links.map((link, index) => (
+                      <div key={index} className="flex gap-2 items-center p-3 border rounded-lg">
+                        <Input
+                          placeholder="Platform (e.g., Twitter)"
+                          value={link.platform}
+                          onChange={(e) => updateSocialLink(index, "platform", e.target.value)}
+                          className="flex-1"
+                        />
+                        <Input
+                          placeholder="URL"
+                          value={link.url}
+                          onChange={(e) => updateSocialLink(index, "url", e.target.value)}
+                          className="flex-2"
+                        />
+                        <Input
+                          placeholder="Icon (emoji)"
+                          value={link.icon}
+                          onChange={(e) => updateSocialLink(index, "icon", e.target.value)}
+                          className="w-20"
+                        />
+                        <Button onClick={() => removeSocialLink(index)} size="sm" variant="destructive">
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ))}
+                </div>
+
+                <Button onClick={saveSiteSettings} disabled={saving} className="flex items-center gap-2">
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Site Settings"}
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* FAQ Management */}
+          <TabsContent value="faqs" className="space-y-6">
+            {/* Add New FAQ */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Add New FAQ</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Input
+                  placeholder="Question"
+                  value={newFaq.question}
+                  onChange={(e) => setNewFaq((prev) => ({ ...prev, question: e.target.value }))}
+                />
+                <Textarea
+                  placeholder="Answer"
+                  value={newFaq.answer}
+                  onChange={(e) => setNewFaq((prev) => ({ ...prev, answer: e.target.value }))}
+                  rows={4}
+                />
+                <Button
+                  onClick={addFaq}
+                  disabled={!newFaq.question.trim() || !newFaq.answer.trim()}
+                  className="flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add FAQ
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Existing FAQs */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Existing FAQs ({faqs.length})</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {faqs.map((faq) => (
+                  <div key={faq.id} className="border rounded-lg p-4 space-y-3">
+                    <Input
+                      value={faq.question}
+                      onChange={(e) => updateFaq(faq.id, e.target.value, faq.answer)}
+                      className="font-medium"
+                    />
+                    <Textarea
+                      value={faq.answer}
+                      onChange={(e) => updateFaq(faq.id, faq.question, e.target.value)}
+                      rows={3}
+                    />
+                    <div className="flex justify-end">
+                      <Button
+                        onClick={() => deleteFaq(faq.id)}
+                        size="sm"
+                        variant="destructive"
+                        className="flex items-center gap-2"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
                 ))}
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* SEO Content Tab */}
-          <TabsContent value="seo">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>SEO Content</CardTitle>
-                <Button onClick={saveSEOContent} disabled={loading}>
-                  <Save className="w-4 h-4 mr-2" />
-                  Save
-                </Button>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {seoContent && (
-                  <>
+          {/* Usage Statistics */}
+          <TabsContent value="stats" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
                     <div>
-                      <Label>Title</Label>
-                      <Input
-                        value={seoContent.title}
-                        onChange={(e) => setSeoContent({ ...seoContent, title: e.target.value })}
-                      />
+                      <p className="text-sm text-gray-600">Total Calculations</p>
+                      <p className="text-2xl font-bold">{usageStats.total_calculations.toLocaleString()}</p>
                     </div>
-                    <div>
-                      <Label>Meta Description</Label>
-                      <Textarea
-                        value={seoContent.meta_description || ""}
-                        onChange={(e) => setSeoContent({ ...seoContent, meta_description: e.target.value })}
-                        rows={2}
-                      />
-                    </div>
-                    <div>
-                      <Label>Content</Label>
-                      <Textarea
-                        value={seoContent.content}
-                        onChange={(e) => setSeoContent({ ...seoContent, content: e.target.value })}
-                        rows={20}
-                        className="font-mono text-sm"
-                      />
-                    </div>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
+                    <BarChart3 className="w-8 h-8 text-blue-600" />
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Site Settings Tab */}
-          <TabsContent value="settings">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Site Settings</CardTitle>
-                <Button onClick={saveSiteSettings} disabled={loading}>
-                  <Save className="w-4 h-4 mr-2" />
-                  Save
-                </Button>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {siteSettings && (
-                  <>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
                     <div>
-                      <Label>Site Name</Label>
-                      <Input
-                        value={siteSettings.site_name}
-                        onChange={(e) => setSiteSettings({ ...siteSettings, site_name: e.target.value })}
-                      />
+                      <p className="text-sm text-gray-600">Monthly Calculations</p>
+                      <p className="text-2xl font-bold">{usageStats.monthly_calculations.toLocaleString()}</p>
                     </div>
-                    <div>
-                      <Label>Site Description</Label>
-                      <Textarea
-                        value={siteSettings.site_description}
-                        onChange={(e) => setSiteSettings({ ...siteSettings, site_description: e.target.value })}
-                        rows={3}
-                      />
-                    </div>
-                    <div>
-                      <Label>Logo URL</Label>
-                      <Input
-                        value={siteSettings.logo_url || ""}
-                        onChange={(e) => setSiteSettings({ ...siteSettings, logo_url: e.target.value })}
-                        placeholder="https://example.com/logo.png"
-                      />
-                    </div>
-                    <div>
-                      <Label>Contact Email</Label>
-                      <Input
-                        value={siteSettings.contact_email || ""}
-                        onChange={(e) => setSiteSettings({ ...siteSettings, contact_email: e.target.value })}
-                        placeholder="contact@example.com"
-                      />
-                    </div>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
+                    <Users className="w-8 h-8 text-green-600" />
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* About Us Tab */}
-          <TabsContent value="about">
-            <div className="space-y-6">
-              {aboutContent.map((content) => {
-                // Ensure social_links is always an array for rendering
-                const socialLinks = Array.isArray(content.social_links) ? content.social_links : []
+              <Card>
+                <CardContent className="p-6">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-2">Popular Currencies</p>
+                    <div className="flex flex-wrap gap-1">
+                      {usageStats.popular_currencies.map((currency) => (
+                        <Badge key={currency} variant="secondary">
+                          {currency}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-                return (
-                  <Card key={content.id}>
-                    <CardHeader className="flex flex-row items-center justify-between">
-                      <CardTitle className="capitalize">{content.section} Section</CardTitle>
-                      <Button onClick={saveAboutContent} disabled={loading}>
-                        <Save className="w-4 h-4 mr-2" />
-                        Save
-                      </Button>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div>
-                        <Label>Title</Label>
-                        <Input
-                          value={content.title}
-                          onChange={(e) => updateAboutContent(content.id, "title", e.target.value)}
-                        />
-                      </div>
-                      <div>
-                        <Label>Content</Label>
-                        <Textarea
-                          value={content.content}
-                          onChange={(e) => updateAboutContent(content.id, "content", e.target.value)}
-                          rows={10}
-                          placeholder="Enter content for this section..."
-                        />
-                      </div>
-
-                      {/* Social Links Management */}
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <Label>Social Media Links</Label>
-                          <Button size="sm" onClick={() => addSocialLink(content.id)}>
-                            <Plus className="w-4 h-4 mr-2" />
-                            Add Link
-                          </Button>
-                        </div>
-                        <div className="space-y-3">
-                          {socialLinks.map((link, index) => (
-                            <div key={index} className="flex items-center gap-3 p-3 border rounded-lg">
-                              <select
-                                value={link.platform}
-                                onChange={(e) => updateSocialLink(content.id, index, "platform", e.target.value)}
-                                className="px-3 py-2 border rounded-md"
-                              >
-                                {socialPlatforms.map((platform) => (
-                                  <option key={platform.value} value={platform.value}>
-                                    {platform.label}
-                                  </option>
-                                ))}
-                              </select>
-                              <Input
-                                value={link.url}
-                                onChange={(e) => updateSocialLink(content.id, index, "url", e.target.value)}
-                                placeholder="https://..."
-                                className="flex-1"
-                              />
-                              <Button
-                                size="sm"
-                                variant="destructive"
-                                onClick={() => removeSocialLink(content.id, index)}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            </div>
-                          ))}
-                          {socialLinks.length === 0 && (
-                            <p className="text-muted-foreground text-sm">No social links added yet.</p>
-                          )}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )
-              })}
+              <Card>
+                <CardContent className="p-6">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-2">Popular Years</p>
+                    <div className="flex flex-wrap gap-1">
+                      {usageStats.popular_years.map((year) => (
+                        <Badge key={year} variant="outline">
+                          {year}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <RefreshCw className="w-5 h-5" />
+                  Refresh Data
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Button onClick={loadAllContent} disabled={loading} className="flex items-center gap-2">
+                  <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+                  {loading ? "Loading..." : "Refresh All Data"}
+                </Button>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
-      </main>
+      </div>
     </div>
   )
 }
+
+export default AdminContentPage
