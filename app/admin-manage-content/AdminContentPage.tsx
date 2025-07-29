@@ -50,7 +50,14 @@ export default function AdminContentPage() {
 
       // Load About Content
       const { data: aboutData } = await supabase.from("about_content").select("*").order("section")
-      if (aboutData) setAboutContent(aboutData)
+      if (aboutData) {
+        // Ensure social_links is always an array
+        const processedAboutData = aboutData.map((content) => ({
+          ...content,
+          social_links: Array.isArray(content.social_links) ? content.social_links : [],
+        }))
+        setAboutContent(processedAboutData)
+      }
     } catch (error) {
       console.error("Error loading content:", error)
       setMessage("Error loading content")
@@ -168,14 +175,15 @@ export default function AdminContentPage() {
     const content = aboutContent.find((c) => c.id === contentId)
     if (content) {
       const newLink = { platform: "twitter", url: "", icon: "twitter" }
-      const updatedLinks = [...(content.social_links || []), newLink]
+      const currentLinks = Array.isArray(content.social_links) ? content.social_links : []
+      const updatedLinks = [...currentLinks, newLink]
       updateAboutContent(contentId, "social_links", updatedLinks)
     }
   }
 
   const removeSocialLink = (contentId: string, index: number) => {
     const content = aboutContent.find((c) => c.id === contentId)
-    if (content) {
+    if (content && Array.isArray(content.social_links)) {
       const updatedLinks = content.social_links.filter((_, i) => i !== index)
       updateAboutContent(contentId, "social_links", updatedLinks)
     }
@@ -183,7 +191,7 @@ export default function AdminContentPage() {
 
   const updateSocialLink = (contentId: string, index: number, field: string, value: string) => {
     const content = aboutContent.find((c) => c.id === contentId)
-    if (content) {
+    if (content && Array.isArray(content.social_links)) {
       const updatedLinks = content.social_links.map((link, i) => (i === index ? { ...link, [field]: value } : link))
       updateAboutContent(contentId, "social_links", updatedLinks)
     }
@@ -431,75 +439,84 @@ export default function AdminContentPage() {
           {/* About Us Tab */}
           <TabsContent value="about">
             <div className="space-y-6">
-              {aboutContent.map((content) => (
-                <Card key={content.id}>
-                  <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="capitalize">{content.section} Section</CardTitle>
-                    <Button onClick={saveAboutContent} disabled={loading}>
-                      <Save className="w-4 h-4 mr-2" />
-                      Save
-                    </Button>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div>
-                      <Label>Title</Label>
-                      <Input
-                        value={content.title}
-                        onChange={(e) => updateAboutContent(content.id, "title", e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <Label>Content</Label>
-                      <Textarea
-                        value={content.content}
-                        onChange={(e) => updateAboutContent(content.id, "content", e.target.value)}
-                        rows={10}
-                        placeholder="Enter content for this section..."
-                      />
-                    </div>
+              {aboutContent.map((content) => {
+                // Ensure social_links is always an array for rendering
+                const socialLinks = Array.isArray(content.social_links) ? content.social_links : []
 
-                    {/* Social Links Management */}
-                    <div>
-                      <div className="flex items-center justify-between mb-4">
-                        <Label>Social Media Links</Label>
-                        <Button size="sm" onClick={() => addSocialLink(content.id)}>
-                          <Plus className="w-4 h-4 mr-2" />
-                          Add Link
-                        </Button>
+                return (
+                  <Card key={content.id}>
+                    <CardHeader className="flex flex-row items-center justify-between">
+                      <CardTitle className="capitalize">{content.section} Section</CardTitle>
+                      <Button onClick={saveAboutContent} disabled={loading}>
+                        <Save className="w-4 h-4 mr-2" />
+                        Save
+                      </Button>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div>
+                        <Label>Title</Label>
+                        <Input
+                          value={content.title}
+                          onChange={(e) => updateAboutContent(content.id, "title", e.target.value)}
+                        />
                       </div>
-                      <div className="space-y-3">
-                        {content.social_links?.map((link, index) => (
-                          <div key={index} className="flex items-center gap-3 p-3 border rounded-lg">
-                            <select
-                              value={link.platform}
-                              onChange={(e) => updateSocialLink(content.id, index, "platform", e.target.value)}
-                              className="px-3 py-2 border rounded-md"
-                            >
-                              {socialPlatforms.map((platform) => (
-                                <option key={platform.value} value={platform.value}>
-                                  {platform.label}
-                                </option>
-                              ))}
-                            </select>
-                            <Input
-                              value={link.url}
-                              onChange={(e) => updateSocialLink(content.id, index, "url", e.target.value)}
-                              placeholder="https://..."
-                              className="flex-1"
-                            />
-                            <Button size="sm" variant="destructive" onClick={() => removeSocialLink(content.id, index)}>
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        ))}
-                        {(!content.social_links || content.social_links.length === 0) && (
-                          <p className="text-muted-foreground text-sm">No social links added yet.</p>
-                        )}
+                      <div>
+                        <Label>Content</Label>
+                        <Textarea
+                          value={content.content}
+                          onChange={(e) => updateAboutContent(content.id, "content", e.target.value)}
+                          rows={10}
+                          placeholder="Enter content for this section..."
+                        />
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+
+                      {/* Social Links Management */}
+                      <div>
+                        <div className="flex items-center justify-between mb-4">
+                          <Label>Social Media Links</Label>
+                          <Button size="sm" onClick={() => addSocialLink(content.id)}>
+                            <Plus className="w-4 h-4 mr-2" />
+                            Add Link
+                          </Button>
+                        </div>
+                        <div className="space-y-3">
+                          {socialLinks.map((link, index) => (
+                            <div key={index} className="flex items-center gap-3 p-3 border rounded-lg">
+                              <select
+                                value={link.platform}
+                                onChange={(e) => updateSocialLink(content.id, index, "platform", e.target.value)}
+                                className="px-3 py-2 border rounded-md"
+                              >
+                                {socialPlatforms.map((platform) => (
+                                  <option key={platform.value} value={platform.value}>
+                                    {platform.label}
+                                  </option>
+                                ))}
+                              </select>
+                              <Input
+                                value={link.url}
+                                onChange={(e) => updateSocialLink(content.id, index, "url", e.target.value)}
+                                placeholder="https://..."
+                                className="flex-1"
+                              />
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => removeSocialLink(content.id, index)}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          ))}
+                          {socialLinks.length === 0 && (
+                            <p className="text-muted-foreground text-sm">No social links added yet.</p>
+                          )}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )
+              })}
             </div>
           </TabsContent>
         </Tabs>
