@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] })
 const siteUrl = "https://www.globalinflationcalculator.com/"
 
 export const metadata: Metadata = {
-  title: "Global Inflation Calculator - Historical Inflation & Purchasing Power Calculator",
+  title: "Global Inflation Calculator – For Inflation & Purchasing Power",
   description:
     "Calculate historical inflation and purchasing power across multiple currencies from 1913 using data sourced from official government sources.",
   keywords: [
