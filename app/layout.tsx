@@ -15,7 +15,7 @@ const siteUrl = "https://www.globalinflationcalculator.com/"
 export const metadata: Metadata = {
   title: "Global Inflation Calculator - Historical Inflation & Purchasing Power Calculator",
   description:
-    "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Free inflation calculator with data from official government sources.",
+    "Calculate historical inflation and purchasing power across multiple currencies from 1913 using data sourced from official government sources.",
   keywords: [
     "inflation calculator",
     "purchasing power",
