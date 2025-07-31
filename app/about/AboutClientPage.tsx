@@ -118,13 +118,13 @@ export default function AboutClientPage() {
   const adminContent = aboutContent.find((content) => content.section === "admin")
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background pt-16 sm:pt-20">
       {/* Header */}
       <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-6 sm:py-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-foreground mb-4">About Us</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">About Us</h1>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
               Learn about our mission to make inflation data accessible and the team behind the Global Inflation
               Calculator.
             </p>
@@ -132,40 +132,40 @@ export default function AboutClientPage() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-12 max-w-6xl">
-        <div className="grid lg:grid-cols-2 gap-8">
+      <main className="container mx-auto px-4 py-8 sm:py-12 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Project Section */}
           {projectContent ? (
             <Card className="h-fit">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-2xl">
-                  <Building2 className="w-8 h-8 text-primary" />
-                  {projectContent.title}
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xl sm:text-2xl">
+                  <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-primary flex-shrink-0" />
+                  <span className="text-left sm:text-left">{projectContent.title}</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="prose prose-gray dark:prose-invert max-w-none">
+              <CardContent className="space-y-4 sm:space-y-6">
+                <div className="prose prose-gray dark:prose-invert max-w-none text-sm sm:text-base">
                   {renderContent(projectContent.content)}
                 </div>
 
                 {/* Project Features */}
                 <div className="space-y-4">
                   <h4 className="font-semibold text-foreground">Key Features</h4>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                     <div className="flex items-center gap-2 text-sm">
-                      <Calculator className="w-4 h-4 text-primary" />
+                      <Calculator className="w-4 h-4 text-primary flex-shrink-0" />
                       <span>Free Calculator</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <BarChart3 className="w-4 h-4 text-primary" />
+                      <BarChart3 className="w-4 h-4 text-primary flex-shrink-0" />
                       <span>7 Currencies</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <TrendingUp className="w-4 h-4 text-primary" />
+                      <TrendingUp className="w-4 h-4 text-primary flex-shrink-0" />
                       <span>100+ Years Data</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <Database className="w-4 h-4 text-primary" />
+                      <Database className="w-4 h-4 text-primary flex-shrink-0" />
                       <span>Official Sources</span>
                     </div>
                   </div>
@@ -175,21 +175,22 @@ export default function AboutClientPage() {
               </CardContent>
             </Card>
           ) : (
+            // Default project content with better mobile layout
             <Card className="h-fit">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-2xl">
-                  <Building2 className="w-8 h-8 text-primary" />
-                  About This Project
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xl sm:text-2xl">
+                  <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-primary flex-shrink-0" />
+                  <span>About This Project</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="prose prose-gray dark:prose-invert max-w-none">
+              <CardContent className="space-y-4 sm:space-y-6">
+                <div className="prose prose-gray dark:prose-invert max-w-none text-sm sm:text-base">
                   <p className="text-muted-foreground leading-relaxed mb-4">
                     The Global Inflation Calculator is a comprehensive financial tool designed to help individuals,
                     researchers, and financial professionals understand the impact of inflation on purchasing power over
                     time.
                   </p>
-                  <h3 className="text-xl font-semibold mt-6 mb-3 text-foreground">Our Mission</h3>
+                  <h3 className="text-lg sm:text-xl font-semibold mt-4 sm:mt-6 mb-3 text-foreground">Our Mission</h3>
                   <p className="text-muted-foreground leading-relaxed mb-4">
                     We believe that understanding inflation is crucial for making informed financial decisions. Our
                     mission is to provide accurate, accessible, and comprehensive inflation data to help people
@@ -199,21 +200,21 @@ export default function AboutClientPage() {
 
                 <div className="space-y-4">
                   <h4 className="font-semibold text-foreground">Key Features</h4>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                     <div className="flex items-center gap-2 text-sm">
-                      <Calculator className="w-4 h-4 text-primary" />
+                      <Calculator className="w-4 h-4 text-primary flex-shrink-0" />
                       <span>Free Calculator</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <BarChart3 className="w-4 h-4 text-primary" />
+                      <BarChart3 className="w-4 h-4 text-primary flex-shrink-0" />
                       <span>7 Currencies</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <TrendingUp className="w-4 h-4 text-primary" />
+                      <TrendingUp className="w-4 h-4 text-primary flex-shrink-0" />
                       <span>100+ Years Data</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <Database className="w-4 h-4 text-primary" />
+                      <Database className="w-4 h-4 text-primary flex-shrink-0" />
                       <span>Official Sources</span>
                     </div>
                   </div>
@@ -222,17 +223,17 @@ export default function AboutClientPage() {
             </Card>
           )}
 
-          {/* Admin Section */}
+          {/* Admin Section - Similar mobile improvements */}
           {adminContent ? (
             <Card className="h-fit">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-2xl">
-                  <User className="w-8 h-8 text-primary" />
-                  {adminContent.title}
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xl sm:text-2xl">
+                  <User className="w-6 h-6 sm:w-8 sm:h-8 text-primary flex-shrink-0" />
+                  <span>{adminContent.title}</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="prose prose-gray dark:prose-invert max-w-none">
+              <CardContent className="space-y-4 sm:space-y-6">
+                <div className="prose prose-gray dark:prose-invert max-w-none text-sm sm:text-base">
                   {renderContent(adminContent.content)}
                 </div>
 
@@ -240,15 +241,15 @@ export default function AboutClientPage() {
                 <div className="space-y-4">
                   <h4 className="font-semibold text-foreground">Credentials & Expertise</h4>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="secondary" className="flex items-center gap-1 text-xs">
                       <Award className="w-3 h-3" />
                       Economics Background
                     </Badge>
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="secondary" className="flex items-center gap-1 text-xs">
                       <Shield className="w-3 h-3" />
                       10+ Years Experience
                     </Badge>
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="secondary" className="flex items-center gap-1 text-xs">
                       <Database className="w-3 h-3" />
                       Data Science Expert
                     </Badge>
@@ -259,21 +260,22 @@ export default function AboutClientPage() {
               </CardContent>
             </Card>
           ) : (
+            // Default admin content with mobile improvements
             <Card className="h-fit">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-2xl">
-                  <User className="w-8 h-8 text-primary" />
-                  About the Administrator
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xl sm:text-2xl">
+                  <User className="w-6 h-6 sm:w-8 sm:h-8 text-primary flex-shrink-0" />
+                  <span>About the Administrator</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="prose prose-gray dark:prose-invert max-w-none">
+              <CardContent className="space-y-4 sm:space-y-6">
+                <div className="prose prose-gray dark:prose-invert max-w-none text-sm sm:text-base">
                   <p className="text-muted-foreground leading-relaxed mb-4">
                     I am a financial data analyst and software developer with over 10 years of experience in economic
                     research and web development. I created this calculator to bridge the gap between complex economic
                     data and practical financial understanding.
                   </p>
-                  <h3 className="text-xl font-semibold mt-6 mb-3 text-foreground">Background</h3>
+                  <h3 className="text-lg sm:text-xl font-semibold mt-4 sm:mt-6 mb-3 text-foreground">Background</h3>
                   <p className="text-muted-foreground leading-relaxed mb-4">
                     My background includes work with government statistical agencies, financial institutions, and
                     academic research organizations. I hold degrees in Economics and Computer Science.
@@ -283,15 +285,15 @@ export default function AboutClientPage() {
                 <div className="space-y-4">
                   <h4 className="font-semibold text-foreground">Credentials & Expertise</h4>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="secondary" className="flex items-center gap-1 text-xs">
                       <Award className="w-3 h-3" />
                       Economics Background
                     </Badge>
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="secondary" className="flex items-center gap-1 text-xs">
                       <Shield className="w-3 h-3" />
                       10+ Years Experience
                     </Badge>
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="secondary" className="flex items-center gap-1 text-xs">
                       <Database className="w-3 h-3" />
                       Data Science Expert
                     </Badge>

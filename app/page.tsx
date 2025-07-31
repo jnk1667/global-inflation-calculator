@@ -542,26 +542,28 @@ export default function Home() {
         </div>
 
         {/* Header - Always rendered for SEO */}
-        <header className="bg-white shadow-sm border-b pt-16">
-          <div className="container mx-auto px-4 py-6">
+        <header className="bg-white shadow-sm border-b pt-16 pb-4">
+          <div className="container mx-auto px-4 py-4 sm:py-6">
             <div className="text-center">
-              <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-4">
                 <div className="flex-shrink-0">
                   {logoUrl ? (
                     <img
                       src={logoUrl || "/placeholder.svg"}
                       alt="Global Inflation Calculator Globe Icon"
-                      className="w-16 h-16 md:w-20 md:h-20 rounded-full shadow-lg"
+                      className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full shadow-lg"
                       loading="eager"
                       onError={() => setLogoUrl("")}
                     />
                   ) : (
-                    <Globe className="w-16 h-16 md:w-20 md:h-20 text-blue-600" />
+                    <Globe className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-blue-600" />
                   )}
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900">Global Inflation Calculator</h1>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 text-center sm:text-left">
+                  Global Inflation Calculator
+                </h1>
               </div>
-              <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-2">
                 Calculate how inflation affects your money over time across different currencies. See real purchasing
                 power changes from 1913 to {currentYear}.
               </p>
@@ -592,14 +594,14 @@ export default function Home() {
 
             {/* Main Calculator Card */}
             <Card className="bg-white shadow-lg border-0">
-              <CardContent className="p-6 space-y-8">
+              <CardContent className="p-4 sm:p-6 space-y-6 sm:space-y-8">
                 {/* Amount Input */}
                 <div className="space-y-2">
                   <label htmlFor="amount-input" className="text-sm text-gray-600">
                     Enter Amount ($0.0 - $1,000,000,000,000)
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-base sm:text-lg">
                       {currentCurrencyData?.symbol || "$"}
                     </span>
                     <Input
@@ -607,8 +609,10 @@ export default function Home() {
                       type="number"
                       value={amount}
                       onChange={handleAmountChange}
-                      className={`text-lg h-12 border-gray-300 ${
-                        currentCurrencyData?.symbol && currentCurrencyData.symbol.length > 1 ? "pl-12" : "pl-8"
+                      className={`text-base sm:text-lg h-10 sm:h-12 border-gray-300 ${
+                        currentCurrencyData?.symbol && currentCurrencyData.symbol.length > 1
+                          ? "pl-10 sm:pl-12"
+                          : "pl-7 sm:pl-8"
                       }`}
                       placeholder="100"
                       aria-label="Enter amount to calculate inflation"
@@ -616,11 +620,11 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Currency Selection */}
+                {/* Currency Selection - Better mobile grid */}
                 <div className="space-y-3">
                   <label className="text-sm text-gray-600 font-medium">Select Currency</label>
                   <div
-                    className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3"
+                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3"
                     role="radiogroup"
                     aria-label="Currency selection"
                   >
@@ -648,10 +652,10 @@ export default function Home() {
                             }
                           }}
                         >
-                          <CardContent className="p-4 text-center">
-                            <div className="text-lg font-bold text-gray-900">{info.flag}</div>
+                          <CardContent className="p-2 sm:p-4 text-center">
+                            <div className="text-base sm:text-lg font-bold text-gray-900">{info.flag}</div>
                             <div className="text-xs text-blue-600 font-medium">{code}</div>
-                            <div className="text-xs text-gray-500 mt-1">{info.name}</div>
+                            <div className="text-xs text-gray-500 mt-1 hidden sm:block">{info.name}</div>
                           </CardContent>
                         </Card>
                       )
@@ -659,18 +663,18 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Year Selection */}
+                {/* Year Selection - Better mobile layout */}
                 <div className="space-y-4">
                   <label className="text-sm text-gray-600 font-medium">From Year</label>
 
                   {/* Large Year Display */}
                   <div className="text-center">
-                    <div className="text-6xl font-bold text-blue-600 mb-2">{fromYear}</div>
-                    <div className="text-gray-500">{yearsAgo} years ago</div>
+                    <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-blue-600 mb-2">{fromYear}</div>
+                    <div className="text-sm sm:text-base text-gray-500">{yearsAgo} years ago</div>
                   </div>
 
                   {/* Currency-specific Year Slider */}
-                  <div className="px-4">
+                  <div className="px-2 sm:px-4">
                     <Slider
                       value={[fromYear]}
                       onValueChange={handleYearChange}
@@ -681,8 +685,8 @@ export default function Home() {
                       aria-label={`Select year from ${minYear} to ${maxYear}`}
                     />
 
-                    {/* Currency-specific year markers */}
-                    <div className="relative mt-8 px-2">
+                    {/* Currency-specific year markers - Hide on very small screens */}
+                    <div className="relative mt-6 sm:mt-8 px-2 hidden sm:block">
                       {yearMarkers.map((year) => {
                         const position = ((year - minYear) / (maxYear - minYear)) * 100
                         return (
@@ -704,7 +708,7 @@ export default function Home() {
                   </div>
 
                   {/* Info text */}
-                  <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-3 rounded mt-80">
+                  <div className="text-center text-xs sm:text-sm text-yellow-600 bg-yellow-50 p-3 rounded mt-16 sm:mt-20">
                     💡 Drag the slider or tap the year buttons above • Data available from {minYear} to {currentYear} •
                     Updated July 2025
                   </div>

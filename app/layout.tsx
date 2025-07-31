@@ -76,7 +76,12 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
-    generator: 'v0.dev'
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+  },
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -133,7 +138,6 @@ export default function RootLayout({
         {/* Additional meta tags */}
         <meta name="theme-color" content="#2563eb" />
         <meta name="color-scheme" content="light dark" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
@@ -143,18 +147,18 @@ export default function RootLayout({
           </div>
 
           {/* Navigation */}
-          <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40 bg-background/95 backdrop-blur-sm border rounded-full px-6 py-2 shadow-lg">
-            <div className="flex items-center space-x-6">
-              <Link href="/" className="text-sm font-medium hover:text-primary transition-colors">
+          <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40 bg-background/95 backdrop-blur-sm border rounded-full px-3 sm:px-6 py-2 shadow-lg max-w-[90vw] sm:max-w-none">
+            <div className="flex items-center space-x-3 sm:space-x-6 text-xs sm:text-sm">
+              <Link href="/" className="font-medium hover:text-primary transition-colors whitespace-nowrap">
                 Home
               </Link>
-              <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">
+              <Link href="/about" className="font-medium hover:text-primary transition-colors whitespace-nowrap">
                 About
               </Link>
-              <Link href="/privacy" className="text-sm font-medium hover:text-primary transition-colors">
+              <Link href="/privacy" className="font-medium hover:text-primary transition-colors whitespace-nowrap">
                 Privacy
               </Link>
-              <Link href="/terms" className="text-sm font-medium hover:text-primary transition-colors">
+              <Link href="/terms" className="font-medium hover:text-primary transition-colors whitespace-nowrap">
                 Terms
               </Link>
             </div>

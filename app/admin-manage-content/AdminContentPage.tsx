@@ -37,7 +37,6 @@ interface SocialLink {
 
 interface ContentData {
   seo_essay: string
-  about_content: string
   privacy_content: string
   terms_content: string
   social_links: SocialLink[]
@@ -53,6 +52,19 @@ interface UsageData {
   popular_years: number[]
 }
 
+// Remove the old about_content from ContentData interface and add proper about content state
+interface AboutContentItem {
+  id: string
+  section: "project" | "admin"
+  title: string
+  content: string
+  social_links: Array<{
+    platform: string
+    url: string
+    icon: string
+  }>
+}
+
 const AdminContentPage: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState("")
@@ -64,7 +76,6 @@ const AdminContentPage: React.FC = () => {
   // Content state
   const [content, setContent] = useState<ContentData>({
     seo_essay: "",
-    about_content: "",
     privacy_content: "",
     terms_content: "",
     social_links: [],
@@ -84,6 +95,24 @@ const AdminContentPage: React.FC = () => {
     popular_currencies: [],
     popular_years: [],
   })
+
+  // Add to state declarations after usageStats
+  const [aboutContent, setAboutContent] = useState<AboutContentItem[]>([
+    {
+      id: "project",
+      section: "project",
+      title: "About This Project",
+      content: "",
+      social_links: [],
+    },
+    {
+      id: "admin",
+      section: "admin",
+      title: "About the Administrator",
+      content: "",
+      social_links: [],
+    },
+  ])
 
   // Authentication
   const handleLogin = () => {
@@ -136,7 +165,6 @@ const AdminContentPage: React.FC = () => {
         setContent((prev) => ({
           ...prev,
           seo_essay: contentMap.main_essay || prev.seo_essay,
-          about_content: contentMap.about_page || prev.about_content,
           privacy_content: contentMap.privacy_page || prev.privacy_content,
           terms_content: contentMap.terms_page || prev.terms_content,
         }))
@@ -171,6 +199,33 @@ const AdminContentPage: React.FC = () => {
           popular_currencies: ["USD", "EUR", "GBP", "CAD", "AUD"],
           popular_years: [2020, 2010, 2000, 1990, 1980],
         })
+      }
+
+      // Load About Content
+      const { data: aboutData } = await supabase.from("about_content").select("*").order("section")
+      if (aboutData && aboutData.length > 0) {
+        setAboutContent(aboutData)
+      } else {
+        // Initialize with default structure if no data exists
+        const defaultAbout = [
+          {
+            id: "project",
+            section: "project" as const,
+            title: "About This Project",
+            content:
+              "The Global Inflation Calculator is a comprehensive financial tool designed to help individuals, researchers, and financial professionals understand the impact of inflation on purchasing power over time.",
+            social_links: [],
+          },
+          {
+            id: "admin",
+            section: "admin" as const,
+            title: "About the Administrator",
+            content:
+              "I am a financial data analyst and software developer with over 10 years of experience in economic research and web development.",
+            social_links: [],
+          },
+        ]
+        setAboutContent(defaultAbout)
       }
     } catch (err) {
       console.error("Error loading content:", err)
@@ -421,26 +476,82 @@ const AdminContentPage: React.FC = () => {
               </CardContent>
             </Card>
 
-            {/* About Page */}
+            {/* About Content - Project Section */}
             <Card>
               <CardHeader>
-                <CardTitle>About Page Content</CardTitle>
+                <CardTitle>About Page - Project Section</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Project Title</label>
+                  <Input
+                    value={aboutContent.find((item) => item.section === "project")?.title || ""}
+                    onChange={(e) => {
+                      const updated = aboutContent.map((item) =>
+                        item.section === "project" ? { ...item, title: e.target.value } : item,
+                      )
+                      setAboutContent(updated)
+                    }}
+                    placeholder="About This Project"
+                  />
+                </div>
                 <Textarea
-                  value={content.about_content}
-                  onChange={(e) => setContent((prev) => ({ ...prev, about_content: e.target.value }))}
+                  value={aboutContent.find((item) => item.section === "project")?.content || ""}
+                  onChange={(e) => {
+                    const updated = aboutContent.map((item) =>
+                      item.section === "project" ? { ...item, content: e.target.value } : item,
+                    )
+                    setAboutContent(updated)
+                  }}
                   rows={10}
-                  placeholder="Enter about page content..."
+                  placeholder="Enter project description..."
                   className="font-mono text-sm"
                 />
                 <Button
-                  onClick={() => saveContent("about_page", content.about_content)}
+                  onClick={() => saveAboutContent("project")}
                   disabled={saving}
                   className="flex items-center gap-2"
                 >
                   <Save className="w-4 h-4" />
-                  {saving ? "Saving..." : "Save About Content"}
+                  {saving ? "Saving..." : "Save Project Content"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* About Content - Admin Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>About Page - Admin Section</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Admin Title</label>
+                  <Input
+                    value={aboutContent.find((item) => item.section === "admin")?.title || ""}
+                    onChange={(e) => {
+                      const updated = aboutContent.map((item) =>
+                        item.section === "admin" ? { ...item, title: e.target.value } : item,
+                      )
+                      setAboutContent(updated)
+                    }}
+                    placeholder="About the Administrator"
+                  />
+                </div>
+                <Textarea
+                  value={aboutContent.find((item) => item.section === "admin")?.content || ""}
+                  onChange={(e) => {
+                    const updated = aboutContent.map((item) =>
+                      item.section === "admin" ? { ...item, content: e.target.value } : item,
+                    )
+                    setAboutContent(updated)
+                  }}
+                  rows={10}
+                  placeholder="Enter admin bio..."
+                  className="font-mono text-sm"
+                />
+                <Button onClick={() => saveAboutContent("admin")} disabled={saving} className="flex items-center gap-2">
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Admin Content"}
                 </Button>
               </CardContent>
             </Card>
@@ -738,6 +849,32 @@ const AdminContentPage: React.FC = () => {
       </div>
     </div>
   )
+
+  const saveAboutContent = async (section: "project" | "admin") => {
+    setSaving(true)
+    try {
+      const contentItem = aboutContent.find((item) => item.section === section)
+      if (!contentItem) return
+
+      const { error } = await supabase.from("about_content").upsert({
+        id: section,
+        section: section,
+        title: contentItem.title,
+        content: contentItem.content,
+        social_links: contentItem.social_links,
+        updated_at: new Date().toISOString(),
+      })
+
+      if (error) throw error
+      setMessage(`${section} content saved successfully!`)
+      setTimeout(() => setMessage(""), 3000)
+    } catch (err) {
+      console.error(`Error saving ${section} content:`, err)
+      setError(`Failed to save ${section} content`)
+    } finally {
+      setSaving(false)
+    }
+  }
 }
 
 export default AdminContentPage
