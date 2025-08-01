@@ -39,7 +39,6 @@ interface ContentData {
   seo_essay: string
   privacy_content: string
   terms_content: string
-  social_links: SocialLink[]
   logo_url: string
   site_title: string
   site_description: string
@@ -52,7 +51,6 @@ interface UsageData {
   popular_years: number[]
 }
 
-// Remove the old about_content from ContentData interface and add proper about content state
 interface AboutContentItem {
   id: string
   section: "project" | "admin"
@@ -73,12 +71,11 @@ const AdminContentPage: React.FC = () => {
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
 
-  // Content state
+  // Content state (removed social_links from here)
   const [content, setContent] = useState<ContentData>({
     seo_essay: "",
     privacy_content: "",
     terms_content: "",
-    social_links: [],
     logo_url: "",
     site_title: "Global Inflation Calculator",
     site_description: "Calculate historical inflation and purchasing power across multiple currencies",
@@ -96,7 +93,7 @@ const AdminContentPage: React.FC = () => {
     popular_years: [],
   })
 
-  // Add to state declarations after usageStats
+  // About content state with social links
   const [aboutContent, setAboutContent] = useState<AboutContentItem[]>([
     {
       id: "project",
@@ -114,21 +111,59 @@ const AdminContentPage: React.FC = () => {
     },
   ])
 
-  // Social links management
-  const addSocialLink = () => {
-    const newLinks = [...content.social_links, { platform: "", url: "", icon: "" }]
-    setContent((prev) => ({ ...prev, social_links: newLinks }))
+  // Helper function to get social links safely
+  const getSocialLinks = (section: "project" | "admin"): SocialLink[] => {
+    const item = aboutContent.find((item) => item.section === section)
+    if (!item || !item.social_links || !Array.isArray(item.social_links)) {
+      return []
+    }
+    return item.social_links
   }
 
-  const removeSocialLink = (index: number) => {
-    const newLinks = content.social_links.filter((_, i) => i !== index)
-    setContent((prev) => ({ ...prev, social_links: newLinks }))
+  // Social links management for about sections
+  const addSocialLinkToSection = (section: "project" | "admin") => {
+    const updated = aboutContent.map((item) =>
+      item.section === section
+        ? {
+            ...item,
+            social_links: Array.isArray(item.social_links)
+              ? [...item.social_links, { platform: "", url: "", icon: "" }]
+              : [{ platform: "", url: "", icon: "" }],
+          }
+        : item,
+    )
+    setAboutContent(updated)
   }
 
-  const updateSocialLink = (index: number, field: keyof SocialLink, value: string) => {
-    const newLinks = [...content.social_links]
-    newLinks[index] = { ...newLinks[index], [field]: value }
-    setContent((prev) => ({ ...prev, social_links: newLinks }))
+  const removeSocialLinkFromSection = (section: "project" | "admin", index: number) => {
+    const updated = aboutContent.map((item) =>
+      item.section === section
+        ? {
+            ...item,
+            social_links: Array.isArray(item.social_links) ? item.social_links.filter((_, i) => i !== index) : [],
+          }
+        : item,
+    )
+    setAboutContent(updated)
+  }
+
+  const updateSocialLinkInSection = (
+    section: "project" | "admin",
+    index: number,
+    field: keyof SocialLink,
+    value: string,
+  ) => {
+    const updated = aboutContent.map((item) =>
+      item.section === section
+        ? {
+            ...item,
+            social_links: Array.isArray(item.social_links)
+              ? item.social_links.map((link, i) => (i === index ? { ...link, [field]: value } : link))
+              : [],
+          }
+        : item,
+    )
+    setAboutContent(updated)
   }
 
   // Save about content function
@@ -143,7 +178,7 @@ const AdminContentPage: React.FC = () => {
         section: section,
         title: contentItem.title,
         content: contentItem.content,
-        social_links: contentItem.social_links,
+        social_links: Array.isArray(contentItem.social_links) ? contentItem.social_links : [],
         updated_at: new Date().toISOString(),
       })
 
@@ -162,7 +197,6 @@ const AdminContentPage: React.FC = () => {
   const handleLogin = () => {
     const envPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD
 
-    // Debug logging
     console.log("=== ADMIN LOGIN DEBUG ===")
     console.log("Entered password:", `"${password}"`, "Length:", password.length)
     console.log("Environment password:", `"${envPassword}"`, "Length:", envPassword?.length || 0)
@@ -214,14 +248,13 @@ const AdminContentPage: React.FC = () => {
         }))
       }
 
-      // Process site settings
+      // Process site settings (removed social_links)
       if (siteSettings) {
         setContent((prev) => ({
           ...prev,
           logo_url: siteSettings.logo_url || prev.logo_url,
           site_title: siteSettings.site_title || prev.site_title,
           site_description: siteSettings.site_description || prev.site_description,
-          social_links: Array.isArray(siteSettings.social_links) ? siteSettings.social_links : [],
         }))
       }
 
@@ -245,10 +278,15 @@ const AdminContentPage: React.FC = () => {
         })
       }
 
-      // Load About Content
+      // Load About Content with proper social_links handling
       const { data: aboutData } = await supabase.from("about_content").select("*").order("section")
       if (aboutData && aboutData.length > 0) {
-        setAboutContent(aboutData)
+        // Ensure social_links is always an array
+        const processedAboutData = aboutData.map((item: any) => ({
+          ...item,
+          social_links: Array.isArray(item.social_links) ? item.social_links : [],
+        }))
+        setAboutContent(processedAboutData)
       } else {
         // Initialize with default structure if no data exists
         const defaultAbout = [
@@ -300,7 +338,7 @@ const AdminContentPage: React.FC = () => {
     }
   }
 
-  // Save site settings
+  // Save site settings (removed social_links)
   const saveSiteSettings = async () => {
     setSaving(true)
     try {
@@ -309,7 +347,6 @@ const AdminContentPage: React.FC = () => {
         logo_url: content.logo_url,
         site_title: content.site_title,
         site_description: content.site_description,
-        social_links: content.social_links,
         updated_at: new Date().toISOString(),
       })
 
@@ -400,7 +437,6 @@ const AdminContentPage: React.FC = () => {
               />
             </div>
 
-            {/* Debug info */}
             <div className="text-xs text-gray-500 bg-gray-100 p-2 rounded">
               Environment variable set: {process.env.NEXT_PUBLIC_ADMIN_PASSWORD ? "✅ Yes" : "❌ No"}
             </div>
@@ -507,6 +543,7 @@ const AdminContentPage: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle>About Page - Project Section</CardTitle>
+                <p className="text-sm text-gray-600">Information about the website/project and its social links</p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -534,6 +571,53 @@ const AdminContentPage: React.FC = () => {
                   placeholder="Enter project description..."
                   className="font-mono text-sm"
                 />
+
+                {/* Project Social Links */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">Project Social Links</label>
+                    <Button
+                      onClick={() => addSocialLinkToSection("project")}
+                      size="sm"
+                      variant="outline"
+                      className="flex items-center gap-2"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add Link
+                    </Button>
+                  </div>
+
+                  {getSocialLinks("project").map((link, index) => (
+                    <div key={index} className="flex gap-2 items-center p-3 border rounded-lg">
+                      <Input
+                        placeholder="Platform (e.g., Twitter)"
+                        value={link.platform}
+                        onChange={(e) => updateSocialLinkInSection("project", index, "platform", e.target.value)}
+                        className="flex-1"
+                      />
+                      <Input
+                        placeholder="URL"
+                        value={link.url}
+                        onChange={(e) => updateSocialLinkInSection("project", index, "url", e.target.value)}
+                        className="flex-2"
+                      />
+                      <Input
+                        placeholder="Icon (emoji)"
+                        value={link.icon}
+                        onChange={(e) => updateSocialLinkInSection("project", index, "icon", e.target.value)}
+                        className="w-20"
+                      />
+                      <Button
+                        onClick={() => removeSocialLinkFromSection("project", index)}
+                        size="sm"
+                        variant="destructive"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+
                 <Button
                   onClick={() => saveAboutContent("project")}
                   disabled={saving}
@@ -549,6 +633,7 @@ const AdminContentPage: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle>About Page - Admin Section</CardTitle>
+                <p className="text-sm text-gray-600">Information about the administrator and their social links</p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -576,6 +661,53 @@ const AdminContentPage: React.FC = () => {
                   placeholder="Enter admin bio..."
                   className="font-mono text-sm"
                 />
+
+                {/* Admin Social Links */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">Admin Social Links</label>
+                    <Button
+                      onClick={() => addSocialLinkToSection("admin")}
+                      size="sm"
+                      variant="outline"
+                      className="flex items-center gap-2"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add Link
+                    </Button>
+                  </div>
+
+                  {getSocialLinks("admin").map((link, index) => (
+                    <div key={index} className="flex gap-2 items-center p-3 border rounded-lg">
+                      <Input
+                        placeholder="Platform (e.g., LinkedIn)"
+                        value={link.platform}
+                        onChange={(e) => updateSocialLinkInSection("admin", index, "platform", e.target.value)}
+                        className="flex-1"
+                      />
+                      <Input
+                        placeholder="URL"
+                        value={link.url}
+                        onChange={(e) => updateSocialLinkInSection("admin", index, "url", e.target.value)}
+                        className="flex-2"
+                      />
+                      <Input
+                        placeholder="Icon (emoji)"
+                        value={link.icon}
+                        onChange={(e) => updateSocialLinkInSection("admin", index, "icon", e.target.value)}
+                        className="w-20"
+                      />
+                      <Button
+                        onClick={() => removeSocialLinkFromSection("admin", index)}
+                        size="sm"
+                        variant="destructive"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+
                 <Button onClick={() => saveAboutContent("admin")} disabled={saving} className="flex items-center gap-2">
                   <Save className="w-4 h-4" />
                   {saving ? "Saving..." : "Save Admin Content"}
@@ -632,7 +764,7 @@ const AdminContentPage: React.FC = () => {
             </Card>
           </TabsContent>
 
-          {/* Site Settings */}
+          {/* Site Settings - Removed Social Links */}
           <TabsContent value="settings" className="space-y-6">
             <Card>
               <CardHeader>
@@ -681,49 +813,6 @@ const AdminContentPage: React.FC = () => {
                       />
                     </div>
                   )}
-                </div>
-
-                {/* Social Links */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <label className="text-sm font-medium">Social Links</label>
-                    <Button
-                      onClick={addSocialLink}
-                      size="sm"
-                      variant="outline"
-                      className="flex items-center gap-2 bg-transparent"
-                    >
-                      <Plus className="w-4 h-4" />
-                      Add Link
-                    </Button>
-                  </div>
-
-                  {Array.isArray(content.social_links) &&
-                    content.social_links.map((link, index) => (
-                      <div key={index} className="flex gap-2 items-center p-3 border rounded-lg">
-                        <Input
-                          placeholder="Platform (e.g., Twitter)"
-                          value={link.platform}
-                          onChange={(e) => updateSocialLink(index, "platform", e.target.value)}
-                          className="flex-1"
-                        />
-                        <Input
-                          placeholder="URL"
-                          value={link.url}
-                          onChange={(e) => updateSocialLink(index, "url", e.target.value)}
-                          className="flex-2"
-                        />
-                        <Input
-                          placeholder="Icon (emoji)"
-                          value={link.icon}
-                          onChange={(e) => updateSocialLink(index, "icon", e.target.value)}
-                          className="w-20"
-                        />
-                        <Button onClick={() => removeSocialLink(index)} size="sm" variant="destructive">
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    ))}
                 </div>
 
                 <Button onClick={saveSiteSettings} disabled={saving} className="flex items-center gap-2">
