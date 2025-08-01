@@ -114,6 +114,50 @@ const AdminContentPage: React.FC = () => {
     },
   ])
 
+  // Social links management
+  const addSocialLink = () => {
+    const newLinks = [...content.social_links, { platform: "", url: "", icon: "" }]
+    setContent((prev) => ({ ...prev, social_links: newLinks }))
+  }
+
+  const removeSocialLink = (index: number) => {
+    const newLinks = content.social_links.filter((_, i) => i !== index)
+    setContent((prev) => ({ ...prev, social_links: newLinks }))
+  }
+
+  const updateSocialLink = (index: number, field: keyof SocialLink, value: string) => {
+    const newLinks = [...content.social_links]
+    newLinks[index] = { ...newLinks[index], [field]: value }
+    setContent((prev) => ({ ...prev, social_links: newLinks }))
+  }
+
+  // Save about content function
+  const saveAboutContent = async (section: "project" | "admin") => {
+    setSaving(true)
+    try {
+      const contentItem = aboutContent.find((item) => item.section === section)
+      if (!contentItem) return
+
+      const { error } = await supabase.from("about_content").upsert({
+        id: section,
+        section: section,
+        title: contentItem.title,
+        content: contentItem.content,
+        social_links: contentItem.social_links,
+        updated_at: new Date().toISOString(),
+      })
+
+      if (error) throw error
+      setMessage(`${section} content saved successfully!`)
+      setTimeout(() => setMessage(""), 3000)
+    } catch (err) {
+      console.error(`Error saving ${section} content:`, err)
+      setError(`Failed to save ${section} content`)
+    } finally {
+      setSaving(false)
+    }
+  }
+
   // Authentication
   const handleLogin = () => {
     const envPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD
@@ -335,23 +379,6 @@ const AdminContentPage: React.FC = () => {
       console.error("Error updating FAQ:", err)
       setError("Failed to update FAQ")
     }
-  }
-
-  // Social links management
-  const addSocialLink = () => {
-    const newLinks = [...content.social_links, { platform: "", url: "", icon: "" }]
-    setContent((prev) => ({ ...prev, social_links: newLinks }))
-  }
-
-  const removeSocialLink = (index: number) => {
-    const newLinks = content.social_links.filter((_, i) => i !== index)
-    setContent((prev) => ({ ...prev, social_links: newLinks }))
-  }
-
-  const updateSocialLink = (index: number, field: keyof SocialLink, value: string) => {
-    const newLinks = [...content.social_links]
-    newLinks[index] = { ...newLinks[index], [field]: value }
-    setContent((prev) => ({ ...prev, social_links: newLinks }))
   }
 
   // Login form
@@ -849,32 +876,6 @@ const AdminContentPage: React.FC = () => {
       </div>
     </div>
   )
-
-  const saveAboutContent = async (section: "project" | "admin") => {
-    setSaving(true)
-    try {
-      const contentItem = aboutContent.find((item) => item.section === section)
-      if (!contentItem) return
-
-      const { error } = await supabase.from("about_content").upsert({
-        id: section,
-        section: section,
-        title: contentItem.title,
-        content: contentItem.content,
-        social_links: contentItem.social_links,
-        updated_at: new Date().toISOString(),
-      })
-
-      if (error) throw error
-      setMessage(`${section} content saved successfully!`)
-      setTimeout(() => setMessage(""), 3000)
-    } catch (err) {
-      console.error(`Error saving ${section} content:`, err)
-      setError(`Failed to save ${section} content`)
-    } finally {
-      setSaving(false)
-    }
-  }
 }
 
 export default AdminContentPage
