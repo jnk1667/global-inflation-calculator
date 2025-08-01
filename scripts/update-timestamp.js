@@ -1,23 +1,47 @@
 const fs = require("fs")
+const path = require("path")
+
+function getMonthName(monthIndex) {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
+  return months[monthIndex]
+}
 
 function updateTimestamp() {
   console.log("⏰ Updating timestamp...")
 
   const now = new Date()
   const currentYear = now.getFullYear()
-  const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+  const currentMonth = now.getMonth() // 0-based
+  const currentMonthName = getMonthName(currentMonth)
+  const nextMonth = new Date(currentYear, currentMonth + 1, 1)
 
   const updateInfo = {
     lastUpdate: now.toISOString(),
     nextUpdate: nextMonth.toISOString(),
-    currentYear: currentYear, // 🎯 Add current year for dynamic updates
-    autoUpdateEnabled: true, // 🤖 Indicates auto-updates are active
+    currentYear: currentYear,
+    currentMonth: currentMonthName,
+    autoUpdateEnabled: true,
     sources: {
       USD: "US Bureau of Labor Statistics",
       GBP: "UK Office for National Statistics",
       EUR: "Eurostat (estimated)",
       CAD: "Statistics Canada (estimated)",
       AUD: "Australian Bureau of Statistics (estimated)",
+      CHF: "Swiss Federal Statistical Office (estimated)",
+      JPY: "Statistics Bureau of Japan (estimated)",
     },
     updateSchedule: {
       dataUpdates: "Monthly (1st of each month)",
@@ -27,14 +51,19 @@ function updateTimestamp() {
   }
 
   // Ensure data directory exists
-  if (!fs.existsSync("data")) {
-    fs.mkdirSync("data", { recursive: true })
+  const dataDir = path.join(__dirname, "..", "data")
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true })
   }
 
-  fs.writeFileSync("data/last-updated.json", JSON.stringify(updateInfo, null, 2))
-  console.log(`✅ Timestamp updated successfully for year ${currentYear}`)
+  fs.writeFileSync(path.join(dataDir, "last-updated.json"), JSON.stringify(updateInfo, null, 2))
+  console.log(`✅ Timestamp updated successfully for ${currentMonthName} ${currentYear}`)
   console.log(`📅 Next update scheduled: ${updateInfo.nextUpdate}`)
   console.log(`🤖 Auto-updates: ${updateInfo.autoUpdateEnabled ? "ENABLED" : "DISABLED"}`)
 }
 
-updateTimestamp()
+if (require.main === module) {
+  updateTimestamp()
+}
+
+module.exports = { updateTimestamp, getMonthName }
