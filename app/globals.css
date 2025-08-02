@@ -5,24 +5,24 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 20 14.3% 4.1%;
+    --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
+    --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
-    --primary: 24 9.8% 10%;
-    --primary-foreground: 60 9.1% 97.8%;
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
-    --accent: 60 4.8% 95.9%;
-    --accent-foreground: 24 9.8% 10%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 20 14.3% 4.1%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -32,30 +32,30 @@
   }
 
   .dark {
-    --background: 0 0% 0%;
-    --foreground: 30 100% 85%;
-    --card: 0 0% 5%;
-    --card-foreground: 30 100% 85%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 30 100% 85%;
-    --primary: 30 100% 85%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 30 100% 85%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 30 50% 60%;
-    --accent: 0 0% 10%;
-    --accent-foreground: 30 100% 85%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 30 100% 85%;
-    --chart-1: 30 100% 70%;
-    --chart-2: 45 100% 65%;
-    --chart-3: 15 100% 60%;
-    --chart-4: 60 100% 75%;
-    --chart-5: 25 100% 65%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -66,163 +66,38 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 }
 
-@layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: hsl(var(--foreground));
+@layer components {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.8s ease-out;
   }
 }
 
-/* Enhanced mobile-friendly slider styles with warm colors */
-.slider {
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
-  cursor: pointer;
-  touch-action: manipulation;
-  will-change: transform;
-}
-
-.slider::-webkit-slider-track {
-  background: hsl(var(--muted));
-  height: 12px;
-  border-radius: 6px;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  background: hsl(var(--primary));
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 4px 8px hsl(var(--primary) / 0.4);
-  border: 3px solid hsl(var(--background));
-  touch-action: manipulation;
-  will-change: transform;
-}
-
-.slider::-moz-range-track {
-  background: hsl(var(--muted));
-  height: 12px;
-  border-radius: 6px;
-  border: none;
-}
-
-.slider::-moz-range-thumb {
-  background: hsl(var(--primary));
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 3px solid hsl(var(--background));
-  box-shadow: 0 4px 8px hsl(var(--primary) / 0.4);
-  touch-action: manipulation;
-  will-change: transform;
-}
-
-/* Mobile-specific improvements */
-@media (max-width: 768px) {
-  .slider::-webkit-slider-thumb {
-    height: 36px;
-    width: 36px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-
-  .slider::-moz-range-thumb {
-    height: 36px;
-    width: 36px;
-  }
-
-  .slider::-webkit-slider-track {
-    height: 16px;
-  }
-
-  .slider::-moz-range-track {
-    height: 16px;
-  }
-}
-
-/* Enhanced slider styles with warm glow */
-.enhanced-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
-  cursor: pointer;
-  height: 12px;
-  border-radius: 6px;
-  will-change: transform;
-}
-
-.enhanced-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-  height: 28px;
-  width: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 4px 12px hsl(var(--primary) / 0.6), 0 0 20px hsl(var(--primary) / 0.3);
-  border: 3px solid hsl(var(--background));
-  transition: all 0.2s ease;
-  will-change: transform;
-}
-
-.enhanced-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px hsl(var(--primary) / 0.8), 0 0 30px hsl(var(--primary) / 0.5);
-}
-
-.enhanced-slider::-moz-range-thumb {
-  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-  height: 28px;
-  width: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 3px solid hsl(var(--background));
-  box-shadow: 0 4px 12px hsl(var(--primary) / 0.6), 0 0 20px hsl(var(--primary) / 0.3);
-  transition: all 0.2s ease;
-  will-change: transform;
-}
-
-.enhanced-slider::-moz-range-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px hsl(var(--primary) / 0.8), 0 0 30px hsl(var(--primary) / 0.5);
-}
-
-/* Ad container styles */
-.ad-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 1rem 0;
-  contain: layout;
-}
-
-/* Loading animation with warm glow */
-@keyframes pulse {
-  0%,
-  100% {
+  to {
     opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
+    transform: translateY(0);
   }
 }
 
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Chart animations */
-@keyframes slideInUp {
+@keyframes slideUp {
   from {
     opacity: 0;
     transform: translateY(30px);
@@ -233,254 +108,55 @@
   }
 }
 
-.chart-container {
-  animation: slideInUp 0.6s ease-out;
-  contain: layout;
-}
-
-/* Smooth transitions for theme switching */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Touch-friendly button improvements */
-.touch-manipulation {
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Improved focus styles with warm colors */
-button:focus,
-input:focus,
-textarea:focus,
-select:focus {
-  outline: 3px solid hsl(var(--primary));
-  outline-offset: 2px;
-}
-
-/* Better mobile typography */
-@media (max-width: 640px) {
-  body {
-    font-size: 16px; /* Prevents zoom on iOS */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
   }
-}
-
-/* Dark mode specific enhancements */
-.dark {
-  /* Ensure all white backgrounds become black */
-  --tw-bg-opacity: 1;
-}
-
-.dark .bg-white {
-  background-color: hsl(var(--background)) !important;
-}
-
-.dark .text-black {
-  color: hsl(var(--foreground)) !important;
-}
-
-.dark .border-gray-200,
-.dark .border-gray-300 {
-  border-color: hsl(var(--border)) !important;
-}
-
-/* Warm glow effects for interactive elements in dark mode */
-.dark button:hover,
-.dark .hover\:bg-blue-700:hover {
-  background-color: hsl(var(--primary)) !important;
-  box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
-}
-
-.dark .bg-blue-500,
-.dark .bg-blue-600 {
-  background-color: hsl(var(--primary)) !important;
-}
-
-.dark .text-blue-500,
-.dark .text-blue-600 {
-  color: hsl(var(--primary)) !important;
-}
-
-/* Chart specific dark mode styling */
-.dark svg {
-  background-color: transparent !important;
-}
-
-.dark .bg-gray-100,
-.dark .bg-gray-50 {
-  background-color: hsl(var(--card)) !important;
-}
-
-.dark .text-gray-600,
-.dark .text-gray-700 {
-  color: hsl(var(--muted-foreground)) !important;
-}
-
-/* Custom scrollbar for dark mode */
-.dark ::-webkit-scrollbar {
-  width: 8px;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: hsl(0 0% 10%);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: hsl(32 50% 30%);
-  border-radius: 4px;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: hsl(32 70% 40%);
-}
-
-/* Ensure proper contrast in dark mode */
-.dark .text-gray-600 {
-  color: hsl(32 50% 60%);
-}
-
-.dark .text-gray-700 {
-  color: hsl(32 60% 70%);
-}
-
-.dark .text-gray-800 {
-  color: hsl(32 70% 80%);
-}
-
-.dark .text-gray-900 {
-  color: hsl(32 80% 90%);
-}
-
-/* Chart styling for dark mode */
-.dark .recharts-cartesian-grid-horizontal line,
-.dark .recharts-cartesian-grid-vertical line {
-  stroke: hsl(0 0% 20%);
-}
-
-.dark .recharts-text {
-  fill: hsl(32 70% 70%);
-}
-
-/* Loading spinner for dark mode */
-.dark .animate-spin {
-  border-color: hsl(32 100% 70%);
-  border-top-color: transparent;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
   }
-}
-
-/* Ensure theme toggle is always visible */
-.theme-toggle-fixed {
-  position: fixed !important;
-  top: 16px !important;
-  left: 16px !important;
-  z-index: 99999 !important;
-  pointer-events: auto !important;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-muted;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/30 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-muted-foreground/50;
-}
-
-/* Smooth transitions */
-* {
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-/* Print styles */
-@media print {
-  .no-print {
-    display: none !important;
+  70% {
+    transform: scale(0.9);
   }
-}
-
-/* Focus styles for accessibility */
-:focus-visible {
-  @apply outline-2 outline-offset-2 outline-ring;
-}
-
-/* Loading animation */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* Chart container styles */
-.recharts-wrapper {
-  @apply w-full;
-}
-
-.recharts-surface {
-  @apply overflow-visible;
-}
-
-/* Custom button hover effects */
-.btn-hover {
-  @apply transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95;
-}
-
-/* Card hover effects */
-.card-hover {
-  @apply transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1;
-}
-
-/* Text selection */
-::selection {
-  @apply bg-primary/20;
-}
-
-/* Responsive text */
-.text-responsive {
-  @apply text-sm sm:text-base md:text-lg;
-}
-
-/* Grid responsive */
-.grid-responsive {
-  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4;
-}
-
-/* Container responsive */
-.container-responsive {
-  @apply container mx-auto px-4 sm:px-6 lg:px-8;
 }
 
 /* Performance optimizations */
-.gpu-accelerated {
+.will-change-transform {
   will-change: transform;
-  transform: translateZ(0);
 }
 
-/* Reduce layout shifts */
-.reserve-space {
-  min-height: 1px;
+.contain-layout {
   contain: layout;
 }
 
-/* Optimize font rendering */
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+/* Improved focus styles */
+.focus-visible:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary;
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(var(--muted-foreground) / 0.1) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }

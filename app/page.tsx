@@ -13,6 +13,7 @@ import { Globe } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { trackPageView } from "@/lib/analytics"
 import Script from "next/script"
+import Link from "next/link"
 
 // Lazy load heavy components for better performance
 const SimpleLineChart = lazy(() => import("@/components/simple-line-chart"))
@@ -926,9 +927,25 @@ export default function Home() {
                 </ul>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-4">Last Updated</h4>
-                <p className="text-gray-300">August 2025</p>
-                <p className="text-sm text-gray-400 mt-2">Data is updated monthly from official government sources.</p>
+                <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+                <ul className="text-gray-300 space-y-2">
+                  <li>
+                    <Link href="/about" className="hover:text-blue-400 transition-colors">
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy" className="hover:text-blue-400 transition-colors">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/terms" className="hover:text-blue-400 transition-colors">
+                      Terms of Service
+                    </Link>
+                  </li>
+                </ul>
+                <p className="text-sm text-gray-400 mt-4">Last Updated: August 2025</p>
               </div>
             </div>
             <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">

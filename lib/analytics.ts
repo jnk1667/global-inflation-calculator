@@ -1,14 +1,20 @@
-"use client"
+// Analytics tracking functions for the Global Inflation Calculator
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void
+  }
+}
 
-// Google Analytics tracking functions
-export const trackPageView = (url: string) => {
+// Track page views
+export const trackPageView = (path: string) => {
   if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("config", process.env.NEXT_PUBLIC_GA_TRACKING_ID || "", {
-      page_location: url,
+    window.gtag("config", process.env.NEXT_PUBLIC_GA_TRACKING_ID, {
+      page_path: path,
     })
   }
 }
 
+// Track general events
 export const trackEvent = (action: string, category: string, label?: string, value?: number) => {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("event", action, {
@@ -19,34 +25,30 @@ export const trackEvent = (action: string, category: string, label?: string, val
   }
 }
 
-export const trackCalculation = (data: {
-  currency: string
-  amount: number
-  fromYear: number
-  toYear: number
-}) => {
-  trackEvent("calculation", "inflation_calculator", `${data.currency}_${data.fromYear}_${data.toYear}`, data.amount)
+// Track inflation calculations
+export const trackCalculation = (currency: string, fromYear: number, amount: number) => {
+  trackEvent("calculate_inflation", "calculator", `${currency}_${fromYear}`, amount)
 }
 
-export const trackFeatureUsage = (feature: string, data?: any) => {
-  trackEvent("feature_usage", "calculator", feature, data ? JSON.stringify(data).length : undefined)
+// Track currency changes
+export const trackCurrencyChange = (fromCurrency: string, toCurrency: string) => {
+  trackEvent("currency_change", "calculator", `${fromCurrency}_to_${toCurrency}`)
+}
+
+// Track feature usage
+export const trackFeatureUsage = (feature: string, details?: string) => {
+  trackEvent("feature_usage", "engagement", `${feature}${details ? `_${details}` : ""}`)
 }
 
 // Alias for backward compatibility
 export const trackInflationCalculation = trackCalculation
 
-// Default export for easier importing
+// Default export with all functions
 export default {
   trackPageView,
   trackEvent,
   trackCalculation,
+  trackCurrencyChange,
   trackFeatureUsage,
   trackInflationCalculation,
-}
-
-// Extend Window interface for TypeScript
-declare global {
-  interface Window {
-    gtag: (...args: any[]) => void
-  }
 }

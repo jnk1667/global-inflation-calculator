@@ -96,27 +96,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Critical performance optimizations */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-        <link rel="preconnect" href="https://fundingchoicesmessages.google.com" />
-        <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
-        <link rel="preconnect" href="https://tpc.googlesyndication.com" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-
-        {/* Favicon and app icons */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-
-        {/* Additional meta tags */}
-        <meta name="theme-color" content="#2563eb" />
-        <meta name="color-scheme" content="light dark" />
-
-        {/* Google Analytics - Optimized loading */}
+        {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
           <>
             <Script
@@ -137,14 +117,31 @@ export default function RootLayout({
           </>
         )}
 
-        {/* Google AdSense - Optimized loading */}
+        {/* Google AdSense */}
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
           <Script
+            async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
             crossOrigin="anonymous"
-            strategy="lazyOnload"
+            strategy="afterInteractive"
           />
         )}
+
+        {/* Preconnect to external domains */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+
+        {/* Favicon and app icons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+
+        {/* Additional meta tags */}
+        <meta name="theme-color" content="#2563eb" />
+        <meta name="color-scheme" content="light dark" />
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
@@ -175,7 +172,7 @@ export default function RootLayout({
           <Toaster />
         </ThemeProvider>
 
-        {/* Schema.org structured data - Optimized loading */}
+        {/* Schema.org structured data */}
         <Script
           id="organization-schema"
           type="application/ld+json"
