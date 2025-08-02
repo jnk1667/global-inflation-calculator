@@ -10,6 +10,16 @@ const nextConfig = {
     domains: ['images.unsplash.com', 'via.placeholder.com'],
     unoptimized: true,
   },
+  // Modern browser targeting for smaller bundles
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  experimental: {
+    optimizeCss: true,
+    legacyBrowsers: false,
+    browsersListForSwc: true,
+  },
   async headers() {
     return [
       {
@@ -26,6 +36,11 @@ const nextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
+          },
+          // Performance headers
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
           },
         ],
       },
