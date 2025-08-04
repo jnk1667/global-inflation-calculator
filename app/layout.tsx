@@ -12,11 +12,11 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: {
-    default: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
+    default: "Global Inflation Calculator - Inflation & Purchasing Power",
     template: "%s | Global Inflation Calculator",
   },
   description:
-    "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Compare USD, GBP, EUR, CAD, AUD, CHF, JPY with real government data.",
+    "Calculate historical inflation and purchasing power across multiple currencies with official data from as far as 1913 to the present day.",
   keywords: [
     "inflation calculator",
     "purchasing power",
