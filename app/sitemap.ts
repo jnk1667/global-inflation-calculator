@@ -1,32 +1,38 @@
 import type { MetadataRoute } from "next"
 
-const siteUrl = "https://www.globalinflationcalculator.com"
-
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = "https://www.globalinflationcalculator.com"
+
   return [
     {
-      url: siteUrl,
+      url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1.0,
+      changeFrequency: "monthly",
+      priority: 1,
     },
     {
-      url: `${siteUrl}/about`,
+      url: `${baseUrl}/salary-calculator`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${siteUrl}/privacy`,
+      url: `${baseUrl}/privacy`,
       lastModified: new Date(),
       changeFrequency: "yearly",
-      priority: 0.3,
+      priority: 0.5,
     },
     {
-      url: `${siteUrl}/terms`,
+      url: `${baseUrl}/terms`,
       lastModified: new Date(),
       changeFrequency: "yearly",
-      priority: 0.3,
+      priority: 0.5,
     },
   ]
 }

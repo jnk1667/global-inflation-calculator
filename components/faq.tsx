@@ -15,8 +15,16 @@ interface FAQ {
 const FAQ: React.FC = () => {
   const [faqs, setFaqs] = useState<FAQ[]>([])
   const [loading, setLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
+
+  // Ensure component is mounted to avoid hydration issues
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
+    if (!mounted) return
+
     const loadFAQs = async () => {
       try {
         const { data, error } = await supabase.from("faqs").select("*").order("id")
@@ -40,7 +48,7 @@ const FAQ: React.FC = () => {
     }
 
     loadFAQs()
-  }, [])
+  }, [mounted])
 
   const defaultFAQs: FAQ[] = [
     {
@@ -93,18 +101,22 @@ const FAQ: React.FC = () => {
     },
   ]
 
+  if (!mounted) {
+    return null
+  }
+
   if (loading) {
     return (
-      <Card className="bg-white shadow-lg border-0">
+      <Card className="bg-card shadow-lg border-border">
         <CardHeader>
-          <CardTitle className="text-xl">❓ Frequently Asked Questions</CardTitle>
+          <CardTitle className="text-xl text-card-foreground">❓ Frequently Asked Questions</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="animate-pulse">
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                <div className="h-3 bg-gray-100 rounded w-full"></div>
+                <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
+                <div className="h-3 bg-muted/50 rounded w-full"></div>
               </div>
             ))}
           </div>
@@ -114,17 +126,19 @@ const FAQ: React.FC = () => {
   }
 
   return (
-    <Card className="bg-white shadow-lg border-0">
+    <Card className="bg-card shadow-lg border-border">
       <CardHeader>
-        <CardTitle className="text-xl">❓ Frequently Asked Questions</CardTitle>
-        <div className="text-sm text-gray-600">Common questions about inflation and our calculator</div>
+        <CardTitle className="text-xl text-card-foreground">❓ Frequently Asked Questions</CardTitle>
+        <div className="text-sm text-muted-foreground">Common questions about inflation and our calculator</div>
       </CardHeader>
       <CardContent>
         <Accordion type="single" collapsible className="w-full">
           {faqs.map((faq) => (
-            <AccordionItem key={faq.id} value={faq.id}>
-              <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-              <AccordionContent className="text-gray-600">{faq.answer}</AccordionContent>
+            <AccordionItem key={faq.id} value={faq.id} className="border-border">
+              <AccordionTrigger className="text-left text-card-foreground hover:text-primary">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">{faq.answer}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>

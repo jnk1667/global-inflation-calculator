@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect, lazy, Suspense } from "react"
+import { useState, useEffect, lazy, Suspense, useCallback, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { ErrorBoundary } from "@/components/error-boundary"
 import LoadingSpinner from "@/components/loading-spinner"
-import { Globe } from "lucide-react"
+import { Globe, RefreshCw } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { trackPageView } from "@/lib/analytics"
 import Script from "next/script"
@@ -177,6 +177,11 @@ export default function Home() {
   const [hasCalculated, setHasCalculated] = useState(false)
   const [seoEssay, setSeoEssay] = useState<string>(defaultSEOEssay)
   const [logoUrl, setLogoUrl] = useState<string>("")
+  const [retryCount, setRetryCount] = useState(0)
+
+  // Use refs to track component state and prevent race conditions
+  const isMountedRef = useRef(true)
+  const loadingControllerRef = useRef<AbortController | null>(null)
 
   const currentYear = new Date().getFullYear()
   const maxYear = currentYear
@@ -240,81 +245,141 @@ export default function Home() {
     loadSEOEssay()
   }, [])
 
-  // Load inflation data with optimized fetching
-  useEffect(() => {
-    let isMounted = true
+  // Improved data loading with better error handling and retry logic
+  const loadInflationData = useCallback(async (retryAttempt = 0) => {
+    // Cancel any existing request
+    if (loadingControllerRef.current) {
+      loadingControllerRef.current.abort()
+    }
 
-    const loadInflationData = async () => {
-      if (!isMounted) return
+    // Create new abort controller
+    loadingControllerRef.current = new AbortController()
+    const { signal } = loadingControllerRef.current
 
-      setLoading(true)
-      setError(null)
+    if (!isMountedRef.current) return
 
-      try {
-        const loadedData: AllInflationData = {}
-        const promises = Object.entries(currencies).map(async ([code, info]) => {
-          try {
-            const response = await fetch(`/data/${code.toLowerCase()}-inflation.json`)
-            if (response.ok) {
-              const data = await response.json()
-              const inflationYears = Object.keys(data.data || {})
-                .map(Number)
-                .filter((year) => !isNaN(year))
+    setLoading(true)
+    setError(null)
 
-              if (inflationYears.length > 0) {
-                return {
-                  code,
-                  data: {
-                    data: data.data || {},
-                    symbol: info.symbol,
-                    name: info.name,
-                    flag: info.flag,
-                    startYear: Math.min(...inflationYears),
-                    endYear: Math.max(...inflationYears),
-                  },
-                }
-              }
+    try {
+      const loadedData: AllInflationData = {}
+      const promises = Object.entries(currencies).map(async ([code, info]) => {
+        try {
+          // Add timeout and signal to fetch
+          const response = await fetch(`/data/${code.toLowerCase()}-inflation.json`, {
+            signal,
+            headers: {
+              "Cache-Control": "no-cache",
+            },
+          })
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`)
+          }
+
+          const data = await response.json()
+
+          if (!data || !data.data) {
+            throw new Error(`Invalid data format for ${code}`)
+          }
+
+          const inflationYears = Object.keys(data.data)
+            .map(Number)
+            .filter((year) => !isNaN(year))
+
+          if (inflationYears.length > 0) {
+            return {
+              code,
+              data: {
+                data: data.data,
+                symbol: info.symbol,
+                name: info.name,
+                flag: info.flag,
+                startYear: Math.min(...inflationYears),
+                endYear: Math.max(...inflationYears),
+              },
             }
-          } catch (err) {
-            console.warn(`Error loading ${code} data:`, err)
           }
-          return null
-        })
-
-        const results = await Promise.all(promises)
-        let successCount = 0
-
-        results.forEach((result) => {
-          if (result && isMounted) {
-            loadedData[result.code] = result.data
-            successCount++
+        } catch (err) {
+          if (err instanceof Error && err.name === "AbortError") {
+            throw err // Re-throw abort errors
           }
-        })
+          console.warn(`Error loading ${code} data:`, err)
+        }
+        return null
+      })
 
-        if (isMounted) {
-          if (successCount > 0) {
-            setInflationData(loadedData)
-            setFromYear(2020)
-          } else {
-            throw new Error("No inflation data could be loaded")
+      const results = await Promise.all(promises)
+
+      // Check if request was aborted
+      if (signal.aborted) {
+        return
+      }
+
+      let successCount = 0
+      results.forEach((result) => {
+        if (result && isMountedRef.current) {
+          loadedData[result.code] = result.data
+          successCount++
+        }
+      })
+
+      if (!isMountedRef.current) return
+
+      if (successCount > 0) {
+        setInflationData(loadedData)
+        setFromYear(2020)
+        setRetryCount(0)
+      } else {
+        throw new Error("No inflation data could be loaded")
+      }
+    } catch (err) {
+      if (!isMountedRef.current) return
+
+      if (err instanceof Error && err.name === "AbortError") {
+        return // Don't set error for aborted requests
+      }
+
+      console.error("Error loading inflation data:", err)
+
+      // Retry logic with exponential backoff
+      if (retryAttempt < 3) {
+        const delay = Math.pow(2, retryAttempt) * 1000 // 1s, 2s, 4s
+        setTimeout(() => {
+          if (isMountedRef.current) {
+            setRetryCount(retryAttempt + 1)
+            loadInflationData(retryAttempt + 1)
           }
-        }
-      } catch (err) {
-        if (isMounted) {
-          setError("Failed to load inflation data. Please try again later.")
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false)
-        }
+        }, delay)
+        return
+      }
+
+      setError("Failed to load inflation data. Please check your connection and try again.")
+    } finally {
+      if (isMountedRef.current) {
+        setLoading(false)
       }
     }
-
-    loadInflationData()
-    return () => {
-      isMounted = false
-    }
   }, [])
+
+  // Load inflation data with improved error handling
+  useEffect(() => {
+    isMountedRef.current = true
+    loadInflationData()
+
+    return () => {
+      isMountedRef.current = false
+      if (loadingControllerRef.current) {
+        loadingControllerRef.current.abort()
+      }
+    }
+  }, [loadInflationData])
+
+  // Manual retry function
+  const handleRetry = useCallback(() => {
+    setRetryCount(0)
+    loadInflationData()
+  }, [loadInflationData])
 
   // Handle currency change
   const handleCurrencyChange = (currency: keyof typeof currencies) => {
@@ -534,49 +599,10 @@ export default function Home() {
         />
 
         {/* Usage Stats - Top Right Corner */}
-        <div className="absolute top-4 right-4 z-10">
-          <div className="bg-white/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg border border-gray-200">
+        <div className="fixed top-4 right-4 z-40">
+          <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg border border-gray-200">
             <Suspense fallback={<div className="w-24 h-6 bg-gray-200 animate-pulse rounded" />}>
               <UsageStats />
-            </Suspense>
-          </div>
-        </div>
-
-        {/* Header - Always rendered for SEO */}
-        <header className="bg-white shadow-sm border-b pt-16 pb-4">
-          <div className="container mx-auto px-4 py-4 sm:py-6">
-            <div className="text-center">
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-4">
-                <div className="flex-shrink-0">
-                  {logoUrl ? (
-                    <img
-                      src={logoUrl || "/placeholder.svg"}
-                      alt="Global Inflation Calculator Globe Icon"
-                      className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full shadow-lg"
-                      loading="eager"
-                      onError={() => setLogoUrl("")}
-                    />
-                  ) : (
-                    <Globe className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-blue-600" />
-                  )}
-                </div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 text-center sm:text-left">
-                  Global Inflation Calculator
-                </h1>
-              </div>
-              <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-2">
-                Calculate how inflation affects your money over time across different currencies. See real purchasing
-                power changes from 1913 to {currentYear}.
-              </p>
-            </div>
-          </div>
-        </header>
-
-        {/* Top Ad */}
-        <div className="bg-white border-b">
-          <div className="container mx-auto px-4 py-4">
-            <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
-              <AdBanner slot="header" format="horizontal" className="max-w-full" />
             </Suspense>
           </div>
         </div>
@@ -584,323 +610,364 @@ export default function Home() {
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <LoadingSpinner />
+            {retryCount > 0 && (
+              <div className="ml-4 text-sm text-gray-600">Retrying... (Attempt {retryCount + 1}/4)</div>
+            )}
           </div>
         ) : (
-          <main className="container mx-auto px-4 py-8 max-w-6xl space-y-8">
+          <main className="container mx-auto px-4 py-20 max-w-4xl">
             {error && (
-              <Alert className="bg-red-50 border-red-200">
-                <AlertDescription className="text-red-800">{error}</AlertDescription>
+              <Alert className="bg-red-50 border-red-200 mb-8">
+                <AlertDescription className="text-red-800 flex items-center justify-between">
+                  <span>{error}</span>
+                  <Button onClick={handleRetry} variant="outline" size="sm" className="ml-4 bg-white hover:bg-gray-50">
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    Retry
+                  </Button>
+                </AlertDescription>
               </Alert>
             )}
 
-            {/* Main Calculator Card */}
-            <Card className="bg-white shadow-lg border-0">
-              <CardContent className="p-4 sm:p-6 space-y-6 sm:space-y-8">
-                {/* Amount Input */}
-                <div className="space-y-2">
-                  <label htmlFor="amount-input" className="text-sm text-gray-600">
-                    Enter Amount ($0.0 - $1,000,000,000,000)
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-base sm:text-lg">
-                      {currentCurrencyData?.symbol || "$"}
-                    </span>
-                    <Input
-                      id="amount-input"
-                      type="number"
-                      value={amount}
-                      onChange={handleAmountChange}
-                      className={`text-base sm:text-lg h-10 sm:h-12 border-gray-300 ${
-                        currentCurrencyData?.symbol && currentCurrencyData.symbol.length > 1
-                          ? "pl-10 sm:pl-12"
-                          : "pl-7 sm:pl-8"
-                      }`}
-                      placeholder="100"
-                      aria-label="Enter amount to calculate inflation"
+            {/* Header */}
+            <div className="text-center mb-16">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="flex-shrink-0">
+                  {logoUrl ? (
+                    <img
+                      src={logoUrl || "/placeholder.svg"}
+                      alt="Global Inflation Calculator Globe Icon"
+                      className="w-16 h-16 rounded-full shadow-lg"
+                      loading="eager"
+                      onError={() => setLogoUrl("")}
                     />
-                  </div>
+                  ) : (
+                    <Globe className="w-16 h-16 text-blue-600" />
+                  )}
                 </div>
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-900">Global Inflation Calculator</h1>
+              </div>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Calculate how inflation affects your money over time across different currencies. See real purchasing
+                power changes from 1913 to {currentYear}.
+              </p>
+            </div>
 
-                {/* Currency Selection - Better mobile grid */}
-                <div className="space-y-3">
-                  <label className="text-sm text-gray-600 font-medium">Select Currency</label>
-                  <div
-                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3"
-                    role="radiogroup"
-                    aria-label="Currency selection"
-                  >
-                    {Object.entries(currencies).map(([code, info]) => {
-                      const currencyData = inflationData[code]
-                      const isAvailable = !!currencyData
-
-                      return (
-                        <Card
-                          key={code}
-                          className={`cursor-pointer transition-all hover:shadow-md ${
-                            selectedCurrency === code
-                              ? "border-blue-500 border-2 bg-blue-50"
-                              : isAvailable
-                                ? "border-gray-200 hover:border-gray-300"
-                                : "border-gray-100 bg-gray-50 cursor-not-allowed opacity-50"
+            {/* Only show calculator if data is loaded */}
+            {Object.keys(inflationData).length > 0 && (
+              <>
+                {/* Main Calculator Card */}
+                <Card className="bg-white shadow-lg border-0 mb-8">
+                  <CardContent className="p-8 space-y-8">
+                    {/* Amount Input */}
+                    <div className="space-y-3">
+                      <label htmlFor="amount-input" className="text-sm text-gray-600 font-medium">
+                        Enter Amount ($0.0 - $1,000,000,000,000)
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">
+                          {currentCurrencyData?.symbol || "$"}
+                        </span>
+                        <Input
+                          id="amount-input"
+                          type="number"
+                          value={amount}
+                          onChange={handleAmountChange}
+                          className={`text-lg h-14 border-gray-300 ${
+                            currentCurrencyData?.symbol && currentCurrencyData.symbol.length > 1 ? "pl-12" : "pl-8"
                           }`}
-                          onClick={() => isAvailable && handleCurrencyChange(code as keyof typeof currencies)}
-                          role="radio"
-                          aria-checked={selectedCurrency === code}
-                          tabIndex={0}
-                          onKeyDown={(e) => {
-                            if ((e.key === "Enter" || e.key === " ") && isAvailable) {
-                              handleCurrencyChange(code as keyof typeof currencies)
-                            }
-                          }}
-                        >
-                          <CardContent className="p-2 sm:p-4 text-center">
-                            <div className="text-base sm:text-lg font-bold text-gray-900">{info.flag}</div>
-                            <div className="text-xs text-blue-600 font-medium">{code}</div>
-                            <div className="text-xs text-gray-500 mt-1 hidden sm:block">{info.name}</div>
-                          </CardContent>
-                        </Card>
-                      )
-                    })}
-                  </div>
+                          placeholder="100"
+                          aria-label="Enter amount to calculate inflation"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Currency Selection */}
+                    <div className="space-y-4">
+                      <label className="text-sm text-gray-600 font-medium">Select Currency</label>
+                      <div
+                        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3"
+                        role="radiogroup"
+                        aria-label="Currency selection"
+                      >
+                        {Object.entries(currencies).map(([code, info]) => {
+                          const currencyData = inflationData[code]
+                          const isAvailable = !!currencyData
+
+                          return (
+                            <Card
+                              key={code}
+                              className={`cursor-pointer transition-all hover:shadow-md ${
+                                selectedCurrency === code
+                                  ? "border-blue-500 border-2 bg-blue-50"
+                                  : isAvailable
+                                    ? "border-gray-200 hover:border-gray-300"
+                                    : "border-gray-100 bg-gray-50 cursor-not-allowed opacity-50"
+                              }`}
+                              onClick={() => isAvailable && handleCurrencyChange(code as keyof typeof currencies)}
+                              role="radio"
+                              aria-checked={selectedCurrency === code}
+                              tabIndex={0}
+                              onKeyDown={(e) => {
+                                if ((e.key === "Enter" || e.key === " ") && isAvailable) {
+                                  handleCurrencyChange(code as keyof typeof currencies)
+                                }
+                              }}
+                            >
+                              <CardContent className="p-4 text-center">
+                                <div className="text-lg font-bold text-gray-900">{info.flag}</div>
+                                <div className="text-xs text-blue-600 font-medium">{code}</div>
+                                <div className="text-xs text-gray-500 mt-1">{info.name}</div>
+                              </CardContent>
+                            </Card>
+                          )
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Year Selection */}
+                    <div className="space-y-6">
+                      <label className="text-sm text-gray-600 font-medium">From Year</label>
+
+                      {/* Large Year Display */}
+                      <div className="text-center">
+                        <div className="text-6xl font-bold text-blue-600 mb-2">{fromYear}</div>
+                        <div className="text-base text-gray-500">{yearsAgo} years ago</div>
+                      </div>
+
+                      {/* Year Slider */}
+                      <div className="px-4">
+                        <Slider
+                          value={[fromYear]}
+                          onValueChange={handleYearChange}
+                          min={minYear}
+                          max={maxYear}
+                          step={1}
+                          className="w-full"
+                          aria-label={`Select year from ${minYear} to ${maxYear}`}
+                        />
+
+                        {/* Year markers */}
+                        <div className="relative mt-8 px-2">
+                          {yearMarkers.map((year) => {
+                            const position = ((year - minYear) / (maxYear - minYear)) * 100
+                            return (
+                              <button
+                                key={year}
+                                onClick={() => {
+                                  setFromYear(year)
+                                  setHasCalculated(false)
+                                }}
+                                className="absolute text-xs text-gray-400 hover:text-blue-600 cursor-pointer transition-colors transform -translate-x-1/2 font-medium"
+                                style={{ left: `${position}%` }}
+                                aria-label={`Set year to ${year}`}
+                              >
+                                {year}
+                              </button>
+                            )
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Info text */}
+                      <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-4 rounded mt-20">
+                        💡 Drag the slider or tap the year buttons above • Data available from {minYear} to{" "}
+                        {currentYear} • Updated August 2025
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Ad Banner - After Calculator */}
+                <div className="mb-8">
+                  <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
+                    <AdBanner slot="homepage-after-calculator" format="horizontal" />
+                  </Suspense>
                 </div>
 
-                {/* Year Selection - Better mobile layout */}
-                <div className="space-y-4">
-                  <label className="text-sm text-gray-600 font-medium">From Year</label>
+                {/* Results Section */}
+                {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
+                  <>
+                    <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg text-white p-8 mb-8">
+                      <div className="text-center">
+                        <div className="flex items-center justify-center gap-2 mb-4">
+                          <span className="text-2xl">🔥</span>
+                          <h2 className="text-2xl font-bold">Inflation Impact</h2>
+                        </div>
 
-                  {/* Large Year Display */}
-                  <div className="text-center">
-                    <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-blue-600 mb-2">{fromYear}</div>
-                    <div className="text-sm sm:text-base text-gray-500">{yearsAgo} years ago</div>
-                  </div>
+                        <div className="text-5xl font-bold mb-4">{getCurrencyDisplay(adjustedAmount)}</div>
 
-                  {/* Currency-specific Year Slider */}
-                  <div className="px-2 sm:px-4">
-                    <Slider
-                      value={[fromYear]}
-                      onValueChange={handleYearChange}
-                      min={minYear}
-                      max={maxYear}
-                      step={1}
-                      className="w-full"
-                      aria-label={`Select year from ${minYear} to ${maxYear}`}
-                    />
+                        <div className="text-xl mb-8 opacity-90">
+                          {getCurrencyDisplay(Number.parseFloat(amount))} in {fromYear} equals{" "}
+                          {getCurrencyDisplay(adjustedAmount)} in {currentYear}
+                        </div>
 
-                    {/* Currency-specific year markers - Hide on very small screens */}
-                    <div className="relative mt-6 sm:mt-8 px-2 hidden sm:block">
-                      {yearMarkers.map((year) => {
-                        const position = ((year - minYear) / (maxYear - minYear)) * 100
-                        return (
-                          <button
-                            key={year}
+                        {/* Stats Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                            <div className="text-2xl font-bold">{totalInflation.toFixed(1)}%</div>
+                            <div className="text-sm opacity-80">Total Inflation</div>
+                          </div>
+                          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                            <div className="text-2xl font-bold">{annualRate.toFixed(2)}%</div>
+                            <div className="text-sm opacity-80">Annual Average</div>
+                          </div>
+                          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                            <div className="text-2xl font-bold">{yearsAgo}</div>
+                            <div className="text-sm opacity-80">Years</div>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                          <Button
+                            variant="outline"
+                            className="bg-white text-blue-600 hover:bg-gray-50"
+                            onClick={async () => {
+                              const shareText = `💰 ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(adjustedAmount)} in ${currentYear}! That's ${totalInflation.toFixed(1)}% total inflation.`
+                              try {
+                                await navigator.clipboard.writeText(`${shareText} ${siteUrl}`)
+                                alert("✅ Result copied to clipboard!")
+                              } catch {
+                                prompt("Copy this text:", `${shareText} ${siteUrl}`)
+                              }
+                            }}
+                          >
+                            📤 Share Result
+                          </Button>
+                          <Button
+                            variant="outline"
+                            className="bg-white text-blue-600 hover:bg-gray-50"
                             onClick={() => {
-                              setFromYear(year)
+                              setAmount("100")
+                              setFromYear(2020)
                               setHasCalculated(false)
                             }}
-                            className="absolute text-xs text-gray-400 hover:text-blue-600 cursor-pointer transition-colors transform -translate-x-1/2 font-medium"
-                            style={{ left: `${position}%` }}
-                            aria-label={`Set year to ${year}`}
                           >
-                            {year}
-                          </button>
-                        )
-                      })}
+                            🔄 Reset
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Info text */}
-                  <div className="text-center text-xs sm:text-sm text-yellow-600 bg-yellow-50 p-3 rounded mt-16 sm:mt-20">
-                    💡 Drag the slider or tap the year buttons above • Data available from {minYear} to {currentYear} •
-                    Updated August 2025
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                    {/* Currency Comparison Section */}
+                    <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse mb-8" />}>
+                      <CurrencyComparisonChart amount={amount} fromYear={fromYear} inflationData={inflationData} />
+                    </Suspense>
 
-            {/* Results Section */}
-            {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
-              <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg text-white p-8">
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-2 mb-4">
-                    <span className="text-2xl">🔥</span>
-                    <h2 className="text-2xl font-bold">Inflation Impact</h2>
-                  </div>
+                    {/* Line Chart Section */}
+                    <Card className="bg-white shadow-lg border-0 mb-8">
+                      <CardHeader>
+                        <CardTitle className="text-xl">
+                          📈 {currencies[selectedCurrency]?.name} Inflation Trend Over Time
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="h-[500px] md:h-[700px]">
+                          <Suspense fallback={<div className="h-full bg-gray-100 rounded animate-pulse" />}>
+                            <SimpleLineChart
+                              data={chartData}
+                              currency={currentCurrencyData?.symbol || "$"}
+                              fromYear={fromYear}
+                              selectedCurrency={selectedCurrency}
+                              originalAmount={Number.parseFloat(amount)}
+                              allInflationData={inflationData}
+                            />
+                          </Suspense>
+                        </div>
+                        <p className="text-sm text-gray-600 text-center mt-4">
+                          This chart shows how {getCurrencyDisplay(Number.parseFloat(amount))} from {fromYear} would
+                          grow due to inflation over time
+                        </p>
+                      </CardContent>
+                    </Card>
 
-                  <div className="text-5xl font-bold mb-4">{getCurrencyDisplay(adjustedAmount)}</div>
-
-                  <div className="text-xl mb-8 opacity-90">
-                    {getCurrencyDisplay(Number.parseFloat(amount))} in {fromYear} equals{" "}
-                    {getCurrencyDisplay(adjustedAmount)} in {currentYear}
-                  </div>
-
-                  {/* Stats Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div className="bg-white bg-opacity-20 rounded-lg p-4">
-                      <div className="text-2xl font-bold">{totalInflation.toFixed(1)}%</div>
-                      <div className="text-sm opacity-80">Total Inflation</div>
-                    </div>
-                    <div className="bg-white bg-opacity-20 rounded-lg p-4">
-                      <div className="text-2xl font-bold">{annualRate.toFixed(2)}%</div>
-                      <div className="text-sm opacity-80">Annual Average</div>
-                    </div>
-                    <div className="bg-white bg-opacity-20 rounded-lg p-4">
-                      <div className="text-2xl font-bold">{yearsAgo}</div>
-                      <div className="text-sm opacity-80">Years</div>
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button
-                      variant="outline"
-                      className="bg-white text-blue-600 hover:bg-gray-50"
-                      onClick={async () => {
-                        const shareText = `💰 ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(adjustedAmount)} in ${currentYear}! That's ${totalInflation.toFixed(1)}% total inflation.`
-                        try {
-                          await navigator.clipboard.writeText(`${shareText} ${siteUrl}`)
-                          alert("✅ Result copied to clipboard!")
-                        } catch {
-                          prompt("Copy this text:", `${shareText} ${siteUrl}`)
-                        }
-                      }}
-                    >
-                      📤 Share Result
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-white text-blue-600 hover:bg-gray-50"
-                      onClick={() => {
-                        setAmount("100")
-                        setFromYear(2020)
-                        setHasCalculated(false)
-                      }}
-                    >
-                      🔄 Reset
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Currency Comparison Section */}
-            {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
-              <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse" />}>
-                <CurrencyComparisonChart amount={amount} fromYear={fromYear} inflationData={inflationData} />
-              </Suspense>
-            )}
-
-            {/* Line Chart Section - INCREASED HEIGHT EVEN MORE */}
-            {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
-              <Card className="bg-white shadow-lg border-0">
-                <CardHeader>
-                  <CardTitle className="text-xl">
-                    📈 {currencies[selectedCurrency]?.name} Inflation Trend Over Time
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {/* INCREASED HEIGHT FROM h-96 md:h-[600px] TO h-[500px] md:h-[700px] */}
-                  <div className="h-[500px] md:h-[700px]">
-                    <Suspense fallback={<div className="h-full bg-gray-100 rounded animate-pulse" />}>
-                      <SimpleLineChart
-                        data={chartData}
-                        currency={currentCurrencyData?.symbol || "$"}
-                        fromYear={fromYear}
-                        selectedCurrency={selectedCurrency}
+                    {/* Purchasing Power Section */}
+                    <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse mb-8" />}>
+                      <PurchasingPowerVisual
                         originalAmount={Number.parseFloat(amount)}
-                        allInflationData={inflationData}
+                        adjustedAmount={adjustedAmount}
+                        currency={selectedCurrency}
+                        symbol={currentCurrencyData?.symbol || "$"}
+                        fromYear={fromYear}
+                        inflationData={currentCurrencyData}
                       />
                     </Suspense>
-                  </div>
-                  <p className="text-sm text-gray-600 text-center mt-4">
-                    This chart shows how {getCurrencyDisplay(Number.parseFloat(amount))} from {fromYear} would grow due
-                    to inflation over time
-                  </p>
-                </CardContent>
-              </Card>
+
+                    {/* Ad Banner - After Charts */}
+                    <div className="mb-8">
+                      <Suspense fallback={<div className="h-64 bg-gray-100 rounded animate-pulse" />}>
+                        <AdBanner slot="homepage-after-charts" format="square" className="mx-auto" />
+                      </Suspense>
+                    </div>
+
+                    {/* Historical Context Section */}
+                    <Card className="bg-white shadow-lg border-0 mb-8">
+                      <CardHeader>
+                        <CardTitle className="text-xl flex items-center gap-2">
+                          📚 Historical Context for {fromYear}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                            <h4 className="font-semibold text-gray-900 mb-3">What was happening in {fromYear}:</h4>
+                            <ul className="text-sm text-gray-600 space-y-1">
+                              {historicalContext.events.map((event, index) => (
+                                <li key={index}>{event}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900 mb-3">Typical prices in {fromYear}:</h4>
+                            <ul className="text-sm text-gray-600 space-y-1">
+                              {historicalContext.prices.map((price, index) => (
+                                <li key={index}>{price}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </>
+                )}
+
+                {/* Cross-promotion to Salary Calculator */}
+                <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-0 shadow-lg mb-8">
+                  <CardContent className="p-6 text-center">
+                    <h3 className="text-xl font-semibold mb-2">💰 New: Salary Inflation Calculator</h3>
+                    <p className="text-gray-600 mb-4">
+                      Calculate what your historical salary should be worth today. Perfect for salary negotiations and
+                      career planning.
+                    </p>
+                    <Link href="/salary-calculator">
+                      <Button className="bg-green-600 hover:bg-green-700 text-white">Try Salary Calculator →</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+
+                {/* SEO Essay Section */}
+                <Card className="bg-white shadow-lg border-0 mb-8">
+                  <CardHeader>
+                    <CardTitle className="text-xl flex items-center gap-2">
+                      📖 Understanding Inflation and Economics
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="prose prose-gray max-w-none">
+                    <div className="text-gray-700 leading-relaxed">{renderSEOContent(seoEssay)}</div>
+                  </CardContent>
+                </Card>
+
+                {/* Social Share */}
+                <Suspense fallback={<div className="h-16 bg-gray-100 rounded animate-pulse mb-8" />}>
+                  <SocialShare />
+                </Suspense>
+
+                {/* FAQ */}
+                <Suspense fallback={<div className="h-64 bg-gray-100 rounded animate-pulse mb-8" />}>
+                  <FAQ />
+                </Suspense>
+              </>
             )}
-
-            {/* Large spacing section - enough for ad banner */}
-            <div className="py-16 my-16">
-              <Suspense fallback={<div className="h-32 bg-gray-100 rounded animate-pulse" />}>
-                <AdBanner slot="middle" format="horizontal" />
-              </Suspense>
-            </div>
-
-            {/* Purchasing Power Section */}
-            {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
-              <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse" />}>
-                <PurchasingPowerVisual
-                  originalAmount={Number.parseFloat(amount)}
-                  adjustedAmount={adjustedAmount}
-                  currency={selectedCurrency}
-                  symbol={currentCurrencyData?.symbol || "$"}
-                  fromYear={fromYear}
-                />
-              </Suspense>
-            )}
-
-            {/* Historical Context Section */}
-            <Card className="bg-white shadow-lg border-0">
-              <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">📚 Historical Context for {fromYear}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">What was happening in {fromYear}:</h4>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      {historicalContext.events.map((event, index) => (
-                        <li key={index}>{event}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">Typical prices in {fromYear}:</h4>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      {historicalContext.prices.map((price, index) => (
-                        <li key={index}>{price}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* SEO Essay Section */}
-            <Card className="bg-white shadow-lg border-0">
-              <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                  📖 Understanding Inflation and Economics
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="prose prose-gray max-w-none">
-                <div className="text-gray-700 leading-relaxed">{renderSEOContent(seoEssay)}</div>
-              </CardContent>
-            </Card>
-
-            {/* Middle Ad */}
-            <div className="flex justify-center my-8">
-              <Suspense fallback={<div className="h-32 bg-gray-100 rounded animate-pulse" />}>
-                <AdBanner slot="middle" format="square" />
-              </Suspense>
-            </div>
-
-            {/* Social Share */}
-            <Suspense fallback={<div className="h-16 bg-gray-100 rounded animate-pulse" />}>
-              <SocialShare />
-            </Suspense>
-
-            {/* FAQ */}
-            <Suspense fallback={<div className="h-64 bg-gray-100 rounded animate-pulse" />}>
-              <FAQ />
-            </Suspense>
-
-            {/* Bottom Ad */}
-            <div className="flex justify-center mt-8">
-              <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
-                <AdBanner slot="footer" format="horizontal" />
-              </Suspense>
-            </div>
           </main>
         )}
 
@@ -929,6 +996,11 @@ export default function Home() {
               <div>
                 <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul className="text-gray-300 space-y-2">
+                  <li>
+                    <Link href="/salary-calculator" className="hover:text-blue-400 transition-colors">
+                      Salary Calculator
+                    </Link>
+                  </li>
                   <li>
                     <Link href="/about" className="hover:text-blue-400 transition-colors">
                       About Us

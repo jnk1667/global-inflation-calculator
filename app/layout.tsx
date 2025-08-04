@@ -1,34 +1,33 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Toaster } from "@/components/ui/toaster"
-import "./globals.css"
-import Script from "next/script"
 import Link from "next/link"
+import Script from "next/script"
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  preload: true,
-})
-
-const siteUrl = "https://www.globalinflationcalculator.com/"
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Global Inflation Calculator – For Inflation & Purchasing Power",
+  title: {
+    default: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
+    template: "%s | Global Inflation Calculator",
+  },
   description:
-    "Calculate historical inflation and purchasing power across multiple currencies from 1913 using data sourced from official government sources.",
+    "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Compare USD, GBP, EUR, CAD, AUD, CHF, JPY with real government data.",
   keywords: [
     "inflation calculator",
     "purchasing power",
     "historical inflation",
     "currency calculator",
-    "CPI",
-    "consumer price index",
+    "CPI calculator",
+    "inflation rate",
+    "money value",
     "economic data",
     "financial calculator",
+    "cost of living",
   ],
   authors: [{ name: "Global Inflation Calculator" }],
   creator: "Global Inflation Calculator",
@@ -38,33 +37,32 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"),
   alternates: {
-    canonical: siteUrl,
+    canonical: "/",
   },
   openGraph: {
-    title: "Global Inflation Calculator - Historical Inflation & Purchasing Power Calculator",
+    title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
     description:
-      "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Free inflation calculator with data from official government sources.",
-    url: siteUrl,
+      "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Compare USD, GBP, EUR, CAD, AUD, CHF, JPY with real government data.",
+    url: "/",
     siteName: "Global Inflation Calculator",
-    images: [
-      {
-        url: "/images/globe-icon.png",
-        width: 1200,
-        height: 630,
-        alt: "Global Inflation Calculator",
-      },
-    ],
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/placeholder.svg?height=630&width=1200&text=Global+Inflation+Calculator",
+        width: 1200,
+        height: 630,
+        alt: "Global Inflation Calculator - Historical Currency Analysis",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Global Inflation Calculator - Historical Inflation & Purchasing Power Calculator",
-    description:
-      "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Free inflation calculator with data from official government sources.",
-    images: ["/images/globe-icon.png"],
+    title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
+    description: "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present.",
+    images: ["/placeholder.svg?height=630&width=1200&text=Global+Inflation+Calculator"],
   },
   robots: {
     index: true,
@@ -80,12 +78,7 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
-  generator: "v0.dev",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -96,6 +89,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Google AdSense */}
+        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
+
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
           <>
@@ -108,92 +111,42 @@ export default function RootLayout({
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}', {
-                  page_location: window.location.href,
-                  page_title: document.title,
-                });
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}');
               `}
             </Script>
           </>
         )}
-
-        {/* Google AdSense */}
-        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-          <Script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        )}
-
-        {/* Preconnect to external domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-
-        {/* Favicon and app icons */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-
-        {/* Additional meta tags */}
-        <meta name="theme-color" content="#2563eb" />
-        <meta name="color-scheme" content="light dark" />
       </head>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {/* Theme Toggle - Fixed Position */}
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+          {/* Theme Toggle - Top Left */}
           <div className="fixed top-4 left-4 z-50">
             <ThemeToggle />
           </div>
 
-          {/* Navigation */}
-          <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40 bg-background/95 backdrop-blur-sm border rounded-full px-3 sm:px-6 py-2 shadow-lg max-w-[90vw] sm:max-w-none">
-            <div className="flex items-center space-x-3 sm:space-x-6 text-xs sm:text-sm">
-              <Link href="/" className="font-medium hover:text-primary transition-colors whitespace-nowrap">
-                Home
-              </Link>
-              <Link href="/about" className="font-medium hover:text-primary transition-colors whitespace-nowrap">
-                About
-              </Link>
-              <Link href="/privacy" className="font-medium hover:text-primary transition-colors whitespace-nowrap">
-                Privacy
-              </Link>
-              <Link href="/terms" className="font-medium hover:text-primary transition-colors whitespace-nowrap">
-                Terms
-              </Link>
+          {/* Navigation - Center Top */}
+          <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40">
+            <div className="bg-white/90 backdrop-blur-sm rounded-full px-6 py-2 shadow-lg border border-gray-200">
+              <div className="flex items-center space-x-6">
+                <Link href="/" className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors">
+                  Home
+                </Link>
+                <Link
+                  href="/salary-calculator"
+                  className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors"
+                >
+                  Salary Calculator
+                </Link>
+                <Link href="/about" className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors">
+                  About
+                </Link>
+              </div>
             </div>
           </nav>
 
           {children}
           <Toaster />
         </ThemeProvider>
-
-        {/* Schema.org structured data */}
-        <Script
-          id="organization-schema"
-          type="application/ld+json"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "Global Inflation Calculator",
-              url: siteUrl,
-              logo: `${siteUrl}/images/globe-icon.png`,
-              description: "Free inflation calculator with historical data from official government sources",
-              sameAs: [],
-              contactPoint: {
-                "@type": "ContactPoint",
-                contactType: "customer service",
-                availableLanguage: "English",
-              },
-            }),
-          }}
-        />
       </body>
     </html>
   )
