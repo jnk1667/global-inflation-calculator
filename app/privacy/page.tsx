@@ -4,7 +4,7 @@ import Link from "next/link"
 const siteUrl = "https://www.globalinflationcalculator.com"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Global Inflation Calculator | Data Protection & Privacy",
+  title: "Privacy Policy - Global Inflation Calculator",
   description:
     "Read our comprehensive privacy policy to understand how we collect, use, and protect your personal information when using our inflation calculator.",
   keywords: [

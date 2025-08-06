@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { ErrorBoundary } from "@/components/error-boundary"
 import LoadingSpinner from "@/components/loading-spinner"
-import { Globe, RefreshCw } from "lucide-react"
+import { Globe, RefreshCw } from 'lucide-react'
 import { supabase } from "@/lib/supabase"
 import { trackPageView } from "@/lib/analytics"
 import Script from "next/script"
@@ -607,369 +607,371 @@ export default function Home() {
           </div>
         </div>
 
-        {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <LoadingSpinner />
-            {retryCount > 0 && (
-              <div className="ml-4 text-sm text-gray-600">Retrying... (Attempt {retryCount + 1}/4)</div>
-            )}
-          </div>
-        ) : (
-          <main className="container mx-auto px-4 py-20 max-w-4xl">
-            {error && (
-              <Alert className="bg-red-50 border-red-200 mb-8">
-                <AlertDescription className="text-red-800 flex items-center justify-between">
-                  <span>{error}</span>
-                  <Button onClick={handleRetry} variant="outline" size="sm" className="ml-4 bg-white hover:bg-gray-50">
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Retry
-                  </Button>
-                </AlertDescription>
-              </Alert>
-            )}
-
-            {/* Header */}
-            <div className="text-center mb-16">
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="flex-shrink-0">
-                  {logoUrl ? (
-                    <img
-                      src={logoUrl || "/placeholder.svg"}
-                      alt="Global Inflation Calculator Globe Icon"
-                      className="w-16 h-16 rounded-full shadow-lg"
-                      loading="eager"
-                      onError={() => setLogoUrl("")}
-                    />
-                  ) : (
-                    <Globe className="w-16 h-16 text-blue-600" />
-                  )}
-                </div>
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900">Global Inflation Calculator</h1>
+        <main className="container mx-auto px-4 py-20 max-w-4xl">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="flex-shrink-0">
+                {logoUrl ? (
+                  <img
+                    src={logoUrl || "/placeholder.svg"}
+                    alt="Global Inflation Calculator Globe Icon"
+                    className="w-16 h-16 rounded-full shadow-lg"
+                    loading="eager"
+                    onError={() => setLogoUrl("")}
+                  />
+                ) : (
+                  <Globe className="w-16 h-16 text-blue-600" />
+                )}
               </div>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Calculate how inflation affects your money over time across different currencies. See real purchasing
-                power changes from 1913 to {currentYear}.
-              </p>
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900">Global Inflation Calculator</h1>
             </div>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Calculate how inflation affects your money over time across different currencies. See real purchasing
+              power changes from 1913 to {currentYear}.
+            </p>
+          </div>
 
-            {/* Only show calculator if data is loaded */}
-            {Object.keys(inflationData).length > 0 && (
-              <>
-                {/* Main Calculator Card */}
-                <Card className="bg-white shadow-lg border-0 mb-8">
-                  <CardContent className="p-8 space-y-8">
-                    {/* Amount Input */}
-                    <div className="space-y-3">
-                      <label htmlFor="amount-input" className="text-sm text-gray-600 font-medium">
-                        Enter Amount ($0.0 - $1,000,000,000,000)
-                      </label>
-                      <div className="relative">
-                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">
-                          {currentCurrencyData?.symbol || "$"}
-                        </span>
-                        <Input
-                          id="amount-input"
-                          type="number"
-                          value={amount}
-                          onChange={handleAmountChange}
-                          className={`text-lg h-14 border-gray-300 ${
-                            currentCurrencyData?.symbol && currentCurrencyData.symbol.length > 1 ? "pl-12" : "pl-8"
-                          }`}
-                          placeholder="100"
-                          aria-label="Enter amount to calculate inflation"
-                        />
-                      </div>
-                    </div>
+          {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <LoadingSpinner />
+              {retryCount > 0 && (
+                <div className="ml-4 text-sm text-gray-600">Retrying... (Attempt {retryCount + 1}/4)</div>
+              )}
+            </div>
+          ) : (
+            <>
+              {error && (
+                <Alert className="bg-red-50 border-red-200 mb-8">
+                  <AlertDescription className="text-red-800 flex items-center justify-between">
+                    <span>{error}</span>
+                    <Button onClick={handleRetry} variant="outline" size="sm" className="ml-4 bg-white hover:bg-gray-50">
+                      <RefreshCw className="h-4 w-4 mr-2" />
+                      Retry
+                    </Button>
+                  </AlertDescription>
+                </Alert>
+              )}
 
-                    {/* Currency Selection */}
-                    <div className="space-y-4">
-                      <label className="text-sm text-gray-600 font-medium">Select Currency</label>
-                      <div
-                        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3"
-                        role="radiogroup"
-                        aria-label="Currency selection"
-                      >
-                        {Object.entries(currencies).map(([code, info]) => {
-                          const currencyData = inflationData[code]
-                          const isAvailable = !!currencyData
-
-                          return (
-                            <Card
-                              key={code}
-                              className={`cursor-pointer transition-all hover:shadow-md ${
-                                selectedCurrency === code
-                                  ? "border-blue-500 border-2 bg-blue-50"
-                                  : isAvailable
-                                    ? "border-gray-200 hover:border-gray-300"
-                                    : "border-gray-100 bg-gray-50 cursor-not-allowed opacity-50"
-                              }`}
-                              onClick={() => isAvailable && handleCurrencyChange(code as keyof typeof currencies)}
-                              role="radio"
-                              aria-checked={selectedCurrency === code}
-                              tabIndex={0}
-                              onKeyDown={(e) => {
-                                if ((e.key === "Enter" || e.key === " ") && isAvailable) {
-                                  handleCurrencyChange(code as keyof typeof currencies)
-                                }
-                              }}
-                            >
-                              <CardContent className="p-4 text-center">
-                                <div className="text-lg font-bold text-gray-900">{info.flag}</div>
-                                <div className="text-xs text-blue-600 font-medium">{code}</div>
-                                <div className="text-xs text-gray-500 mt-1">{info.name}</div>
-                              </CardContent>
-                            </Card>
-                          )
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Year Selection */}
-                    <div className="space-y-6">
-                      <label className="text-sm text-gray-600 font-medium">From Year</label>
-
-                      {/* Large Year Display */}
-                      <div className="text-center">
-                        <div className="text-6xl font-bold text-blue-600 mb-2">{fromYear}</div>
-                        <div className="text-base text-gray-500">{yearsAgo} years ago</div>
+              {/* Only show calculator if data is loaded */}
+              {Object.keys(inflationData).length > 0 && (
+                <>
+                  {/* Main Calculator Card */}
+                  <Card className="bg-white shadow-lg border-0 mb-8">
+                    <CardContent className="p-8 space-y-8">
+                      {/* Amount Input */}
+                      <div className="space-y-3">
+                        <label htmlFor="amount-input" className="text-sm text-gray-600 font-medium">
+                          Enter Amount ($0.0 - $1,000,000,000,000)
+                        </label>
+                        <div className="relative">
+                          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">
+                            {currentCurrencyData?.symbol || "$"}
+                          </span>
+                          <Input
+                            id="amount-input"
+                            type="number"
+                            value={amount}
+                            onChange={handleAmountChange}
+                            className={`text-lg h-14 border-gray-300 ${
+                              currentCurrencyData?.symbol && currentCurrencyData.symbol.length > 1 ? "pl-12" : "pl-8"
+                            }`}
+                            placeholder="100"
+                            aria-label="Enter amount to calculate inflation"
+                          />
+                        </div>
                       </div>
 
-                      {/* Year Slider */}
-                      <div className="px-4">
-                        <Slider
-                          value={[fromYear]}
-                          onValueChange={handleYearChange}
-                          min={minYear}
-                          max={maxYear}
-                          step={1}
-                          className="w-full"
-                          aria-label={`Select year from ${minYear} to ${maxYear}`}
-                        />
+                      {/* Currency Selection */}
+                      <div className="space-y-4">
+                        <label className="text-sm text-gray-600 font-medium">Select Currency</label>
+                        <div
+                          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3"
+                          role="radiogroup"
+                          aria-label="Currency selection"
+                        >
+                          {Object.entries(currencies).map(([code, info]) => {
+                            const currencyData = inflationData[code]
+                            const isAvailable = !!currencyData
 
-                        {/* Year markers */}
-                        <div className="relative mt-8 px-2">
-                          {yearMarkers.map((year) => {
-                            const position = ((year - minYear) / (maxYear - minYear)) * 100
                             return (
-                              <button
-                                key={year}
-                                onClick={() => {
-                                  setFromYear(year)
-                                  setHasCalculated(false)
+                              <Card
+                                key={code}
+                                className={`cursor-pointer transition-all hover:shadow-md ${
+                                  selectedCurrency === code
+                                    ? "border-blue-500 border-2 bg-blue-50"
+                                    : isAvailable
+                                      ? "border-gray-200 hover:border-gray-300"
+                                      : "border-gray-100 bg-gray-50 cursor-not-allowed opacity-50"
+                                }`}
+                                onClick={() => isAvailable && handleCurrencyChange(code as keyof typeof currencies)}
+                                role="radio"
+                                aria-checked={selectedCurrency === code}
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                  if ((e.key === "Enter" || e.key === " ") && isAvailable) {
+                                    handleCurrencyChange(code as keyof typeof currencies)
+                                  }
                                 }}
-                                className="absolute text-xs text-gray-400 hover:text-blue-600 cursor-pointer transition-colors transform -translate-x-1/2 font-medium"
-                                style={{ left: `${position}%` }}
-                                aria-label={`Set year to ${year}`}
                               >
-                                {year}
-                              </button>
+                                <CardContent className="p-4 text-center">
+                                  <div className="text-lg font-bold text-gray-900">{info.flag}</div>
+                                  <div className="text-xs text-blue-600 font-medium">{code}</div>
+                                  <div className="text-xs text-gray-500 mt-1">{info.name}</div>
+                                </CardContent>
+                              </Card>
                             )
                           })}
                         </div>
                       </div>
 
-                      {/* Info text */}
-                      <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-4 rounded mt-20">
-                        💡 Drag the slider or tap the year buttons above • Data available from {minYear} to{" "}
-                        {currentYear} • Updated August 2025
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                      {/* Year Selection */}
+                      <div className="space-y-6">
+                        <label className="text-sm text-gray-600 font-medium">From Year</label>
 
-                {/* Ad Banner - After Calculator */}
-                <div className="mb-8">
-                  <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
-                    <AdBanner slot="homepage-after-calculator" format="horizontal" />
-                  </Suspense>
-                </div>
-
-                {/* Results Section */}
-                {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
-                  <>
-                    <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg text-white p-8 mb-8">
-                      <div className="text-center">
-                        <div className="flex items-center justify-center gap-2 mb-4">
-                          <span className="text-2xl">🔥</span>
-                          <h2 className="text-2xl font-bold">Inflation Impact</h2>
+                        {/* Large Year Display */}
+                        <div className="text-center">
+                          <div className="text-6xl font-bold text-blue-600 mb-2">{fromYear}</div>
+                          <div className="text-base text-gray-500">{yearsAgo} years ago</div>
                         </div>
 
-                        <div className="text-5xl font-bold mb-4">{getCurrencyDisplay(adjustedAmount)}</div>
+                        {/* Year Slider */}
+                        <div className="px-4">
+                          <Slider
+                            value={[fromYear]}
+                            onValueChange={handleYearChange}
+                            min={minYear}
+                            max={maxYear}
+                            step={1}
+                            className="w-full"
+                            aria-label={`Select year from ${minYear} to ${maxYear}`}
+                          />
 
-                        <div className="text-xl mb-8 opacity-90">
-                          {getCurrencyDisplay(Number.parseFloat(amount))} in {fromYear} equals{" "}
-                          {getCurrencyDisplay(adjustedAmount)} in {currentYear}
-                        </div>
-
-                        {/* Stats Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                          <div className="bg-white bg-opacity-20 rounded-lg p-4">
-                            <div className="text-2xl font-bold">{totalInflation.toFixed(1)}%</div>
-                            <div className="text-sm opacity-80">Total Inflation</div>
-                          </div>
-                          <div className="bg-white bg-opacity-20 rounded-lg p-4">
-                            <div className="text-2xl font-bold">{annualRate.toFixed(2)}%</div>
-                            <div className="text-sm opacity-80">Annual Average</div>
-                          </div>
-                          <div className="bg-white bg-opacity-20 rounded-lg p-4">
-                            <div className="text-2xl font-bold">{yearsAgo}</div>
-                            <div className="text-sm opacity-80">Years</div>
+                          {/* Year markers */}
+                          <div className="relative mt-8 px-2">
+                            {yearMarkers.map((year) => {
+                              const position = ((year - minYear) / (maxYear - minYear)) * 100
+                              return (
+                                <button
+                                  key={year}
+                                  onClick={() => {
+                                    setFromYear(year)
+                                    setHasCalculated(false)
+                                  }}
+                                  className="absolute text-xs text-gray-400 hover:text-blue-600 cursor-pointer transition-colors transform -translate-x-1/2 font-medium"
+                                  style={{ left: `${position}%` }}
+                                  aria-label={`Set year to ${year}`}
+                                >
+                                  {year}
+                                </button>
+                              )
+                            })}
                           </div>
                         </div>
 
-                        {/* Action Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                          <Button
-                            variant="outline"
-                            className="bg-white text-blue-600 hover:bg-gray-50"
-                            onClick={async () => {
-                              const shareText = `💰 ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(adjustedAmount)} in ${currentYear}! That's ${totalInflation.toFixed(1)}% total inflation.`
-                              try {
-                                await navigator.clipboard.writeText(`${shareText} ${siteUrl}`)
-                                alert("✅ Result copied to clipboard!")
-                              } catch {
-                                prompt("Copy this text:", `${shareText} ${siteUrl}`)
-                              }
-                            }}
-                          >
-                            📤 Share Result
-                          </Button>
-                          <Button
-                            variant="outline"
-                            className="bg-white text-blue-600 hover:bg-gray-50"
-                            onClick={() => {
-                              setAmount("100")
-                              setFromYear(2020)
-                              setHasCalculated(false)
-                            }}
-                          >
-                            🔄 Reset
-                          </Button>
+                        {/* Info text */}
+                        <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-4 rounded mt-20">
+                          💡 Drag the slider or tap the year buttons above • Data available from {minYear} to{" "}
+                          {currentYear} • Updated August 2025
                         </div>
                       </div>
-                    </div>
+                    </CardContent>
+                  </Card>
 
-                    {/* Currency Comparison Section */}
-                    <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse mb-8" />}>
-                      <CurrencyComparisonChart amount={amount} fromYear={fromYear} inflationData={inflationData} />
+                  {/* Ad Banner - After Calculator */}
+                  <div className="mb-8">
+                    <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
+                      <AdBanner slot="homepage-after-calculator" format="horizontal" />
                     </Suspense>
+                  </div>
 
-                    {/* Line Chart Section */}
-                    <Card className="bg-white shadow-lg border-0 mb-8">
-                      <CardHeader>
-                        <CardTitle className="text-xl">
-                          📈 {currencies[selectedCurrency]?.name} Inflation Trend Over Time
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="h-[500px] md:h-[700px]">
-                          <Suspense fallback={<div className="h-full bg-gray-100 rounded animate-pulse" />}>
-                            <SimpleLineChart
-                              data={chartData}
-                              currency={currentCurrencyData?.symbol || "$"}
-                              fromYear={fromYear}
-                              selectedCurrency={selectedCurrency}
-                              originalAmount={Number.parseFloat(amount)}
-                              allInflationData={inflationData}
-                            />
-                          </Suspense>
+                  {/* Results Section */}
+                  {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
+                    <>
+                      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg text-white p-8 mb-8">
+                        <div className="text-center">
+                          <div className="flex items-center justify-center gap-2 mb-4">
+                            <span className="text-2xl">🔥</span>
+                            <h2 className="text-2xl font-bold">Inflation Impact</h2>
+                          </div>
+
+                          <div className="text-5xl font-bold mb-4">{getCurrencyDisplay(adjustedAmount)}</div>
+
+                          <div className="text-xl mb-8 opacity-90">
+                            {getCurrencyDisplay(Number.parseFloat(amount))} in {fromYear} equals{" "}
+                            {getCurrencyDisplay(adjustedAmount)} in {currentYear}
+                          </div>
+
+                          {/* Stats Grid */}
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                              <div className="text-2xl font-bold">{totalInflation.toFixed(1)}%</div>
+                              <div className="text-sm opacity-80">Total Inflation</div>
+                            </div>
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                              <div className="text-2xl font-bold">{annualRate.toFixed(2)}%</div>
+                              <div className="text-sm opacity-80">Annual Average</div>
+                            </div>
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                              <div className="text-2xl font-bold">{yearsAgo}</div>
+                              <div className="text-sm opacity-80">Years</div>
+                            </div>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                            <Button
+                              variant="outline"
+                              className="bg-white text-blue-600 hover:bg-gray-50"
+                              onClick={async () => {
+                                const shareText = `💰 ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(adjustedAmount)} in ${currentYear}! That's ${totalInflation.toFixed(1)}% total inflation.`
+                                try {
+                                  await navigator.clipboard.writeText(`${shareText} ${siteUrl}`)
+                                  alert("✅ Result copied to clipboard!")
+                                } catch {
+                                  prompt("Copy this text:", `${shareText} ${siteUrl}`)
+                                }
+                              }}
+                            >
+                              📤 Share Result
+                            </Button>
+                            <Button
+                              variant="outline"
+                              className="bg-white text-blue-600 hover:bg-gray-50"
+                              onClick={() => {
+                                setAmount("100")
+                                setFromYear(2020)
+                                setHasCalculated(false)
+                              }}
+                            >
+                              🔄 Reset
+                            </Button>
+                          </div>
                         </div>
-                        <p className="text-sm text-gray-600 text-center mt-4">
-                          This chart shows how {getCurrencyDisplay(Number.parseFloat(amount))} from {fromYear} would
-                          grow due to inflation over time
-                        </p>
-                      </CardContent>
-                    </Card>
+                      </div>
 
-                    {/* Purchasing Power Section */}
-                    <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse mb-8" />}>
-                      <PurchasingPowerVisual
-                        originalAmount={Number.parseFloat(amount)}
-                        adjustedAmount={adjustedAmount}
-                        currency={selectedCurrency}
-                        symbol={currentCurrencyData?.symbol || "$"}
-                        fromYear={fromYear}
-                        inflationData={currentCurrencyData}
-                      />
-                    </Suspense>
-
-                    {/* Ad Banner - After Charts */}
-                    <div className="mb-8">
-                      <Suspense fallback={<div className="h-64 bg-gray-100 rounded animate-pulse" />}>
-                        <AdBanner slot="homepage-after-charts" format="square" className="mx-auto" />
+                      {/* Currency Comparison Section */}
+                      <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse mb-8" />}>
+                        <CurrencyComparisonChart amount={amount} fromYear={fromYear} inflationData={inflationData} />
                       </Suspense>
-                    </div>
 
-                    {/* Historical Context Section */}
-                    <Card className="bg-white shadow-lg border-0 mb-8">
-                      <CardHeader>
-                        <CardTitle className="text-xl flex items-center gap-2">
-                          📚 Historical Context for {fromYear}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div>
-                            <h4 className="font-semibold text-gray-900 mb-3">What was happening in {fromYear}:</h4>
-                            <ul className="text-sm text-gray-600 space-y-1">
-                              {historicalContext.events.map((event, index) => (
-                                <li key={index}>{event}</li>
-                              ))}
-                            </ul>
+                      {/* Line Chart Section */}
+                      <Card className="bg-white shadow-lg border-0 mb-8">
+                        <CardHeader>
+                          <CardTitle className="text-xl">
+                            📈 {currencies[selectedCurrency]?.name} Inflation Trend Over Time
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="h-[500px] md:h-[700px]">
+                            <Suspense fallback={<div className="h-full bg-gray-100 rounded animate-pulse" />}>
+                              <SimpleLineChart
+                                data={chartData}
+                                currency={currentCurrencyData?.symbol || "$"}
+                                fromYear={fromYear}
+                                selectedCurrency={selectedCurrency}
+                                originalAmount={Number.parseFloat(amount)}
+                                allInflationData={inflationData}
+                              />
+                            </Suspense>
                           </div>
-                          <div>
-                            <h4 className="font-semibold text-gray-900 mb-3">Typical prices in {fromYear}:</h4>
-                            <ul className="text-sm text-gray-600 space-y-1">
-                              {historicalContext.prices.map((price, index) => (
-                                <li key={index}>{price}</li>
-                              ))}
-                            </ul>
+                          <p className="text-sm text-gray-600 text-center mt-4">
+                            This chart shows how {getCurrencyDisplay(Number.parseFloat(amount))} from {fromYear} would
+                            grow due to inflation over time
+                          </p>
+                        </CardContent>
+                      </Card>
+
+                      {/* Purchasing Power Section */}
+                      <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse mb-8" />}>
+                        <PurchasingPowerVisual
+                          originalAmount={Number.parseFloat(amount)}
+                          adjustedAmount={adjustedAmount}
+                          currency={selectedCurrency}
+                          symbol={currentCurrencyData?.symbol || "$"}
+                          fromYear={fromYear}
+                          inflationData={currentCurrencyData}
+                        />
+                      </Suspense>
+
+                      {/* Ad Banner - After Charts */}
+                      <div className="mb-8">
+                        <Suspense fallback={<div className="h-64 bg-gray-100 rounded animate-pulse" />}>
+                          <AdBanner slot="homepage-after-charts" format="square" className="mx-auto" />
+                        </Suspense>
+                      </div>
+
+                      {/* Historical Context Section */}
+                      <Card className="bg-white shadow-lg border-0 mb-8">
+                        <CardHeader>
+                          <CardTitle className="text-xl flex items-center gap-2">
+                            📚 Historical Context for {fromYear}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                              <h4 className="font-semibold text-gray-900 mb-3">What was happening in {fromYear}:</h4>
+                              <ul className="text-sm text-gray-600 space-y-1">
+                                {historicalContext.events.map((event, index) => (
+                                  <li key={index}>{event}</li>
+                                ))}
+                              </ul>
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-gray-900 mb-3">Typical prices in {fromYear}:</h4>
+                              <ul className="text-sm text-gray-600 space-y-1">
+                                {historicalContext.prices.map((price, index) => (
+                                  <li key={index}>{price}</li>
+                                ))}
+                              </ul>
+                            </div>
                           </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </>
-                )}
+                        </CardContent>
+                      </Card>
+                    </>
+                  )}
 
-                {/* Cross-promotion to Salary Calculator */}
-                <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-0 shadow-lg mb-8">
-                  <CardContent className="p-6 text-center">
-                    <h3 className="text-xl font-semibold mb-2">💰 New: Salary Inflation Calculator</h3>
-                    <p className="text-gray-600 mb-4">
-                      Calculate what your historical salary should be worth today. Perfect for salary negotiations and
-                      career planning.
-                    </p>
-                    <Link href="/salary-calculator">
-                      <Button className="bg-green-600 hover:bg-green-700 text-white">Try Salary Calculator →</Button>
-                    </Link>
-                  </CardContent>
-                </Card>
+                  {/* Cross-promotion to Salary Calculator */}
+                  <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-0 shadow-lg mb-8">
+                    <CardContent className="p-6 text-center">
+                      <h3 className="text-xl font-semibold mb-2">💰 New: Salary Inflation Calculator</h3>
+                      <p className="text-gray-600 mb-4">
+                        Calculate what your historical salary should be worth today. Perfect for salary negotiations and
+                        career planning.
+                      </p>
+                      <Link href="/salary-calculator">
+                        <Button className="bg-green-600 hover:bg-green-700 text-white">Try Salary Calculator →</Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
 
-                {/* SEO Essay Section */}
-                <Card className="bg-white shadow-lg border-0 mb-8">
-                  <CardHeader>
-                    <CardTitle className="text-xl flex items-center gap-2">
-                      📖 Understanding Inflation and Economics
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="prose prose-gray max-w-none">
-                    <div className="text-gray-700 leading-relaxed">{renderSEOContent(seoEssay)}</div>
-                  </CardContent>
-                </Card>
+                  {/* SEO Essay Section */}
+                  <Card className="bg-white shadow-lg border-0 mb-8">
+                    <CardHeader>
+                      <CardTitle className="text-xl flex items-center gap-2">
+                        📖 Understanding Inflation and Economics
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="prose prose-gray max-w-none">
+                      <div className="text-gray-700 leading-relaxed">{renderSEOContent(seoEssay)}</div>
+                    </CardContent>
+                  </Card>
 
-                {/* Social Share */}
-                <Suspense fallback={<div className="h-16 bg-gray-100 rounded animate-pulse mb-8" />}>
-                  <SocialShare />
-                </Suspense>
+                  {/* Social Share */}
+                  <Suspense fallback={<div className="h-16 bg-gray-100 rounded animate-pulse mb-8" />}>
+                    <SocialShare />
+                  </Suspense>
 
-                {/* FAQ */}
-                <Suspense fallback={<div className="h-64 bg-gray-100 rounded animate-pulse mb-8" />}>
-                  <FAQ />
-                </Suspense>
-              </>
-            )}
-          </main>
-        )}
+                  {/* FAQ */}
+                  <Suspense fallback={<div className="h-64 bg-gray-100 rounded animate-pulse mb-8" />}>
+                    <FAQ />
+                  </Suspense>
+                </>
+              )}
+            </>
+          )}
+        </main>
 
         {/* Footer */}
         <footer className="bg-gray-900 text-white py-12 mt-16">
@@ -1027,5 +1029,3 @@ export default function Home() {
         </footer>
       </div>
     </ErrorBoundary>
-  )
-}
