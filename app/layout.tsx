@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     template: "%s | Global Inflation Calculator",
   },
   description:
-    "Calculate historical inflation and purchasing power across multiple world currencies with official historical data going as far as 1913.",
+    "Calculate historical inflation and purchasing power across multiple currencies with official data from as far as 1913 to the present day.",
   keywords: [
     "inflation calculator",
     "purchasing power",
