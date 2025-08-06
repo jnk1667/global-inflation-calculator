@@ -6,7 +6,7 @@ const siteUrl = "https://www.globalinflationcalculator.com"
 export const metadata: Metadata = {
   title: "Salary Inflation Calculator - Wage Adjustment",
   description:
-    "Calculate what your historical salary should be worth today if it were adjusted for inflation. Understand what real wage growth looks like.",
+    "Calculate what your historical salary might be worth today if it were adjusted for inflation. Understand what real wage growth looks like.",
   keywords: [
     "salary inflation calculator",
     "wage adjustment calculator",
