@@ -24,9 +24,12 @@ interface SalaryResult {
   currency: string
   fromYear: number
   toYear: number
+  requiredAnnualGrowthRate: number
+  compoundAnnualInflationRate: number
+  salaryIncreaseNeeded: number
 }
 
-// Fallback inflation data for when fetch fails
+// Fallback inflation data for when fetch fails - Added NZD
 const fallbackInflationData = {
   USD: {
     1950: 24.1,
@@ -56,6 +59,15 @@ const fallbackInflationData = {
     2010: 100.0,
     2020: 102.8,
     2025: 115.2
+  },
+  NZD: {
+    1970: 109.8,
+    1980: 289.6,
+    1990: 798.3,
+    2000: 925.7,
+    2010: 1201.5,
+    2020: 1382.4,
+    2025: 1723.8
   }
 }
 
@@ -68,6 +80,7 @@ const SalaryCalculatorPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Updated currencies array to include NZD
   const currencies = [
     { code: "USD", name: "US Dollar", flag: "🇺🇸" },
     { code: "GBP", name: "British Pound", flag: "🇬🇧" },
@@ -76,6 +89,7 @@ const SalaryCalculatorPage: React.FC = () => {
     { code: "AUD", name: "Australian Dollar", flag: "🇦🇺" },
     { code: "CHF", name: "Swiss Franc", flag: "🇨🇭" },
     { code: "JPY", name: "Japanese Yen", flag: "🇯🇵" },
+    { code: "NZD", name: "New Zealand Dollar", flag: "🇳🇿" },
   ]
 
   const calculateSalaryAdjustment = async () => {
@@ -100,8 +114,10 @@ const SalaryCalculatorPage: React.FC = () => {
         throw new Error("From year must be before to year.")
       }
 
-      if (fromYearValue < 1913) {
-        throw new Error("Data is only available from 1913 onwards.")
+      // Updated validation for NZD (starts from 1967)
+      const minYear = currency === "NZD" ? 1967 : currency === "EUR" ? 1999 : 1913
+      if (fromYearValue < minYear) {
+        throw new Error(`Data for ${currency} is only available from ${minYear} onwards.`)
       }
 
       if (toYearValue > 2025) {
@@ -167,6 +183,11 @@ const SalaryCalculatorPage: React.FC = () => {
       const purchasingPowerLoss = ((adjustedSalary - salaryValue) / salaryValue) * 100
       const yearsDifference = toYearValue - fromYearValue
 
+      // Calculate Compound Annual Growth Rate (CAGR) for required salary growth
+      const compoundAnnualInflationRate = Math.pow(endCPI / startCPI, 1 / yearsDifference) - 1
+      const requiredAnnualGrowthRate = compoundAnnualInflationRate * 100
+      const salaryIncreaseNeeded = adjustedSalary - salaryValue
+
       const calculationResult: SalaryResult = {
         originalSalary: salaryValue,
         adjustedSalary,
@@ -176,6 +197,9 @@ const SalaryCalculatorPage: React.FC = () => {
         currency,
         fromYear: fromYearValue,
         toYear: toYearValue,
+        requiredAnnualGrowthRate,
+        compoundAnnualInflationRate,
+        salaryIncreaseNeeded,
       }
 
       setResult(calculationResult)
@@ -278,7 +302,7 @@ const SalaryCalculatorPage: React.FC = () => {
                       placeholder="2000"
                       value={fromYear}
                       onChange={(e) => setFromYear(e.target.value)}
-                      min="1913"
+                      min={currency === "NZD" ? "1967" : currency === "EUR" ? "1999" : "1913"}
                       max="2024"
                     />
                   </div>
@@ -330,7 +354,7 @@ const SalaryCalculatorPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-4 text-center">
+                    <div className="grid md:grid-cols-4 gap-4 text-center">
                       <div>
                         <p className="text-sm text-gray-600 dark:text-gray-400">Total Inflation</p>
                         <Badge variant="secondary" className="text-lg px-3 py-1">
@@ -338,9 +362,15 @@ const SalaryCalculatorPage: React.FC = () => {
                         </Badge>
                       </div>
                       <div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Required Annual Growth</p>
+                        <Badge variant="outline" className="text-lg px-3 py-1">
+                          {result.requiredAnnualGrowthRate.toFixed(2)}%
+                        </Badge>
+                      </div>
+                      <div>
                         <p className="text-sm text-gray-600 dark:text-gray-400">Salary Increase Needed</p>
                         <Badge variant="outline" className="text-lg px-3 py-1">
-                          {formatCurrency(result.adjustedSalary - result.originalSalary, result.currency)}
+                          {formatCurrency(result.salaryIncreaseNeeded, result.currency)}
                         </Badge>
                       </div>
                       <div>
@@ -356,8 +386,8 @@ const SalaryCalculatorPage: React.FC = () => {
                       <AlertDescription>
                         <strong>Interpretation:</strong> To maintain the same purchasing power as{" "}
                         {formatCurrency(result.originalSalary, result.currency)} in {result.fromYear}, you would need to
-                        earn {formatCurrency(result.adjustedSalary, result.currency)} in {result.toYear}. This
-                        represents a {formatPercentage(result.purchasingPowerLoss)} increase due to inflation over{" "}
+                        earn {formatCurrency(result.adjustedSalary, result.currency)} in {result.toYear}. This requires an average annual salary increase of{" "}
+                        <strong>{result.requiredAnnualGrowthRate.toFixed(2)}%</strong> to keep pace with inflation over{" "}
                         {result.yearsDifference} years.
                       </AlertDescription>
                     </Alert>
@@ -438,7 +468,7 @@ const SalaryCalculatorPage: React.FC = () => {
                 Methodology & Data Sources
               </CardTitle>
               <CardDescription>
-                Transparent methodology for E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness)
+                Transparent methodology for trust and accuracy
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -488,6 +518,12 @@ const SalaryCalculatorPage: React.FC = () => {
                         <strong>🇯🇵 JPY:</strong> Statistics Bureau of Japan Consumer Price Index
                       </div>
                     </div>
+                    <div className="flex items-start gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <strong>🇳🇿 NZD:</strong> Statistics New Zealand Consumer Price Index
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -495,23 +531,27 @@ const SalaryCalculatorPage: React.FC = () => {
                   <h3 className="text-lg font-semibold mb-3">Calculation Method</h3>
                   <div className="space-y-3 text-sm">
                     <div>
-                      <strong>Formula:</strong>
+                      <strong>Primary Formula:</strong>
                       <code className="block mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs">
-                        Adjusted Salary = Original Salary × (1 + Cumulative Inflation Rate)
+                        Adjusted Salary = Original Salary × (End CPI / Start CPI)
                       </code>
                     </div>
                     <div>
-                      <strong>Inflation Rate Calculation:</strong>
+                      <strong>Required Annual Growth Rate (CAGR):</strong>
+                      <code className="block mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs">
+                        Annual Growth Rate = ((End CPI / Start CPI)^(1/years)) - 1
+                      </code>
+                    </div>
+                    <div>
+                      <strong>Unique Methodology:</strong>
                       <p className="mt-1">
-                        We calculate the cumulative inflation rate between two years using the Consumer Price Index
-                        (CPI) formula: (CPI_end - CPI_start) / CPI_start
+                        Unlike general inflation calculators, we calculate the Compound Annual Growth Rate (CAGR) to show the exact annual salary increase percentage needed to maintain purchasing power. This provides actionable career planning insights.
                       </p>
                     </div>
                     <div>
                       <strong>Data Accuracy:</strong>
                       <p className="mt-1">
-                        All data is sourced directly from official government statistical agencies and updated regularly
-                        to ensure accuracy.
+                        All calculations use official government Consumer Price Index data, updated regularly to ensure accuracy.
                       </p>
                     </div>
                   </div>
@@ -562,7 +602,7 @@ const SalaryCalculatorPage: React.FC = () => {
 
               <div className="text-center">
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  <strong>Last Updated:</strong> August 2025 | <strong>Data Coverage:</strong> 1913-2025 |{" "}
+                  <strong>Last Updated:</strong> August 2025 | <strong>Data Coverage:</strong> 1913-2025 (varies by currency) |{" "}
                   <strong>Update Frequency:</strong> Monthly
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">

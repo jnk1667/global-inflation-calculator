@@ -41,7 +41,7 @@ interface AllInflationData {
   [currency: string]: CurrencyData
 }
 
-// Currency definitions with proper spacing
+// Currency definitions with proper spacing - Added NZD
 const currencies = {
   USD: { symbol: "$", name: "US Dollar", flag: "🇺🇸", code: "US" },
   GBP: { symbol: "£", name: "British Pound", flag: "🇬🇧", code: "GB" },
@@ -50,6 +50,7 @@ const currencies = {
   AUD: { symbol: "A$", name: "Australian Dollar", flag: "🇦🇺", code: "AU" },
   CHF: { symbol: "Fr", name: "Swiss Franc", flag: "🇨🇭", code: "CH" },
   JPY: { symbol: "¥", name: "Japanese Yen", flag: "🇯🇵", code: "JP" },
+  NZD: { symbol: "NZ$", name: "New Zealand Dollar", flag: "🇳🇿", code: "NZ" },
 } as const
 
 // Historical context data by decade
@@ -426,6 +427,8 @@ export default function Home() {
       markers.push(1920, 1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "JPY") {
       markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
+    } else if (selectedCurrency === "NZD") {
+      markers.push(1970, 1980, 1990, 2000, 2010, 2020)
     }
     return markers.filter((year) => year > minYear && year < maxYear)
   }
@@ -490,7 +493,8 @@ export default function Home() {
   // Get proper currency symbol with spacing
   const getCurrencyDisplay = (value: number) => {
     const symbol = currentCurrencyData?.symbol || "$"
-    if (symbol.length > 1) {
+    // Multi-character symbols that need spacing: C$, A$, NZ$, Fr
+    if (symbol.length > 1 || symbol === "Fr") {
       return `${symbol} ${value.toFixed(2)}`
     }
     return `${symbol}${value.toFixed(2)}`
@@ -550,7 +554,7 @@ export default function Home() {
               },
               featureList: [
                 "Historical inflation calculation from 1913-2025",
-                "Multi-currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY)",
+                "Multi-currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)",
                 "Purchasing power comparison",
                 "Interactive charts and visualizations",
                 "Historical context and events",
@@ -686,7 +690,7 @@ export default function Home() {
                       <div className="space-y-4">
                         <label className="text-sm text-gray-600 font-medium">Select Currency</label>
                         <div
-                          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3"
+                          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3"
                           role="radiogroup"
                           aria-label="Currency selection"
                         >
@@ -993,6 +997,7 @@ export default function Home() {
                   <li>• Australian Bureau of Statistics</li>
                   <li>• Swiss Federal Statistical Office</li>
                   <li>• Statistics Bureau of Japan</li>
+                  <li>• Statistics New Zealand</li>
                 </ul>
               </div>
               <div>
