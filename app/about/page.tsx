@@ -6,7 +6,7 @@ const siteUrl = "https://www.globalinflationcalculator.com"
 export const metadata: Metadata = {
   title: "About Us - Global Inflation Calculator | Our Mission",
   description:
-    "Learn about the Global Inflation Calculator project, our mission to provide accurate historical inflation data, and meet our team of economics and finance experts.",
+    "Learn about the Global Inflation Calculator project, our mission to provide accurate historical inflation data to everyone for free.",
   keywords: [
     "about global inflation calculator",
     "inflation calculator team",
