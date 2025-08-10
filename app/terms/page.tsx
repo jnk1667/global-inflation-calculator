@@ -4,7 +4,7 @@ import Link from "next/link"
 const siteUrl = "https://www.globalinflationcalculator.com"
 
 export const metadata: Metadata = {
-  title: "Terms of Service - Global Inflation Calculator | Usage Terms & Conditions",
+  title: "Terms of Service - Global Inflation Calculator",
   description:
     "Read our terms of service to understand the rules and guidelines for using our free inflation calculator and historical economic data.",
   keywords: [
