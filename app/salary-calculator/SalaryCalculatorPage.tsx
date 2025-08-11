@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertCircle } from 'lucide-react'
+import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { trackEvent } from "@/lib/analytics"
 import AdBanner from "@/components/ad-banner"
@@ -40,7 +40,7 @@ const fallbackInflationData = {
     2000: 172.2,
     2010: 218.1,
     2020: 258.8,
-    2025: 310.3
+    2025: 310.3,
   },
   GBP: {
     1950: 3.4,
@@ -51,14 +51,14 @@ const fallbackInflationData = {
     2000: 58.0,
     2010: 79.2,
     2020: 89.1,
-    2025: 105.8
+    2025: 105.8,
   },
   EUR: {
     1999: 87.4,
     2000: 89.0,
     2010: 100.0,
     2020: 102.8,
-    2025: 115.2
+    2025: 115.2,
   },
   NZD: {
     1970: 109.8,
@@ -67,8 +67,8 @@ const fallbackInflationData = {
     2000: 925.7,
     2010: 1201.5,
     2020: 1382.4,
-    2025: 1723.8
-  }
+    2025: 1723.8,
+  },
 }
 
 const SalaryCalculatorPage: React.FC = () => {
@@ -130,13 +130,13 @@ const SalaryCalculatorPage: React.FC = () => {
       try {
         // Try to fetch inflation data from JSON file
         const response = await fetch(`/data/${currency.toLowerCase()}-inflation.json`)
-        
+
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`)
         }
 
         const data = await response.json()
-        
+
         if (!data.data) {
           throw new Error("Invalid data format")
         }
@@ -146,30 +146,34 @@ const SalaryCalculatorPage: React.FC = () => {
         endCPI = inflationData[toYearValue.toString()]
       } catch (fetchError) {
         console.warn("Failed to fetch inflation data, using fallback:", fetchError)
-        
+
         // Use fallback data
         const fallbackData = fallbackInflationData[currency as keyof typeof fallbackInflationData]
-        
+
         if (!fallbackData) {
           throw new Error(`Inflation data for ${currency} is not available in preview mode.`)
         }
 
         // Find closest years in fallback data
-        const availableYears = Object.keys(fallbackData).map(Number).sort((a, b) => a - b)
-        
-        const closestStartYear = availableYears.reduce((prev, curr) => 
-          Math.abs(curr - fromYearValue) < Math.abs(prev - fromYearValue) ? curr : prev
+        const availableYears = Object.keys(fallbackData)
+          .map(Number)
+          .sort((a, b) => a - b)
+
+        const closestStartYear = availableYears.reduce((prev, curr) =>
+          Math.abs(curr - fromYearValue) < Math.abs(prev - fromYearValue) ? curr : prev,
         )
-        
-        const closestEndYear = availableYears.reduce((prev, curr) => 
-          Math.abs(curr - toYearValue) < Math.abs(prev - toYearValue) ? curr : prev
+
+        const closestEndYear = availableYears.reduce((prev, curr) =>
+          Math.abs(curr - toYearValue) < Math.abs(prev - toYearValue) ? curr : prev,
         )
 
         startCPI = fallbackData[closestStartYear as keyof typeof fallbackData]
         endCPI = fallbackData[closestEndYear as keyof typeof fallbackData]
 
         if (closestStartYear !== fromYearValue || closestEndYear !== toYearValue) {
-          console.warn(`Using approximate data: ${closestStartYear} instead of ${fromYearValue}, ${closestEndYear} instead of ${toYearValue}`)
+          console.warn(
+            `Using approximate data: ${closestStartYear} instead of ${fromYearValue}, ${closestEndYear} instead of ${toYearValue}`,
+          )
         }
       }
 
@@ -386,7 +390,8 @@ const SalaryCalculatorPage: React.FC = () => {
                       <AlertDescription>
                         <strong>Interpretation:</strong> To maintain the same purchasing power as{" "}
                         {formatCurrency(result.originalSalary, result.currency)} in {result.fromYear}, you would need to
-                        earn {formatCurrency(result.adjustedSalary, result.currency)} in {result.toYear}. This requires an average annual salary increase of{" "}
+                        earn {formatCurrency(result.adjustedSalary, result.currency)} in {result.toYear}. This requires
+                        an average annual salary increase of{" "}
                         <strong>{result.requiredAnnualGrowthRate.toFixed(2)}%</strong> to keep pace with inflation over{" "}
                         {result.yearsDifference} years.
                       </AlertDescription>
@@ -467,9 +472,7 @@ const SalaryCalculatorPage: React.FC = () => {
                 <Info className="h-5 w-5 text-blue-600" />
                 Methodology & Data Sources
               </CardTitle>
-              <CardDescription>
-                Transparent methodology for trust and accuracy
-              </CardDescription>
+              <CardDescription>Transparent methodology for trust and accuracy</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
@@ -545,13 +548,16 @@ const SalaryCalculatorPage: React.FC = () => {
                     <div>
                       <strong>Unique Methodology:</strong>
                       <p className="mt-1">
-                        Unlike general inflation calculators, we calculate the Compound Annual Growth Rate (CAGR) to show the exact annual salary increase percentage needed to maintain purchasing power. This provides actionable career planning insights.
+                        Unlike general inflation calculators, we calculate the Compound Annual Growth Rate (CAGR) to
+                        show the exact annual salary increase percentage needed to maintain purchasing power. This
+                        provides actionable career planning insights.
                       </p>
                     </div>
                     <div>
                       <strong>Data Accuracy:</strong>
                       <p className="mt-1">
-                        All calculations use official government Consumer Price Index data, updated regularly to ensure accuracy.
+                        All calculations use official government Consumer Price Index data, updated regularly to ensure
+                        accuracy.
                       </p>
                     </div>
                   </div>
@@ -602,8 +608,8 @@ const SalaryCalculatorPage: React.FC = () => {
 
               <div className="text-center">
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  <strong>Last Updated:</strong> August 2025 | <strong>Data Coverage:</strong> 1913-2025 (varies by currency) |{" "}
-                  <strong>Update Frequency:</strong> Monthly
+                  <strong>Last Updated:</strong> August 2025 | <strong>Data Coverage:</strong> 1913-2025 (varies by
+                  currency) | <strong>Update Frequency:</strong> Monthly
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
                   This tool is provided for educational and informational purposes. For professional financial advice,
@@ -613,6 +619,83 @@ const SalaryCalculatorPage: React.FC = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Footer with Internal Links */}
+        <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Calculator Tools</h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link
+                    href="/"
+                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    Inflation Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/salary-calculator"
+                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    Salary Calculator
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Information</h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link
+                    href="/about"
+                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    About Us
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Legal</h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link
+                    href="/privacy"
+                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/terms"
+                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    Terms of Service
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Contact</h4>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href="mailto:admin@globalinflationcalculator.com"
+                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    Contact Us
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
+            <p>&copy; 2025 Global Inflation Calculator. All rights reserved.</p>
+          </div>
+        </footer>
       </div>
     </div>
   )

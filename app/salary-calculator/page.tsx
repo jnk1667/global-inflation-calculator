@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   keywords: [
     "salary inflation calculator",
     "CAGR calculator",
-    "CAGR salary calculator",
     "wage adjustment calculator",
     "historical salary calculator",
     "salary negotiation tool",

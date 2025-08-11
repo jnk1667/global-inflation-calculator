@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import AboutClientPage from "./AboutClientPage"
+import Link from "next/link"
 
 const siteUrl = "https://www.globalinflationcalculator.com"
 
@@ -60,5 +61,69 @@ export const metadata: Metadata = {
 }
 
 export default function AboutPage() {
-  return <AboutClientPage />
+  return (
+    <div>
+      <AboutClientPage />
+      <footer className="mt-12 pt-8 border-t border-border bg-muted/30 rounded-lg p-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div>
+            <h4 className="font-semibold text-foreground mb-3">Calculator Tools</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
+                  Inflation Calculator
+                </Link>
+              </li>
+              <li>
+                <Link href="/salary-calculator" className="text-muted-foreground hover:text-primary transition-colors">
+                  Salary Calculator
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-foreground mb-3">Information</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">
+                  About Us
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-foreground mb-3">Legal</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-foreground mb-3">Contact</h4>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="mailto:admin@globalinflationcalculator.com"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Contact Us
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-6 pt-6 border-t border-border text-center text-sm text-muted-foreground">
+          <p>&copy; 2025 Global Inflation Calculator. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  )
 }
