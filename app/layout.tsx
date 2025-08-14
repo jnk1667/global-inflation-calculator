@@ -151,6 +151,12 @@ export default function RootLayout({
                 >
                   Salary Calculator
                 </Link>
+                <Link
+                  href="/retirement-calculator"
+                  className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors"
+                >
+                  Retirement Calculator
+                </Link>
                 <Link href="/about" className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors">
                   About
                 </Link>

@@ -203,6 +203,14 @@ export default function TermsOfService() {
                         Salary Calculator
                       </Link>
                     </li>
+                    <li>
+                      <Link
+                        href="/retirement-calculator"
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        Retirement Calculator
+                      </Link>
+                    </li>
                   </ul>
                 </div>
                 <div>

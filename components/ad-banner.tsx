@@ -1,98 +1,61 @@
 "use client"
 
-import type React from "react"
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 
 interface AdBannerProps {
-  slot: string
-  format?: "horizontal" | "square" | "vertical"
+  slot?: string
+  format?: "horizontal" | "vertical" | "square"
   className?: string
 }
 
-const AdBanner: React.FC<AdBannerProps> = ({ slot, format = "horizontal", className = "" }) => {
-  const adRef = useRef<HTMLDivElement>(null)
-  const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID
-
+export default function AdBanner({
+  slot = "retirement-calculator-default",
+  format = "horizontal",
+  className = "",
+}: AdBannerProps) {
   useEffect(() => {
-    if (!clientId) {
-      console.log("AdSense client ID not configured")
-      return
-    }
-
     try {
-      // Load AdSense script if not already loaded
-      if (!window.adsbygoogle) {
-        const script = document.createElement("script")
-        script.async = true
-        script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        script.crossOrigin = "anonymous"
-        document.head.appendChild(script)
+      // @ts-ignore
+      if (typeof window !== "undefined" && window.adsbygoogle) {
+        // @ts-ignore
+        ;(window.adsbygoogle = window.adsbygoogle || []).push({})
       }
-
-      // Initialize ad after a short delay
-      const timer = setTimeout(() => {
-        if (window.adsbygoogle && adRef.current) {
-          try {
-            ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-          } catch (err) {
-            console.log("AdSense error:", err)
-          }
-        }
-      }, 100)
-
-      return () => clearTimeout(timer)
     } catch (err) {
-      console.log("AdSense initialization error:", err)
+      console.error("AdSense error:", err)
     }
-  }, [clientId])
+  }, [])
 
-  if (!clientId) {
-    // Show placeholder when AdSense is not configured
-    const placeholderHeight = format === "square" ? "h-64" : format === "vertical" ? "h-96" : "h-24"
-    return (
-      <div
-        className={`bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center ${placeholderHeight} ${className}`}
-      >
-        <div className="text-center text-gray-500">
-          <div className="text-sm font-medium">Advertisement Space</div>
-          <div className="text-xs">AdSense will appear here</div>
-        </div>
-      </div>
-    )
-  }
-
-  const getAdSize = () => {
+  const getAdDimensions = () => {
     switch (format) {
-      case "square":
-        return { width: "300", height: "250" }
+      case "horizontal":
+        return "min-h-[90px] md:min-h-[250px]"
       case "vertical":
-        return { width: "160", height: "600" }
+        return "min-h-[600px] w-[160px] md:w-[300px]"
+      case "square":
+        return "min-h-[250px] md:min-h-[300px]"
       default:
-        return { width: "728", height: "90" }
+        return "min-h-[90px] md:min-h-[250px]"
     }
   }
-
-  const { width, height } = getAdSize()
 
   return (
-    <div ref={adRef} className={`text-center ${className}`}>
-      <ins
-        className="adsbygoogle"
-        style={{ display: "inline-block", width: `${width}px`, height: `${height}px` }}
-        data-ad-client={clientId}
-        data-ad-slot={slot}
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
+    <div
+      className={`flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg ${getAdDimensions()} ${className}`}
+    >
+      <div className="text-center text-gray-500 dark:text-gray-400">
+        <div className="text-sm font-medium mb-1">Advertisement Space</div>
+        <div className="text-xs">AdSense will appear here</div>
+        {process.env.NODE_ENV === "production" && (
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}
+            data-ad-slot={slot}
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          />
+        )}
+      </div>
     </div>
   )
 }
-
-// Extend Window interface for TypeScript
-declare global {
-  interface Window {
-    adsbygoogle: any[]
-  }
-}
-
-export default AdBanner

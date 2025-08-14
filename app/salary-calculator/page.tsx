@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     "historical salary calculator",
     "salary negotiation tool",
     "real wage calculator",
+    "purchasing power salary",
     "inflation adjusted salary",
   ],
   authors: [{ name: "Global Inflation Calculator" }],

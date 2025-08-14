@@ -1,0 +1,40 @@
+{
+  "generationData": {
+    "babyBoomers": {
+      "birthYears": "1946-1964",
+      "averageContribution": 12.5,
+      "medianSavings": 289000,
+      "retirementAge": 65,
+      "socialSecurityBenefit": 1827
+    },
+    "genX": {
+      "birthYears": "1965-1980",
+      "averageContribution": 10.8,
+      "medianSavings": 142000,
+      "retirementAge": 67,
+      "socialSecurityBenefit": 1657
+    },
+    "millennials": {
+      "birthYears": "1981-1996",
+      "averageContribution": 8.3,
+      "medianSavings": 63000,
+      "retirementAge": 67,
+      "socialSecurityBenefit": 1503
+    },
+    "genZ": {
+      "birthYears": "1997-2012",
+      "averageContribution": 6.2,
+      "medianSavings": 11000,
+      "retirementAge": 67,
+      "socialSecurityBenefit": 1350
+    }
+  },
+  "incomeData": {
+    "under50k": { "averageContribution": 4.2 },
+    "50k-75k": { "averageContribution": 7.8 },
+    "75k-100k": { "averageContribution": 10.5 },
+    "100k-150k": { "averageContribution": 13.2 },
+    "over150k": { "averageContribution": 16.8 }
+  },
+  "lastUpdated": "2024-12-31"
+}

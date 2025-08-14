@@ -642,6 +642,14 @@ const SalaryCalculatorPage: React.FC = () => {
                     Salary Calculator
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/retirement-calculator"
+                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    Retirement Calculator
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>

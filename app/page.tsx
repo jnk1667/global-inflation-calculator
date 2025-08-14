@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { ErrorBoundary } from "@/components/error-boundary"
 import LoadingSpinner from "@/components/loading-spinner"
-import { Globe, RefreshCw } from 'lucide-react'
+import { Globe, RefreshCw } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { trackPageView } from "@/lib/analytics"
 import Script from "next/script"
@@ -505,13 +505,13 @@ export default function Home() {
     return content.split("\n").map((line, index) => {
       if (line.startsWith("# ")) {
         return (
-          <h2 key={index} className="text-2xl font-bold text-gray-900 mt-8 mb-4">
+          <h2 key={index} className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
             {line.substring(2)}
           </h2>
         )
       } else if (line.startsWith("## ")) {
         return (
-          <h3 key={index} className="text-xl font-semibold text-gray-800 mt-6 mb-3">
+          <h3 key={index} className="text-xl font-semibold text-gray-800 dark:text-gray-300 mt-6 mb-3">
             {line.substring(3)}
           </h3>
         )
@@ -519,7 +519,7 @@ export default function Home() {
         return <br key={index} />
       } else {
         return (
-          <p key={index} className="text-gray-700 leading-relaxed mb-4">
+          <p key={index} className="text-gray-700 dark:text-gray-400 leading-relaxed mb-4">
             {line}
           </p>
         )
@@ -529,7 +529,7 @@ export default function Home() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         {/* Calculator Schema Markup */}
         <Script
           id="calculator-schema"
@@ -604,8 +604,8 @@ export default function Home() {
 
         {/* Usage Stats - Top Right Corner */}
         <div className="fixed top-4 right-4 z-40">
-          <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg border border-gray-200">
-            <Suspense fallback={<div className="w-24 h-6 bg-gray-200 animate-pulse rounded" />}>
+          <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg border border-gray-200 dark:border-gray-700">
+            <Suspense fallback={<div className="w-24 h-6 bg-gray-200 dark:bg-gray-700 animate-pulse rounded" />}>
               <UsageStats />
             </Suspense>
           </div>
@@ -625,12 +625,14 @@ export default function Home() {
                     onError={() => setLogoUrl("")}
                   />
                 ) : (
-                  <Globe className="w-16 h-16 text-blue-600" />
+                  <Globe className="w-16 h-16 text-blue-600 dark:text-blue-400" />
                 )}
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900">Global Inflation Calculator</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
+                Global Inflation Calculator
+              </h1>
             </div>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Calculate how inflation affects your money over time across different currencies. See real purchasing
               power changes from 1913 to {currentYear}.
             </p>
@@ -640,16 +642,23 @@ export default function Home() {
             <div className="flex items-center justify-center py-20">
               <LoadingSpinner />
               {retryCount > 0 && (
-                <div className="ml-4 text-sm text-gray-600">Retrying... (Attempt {retryCount + 1}/4)</div>
+                <div className="ml-4 text-sm text-gray-600 dark:text-gray-300">
+                  Retrying... (Attempt {retryCount + 1}/4)
+                </div>
               )}
             </div>
           ) : (
             <>
               {error && (
-                <Alert className="bg-red-50 border-red-200 mb-8">
-                  <AlertDescription className="text-red-800 flex items-center justify-between">
+                <Alert className="bg-red-50 border-red-200 dark:bg-gray-800 dark:border-red-600 mb-8">
+                  <AlertDescription className="text-red-800 dark:text-red-400 flex items-center justify-between">
                     <span>{error}</span>
-                    <Button onClick={handleRetry} variant="outline" size="sm" className="ml-4 bg-white hover:bg-gray-50">
+                    <Button
+                      onClick={handleRetry}
+                      variant="outline"
+                      size="sm"
+                      className="ml-4 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
                       <RefreshCw className="h-4 w-4 mr-2" />
                       Retry
                     </Button>
@@ -661,15 +670,15 @@ export default function Home() {
               {Object.keys(inflationData).length > 0 && (
                 <>
                   {/* Main Calculator Card */}
-                  <Card className="bg-white shadow-lg border-0 mb-8">
+                  <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
                     <CardContent className="p-8 space-y-8">
                       {/* Amount Input */}
                       <div className="space-y-3">
-                        <label htmlFor="amount-input" className="text-sm text-gray-600 font-medium">
+                        <label htmlFor="amount-input" className="text-sm text-gray-600 dark:text-gray-300 font-medium">
                           Enter Amount ($0.0 - $1,000,000,000,000)
                         </label>
                         <div className="relative">
-                          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">
+                          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 text-lg">
                             {currentCurrencyData?.symbol || "$"}
                           </span>
                           <Input
@@ -677,7 +686,7 @@ export default function Home() {
                             type="number"
                             value={amount}
                             onChange={handleAmountChange}
-                            className={`text-lg h-14 border-gray-300 ${
+                            className={`text-lg h-14 border-gray-300 dark:border-gray-700 ${
                               currentCurrencyData?.symbol && currentCurrencyData.symbol.length > 1 ? "pl-12" : "pl-8"
                             }`}
                             placeholder="100"
@@ -688,7 +697,7 @@ export default function Home() {
 
                       {/* Currency Selection */}
                       <div className="space-y-4">
-                        <label className="text-sm text-gray-600 font-medium">Select Currency</label>
+                        <label className="text-sm text-gray-600 dark:text-gray-300 font-medium">Select Currency</label>
                         <div
                           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3"
                           role="radiogroup"
@@ -703,10 +712,10 @@ export default function Home() {
                                 key={code}
                                 className={`cursor-pointer transition-all hover:shadow-md ${
                                   selectedCurrency === code
-                                    ? "border-blue-500 border-2 bg-blue-50"
+                                    ? "border-blue-500 border-2 bg-blue-50 dark:bg-blue-900"
                                     : isAvailable
-                                      ? "border-gray-200 hover:border-gray-300"
-                                      : "border-gray-100 bg-gray-50 cursor-not-allowed opacity-50"
+                                      ? "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+                                      : "border-gray-100 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 cursor-not-allowed opacity-50"
                                 }`}
                                 onClick={() => isAvailable && handleCurrencyChange(code as keyof typeof currencies)}
                                 role="radio"
@@ -719,9 +728,9 @@ export default function Home() {
                                 }}
                               >
                                 <CardContent className="p-4 text-center">
-                                  <div className="text-lg font-bold text-gray-900">{info.flag}</div>
-                                  <div className="text-xs text-blue-600 font-medium">{code}</div>
-                                  <div className="text-xs text-gray-500 mt-1">{info.name}</div>
+                                  <div className="text-lg font-bold text-gray-900 dark:text-white">{info.flag}</div>
+                                  <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">{code}</div>
+                                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{info.name}</div>
                                 </CardContent>
                               </Card>
                             )
@@ -731,12 +740,12 @@ export default function Home() {
 
                       {/* Year Selection */}
                       <div className="space-y-6">
-                        <label className="text-sm text-gray-600 font-medium">From Year</label>
+                        <label className="text-sm text-gray-600 dark:text-gray-300 font-medium">From Year</label>
 
                         {/* Large Year Display */}
                         <div className="text-center">
-                          <div className="text-6xl font-bold text-blue-600 mb-2">{fromYear}</div>
-                          <div className="text-base text-gray-500">{yearsAgo} years ago</div>
+                          <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2">{fromYear}</div>
+                          <div className="text-base text-gray-500 dark:text-gray-400">{yearsAgo} years ago</div>
                         </div>
 
                         {/* Year Slider */}
@@ -762,7 +771,7 @@ export default function Home() {
                                     setFromYear(year)
                                     setHasCalculated(false)
                                   }}
-                                  className="absolute text-xs text-gray-400 hover:text-blue-600 cursor-pointer transition-colors transform -translate-x-1/2 font-medium"
+                                  className="absolute text-xs text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors transform -translate-x-1/2 font-medium"
                                   style={{ left: `${position}%` }}
                                   aria-label={`Set year to ${year}`}
                                 >
@@ -774,7 +783,7 @@ export default function Home() {
                         </div>
 
                         {/* Info text */}
-                        <div className="text-center text-sm text-yellow-600 bg-yellow-50 p-4 rounded mt-20">
+                        <div className="text-center text-sm text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-gray-800 p-4 rounded mt-20">
                           💡 Drag the slider or tap the year buttons above • Data available from {minYear} to{" "}
                           {currentYear} • Updated August 2025
                         </div>
@@ -784,7 +793,7 @@ export default function Home() {
 
                   {/* Ad Banner - After Calculator */}
                   <div className="mb-8">
-                    <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
+                    <Suspense fallback={<div className="h-24 bg-gray-100 dark:bg-gray-700 rounded animate-pulse" />}>
                       <AdBanner slot="homepage-after-calculator" format="horizontal" />
                     </Suspense>
                   </div>
@@ -792,7 +801,7 @@ export default function Home() {
                   {/* Results Section */}
                   {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
                     <>
-                      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg text-white p-8 mb-8">
+                      <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-gray-700 dark:to-gray-800 rounded-lg shadow-lg text-white p-8 mb-8">
                         <div className="text-center">
                           <div className="flex items-center justify-center gap-2 mb-4">
                             <span className="text-2xl">🔥</span>
@@ -808,17 +817,17 @@ export default function Home() {
 
                           {/* Stats Grid */}
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                            <div className="bg-white bg-opacity-20 dark:bg-gray-900 dark:bg-opacity-20 rounded-lg p-4">
                               <div className="text-2xl font-bold">{totalInflation.toFixed(1)}%</div>
-                              <div className="text-sm opacity-80">Total Inflation</div>
+                              <div className="text-sm opacity-80 dark:opacity-70">Total Inflation</div>
                             </div>
-                            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                            <div className="bg-white bg-opacity-20 dark:bg-gray-900 dark:bg-opacity-20 rounded-lg p-4">
                               <div className="text-2xl font-bold">{annualRate.toFixed(2)}%</div>
-                              <div className="text-sm opacity-80">Annual Average</div>
+                              <div className="text-sm opacity-80 dark:opacity-70">Annual Average</div>
                             </div>
-                            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                            <div className="bg-white bg-opacity-20 dark:bg-gray-900 dark:bg-opacity-20 rounded-lg p-4">
                               <div className="text-2xl font-bold">{yearsAgo}</div>
-                              <div className="text-sm opacity-80">Years</div>
+                              <div className="text-sm opacity-80 dark:opacity-70">Years</div>
                             </div>
                           </div>
 
@@ -826,7 +835,7 @@ export default function Home() {
                           <div className="flex flex-col sm:flex-row gap-3 justify-center">
                             <Button
                               variant="outline"
-                              className="bg-white text-blue-600 hover:bg-gray-50"
+                              className="bg-white text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700"
                               onClick={async () => {
                                 const shareText = `💰 ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(adjustedAmount)} in ${currentYear}! That's ${totalInflation.toFixed(1)}% total inflation.`
                                 try {
@@ -841,7 +850,7 @@ export default function Home() {
                             </Button>
                             <Button
                               variant="outline"
-                              className="bg-white text-blue-600 hover:bg-gray-50"
+                              className="bg-white text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700"
                               onClick={() => {
                                 setAmount("100")
                                 setFromYear(2020)
@@ -855,12 +864,14 @@ export default function Home() {
                       </div>
 
                       {/* Currency Comparison Section */}
-                      <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse mb-8" />}>
+                      <Suspense
+                        fallback={<div className="h-64 bg-gray-100 dark:bg-gray-700 rounded-lg animate-pulse mb-8" />}
+                      >
                         <CurrencyComparisonChart amount={amount} fromYear={fromYear} inflationData={inflationData} />
                       </Suspense>
 
                       {/* Line Chart Section */}
-                      <Card className="bg-white shadow-lg border-0 mb-8">
+                      <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
                         <CardHeader>
                           <CardTitle className="text-xl">
                             📈 {currencies[selectedCurrency]?.name} Inflation Trend Over Time
@@ -868,7 +879,9 @@ export default function Home() {
                         </CardHeader>
                         <CardContent>
                           <div className="h-[500px] md:h-[700px]">
-                            <Suspense fallback={<div className="h-full bg-gray-100 rounded animate-pulse" />}>
+                            <Suspense
+                              fallback={<div className="h-full bg-gray-100 dark:bg-gray-700 rounded animate-pulse" />}
+                            >
                               <SimpleLineChart
                                 data={chartData}
                                 currency={currentCurrencyData?.symbol || "$"}
@@ -879,7 +892,7 @@ export default function Home() {
                               />
                             </Suspense>
                           </div>
-                          <p className="text-sm text-gray-600 text-center mt-4">
+                          <p className="text-sm text-gray-600 dark:text-gray-300 text-center mt-4">
                             This chart shows how {getCurrencyDisplay(Number.parseFloat(amount))} from {fromYear} would
                             grow due to inflation over time
                           </p>
@@ -887,7 +900,9 @@ export default function Home() {
                       </Card>
 
                       {/* Purchasing Power Section */}
-                      <Suspense fallback={<div className="h-64 bg-gray-100 rounded-lg animate-pulse mb-8" />}>
+                      <Suspense
+                        fallback={<div className="h-64 bg-gray-100 dark:bg-gray-700 rounded-lg animate-pulse mb-8" />}
+                      >
                         <PurchasingPowerVisual
                           originalAmount={Number.parseFloat(amount)}
                           adjustedAmount={adjustedAmount}
@@ -900,13 +915,15 @@ export default function Home() {
 
                       {/* Ad Banner - After Charts */}
                       <div className="mb-8">
-                        <Suspense fallback={<div className="h-64 bg-gray-100 rounded animate-pulse" />}>
+                        <Suspense
+                          fallback={<div className="h-64 bg-gray-100 dark:bg-gray-700 rounded animate-pulse" />}
+                        >
                           <AdBanner slot="homepage-after-charts" format="square" className="mx-auto" />
                         </Suspense>
                       </div>
 
                       {/* Historical Context Section */}
-                      <Card className="bg-white shadow-lg border-0 mb-8">
+                      <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
                         <CardHeader>
                           <CardTitle className="text-xl flex items-center gap-2">
                             📚 Historical Context for {fromYear}
@@ -915,16 +932,20 @@ export default function Home() {
                         <CardContent>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                              <h4 className="font-semibold text-gray-900 mb-3">What was happening in {fromYear}:</h4>
-                              <ul className="text-sm text-gray-600 space-y-1">
+                              <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
+                                What was happening in {fromYear}:
+                              </h4>
+                              <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
                                 {historicalContext.events.map((event, index) => (
                                   <li key={index}>{event}</li>
                                 ))}
                               </ul>
                             </div>
                             <div>
-                              <h4 className="font-semibold text-gray-900 mb-3">Typical prices in {fromYear}:</h4>
-                              <ul className="text-sm text-gray-600 space-y-1">
+                              <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
+                                Typical prices in {fromYear}:
+                              </h4>
+                              <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
                                 {historicalContext.prices.map((price, index) => (
                                   <li key={index}>{price}</li>
                                 ))}
@@ -937,38 +958,42 @@ export default function Home() {
                   )}
 
                   {/* Cross-promotion to Salary Calculator */}
-                  <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-0 shadow-lg mb-8">
+                  <Card className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900 dark:to-blue-900 border-0 shadow-lg mb-8">
                     <CardContent className="p-6 text-center">
                       <h3 className="text-xl font-semibold mb-2">💰 New: Salary Inflation Calculator</h3>
-                      <p className="text-gray-600 mb-4">
+                      <p className="text-gray-600 dark:text-gray-300 mb-4">
                         Calculate what your historical salary should be worth today. Perfect for salary negotiations and
                         career planning.
                       </p>
                       <Link href="/salary-calculator">
-                        <Button className="bg-green-600 hover:bg-green-700 text-white">Try Salary Calculator →</Button>
+                        <Button className="bg-green-600 dark:bg-green-800 hover:bg-green-700 dark:hover:bg-green-900 text-white">
+                          Try Salary Calculator →
+                        </Button>
                       </Link>
                     </CardContent>
                   </Card>
 
                   {/* SEO Essay Section */}
-                  <Card className="bg-white shadow-lg border-0 mb-8">
+                  <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
                     <CardHeader>
                       <CardTitle className="text-xl flex items-center gap-2">
                         📖 Understanding Inflation and Economics
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="prose prose-gray max-w-none">
-                      <div className="text-gray-700 leading-relaxed">{renderSEOContent(seoEssay)}</div>
+                      <div className="text-gray-700 dark:text-gray-400 leading-relaxed">
+                        {renderSEOContent(seoEssay)}
+                      </div>
                     </CardContent>
                   </Card>
 
                   {/* Social Share */}
-                  <Suspense fallback={<div className="h-16 bg-gray-100 rounded animate-pulse mb-8" />}>
+                  <Suspense fallback={<div className="h-16 bg-gray-100 dark:bg-gray-700 rounded animate-pulse mb-8" />}>
                     <SocialShare />
                   </Suspense>
 
                   {/* FAQ */}
-                  <Suspense fallback={<div className="h-64 bg-gray-100 rounded animate-pulse mb-8" />}>
+                  <Suspense fallback={<div className="h-64 bg-gray-100 dark:bg-gray-700 rounded animate-pulse mb-8" />}>
                     <FAQ />
                   </Suspense>
                 </>
@@ -978,18 +1003,18 @@ export default function Home() {
         </main>
 
         {/* Footer */}
-        <footer className="bg-gray-900 text-white py-12 mt-16">
+        <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 mt-16">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
                 <h3 className="text-xl font-semibold mb-4">Global Inflation Calculator</h3>
-                <p className="text-gray-300">
+                <p className="text-gray-300 dark:text-gray-50">
                   Track inflation across major world currencies with historical data from 1913 to {currentYear}.
                 </p>
               </div>
               <div>
                 <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
-                <ul className="text-gray-300 space-y-2">
+                <ul className="text-gray-300 dark:text-gray-50 space-y-2">
                   <li>• US Bureau of Labor Statistics</li>
                   <li>• UK Office for National Statistics</li>
                   <li>• Eurostat</li>
@@ -1002,32 +1027,43 @@ export default function Home() {
               </div>
               <div>
                 <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-                <ul className="text-gray-300 space-y-2">
+                <ul className="text-gray-300 dark:text-gray-50 space-y-2">
                   <li>
-                    <Link href="/salary-calculator" className="hover:text-blue-400 transition-colors">
+                    <Link
+                      href="/salary-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
                       Salary Calculator
                     </Link>
                   </li>
                   <li>
-                    <Link href="/about" className="hover:text-blue-400 transition-colors">
+                    <Link
+                      href="/retirement-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Retirement Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
                       About Us
                     </Link>
                   </li>
                   <li>
-                    <Link href="/privacy" className="hover:text-blue-400 transition-colors">
+                    <Link href="/privacy" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
                       Privacy Policy
                     </Link>
                   </li>
                   <li>
-                    <Link href="/terms" className="hover:text-blue-400 transition-colors">
+                    <Link href="/terms" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
                       Terms of Service
                     </Link>
                   </li>
                 </ul>
-                <p className="text-sm text-gray-400 mt-4">Last Updated: August 2025</p>
+                <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">Last Updated: August 2025</p>
               </div>
             </div>
-            <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+            <div className="border-t border-gray-700 dark:border-gray-600 mt-8 pt-8 text-center text-gray-400 dark:text-gray-500">
               <p>&copy; 2025 Global Inflation Calculator. Educational purposes only.</p>
             </div>
           </div>

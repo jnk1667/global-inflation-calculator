@@ -1,0 +1,18 @@
+{
+  "data": [
+    { "birthYear": 1940, "male": 78.2, "female": 82.8 },
+    { "birthYear": 1945, "male": 78.5, "female": 83.1 },
+    { "birthYear": 1950, "male": 78.8, "female": 83.4 },
+    { "birthYear": 1955, "male": 79.1, "female": 83.7 },
+    { "birthYear": 1960, "male": 79.4, "female": 84.0 },
+    { "birthYear": 1965, "male": 79.7, "female": 84.3 },
+    { "birthYear": 1970, "male": 80.0, "female": 84.6 },
+    { "birthYear": 1975, "male": 80.3, "female": 84.9 },
+    { "birthYear": 1980, "male": 80.6, "female": 85.2 },
+    { "birthYear": 1985, "male": 80.9, "female": 85.5 },
+    { "birthYear": 1990, "male": 81.2, "female": 85.8 },
+    { "birthYear": 1995, "male": 81.5, "female": 86.1 },
+    { "birthYear": 2000, "male": 81.8, "female": 86.4 }
+  ],
+  "lastUpdated": "2024-12-31"
+}
