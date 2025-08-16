@@ -138,26 +138,32 @@ export default function RootLayout({
             <ThemeToggle />
           </div>
 
-          {/* Navigation - Center Top */}
-          <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40">
-            <div className="bg-white/90 backdrop-blur-sm rounded-full px-6 py-2 shadow-lg border border-gray-200">
-              <div className="flex items-center space-x-6">
-                <Link href="/" className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors">
+          {/* Navigation - Center Top - Moved lower to avoid overlap */}
+          <nav className="fixed top-16 left-1/2 transform -translate-x-1/2 z-40">
+            <div className="bg-white/90 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 shadow-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800/90">
+              <div className="flex items-center space-x-3 sm:space-x-6">
+                <Link
+                  href="/"
+                  className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
+                >
                   Home
                 </Link>
                 <Link
                   href="/salary-calculator"
-                  className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors"
+                  className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
                 >
                   Salary Calculator
                 </Link>
                 <Link
                   href="/retirement-calculator"
-                  className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors"
+                  className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
                 >
                   Retirement Calculator
                 </Link>
-                <Link href="/about" className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors">
+                <Link
+                  href="/about"
+                  className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
+                >
                   About
                 </Link>
               </div>

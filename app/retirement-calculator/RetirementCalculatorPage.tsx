@@ -299,7 +299,7 @@ export default function RetirementCalculatorPage() {
   const crisisLevel = getCrisisLevel()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-20">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-24">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-12">
@@ -510,34 +510,34 @@ export default function RetirementCalculatorPage() {
           {/* Results Panel */}
           <div className="lg:col-span-2">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-5 dark:bg-gray-800">
+              <TabsList className="w-full dark:bg-gray-800 flex md:grid md:grid-cols-5 overflow-x-auto gap-1 p-1">
                 <TabsTrigger
                   value="traditional"
-                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white"
+                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white whitespace-nowrap px-2 py-2 text-xs md:text-sm flex-shrink-0"
                 >
                   Traditional
                 </TabsTrigger>
                 <TabsTrigger
                   value="lifestyle"
-                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white"
+                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white whitespace-nowrap px-2 py-2 text-xs md:text-sm flex-shrink-0"
                 >
                   Lifestyle
                 </TabsTrigger>
                 <TabsTrigger
                   value="crisis"
-                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white"
+                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white whitespace-nowrap px-2 py-2 text-xs md:text-sm flex-shrink-0"
                 >
                   Crisis
                 </TabsTrigger>
                 <TabsTrigger
                   value="generation"
-                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white"
+                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white whitespace-nowrap px-2 py-2 text-xs md:text-sm flex-shrink-0"
                 >
                   Generation
                 </TabsTrigger>
                 <TabsTrigger
                   value="healthcare"
-                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white"
+                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white whitespace-nowrap px-2 py-2 text-xs md:text-sm flex-shrink-0"
                 >
                   Healthcare
                 </TabsTrigger>

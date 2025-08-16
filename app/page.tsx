@@ -611,9 +611,9 @@ export default function Home() {
           </div>
         </div>
 
-        <main className="container mx-auto px-4 py-20 max-w-4xl">
+        <main className="container mx-auto px-4 py-24 max-w-4xl">
           {/* Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 mt-12">
             <div className="flex items-center justify-center gap-4 mb-6">
               <div className="flex-shrink-0">
                 {logoUrl ? (
