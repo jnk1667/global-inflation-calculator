@@ -158,7 +158,7 @@ export default function AboutClientPage() {
                     </div>
                     <div className="flex items-center gap-2 text-sm dark:text-foreground">
                       <BarChart3 className="w-4 h-4 text-primary flex-shrink-0 dark:text-primary" />
-                      <span>7 Currencies</span>
+                      <span>8 Currencies</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm dark:text-foreground">
                       <TrendingUp className="w-4 h-4 text-primary flex-shrink-0 dark:text-primary" />
@@ -209,7 +209,7 @@ export default function AboutClientPage() {
                     </div>
                     <div className="flex items-center gap-2 text-sm dark:text-foreground">
                       <BarChart3 className="w-4 h-4 text-primary flex-shrink-0 dark:text-primary" />
-                      <span>7 Currencies</span>
+                      <span>8 Currencies</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm dark:text-foreground">
                       <TrendingUp className="w-4 h-4 text-primary flex-shrink-0 dark:text-primary" />
@@ -245,15 +245,11 @@ export default function AboutClientPage() {
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="secondary" className="flex items-center gap-1 text-xs dark:text-foreground">
                       <Award className="w-3 h-3 dark:text-primary" />
-                      Economics Background
-                    </Badge>
-                    <Badge variant="secondary" className="flex items-center gap-1 text-xs dark:text-foreground">
-                      <Shield className="w-3 h-3 dark:text-primary" />
-                      10+ Years Experience
+                      Fintech
                     </Badge>
                     <Badge variant="secondary" className="flex items-center gap-1 text-xs dark:text-foreground">
                       <Database className="w-3 h-3 dark:text-primary" />
-                      Data Science Expert
+                      Data Science
                     </Badge>
                   </div>
                 </div>
@@ -291,15 +287,11 @@ export default function AboutClientPage() {
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="secondary" className="flex items-center gap-1 text-xs dark:text-foreground">
                       <Award className="w-3 h-3 dark:text-primary" />
-                      Economics Background
-                    </Badge>
-                    <Badge variant="secondary" className="flex items-center gap-1 text-xs dark:text-foreground">
-                      <Shield className="w-3 h-3 dark:text-primary" />
-                      10+ Years Experience
+                      Fintech
                     </Badge>
                     <Badge variant="secondary" className="flex items-center gap-1 text-xs dark:text-foreground">
                       <Database className="w-3 h-3 dark:text-primary" />
-                      Data Science Expert
+                      Data Science
                     </Badge>
                   </div>
                 </div>
@@ -429,6 +421,40 @@ export default function AboutClientPage() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Data Quality */}
+            <div>
+              <h3 className="text-xl font-semibold mb-4 dark:text-foreground">Data Quality & Updates</h3>
+              <div className="grid md:grid-cols-3 gap-4">
+                <Card className="dark:bg-card dark:border dark:border-foreground">
+                  <CardContent className="p-4 text-center dark:text-foreground">
+                    <Shield className="w-8 h-8 text-primary mx-auto mb-2 dark:text-primary" />
+                    <h4 className="font-medium mb-2 dark:text-foreground">Verified Sources</h4>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground">
+                      All data sourced directly from official government statistical agencies
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="dark:bg-card dark:border dark:border-foreground">
+                  <CardContent className="p-4 text-center dark:text-foreground">
+                    <TrendingUp className="w-8 h-8 text-primary mx-auto mb-2 dark:text-primary" />
+                    <h4 className="font-medium mb-2 dark:text-foreground">Regular Updates</h4>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground">
+                      Data updated monthly when new CPI figures are released
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="dark:bg-card dark:border dark:border-foreground">
+                  <CardContent className="p-4 text-center dark:text-foreground">
+                    <Database className="w-8 h-8 text-primary mx-auto mb-2 dark:text-primary" />
+                    <h4 className="font-medium mb-2 dark:text-foreground">Historical Coverage</h4>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground">
+                      Comprehensive data from 1913 to present day
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
             </div>
 
