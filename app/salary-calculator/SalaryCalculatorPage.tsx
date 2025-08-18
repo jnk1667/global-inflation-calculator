@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, Suspense } from "react"
+import { useState, Suspense, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,10 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertCircle } from "lucide-react"
+import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertCircle, BookOpen } from "lucide-react"
 import Link from "next/link"
 import { trackEvent } from "@/lib/analytics"
 import AdBanner from "@/components/ad-banner"
+import { supabase } from "@/lib/supabase"
 
 interface SalaryResult {
   originalSalary: number
@@ -79,6 +80,7 @@ const SalaryCalculatorPage: React.FC = () => {
   const [result, setResult] = useState<SalaryResult | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
+  const [essayContent, setEssayContent] = useState<string>("")
 
   // Updated currencies array to include NZD
   const currencies = [
@@ -91,6 +93,83 @@ const SalaryCalculatorPage: React.FC = () => {
     { code: "JPY", name: "Japanese Yen", flag: "🇯🇵" },
     { code: "NZD", name: "New Zealand Dollar", flag: "🇳🇿" },
   ]
+
+  // Load essay content
+  useEffect(() => {
+    const loadEssayContent = async () => {
+      try {
+        const { data, error } = await supabase.from("seo_content").select("content").eq("id", "salary_essay").single()
+
+        if (error) {
+          console.error("Error loading essay content:", error)
+          // Set default content if database fetch fails
+          setEssayContent(`
+# Understanding Salary Inflation and Wage Growth
+
+In today's economic landscape, understanding how inflation affects your salary is crucial for making informed career and financial decisions. The relationship between wage growth and inflation determines your real purchasing power over time, making it essential to evaluate whether your salary increases are keeping pace with rising costs.
+
+## The Reality of Wage Stagnation
+
+Many workers experience what economists call "wage stagnation" – a phenomenon where nominal salary increases fail to match inflation rates. This means that even with annual raises, your actual purchasing power may be declining. Our salary inflation calculator helps you quantify this impact by comparing your historical salary to what it should be worth today after adjusting for inflation.
+
+## Strategic Career Planning
+
+Understanding salary inflation is vital for strategic career planning. When evaluating job offers, promotions, or negotiating raises, you need to consider not just the nominal increase but the real value after accounting for inflation. A 3% raise during a period of 4% inflation actually represents a decrease in purchasing power.
+
+## Making Informed Financial Decisions
+
+By calculating the inflation-adjusted value of historical salaries, you can better understand your career trajectory and make more informed decisions about job changes, retirement planning, and long-term financial goals. This knowledge empowers you to negotiate more effectively and plan for a financially secure future.
+          `)
+          return
+        }
+
+        if (data?.content) {
+          setEssayContent(data.content)
+        } else {
+          // Set default content if no content found
+          setEssayContent(`
+# Understanding Salary Inflation and Wage Growth
+
+In today's economic landscape, understanding how inflation affects your salary is crucial for making informed career and financial decisions. The relationship between wage growth and inflation determines your real purchasing power over time, making it essential to evaluate whether your salary increases are keeping pace with rising costs.
+
+## The Reality of Wage Stagnation
+
+Many workers experience what economists call "wage stagnation" – a phenomenon where nominal salary increases fail to match inflation rates. This means that even with annual raises, your actual purchasing power may be declining. Our salary inflation calculator helps you quantify this impact by comparing your historical salary to what it should be worth today after adjusting for inflation.
+
+## Strategic Career Planning
+
+Understanding salary inflation is vital for strategic career planning. When evaluating job offers, promotions, or negotiating raises, you need to consider not just the nominal increase but the real value after accounting for inflation. A 3% raise during a period of 4% inflation actually represents a decrease in purchasing power.
+
+## Making Informed Financial Decisions
+
+By calculating the inflation-adjusted value of historical salaries, you can better understand your career trajectory and make more informed decisions about job changes, retirement planning, and long-term financial goals. This knowledge empowers you to negotiate more effectively and plan for a financially secure future.
+          `)
+        }
+      } catch (err) {
+        console.error("Error loading essay content:", err)
+        // Set default content on error
+        setEssayContent(`
+# Understanding Salary Inflation and Wage Growth
+
+In today's economic landscape, understanding how inflation affects your salary is crucial for making informed career and financial decisions. The relationship between wage growth and inflation determines your real purchasing power over time, making it essential to evaluate whether your salary increases are keeping pace with rising costs.
+
+## The Reality of Wage Stagnation
+
+Many workers experience what economists call "wage stagnation" – a phenomenon where nominal salary increases fail to match inflation rates. This means that even with annual raises, your actual purchasing power may be declining. Our salary inflation calculator helps you quantify this impact by comparing your historical salary to what it should be worth today after adjusting for inflation.
+
+## Strategic Career Planning
+
+Understanding salary inflation is vital for strategic career planning. When evaluating job offers, promotions, or negotiating raises, you need to consider not just the nominal increase but the real value after accounting for inflation. A 3% raise during a period of 4% inflation actually represents a decrease in purchasing power.
+
+## Making Informed Financial Decisions
+
+By calculating the inflation-adjusted value of historical salaries, you can better understand your career trajectory and make more informed decisions about job changes, retirement planning, and long-term financial goals. This knowledge empowers you to negotiate more effectively and plan for a financially secure future.
+        `)
+      }
+    }
+
+    loadEssayContent()
+  }, [])
 
   const calculateSalaryAdjustment = async () => {
     setError(null)
@@ -463,6 +542,26 @@ const SalaryCalculatorPage: React.FC = () => {
             </Card>
           </div>
         </div>
+
+        {/* Essay Section */}
+        {essayContent && (
+          <div className="mt-12">
+            <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BookOpen className="h-5 w-5 text-blue-600" />
+                  Understanding Salary Inflation
+                </CardTitle>
+                <CardDescription>Learn how inflation affects your salary and career planning decisions</CardDescription>
+              </CardHeader>
+              <CardContent className="prose prose-gray dark:prose-invert max-w-none">
+                <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {essayContent}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         {/* Methodology Section */}
         <div className="mt-12">

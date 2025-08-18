@@ -10,6 +10,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import AdBanner from "@/components/ad-banner"
+import { supabase } from "@/lib/supabase"
 import {
   Calculator,
   TrendingUp,
@@ -20,6 +21,7 @@ import {
   PiggyBank,
   Target,
   Shield,
+  BookOpen,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -71,6 +73,7 @@ export default function RetirementCalculatorPage() {
   const [retirementContributions, setRetirementContributions] = useState<any>(null)
   const [healthcareData, setHealthcareData] = useState<any>(null)
   const [lifeExpectancyData, setLifeExpectancyData] = useState<any>(null)
+  const [essayContent, setEssayContent] = useState<string>("")
 
   // Auto-calculate generation based on current age
   const calculateGenerationFromAge = (age: number): "babyBoomers" | "genX" | "millennials" | "genZ" => {
@@ -90,6 +93,87 @@ export default function RetirementCalculatorPage() {
       setData((prev) => ({ ...prev, generation: newGeneration }))
     }
   }, [data.currentAge])
+
+  // Load essay content
+  useEffect(() => {
+    const loadEssayContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("seo_content")
+          .select("content")
+          .eq("id", "retirement_essay")
+          .single()
+
+        if (error) {
+          console.error("Error loading essay content:", error)
+          // Set default content if database fetch fails
+          setEssayContent(`
+# Mastering Retirement Planning in the Modern Era
+
+Retirement planning has become increasingly complex in today's economic environment. With traditional pension plans disappearing and Social Security benefits facing uncertainty, individuals must take greater responsibility for their financial future. Understanding the key components of retirement planning is essential for building a secure and comfortable retirement.
+
+## The Retirement Crisis Reality
+
+Many Americans face a retirement savings crisis, with studies showing that a significant portion of the population has inadequate savings for retirement. The shift from defined benefit pension plans to defined contribution plans like 401(k)s has placed the burden of investment decisions and longevity risk on individuals. This makes comprehensive retirement planning more critical than ever.
+
+## Generational Challenges and Opportunities
+
+Different generations face unique retirement planning challenges. Baby Boomers benefited from stronger pension systems but face healthcare cost inflation. Generation X is caught between supporting aging parents and children while having limited time for savings growth. Millennials and Generation Z face student loan debt, housing affordability issues, and the prospect of reduced Social Security benefits, requiring them to save more aggressively.
+
+## Building a Comprehensive Strategy
+
+Successful retirement planning requires a multi-faceted approach that considers inflation, healthcare costs, longevity risk, and lifestyle goals. Our retirement calculator helps you understand these complex interactions and develop a realistic savings strategy that accounts for your generation's unique challenges and opportunities.
+          `)
+          return
+        }
+
+        if (data?.content) {
+          setEssayContent(data.content)
+        } else {
+          // Set default content if no content found
+          setEssayContent(`
+# Mastering Retirement Planning in the Modern Era
+
+Retirement planning has become increasingly complex in today's economic environment. With traditional pension plans disappearing and Social Security benefits facing uncertainty, individuals must take greater responsibility for their financial future. Understanding the key components of retirement planning is essential for building a secure and comfortable retirement.
+
+## The Retirement Crisis Reality
+
+Many Americans face a retirement savings crisis, with studies showing that a significant portion of the population has inadequate savings for retirement. The shift from defined benefit pension plans to defined contribution plans like 401(k)s has placed the burden of investment decisions and longevity risk on individuals. This makes comprehensive retirement planning more critical than ever.
+
+## Generational Challenges and Opportunities
+
+Different generations face unique retirement planning challenges. Baby Boomers benefited from stronger pension systems but face healthcare cost inflation. Generation X is caught between supporting aging parents and children while having limited time for savings growth. Millennials and Generation Z face student loan debt, housing affordability issues, and the prospect of reduced Social Security benefits, requiring them to save more aggressively.
+
+## Building a Comprehensive Strategy
+
+Successful retirement planning requires a multi-faceted approach that considers inflation, healthcare costs, longevity risk, and lifestyle goals. Our retirement calculator helps you understand these complex interactions and develop a realistic savings strategy that accounts for your generation's unique challenges and opportunities.
+          `)
+        }
+      } catch (err) {
+        console.error("Error loading essay content:", err)
+        // Set default content on error
+        setEssayContent(`
+# Mastering Retirement Planning in the Modern Era
+
+Retirement planning has become increasingly complex in today's economic environment. With traditional pension plans disappearing and Social Security benefits facing uncertainty, individuals must take greater responsibility for their financial future. Understanding the key components of retirement planning is essential for building a secure and comfortable retirement.
+
+## The Retirement Crisis Reality
+
+Many Americans face a retirement savings crisis, with studies showing that a significant portion of the population has inadequate savings for retirement. The shift from defined benefit pension plans to defined contribution plans like 401(k)s has placed the burden of investment decisions and longevity risk on individuals. This makes comprehensive retirement planning more critical than ever.
+
+## Generational Challenges and Opportunities
+
+Different generations face unique retirement planning challenges. Baby Boomers benefited from stronger pension systems but face healthcare cost inflation. Generation X is caught between supporting aging parents and children while having limited time for savings growth. Millennials and Generation Z face student loan debt, housing affordability issues, and the prospect of reduced Social Security benefits, requiring them to save more aggressively.
+
+## Building a Comprehensive Strategy
+
+Successful retirement planning requires a multi-faceted approach that considers inflation, healthcare costs, longevity risk, and lifestyle goals. Our retirement calculator helps you understand these complex interactions and develop a realistic savings strategy that accounts for your generation's unique challenges and opportunities.
+        `)
+      }
+    }
+
+    loadEssayContent()
+  }, [])
 
   // Load data on component mount
   useEffect(() => {
@@ -944,6 +1028,28 @@ export default function RetirementCalculatorPage() {
         <div className="mb-12">
           <AdBanner />
         </div>
+
+        {/* Essay Section */}
+        {essayContent && (
+          <div className="mb-12">
+            <Card className="dark:bg-gray-800 dark:border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 dark:text-white">
+                  <BookOpen className="h-5 w-5 text-blue-600" />
+                  Understanding Retirement Planning
+                </CardTitle>
+                <CardDescription className="dark:text-gray-300">
+                  Essential insights for building a secure retirement strategy
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="prose prose-gray dark:prose-invert max-w-none">
+                <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {essayContent}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         {/* Methodology Section */}
         <Card className="mb-12 dark:bg-gray-800 dark:border-gray-700">

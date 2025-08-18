@@ -37,6 +37,8 @@ interface SocialLink {
 
 interface ContentData {
   seo_essay: string
+  salary_essay: string
+  retirement_essay: string
   privacy_content: string
   terms_content: string
   logo_url: string
@@ -74,6 +76,8 @@ const AdminContentPage: React.FC = () => {
   // Content state (removed social_links from here)
   const [content, setContent] = useState<ContentData>({
     seo_essay: "",
+    salary_essay: "",
+    retirement_essay: "",
     privacy_content: "",
     terms_content: "",
     logo_url: "",
@@ -243,6 +247,8 @@ const AdminContentPage: React.FC = () => {
         setContent((prev) => ({
           ...prev,
           seo_essay: contentMap.main_essay || prev.seo_essay,
+          salary_essay: contentMap.salary_essay || prev.salary_essay,
+          retirement_essay: contentMap.retirement_essay || prev.retirement_essay,
           privacy_content: contentMap.privacy_page || prev.privacy_content,
           terms_content: contentMap.terms_page || prev.terms_content,
         }))
@@ -514,28 +520,102 @@ const AdminContentPage: React.FC = () => {
 
           {/* Content Management */}
           <TabsContent value="content" className="space-y-6">
-            {/* SEO Essay */}
+            {/* SEO Essay Content with Tabs */}
             <Card>
               <CardHeader>
-                <CardTitle>SEO Essay Content</CardTitle>
-                <p className="text-sm text-gray-600">Main educational content for the homepage</p>
+                <CardTitle>Page Essays</CardTitle>
+                <p className="text-sm text-gray-600">Educational content for each page</p>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <Textarea
-                  value={content.seo_essay}
-                  onChange={(e) => setContent((prev) => ({ ...prev, seo_essay: e.target.value }))}
-                  rows={15}
-                  placeholder="Enter SEO essay content..."
-                  className="font-mono text-sm"
-                />
-                <Button
-                  onClick={() => saveContent("main_essay", content.seo_essay)}
-                  disabled={saving}
-                  className="flex items-center gap-2"
-                >
-                  <Save className="w-4 h-4" />
-                  {saving ? "Saving..." : "Save SEO Essay"}
-                </Button>
+              <CardContent>
+                <Tabs defaultValue="home" className="space-y-4">
+                  <TabsList className="grid w-full grid-cols-4">
+                    <TabsTrigger value="home">Home</TabsTrigger>
+                    <TabsTrigger value="salary">Salary Calculator</TabsTrigger>
+                    <TabsTrigger value="retirement">Retirement Calculator</TabsTrigger>
+                    <TabsTrigger value="about">About</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="home" className="space-y-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Homepage SEO Essay</h3>
+                      <p className="text-sm text-gray-600 mb-4">Main educational content for the homepage</p>
+                      <Textarea
+                        value={content.seo_essay}
+                        onChange={(e) => setContent((prev) => ({ ...prev, seo_essay: e.target.value }))}
+                        rows={15}
+                        placeholder="Enter SEO essay content..."
+                        className="font-mono text-sm"
+                      />
+                      <Button
+                        onClick={() => saveContent("main_essay", content.seo_essay)}
+                        disabled={saving}
+                        className="flex items-center gap-2 mt-4"
+                      >
+                        <Save className="w-4 h-4" />
+                        {saving ? "Saving..." : "Save Homepage Essay"}
+                      </Button>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="salary" className="space-y-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Salary Calculator Essay</h3>
+                      <p className="text-sm text-gray-600 mb-4">Educational content for the salary calculator page</p>
+                      <Textarea
+                        value={content.salary_essay}
+                        onChange={(e) => setContent((prev) => ({ ...prev, salary_essay: e.target.value }))}
+                        rows={15}
+                        placeholder="Enter salary calculator essay content..."
+                        className="font-mono text-sm"
+                      />
+                      <Button
+                        onClick={() => saveContent("salary_essay", content.salary_essay)}
+                        disabled={saving}
+                        className="flex items-center gap-2 mt-4"
+                      >
+                        <Save className="w-4 h-4" />
+                        {saving ? "Saving..." : "Save Salary Calculator Essay"}
+                      </Button>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="retirement" className="space-y-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Retirement Calculator Essay</h3>
+                      <p className="text-sm text-gray-600 mb-4">
+                        Educational content for the retirement calculator page
+                      </p>
+                      <Textarea
+                        value={content.retirement_essay}
+                        onChange={(e) => setContent((prev) => ({ ...prev, retirement_essay: e.target.value }))}
+                        rows={15}
+                        placeholder="Enter retirement calculator essay content..."
+                        className="font-mono text-sm"
+                      />
+                      <Button
+                        onClick={() => saveContent("retirement_essay", content.retirement_essay)}
+                        disabled={saving}
+                        className="flex items-center gap-2 mt-4"
+                      >
+                        <Save className="w-4 h-4" />
+                        {saving ? "Saving..." : "Save Retirement Calculator Essay"}
+                      </Button>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="about" className="space-y-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">About Page Content</h3>
+                      <p className="text-sm text-gray-600 mb-4">Managed in the About Content sections below</p>
+                      <Alert>
+                        <AlertDescription>
+                          About page content is managed in the dedicated About Content sections below. Use those
+                          sections to edit the About page content and social links.
+                        </AlertDescription>
+                      </Alert>
+                    </div>
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
 
