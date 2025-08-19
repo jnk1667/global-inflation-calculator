@@ -4,7 +4,7 @@ import SalaryCalculatorPage from "./SalaryCalculatorPage"
 const siteUrl = "https://www.globalinflationcalculator.com"
 
 export const metadata: Metadata = {
-  title: "Salary Inflation Calculator - Wage Adjustment",
+  title: "Salary Inflation Calculator - Wage Adjustment Tool",
   description:
     "Calculate what your historical salary should be worth today if it were adjusted for inflation. Understand what real wage growth looks like.",
   keywords: [
