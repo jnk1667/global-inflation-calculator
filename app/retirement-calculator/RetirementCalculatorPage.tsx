@@ -38,6 +38,7 @@ interface RetirementData {
   desiredIncome: number
   gender: "male" | "female"
   generation: "babyBoomers" | "genX" | "millennials" | "genZ"
+  currency: "USD" | "GBP" | "EUR"
 }
 
 interface CalculationResults {
@@ -50,6 +51,145 @@ interface CalculationResults {
   lifestyleMaintenanceNeeded: number
   healthcareCosts: number
   generationComparison: any
+}
+
+interface CurrencyData {
+  symbol: string
+  name: string
+  flag: string
+  averageSalary: number
+  retirementAge: number
+  pensionContribution: number
+  healthcareMultiplier: number
+  generationData: {
+    [key: string]: {
+      birthYears: string
+      averageContribution: number
+      medianSavings: number
+      retirementAge: number
+      socialSecurityBenefit: number
+    }
+  }
+}
+
+const currencyData: Record<string, CurrencyData> = {
+  USD: {
+    symbol: "$",
+    name: "US Dollar",
+    flag: "🇺🇸",
+    averageSalary: 75000,
+    retirementAge: 67,
+    pensionContribution: 6.2,
+    healthcareMultiplier: 1.81,
+    generationData: {
+      babyBoomers: {
+        birthYears: "1946-1964",
+        averageContribution: 12.5,
+        medianSavings: 152000,
+        retirementAge: 62,
+        socialSecurityBenefit: 1800,
+      },
+      genX: {
+        birthYears: "1965-1980",
+        averageContribution: 10.8,
+        medianSavings: 89000,
+        retirementAge: 65,
+        socialSecurityBenefit: 1650,
+      },
+      millennials: {
+        birthYears: "1981-1996",
+        averageContribution: 8.4,
+        medianSavings: 23000,
+        retirementAge: 67,
+        socialSecurityBenefit: 1400,
+      },
+      genZ: {
+        birthYears: "1997-2012",
+        averageContribution: 6.2,
+        medianSavings: 11000,
+        retirementAge: 70,
+        socialSecurityBenefit: 1200,
+      },
+    },
+  },
+  GBP: {
+    symbol: "£",
+    name: "British Pound",
+    flag: "🇬🇧",
+    averageSalary: 35000,
+    retirementAge: 66,
+    pensionContribution: 8.0,
+    healthcareMultiplier: 1.45,
+    generationData: {
+      babyBoomers: {
+        birthYears: "1946-1964",
+        averageContribution: 15.2,
+        medianSavings: 85000,
+        retirementAge: 60,
+        socialSecurityBenefit: 950,
+      },
+      genX: {
+        birthYears: "1965-1980",
+        averageContribution: 12.8,
+        medianSavings: 52000,
+        retirementAge: 65,
+        socialSecurityBenefit: 875,
+      },
+      millennials: {
+        birthYears: "1981-1996",
+        averageContribution: 9.5,
+        medianSavings: 18500,
+        retirementAge: 66,
+        socialSecurityBenefit: 750,
+      },
+      genZ: {
+        birthYears: "1997-2012",
+        averageContribution: 7.2,
+        medianSavings: 8500,
+        retirementAge: 68,
+        socialSecurityBenefit: 650,
+      },
+    },
+  },
+  EUR: {
+    symbol: "€",
+    name: "Euro",
+    flag: "🇪🇺",
+    averageSalary: 45000,
+    retirementAge: 65,
+    pensionContribution: 9.3,
+    healthcareMultiplier: 1.35,
+    generationData: {
+      babyBoomers: {
+        birthYears: "1946-1964",
+        averageContribution: 18.5,
+        medianSavings: 95000,
+        retirementAge: 62,
+        socialSecurityBenefit: 1200,
+      },
+      genX: {
+        birthYears: "1965-1980",
+        averageContribution: 15.2,
+        medianSavings: 68000,
+        retirementAge: 64,
+        socialSecurityBenefit: 1100,
+      },
+      millennials: {
+        birthYears: "1981-1996",
+        averageContribution: 11.8,
+        medianSavings: 28000,
+        retirementAge: 65,
+        socialSecurityBenefit: 950,
+      },
+      genZ: {
+        birthYears: "1997-2012",
+        averageContribution: 8.5,
+        medianSavings: 12000,
+        retirementAge: 67,
+        socialSecurityBenefit: 800,
+      },
+    },
+  },
 }
 
 export default function RetirementCalculatorPage() {
@@ -67,12 +207,10 @@ export default function RetirementCalculatorPage() {
     desiredIncome: 80,
     gender: "male",
     generation: "millennials",
+    currency: "USD",
   })
 
   const [results, setResults] = useState<CalculationResults | null>(null)
-  const [retirementContributions, setRetirementContributions] = useState<any>(null)
-  const [healthcareData, setHealthcareData] = useState<any>(null)
-  const [lifeExpectancyData, setLifeExpectancyData] = useState<any>(null)
   const [essayContent, setEssayContent] = useState<string>("")
 
   // Auto-calculate generation based on current age
@@ -94,6 +232,20 @@ export default function RetirementCalculatorPage() {
     }
   }, [data.currentAge])
 
+  // Update default values when currency changes
+  useEffect(() => {
+    const currency = currencyData[data.currency]
+    if (currency) {
+      setData((prev) => ({
+        ...prev,
+        currentSalary: currency.averageSalary,
+        retirementAge: currency.retirementAge,
+        currentSavings: Math.round(currency.averageSalary * 0.33), // Roughly 1/3 of annual salary
+        monthlyContribution: Math.round((currency.averageSalary * 0.08) / 12), // 8% annual contribution
+      }))
+    }
+  }, [data.currency])
+
   // Load essay content
   useEffect(() => {
     const loadEssayContent = async () => {
@@ -106,7 +258,6 @@ export default function RetirementCalculatorPage() {
 
         if (error) {
           console.error("Error loading essay content:", error)
-          // Set default content if database fetch fails
           setEssayContent(`
 # Mastering Retirement Planning in the Modern Era
 
@@ -130,7 +281,6 @@ Successful retirement planning requires a multi-faceted approach that considers 
         if (data?.content) {
           setEssayContent(data.content)
         } else {
-          // Set default content if no content found
           setEssayContent(`
 # Mastering Retirement Planning in the Modern Era
 
@@ -151,7 +301,6 @@ Successful retirement planning requires a multi-faceted approach that considers 
         }
       } catch (err) {
         console.error("Error loading essay content:", err)
-        // Set default content on error
         setEssayContent(`
 # Mastering Retirement Planning in the Modern Era
 
@@ -175,71 +324,10 @@ Successful retirement planning requires a multi-faceted approach that considers 
     loadEssayContent()
   }, [])
 
-  // Load data on component mount
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        // Mock data for retirement contributions
-        const mockRetirementContributions = {
-          generationData: {
-            babyBoomers: {
-              birthYears: "1946-1964",
-              averageContribution: 12.5,
-              medianSavings: 152000,
-              retirementAge: 62,
-              socialSecurityBenefit: 1800,
-            },
-            genX: {
-              birthYears: "1965-1980",
-              averageContribution: 10.8,
-              medianSavings: 89000,
-              retirementAge: 65,
-              socialSecurityBenefit: 1650,
-            },
-            millennials: {
-              birthYears: "1981-1996",
-              averageContribution: 8.4,
-              medianSavings: 23000,
-              retirementAge: 67,
-              socialSecurityBenefit: 1400,
-            },
-            genZ: {
-              birthYears: "1997-2012",
-              averageContribution: 6.2,
-              medianSavings: 11000,
-              retirementAge: 70,
-              socialSecurityBenefit: 1200,
-            },
-          },
-        }
-
-        // Mock healthcare data
-        const mockHealthcareData = {
-          averageHealthcareInflation: 5.8,
-          averageGeneralInflation: 3.2,
-          healthcareMultiplier: 1.81,
-        }
-
-        // Mock life expectancy data
-        const mockLifeExpectancyData = {
-          male: 76.1,
-          female: 81.1,
-        }
-
-        setRetirementContributions(mockRetirementContributions)
-        setHealthcareData(mockHealthcareData)
-        setLifeExpectancyData(mockLifeExpectancyData)
-      } catch (error) {
-        console.error("Error loading data:", error)
-      }
-    }
-
-    loadData()
-  }, [])
-
   // Calculate retirement projections - runs automatically when data changes
   useEffect(() => {
-    if (!retirementContributions || !healthcareData) return
+    const currency = currencyData[data.currency]
+    if (!currency) return
 
     const yearsToRetirement = data.retirementAge - data.currentAge
     const monthsToRetirement = yearsToRetirement * 12
@@ -290,13 +378,11 @@ Successful retirement planning requires a multi-faceted approach that considers 
     // Lifestyle maintenance calculation
     const lifestyleMaintenanceNeeded = (data.currentSalary * 0.8) / 12 // 80% rule
 
-    // Healthcare costs calculation
-    const healthcareMultiplier = healthcareData?.healthcareMultiplier || 1.81
-    const healthcareCosts = (data.currentSalary * 0.15 * healthcareMultiplier) / 12 // 15% of income for healthcare
+    // Healthcare costs calculation using currency-specific multiplier
+    const healthcareCosts = (data.currentSalary * 0.15 * currency.healthcareMultiplier) / 12
 
-    // Generation comparison
-    const generationData = retirementContributions?.generationData || {}
-    const currentGenData = generationData[data.generation] || {}
+    // Generation comparison using currency-specific data
+    const currentGenData = currency.generationData[data.generation] || {}
 
     setResults({
       futureValue: totalFutureValue,
@@ -309,12 +395,16 @@ Successful retirement planning requires a multi-faceted approach that considers 
       healthcareCosts,
       generationComparison: currentGenData,
     })
-  }, [data, retirementContributions, healthcareData])
+  }, [data])
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
+    const currency = currencyData[data.currency]
+    const currencyCode = data.currency
+    const locale = data.currency === "USD" ? "en-US" : data.currency === "GBP" ? "en-GB" : "en-DE"
+
+    return new Intl.NumberFormat(locale, {
       style: "currency",
-      currency: "USD",
+      currency: currencyCode,
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount)
@@ -330,46 +420,118 @@ Successful retirement planning requires a multi-faceted approach that considers 
     return names[gen as keyof typeof names] || gen
   }
 
-  const getGenerationInsight = (generation: string) => {
+  const getGenerationInsight = (generation: string, currency: string) => {
     const insights = {
-      babyBoomers:
-        "Baby Boomers benefited from strong pension systems and higher Social Security benefits. They experienced lower healthcare cost inflation and had shorter retirement periods to fund.",
-      genX: "Generation X is the 'sandwich generation' - supporting both aging parents and children. They experienced the transition from pensions to 401(k)s and have limited time for retirement savings growth.",
-      millennials:
-        "Millennials face unique challenges including student loan debt, higher housing costs, reduced Social Security benefits, and need to save more due to longer life expectancies.",
-      genZ: "Generation Z is entering the workforce during economic uncertainty, faces the highest projected healthcare costs, lowest expected Social Security benefits, and longest retirement periods to fund.",
+      USD: {
+        babyBoomers:
+          "Baby Boomers benefited from strong pension systems and higher Social Security benefits. They experienced lower healthcare cost inflation and had shorter retirement periods to fund.",
+        genX: "Generation X is the 'sandwich generation' - supporting both aging parents and children. They experienced the transition from pensions to 401(k)s and have limited time for retirement savings growth.",
+        millennials:
+          "Millennials face unique challenges including student loan debt, higher housing costs, reduced Social Security benefits, and need to save more due to longer life expectancies.",
+        genZ: "Generation Z is entering the workforce during economic uncertainty, faces the highest projected healthcare costs, lowest expected Social Security benefits, and longest retirement periods to fund.",
+      },
+      GBP: {
+        babyBoomers:
+          "UK Baby Boomers benefited from final salary pension schemes and property appreciation. They face NHS pressures but have better healthcare access than other countries.",
+        genX: "UK Generation X experienced pension reforms and auto-enrollment. They're dealing with rising property costs and supporting both parents and children financially.",
+        millennials:
+          "UK Millennials face housing affordability crisis, student debt, and workplace pension auto-enrollment. Brexit uncertainty adds complexity to retirement planning.",
+        genZ: "UK Generation Z enters the workforce with high education costs, climate concerns, and uncertainty about future state pension age and benefits.",
+      },
+      EUR: {
+        babyBoomers:
+          "European Baby Boomers benefited from strong social security systems and generous state pensions. They face aging population challenges and healthcare cost pressures.",
+        genX: "European Generation X navigates diverse pension systems across EU countries. They benefit from strong worker protections but face economic integration challenges.",
+        millennials:
+          "European Millennials deal with varying economic conditions across EU countries, youth unemployment in some regions, and climate change concerns affecting long-term planning.",
+        genZ: "European Generation Z faces digital transformation, climate challenges, and questions about EU pension portability and long-term sustainability of social systems.",
+      },
     }
-    return insights[generation as keyof typeof insights] || ""
+    return insights[currency as keyof typeof insights]?.[generation as keyof typeof insights.USD] || ""
   }
 
-  const getGenerationChallenges = (generation: string) => {
+  const getGenerationChallenges = (generation: string, currency: string) => {
     const challenges = {
-      babyBoomers: [
-        "Benefited from pension plans and higher Social Security",
-        "Lower healthcare cost inflation historically",
-        "Shorter retirement periods to fund",
-        "Real estate appreciation benefits",
-      ],
-      genX: [
-        "Sandwich generation - supporting parents and children",
-        "Peak earning years with high expenses",
-        "Limited time for retirement savings growth",
-        "Transition from pensions to 401(k)s",
-      ],
-      millennials: [
-        "Student loan debt reducing savings capacity",
-        "Housing costs consuming larger income percentage",
-        "Reduced Social Security benefits expected",
-        "Need to save more due to longer life expectancy",
-      ],
-      genZ: [
-        "Entering workforce during economic uncertainty",
-        "Highest projected healthcare costs",
-        "Lowest expected Social Security benefits",
-        "Longest retirement period to fund",
-      ],
+      USD: {
+        babyBoomers: [
+          "Benefited from pension plans and higher Social Security",
+          "Lower healthcare cost inflation historically",
+          "Shorter retirement periods to fund",
+          "Real estate appreciation benefits",
+        ],
+        genX: [
+          "Sandwich generation - supporting parents and children",
+          "Peak earning years with high expenses",
+          "Limited time for retirement savings growth",
+          "Transition from pensions to 401(k)s",
+        ],
+        millennials: [
+          "Student loan debt reducing savings capacity",
+          "Housing costs consuming larger income percentage",
+          "Reduced Social Security benefits expected",
+          "Need to save more due to longer life expectancy",
+        ],
+        genZ: [
+          "Entering workforce during economic uncertainty",
+          "Highest projected healthcare costs",
+          "Lowest expected Social Security benefits",
+          "Longest retirement period to fund",
+        ],
+      },
+      GBP: {
+        babyBoomers: [
+          "Final salary pension schemes largely available",
+          "Property boom provided wealth accumulation",
+          "NHS provides healthcare security",
+          "Earlier retirement ages were common",
+        ],
+        genX: [
+          "Pension reforms reduced guaranteed benefits",
+          "Property ladder increasingly difficult",
+          "Caring for aging parents with longer lifespans",
+          "Auto-enrollment helps but contributions low",
+        ],
+        millennials: [
+          "Housing affordability crisis limits savings",
+          "Student debt burden from university fees",
+          "Gig economy reduces pension contributions",
+          "Brexit uncertainty affects long-term planning",
+        ],
+        genZ: [
+          "Climate change concerns affect career choices",
+          "High education costs and living expenses",
+          "Uncertain state pension age increases",
+          "Digital economy creates new opportunities and risks",
+        ],
+      },
+      EUR: {
+        babyBoomers: [
+          "Strong social security systems across EU",
+          "Generous state pensions in many countries",
+          "Universal healthcare reduces retirement costs",
+          "Property ownership rates historically high",
+        ],
+        genX: [
+          "EU integration provides pension portability",
+          "Economic crises affected savings and employment",
+          "Diverse pension systems across countries",
+          "Strong worker protection laws",
+        ],
+        millennials: [
+          "Youth unemployment in southern Europe",
+          "Climate change drives policy and career decisions",
+          "EU mobility provides opportunities",
+          "Varying economic conditions across regions",
+        ],
+        genZ: [
+          "Digital transformation creates new job categories",
+          "Climate activism influences financial priorities",
+          "EU Green Deal affects investment choices",
+          "Concerns about pension system sustainability",
+        ],
+      },
     }
-    return challenges[generation as keyof typeof challenges] || []
+    return challenges[currency as keyof typeof challenges]?.[generation as keyof typeof challenges.USD] || []
   }
 
   const getCrisisLevel = () => {
@@ -381,6 +543,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
   }
 
   const crisisLevel = getCrisisLevel()
+  const currentCurrency = currencyData[data.currency]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-32">
@@ -392,7 +555,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Plan your retirement with comprehensive analysis including lifestyle maintenance, crisis assessment,
-            generational comparisons, and healthcare cost projections.
+            generational comparisons, and healthcare cost projections across USD, GBP, and EUR.
           </p>
         </div>
 
@@ -416,6 +579,31 @@ Successful retirement planning requires a multi-faceted approach that considers 
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="currency" className="dark:text-gray-200">
+                    Currency
+                  </Label>
+                  <Select
+                    value={data.currency}
+                    onValueChange={(value: "USD" | "GBP" | "EUR") => setData({ ...data, currency: value })}
+                  >
+                    <SelectTrigger className="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="dark:bg-gray-700 dark:border-gray-600">
+                      <SelectItem value="USD" className="dark:text-white dark:hover:bg-gray-600">
+                        🇺🇸 USD - US Dollar
+                      </SelectItem>
+                      <SelectItem value="GBP" className="dark:text-white dark:hover:bg-gray-600">
+                        🇬🇧 GBP - British Pound
+                      </SelectItem>
+                      <SelectItem value="EUR" className="dark:text-white dark:hover:bg-gray-600">
+                        🇪🇺 EUR - Euro
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="currentAge" className="dark:text-gray-200">
@@ -633,7 +821,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 dark:text-white">
                       <PiggyBank className="h-5 w-5" />
-                      Traditional Retirement Projection
+                      Traditional Retirement Projection ({currentCurrency.flag} {data.currency})
                     </CardTitle>
                     <CardDescription className="dark:text-gray-300">
                       Standard future value calculation with compound growth
@@ -850,51 +1038,50 @@ Successful retirement planning requires a multi-faceted approach that considers 
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 dark:text-white">
                       <Users className="h-5 w-5" />
-                      Generational Retirement Gap
+                      Generational Retirement Gap ({currentCurrency.flag} {data.currency})
                     </CardTitle>
                     <CardDescription className="dark:text-gray-300">
                       Compare retirement challenges across different generations
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {results && retirementContributions && (
+                    {results && currentCurrency && (
                       <div className="space-y-6">
                         <div className="text-center">
                           <h3 className="text-lg font-semibold mb-2 dark:text-white">
                             You are: {getGenerationName(data.generation)}
                           </h3>
                           <p className="text-gray-600 dark:text-gray-400">
-                            Born: {retirementContributions.generationData[data.generation]?.birthYears}
+                            Born: {currentCurrency.generationData[data.generation]?.birthYears}
                           </p>
                         </div>
 
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                          {Object.entries(retirementContributions.generationData).map(
-                            ([gen, genData]: [string, any]) => (
-                              <div
-                                key={gen}
-                                className={`p-4 rounded-lg border-2 ${
-                                  gen === data.generation
-                                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-400"
-                                    : "border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700"
-                                }`}
-                              >
-                                <h4 className="font-semibold text-sm dark:text-white">{getGenerationName(gen)}</h4>
-                                <div className="mt-2 space-y-1 text-xs dark:text-gray-300">
-                                  <p>Avg Contribution: {genData.averageContribution}%</p>
-                                  <p>Median Savings: {formatCurrency(genData.medianSavings)}</p>
-                                  <p>Retirement Age: {genData.retirementAge}</p>
-                                  <p>Social Security: {formatCurrency(genData.socialSecurityBenefit)}/mo</p>
-                                </div>
+                          {Object.entries(currentCurrency.generationData).map(([gen, genData]: [string, any]) => (
+                            <div
+                              key={gen}
+                              className={`p-4 rounded-lg border-2 ${
+                                gen === data.generation
+                                  ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-400"
+                                  : "border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700"
+                              }`}
+                            >
+                              <h4 className="font-semibold text-sm dark:text-white">{getGenerationName(gen)}</h4>
+                              <div className="mt-2 space-y-1 text-xs dark:text-gray-300">
+                                <p>Avg Contribution: {genData.averageContribution}%</p>
+                                <p>Median Savings: {formatCurrency(genData.medianSavings)}</p>
+                                <p>Retirement Age: {genData.retirementAge}</p>
+                                <p>State Pension: {formatCurrency(genData.socialSecurityBenefit)}/mo</p>
                               </div>
-                            ),
-                          )}
+                            </div>
+                          ))}
                         </div>
 
                         <Alert className="dark:bg-blue-900/20 dark:border-blue-800">
                           <Users className="h-4 w-4" />
                           <AlertDescription className="dark:text-blue-300">
-                            <strong>Generational Insight:</strong> {getGenerationInsight(data.generation)}
+                            <strong>Generational Insight:</strong>{" "}
+                            {getGenerationInsight(data.generation, data.currency)}
                           </AlertDescription>
                         </Alert>
 
@@ -904,7 +1091,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                           </h3>
                           <div className="text-sm text-indigo-700 dark:text-indigo-400">
                             <ul className="space-y-1">
-                              {getGenerationChallenges(data.generation).map((challenge, index) => (
+                              {getGenerationChallenges(data.generation, data.currency).map((challenge, index) => (
                                 <li key={index}>• {challenge}</li>
                               ))}
                             </ul>
@@ -929,7 +1116,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {results && healthcareData && (
+                    {results && currentCurrency && (
                       <div className="space-y-6">
                         <div className="grid md:grid-cols-3 gap-4">
                           <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
@@ -949,13 +1136,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
                             <p className="text-sm text-orange-600 dark:text-orange-400">15% of current income</p>
                           </div>
                           <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                            <h3 className="font-semibold text-purple-800 dark:text-purple-300">Healthcare Inflation</h3>
+                            <h3 className="font-semibold text-purple-800 dark:text-purple-300">
+                              Healthcare Multiplier
+                            </h3>
                             <p className="text-xl font-bold text-purple-900 dark:text-purple-200">
-                              {healthcareData.averageHealthcareInflation}%
+                              {currentCurrency.healthcareMultiplier}x
                             </p>
-                            <p className="text-sm text-purple-600 dark:text-purple-400">
-                              vs {healthcareData.averageGeneralInflation}% general
-                            </p>
+                            <p className="text-sm text-purple-600 dark:text-purple-400">vs general inflation</p>
                           </div>
                         </div>
 
@@ -964,9 +1151,9 @@ Successful retirement planning requires a multi-faceted approach that considers 
                             Healthcare Cost Reality
                           </h3>
                           <p className="text-sm text-yellow-700 dark:text-yellow-400 mb-2">
-                            Healthcare costs have historically grown {healthcareData.healthcareMultiplier}x faster than
-                            general inflation. This means your healthcare expenses in retirement will likely consume a
-                            larger portion of your income.
+                            Healthcare costs have historically grown {currentCurrency.healthcareMultiplier}x faster than
+                            general inflation in {data.currency} regions. This means your healthcare expenses in
+                            retirement will likely consume a larger portion of your income.
                           </p>
                           <div className="grid md:grid-cols-2 gap-4 mt-4">
                             <div>
@@ -978,7 +1165,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                                   results.healthcareCosts *
                                     12 *
                                     Math.pow(
-                                      1 + healthcareData.averageHealthcareInflation / 100,
+                                      1 + (data.inflationRate * currentCurrency.healthcareMultiplier) / 100,
                                       data.retirementAge - data.currentAge,
                                     ),
                                 )}
@@ -995,7 +1182,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                                     12 *
                                     data.retirementDuration *
                                     Math.pow(
-                                      1 + healthcareData.averageHealthcareInflation / 100,
+                                      1 + (data.inflationRate * currentCurrency.healthcareMultiplier) / 100,
                                       data.retirementAge - data.currentAge,
                                     ),
                                 )}
@@ -1010,9 +1197,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
                         <Alert className="dark:bg-red-900/20 dark:border-red-800">
                           <Heart className="h-4 w-4" />
                           <AlertDescription className="dark:text-red-300">
-                            <strong>Healthcare Planning Tip:</strong> Consider Health Savings Accounts (HSAs) for triple
-                            tax advantages, long-term care insurance, and factor healthcare inflation into your
-                            retirement income planning. Medicare doesn't cover everything!
+                            <strong>Healthcare Planning Tip:</strong>{" "}
+                            {data.currency === "USD" &&
+                              "Consider Health Savings Accounts (HSAs) for triple tax advantages, long-term care insurance, and factor healthcare inflation into your retirement income planning. Medicare doesn't cover everything!"}
+                            {data.currency === "GBP" &&
+                              "While the NHS provides healthcare security, consider private health insurance for retirement, long-term care costs, and dental/optical expenses not covered by the NHS."}
+                            {data.currency === "EUR" &&
+                              "European healthcare systems vary by country. Consider supplemental insurance for services not covered by your national system, long-term care, and cross-border healthcare needs."}
                           </AlertDescription>
                         </Alert>
                       </div>
@@ -1077,7 +1268,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     • <strong>Inflation Adjustment:</strong> Real purchasing power calculations
                   </li>
                   <li>
-                    • <strong>Healthcare Costs:</strong> 1.81x multiplier based on historical data
+                    • <strong>Healthcare Costs:</strong> Currency-specific multipliers based on regional data
                   </li>
                   <li>
                     • <strong>Lifestyle Maintenance:</strong> 80% replacement ratio standard
@@ -1088,19 +1279,19 @@ Successful retirement planning requires a multi-faceted approach that considers 
                 <h3 className="font-semibold mb-2 dark:text-white">Data Sources</h3>
                 <ul className="text-sm space-y-1 text-gray-600 dark:text-gray-400">
                   <li>
-                    • <strong>S&P 500 Returns:</strong> Historical data 1928-2024 (10.5% avg)
+                    • <strong>US Data:</strong> Federal Reserve, Social Security Administration, BLS
                   </li>
                   <li>
-                    • <strong>Bond Yields:</strong> 10-Year Treasury 1928-2024 (4.8% avg)
+                    • <strong>UK Data:</strong> ONS, DWP, Bank of England, NHS England
                   </li>
                   <li>
-                    • <strong>Life Expectancy:</strong> Social Security Administration
+                    • <strong>EU Data:</strong> Eurostat, ECB, OECD, National Statistical Offices
                   </li>
                   <li>
-                    • <strong>Healthcare Inflation:</strong> Bureau of Labor Statistics CPI-Medical
+                    • <strong>Healthcare Inflation:</strong> Regional CPI-Medical data
                   </li>
                   <li>
-                    • <strong>Generation Data:</strong> Federal Reserve Survey of Consumer Finances
+                    • <strong>Generation Data:</strong> National household finance surveys
                   </li>
                 </ul>
               </div>
@@ -1113,8 +1304,9 @@ Successful retirement planning requires a multi-faceted approach that considers 
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 These calculations are for educational purposes and should not be considered financial advice. Past
                 performance does not guarantee future results. Consult with a qualified financial advisor for
-                personalized retirement planning. Market volatility, sequence of returns risk, and changing economic
-                conditions can significantly impact actual results.
+                personalized retirement planning. Market volatility, sequence of returns risk, changing economic
+                conditions, and currency fluctuations can significantly impact actual results. Regional differences in
+                taxation, social security systems, and healthcare costs are approximated and may vary significantly.
               </p>
             </div>
           </CardContent>
