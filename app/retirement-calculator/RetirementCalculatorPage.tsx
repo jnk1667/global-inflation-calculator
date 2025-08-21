@@ -38,7 +38,7 @@ interface RetirementData {
   desiredIncome: number
   gender: "male" | "female"
   generation: "babyBoomers" | "genX" | "millennials" | "genZ"
-  currency: "USD" | "GBP" | "EUR"
+  currency: "USD" | "GBP" | "EUR" | "CAD" | "AUD" | "CHF" | "JPY" | "NZD"
 }
 
 interface CalculationResults {
@@ -187,6 +187,201 @@ const currencyData: Record<string, CurrencyData> = {
         medianSavings: 12000,
         retirementAge: 67,
         socialSecurityBenefit: 800,
+      },
+    },
+  },
+  CAD: {
+    symbol: "C$",
+    name: "Canadian Dollar",
+    flag: "🇨🇦",
+    averageSalary: 65000,
+    retirementAge: 65,
+    pensionContribution: 5.95,
+    healthcareMultiplier: 1.25,
+    generationData: {
+      babyBoomers: {
+        birthYears: "1946-1964",
+        averageContribution: 14.8,
+        medianSavings: 125000,
+        retirementAge: 62,
+        socialSecurityBenefit: 1350,
+      },
+      genX: {
+        birthYears: "1965-1980",
+        averageContribution: 11.5,
+        medianSavings: 78000,
+        retirementAge: 64,
+        socialSecurityBenefit: 1250,
+      },
+      millennials: {
+        birthYears: "1981-1996",
+        averageContribution: 9.2,
+        medianSavings: 32000,
+        retirementAge: 65,
+        socialSecurityBenefit: 1150,
+      },
+      genZ: {
+        birthYears: "1997-2012",
+        averageContribution: 7.8,
+        medianSavings: 15000,
+        retirementAge: 67,
+        socialSecurityBenefit: 1050,
+      },
+    },
+  },
+  AUD: {
+    symbol: "A$",
+    name: "Australian Dollar",
+    flag: "🇦🇺",
+    averageSalary: 85000,
+    retirementAge: 67,
+    pensionContribution: 11.0,
+    healthcareMultiplier: 1.35,
+    generationData: {
+      babyBoomers: {
+        birthYears: "1946-1964",
+        averageContribution: 16.5,
+        medianSavings: 185000,
+        retirementAge: 65,
+        socialSecurityBenefit: 1850,
+      },
+      genX: {
+        birthYears: "1965-1980",
+        averageContribution: 13.2,
+        medianSavings: 125000,
+        retirementAge: 66,
+        socialSecurityBenefit: 1750,
+      },
+      millennials: {
+        birthYears: "1981-1996",
+        averageContribution: 10.8,
+        medianSavings: 45000,
+        retirementAge: 67,
+        socialSecurityBenefit: 1650,
+      },
+      genZ: {
+        birthYears: "1997-2012",
+        averageContribution: 8.5,
+        medianSavings: 22000,
+        retirementAge: 67,
+        socialSecurityBenefit: 1550,
+      },
+    },
+  },
+  CHF: {
+    symbol: "CHF",
+    name: "Swiss Franc",
+    flag: "🇨🇭",
+    averageSalary: 80000,
+    retirementAge: 65,
+    pensionContribution: 8.7,
+    healthcareMultiplier: 1.55,
+    generationData: {
+      babyBoomers: {
+        birthYears: "1946-1964",
+        averageContribution: 20.2,
+        medianSavings: 195000,
+        retirementAge: 63,
+        socialSecurityBenefit: 2100,
+      },
+      genX: {
+        birthYears: "1965-1980",
+        averageContribution: 17.8,
+        medianSavings: 145000,
+        retirementAge: 64,
+        socialSecurityBenefit: 2000,
+      },
+      millennials: {
+        birthYears: "1981-1996",
+        averageContribution: 14.5,
+        medianSavings: 65000,
+        retirementAge: 65,
+        socialSecurityBenefit: 1900,
+      },
+      genZ: {
+        birthYears: "1997-2012",
+        averageContribution: 11.2,
+        medianSavings: 28000,
+        retirementAge: 66,
+        socialSecurityBenefit: 1800,
+      },
+    },
+  },
+  JPY: {
+    symbol: "¥",
+    name: "Japanese Yen",
+    flag: "🇯🇵",
+    averageSalary: 4500000,
+    retirementAge: 65,
+    pensionContribution: 9.15,
+    healthcareMultiplier: 1.15,
+    generationData: {
+      babyBoomers: {
+        birthYears: "1946-1964",
+        averageContribution: 13.8,
+        medianSavings: 8500000,
+        retirementAge: 60,
+        socialSecurityBenefit: 165000,
+      },
+      genX: {
+        birthYears: "1965-1980",
+        averageContribution: 11.2,
+        medianSavings: 5200000,
+        retirementAge: 63,
+        socialSecurityBenefit: 155000,
+      },
+      millennials: {
+        birthYears: "1981-1996",
+        averageContribution: 8.8,
+        medianSavings: 2100000,
+        retirementAge: 65,
+        socialSecurityBenefit: 145000,
+      },
+      genZ: {
+        birthYears: "1997-2012",
+        averageContribution: 6.5,
+        medianSavings: 950000,
+        retirementAge: 67,
+        socialSecurityBenefit: 135000,
+      },
+    },
+  },
+  NZD: {
+    symbol: "NZ$",
+    name: "New Zealand Dollar",
+    flag: "🇳🇿",
+    averageSalary: 70000,
+    retirementAge: 65,
+    pensionContribution: 3.0,
+    healthcareMultiplier: 1.3,
+    generationData: {
+      babyBoomers: {
+        birthYears: "1946-1964",
+        averageContribution: 12.5,
+        medianSavings: 95000,
+        retirementAge: 60,
+        socialSecurityBenefit: 1450,
+      },
+      genX: {
+        birthYears: "1965-1980",
+        averageContribution: 9.8,
+        medianSavings: 68000,
+        retirementAge: 63,
+        socialSecurityBenefit: 1350,
+      },
+      millennials: {
+        birthYears: "1981-1996",
+        averageContribution: 7.5,
+        medianSavings: 28000,
+        retirementAge: 65,
+        socialSecurityBenefit: 1250,
+      },
+      genZ: {
+        birthYears: "1997-2012",
+        averageContribution: 5.8,
+        medianSavings: 12000,
+        retirementAge: 67,
+        socialSecurityBenefit: 1150,
       },
     },
   },
@@ -400,13 +595,26 @@ Successful retirement planning requires a multi-faceted approach that considers 
   const formatCurrency = (amount: number) => {
     const currency = currencyData[data.currency]
     const currencyCode = data.currency
-    const locale = data.currency === "USD" ? "en-US" : data.currency === "GBP" ? "en-GB" : "en-DE"
+
+    // Define locale mappings for proper formatting
+    const localeMap: Record<string, string> = {
+      USD: "en-US",
+      GBP: "en-GB",
+      EUR: "en-DE",
+      CAD: "en-CA",
+      AUD: "en-AU",
+      CHF: "de-CH",
+      JPY: "ja-JP",
+      NZD: "en-NZ",
+    }
+
+    const locale = localeMap[currencyCode] || "en-US"
 
     return new Intl.NumberFormat(locale, {
       style: "currency",
       currency: currencyCode,
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      minimumFractionDigits: currencyCode === "JPY" ? 0 : 0,
+      maximumFractionDigits: currencyCode === "JPY" ? 0 : 0,
     }).format(amount)
   }
 
@@ -445,6 +653,46 @@ Successful retirement planning requires a multi-faceted approach that considers 
         millennials:
           "European Millennials deal with varying economic conditions across EU countries, youth unemployment in some regions, and climate change concerns affecting long-term planning.",
         genZ: "European Generation Z faces digital transformation, climate challenges, and questions about EU pension portability and long-term sustainability of social systems.",
+      },
+      CAD: {
+        babyBoomers:
+          "Canadian Baby Boomers benefited from strong CPP/QPP systems and universal healthcare. They experienced significant real estate appreciation and stable employment.",
+        genX: "Canadian Generation X navigates RRSP/TFSA systems while supporting aging parents. They benefit from universal healthcare but face rising housing costs.",
+        millennials:
+          "Canadian Millennials deal with housing affordability crisis, student debt, and climate concerns. They benefit from enhanced CPP but need additional retirement savings.",
+        genZ: "Canadian Generation Z enters workforce with climate activism priorities, gig economy challenges, and concerns about healthcare system sustainability.",
+      },
+      AUD: {
+        babyBoomers:
+          "Australian Baby Boomers benefited from superannuation introduction and property booms. They have Medicare security but face aged care funding challenges.",
+        genX: "Australian Generation X experienced superannuation guarantee increases and mining boom prosperity. They're peak earners but face sandwich generation pressures.",
+        millennials:
+          "Australian Millennials face housing affordability crisis despite mandatory superannuation. Climate change and natural disasters affect long-term planning.",
+        genZ: "Australian Generation Z benefits from higher superannuation rates but faces climate change impacts, housing costs, and gig economy retirement planning challenges.",
+      },
+      CHF: {
+        babyBoomers:
+          "Swiss Baby Boomers benefited from the three-pillar pension system and economic stability. They face high healthcare costs but have strong social security.",
+        genX: "Swiss Generation X enjoys high salaries and strong pension systems but faces expensive living costs and healthcare premiums.",
+        millennials:
+          "Swiss Millennials benefit from high wages and stable economy but face housing costs and concerns about pension system sustainability with aging population.",
+        genZ: "Swiss Generation Z enters workforce with climate concerns, high living costs, and questions about long-term pension system viability.",
+      },
+      JPY: {
+        babyBoomers:
+          "Japanese Baby Boomers experienced economic growth and lifetime employment. They face aging society challenges and low interest rate environment affecting savings.",
+        genX: "Japanese Generation X navigated economic stagnation and employment system changes. They face caring for aging parents in rapidly aging society.",
+        millennials:
+          "Japanese Millennials deal with deflation, irregular employment, and pension system pressures from demographic changes. Traditional retirement models are changing.",
+        genZ: "Japanese Generation Z faces population decline, automation, and fundamental changes to traditional employment and retirement systems.",
+      },
+      NZD: {
+        babyBoomers:
+          "New Zealand Baby Boomers benefited from universal NZ Superannuation and property appreciation. They have public healthcare but face aged care costs.",
+        genX: "New Zealand Generation X experienced KiwiSaver introduction and housing booms. They balance supporting children and aging parents.",
+        millennials:
+          "New Zealand Millennials face severe housing affordability issues despite KiwiSaver. Climate change and natural disasters affect long-term planning.",
+        genZ: "New Zealand Generation Z benefits from KiwiSaver but faces housing crisis, climate change impacts, and questions about NZ Super sustainability.",
       },
     }
     return insights[currency as keyof typeof insights]?.[generation as keyof typeof insights.USD] || ""
@@ -530,6 +778,136 @@ Successful retirement planning requires a multi-faceted approach that considers 
           "Concerns about pension system sustainability",
         ],
       },
+      CAD: {
+        babyBoomers: [
+          "Strong CPP/QPP and universal healthcare benefits",
+          "Significant real estate appreciation",
+          "Stable employment and pension systems",
+          "Lower healthcare costs due to universal system",
+        ],
+        genX: [
+          "RRSP and TFSA tax-advantaged savings options",
+          "Peak earning years with dual income households",
+          "Supporting aging parents and children",
+          "Benefiting from resource sector employment",
+        ],
+        millennials: [
+          "Housing affordability crisis in major cities",
+          "Student debt from higher education costs",
+          "Enhanced CPP benefits but still need additional savings",
+          "Climate change affecting career and location choices",
+        ],
+        genZ: [
+          "Gig economy and non-traditional employment",
+          "Climate activism influencing financial decisions",
+          "High cost of living in urban centers",
+          "Concerns about healthcare system sustainability",
+        ],
+      },
+      AUD: {
+        babyBoomers: [
+          "Superannuation system introduction benefits",
+          "Property boom wealth accumulation",
+          "Medicare provides healthcare security",
+          "Mining boom economic prosperity",
+        ],
+        genX: [
+          "Superannuation guarantee rate increases",
+          "Peak earning years with dual incomes",
+          "Property investment opportunities",
+          "Sandwich generation supporting both ends",
+        ],
+        millennials: [
+          "Housing affordability crisis despite super",
+          "HECS debt from university education",
+          "Climate change and natural disaster concerns",
+          "Gig economy affecting super contributions",
+        ],
+        genZ: [
+          "Higher superannuation guarantee rates",
+          "Climate change impacts on career choices",
+          "Housing market locked out in major cities",
+          "Digital economy and non-traditional work",
+        ],
+      },
+      CHF: {
+        babyBoomers: [
+          "Three-pillar pension system benefits",
+          "Economic stability and high wages",
+          "Strong social security system",
+          "Property ownership advantages",
+        ],
+        genX: [
+          "High earning potential and stable employment",
+          "Strong pension contributions and benefits",
+          "Expensive but high-quality healthcare",
+          "Supporting aging parents with longevity",
+        ],
+        millennials: [
+          "High wages but expensive living costs",
+          "Housing affordability challenges",
+          "Concerns about pension system sustainability",
+          "Climate change affecting Alpine regions",
+        ],
+        genZ: [
+          "Entering workforce with climate priorities",
+          "High cost of living and education",
+          "Questions about long-term pension viability",
+          "Digital transformation opportunities",
+        ],
+      },
+      JPY: {
+        babyBoomers: [
+          "Lifetime employment and company pensions",
+          "Economic growth period benefits",
+          "Strong social cohesion and family support",
+          "Universal healthcare system",
+        ],
+        genX: [
+          "Economic stagnation and employment changes",
+          "Caring for aging parents in aging society",
+          "Low interest rates affecting savings",
+          "Traditional employment system breakdown",
+        ],
+        millennials: [
+          "Irregular employment and job insecurity",
+          "Deflation affecting wage growth",
+          "Pension system under demographic pressure",
+          "Traditional retirement models changing",
+        ],
+        genZ: [
+          "Population decline and automation",
+          "Fundamental employment system changes",
+          "Caring for largest elderly population",
+          "Technology creating new opportunities",
+        ],
+      },
+      NZD: {
+        babyBoomers: [
+          "Universal NZ Superannuation benefits",
+          "Property boom wealth accumulation",
+          "Public healthcare system access",
+          "Stable political and economic environment",
+        ],
+        genX: [
+          "KiwiSaver introduction benefits",
+          "Property investment opportunities",
+          "Peak earning years with dual incomes",
+          "Supporting children and aging parents",
+        ],
+        millennials: [
+          "Severe housing affordability crisis",
+          "KiwiSaver helping but insufficient alone",
+          "Climate change and natural disaster risks",
+          "Student loan debt burden",
+        ],
+        genZ: [
+          "KiwiSaver from early age benefits",
+          "Locked out of housing market",
+          "Climate change major concern",
+          "Questions about NZ Super sustainability",
+        ],
+      },
     }
     return challenges[currency as keyof typeof challenges]?.[generation as keyof typeof challenges.USD] || []
   }
@@ -551,11 +929,12 @@ Successful retirement planning requires a multi-faceted approach that considers 
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Complete Retirement Calculator
+            Global Retirement Calculator
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Plan your retirement with comprehensive analysis including lifestyle maintenance, crisis assessment,
-            generational comparisons, and healthcare cost projections across USD, GBP, and EUR.
+            Plan your retirement with comprehensive analysis across 8 major currencies: USD, GBP, EUR, CAD, AUD, CHF,
+            JPY, and NZD. Get insights on lifestyle maintenance, crisis assessment, generational comparisons, and
+            healthcare costs.
           </p>
         </div>
 
@@ -583,10 +962,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                   <Label htmlFor="currency" className="dark:text-gray-200">
                     Currency
                   </Label>
-                  <Select
-                    value={data.currency}
-                    onValueChange={(value: "USD" | "GBP" | "EUR") => setData({ ...data, currency: value })}
-                  >
+                  <Select value={data.currency} onValueChange={(value: any) => setData({ ...data, currency: value })}>
                     <SelectTrigger className="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                       <SelectValue />
                     </SelectTrigger>
@@ -599,6 +975,21 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       </SelectItem>
                       <SelectItem value="EUR" className="dark:text-white dark:hover:bg-gray-600">
                         🇪🇺 EUR - Euro
+                      </SelectItem>
+                      <SelectItem value="CAD" className="dark:text-white dark:hover:bg-gray-600">
+                        🇨🇦 CAD - Canadian Dollar
+                      </SelectItem>
+                      <SelectItem value="AUD" className="dark:text-white dark:hover:bg-gray-600">
+                        🇦🇺 AUD - Australian Dollar
+                      </SelectItem>
+                      <SelectItem value="CHF" className="dark:text-white dark:hover:bg-gray-600">
+                        🇨🇭 CHF - Swiss Franc
+                      </SelectItem>
+                      <SelectItem value="JPY" className="dark:text-white dark:hover:bg-gray-600">
+                        🇯🇵 JPY - Japanese Yen
+                      </SelectItem>
+                      <SelectItem value="NZD" className="dark:text-white dark:hover:bg-gray-600">
+                        🇳🇿 NZD - New Zealand Dollar
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -1204,6 +1595,16 @@ Successful retirement planning requires a multi-faceted approach that considers 
                               "While the NHS provides healthcare security, consider private health insurance for retirement, long-term care costs, and dental/optical expenses not covered by the NHS."}
                             {data.currency === "EUR" &&
                               "European healthcare systems vary by country. Consider supplemental insurance for services not covered by your national system, long-term care, and cross-border healthcare needs."}
+                            {data.currency === "CAD" &&
+                              "While Canada has universal healthcare, consider supplemental insurance for prescription drugs, dental, vision, and long-term care not covered by provincial health plans."}
+                            {data.currency === "AUD" &&
+                              "Medicare provides basic coverage, but consider private health insurance for faster access to specialists, choice of doctor, and coverage for services not covered by Medicare."}
+                            {data.currency === "CHF" &&
+                              "Switzerland has mandatory health insurance with high deductibles. Consider supplemental insurance for better coverage and factor in rising healthcare premiums in retirement planning."}
+                            {data.currency === "JPY" &&
+                              "Japan's universal healthcare covers 70% of costs. Consider supplemental insurance for the remaining 30%, long-term care insurance, and rising healthcare costs with aging."}
+                            {data.currency === "NZD" &&
+                              "While New Zealand has public healthcare, consider private insurance for faster access to specialists, choice of provider, and services not covered by the public system."}
                           </AlertDescription>
                         </Alert>
                       </div>
@@ -1288,10 +1689,10 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     • <strong>EU Data:</strong> Eurostat, ECB, OECD, National Statistical Offices
                   </li>
                   <li>
-                    • <strong>Healthcare Inflation:</strong> Regional CPI-Medical data
+                    • <strong>Other Regions:</strong> National statistical agencies and central banks
                   </li>
                   <li>
-                    • <strong>Generation Data:</strong> National household finance surveys
+                    • <strong>Healthcare Inflation:</strong> Regional CPI-Medical data and OECD health statistics
                   </li>
                 </ul>
               </div>
@@ -1307,6 +1708,8 @@ Successful retirement planning requires a multi-faceted approach that considers 
                 personalized retirement planning. Market volatility, sequence of returns risk, changing economic
                 conditions, and currency fluctuations can significantly impact actual results. Regional differences in
                 taxation, social security systems, and healthcare costs are approximated and may vary significantly.
+                Exchange rates and international economic conditions add additional complexity to cross-border
+                retirement planning.
               </p>
             </div>
           </CardContent>
