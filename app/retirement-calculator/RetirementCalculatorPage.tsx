@@ -1781,7 +1781,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
               Terms
             </Link>
           </div>
-          <p>© 2024 Global Inflation Calculator. All rights reserved.</p>
+          <p>© 2025 Global Inflation Calculator. All rights reserved.</p>
         </footer>
       </div>
     </div>
