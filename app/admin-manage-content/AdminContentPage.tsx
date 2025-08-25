@@ -39,6 +39,8 @@ interface ContentData {
   seo_essay: string
   salary_essay: string
   retirement_essay: string
+  legacy_planner_title: string
+  legacy_planner_content: string
   privacy_content: string
   terms_content: string
   logo_url: string
@@ -73,11 +75,25 @@ const AdminContentPage: React.FC = () => {
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
 
-  // Content state (removed social_links from here)
+  // Content state
   const [content, setContent] = useState<ContentData>({
     seo_essay: "",
     salary_essay: "",
     retirement_essay: "",
+    legacy_planner_title: "Understanding Multi-Generational Wealth Planning",
+    legacy_planner_content: `Multi-generational wealth planning is one of the most complex yet crucial aspects of financial management. As families accumulate wealth over time, the challenge becomes not just preserving it, but ensuring it grows and serves future generations effectively.
+
+The impact of inflation on long-term wealth cannot be overstated. What seems like a substantial inheritance today may have significantly less purchasing power in 20 or 30 years. Historical data shows that inflation averages around 2-3% annually, but periods of higher inflation can dramatically erode wealth. For example, $1 million today would need to grow to approximately $1.8 million in 30 years just to maintain the same purchasing power, assuming a 2% inflation rate.
+
+Healthcare costs present another significant challenge for legacy planning. Medical expenses have consistently outpaced general inflation, rising at rates of 4-6% annually. This means that healthcare-related expenses can consume a disproportionate amount of family wealth, particularly as family members age. Planning for these escalating costs is essential for preserving wealth across generations.
+
+Investment strategy becomes critical when planning for multiple generations. While younger generations might benefit from aggressive growth strategies, older family members may require more conservative approaches focused on capital preservation. Diversification across asset classes, geographic regions, and time horizons helps balance these competing needs.
+
+Estate planning tools such as trusts, family limited partnerships, and charitable giving strategies can provide tax advantages while ensuring wealth transfers efficiently between generations. These structures also offer protection from creditors and can help maintain family control over assets.
+
+Regular family meetings and financial education for heirs are often overlooked but crucial components of successful wealth transfer. Teaching younger family members about financial responsibility, investment principles, and the family's values regarding wealth helps ensure they're prepared to manage their inheritance effectively.
+
+The key to successful multi-generational wealth planning lies in balancing growth with preservation, considering the unique needs of each generation, and maintaining flexibility to adapt to changing economic conditions and family circumstances.`,
     privacy_content: "",
     terms_content: "",
     logo_url: "",
@@ -254,7 +270,7 @@ const AdminContentPage: React.FC = () => {
         }))
       }
 
-      // Process site settings (removed social_links)
+      // Process site settings
       if (siteSettings) {
         setContent((prev) => ({
           ...prev,
@@ -315,6 +331,20 @@ const AdminContentPage: React.FC = () => {
         ]
         setAboutContent(defaultAbout)
       }
+
+      // Load Legacy Planner Content
+      try {
+        const { data: legacyData } = await supabase.from("legacy_planner_content").select("*").eq("id", "main").single()
+        if (legacyData) {
+          setContent((prev) => ({
+            ...prev,
+            legacy_planner_title: legacyData.title || prev.legacy_planner_title,
+            legacy_planner_content: legacyData.content || prev.legacy_planner_content,
+          }))
+        }
+      } catch (err) {
+        console.log("Legacy planner content not found, using defaults")
+      }
     } catch (err) {
       console.error("Error loading content:", err)
       setError("Failed to load content")
@@ -344,7 +374,7 @@ const AdminContentPage: React.FC = () => {
     }
   }
 
-  // Save site settings (removed social_links)
+  // Save site settings
   const saveSiteSettings = async () => {
     setSaving(true)
     try {
@@ -362,6 +392,28 @@ const AdminContentPage: React.FC = () => {
     } catch (err) {
       console.error("Error saving site settings:", err)
       setError("Failed to save site settings")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  // Save legacy planner content
+  const saveLegacyPlannerContent = async () => {
+    setSaving(true)
+    try {
+      const { error } = await supabase.from("legacy_planner_content").upsert({
+        id: "main",
+        title: content.legacy_planner_title,
+        content: content.legacy_planner_content,
+        updated_at: new Date().toISOString(),
+      })
+
+      if (error) throw error
+      setMessage("Legacy planner content saved successfully!")
+      setTimeout(() => setMessage(""), 3000)
+    } catch (err) {
+      console.error("Error saving legacy planner content:", err)
+      setError("Failed to save legacy planner content")
     } finally {
       setSaving(false)
     }
@@ -520,102 +572,109 @@ const AdminContentPage: React.FC = () => {
 
           {/* Content Management */}
           <TabsContent value="content" className="space-y-6">
-            {/* SEO Essay Content with Tabs */}
+            {/* Homepage SEO Essay */}
             <Card>
               <CardHeader>
-                <CardTitle>Page Essays</CardTitle>
-                <p className="text-sm text-gray-600">Educational content for each page</p>
+                <CardTitle>Homepage SEO Essay</CardTitle>
+                <p className="text-sm text-gray-600">Main educational content for the homepage</p>
               </CardHeader>
-              <CardContent>
-                <Tabs defaultValue="home" className="space-y-4">
-                  <TabsList className="grid w-full grid-cols-4">
-                    <TabsTrigger value="home">Home</TabsTrigger>
-                    <TabsTrigger value="salary">Salary Calculator</TabsTrigger>
-                    <TabsTrigger value="retirement">Retirement Calculator</TabsTrigger>
-                    <TabsTrigger value="about">About</TabsTrigger>
-                  </TabsList>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.seo_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, seo_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter SEO essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("main_essay", content.seo_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Homepage Essay"}
+                </Button>
+              </CardContent>
+            </Card>
 
-                  <TabsContent value="home" className="space-y-4">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">Homepage SEO Essay</h3>
-                      <p className="text-sm text-gray-600 mb-4">Main educational content for the homepage</p>
-                      <Textarea
-                        value={content.seo_essay}
-                        onChange={(e) => setContent((prev) => ({ ...prev, seo_essay: e.target.value }))}
-                        rows={15}
-                        placeholder="Enter SEO essay content..."
-                        className="font-mono text-sm"
-                      />
-                      <Button
-                        onClick={() => saveContent("main_essay", content.seo_essay)}
-                        disabled={saving}
-                        className="flex items-center gap-2 mt-4"
-                      >
-                        <Save className="w-4 h-4" />
-                        {saving ? "Saving..." : "Save Homepage Essay"}
-                      </Button>
-                    </div>
-                  </TabsContent>
+            {/* Salary Calculator Essay */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Salary Calculator Essay</CardTitle>
+                <p className="text-sm text-gray-600">Educational content for the salary calculator page</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.salary_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, salary_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter salary calculator essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("salary_essay", content.salary_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Salary Calculator Essay"}
+                </Button>
+              </CardContent>
+            </Card>
 
-                  <TabsContent value="salary" className="space-y-4">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">Salary Calculator Essay</h3>
-                      <p className="text-sm text-gray-600 mb-4">Educational content for the salary calculator page</p>
-                      <Textarea
-                        value={content.salary_essay}
-                        onChange={(e) => setContent((prev) => ({ ...prev, salary_essay: e.target.value }))}
-                        rows={15}
-                        placeholder="Enter salary calculator essay content..."
-                        className="font-mono text-sm"
-                      />
-                      <Button
-                        onClick={() => saveContent("salary_essay", content.salary_essay)}
-                        disabled={saving}
-                        className="flex items-center gap-2 mt-4"
-                      >
-                        <Save className="w-4 h-4" />
-                        {saving ? "Saving..." : "Save Salary Calculator Essay"}
-                      </Button>
-                    </div>
-                  </TabsContent>
+            {/* Retirement Calculator Essay */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Retirement Calculator Essay</CardTitle>
+                <p className="text-sm text-gray-600">Educational content for the retirement calculator page</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.retirement_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, retirement_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter retirement calculator essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("retirement_essay", content.retirement_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Retirement Calculator Essay"}
+                </Button>
+              </CardContent>
+            </Card>
 
-                  <TabsContent value="retirement" className="space-y-4">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">Retirement Calculator Essay</h3>
-                      <p className="text-sm text-gray-600 mb-4">
-                        Educational content for the retirement calculator page
-                      </p>
-                      <Textarea
-                        value={content.retirement_essay}
-                        onChange={(e) => setContent((prev) => ({ ...prev, retirement_essay: e.target.value }))}
-                        rows={15}
-                        placeholder="Enter retirement calculator essay content..."
-                        className="font-mono text-sm"
-                      />
-                      <Button
-                        onClick={() => saveContent("retirement_essay", content.retirement_essay)}
-                        disabled={saving}
-                        className="flex items-center gap-2 mt-4"
-                      >
-                        <Save className="w-4 h-4" />
-                        {saving ? "Saving..." : "Save Retirement Calculator Essay"}
-                      </Button>
-                    </div>
-                  </TabsContent>
+            {/* Legacy Planner Blog */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Legacy Planner Blog</CardTitle>
+                <p className="text-sm text-gray-600">Educational content for the legacy planner page</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Blog Title</label>
+                  <Input
+                    value={content.legacy_planner_title}
+                    onChange={(e) => setContent((prev) => ({ ...prev, legacy_planner_title: e.target.value }))}
+                    placeholder="Understanding Multi-Generational Wealth Planning"
+                  />
+                </div>
 
-                  <TabsContent value="about" className="space-y-4">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">About Page Content</h3>
-                      <p className="text-sm text-gray-600 mb-4">Managed in the About Content sections below</p>
-                      <Alert>
-                        <AlertDescription>
-                          About page content is managed in the dedicated About Content sections below. Use those
-                          sections to edit the About page content and social links.
-                        </AlertDescription>
-                      </Alert>
-                    </div>
-                  </TabsContent>
-                </Tabs>
+                <Textarea
+                  value={content.legacy_planner_content}
+                  onChange={(e) => setContent((prev) => ({ ...prev, legacy_planner_content: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter legacy planner blog content..."
+                  className="font-mono text-sm"
+                />
+
+                <Button onClick={saveLegacyPlannerContent} disabled={saving} className="flex items-center gap-2">
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Legacy Planner Blog"}
+                </Button>
               </CardContent>
             </Card>
 
@@ -844,7 +903,7 @@ const AdminContentPage: React.FC = () => {
             </Card>
           </TabsContent>
 
-          {/* Site Settings - Removed Social Links */}
+          {/* Site Settings */}
           <TabsContent value="settings" className="space-y-6">
             <Card>
               <CardHeader>

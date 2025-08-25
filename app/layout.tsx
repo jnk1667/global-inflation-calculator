@@ -161,6 +161,12 @@ export default function RootLayout({
                   Retirement Calculator
                 </Link>
                 <Link
+                  href="/legacy-planner"
+                  className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
+                >
+                  Legacy Planner
+                </Link>
+                <Link
                   href="/about"
                   className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
                 >

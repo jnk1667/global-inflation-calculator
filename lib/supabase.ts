@@ -60,6 +60,14 @@ export interface AboutContent {
   updated_at: string
 }
 
+export interface LegacyPlannerContent {
+  id: string
+  title: string
+  content: string
+  created_at: string
+  updated_at: string
+}
+
 // Helper functions
 export const getFAQs = async () => {
   const { data, error } = await supabase.from("faqs").select("*").eq("is_active", true).order("order_index")
@@ -101,4 +109,27 @@ export const updateAboutContent = async (id: string, updates: Partial<AboutConte
 
   if (error) throw error
   return data as AboutContent
+}
+
+export const getLegacyPlannerContent = async () => {
+  const { data, error } = await supabase.from("legacy_planner_content").select("*").eq("id", "main").single()
+
+  if (error) throw error
+  return data as LegacyPlannerContent
+}
+
+export const updateLegacyPlannerContent = async (title: string, content: string) => {
+  const { data, error } = await supabase
+    .from("legacy_planner_content")
+    .upsert({
+      id: "main",
+      title: title,
+      content: content,
+      updated_at: new Date().toISOString(),
+    })
+    .select()
+    .single()
+
+  if (error) throw error
+  return data as LegacyPlannerContent
 }
