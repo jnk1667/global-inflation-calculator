@@ -679,7 +679,11 @@ export default function ClientPage() {
                         </label>
                         <div className="relative">
                           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 text-lg">
-                            {currentCurrencyData?.symbol || "$"}
+                            {currentCurrencyData?.symbol
+                              ? currentCurrencyData.symbol.length > 1 || currentCurrencyData.symbol === "Fr"
+                                ? `${currentCurrencyData.symbol} `
+                                : currentCurrencyData.symbol
+                              : "$"}
                           </span>
                           <Input
                             id="amount-input"

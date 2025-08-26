@@ -311,29 +311,110 @@ export default function AboutClientPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-8 dark:text-muted-foreground">
-            {/* Calculation Formula */}
+            {/* Calculation Formulas */}
             <div>
-              <h3 className="text-xl font-semibold mb-4 dark:text-foreground">Inflation Calculation Formula</h3>
-              <div className="bg-muted p-6 rounded-lg dark:bg-background">
-                <div className="text-center mb-4 dark:text-foreground">
-                  <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
-                    Adjusted Amount = (Original Amount × Current CPI) ÷ Historical CPI
-                  </code>
+              <h3 className="text-xl font-semibold mb-4 dark:text-foreground">Calculation Formulas</h3>
+
+              {/* Inflation Calculator */}
+              <div className="mb-6">
+                <h4 className="text-lg font-medium mb-3 dark:text-foreground">Inflation Calculator</h4>
+                <div className="bg-muted p-6 rounded-lg dark:bg-background">
+                  <div className="text-center mb-4 dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Adjusted Amount = (Original Amount × Current CPI) ÷ Historical CPI
+                    </code>
+                  </div>
+                  <div className="text-center mb-4 dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Total Inflation = ((Adjusted Amount - Original Amount) ÷ Original Amount) × 100
+                    </code>
+                  </div>
+                  <div className="text-center dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Annual Rate = (Adjusted Amount ÷ Original Amount)^(1/Years) - 1
+                    </code>
+                  </div>
                 </div>
-                <div className="text-center mb-4 dark:text-foreground">
-                  <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
-                    Total Inflation = ((Adjusted Amount - Original Amount) ÷ Original Amount) × 100
-                  </code>
+              </div>
+
+              {/* Salary Calculator */}
+              <div className="mb-6">
+                <h4 className="text-lg font-medium mb-3 dark:text-foreground">Salary Calculator</h4>
+                <div className="bg-muted p-6 rounded-lg dark:bg-background">
+                  <div className="text-center mb-4 dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Real Salary Value = (Current Salary × Base Year CPI) ÷ Current Year CPI
+                    </code>
+                  </div>
+                  <div className="text-center mb-4 dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Purchasing Power Change = ((Real Value - Original Salary) ÷ Original Salary) × 100
+                    </code>
+                  </div>
+                  <div className="text-center dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Required Salary = (Original Salary × Current CPI) ÷ Base Year CPI
+                    </code>
+                  </div>
                 </div>
-                <div className="text-center dark:text-foreground">
-                  <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
-                    Annual Rate = (Adjusted Amount ÷ Original Amount)^(1/Years) - 1
-                  </code>
+              </div>
+
+              {/* Retirement Calculator */}
+              <div className="mb-6">
+                <h4 className="text-lg font-medium mb-3 dark:text-foreground">Retirement Calculator</h4>
+                <div className="bg-muted p-6 rounded-lg dark:bg-background">
+                  <div className="text-center mb-4 dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Future Value = Present Value × (1 + Real Return Rate)^Years
+                    </code>
+                  </div>
+                  <div className="text-center mb-4 dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Real Return Rate = ((1 + Nominal Rate) ÷ (1 + Inflation Rate)) - 1
+                    </code>
+                  </div>
+                  <div className="text-center mb-4 dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Annuity Payment = Principal × (Rate × (1 + Rate)^Years) ÷ ((1 + Rate)^Years - 1)
+                    </code>
+                  </div>
+                  <div className="text-center dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Healthcare Adjusted = Base Amount × (1 + Healthcare Inflation)^Years
+                    </code>
+                  </div>
+                </div>
+              </div>
+
+              {/* Legacy Planner */}
+              <div className="mb-6">
+                <h4 className="text-lg font-medium mb-3 dark:text-foreground">Legacy Planner</h4>
+                <div className="bg-muted p-6 rounded-lg dark:bg-background">
+                  <div className="text-center mb-4 dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Generation Wealth = Previous Wealth × (1 + Growth Rate - Inflation Rate)^Years
+                    </code>
+                  </div>
+                  <div className="text-center mb-4 dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Healthcare Erosion = Wealth × Healthcare Inflation Rate × Years
+                    </code>
+                  </div>
+                  <div className="text-center mb-4 dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Real vs Nominal = Nominal Value ÷ (1 + Cumulative Inflation)
+                    </code>
+                  </div>
+                  <div className="text-center dark:text-foreground">
+                    <code className="text-lg font-mono bg-background px-4 py-2 rounded border dark:bg-background dark:border-foreground">
+                      Purchasing Power Loss = (1 - (Real Value ÷ Nominal Value)) × 100
+                    </code>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Data Sources */}
+            {/* Official Data Sources */}
             <div>
               <h3 className="text-xl font-semibold mb-4 dark:text-foreground">Official Data Sources</h3>
               <div className="grid md:grid-cols-2 gap-4 dark:text-foreground">
@@ -377,6 +458,18 @@ export default function AboutClientPage() {
                     <div>
                       <h4 className="font-medium">Canada</h4>
                       <p className="text-sm text-muted-foreground dark:text-muted-foreground">Statistics Canada</p>
+                      <p className="text-xs text-muted-foreground dark:text-muted-foreground">
+                        Consumer Price Index (CPI)
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">🇳🇿</span>
+                    <div>
+                      <h4 className="font-medium">New Zealand</h4>
+                      <p className="text-sm text-muted-foreground dark:text-muted-foreground">
+                        Statistics New Zealand (Stats NZ)
+                      </p>
                       <p className="text-xs text-muted-foreground dark:text-muted-foreground">
                         Consumer Price Index (CPI)
                       </p>
