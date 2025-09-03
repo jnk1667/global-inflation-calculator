@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin-manage-content/", "/api/"],
     },
-    sitemap: "https://www.globalinflationcalculator.com/sitemap.xml",
+    sitemap: "https://globalinflationcalculator.com/sitemap.xml",
   }
 }

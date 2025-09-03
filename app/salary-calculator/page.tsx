@@ -1,41 +1,23 @@
 import type { Metadata } from "next"
 import SalaryCalculatorPage from "./SalaryCalculatorPage"
 
-const siteUrl = "https://www.globalinflationcalculator.com"
-
 export const metadata: Metadata = {
-  title: "Salary Inflation Calculator - Wage Adjustment",
+  title: "Salary Calculator - Adjust for Inflation | Global Inflation Calculator",
   description:
-    "Calculate what your historical salary should be worth today if it were adjusted for inflation. Understand what real wage growth looks like.",
-  keywords: [
-    "salary inflation calculator",
-    "CAGR calculator",
-    "wage adjustment calculator",
-    "historical salary calculator",
-    "salary negotiation tool",
-    "real wage calculator",
-    "purchasing power salary",
-    "inflation adjusted salary",
-  ],
-  authors: [{ name: "Global Inflation Calculator" }],
-  creator: "Global Inflation Calculator",
-  publisher: "Global Inflation Calculator",
-  metadataBase: new URL(siteUrl),
-  alternates: {
-    canonical: `${siteUrl}/salary-calculator`,
-  },
+    "Calculate how inflation affects your salary over time. Compare purchasing power and real wages across different years with our comprehensive salary inflation calculator.",
+  keywords: "salary calculator, inflation adjustment, real wages, purchasing power, salary inflation, wage calculator",
   openGraph: {
-    title: "Salary Inflation Calculator - Historical Wage Adjustment Tool",
+    title: "Salary Calculator - Adjust for Inflation",
     description:
-      "Calculate what your historical salary should be worth today based on inflation. Perfect for salary negotiations and career planning.",
-    url: `${siteUrl}/salary-calculator`,
+      "Calculate how inflation affects your salary over time. Compare purchasing power and real wages across different years.",
+    url: "https://globalinflationcalculator.com/salary-calculator",
     siteName: "Global Inflation Calculator",
     images: [
       {
-        url: "/images/globe-icon.png",
+        url: "https://globalinflationcalculator.com/og-salary-calculator.jpg",
         width: 1200,
         height: 630,
-        alt: "Salary Inflation Calculator",
+        alt: "Salary Calculator - Global Inflation Calculator",
       },
     ],
     locale: "en_US",
@@ -43,21 +25,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Salary Inflation Calculator - Historical Wage Adjustment Tool",
-    description:
-      "Calculate what your historical salary should be worth today based on inflation. Perfect for salary negotiations.",
-    images: ["/images/globe-icon.png"],
+    title: "Salary Calculator - Adjust for Inflation",
+    description: "Calculate how inflation affects your salary over time. Compare purchasing power and real wages.",
+    images: ["https://globalinflationcalculator.com/og-salary-calculator.jpg"],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+  alternates: {
+    canonical: "https://globalinflationcalculator.com/salary-calculator",
   },
 }
 

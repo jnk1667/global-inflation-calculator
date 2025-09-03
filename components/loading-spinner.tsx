@@ -1,20 +1,37 @@
 "use client"
 
-import type React from "react"
+import { cn } from "@/lib/utils"
 
-const LoadingSpinner: React.FC = () => {
+interface LoadingSpinnerProps {
+  size?: "sm" | "md" | "lg" | "xl"
+  className?: string
+  text?: string
+}
+
+export default function LoadingSpinner({ size = "md", className, text }: LoadingSpinnerProps) {
+  const sizeClasses = {
+    sm: "h-4 w-4",
+    md: "h-6 w-6",
+    lg: "h-8 w-8",
+    xl: "h-12 w-12",
+  }
+
+  const textSizeClasses = {
+    sm: "text-sm",
+    md: "text-base",
+    lg: "text-lg",
+    xl: "text-xl",
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center space-y-4">
-      <div className="relative">
-        <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-        <div className="absolute inset-0 w-12 h-12 border-4 border-transparent border-r-purple-400 rounded-full animate-spin animation-delay-150"></div>
-      </div>
-      <div className="text-center">
-        <div className="text-lg font-medium text-gray-700">Loading inflation data...</div>
-        <div className="text-sm text-gray-500">Fetching historical currency information</div>
-      </div>
+    <div className={cn("flex flex-col items-center justify-center space-y-2", className)}>
+      <div
+        className={cn(
+          "animate-spin rounded-full border-2 border-gray-300 border-t-blue-600 dark:border-gray-600 dark:border-t-blue-400",
+          sizeClasses[size],
+        )}
+      />
+      {text && <p className={cn("text-gray-600 dark:text-gray-400", textSizeClasses[size])}>{text}</p>}
     </div>
   )
 }
-
-export default LoadingSpinner

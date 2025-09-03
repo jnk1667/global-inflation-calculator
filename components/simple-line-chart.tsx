@@ -1,306 +1,264 @@
 "use client"
 
-import type React from "react"
-import { useState } from "react"
+import { useState, useMemo } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
+import { TrendingUp, BarChart3 } from "lucide-react"
 
-interface ChartData {
+interface ChartDataPoint {
   year: number
   value: number
 }
 
-interface CurrencyData {
-  data: { [year: string]: number }
-  symbol: string
-  name: string
-  flag: string
-  startYear: number
-  endYear: number
-}
-
-interface AllInflationData {
-  [currency: string]: CurrencyData
-}
-
 interface SimpleLineChartProps {
-  data: ChartData[]
-  currency: string
-  fromYear: number
+  data?: ChartDataPoint[]
+  currency?: string
+  fromYear?: number
   selectedCurrency?: string
   originalAmount?: number
-  allInflationData?: AllInflationData
+  allInflationData?: any
 }
 
-const SimpleLineChart: React.FC<SimpleLineChartProps> = ({
-  data,
-  currency,
-  fromYear,
+const defaultCurrencies = {
+  USD: { symbol: "$", name: "US Dollar", flag: "🇺🇸", color: "#3B82F6" },
+  GBP: { symbol: "£", name: "British Pound", flag: "🇬🇧", color: "#EF4444" },
+  EUR: { symbol: "€", name: "Euro", flag: "🇪🇺", color: "#F59E0B" },
+  CAD: { symbol: "C$", name: "Canadian Dollar", flag: "🇨🇦", color: "#8B5CF6" },
+  AUD: { symbol: "A$", name: "Australian Dollar", flag: "🇦🇺", color: "#10B981" },
+  CHF: { symbol: "Fr", name: "Swiss Franc", flag: "🇨🇭", color: "#06B6D4" },
+  JPY: { symbol: "¥", name: "Japanese Yen", flag: "🇯🇵", color: "#22C55E" },
+  NZD: { symbol: "NZ$", name: "New Zealand Dollar", flag: "🇳🇿", color: "#A855F7" },
+}
+
+// Multi-currency comparison data (2020-2025)
+const multiCurrencyData = [
+  { year: 2020, USD: 100, GBP: 100, EUR: 100, CAD: 100, AUD: 100, CHF: 100, JPY: 100, NZD: 100 },
+  { year: 2021, USD: 104.7, GBP: 102.56, EUR: 102.55, CAD: 103.4, AUD: 102.86, CHF: 100.58, JPY: 99.75, NZD: 103.93 },
+  {
+    year: 2022,
+    USD: 113.08,
+    GBP: 111.84,
+    EUR: 111.15,
+    CAD: 110.43,
+    AUD: 109.64,
+    CHF: 103.44,
+    JPY: 102.24,
+    NZD: 111.38,
+  },
+  {
+    year: 2023,
+    USD: 117.74,
+    GBP: 120.01,
+    EUR: 117.18,
+    CAD: 114.74,
+    AUD: 115.56,
+    CHF: 105.65,
+    JPY: 105.58,
+    NZD: 117.73,
+  },
+  { year: 2024, USD: 121.48, GBP: 122.7, EUR: 120.23, CAD: 118.07, AUD: 119.95, CHF: 107.02, JPY: 108.54, NZD: 121.62 },
+  { year: 2025, USD: 124.4, GBP: 125.28, EUR: 122.75, CAD: 120.67, AUD: 123.31, CHF: 108.2, JPY: 110.49, NZD: 124.66 },
+]
+
+export default function SimpleLineChart({
+  data = [],
+  currency = "$",
+  fromYear = 2020,
   selectedCurrency = "USD",
   originalAmount = 100,
   allInflationData = {},
-}) => {
-  const [compareMode, setCompareMode] = useState(false)
+}: SimpleLineChartProps) {
+  const [isComparing, setIsComparing] = useState(false)
 
-  if (!data || data.length === 0) {
+  // Safe data validation
+  const safeSelectedCurrency = selectedCurrency && typeof selectedCurrency === "string" ? selectedCurrency : "USD"
+  const safeOriginalAmount = typeof originalAmount === "number" && isFinite(originalAmount) ? originalAmount : 100
+  const safeFromYear = typeof fromYear === "number" && isFinite(fromYear) ? fromYear : 2020
+
+  // Generate chart data based on mode
+  const chartData = useMemo(() => {
+    if (isComparing) {
+      // Use multi-currency data for comparison
+      return multiCurrencyData
+    } else {
+      // Use single currency data (either provided data or extract from multi-currency data)
+      if (Array.isArray(data) && data.length > 0) {
+        return data.map((point) => ({
+          year: point.year,
+          [safeSelectedCurrency]: point.value,
+        }))
+      } else {
+        // Extract single currency from multi-currency data
+        return multiCurrencyData.map((point) => ({
+          year: point.year,
+          [safeSelectedCurrency]: point[safeSelectedCurrency as keyof typeof point] || 100,
+        }))
+      }
+    }
+  }, [isComparing, data, safeSelectedCurrency])
+
+  // Get currency info safely
+  const getCurrencyInfo = (code: string) => {
+    if (!code || typeof code !== "string") return defaultCurrencies.USD
+    return defaultCurrencies[code as keyof typeof defaultCurrencies] || defaultCurrencies.USD
+  }
+
+  const selectedCurrencyInfo = getCurrencyInfo(safeSelectedCurrency)
+
+  // Format currency safely
+  const formatCurrency = (value: number, symbol: string = currency) => {
+    if (typeof value !== "number" || !isFinite(value) || isNaN(value)) return `${symbol}0.00`
+
+    // Multi-character symbols need spacing
+    if (symbol.length > 1 || symbol === "Fr") {
+      return `${symbol} ${value.toFixed(2)}`
+    }
+    return `${symbol}${value.toFixed(2)}`
+  }
+
+  // Custom tooltip
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && Array.isArray(payload) && payload.length > 0) {
+      return (
+        <div className="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
+          <p className="font-medium text-gray-900 dark:text-white">{`Year: ${label}`}</p>
+          {payload.map((entry: any, index: number) => {
+            const currencyInfo = getCurrencyInfo(entry.dataKey)
+            const value = entry.value
+            if (typeof value === "number" && isFinite(value)) {
+              return (
+                <p key={index} style={{ color: entry.color }} className="text-sm">
+                  {`${currencyInfo.flag} ${entry.dataKey}: ${formatCurrency(value, currencyInfo.symbol)}`}
+                </p>
+              )
+            }
+            return null
+          })}
+        </div>
+      )
+    }
+    return null
+  }
+
+  if (!chartData || chartData.length === 0) {
     return (
-      <div className="w-full h-full flex items-center justify-center text-gray-500">No data available for chart</div>
+      <Card>
+        <CardContent className="p-6">
+          <div className="text-center text-muted-foreground">Loading chart data...</div>
+        </CardContent>
+      </Card>
     )
   }
 
-  const currentYear = new Date().getFullYear()
-
-  // Generate comparison data for all currencies
-  const generateComparisonData = () => {
-    const comparisonData: { [currency: string]: ChartData[] } = {}
-
-    Object.entries(allInflationData).forEach(([currencyCode, currencyData]) => {
-      const fromInflation = currencyData.data[fromYear.toString()]
-      if (!fromInflation || fromInflation <= 0) return
-
-      const chartData: ChartData[] = []
-      const stepSize = Math.max(1, Math.floor((currentYear - fromYear) / 20))
-
-      for (let year = fromYear; year <= currentYear; year += stepSize) {
-        const yearInflation = currencyData.data[year.toString()]
-        if (yearInflation && yearInflation > 0 && fromInflation > 0) {
-          const yearValue = (originalAmount * yearInflation) / fromInflation
-          if (isFinite(yearValue) && yearValue > 0) {
-            chartData.push({ year, value: yearValue })
-          }
-        }
-      }
-
-      // Ensure current year is included
-      const currentInflation = currencyData.data[currentYear.toString()]
-      if (currentInflation && currentInflation > 0 && fromInflation > 0) {
-        const currentValue = (originalAmount * currentInflation) / fromInflation
-        if (chartData.length === 0 || chartData[chartData.length - 1].year !== currentYear) {
-          if (isFinite(currentValue) && currentValue > 0) {
-            chartData.push({ year: currentYear, value: currentValue })
-          }
-        }
-      }
-
-      if (chartData.length > 0) {
-        comparisonData[currencyCode] = chartData
-      }
-    })
-
-    return comparisonData
-  }
-
-  const comparisonData = compareMode ? generateComparisonData() : {}
-  const allData = compareMode ? Object.values(comparisonData).flat() : data
-
-  const maxValue = Math.max(...allData.map((d) => d.value))
-  const minValue = Math.min(...allData.map((d) => d.value))
-  const valueRange = maxValue - minValue || 1
-
-  const formatCurrency = (value: number, symbol: string) => {
-    if (symbol.length > 1) {
-      return `${symbol} ${value.toFixed(0)}`
-    }
-    return `${symbol}${value.toFixed(0)}`
-  }
-
-  // Color palette for different currencies
-  const colors = {
-    USD: "#3b82f6", // blue
-    GBP: "#ef4444", // red
-    EUR: "#10b981", // green
-    CAD: "#f59e0b", // amber
-    AUD: "#8b5cf6", // purple
-    CHF: "#06b6d4", // cyan
-    JPY: "#f97316", // orange
-  }
-
-  const currencies = {
-    USD: { symbol: "$", name: "US Dollar", flag: "🇺🇸" },
-    GBP: { symbol: "£", name: "British Pound", flag: "🇬🇧" },
-    EUR: { symbol: "€", name: "Euro", flag: "🇪🇺" },
-    CAD: { symbol: "C$", name: "Canadian Dollar", flag: "🇨🇦" },
-    AUD: { symbol: "A$", name: "Australian Dollar", flag: "🇦🇺" },
-    CHF: { symbol: "Fr", name: "Swiss Franc", flag: "🇨🇭" },
-    JPY: { symbol: "¥", name: "Japanese Yen", flag: "🇯🇵" },
-  }
-
   return (
-    <div className="w-full h-full relative bg-white">
-      {/* Header with Compare Button - Positioned outside chart */}
-      <div className="flex justify-between items-center mb-4 px-2">
-        <div className="text-sm text-gray-600">
-          {compareMode
-            ? "Multi-Currency Comparison"
-            : `${currencies[selectedCurrency as keyof typeof currencies]?.name || selectedCurrency} Only`}
+    <Card className="bg-white dark:bg-gray-800 shadow-lg border-0">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-blue-600" />
+            {isComparing ? "Multi-Currency Comparison" : `${selectedCurrencyInfo.name} Inflation Trend Over Time`}
+          </CardTitle>
+          <Button
+            variant={isComparing ? "default" : "outline"}
+            size="sm"
+            onClick={() => setIsComparing(!isComparing)}
+            className="flex items-center gap-2"
+          >
+            <BarChart3 className="h-4 w-4" />
+            {isComparing ? "✓ Comparing" : "Compare"}
+          </Button>
         </div>
-        <Button
-          variant={compareMode ? "default" : "outline"}
-          size="sm"
-          onClick={() => setCompareMode(!compareMode)}
-          className="text-xs px-3 py-1 h-8"
-        >
-          {compareMode ? "✓ Comparing" : "Compare"}
-        </Button>
-      </div>
+        <p className="text-sm text-muted-foreground">
+          {isComparing
+            ? "Compare inflation across all major currencies"
+            : `How ${formatCurrency(safeOriginalAmount, selectedCurrencyInfo.symbol)} grows over time`}
+        </p>
+      </CardHeader>
+      <CardContent>
+        <div className="h-[400px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+              <XAxis dataKey="year" tick={{ fontSize: 12 }} tickLine={{ stroke: "#666" }} />
+              <YAxis
+                tick={{ fontSize: 12 }}
+                tickLine={{ stroke: "#666" }}
+                domain={["dataMin - 5", "dataMax + 5"]}
+                tickFormatter={(value) => `$${Math.round(value)}`}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              {isComparing && <Legend />}
 
-      {/* Chart SVG - Clean with no overlapping text */}
-      <div className="w-full mb-6">
-        <svg className="w-full h-full" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
-          {/* Grid lines */}
-          <defs>
-            <pattern id="grid" width="80" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 80 0 L 0 0 0 40" fill="none" stroke="#e5e7eb" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
+              {isComparing ? (
+                // Show all currencies when comparing
+                Object.keys(defaultCurrencies).map((code) => {
+                  const currencyInfo = getCurrencyInfo(code)
+                  const hasData = chartData.some((point) => {
+                    const value = point[code]
+                    return value !== undefined && typeof value === "number" && isFinite(value)
+                  })
 
-          {/* Chart area */}
-          <g transform="translate(80, 20)">
-            {/* Y-axis labels */}
-            {[0, 0.25, 0.5, 0.75, 1].map((ratio, index) => {
-              const y = 320 - ratio * 320
-              const value = minValue + valueRange * ratio
-              return (
-                <g key={index}>
-                  <line x1="0" y1={y} x2="640" y2={y} stroke="#f3f4f6" strokeWidth="1" />
-                  <text x="-10" y={y + 5} textAnchor="end" fontSize="12" fill="#6b7280">
-                    {compareMode ? `$${value.toFixed(0)}` : formatCurrency(value, currency)}
-                  </text>
-                </g>
-              )
-            })}
+                  if (!hasData) return null
 
-            {/* X-axis labels */}
-            {data
-              .filter((_, index) => index % Math.ceil(data.length / 6) === 0)
-              .map((point, index) => {
-                const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 640
-                return (
-                  <text key={index} x={x} y="350" textAnchor="middle" fontSize="12" fill="#6b7280">
-                    {point.year}
-                  </text>
-                )
-              })}
-
-            {/* Render lines */}
-            {compareMode ? (
-              // Multiple currency lines
-              Object.entries(comparisonData).map(([currencyCode, currencyData]) => {
-                const color = colors[currencyCode as keyof typeof colors] || "#6b7280"
-                const isSelected = currencyCode === selectedCurrency
-
-                return (
-                  <g key={currencyCode}>
-                    {/* Line path */}
-                    <path
-                      d={currencyData
-                        .map((point, index) => {
-                          const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 640
-                          const y = 320 - ((point.value - minValue) / valueRange) * 320
-                          return `${index === 0 ? "M" : "L"} ${x} ${y}`
-                        })
-                        .join(" ")}
-                      fill="none"
-                      stroke={color}
-                      strokeWidth={isSelected ? "4" : "2"}
-                      strokeOpacity={isSelected ? "1" : "0.7"}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-
-                    {/* Data points */}
-                    {currencyData.map((point, index) => {
-                      const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 640
-                      const y = 320 - ((point.value - minValue) / valueRange) * 320
-                      return (
-                        <circle
-                          key={index}
-                          cx={x}
-                          cy={y}
-                          r={isSelected ? "5" : "3"}
-                          fill={color}
-                          stroke="white"
-                          strokeWidth="2"
-                          opacity={isSelected ? "1" : "0.8"}
-                        >
-                          <title>{`${currencyCode} ${point.year}: ${formatCurrency(point.value, allInflationData[currencyCode]?.symbol || "$")}`}</title>
-                        </circle>
-                      )
-                    })}
-                  </g>
-                )
-              })
-            ) : (
-              // Single currency line (original behavior)
-              <g>
-                <path
-                  d={data
-                    .map((point, index) => {
-                      const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 640
-                      const y = 320 - ((point.value - minValue) / valueRange) * 320
-                      return `${index === 0 ? "M" : "L"} ${x} ${y}`
-                    })
-                    .join(" ")}
-                  fill="none"
-                  stroke="#3b82f6"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-
-                {data.map((point, index) => {
-                  const x = ((point.year - data[0].year) / (data[data.length - 1].year - data[0].year)) * 640
-                  const y = 320 - ((point.value - minValue) / valueRange) * 320
                   return (
-                    <circle key={index} cx={x} cy={y} r="4" fill="#3b82f6" stroke="white" strokeWidth="2">
-                      <title>{`${point.year}: ${formatCurrency(point.value, currency)}`}</title>
-                    </circle>
+                    <Line
+                      key={code}
+                      type="monotone"
+                      dataKey={code}
+                      stroke={currencyInfo.color}
+                      strokeWidth={code === safeSelectedCurrency ? 3 : 2}
+                      dot={{ fill: currencyInfo.color, strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6, stroke: currencyInfo.color, strokeWidth: 2 }}
+                      name={`${currencyInfo.flag} ${code}`}
+                    />
                   )
-                })}
-              </g>
-            )}
-          </g>
+                })
+              ) : (
+                // Show only selected currency
+                <Line
+                  type="monotone"
+                  dataKey={safeSelectedCurrency}
+                  stroke={selectedCurrencyInfo.color}
+                  strokeWidth={3}
+                  dot={{ fill: selectedCurrencyInfo.color, strokeWidth: 2, r: 5 }}
+                  activeDot={{ r: 7, stroke: selectedCurrencyInfo.color, strokeWidth: 2 }}
+                />
+              )}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
 
-          {/* Axes */}
-          <g transform="translate(80, 20)">
-            <line x1="0" y1="320" x2="640" y2="320" stroke="#374151" strokeWidth="2" />
-            <line x1="0" y1="0" x2="0" y2="320" stroke="#374151" strokeWidth="2" />
-          </g>
-        </svg>
-      </div>
-
-      {/* Legend Section - Completely separate from chart */}
-      {compareMode && (
-        <div className="mt-8 space-y-4">
-          <div className="text-sm font-medium text-gray-700 mb-3">Currency Legend:</div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 mb-4">
-            {Object.entries(comparisonData).map(([currencyCode]) => {
-              const color = colors[currencyCode as keyof typeof colors] || "#6b7280"
-              const currencyInfo = currencies[currencyCode as keyof typeof currencies]
-              const isSelected = currencyCode === selectedCurrency
-
-              return (
-                <div
-                  key={currencyCode}
-                  className={`flex items-center gap-1 text-xs p-2 rounded border ${
-                    isSelected ? "bg-blue-50 border-blue-200 font-medium" : "bg-gray-50 border-gray-200"
-                  }`}
-                >
-                  <div className="w-3 h-3 rounded-full border border-white" style={{ backgroundColor: color }} />
+        {/* Currency Legend - Only show when comparing */}
+        {isComparing && (
+          <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+            <h4 className="text-sm font-medium mb-3">Currency Legend:</h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              {Object.entries(defaultCurrencies).map(([code, info]) => (
+                <div key={code} className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: info.color }} />
                   <span className="text-xs">
-                    {currencyInfo?.flag} {currencyCode}
+                    {info.flag} {code}
                   </span>
                 </div>
-              )
-            })}
+              ))}
+            </div>
           </div>
-          <div className="text-xs text-gray-500 bg-blue-50 p-3 rounded border border-blue-100">
-            💡 Your selected currency ({selectedCurrency}) is highlighted with a thicker line and darker legend item
+        )}
+
+        {/* Selected Currency Info - Only show when NOT comparing */}
+        {!isComparing && (
+          <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">{selectedCurrencyInfo.flag}</span>
+              <span className="font-medium text-blue-800 dark:text-blue-200">
+                Your selected currency ({safeSelectedCurrency}) is highlighted with a thicker line and darker legend
+                item.
+              </span>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </CardContent>
+    </Card>
   )
 }
-
-export default SimpleLineChart

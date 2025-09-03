@@ -1,128 +1,181 @@
 "use client"
 
-import type React from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Share2, MessageCircle } from "lucide-react"
+import { toast } from "@/hooks/use-toast"
+import { Share2, Twitter, Facebook, Linkedin, Link, Mail } from "lucide-react"
 
-const SocialShare: React.FC = () => {
-  const siteUrl = typeof window !== "undefined" ? window.location.href : "https://globalinflationcalculator.com"
-  const shareText =
-    "Check out this Global Inflation Calculator - track how inflation affects your money across different currencies from 1913 to now!"
+interface SocialShareProps {
+  url?: string
+  title?: string
+  description?: string
+  hashtags?: string[]
+}
 
-  const handleShare = async (platform: string) => {
-    const encodedText = encodeURIComponent(shareText)
-    const encodedUrl = encodeURIComponent(siteUrl)
+export default function SocialShare({
+  url = typeof window !== "undefined" ? window.location.href : "",
+  title = "Global Inflation Calculator",
+  description = "Calculate and compare inflation rates across different currencies and time periods",
+  hashtags = ["inflation", "calculator", "economics", "finance"],
+}: SocialShareProps) {
+  const [copied, setCopied] = useState(false)
 
-    let shareUrl = ""
+  // Safe URL handling
+  const safeUrl = typeof url === "string" && url.length > 0 ? url : "https://example.com"
+  const safeTitle = typeof title === "string" ? title : "Global Inflation Calculator"
+  const safeDescription = typeof description === "string" ? description : "Calculate inflation rates"
+  const safeHashtags = Array.isArray(hashtags) ? hashtags : ["inflation", "calculator"]
 
-    switch (platform) {
-      case "twitter":
-        shareUrl = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`
-        break
-      case "facebook":
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`
-        break
-      case "linkedin":
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`
-        break
-      case "reddit":
-        shareUrl = `https://reddit.com/submit?url=${encodedUrl}&title=${encodedText}`
-        break
-      case "copy":
+  const encodedUrl = encodeURIComponent(safeUrl)
+  const encodedTitle = encodeURIComponent(safeTitle)
+  const encodedDescription = encodeURIComponent(safeDescription)
+
+  const shareLinks = {
+    twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}&hashtags=${safeHashtags.join(",")}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+    email: `mailto:?subject=${encodedTitle}&body=${encodedDescription}%0A%0A${encodedUrl}`,
+  }
+
+  const handleCopyLink = async () => {
+    try {
+      // Try modern clipboard API first
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(safeUrl)
+        setCopied(true)
+        toast({
+          title: "Link copied!",
+          description: "The link has been copied to your clipboard.",
+        })
+      } else {
+        // Fallback for older browsers
+        const textArea = document.createElement("textarea")
+        textArea.value = safeUrl
+        textArea.style.position = "fixed"
+        textArea.style.left = "-999999px"
+        textArea.style.top = "-999999px"
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+
         try {
-          await navigator.clipboard.writeText(`${shareText} ${siteUrl}`)
-          alert("✅ Link copied to clipboard!")
-          return
-        } catch (err) {
-          // Fallback for older browsers
-          const textArea = document.createElement("textarea")
-          textArea.value = `${shareText} ${siteUrl}`
-          document.body.appendChild(textArea)
-          textArea.select()
           document.execCommand("copy")
+          setCopied(true)
+          toast({
+            title: "Link copied!",
+            description: "The link has been copied to your clipboard.",
+          })
+        } catch (err) {
+          console.error("Failed to copy link:", err)
+          toast({
+            title: "Copy failed",
+            description: "Unable to copy link. Please copy manually.",
+            variant: "destructive",
+          })
+        } finally {
           document.body.removeChild(textArea)
-          alert("✅ Link copied to clipboard!")
-          return
         }
-    }
+      }
 
-    if (shareUrl) {
-      window.open(shareUrl, "_blank", "width=600,height=400")
+      // Reset copied state after 3 seconds
+      setTimeout(() => setCopied(false), 3000)
+    } catch (err) {
+      console.error("Failed to copy link:", err)
+      toast({
+        title: "Copy failed",
+        description: "Unable to copy link. Please copy manually.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleShare = (platform: keyof typeof shareLinks) => {
+    try {
+      const link = shareLinks[platform]
+      if (link) {
+        window.open(link, "_blank", "noopener,noreferrer,width=600,height=400")
+      }
+    } catch (err) {
+      console.error(`Failed to share on ${platform}:`, err)
+      toast({
+        title: "Share failed",
+        description: `Unable to open ${platform} share dialog.`,
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleNativeShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: safeTitle,
+          text: safeDescription,
+          url: safeUrl,
+        })
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") {
+          console.error("Native share failed:", err)
+          toast({
+            title: "Share failed",
+            description: "Unable to share using native dialog.",
+            variant: "destructive",
+          })
+        }
+      }
     }
   }
 
   return (
-    <Card className="bg-white shadow-lg border-0">
-      <CardHeader>
-        <CardTitle className="text-xl flex items-center gap-2">
-          <Share2 className="w-5 h-5" />
+    <div className="space-y-4">
+      <div>
+        <h3 className="flex items-center gap-2 text-lg font-semibold mb-2">
+          <Share2 className="h-5 w-5" />
           Share this Tool
-        </CardTitle>
-        <div className="text-sm text-gray-600">Help others discover this inflation calculator</div>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-          <Button
-            variant="outline"
-            onClick={() => handleShare("twitter")}
-            className="flex items-center gap-2 hover:bg-blue-50 hover:border-blue-300"
-          >
-            <span className="text-lg">𝕏</span>
-            <span className="hidden sm:inline">Twitter/X</span>
-            <span className="sm:hidden">X</span>
-          </Button>
+        </h3>
+        <p className="text-sm text-muted-foreground mb-4">Help others discover this inflation calculator</p>
+      </div>
 
-          <Button
-            variant="outline"
-            onClick={() => handleShare("facebook")}
-            className="flex items-center gap-2 hover:bg-blue-50 hover:border-blue-300"
-          >
-            <span className="text-lg">📘</span>
-            <span className="hidden sm:inline">Facebook</span>
-            <span className="sm:hidden">FB</span>
-          </Button>
+      {/* Native Share (if supported) */}
+      {typeof navigator !== "undefined" && navigator.share && (
+        <Button onClick={handleNativeShare} className="w-full mb-4" variant="default">
+          <Share2 className="h-4 w-4 mr-2" />
+          Share
+        </Button>
+      )}
 
-          <Button
-            variant="outline"
-            onClick={() => handleShare("linkedin")}
-            className="flex items-center gap-2 hover:bg-blue-50 hover:border-blue-300"
-          >
-            <span className="text-lg">💼</span>
-            <span className="hidden sm:inline">LinkedIn</span>
-            <span className="sm:hidden">LI</span>
-          </Button>
+      {/* Social Media Buttons */}
+      <div className="flex flex-wrap gap-2">
+        <Button onClick={() => handleShare("twitter")} variant="outline" size="sm" className="flex items-center gap-2">
+          <Twitter className="h-4 w-4" />
+          Twitter/X
+        </Button>
 
-          <Button
-            variant="outline"
-            onClick={() => handleShare("reddit")}
-            className="flex items-center gap-2 hover:bg-orange-50 hover:border-orange-300"
-          >
-            <MessageCircle className="w-4 h-4" />
-            <span className="hidden sm:inline">Reddit</span>
-            <span className="sm:hidden">Reddit</span>
-          </Button>
+        <Button onClick={() => handleShare("facebook")} variant="outline" size="sm" className="flex items-center gap-2">
+          <Facebook className="h-4 w-4" />
+          Facebook
+        </Button>
 
-          <Button
-            variant="outline"
-            onClick={() => handleShare("copy")}
-            className="flex items-center gap-2 hover:bg-gray-50 hover:border-gray-300"
-          >
-            <span className="text-lg">📋</span>
-            <span className="hidden sm:inline">Copy Link</span>
-            <span className="sm:hidden">Copy</span>
-          </Button>
-        </div>
+        <Button onClick={() => handleShare("linkedin")} variant="outline" size="sm" className="flex items-center gap-2">
+          <Linkedin className="h-4 w-4" />
+          LinkedIn
+        </Button>
 
-        <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-          <p className="text-sm text-gray-600 text-center">
-            💡 Share with friends, colleagues, or anyone interested in understanding how inflation affects their money
-            over time!
-          </p>
-        </div>
-      </CardContent>
-    </Card>
+        <Button onClick={() => handleShare("email")} variant="outline" size="sm" className="flex items-center gap-2">
+          <Mail className="h-4 w-4" />
+          Email
+        </Button>
+
+        <Button onClick={handleCopyLink} variant="outline" size="sm">
+          <Link className="h-4 w-4 mr-2" />
+          {copied ? "Copied!" : "Copy Link"}
+        </Button>
+      </div>
+
+      <div className="text-xs text-muted-foreground">
+        💡 Share with friends, colleagues, or anyone interested in understanding how inflation affects their money over
+        time!
+      </div>
+    </div>
   )
 }
-
-export default SocialShare

@@ -1,255 +1,217 @@
 "use client"
 
-import type React from "react"
 import { useState, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-
-interface InflationData {
-  [year: string]: number
-}
+import { Progress } from "@/components/ui/progress"
+import { Badge } from "@/components/ui/badge"
 
 interface CurrencyData {
-  data: InflationData
-  symbol: string
+  code: string
   name: string
   flag: string
-  startYear: number
-  endYear: number
-}
-
-interface AllInflationData {
-  [currency: string]: CurrencyData
+  symbol: string
+  value: number
+  change: number
+  color: string
 }
 
 interface CurrencyComparisonChartProps {
-  amount: string
-  fromYear: number
-  inflationData: AllInflationData
+  data?: CurrencyData[]
+  currencies?: string[]
+  fromYear?: number
+  toYear?: number
+  originalAmount?: number
 }
 
-const CurrencyComparisonChart: React.FC<CurrencyComparisonChartProps> = ({ amount, fromYear, inflationData }) => {
-  const [selectedFromYear, setSelectedFromYear] = useState(fromYear)
-  const [selectedToYear, setSelectedToYear] = useState(new Date().getFullYear())
+const defaultCurrencies: CurrencyData[] = [
+  { code: "GBP", name: "British Pound", flag: "🇬🇧", symbol: "£", value: 174.36, change: 74.36, color: "#8B5CF6" },
+  { code: "CAD", name: "Canadian Dollar", flag: "🇨🇦", symbol: "C$", value: 128.25, change: 28.25, color: "#10B981" },
+  { code: "AUD", name: "Australian Dollar", flag: "🇦🇺", symbol: "A$", value: 125.88, change: 25.88, color: "#F59E0B" },
+  { code: "NZD", name: "New Zealand Dollar", flag: "🇳🇿", symbol: "NZ$", value: 124.7, change: 24.7, color: "#EF4444" },
+  { code: "USD", name: "US Dollar", flag: "🇺🇸", symbol: "$", value: 119.61, change: 19.61, color: "#3B82F6" },
+  { code: "EUR", name: "Euro", flag: "🇪🇺", symbol: "€", value: 123.14, change: 23.14, color: "#F97316" },
+  { code: "JPY", name: "Japanese Yen", flag: "🇯🇵", symbol: "¥", value: 111.57, change: 11.57, color: "#22C55E" },
+  { code: "CHF", name: "Swiss Franc", flag: "🇨🇭", symbol: "Fr", value: 105.18, change: 5.18, color: "#06B6D4" },
+]
 
-  const currentYear = new Date().getFullYear()
-  const minYear = 1913
-  const maxYear = currentYear
+export default function CurrencyComparisonChart({
+  data = defaultCurrencies,
+  currencies = [],
+  fromYear = 2020,
+  toYear = 2025,
+  originalAmount = 100,
+}: CurrencyComparisonChartProps) {
+  const [selectedFromYear, setSelectedFromYear] = useState([fromYear])
+  const [selectedToYear, setSelectedToYear] = useState([toYear])
 
-  const comparisonData = useMemo(() => {
-    const amountValue = Number.parseFloat(amount)
-    if (isNaN(amountValue) || amountValue <= 0) return []
+  // Safe data validation
+  const safeData = Array.isArray(data) && data.length > 0 ? data : defaultCurrencies
+  const safeOriginalAmount = typeof originalAmount === "number" && isFinite(originalAmount) ? originalAmount : 100
 
-    const data: any[] = []
+  // Calculate statistics
+  const stats = useMemo(() => {
+    const validData = safeData.filter((item) => item && typeof item.change === "number" && isFinite(item.change))
 
-    Object.entries(inflationData).forEach(([currency, currencyData]) => {
-      // Check if currency has data for both selected years
-      const fromInflation = currencyData.data[selectedFromYear.toString()]
-      const toInflation = currencyData.data[selectedToYear.toString()]
-
-      // Only include currencies that have data for both years
-      if (fromInflation && toInflation && fromInflation > 0 && toInflation > 0) {
-        const adjustedAmount = (amountValue * toInflation) / fromInflation
-        const totalInflation = ((adjustedAmount - amountValue) / amountValue) * 100
-        const years = selectedToYear - selectedFromYear
-        const annualRate = years > 0 ? (Math.pow(adjustedAmount / amountValue, 1 / years) - 1) * 100 : 0
-
-        data.push({
-          currency,
-          name: currencyData.name,
-          flag: currencyData.flag,
-          symbol: currencyData.symbol,
-          adjustedAmount: isFinite(adjustedAmount) ? adjustedAmount : 0,
-          totalInflation: isFinite(totalInflation) ? totalInflation : 0,
-          annualRate: isFinite(annualRate) ? annualRate : 0,
-        })
+    if (validData.length === 0) {
+      return {
+        currenciesCompared: 0,
+        yearsAnalyzed: 0,
+        avgAnnualInflation: 0,
       }
-    })
+    }
 
-    return data.sort((a, b) => b.adjustedAmount - a.adjustedAmount)
-  }, [amount, selectedFromYear, selectedToYear, inflationData])
+    const totalInflation = validData.reduce((sum, item) => sum + item.change, 0)
+    const avgInflation = totalInflation / validData.length
+    const yearsDiff = selectedToYear[0] - selectedFromYear[0]
+    const avgAnnualInflation = yearsDiff > 0 ? avgInflation / yearsDiff : 0
 
+    return {
+      currenciesCompared: validData.length,
+      yearsAnalyzed: yearsDiff,
+      avgAnnualInflation: Math.max(0, avgAnnualInflation),
+    }
+  }, [safeData, selectedFromYear, selectedToYear])
+
+  // Format currency safely
   const formatCurrency = (value: number, symbol: string) => {
-    if (symbol.length > 1) {
+    if (!isFinite(value) || isNaN(value)) return `${symbol}0.00`
+
+    // Multi-character symbols need spacing
+    if (symbol.length > 1 || symbol === "Fr") {
       return `${symbol} ${value.toFixed(2)}`
     }
     return `${symbol}${value.toFixed(2)}`
   }
 
-  const maxValue = comparisonData.length > 0 ? Math.max(...comparisonData.map((d) => d.adjustedAmount)) : 0
-
-  if (comparisonData.length === 0) {
-    return (
-      <Card className="bg-white shadow-lg border-0">
-        <CardHeader>
-          <CardTitle className="text-xl">🌍 Currency Inflation Comparison</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-8">
-            <p className="text-gray-500">
-              No currency data available for the selected year range ({selectedFromYear} - {selectedToYear}).
-            </p>
-            <p className="text-sm text-gray-400 mt-2">
-              Try selecting a different year range where more currencies have available data.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-    )
+  // Get progress color based on change
+  const getProgressColor = (change: number) => {
+    if (change < 10) return "bg-green-500"
+    if (change < 20) return "bg-yellow-500"
+    if (change < 30) return "bg-orange-500"
+    return "bg-red-500"
   }
 
   return (
-    <Card className="bg-white shadow-lg border-0">
+    <Card className="bg-white dark:bg-gray-800 shadow-lg border-0">
       <CardHeader>
-        <CardTitle className="text-xl">🌍 Currency Inflation Comparison</CardTitle>
-        <div className="text-sm text-gray-600">
-          Compare how {formatCurrency(Number.parseFloat(amount), "$")} performs across different currencies
-        </div>
+        <CardTitle className="flex items-center gap-2 text-xl">🌍 Currency Inflation Comparison</CardTitle>
+        <p className="text-sm text-gray-600 dark:text-gray-300">
+          Compare how {formatCurrency(safeOriginalAmount, "$")} performs across different currencies
+        </p>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Year Range Selectors */}
+        {/* Year Selection Sliders */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-3">
-            <label className="text-sm font-medium text-gray-700">From Year: {selectedFromYear}</label>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              From Year: {selectedFromYear[0]}
+            </label>
             <Slider
-              value={[selectedFromYear]}
-              onValueChange={(value) => setSelectedFromYear(value[0])}
-              min={minYear}
-              max={maxYear - 1}
+              value={selectedFromYear}
+              onValueChange={setSelectedFromYear}
+              min={2000}
+              max={2024}
               step={1}
               className="w-full"
             />
-            <div className="flex justify-between text-xs text-gray-500">
-              <span>{minYear}</span>
-              <span>{maxYear - 1}</span>
+            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+              <span>2000</span>
+              <span>Now</span>
             </div>
           </div>
 
-          <div className="space-y-3">
-            <label className="text-sm font-medium text-gray-700">To Year: {selectedToYear}</label>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">To Year: {selectedToYear[0]}</label>
             <Slider
-              value={[selectedToYear]}
-              onValueChange={(value) => setSelectedToYear(value[0])}
-              min={selectedFromYear + 1}
-              max={maxYear}
+              value={selectedToYear}
+              onValueChange={setSelectedToYear}
+              min={2001}
+              max={2025}
               step={1}
               className="w-full"
             />
-            <div className="flex justify-between text-xs text-gray-500">
-              <span>{selectedFromYear + 1}</span>
-              <span>{maxYear}</span>
+            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+              <span>2001</span>
+              <span>2025</span>
             </div>
           </div>
         </div>
 
-        {/* Quick Year Buttons */}
-        <div className="flex flex-wrap gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setSelectedFromYear(2020)
-              setSelectedToYear(currentYear)
-            }}
-          >
-            2020 - Now
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setSelectedFromYear(2010)
-              setSelectedToYear(currentYear)
-            }}
-          >
-            2010 - Now
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setSelectedFromYear(2000)
-              setSelectedToYear(currentYear)
-            }}
-          >
-            2000 - Now
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setSelectedFromYear(1990)
-              setSelectedToYear(currentYear)
-            }}
-          >
-            1990 - Now
-          </Button>
-        </div>
+        {/* Currency Bars */}
+        <div className="space-y-3">
+          {safeData.map((currency, index) => {
+            const progressValue = Math.min(100, (currency.change / 80) * 100) // Scale to 80% max for visual
 
-        {/* Custom Bar Chart */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="space-y-4">
-            {comparisonData.map((item, index) => {
-              const barWidth = maxValue > 0 ? (item.adjustedAmount / maxValue) * 100 : 0
-              const colors = ["bg-blue-500", "bg-green-500", "bg-purple-500", "bg-red-500", "bg-orange-500"]
-              const color = colors[index % colors.length]
-
-              return (
-                <div key={item.currency} className="space-y-2">
-                  <div className="flex justify-between items-center text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">{item.flag}</span>
-                      <span className="font-medium">{item.currency}</span>
-                      <span className="text-gray-500">{item.name}</span>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-bold text-blue-600">{formatCurrency(item.adjustedAmount, item.symbol)}</div>
-                      <div className="text-xs text-gray-500">{item.totalInflation.toFixed(1)}% total</div>
+            return (
+              <div key={currency.code} className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg">{currency.flag}</span>
+                    <div>
+                      <div className="font-medium text-sm">
+                        {currency.code} {currency.name}
+                      </div>
                     </div>
                   </div>
-                  <div className="relative bg-gray-200 rounded-full h-6">
-                    <div
-                      className={`${color} h-6 rounded-full flex items-center justify-end pr-2 text-white text-xs font-medium transition-all duration-500`}
-                      style={{ width: `${Math.max(barWidth, 5)}%` }}
+                  <div className="text-right">
+                    <div className="font-bold text-lg">{formatCurrency(currency.value, currency.symbol)}</div>
+                    <Badge
+                      variant={currency.change > 20 ? "destructive" : currency.change > 10 ? "secondary" : "default"}
+                      className="text-xs"
                     >
-                      {item.annualRate.toFixed(1)}%/yr
-                    </div>
+                      +{currency.change.toFixed(1)}%
+                    </Badge>
                   </div>
                 </div>
-              )
-            })}
-          </div>
+
+                <div className="relative">
+                  <Progress
+                    value={progressValue}
+                    className="h-2"
+                    style={{
+                      background: `linear-gradient(to right, ${currency.color}22 0%, ${currency.color} 100%)`,
+                    }}
+                  />
+                  <div
+                    className="absolute top-0 left-0 h-2 rounded-full transition-all duration-300"
+                    style={{
+                      width: `${progressValue}%`,
+                      backgroundColor: currency.color,
+                    }}
+                  />
+                </div>
+              </div>
+            )
+          })}
         </div>
 
-        {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-blue-50 p-4 rounded-lg text-center">
-            <div className="text-2xl font-bold text-blue-600">{comparisonData.length}</div>
-            <div className="text-sm text-gray-600">Currencies Compared</div>
+        {/* Statistics */}
+        <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.currenciesCompared}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Currencies Compared</div>
           </div>
-          <div className="bg-green-50 p-4 rounded-lg text-center">
-            <div className="text-2xl font-bold text-green-600">{selectedToYear - selectedFromYear}</div>
-            <div className="text-sm text-gray-600">Years Analyzed</div>
+
+          <div className="text-center">
+            <div className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.yearsAnalyzed}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Years Analyzed</div>
           </div>
-          <div className="bg-purple-50 p-4 rounded-lg text-center">
-            <div className="text-2xl font-bold text-purple-600">
-              {comparisonData.length > 0
-                ? `${(comparisonData.reduce((sum, item) => sum + item.annualRate, 0) / comparisonData.length).toFixed(1)}%`
-                : "0%"}
+
+          <div className="text-center">
+            <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+              {stats.avgAnnualInflation.toFixed(1)}%
             </div>
-            <div className="text-sm text-gray-600">Avg Annual Inflation</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Avg Annual Inflation</div>
           </div>
         </div>
 
-        {/* Note */}
-        <div className="text-xs text-gray-500 bg-gray-50 p-3 rounded">
-          💡 Only currencies with complete data for the selected year range are shown. Currencies without data for{" "}
-          {selectedFromYear} or {selectedToYear} are automatically excluded.
+        {/* Disclaimer */}
+        <div className="text-xs text-gray-500 dark:text-gray-400 text-center pt-2 border-t border-gray-100 dark:border-gray-800">
+          * Data may not be complete data for the selected year range and some. Currencies without data for 2020 or 2025
+          are automatically excluded.
         </div>
       </CardContent>
     </Card>
   )
 }
-
-export default CurrencyComparisonChart

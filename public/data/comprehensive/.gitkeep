@@ -1,0 +1,12 @@
+{
+  "note": "This directory will contain comprehensive inflation data",
+  "structure": {
+    "us-cpi_all.json": "US Consumer Price Index data from FRED",
+    "us-pce_core.json": "US Core PCE data from FRED", 
+    "us-gdp_deflator.json": "US GDP Deflator from FRED",
+    "uk-cpi.json": "UK CPI data from ONS",
+    "eur-hicp.json": "EUR HICP estimated data",
+    "cad-cpi.json": "CAD CPI estimated data"
+  },
+  "usage": "Run 'node scripts/fetch-comprehensive-inflation-data.js' to populate this directory"
+}

@@ -1,30 +1,54 @@
-# Hold conversation
+# Global Inflation Calculator
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+A comprehensive web application for calculating inflation rates and purchasing power across multiple currencies and countries.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/jonoki67-4086s-projects/v0-hold-conversation)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/nzWH4IEntET)
+## Features
 
-## Overview
+- Multi-currency inflation calculations (USD, EUR, GBP, JPY, CAD, AUD, CHF, NZD)
+- Historical inflation data visualization
+- Purchasing power comparisons
+- Salary calculator with inflation adjustments
+- Retirement planning calculator
+- Legacy planning tools
+- Responsive design with dark/light mode
+- SEO optimized
+- Google Analytics integration
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## Tech Stack
 
-## Deployment
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- Recharts for data visualization
+- Supabase for database
+- Vercel for deployment
 
-Your project is live at:
+## Getting Started
 
-**[https://vercel.com/jonoki67-4086s-projects/v0-hold-conversation](https://vercel.com/jonoki67-4086s-projects/v0-hold-conversation)**
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up environment variables
+4. Run development server: `npm run dev`
 
-## Build your app
+## Environment Variables
 
-Continue building your app on:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `NEXT_PUBLIC_GA_TRACKING_ID`
+- `NEXT_PUBLIC_SITE_URL`
 
-**[https://v0.dev/chat/projects/nzWH4IEntET](https://v0.dev/chat/projects/nzWH4IEntET)**
+## Data Sources
 
-## How It Works
+- US Bureau of Labor Statistics (CPI data)
+- European Central Bank (Eurozone inflation)
+- Bank of England (UK inflation)
+- Bank of Japan (Japan inflation)
+- Statistics Canada (Canada inflation)
+- Australian Bureau of Statistics (Australia inflation)
+- Swiss National Bank (Switzerland inflation)
+- Reserve Bank of New Zealand (New Zealand inflation)
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+## License
+
+MIT License

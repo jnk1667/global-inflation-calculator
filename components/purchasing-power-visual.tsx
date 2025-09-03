@@ -1,223 +1,206 @@
 "use client"
 
-import type React from "react"
-import { useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
 
 interface PurchasingPowerVisualProps {
-  originalAmount: number
-  adjustedAmount: number
-  currency: string
-  symbol: string
-  fromYear: number
-  inflationData?: {
-    data: { [year: string]: number }
-    symbol: string
-    name: string
-    flag: string
-    startYear: number
-    endYear: number
-  }
+  originalAmount?: number
+  adjustedAmount?: number
+  fromYear?: number
+  toYear?: number
+  currency?: string
+  inflationRate?: number
 }
 
-const PurchasingPowerVisual: React.FC<PurchasingPowerVisualProps> = ({
-  originalAmount,
-  adjustedAmount,
-  currency,
-  symbol,
-  fromYear,
-  inflationData,
-}) => {
-  const currentYear = new Date().getFullYear()
+export default function PurchasingPowerVisual({
+  originalAmount = 100,
+  adjustedAmount = 119.1,
+  fromYear = 2020,
+  toYear = 2025,
+  currency = "$",
+  inflationRate = 4.33,
+}: PurchasingPowerVisualProps) {
+  // Safe number validation
+  const safeOriginalAmount = typeof originalAmount === "number" && isFinite(originalAmount) ? originalAmount : 100
+  const safeAdjustedAmount = typeof adjustedAmount === "number" && isFinite(adjustedAmount) ? adjustedAmount : 119.1
+  const safeFromYear = typeof fromYear === "number" && isFinite(fromYear) ? fromYear : 2020
+  const safeToYear = typeof toYear === "number" && isFinite(toYear) ? toYear : 2025
+  const safeInflationRate = typeof inflationRate === "number" && isFinite(inflationRate) ? inflationRate : 4.33
 
   // Calculate purchasing power metrics
-  const purchasingPowerMetrics = useMemo(() => {
-    if (!inflationData?.data) {
-      // Fallback calculation based on adjusted amount
-      const totalInflation = ((adjustedAmount - originalAmount) / originalAmount) * 100
-      const purchasingPowerLost = totalInflation > 0 ? (totalInflation / (100 + totalInflation)) * 100 : 0
-      const purchasingPowerRemaining = 100 - purchasingPowerLost
+  const purchasingPowerLoss = ((safeAdjustedAmount - safeOriginalAmount) / safeOriginalAmount) * 100
+  const remainingPurchasingPower = 100 - purchasingPowerLoss
+  const lostPurchasingPower = purchasingPowerLoss
+  const yearsDifference = safeToYear - safeFromYear
 
-      return {
-        remainingPower: Math.max(0, Math.min(100, purchasingPowerRemaining)),
-        lostPower: Math.max(0, Math.min(100, purchasingPowerLost)),
-        equivalentToday: originalAmount * (purchasingPowerRemaining / 100),
-        annualInflationRate: (Math.pow(adjustedAmount / originalAmount, 1 / (currentYear - fromYear)) - 1) * 100,
-      }
+  // Format currency safely
+  const formatCurrency = (value: number) => {
+    if (!isFinite(value) || isNaN(value)) return `${currency}0.00`
+
+    // Multi-character symbols need spacing
+    if (currency.length > 1 || currency === "Fr") {
+      return `${currency} ${value.toFixed(2)}`
     }
-
-    const baseCPI = inflationData.data[fromYear.toString()]
-    const currentCPI = inflationData.data[currentYear.toString()]
-
-    if (!baseCPI || !currentCPI || baseCPI <= 0 || currentCPI <= 0) {
-      return {
-        remainingPower: 50,
-        lostPower: 50,
-        equivalentToday: originalAmount * 0.5,
-        annualInflationRate: 2.5,
-      }
-    }
-
-    // Calculate what $1 from base year is worth today
-    const dollarValueToday = baseCPI / currentCPI
-    const remainingPower = dollarValueToday * 100
-    const lostPower = 100 - remainingPower
-    const equivalentToday = originalAmount * dollarValueToday
-    const annualInflationRate = (Math.pow(currentCPI / baseCPI, 1 / (currentYear - fromYear)) - 1) * 100
-
-    return {
-      remainingPower: Math.max(0, Math.min(100, remainingPower)),
-      lostPower: Math.max(0, Math.min(100, lostPower)),
-      equivalentToday: Math.max(0, equivalentToday),
-      annualInflationRate: Math.max(0, annualInflationRate),
-    }
-  }, [inflationData, fromYear, currentYear, originalAmount, adjustedAmount])
-
-  // Get currency display helper
-  const getCurrencyDisplay = (value: number) => {
-    if (symbol.length > 1) {
-      return `${symbol} ${value.toFixed(2)}`
-    }
-    return `${symbol}${value.toFixed(2)}`
+    return `${currency}${value.toFixed(2)}`
   }
 
   return (
-    <Card className="bg-white shadow-lg border-0 mb-8">
-      <CardHeader>
-        <CardTitle className="text-xl flex items-center gap-2">📉 Purchasing Power Comparison</CardTitle>
-        <p className="text-sm text-gray-600">Visual representation of how your money's buying power has changed</p>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Visual Comparison */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="text-center p-6 bg-blue-50 rounded-lg border-2 border-blue-200">
-            <h3 className="text-lg font-semibold text-blue-900 mb-2">
-              {getCurrencyDisplay(originalAmount)} in {fromYear}
-            </h3>
-            <div className="text-6xl mb-3">💰</div>
-            <p className="text-sm text-blue-700 font-medium">Original purchasing power</p>
-          </div>
-          <div className="text-center p-6 bg-red-50 rounded-lg border-2 border-red-200">
-            <h3 className="text-lg font-semibold text-red-900 mb-2">
-              {getCurrencyDisplay(originalAmount)} in {currentYear}
-            </h3>
-            <div className="text-6xl mb-3">💸</div>
-            <p className="text-sm text-red-700 font-medium">
-              Only worth {getCurrencyDisplay(purchasingPowerMetrics.equivalentToday)} today
-            </p>
-          </div>
-        </div>
-
-        {/* Purchasing Power Breakdown */}
-        <div className="space-y-4">
-          <h4 className="text-lg font-semibold text-gray-900">Purchasing Power Breakdown</h4>
-
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-green-700">Remaining purchasing power</span>
-                <span className="text-sm font-bold text-green-700">
-                  {purchasingPowerMetrics.remainingPower.toFixed(1)}%
-                </span>
+    <div className="space-y-6">
+      {/* Purchasing Power Comparison */}
+      <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 border-0 shadow-lg">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg">💰 Purchasing Power Comparison</CardTitle>
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            Visual representation of how your money's buying power has changed
+          </p>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Original Amount */}
+            <div className="bg-blue-100 dark:bg-blue-900/30 p-6 rounded-lg text-center">
+              <div className="text-4xl mb-2">💵</div>
+              <div className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+                {formatCurrency(safeOriginalAmount)} in {safeFromYear}
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-4">
-                <div
-                  className="bg-green-500 h-4 rounded-full transition-all duration-1000 ease-out"
-                  style={{ width: `${purchasingPowerMetrics.remainingPower}%` }}
-                />
-              </div>
+              <p className="text-sm text-blue-600 dark:text-blue-300 mt-2">Original purchasing power</p>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-red-700">Lost to inflation</span>
-                <span className="text-sm font-bold text-red-700">{purchasingPowerMetrics.lostPower.toFixed(1)}%</span>
+            {/* Adjusted Amount */}
+            <div className="bg-green-100 dark:bg-green-900/30 p-6 rounded-lg text-center">
+              <div className="text-4xl mb-2">💎</div>
+              <div className="text-2xl font-bold text-green-800 dark:text-green-200">
+                {formatCurrency(safeAdjustedAmount)} in {safeToYear}
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-4">
-                <div
-                  className="bg-red-500 h-4 rounded-full transition-all duration-1000 ease-out"
-                  style={{ width: `${purchasingPowerMetrics.lostPower}%` }}
-                />
-              </div>
+              <p className="text-sm text-green-600 dark:text-green-300 mt-2">
+                Only worth {formatCurrency(safeOriginalAmount * (100 / (100 + purchasingPowerLoss)))} today
+              </p>
             </div>
           </div>
-        </div>
+        </CardContent>
+      </Card>
 
-        {/* Simple Visual Representation */}
-        <div className="bg-gradient-to-r from-blue-50 to-red-50 p-6 rounded-lg">
-          <h4 className="text-lg font-semibold text-gray-900 mb-4 text-center">Purchasing Power Over Time</h4>
+      {/* Purchasing Power Breakdown */}
+      <Card className="shadow-lg border-0">
+        <CardHeader>
+          <CardTitle className="text-lg">Purchasing Power Breakdown</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Remaining Purchasing Power */}
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Remaining purchasing power</span>
+              <span className="text-sm font-bold text-green-600 dark:text-green-400">
+                {Math.max(0, remainingPurchasingPower).toFixed(1)}%
+              </span>
+            </div>
+            <Progress
+              value={Math.max(0, Math.min(100, remainingPurchasingPower))}
+              className="h-3 bg-gray-200 dark:bg-gray-700"
+            />
+          </div>
 
-          {/* Simple timeline visualization */}
-          <div className="flex items-center justify-between mb-4">
+          {/* Lost to Inflation */}
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Lost to inflation</span>
+              <span className="text-sm font-bold text-red-600 dark:text-red-400">
+                {Math.max(0, lostPurchasingPower).toFixed(1)}%
+              </span>
+            </div>
+            <Progress
+              value={Math.max(0, Math.min(100, lostPurchasingPower))}
+              className="h-3 bg-gray-200 dark:bg-gray-700"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Purchasing Power Over Time */}
+      <Card className="shadow-lg border-0">
+        <CardHeader>
+          <CardTitle className="text-lg">Purchasing Power Over Time</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between py-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">{fromYear}</div>
-              <div className="text-xs text-gray-600">Start Year</div>
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{safeFromYear}</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Start Year</div>
             </div>
-            <div className="flex-1 mx-4 relative">
-              <div className="h-2 bg-gradient-to-r from-blue-500 to-red-500 rounded-full" />
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border-2 border-gray-300 rounded-full w-4 h-4" />
+
+            <div className="flex-1 mx-4">
+              <div className="relative">
+                <div className="h-2 bg-gradient-to-r from-blue-500 to-red-500 rounded-full"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 px-2 py-1 rounded text-xs font-medium border">
+                  Over {yearsDifference} years, inflation has reduced purchasing power by{" "}
+                  {lostPurchasingPower.toFixed(1)}%
+                </div>
+              </div>
             </div>
+
             <div className="text-center">
-              <div className="text-2xl font-bold text-red-600">{currentYear}</div>
-              <div className="text-xs text-gray-600">Current Year</div>
+              <div className="text-2xl font-bold text-red-600 dark:text-red-400">{safeToYear}</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Current Year</div>
             </div>
           </div>
+        </CardContent>
+      </Card>
 
-          <div className="text-center">
-            <p className="text-sm text-gray-700">
-              Over {currentYear - fromYear} years, inflation has reduced purchasing power by{" "}
-              <span className="font-bold text-red-600">{purchasingPowerMetrics.lostPower.toFixed(1)}%</span>
-            </p>
+      {/* Statistics Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card className="text-center p-4 bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
+          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            {Math.max(0, remainingPurchasingPower).toFixed(1)}%
           </div>
-        </div>
+          <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">Power Remaining</div>
+        </Card>
 
-        {/* Key Statistics Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-blue-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-blue-600">{purchasingPowerMetrics.remainingPower.toFixed(1)}%</div>
-            <div className="text-xs text-gray-600">Power Remaining</div>
+        <Card className="text-center p-4 bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800">
+          <div className="text-2xl font-bold text-red-600 dark:text-red-400">
+            {Math.max(0, lostPurchasingPower).toFixed(1)}%
           </div>
-          <div className="bg-red-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-red-600">{purchasingPowerMetrics.lostPower.toFixed(1)}%</div>
-            <div className="text-xs text-gray-600">Power Lost</div>
-          </div>
-          <div className="bg-green-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-green-600">
-              {purchasingPowerMetrics.annualInflationRate.toFixed(2)}%
-            </div>
-            <div className="text-xs text-gray-600">Annual Rate</div>
-          </div>
-          <div className="bg-purple-50 rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-purple-600">{currentYear - fromYear}</div>
-            <div className="text-xs text-gray-600">Years</div>
-          </div>
-        </div>
+          <div className="text-xs text-red-600 dark:text-red-400 mt-1">Power Lost</div>
+        </Card>
 
-        {/* Key Insights */}
-        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-          <h4 className="font-semibold text-yellow-900 mb-2 flex items-center gap-2">💡 Key Insights</h4>
-          <ul className="text-sm text-yellow-800 space-y-1">
-            <li>
-              • {getCurrencyDisplay(originalAmount)} in {fromYear} had the same buying power as{" "}
-              <strong>{getCurrencyDisplay(adjustedAmount)}</strong> today
+        <Card className="text-center p-4 bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800">
+          <div className="text-2xl font-bold text-green-600 dark:text-green-400">{safeInflationRate.toFixed(2)}%</div>
+          <div className="text-xs text-green-600 dark:text-green-400 mt-1">Annual Rate</div>
+        </Card>
+
+        <Card className="text-center p-4 bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-800">
+          <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{yearsDifference}</div>
+          <div className="text-xs text-purple-600 dark:text-purple-400 mt-1">Years</div>
+        </Card>
+      </div>
+
+      {/* Key Insights */}
+      <Card className="bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800 shadow-lg">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg text-yellow-800 dark:text-yellow-200">
+            💡 Key Insights
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-2 text-sm text-yellow-800 dark:text-yellow-200">
+            <li className="flex items-start gap-2">
+              <span className="text-yellow-600 dark:text-yellow-400">•</span>
+              Your {formatCurrency(safeOriginalAmount)} from {safeFromYear} would need to be{" "}
+              {formatCurrency(safeAdjustedAmount)} today
             </li>
-            <li>
-              • Inflation has eroded <strong>{purchasingPowerMetrics.lostPower.toFixed(1)}%</strong> of the original
-              purchasing power
+            <li className="flex items-start gap-2">
+              <span className="text-yellow-600 dark:text-yellow-400">•</span>
+              Inflation has eroded {lostPurchasingPower.toFixed(1)}% of the original buying power
             </li>
-            <li>
-              • Only <strong>{purchasingPowerMetrics.remainingPower.toFixed(1)}%</strong> of the original buying power
-              remains
+            <li className="flex items-start gap-2">
+              <span className="text-yellow-600 dark:text-yellow-400">•</span>
+              Only {Math.max(0, remainingPurchasingPower).toFixed(1)}% of the original buying power remains
             </li>
-            <li>
-              • This represents an average annual inflation rate of{" "}
-              <strong>{purchasingPowerMetrics.annualInflationRate.toFixed(2)}%</strong>
+            <li className="flex items-start gap-2">
+              <span className="text-yellow-600 dark:text-yellow-400">•</span>
+              This represents an average annual inflation rate of {safeInflationRate.toFixed(2)}%
             </li>
           </ul>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
-
-export default PurchasingPowerVisual

@@ -479,9 +479,9 @@ export default function ClientPage() {
     }
 
     return {
-      adjustedAmount: isFinite(adjustedAmount) ? adjustedAmount : 0,
-      totalInflation: isFinite(totalInflation) ? totalInflation : 0,
-      annualRate: isFinite(annualRate) ? annualRate * 100 : 0,
+      adjustedAmount: isFinite(adjustedAmount) && !isNaN(adjustedAmount) ? adjustedAmount : 0,
+      totalInflation: isFinite(totalInflation) && !isNaN(totalInflation) ? totalInflation : 0,
+      annualRate: isFinite(annualRate) && !isNaN(annualRate) ? annualRate * 100 : 0,
       chartData,
     }
   }
@@ -492,12 +492,19 @@ export default function ClientPage() {
 
   // Get proper currency symbol with spacing
   const getCurrencyDisplay = (value: number) => {
+    // Ensure value is a valid number
+    if (typeof value !== "number" || !isFinite(value) || isNaN(value)) {
+      value = 0
+    }
+
     const symbol = currentCurrencyData?.symbol || "$"
+    const formattedValue = value.toFixed(2)
+
     // Multi-character symbols that need spacing: C$, A$, NZ$, Fr
     if (symbol.length > 1 || symbol === "Fr") {
-      return `${symbol} ${value.toFixed(2)}`
+      return `${symbol} ${formattedValue}`
     }
-    return `${symbol}${value.toFixed(2)}`
+    return `${symbol}${formattedValue}`
   }
 
   // Function to render SEO content
@@ -558,6 +565,7 @@ export default function ClientPage() {
                 "Purchasing power comparison",
                 "Interactive charts and visualizations",
                 "Historical context and events",
+                "Real-time calculations",
                 "Real-time calculations",
               ],
               creator: {
@@ -876,12 +884,7 @@ export default function ClientPage() {
 
                       {/* Line Chart Section */}
                       <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
-                        <CardHeader>
-                          <CardTitle className="text-xl">
-                            📈 {currencies[selectedCurrency]?.name} Inflation Trend Over Time
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
+                        <CardContent className="p-6">
                           <div className="h-[500px] md:h-[700px]">
                             <Suspense
                               fallback={<div className="h-full bg-gray-100 dark:bg-gray-700 rounded animate-pulse" />}
@@ -896,10 +899,6 @@ export default function ClientPage() {
                               />
                             </Suspense>
                           </div>
-                          <p className="text-sm text-gray-600 dark:text-gray-300 text-center mt-4">
-                            This chart shows how {getCurrencyDisplay(Number.parseFloat(amount))} from {fromYear} would
-                            grow due to inflation over time
-                          </p>
                         </CardContent>
                       </Card>
 
@@ -1011,6 +1010,9 @@ export default function ClientPage() {
                   <Suspense fallback={<div className="h-16 bg-gray-100 dark:bg-gray-700 rounded animate-pulse mb-8" />}>
                     <SocialShare />
                   </Suspense>
+
+                  {/* Spacing between Share and FAQ */}
+                  <div className="mb-12"></div>
 
                   {/* FAQ */}
                   <Suspense fallback={<div className="h-64 bg-gray-100 dark:bg-gray-700 rounded animate-pulse mb-8" />}>
