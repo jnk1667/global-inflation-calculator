@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "Calculate how inflation affects your salary over time. Compare purchasing power and real wages across different years with our comprehensive salary inflation calculator.",
   keywords: "salary calculator, inflation adjustment, real wages, purchasing power, salary inflation, wage calculator",
   openGraph: {
-    title: "Salary Calculator - Adjust for Inflation & Estimate Salary Growth",
+    title: "Salary Calculator - Adjust for Inflation",
     description:
       "Calculate how inflation affects your salary over time. Compare purchasing power and real wages across different years.",
     url: "https://globalinflationcalculator.com/salary-calculator",
