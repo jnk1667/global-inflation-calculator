@@ -1081,6 +1081,15 @@ export default function ClientPage() {
                         </CardContent>
                       </Card>
 
+                      {/* Ad Banner - Between Chart and Purchasing Power */}
+                      <div className="mb-8">
+                        <Suspense
+                          fallback={<div className="h-64 bg-gray-100 dark:bg-gray-700 rounded animate-pulse" />}
+                        >
+                          <AdBanner slot="homepage-between-chart-purchasing" format="horizontal" />
+                        </Suspense>
+                      </div>
+
                       {/* Purchasing Power Section */}
                       <Suspense
                         fallback={<div className="h-64 bg-gray-100 dark:bg-gray-700 rounded-lg animate-pulse mb-8" />}
