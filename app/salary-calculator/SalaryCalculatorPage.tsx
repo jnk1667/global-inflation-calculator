@@ -85,7 +85,7 @@ const SalaryCalculatorPage: React.FC = () => {
   const [inflationMeasure, setInflationMeasure] = useState<string>("cpi")
   const [showComparison, setShowComparison] = useState<boolean>(false)
 
-  // Updated currencies array to include NZD
+  // Updated currencies array with comprehensive city data
   const currencies = [
     { code: "USD", name: "US Dollar", flag: "🇺🇸" },
     { code: "GBP", name: "British Pound", flag: "🇬🇧" },
@@ -96,6 +96,737 @@ const SalaryCalculatorPage: React.FC = () => {
     { code: "JPY", name: "Japanese Yen", flag: "🇯🇵" },
     { code: "NZD", name: "New Zealand Dollar", flag: "🇳🇿" },
   ]
+
+  // Comprehensive regional data by currency
+  const regionalData = {
+    USD: {
+      cities: [
+        {
+          code: "newyork",
+          name: "New York, NY",
+          flag: "🗽",
+          housingPercent: 65,
+          utilities: 180,
+          transport: 127,
+          food: 400,
+          overall: 100,
+        },
+        {
+          code: "sanfrancisco",
+          name: "San Francisco, CA",
+          flag: "🌉",
+          housingPercent: 70,
+          utilities: 120,
+          transport: 100,
+          food: 450,
+          overall: 105,
+        },
+        {
+          code: "losangeles",
+          name: "Los Angeles, CA",
+          flag: "🌴",
+          housingPercent: 60,
+          utilities: 140,
+          transport: 110,
+          food: 380,
+          overall: 95,
+        },
+        {
+          code: "chicago",
+          name: "Chicago, IL",
+          flag: "🏙️",
+          housingPercent: 45,
+          utilities: 160,
+          transport: 95,
+          food: 350,
+          overall: 85,
+        },
+        {
+          code: "austin",
+          name: "Austin, TX",
+          flag: "🤠",
+          housingPercent: 40,
+          utilities: 130,
+          transport: 85,
+          food: 320,
+          overall: 73,
+        },
+        {
+          code: "denver",
+          name: "Denver, CO",
+          flag: "🏔️",
+          housingPercent: 42,
+          utilities: 125,
+          transport: 90,
+          food: 340,
+          overall: 78,
+        },
+        {
+          code: "atlanta",
+          name: "Atlanta, GA",
+          flag: "🍑",
+          housingPercent: 38,
+          utilities: 135,
+          transport: 80,
+          food: 310,
+          overall: 70,
+        },
+        {
+          code: "seattle",
+          name: "Seattle, WA",
+          flag: "☔",
+          housingPercent: 55,
+          utilities: 110,
+          transport: 105,
+          food: 390,
+          overall: 88,
+        },
+      ],
+    },
+    GBP: {
+      cities: [
+        {
+          code: "london",
+          name: "London",
+          flag: "🏛️",
+          housingPercent: 76,
+          utilities: 253,
+          transport: 180,
+          food: 300,
+          overall: 100,
+          rent: 2329,
+          salary: 3058,
+        },
+        {
+          code: "manchester",
+          name: "Manchester",
+          flag: "⚽",
+          housingPercent: 52,
+          utilities: 206,
+          transport: 90,
+          food: 250,
+          overall: 68,
+          rent: 1209,
+          salary: 2327,
+        },
+        {
+          code: "edinburgh",
+          name: "Edinburgh",
+          flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+          housingPercent: 43,
+          utilities: 272,
+          transport: 67,
+          food: 240,
+          overall: 65,
+          rent: 1173,
+          salary: 2751,
+        },
+        {
+          code: "birmingham",
+          name: "Birmingham",
+          flag: "🏭",
+          housingPercent: 48,
+          utilities: 220,
+          transport: 85,
+          food: 245,
+          overall: 66,
+        },
+        {
+          code: "bristol",
+          name: "Bristol",
+          flag: "🌉",
+          housingPercent: 49,
+          utilities: 245,
+          transport: 78,
+          food: 260,
+          overall: 67,
+          rent: 1332,
+          salary: 2723,
+        },
+        {
+          code: "leeds",
+          name: "Leeds",
+          flag: "🏰",
+          housingPercent: 43,
+          utilities: 227,
+          transport: 80,
+          food: 230,
+          overall: 62,
+          rent: 996,
+          salary: 2340,
+        },
+        {
+          code: "liverpool",
+          name: "Liverpool",
+          flag: "🎵",
+          housingPercent: 41,
+          utilities: 233,
+          transport: 67,
+          food: 220,
+          overall: 60,
+          rent: 900,
+          salary: 2214,
+        },
+        {
+          code: "glasgow",
+          name: "Glasgow",
+          flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+          housingPercent: 42,
+          utilities: 255,
+          transport: 70,
+          food: 230,
+          overall: 61,
+          rent: 982,
+          salary: 2328,
+        },
+      ],
+    },
+    EUR: {
+      cities: [
+        {
+          code: "paris",
+          name: "Paris, France",
+          flag: "🇫🇷",
+          housingPercent: 44,
+          utilities: 224,
+          transport: 89,
+          food: 350,
+          overall: 100,
+          rent: 1424,
+          salary: 3259,
+        },
+        {
+          code: "berlin",
+          name: "Berlin, Germany",
+          flag: "🇩🇪",
+          housingPercent: 42,
+          utilities: 322,
+          transport: 59,
+          food: 280,
+          overall: 85,
+          rent: 1230,
+          salary: 2958,
+        },
+        {
+          code: "amsterdam",
+          name: "Amsterdam, Netherlands",
+          flag: "🇳🇱",
+          housingPercent: 53,
+          utilities: 268,
+          transport: 100,
+          food: 320,
+          overall: 95,
+          rent: 2119,
+          salary: 3984,
+        },
+        {
+          code: "madrid",
+          name: "Madrid, Spain",
+          flag: "🇪🇸",
+          housingPercent: 61,
+          utilities: 172,
+          transport: 39,
+          food: 250,
+          overall: 75,
+          rent: 1330,
+          salary: 2195,
+        },
+        {
+          code: "rome",
+          name: "Rome, Italy",
+          flag: "🇮🇹",
+          housingPercent: 66,
+          utilities: 192,
+          transport: 35,
+          food: 270,
+          overall: 78,
+          rent: 1262,
+          salary: 1927,
+        },
+        {
+          code: "vienna",
+          name: "Vienna, Austria",
+          flag: "🇦🇹",
+          housingPercent: 53,
+          utilities: 277,
+          transport: 50,
+          food: 290,
+          overall: 88,
+          rent: 1133,
+          salary: 2805,
+        },
+        {
+          code: "brussels",
+          name: "Brussels, Belgium",
+          flag: "🇧🇪",
+          housingPercent: 37,
+          utilities: 214,
+          transport: 55,
+          food: 300,
+          overall: 82,
+          rent: 1115,
+          salary: 3049,
+        },
+        {
+          code: "dublin",
+          name: "Dublin, Ireland",
+          flag: "🇮🇪",
+          housingPercent: 57,
+          utilities: 227,
+          transport: 95,
+          food: 310,
+          overall: 92,
+          rent: 2044,
+          salary: 3568,
+        },
+      ],
+    },
+    CAD: {
+      cities: [
+        {
+          code: "toronto",
+          name: "Toronto, ON",
+          flag: "🍁",
+          housingPercent: 53,
+          utilities: 182,
+          transport: 156,
+          food: 350,
+          overall: 100,
+          rent: 2418,
+          salary: 4570,
+        },
+        {
+          code: "vancouver",
+          name: "Vancouver, BC",
+          flag: "🏔️",
+          housingPercent: 59,
+          utilities: 113,
+          transport: 120,
+          food: 340,
+          overall: 105,
+          rent: 2689,
+          salary: 4527,
+        },
+        {
+          code: "montreal",
+          name: "Montreal, QC",
+          flag: "⚜️",
+          housingPercent: 40,
+          utilities: 102,
+          transport: 105,
+          food: 300,
+          overall: 78,
+          rent: 1658,
+          salary: 4120,
+        },
+        {
+          code: "calgary",
+          name: "Calgary, AB",
+          flag: "🤠",
+          housingPercent: 45,
+          utilities: 285,
+          transport: 118,
+          food: 320,
+          overall: 85,
+          rent: 1911,
+          salary: 4206,
+        },
+        {
+          code: "ottawa",
+          name: "Ottawa, ON",
+          flag: "🏛️",
+          housingPercent: 44,
+          utilities: 220,
+          transport: 135,
+          food: 310,
+          overall: 88,
+          rent: 2019,
+          salary: 4632,
+        },
+        {
+          code: "edmonton",
+          name: "Edmonton, AB",
+          flag: "🛢️",
+          housingPercent: 44,
+          utilities: 271,
+          transport: 100,
+          food: 300,
+          overall: 82,
+          rent: 1691,
+          salary: 3867,
+        },
+        {
+          code: "winnipeg",
+          name: "Winnipeg, MB",
+          flag: "🌾",
+          housingPercent: 36,
+          utilities: 203,
+          transport: 115,
+          food: 280,
+          overall: 72,
+          rent: 1297,
+          salary: 3578,
+        },
+      ],
+    },
+    AUD: {
+      cities: [
+        {
+          code: "sydney",
+          name: "Sydney",
+          flag: "🏙️",
+          housingPercent: 55,
+          utilities: 312,
+          transport: 217,
+          food: 400,
+          overall: 100,
+          rent: 3302,
+          salary: 5987,
+        },
+        {
+          code: "melbourne",
+          name: "Melbourne",
+          flag: "☕",
+          housingPercent: 39,
+          utilities: 254,
+          transport: 187,
+          food: 350,
+          overall: 88,
+          rent: 2381,
+          salary: 6065,
+        },
+        {
+          code: "brisbane",
+          name: "Brisbane",
+          flag: "☀️",
+          housingPercent: 41,
+          utilities: 221,
+          transport: 40,
+          food: 340,
+          overall: 85,
+          rent: 2484,
+          salary: 6064,
+        },
+        {
+          code: "perth",
+          name: "Perth",
+          flag: "🏖️",
+          housingPercent: 41,
+          utilities: 229,
+          transport: 110,
+          food: 330,
+          overall: 83,
+          rent: 2393,
+          salary: 5834,
+        },
+        {
+          code: "adelaide",
+          name: "Adelaide",
+          flag: "🍷",
+          housingPercent: 39,
+          utilities: 318,
+          transport: 115,
+          food: 320,
+          overall: 80,
+          rent: 1982,
+          salary: 5112,
+        },
+        {
+          code: "canberra",
+          name: "Canberra",
+          flag: "🏛️",
+          housingPercent: 44,
+          utilities: 318,
+          transport: 188,
+          food: 330,
+          overall: 87,
+          rent: 2378,
+          salary: 5408,
+        },
+        {
+          code: "darwin",
+          name: "Darwin",
+          flag: "🐊",
+          housingPercent: 50,
+          utilities: 359,
+          transport: 70,
+          food: 350,
+          overall: 90,
+          rent: 2500,
+          salary: 4958,
+        },
+        {
+          code: "hobart",
+          name: "Hobart",
+          flag: "🏔️",
+          housingPercent: 42,
+          utilities: 422,
+          transport: 105,
+          food: 320,
+          overall: 85,
+          rent: 2320,
+          salary: 5472,
+        },
+      ],
+    },
+    CHF: {
+      cities: [
+        {
+          code: "zurich",
+          name: "Zurich",
+          flag: "🏦",
+          housingPercent: 32,
+          utilities: 210,
+          transport: 87,
+          food: 700,
+          overall: 100,
+          rent: 2098,
+          salary: 6516,
+        },
+        {
+          code: "geneva",
+          name: "Geneva",
+          flag: "🏔️",
+          housingPercent: 33,
+          utilities: 218,
+          transport: 70,
+          food: 650,
+          overall: 98,
+          rent: 1998,
+          salary: 6072,
+        },
+        {
+          code: "basel",
+          name: "Basel",
+          flag: "🏭",
+          housingPercent: 25,
+          utilities: 229,
+          transport: 86,
+          food: 600,
+          overall: 88,
+          rent: 1651,
+          salary: 6538,
+        },
+        {
+          code: "bern",
+          name: "Bern",
+          flag: "🐻",
+          housingPercent: 25,
+          utilities: 245,
+          transport: 80,
+          food: 620,
+          overall: 85,
+          rent: 1557,
+          salary: 6150,
+        },
+        {
+          code: "lausanne",
+          name: "Lausanne",
+          flag: "🍷",
+          housingPercent: 27,
+          utilities: 246,
+          transport: 78,
+          food: 580,
+          overall: 82,
+          rent: 1532,
+          salary: 5705,
+        },
+        {
+          code: "lucerne",
+          name: "Lucerne",
+          flag: "🏔️",
+          housingPercent: 30,
+          utilities: 200,
+          transport: 80,
+          food: 590,
+          overall: 85,
+          rent: 1640,
+          salary: 5483,
+        },
+      ],
+    },
+    JPY: {
+      cities: [
+        {
+          code: "tokyo",
+          name: "Tokyo",
+          flag: "🗼",
+          housingPercent: 41,
+          utilities: 24076,
+          transport: 10000,
+          food: 50000,
+          overall: 100,
+          rent: 158388,
+          salary: 389311,
+        },
+        {
+          code: "osaka",
+          name: "Osaka",
+          flag: "🏯",
+          housingPercent: 33,
+          utilities: 19100,
+          transport: 5150,
+          food: 40000,
+          overall: 78,
+          rent: 102000,
+          salary: 307222,
+        },
+        {
+          code: "kyoto",
+          name: "Kyoto",
+          flag: "⛩️",
+          housingPercent: 47,
+          utilities: 16156,
+          transport: 10000,
+          food: 35000,
+          overall: 75,
+          rent: 85216,
+          salary: 180000,
+        },
+        {
+          code: "yokohama",
+          name: "Yokohama",
+          flag: "🌊",
+          housingPercent: 32,
+          utilities: 20653,
+          transport: 8000,
+          food: 45000,
+          overall: 85,
+          rent: 119000,
+          salary: 374776,
+        },
+        {
+          code: "nagoya",
+          name: "Nagoya",
+          flag: "🏭",
+          housingPercent: 26,
+          utilities: 20653,
+          transport: 8000,
+          food: 40000,
+          overall: 72,
+          rent: 85833,
+          salary: 336086,
+        },
+        {
+          code: "sapporo",
+          name: "Sapporo",
+          flag: "❄️",
+          housingPercent: 35,
+          utilities: 45625,
+          transport: 7500,
+          food: 35000,
+          overall: 68,
+          rent: 75000,
+          salary: 217067,
+        },
+        {
+          code: "fukuoka",
+          name: "Fukuoka",
+          flag: "🌸",
+          housingPercent: 41,
+          utilities: 31286,
+          transport: 6085,
+          food: 40000,
+          overall: 70,
+          rent: 78959,
+          salary: 194500,
+        },
+        {
+          code: "kobe",
+          name: "Kobe",
+          flag: "🥩",
+          housingPercent: 28,
+          utilities: 29521,
+          transport: 5500,
+          food: 40000,
+          overall: 65,
+          rent: 70000,
+          salary: 251667,
+        },
+      ],
+    },
+    NZD: {
+      cities: [
+        {
+          code: "auckland",
+          name: "Auckland",
+          flag: "🌊",
+          housingPercent: 40,
+          utilities: 266,
+          transport: 217,
+          food: 400,
+          overall: 100,
+          rent: 2182,
+          salary: 5386,
+        },
+        {
+          code: "wellington",
+          name: "Wellington",
+          flag: "🏛️",
+          housingPercent: 38,
+          utilities: 244,
+          transport: 190,
+          food: 350,
+          overall: 95,
+          rent: 2145,
+          salary: 5612,
+        },
+        {
+          code: "christchurch",
+          name: "Christchurch",
+          flag: "🏔️",
+          housingPercent: 51,
+          utilities: 195,
+          transport: 70,
+          food: 320,
+          overall: 88,
+          rent: 2450,
+          salary: 4832,
+        },
+        {
+          code: "hamilton",
+          name: "Hamilton",
+          flag: "🌾",
+          housingPercent: 28,
+          utilities: 172,
+          transport: 78,
+          food: 300,
+          overall: 72,
+          rent: 1309,
+          salary: 4667,
+        },
+        {
+          code: "tauranga",
+          name: "Tauranga",
+          flag: "🏖️",
+          housingPercent: 37,
+          utilities: 238,
+          transport: 0,
+          food: 330,
+          overall: 85,
+          rent: 1956,
+          salary: 5311,
+        },
+        {
+          code: "dunedin",
+          name: "Dunedin",
+          flag: "🎓",
+          housingPercent: 33,
+          utilities: 169,
+          transport: 120,
+          food: 310,
+          overall: 78,
+          rent: 1478,
+          salary: 4458,
+        },
+      ],
+    },
+  }
+
+  const [currentLocation, setCurrentLocation] = useState<string>("")
+  const [targetLocation, setTargetLocation] = useState<string>("")
+  const [equivalentSalary, setEquivalentSalary] = useState<number>(0)
+  const [costBreakdown, setCostBreakdown] = useState<any>(null)
 
   const inflationMeasures = [
     { code: "cpi", name: "Consumer Price Index (CPI)", description: "General price changes for goods and services" },
@@ -184,6 +915,28 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
 
     loadEssayContent()
   }, [])
+
+  const calculateRegionalDifference = (fromCity: any, toCity: any, baseSalary = 100000) => {
+    if (!fromCity || !toCity) return null
+
+    const costDifference = toCity.overall / fromCity.overall
+    const adjustedSalary = baseSalary * costDifference
+
+    const housingDiff = ((toCity.housingPercent - fromCity.housingPercent) / fromCity.housingPercent) * 100
+    const utilitiesDiff = ((toCity.utilities - fromCity.utilities) / fromCity.utilities) * 100
+    const transportDiff =
+      fromCity.transport && toCity.transport ? ((toCity.transport - fromCity.transport) / fromCity.transport) * 100 : 0
+    const overallDiff = ((toCity.overall - fromCity.overall) / fromCity.overall) * 100
+
+    return {
+      adjustedSalary,
+      housingDiff,
+      utilitiesDiff,
+      transportDiff,
+      overallDiff,
+      costDifference,
+    }
+  }
 
   const calculateSalaryAdjustment = async () => {
     setError(null)
@@ -710,66 +1463,104 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                   <div className="grid md:grid-cols-3 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="fromCity">Current Location</Label>
-                      <Select defaultValue="newyork">
+                      <Select
+                        value={currentLocation}
+                        onValueChange={(value) => {
+                          setCurrentLocation(value)
+                          const fromCity = regionalData[currency]?.cities.find((city) => city.code === value)
+                          const toCity = regionalData[currency]?.cities.find((city) => city.code === targetLocation)
+
+                          if (fromCity && toCity) {
+                            const result = calculateRegionalDifference(fromCity, toCity)
+                            if (result) {
+                              setEquivalentSalary(result.adjustedSalary)
+                              setCostBreakdown({
+                                housingDiff: result.housingDiff,
+                                utilitiesDiff: result.utilitiesDiff,
+                                transportDiff: result.transportDiff,
+                                overallDiff: result.overallDiff,
+                              })
+                            }
+                          }
+                        }}
+                      >
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="newyork">🗽 New York, NY</SelectItem>
-                          <SelectItem value="sanfrancisco">🌉 San Francisco, CA</SelectItem>
-                          <SelectItem value="losangeles">🌴 Los Angeles, CA</SelectItem>
-                          <SelectItem value="chicago">🏙️ Chicago, IL</SelectItem>
-                          <SelectItem value="austin">🤠 Austin, TX</SelectItem>
-                          <SelectItem value="denver">🏔️ Denver, CO</SelectItem>
-                          <SelectItem value="atlanta">🍑 Atlanta, GA</SelectItem>
-                          <SelectItem value="seattle">☔ Seattle, WA</SelectItem>
+                          {regionalData[currency]?.cities.map((city) => (
+                            <SelectItem key={city.code} value={city.code}>
+                              {city.flag} {city.name}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="toCity">Target Location</Label>
-                      <Select defaultValue="austin">
+                      <Select
+                        value={targetLocation}
+                        onValueChange={(value) => {
+                          setTargetLocation(value)
+                          const fromCity = regionalData[currency]?.cities.find((city) => city.code === currentLocation)
+                          const toCity = regionalData[currency]?.cities.find((city) => city.code === value)
+
+                          if (fromCity && toCity) {
+                            const result = calculateRegionalDifference(fromCity, toCity)
+                            if (result) {
+                              setEquivalentSalary(result.adjustedSalary)
+                              setCostBreakdown({
+                                housingDiff: result.housingDiff,
+                                utilitiesDiff: result.utilitiesDiff,
+                                transportDiff: result.transportDiff,
+                                overallDiff: result.overallDiff,
+                              })
+                            }
+                          }
+                        }}
+                      >
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="newyork">🗽 New York, NY</SelectItem>
-                          <SelectItem value="sanfrancisco">🌉 San Francisco, CA</SelectItem>
-                          <SelectItem value="losangeles">🌴 Los Angeles, CA</SelectItem>
-                          <SelectItem value="chicago">🏙️ Chicago, IL</SelectItem>
-                          <SelectItem value="austin">🤠 Austin, TX</SelectItem>
-                          <SelectItem value="denver">🏔️ Denver, CO</SelectItem>
-                          <SelectItem value="atlanta">🍑 Atlanta, GA</SelectItem>
-                          <SelectItem value="seattle">☔ Seattle, WA</SelectItem>
+                          {regionalData[currency]?.cities.map((city) => (
+                            <SelectItem key={city.code} value={city.code}>
+                              {city.flag} {city.name}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
                       <Label>Equivalent Salary</Label>
                       <div className="h-10 px-3 py-2 border rounded-md bg-gray-50 dark:bg-gray-800 flex items-center">
-                        <span className="text-lg font-semibold text-green-600">$73,200</span>
+                        <span className="text-lg font-semibold text-green-600">
+                          {costBreakdown ? formatCurrency(equivalentSalary, currency) : "$0"}
+                        </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-4 gap-3">
-                    <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Housing Cost</p>
-                      <p className="font-bold text-red-600">-32%</p>
+                  {costBreakdown && (
+                    <div className="grid md:grid-cols-4 gap-3">
+                      <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Housing Cost</p>
+                        <p className="font-bold text-red-600">{formatPercentage(costBreakdown.housingDiff)}</p>
+                      </div>
+                      <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Utilities</p>
+                        <p className="font-bold text-green-600">{formatPercentage(costBreakdown.utilitiesDiff)}</p>
+                      </div>
+                      <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Transportation</p>
+                        <p className="font-bold text-green-600">{formatPercentage(costBreakdown.transportDiff)}</p>
+                      </div>
+                      <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Overall</p>
+                        <p className="font-bold text-green-600">{formatPercentage(costBreakdown.overallDiff)}</p>
+                      </div>
                     </div>
-                    <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Utilities</p>
-                      <p className="font-bold text-green-600">-18%</p>
-                    </div>
-                    <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Transportation</p>
-                      <p className="font-bold text-green-600">-25%</p>
-                    </div>
-                    <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Overall</p>
-                      <p className="font-bold text-green-600">-27%</p>
-                    </div>
-                  </div>
+                  )}
 
                   <Alert>
                     <Info className="h-4 w-4" />
