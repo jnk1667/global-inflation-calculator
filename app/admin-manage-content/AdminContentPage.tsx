@@ -225,33 +225,51 @@ The key to successful multi-generational wealth planning lies in balancing growt
     console.log("Trimmed match:", password.trim() === envPassword?.trim())
     console.log("Environment variable set:", !!envPassword)
 
-    if (password === envPassword) {
+    if (password && envPassword && password === envPassword) {
       setIsAuthenticated(true)
       setError("")
       loadAllContent()
     } else {
-      setError(`Invalid password. Entered: "${password}" | Expected: "${envPassword}"`)
+      setError(`Invalid password. Please check your credentials.`)
     }
   }
 
   // Load all content
   const loadAllContent = async () => {
     setLoading(true)
+    setError("") // Clear previous errors
     try {
       // Load main content
-      const { data: contentData } = await supabase.from("seo_content").select("*")
+      const { data: contentData, error: contentError } = await supabase.from("seo_content").select("*")
+      if (contentError) {
+        console.error("Error loading seo_content:", contentError)
+      }
 
-      const { data: siteSettings } = await supabase.from("site_settings").select("*").eq("id", "main").single()
+      const { data: siteSettings, error: siteError } = await supabase
+        .from("site_settings")
+        .select("*")
+        .eq("id", "main")
+        .single()
+      if (siteError && siteError.code !== "PGRST116") {
+        // PGRST116 is "not found" error
+        console.error("Error loading site_settings:", siteError)
+      }
 
       // Load FAQs
-      const { data: faqData } = await supabase.from("faqs").select("*").order("id")
+      const { data: faqData, error: faqError } = await supabase.from("faqs").select("*").order("id")
+      if (faqError) {
+        console.error("Error loading faqs:", faqError)
+      }
 
       // Load usage stats
-      const { data: statsData } = await supabase
+      const { data: statsData, error: statsError } = await supabase
         .from("usage_stats")
         .select("*")
         .order("date", { ascending: false })
         .limit(30)
+      if (statsError) {
+        console.error("Error loading usage_stats:", statsError)
+      }
 
       // Process content data
       if (contentData && contentData.length > 0) {
@@ -301,7 +319,11 @@ The key to successful multi-generational wealth planning lies in balancing growt
       }
 
       // Load About Content with proper social_links handling
-      const { data: aboutData } = await supabase.from("about_content").select("*").order("section")
+      const { data: aboutData, error: aboutError } = await supabase.from("about_content").select("*").order("section")
+      if (aboutError) {
+        console.error("Error loading about_content:", aboutError)
+      }
+
       if (aboutData && aboutData.length > 0) {
         // Ensure social_links is always an array
         const processedAboutData = aboutData.map((item: any) => ({
@@ -334,7 +356,14 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
       // Load Legacy Planner Content
       try {
-        const { data: legacyData } = await supabase.from("legacy_planner_content").select("*").eq("id", "main").single()
+        const { data: legacyData, error: legacyError } = await supabase
+          .from("legacy_planner_content")
+          .select("*")
+          .eq("id", "main")
+          .single()
+        if (legacyError && legacyError.code !== "PGRST116") {
+          console.error("Error loading legacy_planner_content:", legacyError)
+        }
         if (legacyData) {
           setContent((prev) => ({
             ...prev,
@@ -345,9 +374,12 @@ The key to successful multi-generational wealth planning lies in balancing growt
       } catch (err) {
         console.log("Legacy planner content not found, using defaults")
       }
+
+      setMessage("Content loaded successfully!")
+      setTimeout(() => setMessage(""), 3000)
     } catch (err) {
       console.error("Error loading content:", err)
-      setError("Failed to load content")
+      setError(`Failed to load content: ${err instanceof Error ? err.message : "Unknown error"}`)
     } finally {
       setLoading(false)
     }
@@ -476,6 +508,12 @@ The key to successful multi-generational wealth planning lies in balancing growt
     }
   }
 
+  // Retry function
+  const retryLoadContent = () => {
+    setError("")
+    loadAllContent()
+  }
+
   // Login form
   if (!isAuthenticated) {
     return (
@@ -505,7 +543,16 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
             {error && (
               <Alert className="bg-red-50 border-red-200">
-                <AlertDescription className="text-red-800 text-sm">{error}</AlertDescription>
+                <AlertDescription className="text-red-800 text-sm">
+                  {error}
+                  {error.includes("Failed to load content") && (
+                    <div className="mt-2">
+                      <Button onClick={retryLoadContent} size="sm" variant="outline">
+                        Retry Loading Content
+                      </Button>
+                    </div>
+                  )}
+                </AlertDescription>
               </Alert>
             )}
           </CardContent>

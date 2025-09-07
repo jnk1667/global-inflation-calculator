@@ -516,7 +516,7 @@ export default function ClientPage() {
         description: "Standard measure of inflation for consumer goods and services",
         adjustedAmount: baseAdjustedAmount,
         totalInflation: baseTotalInflation,
-        weight: 0.3,
+        weight: 0.25,
         confidence: "High",
       },
       {
@@ -524,7 +524,7 @@ export default function ClientPage() {
         description: "CPI excluding volatile food and energy prices",
         adjustedAmount: baseAdjustedAmount * 0.98, // Slightly lower, more stable
         totalInflation: baseTotalInflation * 0.98,
-        weight: 0.25,
+        weight: 0.2,
         confidence: "High",
       },
       {
@@ -532,7 +532,7 @@ export default function ClientPage() {
         description: "Accounts for consumer substitution behavior",
         adjustedAmount: baseAdjustedAmount * 0.96, // Typically lower than regular CPI
         totalInflation: baseTotalInflation * 0.96,
-        weight: 0.2,
+        weight: 0.15,
         confidence: "High",
       },
       {
@@ -550,6 +550,14 @@ export default function ClientPage() {
         totalInflation: baseTotalInflation * 1.02,
         weight: 0.1,
         confidence: "Medium",
+      },
+      {
+        name: "GDP Deflator",
+        description: "Measures price changes across the entire economy, including government and investment",
+        adjustedAmount: baseAdjustedAmount * 0.99, // Typically close to CPI but slightly different
+        totalInflation: baseTotalInflation * 0.99,
+        weight: 0.15, // Adjust other weights accordingly
+        confidence: "High",
       },
     ]
 
