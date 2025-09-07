@@ -7,6 +7,7 @@ export const metadata: Metadata = {
     "Calculate historical inflation and purchasing power across 8 major currencies from 1913 to present. Compare USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD with real government data.",
   keywords: [
     "inflation calculator",
+    "gdp deflator",
     "purchasing power calculator",
     "historical inflation rates",
     "currency inflation comparison",
