@@ -9,9 +9,11 @@ export const metadata: Metadata = {
     "Read our terms of service to understand the rules and guidelines for using our free inflation calculator and historical economic data.",
   keywords: [
     "terms of service",
+    "inflation calculator",
     "terms and conditions",
     "usage agreement",
     "legal terms",
+    "inflation calculator USD",
     "service agreement",
     "user agreement",
   ],
