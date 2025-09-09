@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import AdminDashboard from "./AdminDashboard"
+import AdminContentPage from "./AdminContentPage"
 
 export const metadata: Metadata = {
   title: "Admin Dashboard - Global Inflation Calculator",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function AdminPage() {
-  return <AdminDashboard />
+  return <AdminContentPage />
 }
