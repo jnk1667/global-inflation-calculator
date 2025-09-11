@@ -1771,6 +1771,9 @@ Successful retirement planning requires a multi-faceted approach that considers 
             <Link href="/salary-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
               Salary Calculator
             </Link>
+            <Link href="/legacy-planner" className="hover:text-blue-600 dark:hover:text-blue-400">
+              Legacy Planner
+            </Link>
             <Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400">
               About
             </Link>

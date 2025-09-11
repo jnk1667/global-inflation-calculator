@@ -166,6 +166,35 @@ export default function RootLayout({
                 >
                   About
                 </Link>
+
+                {/* Black Circle Dropdown */}
+                <div className="relative group">
+                  <div className="w-6 h-6 bg-black rounded-full cursor-pointer hover:bg-gray-800 transition-colors"></div>
+
+                  {/* Dropdown Menu */}
+                  <div className="absolute top-8 right-0 w-48 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800/95 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out">
+                    <div className="py-2">
+                      <Link
+                        href="/retirement-calculator"
+                        className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        Retirement Calculator
+                      </Link>
+                      <Link
+                        href="/privacy"
+                        className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        Privacy Policy
+                      </Link>
+                      <Link
+                        href="/terms"
+                        className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        Terms of Service
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </nav>
