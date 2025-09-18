@@ -166,6 +166,12 @@ export default function RootLayout({
                 >
                   About
                 </Link>
+                <Link
+                  href="/charts"
+                  className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
+                >
+                  Charts
+                </Link>
 
                 {/* Black Circle Dropdown */}
                 <div className="relative group">

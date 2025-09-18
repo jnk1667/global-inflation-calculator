@@ -211,6 +211,11 @@ export default function TermsOfService() {
                         Retirement Calculator
                       </Link>
                     </li>
+                    <li>
+                      <Link href="/charts" className="text-muted-foreground hover:text-primary transition-colors">
+                        Charts & Analytics
+                      </Link>
+                    </li>
                   </ul>
                 </div>
                 <div>

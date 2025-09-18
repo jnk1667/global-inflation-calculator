@@ -673,6 +673,26 @@ export default function LegacyPlannerPage() {
                     </Link>
                   </CardContent>
                 </Card>
+
+                <Card className="border-red-200 bg-red-50 dark:bg-red-900/20">
+                  <CardHeader>
+                    <CardTitle className="text-red-800 dark:text-red-200 text-lg">Charts & Analytics</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-red-700 dark:text-red-300 mb-4 text-sm">
+                      Visualize your financial legacy with charts and analytics
+                    </p>
+                    <Link href="/charts">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full border-red-300 text-red-700 hover:bg-red-100 bg-transparent"
+                      >
+                        View Charts & Analytics <ArrowRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
@@ -710,6 +730,15 @@ export default function LegacyPlannerPage() {
                     >
                       <TrendingUp className="h-4 w-4 mr-2" />
                       Retirement Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/charts"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
+                    >
+                      <Database className="h-4 w-4 mr-2" />
+                      Charts & Analytics
                     </Link>
                   </li>
                 </ul>

@@ -1774,6 +1774,9 @@ Successful retirement planning requires a multi-faceted approach that considers 
             <Link href="/legacy-planner" className="hover:text-blue-600 dark:hover:text-blue-400">
               Legacy Planner
             </Link>
+            <Link href="/charts" className="hover:text-blue-600 dark:hover:text-blue-400">
+              Charts
+            </Link>
             <Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400">
               About
             </Link>

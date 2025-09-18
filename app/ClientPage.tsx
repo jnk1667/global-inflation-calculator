@@ -1578,6 +1578,11 @@ export default function ClientPage() {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/charts" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                      Charts & Analytics
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/about" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
                       About Us
                     </Link>

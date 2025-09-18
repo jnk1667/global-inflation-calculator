@@ -1998,6 +1998,14 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                         Legacy Planner
                       </Link>
                     </li>
+                    <li>
+                      <Link
+                        href="/charts"
+                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      >
+                        Charts & Analytics
+                      </Link>
+                    </li>
                   </ul>
                 </div>
                 <div>
