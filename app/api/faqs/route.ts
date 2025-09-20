@@ -37,3 +37,62 @@ export async function GET() {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
+
+export async function POST(request: Request) {
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.error("Missing Supabase environment variables")
+      return NextResponse.json({ error: "Database configuration error" }, { status: 500 })
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    const body = await request.json()
+
+    const { question, answer, category = "general" } = body
+
+    if (!question || !answer) {
+      return NextResponse.json({ error: "Question and answer are required" }, { status: 400 })
+    }
+
+    // Generate a unique ID for the FAQ
+    const faqId = `faq_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+    // Get the next order index
+    const { data: existingFaqs } = await supabase
+      .from("faqs")
+      .select("order_index")
+      .order("order_index", { ascending: false })
+      .limit(1)
+
+    const nextOrderIndex = existingFaqs && existingFaqs.length > 0 ? (existingFaqs[0].order_index || 0) + 1 : 1
+
+    const { data, error } = await supabase
+      .from("faqs")
+      .insert([
+        {
+          id: faqId,
+          question,
+          answer,
+          category,
+          is_active: true,
+          order_index: nextOrderIndex,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+      ])
+      .select()
+
+    if (error) {
+      console.error("Error creating FAQ:", error)
+      return NextResponse.json({ error: "Failed to create FAQ" }, { status: 500 })
+    }
+
+    return NextResponse.json({ success: true, data: data[0] }, { status: 201 })
+  } catch (error) {
+    console.error("Error in FAQ POST:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+  }
+}

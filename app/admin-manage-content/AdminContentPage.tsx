@@ -456,33 +456,46 @@ The key to successful multi-generational wealth planning lies in balancing growt
     if (!newFaq.question.trim() || !newFaq.answer.trim()) return
 
     try {
-      const { data, error } = await supabase
-        .from("faqs")
-        .insert({
+      const response = await fetch("/api/faqs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           question: newFaq.question.trim(),
           answer: newFaq.answer.trim(),
-        })
-        .select()
+          category: "general",
+        }),
+      })
 
-      if (error) throw error
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || "Failed to add FAQ")
+      }
 
-      if (data && data[0]) {
-        setFaqs((prev) => [...prev, data[0]])
+      const result = await response.json()
+
+      if (result.success && result.data) {
+        setFaqs((prev) => [...prev, result.data])
         setNewFaq({ question: "", answer: "" })
         setMessage("FAQ added successfully!")
         setTimeout(() => setMessage(""), 3000)
       }
     } catch (err) {
       console.error("Error adding FAQ:", err)
-      setError("Failed to add FAQ")
+      setError(`Failed to add FAQ: ${err instanceof Error ? err.message : "Unknown error"}`)
     }
   }
 
   const deleteFaq = async (id: string) => {
     try {
-      const { error } = await supabase.from("faqs").delete().eq("id", id)
+      const response = await fetch(`/api/faqs/${id}`, {
+        method: "DELETE",
+      })
 
-      if (error) throw error
+      if (!response.ok) {
+        throw new Error("Failed to delete FAQ")
+      }
 
       setFaqs((prev) => prev.filter((faq) => faq.id !== id))
       setMessage("FAQ deleted successfully!")
@@ -495,9 +508,20 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
   const updateFaq = async (id: string, question: string, answer: string) => {
     try {
-      const { error } = await supabase.from("faqs").update({ question, answer }).eq("id", id)
+      const response = await fetch(`/api/faqs/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question,
+          answer,
+        }),
+      })
 
-      if (error) throw error
+      if (!response.ok) {
+        throw new Error("Failed to update FAQ")
+      }
 
       setFaqs((prev) => prev.map((faq) => (faq.id === id ? { ...faq, question, answer } : faq)))
       setMessage("FAQ updated successfully!")
