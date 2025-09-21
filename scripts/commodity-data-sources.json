@@ -1,0 +1,83 @@
+{
+  "dataSources": {
+    "gold": {
+      "primary": "FRED API",
+      "secondary": "Metals-API",
+      "description": "Gold prices in USD per troy ounce",
+      "coverage": "1970-present (FRED), last 30 days (Metals-API)",
+      "updateFrequency": "Daily",
+      "apiLimits": {
+        "FRED": "Unlimited (free with API key)",
+        "Metals-API": "100 requests/month (free tier)"
+      }
+    },
+    "silver": {
+      "primary": "Metals-API",
+      "description": "Silver prices in USD per troy ounce",
+      "coverage": "Last 30 days",
+      "updateFrequency": "Daily",
+      "apiLimits": {
+        "Metals-API": "100 requests/month (free tier)"
+      }
+    },
+    "bitcoin": {
+      "primary": "CoinDesk API",
+      "description": "Bitcoin prices in USD",
+      "coverage": "Last 31 days",
+      "updateFrequency": "Daily",
+      "apiLimits": {
+        "CoinDesk": "Unlimited (no API key required)"
+      }
+    }
+  },
+  "apiEndpoints": {
+    "FRED": {
+      "baseUrl": "https://api.stlouisfed.org/fred/series/observations",
+      "goldSeriesId": "GOLDAMGBD228NLBM",
+      "documentation": "https://fred.stlouisfed.org/docs/api/",
+      "keyRequired": true,
+      "keyUrl": "https://fred.stlouisfed.org/docs/api/api_key.html"
+    },
+    "MetalsAPI": {
+      "baseUrl": "https://metals-api.com/api",
+      "documentation": "https://metals-api.com/documentation",
+      "keyRequired": true,
+      "keyUrl": "https://metals-api.com/",
+      "symbols": {
+        "gold": "XAU",
+        "silver": "XAG"
+      }
+    },
+    "CoinDesk": {
+      "currentPrice": "https://api.coindesk.com/v1/bpi/currentprice.json",
+      "historical": "https://api.coindesk.com/v1/bpi/historical/close.json",
+      "documentation": "https://www.coindesk.com/coindesk-api",
+      "keyRequired": false
+    }
+  },
+  "dataStructure": {
+    "format": "JSON",
+    "structure": {
+      "metadata": {
+        "source": "string",
+        "description": "string",
+        "lastUpdated": "ISO 8601 timestamp",
+        "currency": "string",
+        "unit": "string"
+      },
+      "data": [
+        {
+          "date": "YYYY-MM-DD",
+          "price": "number",
+          "source": "string"
+        }
+      ]
+    }
+  },
+  "usage": {
+    "fetchScript": "node scripts/fetch-gold-silver-data.js",
+    "updateScript": "node scripts/update-commodity-data.js",
+    "dataLocation": "public/data/commodities/",
+    "environmentVariables": ["FRED_API_KEY", "METALS_API_KEY"]
+  }
+}

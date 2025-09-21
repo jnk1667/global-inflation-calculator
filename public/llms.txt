@@ -1,0 +1,285 @@
+# Global Inflation Calculator - llms.txt
+
+## Site Overview
+The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a comprehensive financial analysis platform that provides free access to historical inflation data and purchasing power calculations across multiple currencies from 1913 to present day. The site serves individuals, researchers, financial professionals, and educators who need accurate inflation analysis for financial planning, academic research, and economic understanding.
+
+## Site URLs and Tools
+
+### Main Application Pages
+- **Homepage (/)** - Primary inflation calculator with real-time calculations
+  - Calculate purchasing power between any two years
+  - Support for 8 major currencies: USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD
+  - Interactive year sliders and amount inputs
+  - Real-time results showing adjusted amounts, total inflation, and annual rates
+
+- **Salary Calculator (/salary-calculator)** - Salary inflation adjustment tool
+  - Compare salary purchasing power across different years
+  - Calculate required salary adjustments for inflation
+  - Real vs nominal salary value analysis
+  - Multi-currency support for global salary comparisons
+
+- **Retirement Calculator (/retirement-calculator)** - Comprehensive retirement planning
+  - Long-term financial planning with inflation adjustments
+  - Healthcare cost inflation modeling (averages 5.8% vs 3.2% general inflation)
+  - Real return rate calculations accounting for inflation
+  - Generation-specific retirement data (Baby Boomers, Gen X, Millennials, Gen Z)
+  - Life expectancy integration for planning horizons
+
+- **Legacy Planner (/legacy-planner)** - Multi-generation wealth planning
+  - Estate planning with inflation impact over decades
+  - Wealth preservation analysis across generations
+  - Healthcare cost erosion modeling
+  - Real vs nominal wealth comparison over time
+
+- **Charts & Analytics (/charts)** - Advanced data visualizations
+  - Interactive charts showing inflation trends over time
+  - Currency comparison visualizations
+  - Healthcare vs general inflation comparisons
+  - S&P 500 returns vs inflation analysis
+  - Bond yields and real return calculations
+  - Commodity correlation analysis
+  - Date range filtering and screenshot capabilities
+
+- **About Page (/about)** - Detailed methodology and data sources
+  - Complete calculation formulas for all tools
+  - Official data source documentation
+  - Data quality and update procedures
+  - Project background and team information
+
+### Legal and Information Pages
+- **Privacy Policy (/privacy)** - Data protection and privacy practices
+- **Terms of Service (/terms)** - Usage terms and conditions
+
+### API Endpoints
+- **FAQs API (/api/faqs)** - Dynamic FAQ content management
+  - GET: Retrieve frequently asked questions
+  - POST: Add new FAQs (admin only)
+
+## Data Sources and Methodology
+
+### Official Government Data Sources
+All inflation data comes directly from official government statistical agencies:
+
+**United States (USD)** - 1913 to present
+- Source: US Bureau of Labor Statistics (BLS)
+- Index: Consumer Price Index (CPI-U)
+- Coverage: 112+ years of data
+
+**United Kingdom (GBP)** - 1947 to present  
+- Source: Office for National Statistics (ONS)
+- Index: Retail Price Index (RPI)
+- Coverage: 78+ years of data
+
+**European Union (EUR)** - 1996 to present
+- Source: Eurostat
+- Index: Harmonised Index of Consumer Prices (HICP)
+- Coverage: 29+ years of data
+
+**Canada (CAD)** - 1914 to present
+- Source: Statistics Canada
+- Index: Consumer Price Index (CPI)
+- Coverage: 111+ years of data
+
+**Australia (AUD)** - 1948 to present
+- Source: Australian Bureau of Statistics (ABS)
+- Index: Consumer Price Index (CPI)
+- Coverage: 77+ years of data
+
+**Switzerland (CHF)** - Data from Swiss Federal Statistical Office (FSO)
+- Index: Consumer Price Index (CPI)
+
+**Japan (JPY)** - Data from Statistics Bureau of Japan
+- Index: Consumer Price Index (CPI)
+
+**New Zealand (NZD)** - Data from Statistics New Zealand (Stats NZ)
+- Index: Consumer Price Index (CPI)
+
+### Calculation Formulas
+
+**Basic Inflation Calculator:**
+- Adjusted Amount = (Original Amount × Current CPI) ÷ Historical CPI
+- Total Inflation = ((Adjusted Amount - Original Amount) ÷ Original Amount) × 100
+- Annual Rate = (Adjusted Amount ÷ Original Amount)^(1/Years) - 1
+
+**Salary Calculator:**
+- Real Salary Value = (Current Salary × Base Year CPI) ÷ Current Year CPI
+- Purchasing Power Change = ((Real Value - Original Salary) ÷ Original Salary) × 100
+- Required Salary = (Original Salary × Current CPI) ÷ Base Year CPI
+
+**Retirement Calculator:**
+- Future Value = Present Value × (1 + Real Return Rate)^Years
+- Real Return Rate = ((1 + Nominal Rate) ÷ (1 + Inflation Rate)) - 1
+- Annuity Payment = Principal × (Rate × (1 + Rate)^Years) ÷ ((1 + Rate)^Years - 1)
+- Healthcare Adjusted = Base Amount × (1 + Healthcare Inflation)^Years
+
+**Legacy Planner:**
+- Generation Wealth = Previous Wealth × (1 + Growth Rate - Inflation Rate)^Years
+- Healthcare Erosion = Wealth × Healthcare Inflation Rate × Years
+- Real vs Nominal = Nominal Value ÷ (1 + Cumulative Inflation)
+- Purchasing Power Loss = (1 - (Real Value ÷ Nominal Value)) × 100
+
+### Additional Financial Data
+
+**S&P 500 Returns (1928-2024)**
+- Historical annual returns with 10.5% average
+- Used for retirement planning and investment analysis
+- Integrated with inflation data for real return calculations
+
+**10-Year US Treasury Bond Yields (1928-2024)**
+- Source: Federal Reserve Economic Data (FRED)
+- Average yield: 4.8%
+- Used for safe return rate assumptions
+
+**Healthcare Inflation Data (1990-2024)**
+- Healthcare inflation averages 5.8% vs 3.2% general inflation
+- Healthcare multiplier: 1.81x general inflation
+- Critical for retirement and healthcare cost planning
+
+**Life Expectancy Data**
+- By birth year and gender for retirement planning
+- Used to calculate planning horizons and annuity periods
+
+**Generational Retirement Data**
+- Baby Boomers: 12.5% avg contribution, $289k median savings
+- Gen X: 10.8% avg contribution, $142k median savings  
+- Millennials: 8.3% avg contribution, $63k median savings
+- Gen Z: 6.2% avg contribution, $11k median savings
+
+## Data Structure and Storage
+
+### JSON Data Format
+All data stored in structured JSON files in `/public/data/`:
+- Currency-specific inflation files (usd-inflation.json, eur-inflation.json, etc.)
+- Financial market data (sp500-returns.json, bond-yields.json)
+- Demographic data (life-expectancy.json, retirement-contributions.json)
+- Healthcare inflation comparisons (healthcare-inflation.json)
+- System metadata (last-updated.json, faqs.json)
+
+### Data Quality Assurance
+- **Verified Sources**: All data from official government agencies
+- **Regular Updates**: Monthly updates when new CPI figures released
+- **Historical Coverage**: Comprehensive data from 1913 to present
+- **Data Integrity**: Automated validation and consistency checks
+
+## Technical Architecture
+
+### Frontend Technology
+- Next.js 14+ with App Router
+- React Server Components and Client Components
+- TypeScript for type safety
+- Tailwind CSS for responsive design
+- Recharts for data visualizations
+- Dark/light theme support
+
+### Database Integration
+- Supabase for dynamic content management
+- Real-time FAQ and content updates
+- Admin dashboard for content management
+- Row Level Security (RLS) for data protection
+
+### SEO and Accessibility
+- Comprehensive metadata and Open Graph tags
+- JSON-LD structured data for FAQs
+- Semantic HTML with proper ARIA attributes
+- Mobile-first responsive design
+- Google Analytics and AdSense integration
+
+## Key Features and Capabilities
+
+### Multi-Currency Support
+- 8 major world currencies with historical data
+- Automatic currency detection and conversion
+- Cross-currency inflation comparisons
+- Regional economic analysis capabilities
+
+### Advanced Analytics
+- Interactive charts with date range filtering
+- Screenshot capabilities for sharing analysis
+- Correlation analysis between different economic indicators
+- Real vs nominal value comparisons
+- Healthcare cost inflation modeling
+
+### Financial Planning Tools
+- Retirement planning with inflation adjustments
+- Salary negotiation and career planning
+- Estate and legacy planning across generations
+- Investment return analysis with inflation impact
+
+### Educational Resources
+- Comprehensive methodology documentation
+- Historical economic context and analysis
+- FAQ system with common inflation questions
+- Data source transparency and verification
+
+## Use Cases and Applications
+
+### Personal Finance
+- Salary negotiations and career planning
+- Retirement savings adequacy analysis
+- Understanding purchasing power changes over time
+- Estate planning and wealth preservation
+
+### Academic and Research
+- Economic research and historical analysis
+- Educational tools for economics courses
+- Policy analysis and economic modeling
+- Cross-country inflation comparisons
+
+### Business Applications
+- Long-term financial planning and budgeting
+- Contract escalation clause calculations
+- Historical cost analysis and pricing
+- Economic impact assessments
+
+### Professional Services
+- Financial advisor client education
+- Insurance and actuarial calculations
+- Real estate investment analysis
+- Economic consulting and research
+
+## Data Update Schedule and Maintenance
+
+### Update Frequency
+- **Monthly**: CPI data updates from government sources
+- **Quarterly**: Financial market data refresh
+- **Annual**: Demographic and generational data updates
+- **Real-time**: FAQ and content management updates
+
+### Data Validation
+- Automated consistency checks across currencies
+- Source verification and cross-referencing
+- Historical data integrity maintenance
+- Error detection and correction procedures
+
+## Important Disclaimers and Limitations
+
+### Usage Guidelines
+- Tool is for educational and informational purposes only
+- Results should not be sole basis for financial decisions
+- Inflation affects different goods and services differently
+- Regional variations within countries not reflected
+- Historical data subject to revisions by statistical agencies
+- Professional financial advice recommended for major decisions
+
+### Data Limitations
+- CPI may not reflect individual spending patterns
+- Quality adjustments in CPI calculations not detailed
+- Seasonal variations smoothed in annual data
+- Currency conversion rates not included
+- Future projections based on historical trends only
+
+## Contact and Administration
+
+### Content Management
+- Admin dashboard at /admin-manage-content (password protected)
+- Dynamic FAQ management system
+- Content updates through Supabase integration
+- Usage statistics and analytics tracking
+
+### Technical Support
+- Comprehensive error handling and user feedback
+- Mobile-optimized interface for all devices
+- Cross-browser compatibility and testing
+- Performance optimization for global access
+
+This comprehensive financial analysis platform serves as a bridge between complex economic data and practical financial understanding, making inflation analysis accessible to users worldwide while maintaining the highest standards of data accuracy and transparency.
