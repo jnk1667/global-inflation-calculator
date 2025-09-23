@@ -14,6 +14,13 @@ import { supabase } from "@/lib/supabase"
 import { trackPageView } from "@/lib/analytics"
 import Script from "next/script"
 import Link from "next/link"
+import { loadCurrencyMeasuresWithFallback } from "@/lib/data-loader"
+import {
+  calculateConsensusInflation,
+  getMeasureDisplayName,
+  getMeasureDescription,
+  getDataQualityScore,
+} from "@/lib/inflation-measures"
 
 // Lazy load heavy components for better performance
 const SimpleLineChart = lazy(() => import("@/components/simple-line-chart"))
@@ -180,6 +187,9 @@ export default function ClientPage() {
   const [logoUrl, setLogoUrl] = useState<string>("")
   const [retryCount, setRetryCount] = useState(0)
   const [showBreakdown, setShowBreakdown] = useState(false)
+  const [realMeasuresData, setRealMeasuresData] = useState<Record<string, any>>({})
+  const [dataQuality, setDataQuality] = useState<{ score: number; details: any } | null>(null)
+  const [usingRealData, setUsingRealData] = useState(false)
 
   // Use refs to track component state and prevent race conditions
   const isMountedRef = useRef(true)
@@ -364,6 +374,52 @@ export default function ClientPage() {
     }
   }, [])
 
+  const loadRealMeasuresData = useCallback(async (currency: string) => {
+    try {
+      console.log(`[v0] Loading real inflation measures for ${currency}...`)
+      const result = await loadCurrencyMeasuresWithFallback(currency).catch((error) => {
+        console.warn(`[v0] Failed to load measures for ${currency}, using empty fallback:`, error)
+        return {
+          measures: {},
+          hasRealData: false,
+          fallbackUsed: true,
+        }
+      })
+
+      setRealMeasuresData((prev) => ({
+        ...prev,
+        [currency]: result.measures,
+      }))
+
+      setUsingRealData(result.hasRealData)
+
+      if (Object.keys(result.measures).length > 0) {
+        const quality = getDataQualityScore(result.measures)
+        setDataQuality(quality)
+        console.log(`[v0] Data quality score for ${currency}: ${quality.score}%`)
+      } else {
+        setDataQuality({
+          score: 0,
+          details: { totalMeasures: 0, realDataMeasures: 0, estimatedMeasures: 0, averageYearsCoverage: 0 },
+        })
+      }
+
+      return result
+    } catch (error) {
+      console.warn(`[v0] Failed to load real measures for ${currency}:`, error)
+      setUsingRealData(false)
+      setRealMeasuresData((prev) => ({
+        ...prev,
+        [currency]: {},
+      }))
+      setDataQuality({
+        score: 0,
+        details: { totalMeasures: 0, realDataMeasures: 0, estimatedMeasures: 0, averageYearsCoverage: 0 },
+      })
+      return null
+    }
+  }, [])
+
   // Load inflation data with improved error handling
   useEffect(() => {
     isMountedRef.current = true
@@ -377,6 +433,12 @@ export default function ClientPage() {
     }
   }, [loadInflationData])
 
+  useEffect(() => {
+    if (selectedCurrency && Object.keys(inflationData).length > 0) {
+      loadRealMeasuresData(selectedCurrency)
+    }
+  }, [selectedCurrency, inflationData, loadRealMeasuresData])
+
   // Manual retry function
   const handleRetry = useCallback(() => {
     setRetryCount(0)
@@ -388,6 +450,9 @@ export default function ClientPage() {
     setSelectedCurrency(currency)
     setFromYear(2020)
     setHasCalculated(false)
+
+    // Load real measures data for the new currency
+    loadRealMeasuresData(currency)
   }
 
   // Handle input changes with validation
@@ -487,21 +552,60 @@ export default function ClientPage() {
     }
   }
 
-  // Calculate multiple inflation measures
   const calculateMultipleInflationMeasures = () => {
     if (!currentCurrencyData?.data) {
       return { measures: [], consensus: null }
     }
 
+    const amountValue = Number.parseFloat(amount)
+    if (isNaN(amountValue) || amountValue <= 0) {
+      return { measures: [], consensus: null }
+    }
+
+    // Try to use real measures data first
+    const currencyMeasures = realMeasuresData[selectedCurrency]
+    if (currencyMeasures && Object.keys(currencyMeasures).length > 0) {
+      try {
+        console.log(`[v0] Using real inflation measures for ${selectedCurrency}`)
+        const result = calculateConsensusInflation(
+          currencyMeasures,
+          selectedCurrency,
+          fromYear,
+          currentYear,
+          amountValue,
+        )
+
+        // Convert to the format expected by the UI
+        const measures = result.individualMeasures.map((measure) => ({
+          name: getMeasureDisplayName(measure.measure),
+          description: getMeasureDescription(measure.measure),
+          adjustedAmount: measure.adjustedAmount,
+          totalInflation: measure.totalInflation,
+          weight: measure.weight,
+          confidence: measure.confidence,
+        }))
+
+        const consensus = {
+          name: "Consensus Inflation Rate",
+          description: "Weighted average of all available inflation measures using real data",
+          adjustedAmount: result.consensusAdjustedAmount,
+          totalInflation: result.consensusTotalInflation,
+          confidence: "Very High",
+        }
+
+        console.log(`[v0] Successfully calculated ${measures.length} real measures for ${selectedCurrency}`)
+        return { measures, consensus }
+      } catch (error) {
+        console.warn(`[v0] Error calculating real measures, falling back to simulated:`, error)
+      }
+    }
+
+    // Fallback to simulated data (existing logic)
+    console.log(`[v0] Using simulated inflation measures for ${selectedCurrency}`)
     const fromInflation = currentCurrencyData.data[fromYear.toString()]
     const currentInflation = currentCurrencyData.data[currentYear.toString()]
 
     if (!fromInflation || !currentInflation || fromInflation <= 0 || currentInflation <= 0) {
-      return { measures: [], consensus: null }
-    }
-
-    const amountValue = Number.parseFloat(amount)
-    if (isNaN(amountValue) || amountValue <= 0) {
       return { measures: [], consensus: null }
     }
 
@@ -567,7 +671,7 @@ export default function ClientPage() {
 
     const consensus = {
       name: "Consensus Inflation Rate",
-      description: "Weighted average of all available inflation measures",
+      description: "Weighted average of all available inflation measures (simulated data)",
       adjustedAmount: consensusAdjustedAmount,
       totalInflation: consensusTotalInflation,
       confidence: "Very High",
@@ -905,162 +1009,185 @@ export default function ClientPage() {
                   {/* Results Section */}
                   {Number.parseFloat(amount) > 0 && adjustedAmount > 0 && (
                     <>
-                      <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-gray-700 dark:to-gray-800 rounded-lg shadow-lg text-white p-8 mb-8">
-                        <div className="text-center">
-                          <div className="flex items-center justify-center gap-2 mb-4">
-                            <span className="text-2xl">🔥</span>
-                            <h2 className="text-2xl font-bold">Inflation Impact</h2>
-                          </div>
-
-                          <div className="text-5xl font-bold mb-4">
-                            {consensusInflation
-                              ? getCurrencyDisplay(consensusInflation.adjustedAmount)
-                              : getCurrencyDisplay(adjustedAmount)}
-                          </div>
-
-                          <div className="text-xl mb-8 opacity-90">
-                            {getCurrencyDisplay(Number.parseFloat(amount))} in {fromYear} equals{" "}
-                            {consensusInflation
-                              ? getCurrencyDisplay(consensusInflation.adjustedAmount)
-                              : getCurrencyDisplay(adjustedAmount)}{" "}
-                            in {currentYear}
-                            {consensusInflation && (
-                              <div className="text-sm mt-2 opacity-75">
-                                📊 Consensus of {inflationMeasures.length} inflation measures
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Stats Grid */}
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                            <div className="bg-white bg-opacity-20 dark:bg-gray-900 dark:bg-opacity-20 rounded-lg p-4">
-                              <div className="text-2xl font-bold">
-                                {consensusInflation
-                                  ? consensusInflation.totalInflation.toFixed(1)
-                                  : totalInflation.toFixed(1)}
-                                %
-                              </div>
-                              <div className="text-sm opacity-80 dark:opacity-70">Total Inflation</div>
+                      <Card className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-gray-700 dark:to-gray-800 rounded-lg shadow-lg text-white p-8 mb-8">
+                        <CardContent className="text-center">
+                          <div className="text-center">
+                            <div className="flex items-center justify-center gap-2 mb-4">
+                              <span className="text-2xl">🔥</span>
+                              <h2 className="text-2xl font-bold">Inflation Impact</h2>
                             </div>
-                            <div className="bg-white bg-opacity-20 dark:bg-gray-900 dark:bg-opacity-20 rounded-lg p-4">
-                              <div className="text-2xl font-bold">{annualRate.toFixed(2)}%</div>
-                              <div className="text-sm opacity-80 dark:opacity-70">Annual Average</div>
-                            </div>
-                            <div className="bg-white bg-opacity-20 dark:bg-gray-900 dark:bg-opacity-20 rounded-lg p-4">
-                              <div className="text-2xl font-bold">{yearsAgo}</div>
-                              <div className="text-sm opacity-80 dark:opacity-70">Years</div>
-                            </div>
-                          </div>
 
-                          {/* Breakdown Toggle */}
-                          {inflationMeasures.length > 0 && (
-                            <div className="mb-6">
-                              <Button
-                                variant="outline"
-                                className="bg-white bg-opacity-20 text-white hover:bg-white hover:bg-opacity-30 border-white border-opacity-30"
-                                onClick={() => setShowBreakdown(!showBreakdown)}
-                              >
-                                {showBreakdown ? "Hide Breakdown" : "View Breakdown"}
-                                <span className="ml-2">{showBreakdown ? "▲" : "▼"}</span>
-                              </Button>
+                            <div className="text-5xl font-bold mb-4">
+                              {consensusInflation
+                                ? getCurrencyDisplay(consensusInflation.adjustedAmount)
+                                : getCurrencyDisplay(adjustedAmount)}
                             </div>
-                          )}
 
-                          {/* Expandable Breakdown */}
-                          {showBreakdown && inflationMeasures.length > 0 && (
-                            <div className="bg-white bg-opacity-10 rounded-lg p-6 mb-6 text-left">
-                              <h3 className="text-lg font-semibold mb-4 text-center">
-                                📈 Individual Inflation Measures
-                              </h3>
-
-                              {/* Consensus Result */}
+                            <div className="text-xl mb-8 opacity-90">
+                              {getCurrencyDisplay(Number.parseFloat(amount))} in {fromYear} equals{" "}
+                              {consensusInflation
+                                ? getCurrencyDisplay(consensusInflation.adjustedAmount)
+                                : getCurrencyDisplay(adjustedAmount)}{" "}
+                              in {currentYear}
                               {consensusInflation && (
-                                <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4 border-2 border-white border-opacity-30">
-                                  <div className="flex justify-between items-start mb-2">
-                                    <div>
-                                      <div className="font-semibold text-yellow-200">🏆 {consensusInflation.name}</div>
-                                      <div className="text-sm opacity-80">{consensusInflation.description}</div>
-                                    </div>
-                                    <div className="text-right">
-                                      <div className="font-bold">
-                                        {getCurrencyDisplay(consensusInflation.adjustedAmount)}
-                                      </div>
-                                      <div className="text-sm">{consensusInflation.totalInflation.toFixed(2)}%</div>
-                                    </div>
-                                  </div>
-                                  <div className="text-xs opacity-70">
-                                    Confidence: {consensusInflation.confidence} • Weighted average of all measures
-                                  </div>
+                                <div className="text-sm mt-2 opacity-75">
+                                  📊 Consensus of {inflationMeasures.length} inflation measures
+                                  {usingRealData && <span className="ml-2 text-green-200">✅ Real data</span>}
+                                  {!usingRealData && <span className="ml-2 text-yellow-200">⚠️ Estimated data</span>}
                                 </div>
                               )}
+                            </div>
 
-                              {/* Individual Measures */}
-                              <div className="space-y-3">
-                                {inflationMeasures.map((measure, index) => (
-                                  <div key={index} className="bg-white bg-opacity-10 rounded-lg p-4">
-                                    <div className="flex justify-between items-start mb-2">
-                                      <div>
-                                        <div className="font-semibold">{measure.name}</div>
-                                        <div className="text-sm opacity-80">{measure.description}</div>
-                                      </div>
-                                      <div className="text-right">
-                                        <div className="font-bold">{getCurrencyDisplay(measure.adjustedAmount)}</div>
-                                        <div className="text-sm">{measure.totalInflation.toFixed(2)}%</div>
-                                      </div>
-                                    </div>
-                                    <div className="flex justify-between text-xs opacity-70">
-                                      <span>Weight: {(measure.weight * 100).toFixed(0)}%</span>
-                                      <span>Confidence: {measure.confidence}</span>
-                                    </div>
-                                  </div>
-                                ))}
+                            {/* Stats Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                              <div className="bg-white bg-opacity-20 dark:bg-gray-900 dark:bg-opacity-20 rounded-lg p-4">
+                                <div className="text-2xl font-bold">
+                                  {consensusInflation
+                                    ? consensusInflation.totalInflation.toFixed(1)
+                                    : totalInflation.toFixed(1)}
+                                  %
+                                </div>
+                                <div className="text-sm opacity-80 dark:opacity-70">Total Inflation</div>
                               </div>
-
-                              <div className="mt-4 text-xs opacity-70 text-center">
-                                💡 The consensus rate provides the most accurate inflation estimate by combining
-                                multiple official measures
+                              <div className="bg-white bg-opacity-20 dark:bg-gray-900 dark:bg-opacity-20 rounded-lg p-4">
+                                <div className="text-2xl font-bold">{annualRate.toFixed(2)}%</div>
+                                <div className="text-sm opacity-80 dark:opacity-70">Annual Average</div>
+                              </div>
+                              <div className="bg-white bg-opacity-20 dark:bg-gray-900 dark:bg-opacity-20 rounded-lg p-4">
+                                <div className="text-2xl font-bold">{yearsAgo}</div>
+                                <div className="text-sm opacity-80 dark:opacity-70">Years</div>
                               </div>
                             </div>
-                          )}
 
-                          {/* Action Buttons */}
-                          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                            <Button
-                              variant="outline"
-                              className="bg-white text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700"
-                              onClick={async () => {
-                                const finalAmount = consensusInflation
-                                  ? consensusInflation.adjustedAmount
-                                  : adjustedAmount
-                                const finalInflation = consensusInflation
-                                  ? consensusInflation.totalInflation
-                                  : totalInflation
-                                const shareText = `💰 ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(finalAmount)} in ${currentYear}! That's ${finalInflation.toFixed(1)}% total inflation.`
-                                try {
-                                  await navigator.clipboard.writeText(`${shareText} ${siteUrl}`)
-                                  alert("✅ Result copied to clipboard!")
-                                } catch {
-                                  prompt("Copy this text:", `${shareText} ${siteUrl}`)
-                                }
-                              }}
-                            >
-                              📤 Share Result
-                            </Button>
-                            <Button
-                              variant="outline"
-                              className="bg-white text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700"
-                              onClick={() => {
-                                setAmount("100")
-                                setFromYear(2020)
-                                setHasCalculated(false)
-                                setShowBreakdown(false)
-                              }}
-                            >
-                              🔄 Reset
-                            </Button>
+                            {/* Breakdown Toggle */}
+                            {inflationMeasures.length > 0 && (
+                              <div className="mb-6">
+                                <Button
+                                  variant="outline"
+                                  className="bg-white bg-opacity-20 text-white hover:bg-white hover:bg-opacity-30 border-white border-opacity-30"
+                                  onClick={() => setShowBreakdown(!showBreakdown)}
+                                >
+                                  {showBreakdown ? "Hide Breakdown" : "View Breakdown"}
+                                  <span className="ml-2">{showBreakdown ? "▲" : "▼"}</span>
+                                </Button>
+                              </div>
+                            )}
+
+                            {/* Expandable Breakdown */}
+                            {showBreakdown && inflationMeasures.length > 0 && (
+                              <div className="bg-white bg-opacity-10 rounded-lg p-6 mb-6 text-left">
+                                <h3 className="text-lg font-semibold mb-4 text-center">
+                                  📈 Individual Inflation Measures
+                                  {dataQuality && (
+                                    <div className="text-sm font-normal mt-2 opacity-80">
+                                      Data Quality Score: {dataQuality.score}% ({dataQuality.details.realDataMeasures}{" "}
+                                      real, {dataQuality.details.estimatedMeasures} estimated)
+                                    </div>
+                                  )}
+                                </h3>
+
+                                {/* Consensus Result */}
+                                {consensusInflation && (
+                                  <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4 border-2 border-white border-opacity-30">
+                                    <div className="flex justify-between items-start mb-2">
+                                      <div>
+                                        <div className="font-semibold text-yellow-200">
+                                          🏆 {consensusInflation.name}
+                                        </div>
+                                        <div className="text-sm opacity-80">{consensusInflation.description}</div>
+                                      </div>
+                                      <div className="text-right">
+                                        <div className="font-bold">
+                                          {getCurrencyDisplay(consensusInflation.adjustedAmount)}
+                                        </div>
+                                        <div className="text-sm">{consensusInflation.totalInflation.toFixed(2)}%</div>
+                                      </div>
+                                    </div>
+                                    <div className="text-xs opacity-70">
+                                      Confidence: {consensusInflation.confidence} • Weighted average of all measures
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* Individual Measures */}
+                                <div className="space-y-3">
+                                  {inflationMeasures.map((measure, index) => (
+                                    <div key={index} className="bg-white bg-opacity-10 rounded-lg p-4">
+                                      <div className="flex justify-between items-start mb-2">
+                                        <div>
+                                          <div className="font-semibold">{measure.name}</div>
+                                          <div className="text-sm opacity-80">{measure.description}</div>
+                                        </div>
+                                        <div className="text-right">
+                                          <div className="font-bold">{getCurrencyDisplay(measure.adjustedAmount)}</div>
+                                          <div className="text-sm">{measure.totalInflation.toFixed(2)}%</div>
+                                        </div>
+                                      </div>
+                                      <div className="flex justify-between text-xs opacity-70">
+                                        <span>Weight: {(measure.weight * 100).toFixed(0)}%</span>
+                                        <span>Confidence: {measure.confidence}</span>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+
+                                <div className="mt-4 text-xs opacity-70 text-center">
+                                  💡 The consensus rate provides the most accurate inflation estimate by combining
+                                  multiple official measures
+                                  {usingRealData && (
+                                    <div className="mt-2">
+                                      ✅ Using real data from official government sources (FRED, ONS, etc.)
+                                    </div>
+                                  )}
+                                  {!usingRealData && (
+                                    <div className="mt-2">
+                                      ⚠️ Using estimated data based on historical patterns - real data loading in
+                                      progress
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Action Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                              <Button
+                                variant="outline"
+                                className="bg-white text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700"
+                                onClick={async () => {
+                                  const finalAmount = consensusInflation
+                                    ? consensusInflation.adjustedAmount
+                                    : adjustedAmount
+                                  const finalInflation = consensusInflation
+                                    ? consensusInflation.totalInflation
+                                    : totalInflation
+                                  const shareText = `💰 ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(finalAmount)} in ${currentYear}! That's ${finalInflation.toFixed(1)}% total inflation.`
+                                  try {
+                                    await navigator.clipboard.writeText(`${shareText} ${siteUrl}`)
+                                    alert("✅ Result copied to clipboard!")
+                                  } catch {
+                                    prompt("Copy this text:", `${shareText} ${siteUrl}`)
+                                  }
+                                }}
+                              >
+                                📤 Share Result
+                              </Button>
+                              <Button
+                                variant="outline"
+                                className="bg-white text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700"
+                                onClick={() => {
+                                  setAmount("100")
+                                  setFromYear(2020)
+                                  setHasCalculated(false)
+                                  setShowBreakdown(false)
+                                }}
+                              >
+                                🔄 Reset
+                              </Button>
+                            </div>
                           </div>
-                        </div>
-                      </div>
+                        </CardContent>
+                      </Card>
 
                       {/* Currency Comparison Section */}
                       <Suspense
@@ -1499,7 +1626,7 @@ export default function ClientPage() {
 
                         <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                           <p className="text-sm">
-                            <strong>📝 Note:</strong> All calculations are performed using official government data and
+                            <strong>Note:</strong> All calculations are performed using official government data and
                             established economic methodologies. Results are for educational purposes and should not be
                             considered as financial advice. Individual inflation experiences may vary based on personal
                             spending patterns, geographic location, and other factors.
