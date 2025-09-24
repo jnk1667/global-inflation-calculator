@@ -3,6 +3,20 @@
 ## Site Overview
 The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a comprehensive financial analysis platform that provides free access to historical inflation data and purchasing power calculations across multiple currencies from 1913 to present day. The site serves individuals, researchers, financial professionals, and educators who need accurate inflation analysis for financial planning, academic research, and economic understanding.
 
+## Primary Keywords and Topics
+- inflation calculator, purchasing power calculator, CPI inflation
+- salary inflation adjustment, retirement inflation planning
+- historical inflation data, currency inflation comparison
+- cost of living calculator, real vs nominal value
+- financial planning tools, economic data analysis
+
+## Unique Value Propositions
+- Only free calculator with 111+ years of US inflation data (1913-present)
+- Multi-currency support with official government data sources only
+- Advanced retirement planning with healthcare cost inflation modeling, real return calculations, and generation-specific data for Baby Boomers through Gen Z.
+- Generation-specific financial planning data (Baby Boomers through Gen Z)
+- Interactive charts with screenshot capabilities for sharing analysis
+
 ## Site URLs and Tools
 
 ### Main Application Pages
@@ -38,6 +52,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - S&P 500 returns vs inflation analysis
   - Bond yields and real return calculations
   - Commodity correlation analysis
+  - Cost of living analysis using PCE and Core PCE data
   - Date range filtering and screenshot capabilities
 
 - **About Page (/about)** - Detailed methodology and data sources
@@ -281,5 +296,40 @@ All data stored in structured JSON files in `/public/data/`:
 - Mobile-optimized interface for all devices
 - Cross-browser compatibility and testing
 - Performance optimization for global access
+
+## Common User Questions
+- "What is my salary worth in today's dollars?"
+- "How much will I need for retirement accounting for inflation?"
+- "How has inflation affected different currencies over time?"
+- "What's the difference between nominal and real returns?"
+- "How do I calculate cost of living changes over time?"
+- "What's the impact of healthcare inflation on retirement planning?"
+- "How does inflation affect purchasing power across generations?"
+
+## Related Financial Concepts
+- Consumer Price Index (CPI), purchasing power parity
+- Real vs nominal interest rates, time value of money
+- Cost of living adjustments (COLA), wage inflation
+- Asset inflation, currency devaluation, economic indicators
+- Personal Consumption Expenditures (PCE), Core PCE
+- Healthcare cost inflation, retirement planning
+- Multi-generational wealth preservation
+
+## Target Audiences and Regions
+- United States (primary): Retirement planning, salary negotiations, cost of living analysis
+- United Kingdom: Historical purchasing power analysis since 1947
+- European Union: Euro-area inflation comparisons since 1996
+- Canada, Australia, New Zealand: Commonwealth inflation analysis
+- Global users: Cross-currency purchasing power comparisons
+- Financial professionals: Client education and planning tools
+- Educators and researchers: Economic analysis and historical data
+- Retirees and pre-retirees: Healthcare cost planning and wealth preservation
+
+## Structured Data Implementation
+- FAQ Schema: Implemented for common inflation questions
+- Calculator Schema: Marked up for search engine tools recognition
+- Organization Schema: Business entity markup for credibility
+- Article Schema: Blog posts and educational content
+- BreadcrumbList Schema: Navigation structure markup
 
 This comprehensive financial analysis platform serves as a bridge between complex economic data and practical financial understanding, making inflation analysis accessible to users worldwide while maintaining the highest standards of data accuracy and transparency.
