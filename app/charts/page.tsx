@@ -4,10 +4,11 @@ import ChartsPage from "./ChartsPage"
 export const metadata: Metadata = {
   title: "Inflation Charts & Analytics - Global Inflation Calculator",
   description:
-    "Comprehensive inflation charts and analytics across multiple currencies from 1913-2025. Visualize purchasing power erosion, currency stability, and healthcare inflation trends with interactive data visualizations.",
+    "Comprehensive inflation charts and analytics across many currencies. Visualize the purchasing power erosion, inflation and healthcare trends with data graphs.",
   keywords: [
     "inflation charts",
     "currency analytics",
+    "inflation calculator usd",
     "purchasing power charts",
     "inflation visualization",
     "currency stability",
