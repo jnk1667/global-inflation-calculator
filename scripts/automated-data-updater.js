@@ -3,6 +3,34 @@ const { updateAllMeasures } = require("./update-all-measures")
 const fs = require("fs")
 const path = require("path")
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
+
+async function submitToIndexNow(urls, reason = "updated") {
+  try {
+    const response = await fetch(`${SITE_URL}/api/indexnow`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        urls: Array.isArray(urls) ? urls : [urls],
+        reason,
+      }),
+    })
+
+    if (response.ok) {
+      console.log(`📡 IndexNow: Successfully submitted ${Array.isArray(urls) ? urls.length : 1} URLs`)
+      return true
+    } else {
+      console.warn(`⚠️ IndexNow: Failed to submit URLs (${response.status})`)
+      return false
+    }
+  } catch (error) {
+    console.error("❌ IndexNow: Submission error:", error.message)
+    return false
+  }
+}
+
 // 🤖 AUTOMATED DATA UPDATE SYSTEM
 // Handles scheduled updates, monitoring, and maintenance of inflation data
 
@@ -282,6 +310,16 @@ class AutomatedDataUpdater {
       // Update measures data
       await updateAllMeasures()
 
+      const updatedPages = [
+        `${SITE_URL}/`,
+        `${SITE_URL}/charts`,
+        `${SITE_URL}/salary-calculator`,
+        `${SITE_URL}/retirement-calculator`,
+        `${SITE_URL}/legacy-planner`,
+      ]
+
+      await submitToIndexNow(updatedPages, "updated")
+
       // Validate updated data
       const validationResults = await this.validateAllData()
 
@@ -318,6 +356,17 @@ class AutomatedDataUpdater {
       // Update metadata
       await this.updateMetadata(results, validationResults)
 
+      const allPages = [
+        `${SITE_URL}/`,
+        `${SITE_URL}/charts`,
+        `${SITE_URL}/salary-calculator`,
+        `${SITE_URL}/retirement-calculator`,
+        `${SITE_URL}/legacy-planner`,
+        `${SITE_URL}/about`,
+      ]
+
+      await submitToIndexNow(allPages, "updated")
+
       this.lastFullUpdate = new Date().toISOString()
 
       this.logUpdate("full-update", "success", `Full update completed. ${results.total_series} series updated.`)
@@ -339,6 +388,10 @@ class AutomatedDataUpdater {
       // This would typically update just the specific measure
       // For now, we'll update the entire currency
       const result = await this.updateCurrencyData(currency)
+
+      const currencyPages = [`${SITE_URL}/`, `${SITE_URL}/charts`]
+
+      await submitToIndexNow(currencyPages, "updated")
 
       this.logUpdate(`${currency}-${measure}`, "success", `Updated ${currency} ${measure} data`)
 

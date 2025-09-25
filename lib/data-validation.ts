@@ -29,7 +29,7 @@ const VALIDATION_THRESHOLDS = {
 \
 <CodeProject id="global-inflation-calculator" taskNameActive="Adding data validation and error handling" taskNameComplete="Added data validation and error handling">
 
-```ts file="lib/data-validation.ts"
+\`\`\`ts file="lib/data-validation.ts"
 // 🔍 DATA VALIDATION AND ERROR HANDLING
 // Comprehensive validation for inflation data integrity and quality
 

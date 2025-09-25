@@ -1,6 +1,31 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
+
+async function submitFAQUpdateToIndexNow() {
+  try {
+    const response = await fetch(`${SITE_URL}/api/indexnow`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        urls: [`${SITE_URL}/about`], // About page contains FAQs
+        reason: "updated",
+      }),
+    })
+
+    if (response.ok) {
+      console.log("📡 IndexNow: Successfully notified search engines of FAQ update")
+    } else {
+      console.warn("⚠️ IndexNow: Failed to notify search engines of FAQ update")
+    }
+  } catch (error) {
+    console.error("❌ IndexNow: Error notifying search engines:", error)
+  }
+}
+
 export async function GET() {
   try {
     // Check if environment variables are available
@@ -89,6 +114,8 @@ export async function POST(request: Request) {
       console.error("Error creating FAQ:", error)
       return NextResponse.json({ error: "Failed to create FAQ" }, { status: 500 })
     }
+
+    await submitFAQUpdateToIndexNow()
 
     return NextResponse.json({ success: true, data: data[0] }, { status: 201 })
   } catch (error) {
