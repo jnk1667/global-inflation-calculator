@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-const INDEXNOW_API_KEY = "09f1b1a26bf949c68b1b59625adcb9d"
+const INDEXNOW_API_KEY = "b6589561e73e407681c5f9f7d66256b7"
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
 
 // IndexNow endpoint URLs for different search engines
