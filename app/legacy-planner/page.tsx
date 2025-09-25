@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Legacy Planner: Multi-Generation Wealth Planning Calculator | Estate Planning Tool",
   description:
     "Plan your family's financial legacy across generations. Calculate how inflation affects inheritance, estate planning, and wealth transfer. Free multi-generation wealth planning calculator with healthcare cost projections.",
+  metadataBase: new URL("https://globalinflationcalculator.com"),
   keywords: [
     "legacy planner",
     "estate planning calculator",
@@ -64,6 +65,9 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
   },
   other: {
     "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
