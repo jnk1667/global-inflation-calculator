@@ -233,7 +233,7 @@ export default function SimpleLineChart({
         {isComparing && (
           <div className="mt-4 p-4 bg-muted/50 rounded-lg">
             <h4 className="text-sm font-medium mb-3">Currency Legend:</h4>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
               {Object.entries(defaultCurrencies).map(([code, info]) => (
                 <div key={code} className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: info.color }} />

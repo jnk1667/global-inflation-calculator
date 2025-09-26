@@ -615,7 +615,7 @@ export default function ChartsPage() {
           </div>
           <Card id="usd-century-chart">
             <CardContent className="pt-6">
-              <div className="h-96 mb-6">
+              <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={getFilteredUsdData()}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -690,7 +690,7 @@ export default function ChartsPage() {
           </div>
           <Card id="healthcare-inflation-chart">
             <CardContent className="pt-6">
-              <div className="h-96 mb-6">
+              <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={getFilteredHealthcareData()}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -765,7 +765,7 @@ export default function ChartsPage() {
           </div>
           <Card id="cost-of-living-chart">
             <CardContent className="pt-6">
-              <div className="h-96 mb-6">
+              <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={getFilteredCostOfLivingData()}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -889,7 +889,7 @@ export default function ChartsPage() {
           </div>
           <Card id="decade-analysis-chart">
             <CardContent className="pt-6">
-              <div className="h-96 mb-6">
+              <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={decadeAnalysis}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -940,7 +940,7 @@ export default function ChartsPage() {
           </div>
           <Card id="inflation-distribution-chart">
             <CardContent className="pt-6">
-              <div className="h-96 mb-6">
+              <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={inflationDistribution}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -1113,7 +1113,7 @@ export default function ChartsPage() {
           </div>
           <Card id="regional-comparison-chart">
             <CardContent className="pt-6">
-              <div className="h-96 mb-6">
+              <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={regionalData}>
                     <CartesianGrid strokeDasharray="3 3" />

@@ -969,7 +969,7 @@ export default function ClientPage() {
                           />
 
                           {/* Year markers */}
-                          <div className="relative mt-8 px-2">
+                          <div className="relative mt-8 px-2 pb-8">
                             {yearMarkers.map((year) => {
                               const position = ((year - minYear) / (maxYear - minYear)) * 100
                               return (
@@ -991,7 +991,7 @@ export default function ClientPage() {
                         </div>
 
                         {/* Info text */}
-                        <div className="text-center text-sm text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-gray-800 p-4 rounded mt-20">
+                        <div className="text-center text-sm text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-gray-800 p-4 rounded mt-8">
                           💡 Drag the slider or tap the year buttons above • Data available from {minYear} to{" "}
                           {currentYear} • Updated August 2025
                         </div>
@@ -1199,7 +1199,7 @@ export default function ClientPage() {
                       {/* Line Chart Section */}
                       <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
                         <CardContent className="p-6">
-                          <div className="h-[500px] md:h-[700px]">
+                          <div className="min-h-[500px] h-auto md:min-h-[700px] overflow-hidden">
                             <Suspense
                               fallback={<div className="h-full bg-gray-100 dark:bg-gray-700 rounded animate-pulse" />}
                             >
@@ -1395,8 +1395,7 @@ export default function ClientPage() {
                             <div className="border-l-4 border-orange-500 pl-4">
                               <h4 className="font-semibold">Personal Consumption Expenditures (PCE) - Weight: 15%</h4>
                               <p className="text-sm">
-                                Federal Reserve's preferred measure, uses business surveys rather than consumer surveys.
-                                Covers broader scope of goods and services.
+                                Federal Reserve's preferred measure, covers broader scope of goods and services.
                               </p>
                             </div>
 
