@@ -1193,28 +1193,13 @@ export default function ClientPage() {
                       <Suspense
                         fallback={<div className="h-64 bg-gray-100 dark:bg-gray-700 rounded-lg animate-pulse mb-8" />}
                       >
-                        <CurrencyComparisonChart amount={amount} fromYear={fromYear} inflationData={inflationData} />
+                        <CurrencyComparisonChart
+                          amount={amount}
+                          fromYear={fromYear}
+                          inflationData={inflationData}
+                          currentYear={currentYear}
+                        />
                       </Suspense>
-
-                      {/* Line Chart Section */}
-                      <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
-                        <CardContent className="p-6">
-                          <div className="min-h-[500px] h-auto md:min-h-[700px] overflow-hidden">
-                            <Suspense
-                              fallback={<div className="h-full bg-gray-100 dark:bg-gray-700 rounded animate-pulse" />}
-                            >
-                              <SimpleLineChart
-                                data={chartData}
-                                currency={currentCurrencyData?.symbol || "$"}
-                                fromYear={fromYear}
-                                selectedCurrency={selectedCurrency}
-                                originalAmount={Number.parseFloat(amount)}
-                                allInflationData={inflationData}
-                              />
-                            </Suspense>
-                          </div>
-                        </CardContent>
-                      </Card>
 
                       {/* Ad Banner - Between Chart and Purchasing Power */}
                       <div className="mb-8">
@@ -1728,6 +1713,14 @@ export default function ClientPage() {
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >
                       Retirement Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/deflation-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Deflation Calculator
                     </Link>
                   </li>
                   <li>

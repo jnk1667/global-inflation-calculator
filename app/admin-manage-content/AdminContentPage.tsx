@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -39,6 +39,7 @@ interface ContentData {
   seo_essay: string
   salary_essay: string
   retirement_essay: string
+  deflation_essay: string
   legacy_planner_title: string
   legacy_planner_content: string
   privacy_content: string
@@ -80,6 +81,7 @@ const AdminContentPage: React.FC = () => {
     seo_essay: "",
     salary_essay: "",
     retirement_essay: "",
+    deflation_essay: "",
     legacy_planner_title: "Understanding Multi-Generational Wealth Planning",
     legacy_planner_content: `Multi-generational wealth planning is one of the most complex yet crucial aspects of financial management. As families accumulate wealth over time, the challenge becomes not just preserving it, but ensuring it grows and serves future generations effectively.
 
@@ -283,6 +285,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
           seo_essay: contentMap.main_essay || prev.seo_essay,
           salary_essay: contentMap.salary_essay || prev.salary_essay,
           retirement_essay: contentMap.retirement_essay || prev.retirement_essay,
+          deflation_essay: contentMap.deflation_essay || prev.deflation_essay,
           privacy_content: contentMap.privacy_page || prev.privacy_content,
           terms_content: contentMap.terms_page || prev.terms_content,
         }))
@@ -697,7 +700,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
             <Card>
               <CardHeader>
                 <CardTitle>Retirement Calculator Essay</CardTitle>
-                <p className="text-sm text-gray-600">Educational content for the retirement calculator page</p>
+                <CardDescription>Educational content for the retirement calculator page</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Textarea
@@ -714,6 +717,31 @@ The key to successful multi-generational wealth planning lies in balancing growt
                 >
                   <Save className="w-4 h-4" />
                   {saving ? "Saving..." : "Save Retirement Calculator Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Deflation Calculator Essay */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Deflation Calculator Essay</CardTitle>
+                <CardDescription>Educational content for the deflation calculator page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.deflation_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, deflation_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter deflation calculator essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("deflation_essay", content.deflation_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Deflation Calculator Essay"}
                 </Button>
               </CardContent>
             </Card>

@@ -43,6 +43,16 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Added deflation calculator theme colors */
+    --deflation-primary: 262 83% 58%;
+    --deflation-primary-foreground: 0 0% 98%;
+    --deflation-secondary: 262 83% 95%;
+    --deflation-secondary-foreground: 262 83% 15%;
+    --deflation-accent: 45 93% 47%;
+    --deflation-accent-foreground: 0 0% 9%;
+    --deflation-gradient-from: 262 83% 58%;
+    --deflation-gradient-to: 262 83% 45%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -77,6 +87,16 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Dark theme deflation colors */
+    --deflation-primary: 262 83% 65%;
+    --deflation-primary-foreground: 0 0% 9%;
+    --deflation-secondary: 262 83% 15%;
+    --deflation-secondary-foreground: 262 83% 85%;
+    --deflation-accent: 45 93% 55%;
+    --deflation-accent-foreground: 0 0% 9%;
+    --deflation-gradient-from: 262 83% 65%;
+    --deflation-gradient-to: 262 83% 50%;
   }
 }
 
@@ -112,7 +132,7 @@
     margin: 0 auto;
   }
 
-  /* Keep usage stats positioned properly */
+  /* Ensure usage stats positioned properly */
   .fixed.top-4.right-4 {
     position: fixed;
     top: 1rem;

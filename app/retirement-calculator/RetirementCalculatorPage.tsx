@@ -691,7 +691,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
           "New Zealand Baby Boomers benefited from universal NZ Superannuation and property appreciation. They have public healthcare but face aged care costs.",
         genX: "New Zealand Generation X experienced KiwiSaver introduction and housing booms. They balance supporting children and aging parents.",
         millennials:
-          "New Zealand Millennials face severe housing affordability issues despite KiwiSaver. Climate change and natural disasters affect long-term planning.",
+          "New Zealand Millennials face severe housing affordability crisis despite KiwiSaver. Climate change and natural disasters affect long-term planning.",
         genZ: "New Zealand Generation Z benefits from KiwiSaver but faces housing crisis, climate change impacts, and questions about NZ Super sustainability.",
       },
     }
@@ -1753,6 +1753,48 @@ Successful retirement planning requires a multi-faceted approach that considers 
                   </div>
                 </div>
               </Link>
+              <Link
+                href="/deflation-calculator"
+                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+              >
+                <div className="flex items-center gap-3">
+                  <TrendingUp className="h-8 w-8 text-red-600" />
+                  <div>
+                    <h3 className="font-semibold dark:text-white">Deflation Calculator</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Calculate the effects of deflation on purchasing power and savings
+                    </p>
+                  </div>
+                </div>
+              </Link>
+              <Link
+                href="/legacy-planner"
+                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+              >
+                <div className="flex items-center gap-3">
+                  <DollarSign className="h-8 w-8 text-purple-600" />
+                  <div>
+                    <h3 className="font-semibold dark:text-white">Legacy Planner</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Plan your estate and ensure your assets are distributed as intended
+                    </p>
+                  </div>
+                </div>
+              </Link>
+              <Link
+                href="/charts"
+                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+              >
+                <div className="flex items-center gap-3">
+                  <DollarSign className="h-8 w-8 text-yellow-600" />
+                  <div>
+                    <h3 className="font-semibold dark:text-white">Charts</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Visualize your financial data and trends with interactive charts
+                    </p>
+                  </div>
+                </div>
+              </Link>
             </div>
           </CardContent>
         </Card>
@@ -1770,6 +1812,9 @@ Successful retirement planning requires a multi-faceted approach that considers 
             </Link>
             <Link href="/salary-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
               Salary Calculator
+            </Link>
+            <Link href="/deflation-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
+              Deflation Calculator
             </Link>
             <Link href="/legacy-planner" className="hover:text-blue-600 dark:hover:text-blue-400">
               Legacy Planner

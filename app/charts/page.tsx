@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import ChartsPage from "./ChartsPage"
 
 export const metadata: Metadata = {
-  title: "Charts & Analytics - Global Inflation Calculator",
+  title: "Inflation Charts & Analytics - Global Inflation Calculator",
   description:
     "Comprehensive inflation charts and analytics across many currencies. Visualize the purchasing power erosion, inflation and healthcare trends with data graphs.",
   keywords: [

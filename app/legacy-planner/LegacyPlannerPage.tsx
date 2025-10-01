@@ -734,6 +734,15 @@ export default function LegacyPlannerPage() {
                   </li>
                   <li>
                     <Link
+                      href="/deflation-calculator"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
+                    >
+                      <TrendingDown className="h-4 w-4 mr-2" />
+                      Deflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/charts"
                       className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
                     >

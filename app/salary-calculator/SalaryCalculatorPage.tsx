@@ -1992,6 +1992,14 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                     </li>
                     <li>
                       <Link
+                        href="/deflation-calculator"
+                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      >
+                        Deflation Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
                         href="/legacy-planner"
                         className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                       >

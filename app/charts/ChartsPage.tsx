@@ -1319,6 +1319,14 @@ export default function ChartsPage() {
                   </li>
                   <li>
                     <a
+                      href="/deflation-calculator"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      Deflation Calculator
+                    </a>
+                  </li>
+                  <li>
+                    <a
                       href="/legacy-planner"
                       className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >

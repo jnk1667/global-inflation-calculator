@@ -11,6 +11,8 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - historical inflation data, currency inflation comparison
 - cost of living calculator, real vs nominal value
 - financial planning tools, economic data analysis
+- deflation calculator, deflationary assets, gold silver calculator
+- precious metals appreciation, commodity price calculator
 
 ## Unique Value Propositions
 - Only free calculator with 111+ years of US inflation data (1913-present)
@@ -18,6 +20,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - Advanced retirement planning with healthcare cost inflation modeling, real return calculations, and generation-specific data for Baby Boomers through Gen Z.
 - Generation-specific financial planning data (Baby Boomers through Gen Z)
 - Interactive charts with screenshot capabilities for sharing analysis
+- Deflationary asset tracking with historical commodity price data (Gold 1985+, Silver 1997+, Crude Oil 1986+)
 
 ## Site URLs and Tools
 
@@ -40,6 +43,15 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Real return rate calculations accounting for inflation
   - Generation-specific retirement data (Baby Boomers, Gen X, Millennials, Gen Z)
   - Life expectancy integration for planning horizons
+
+- **Deflation Calculator (/deflation-calculator)** - Deflationary asset tracking and analysis
+  - Track purchasing power growth through scarce assets
+  - Historical commodity price data: Gold (1985-present), Silver (1997-present), Crude Oil (1986-present)
+  - Calculate asset appreciation vs currency inflation
+  - Compare deflationary assets as inflation hedges
+  - Understand wealth preservation through scarce commodities
+  - Interactive calculator showing real purchasing power gains
+  - Educational content on deflationary economics and asset scarcity
 
 - **Legacy Planner (/legacy-planner)** - Multi-generation wealth planning
   - Estate planning with inflation impact over decades
@@ -111,6 +123,26 @@ All inflation data comes directly from official government statistical agencies:
 **New Zealand (NZD)** - Data from Statistics New Zealand (Stats NZ)
 - Index: Consumer Price Index (CPI)
 
+### Commodity and Deflationary Asset Data Sources
+
+**Gold Prices (1985-present)**
+- Source: Federal Reserve Economic Data (FRED)
+- Series: IQ12260 - Gold Fixing Price in London Bullion Market
+- Data starts: December 1984
+- Used for: Deflationary asset tracking, inflation hedge analysis
+
+**Silver Prices (1997-present)**
+- Source: Federal Reserve Economic Data (FRED)
+- Series: IP7106 - Global Price of Silver
+- Data starts: December 1996
+- Used for: Precious metals analysis, commodity deflation tracking
+
+**Crude Oil Prices (1986-present)**
+- Source: Federal Reserve Economic Data (FRED)
+- Series: DCOILWTICO - Crude Oil Prices: West Texas Intermediate (WTI)
+- Data starts: January 1986
+- Used for: Energy commodity tracking, inflation correlation analysis
+
 ### Calculation Formulas
 
 **Basic Inflation Calculator:**
@@ -128,6 +160,12 @@ All inflation data comes directly from official government statistical agencies:
 - Real Return Rate = ((1 + Nominal Rate) ÷ (1 + Inflation Rate)) - 1
 - Annuity Payment = Principal × (Rate × (1 + Rate)^Years) ÷ ((1 + Rate)^Years - 1)
 - Healthcare Adjusted = Base Amount × (1 + Healthcare Inflation)^Years
+
+**Deflation Calculator:**
+- Asset Appreciation = ((Current Price - Historical Price) ÷ Historical Price) × 100
+- Real Purchasing Power Gain = Asset Appreciation - Currency Inflation
+- Annualized Return = (Current Price ÷ Historical Price)^(1/Years) - 1
+- Inflation-Adjusted Value = Original Amount × (Current Asset Price ÷ Historical Asset Price)
 
 **Legacy Planner:**
 - Generation Wealth = Previous Wealth × (1 + Growth Rate - Inflation Rate)^Years
@@ -170,12 +208,13 @@ All data stored in structured JSON files in `/public/data/`:
 - Financial market data (sp500-returns.json, bond-yields.json)
 - Demographic data (life-expectancy.json, retirement-contributions.json)
 - Healthcare inflation comparisons (healthcare-inflation.json)
+- Commodity price data (gold-prices.json, silver-prices.json, oil-prices.json)
 - System metadata (last-updated.json, faqs.json)
 
 ### Data Quality Assurance
-- **Verified Sources**: All data from official government agencies
-- **Regular Updates**: Monthly updates when new CPI figures released
-- **Historical Coverage**: Comprehensive data from 1913 to present
+- **Verified Sources**: All data from official government agencies and FRED
+- **Regular Updates**: Monthly updates when new CPI and commodity figures released
+- **Historical Coverage**: Comprehensive data from 1913 to present (inflation), 1985+ (commodities)
 - **Data Integrity**: Automated validation and consistency checks
 
 ## Technical Architecture
@@ -209,6 +248,14 @@ All data stored in structured JSON files in `/public/data/`:
 - Cross-currency inflation comparisons
 - Regional economic analysis capabilities
 
+### Deflationary Asset Tracking
+- Historical commodity price data from FRED
+- Gold appreciation tracking (1985-present)
+- Silver price analysis (1997-present)
+- Crude oil price tracking (1986-present)
+- Real purchasing power calculations vs inflation
+- Wealth preservation through scarce assets
+
 ### Advanced Analytics
 - Interactive charts with date range filtering
 - Screenshot capabilities for sharing analysis
@@ -221,12 +268,14 @@ All data stored in structured JSON files in `/public/data/`:
 - Salary negotiation and career planning
 - Estate and legacy planning across generations
 - Investment return analysis with inflation impact
+- Deflationary asset allocation strategies
 
 ### Educational Resources
 - Comprehensive methodology documentation
 - Historical economic context and analysis
 - FAQ system with common inflation questions
 - Data source transparency and verification
+- Deflationary economics education
 
 ## Use Cases and Applications
 
@@ -235,35 +284,39 @@ All data stored in structured JSON files in `/public/data/`:
 - Retirement savings adequacy analysis
 - Understanding purchasing power changes over time
 - Estate planning and wealth preservation
+- Deflationary asset investment strategies
 
 ### Academic and Research
 - Economic research and historical analysis
 - Educational tools for economics courses
 - Policy analysis and economic modeling
 - Cross-country inflation comparisons
+- Commodity price correlation studies
 
 ### Business Applications
 - Long-term financial planning and budgeting
 - Contract escalation clause calculations
 - Historical cost analysis and pricing
 - Economic impact assessments
+- Commodity hedging strategies
 
 ### Professional Services
 - Financial advisor client education
 - Insurance and actuarial calculations
 - Real estate investment analysis
 - Economic consulting and research
+- Precious metals investment advisory
 
 ## Data Update Schedule and Maintenance
 
 ### Update Frequency
-- **Monthly**: CPI data updates from government sources
+- **Monthly**: CPI data and commodity price updates from government sources and FRED
 - **Quarterly**: Financial market data refresh
 - **Annual**: Demographic and generational data updates
 - **Real-time**: FAQ and content management updates
 
 ### Data Validation
-- Automated consistency checks across currencies
+- Automated consistency checks across currencies and commodities
 - Source verification and cross-referencing
 - Historical data integrity maintenance
 - Error detection and correction procedures
@@ -276,6 +329,7 @@ All data stored in structured JSON files in `/public/data/`:
 - Inflation affects different goods and services differently
 - Regional variations within countries not reflected
 - Historical data subject to revisions by statistical agencies
+- Commodity prices are volatile and past performance doesn't guarantee future results
 - Professional financial advice recommended for major decisions
 
 ### Data Limitations
@@ -284,6 +338,7 @@ All data stored in structured JSON files in `/public/data/`:
 - Seasonal variations smoothed in annual data
 - Currency conversion rates not included
 - Future projections based on historical trends only
+- Commodity data limited to available FRED series dates
 
 ## Contact and Administration
 
@@ -307,6 +362,10 @@ All data stored in structured JSON files in `/public/data/`:
 - "How do I calculate cost of living changes over time?"
 - "What's the impact of healthcare inflation on retirement planning?"
 - "How does inflation affect purchasing power across generations?"
+- "How has gold performed against inflation over time?"
+- "Are precious metals good inflation hedges?"
+- "How do deflationary assets preserve wealth?"
+- "What's the historical return of gold vs the dollar?"
 
 ## Related Financial Concepts
 - Consumer Price Index (CPI), purchasing power parity
@@ -316,16 +375,20 @@ All data stored in structured JSON files in `/public/data/`:
 - Personal Consumption Expenditures (PCE), Core PCE
 - Healthcare cost inflation, retirement planning
 - Multi-generational wealth preservation
+- Deflationary assets, commodity deflation, asset scarcity
+- Precious metals investing, gold standard, hard assets
+- Inflation hedging, wealth preservation strategies
 
 ## Target Audiences and Regions
-- United States (primary): Retirement planning, salary negotiations, cost of living analysis
+- United States (primary): Retirement planning, salary negotiations, cost of living analysis, precious metals investing
 - United Kingdom: Historical purchasing power analysis since 1947
 - European Union: Euro-area inflation comparisons since 1996
 - Canada, Australia, New Zealand: Commonwealth inflation analysis
-- Global users: Cross-currency purchasing power comparisons
-- Financial professionals: Client education and planning tools
-- Educators and researchers: Economic analysis and historical data
+- Global users: Cross-currency purchasing power comparisons, commodity price tracking
+- Financial professionals: Client education and planning tools, asset allocation strategies
+- Educators and researchers: Economic analysis and historical data, commodity correlation studies
 - Retirees and pre-retirees: Healthcare cost planning and wealth preservation
+- Precious metals investors: Gold and silver appreciation tracking, inflation hedge analysis
 
 ## Structured Data Implementation
 - FAQ Schema: Implemented for common inflation questions
@@ -334,4 +397,4 @@ All data stored in structured JSON files in `/public/data/`:
 - Article Schema: Blog posts and educational content
 - BreadcrumbList Schema: Navigation structure markup
 
-This comprehensive financial analysis platform serves as a bridge between complex economic data and practical financial understanding, making inflation analysis accessible to users worldwide while maintaining the highest standards of data accuracy and transparency.
+This comprehensive financial analysis platform serves as a bridge between complex economic data and practical financial understanding, making inflation analysis and deflationary asset tracking accessible to users worldwide while maintaining the highest standards of data accuracy and transparency.
