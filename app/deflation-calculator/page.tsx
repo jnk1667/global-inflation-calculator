@@ -4,9 +4,9 @@ import DeflationCalculatorPage from "./DeflationCalculatorPage"
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"
 
 export const metadata: Metadata = {
-  title: "Deflation Calculator - Track Purchasing Power Growth with Scarce Assets",
+  title: "Deflation Calculator - Track Purchasing Power Growth",
   description:
-    "Calculate how deflationary assets like Gold, Silver, and Crude Oil preserve and grow purchasing power over time. See the opposite of inflation with scarce asset appreciation from 1985-2025.",
+    "Calculate how deflationary assets like Gold, Silver, Crude Oil, and Cryptocurrency help you preserve and grow the purchasing power of your wealth over time.",
   keywords: [
     "deflation calculator",
     "purchasing power growth",
