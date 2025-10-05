@@ -719,10 +719,34 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
                   <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
                 </div>
               ) : (
-                <div className="text-sm text-gray-600 dark:text-gray-400 space-y-4">
-                  {blogContent.split("\n\n").map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                  ))}
+                <div className="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {blogContent.split("\n").map((line, index) => {
+                    const trimmedLine = line.trim()
+
+                    // Skip empty lines
+                    if (!trimmedLine) return null
+
+                    // Detect headings: lines ending with "?" or ":" or short standalone lines (< 60 chars and not part of a sentence)
+                    const isHeading =
+                      trimmedLine.endsWith("?") ||
+                      trimmedLine.endsWith(":") ||
+                      (trimmedLine.length < 60 && !trimmedLine.endsWith(".") && !trimmedLine.endsWith(","))
+
+                    if (isHeading) {
+                      return (
+                        <h3 key={index} className="text-xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
+                          {trimmedLine}
+                        </h3>
+                      )
+                    }
+
+                    // Regular paragraphs
+                    return (
+                      <p key={index} className="text-base leading-7 mb-4">
+                        {trimmedLine}
+                      </p>
+                    )
+                  })}
                 </div>
               )}
             </div>

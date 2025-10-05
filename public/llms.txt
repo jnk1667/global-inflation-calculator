@@ -1,7 +1,7 @@
 # Global Inflation Calculator - llms.txt
 
 ## Site Overview
-The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a comprehensive financial analysis platform that provides free access to historical inflation data and purchasing power calculations across multiple currencies from 1913 to present day. The site serves individuals, researchers, financial professionals, and educators who need accurate inflation analysis for financial planning, academic research, and economic understanding.
+The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a comprehensive free inflation calculator that aggregates multiple official inflation indices for each currency. The platform serves individuals, researchers, financial professionals, and educators who need precise inflation analysis for financial planning, academic research, and economic understanding.
 
 ## Primary Keywords and Topics
 - inflation calculator, purchasing power calculator, CPI inflation
@@ -14,40 +14,114 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - deflation calculator, deflationary assets, gold silver calculator
 - precious metals appreciation, commodity price calculator
 
-## Unique Value Propositions
-- Only free calculator with 111+ years of US inflation data (1913-present)
-- Multi-currency support with official government data sources only
-- Advanced retirement planning with healthcare cost inflation modeling, real return calculations, and generation-specific data for Baby Boomers through Gen Z.
-- Generation-specific financial planning data (Baby Boomers through Gen Z)
-- Interactive charts with screenshot capabilities for sharing analysis
-- Deflationary asset tracking with historical commodity price data (Gold 1985+, Silver 1997+, Crude Oil 1986+)
-
 ## Site URLs and Tools
 
 ### Main Application Pages
-- **Homepage (/)** - Primary inflation calculator with real-time calculations
-  - Calculate purchasing power between any two years
-  - Support for 8 major currencies: USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD
-  - Interactive year sliders and amount inputs
-  - Real-time results showing adjusted amounts, total inflation, and annual rates
+
+- **Homepage (/) - Multi-Measure Inflation Calculator**
+  
+  **Methodology and Data Sources:**
+  
+  The calculator aggregates multiple official inflation indices for each currency to provide comprehensive inflation analysis. This multi-measure approach addresses known limitations of single-index calculations.
+  
+  **United States Dollar (USD) - 7 Official Measures:**
+  - Consumer Price Index (CPI-U) - Bureau of Labor Statistics
+  - Core CPI (excluding food and energy) - BLS
+  - Chained CPI (C-CPI-U) - BLS, accounts for substitution effects
+  - Personal Consumption Expenditures (PCE) - Bureau of Economic Analysis
+  - Core PCE (Federal Reserve's preferred measure) - BEA
+  - Producer Price Index (PPI) - BLS, wholesale inflation
+  - GDP Deflator - BEA, broadest inflation measure
+  
+  **British Pound (GBP) - Multiple Official Measures:**
+  - Consumer Prices Index including owner occupiers' housing costs (CPIH) - ONS
+  - Retail Price Index (RPI) - ONS, traditional measure
+  - Consumer Price Index (CPI) - ONS
+  - PPI Output Prices - ONS, producer inflation
+  - Services CPI - ONS
+  
+  **Euro (EUR) - Comprehensive HICP Measures:**
+  - Harmonised Index of Consumer Prices (HICP) - Eurostat
+  - Core HICP (excluding energy, food, alcohol, tobacco) - Eurostat
+  - HICP Services - Eurostat
+  - HICP Goods - Eurostat
+  - HICP Energy - Eurostat
+  - HICP Food - Eurostat
+  
+  **Canadian Dollar (CAD) - Multiple CPI Measures:**
+  - Consumer Price Index (CPI) - Statistics Canada
+  - Core CPI (CPI-trim, CPI-median, CPI-common) - Bank of Canada
+  - CPI excluding food and energy - Statistics Canada
+  
+  **Australian Dollar (AUD) - Comprehensive Measures:**
+  - Consumer Price Index (CPI) - Australian Bureau of Statistics
+  - Trimmed Mean CPI - Reserve Bank of Australia's preferred measure
+  - Weighted Median CPI - RBA
+  - CPI excluding volatile items - ABS
+  
+  **Swiss Franc (CHF) - Multiple Indices:**
+  - Consumer Price Index (CPI) - Swiss Federal Statistical Office
+  - Core CPI (excluding fresh and seasonal products, energy, fuel) - FSO
+  - Domestic CPI - FSO
+  
+  **Japanese Yen (JPY) - Comprehensive Coverage:**
+  - Consumer Price Index (CPI) - Statistics Bureau of Japan
+  - Core CPI (excluding fresh food) - SBJ
+  - Core-Core CPI (excluding food and energy) - Bank of Japan
+  
+  **New Zealand Dollar (NZD) - Multiple Measures:**
+  - Consumer Price Index (CPI) - Statistics New Zealand
+  - CPI excluding food and energy - Stats NZ
+  - Tradables and Non-tradables CPI - Stats NZ
+  
+  **Why Multi-Measure Aggregation Matters:**
+  
+  Single inflation measures have inherent limitations. CPI alone doesn't capture substitution effects that Chained CPI addresses. Core measures exclude volatile items but miss real costs consumers face. PCE has broader coverage than CPI. PPI shows wholesale inflation before it reaches consumers. GDP Deflator captures economy-wide price changes.
+  
+  By aggregating multiple official measures, the calculator provides a more complete view of purchasing power changes. This approach is similar to methodologies used by central banks and institutional investors when analyzing inflation trends.
+  
+  **Aggregation Methodology:**
+  - Multiple data points from official government sources
+  - Weighted by coverage breadth and central bank preferences
+  - Cross-validated against official composite indices
+  - Captures inflation across all sectors of the economy
+  
+  **Data Coverage:**
+  - USD: 1913 to present (112+ years)
+  - GBP: 1947 to present (78+ years)
+  - EUR: 1996 to present (29+ years)
+  - CAD: 1914 to present (111+ years)
+  - AUD: 1948 to present (77+ years)
+  - CHF, JPY, NZD: Comprehensive historical coverage
+  
+  **Calculator Features:**
+  - Real-time calculations with multi-measure aggregation
+  - Interactive year sliders (1913-2025 for USD)
+  - Amount inputs supporting $0.01 to $1 trillion
+  - Instant results showing adjusted amounts, total inflation, and annual rates
+  - Multi-currency comparison across 8 major currencies
+  - Visual breakdown of inflation components
+  - Screenshot and sharing capabilities
 
 - **Salary Calculator (/salary-calculator)** - Salary inflation adjustment tool
-  - Compare salary purchasing power across different years
+  - Compare salary purchasing power across different years using multi-measure inflation data
   - Calculate required salary adjustments for inflation
-  - Real vs nominal salary value analysis
+  - Real vs nominal salary value analysis across all 8 currencies
   - Multi-currency support for global salary comparisons
+  - Career planning with purchasing power projections
 
 - **Retirement Calculator (/retirement-calculator)** - Comprehensive retirement planning
-  - Long-term financial planning with inflation adjustments
+  - Long-term financial planning with multi-measure inflation adjustments
   - Healthcare cost inflation modeling (averages 5.8% vs 3.2% general inflation)
   - Real return rate calculations accounting for inflation
   - Generation-specific retirement data (Baby Boomers, Gen X, Millennials, Gen Z)
   - Life expectancy integration for planning horizons
+  - S&P 500 historical returns with inflation-adjusted analysis
 
 - **Deflation Calculator (/deflation-calculator)** - Deflationary asset tracking and analysis
   - Track purchasing power growth through scarce assets
   - Historical commodity price data: Gold (1985-present), Silver (1997-present), Crude Oil (1986-present)
-  - Calculate asset appreciation vs currency inflation
+  - Calculate asset appreciation vs multi-measure currency inflation
   - Compare deflationary assets as inflation hedges
   - Understand wealth preservation through scarce commodities
   - Interactive calculator showing real purchasing power gains
@@ -60,8 +134,8 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Real vs nominal wealth comparison over time
 
 - **Charts & Analytics (/charts)** - Advanced data visualizations
-  - Interactive charts showing inflation trends over time
-  - Currency comparison visualizations
+  - Interactive charts showing inflation trends using all available measures
+  - Currency comparison visualizations with multi-measure data
   - Healthcare vs general inflation comparisons
   - S&P 500 returns vs inflation analysis
   - Bond yields and real return calculations
@@ -70,10 +144,10 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Date range filtering and screenshot capabilities
 
 - **About Page (/about)** - Detailed methodology and data sources
-  - Complete calculation formulas for all tools
-  - Official data source documentation
+  - Complete explanation of multi-measure aggregation methodology
+  - Official data source documentation for all inflation indices
   - Data quality and update procedures
-  - Project background and team information
+  - Project background and technical approach
 
 ### Legal and Information Pages
 - **Privacy Policy (/privacy)** - Data protection and privacy practices
@@ -84,115 +158,140 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - GET: Retrieve frequently asked questions
   - POST: Add new FAQs (admin only)
 
-## Data Sources and Methodology
+## Technical Approach and Methodology
+
+### Understanding Multi-Measure Aggregation
+
+**The Limitations of Single-Measure Approaches:**
+
+Most inflation calculators rely on a single Consumer Price Index (CPI) measure. While CPI is widely used, it has known limitations:
+
+- **Substitution Bias**: CPI uses fixed baskets and doesn't fully account for consumers substituting cheaper alternatives when prices rise. Chained CPI addresses this.
+- **Coverage Gaps**: CPI focuses on consumer goods but misses broader economic inflation captured by GDP Deflator.
+- **Volatile Items**: Core measures exclude food and energy, but these are real costs consumers face.
+- **Sector-Specific Inflation**: Different measures capture different sectors - PPI for wholesale, PCE for personal consumption, HICP for harmonized European data.
+
+**The Multi-Measure Solution:**
+
+By aggregating multiple official inflation indices, the calculator provides a more comprehensive view of purchasing power changes. Each measure contributes unique insights:
+
+- **CPI-U**: Urban consumer prices, most widely recognized
+- **Core CPI**: Underlying inflation trends without volatile items
+- **Chained CPI**: Accounts for substitution effects
+- **PCE**: Broader coverage than CPI, includes more services
+- **Core PCE**: Federal Reserve's preferred inflation gauge
+- **PPI**: Wholesale inflation, leading indicator for consumer prices
+- **GDP Deflator**: Economy-wide price changes
+
+This approach mirrors methodologies used by central banks and institutional investors when analyzing inflation for policy decisions and portfolio management.
 
 ### Official Government Data Sources
-All inflation data comes directly from official government statistical agencies:
+
+All inflation data comes directly from official government statistical agencies and central banks:
 
 **United States (USD)** - 1913 to present
-- Source: US Bureau of Labor Statistics (BLS)
-- Index: Consumer Price Index (CPI-U)
-- Coverage: 112+ years of data
+- Bureau of Labor Statistics: CPI-U, Core CPI, Chained CPI, PPI
+- Bureau of Economic Analysis: PCE, Core PCE, GDP Deflator
+- Federal Reserve Economic Data (FRED): All series aggregated
+- Coverage: 112+ years with 7 different inflation measures
 
 **United Kingdom (GBP)** - 1947 to present  
-- Source: Office for National Statistics (ONS)
-- Index: Retail Price Index (RPI)
-- Coverage: 78+ years of data
+- Office for National Statistics: CPIH, RPI, CPI, PPI Output Prices, Services CPI
+- Coverage: 78+ years with multiple inflation measures
 
 **European Union (EUR)** - 1996 to present
-- Source: Eurostat
-- Index: Harmonised Index of Consumer Prices (HICP)
-- Coverage: 29+ years of data
+- Eurostat: HICP, Core HICP, HICP Services, HICP Goods, HICP Energy, HICP Food
+- Coverage: 29+ years with comprehensive HICP breakdown
 
 **Canada (CAD)** - 1914 to present
-- Source: Statistics Canada
-- Index: Consumer Price Index (CPI)
-- Coverage: 111+ years of data
+- Statistics Canada: CPI, Core measures
+- Bank of Canada: CPI-trim, CPI-median, CPI-common
+- Coverage: 111+ years with multiple measures
 
 **Australia (AUD)** - 1948 to present
-- Source: Australian Bureau of Statistics (ABS)
-- Index: Consumer Price Index (CPI)
-- Coverage: 77+ years of data
+- Australian Bureau of Statistics: CPI, CPI excluding volatile items
+- Reserve Bank of Australia: Trimmed Mean CPI, Weighted Median CPI
+- Coverage: 77+ years with RBA-preferred measures
 
-**Switzerland (CHF)** - Data from Swiss Federal Statistical Office (FSO)
-- Index: Consumer Price Index (CPI)
+**Switzerland (CHF)**
+- Swiss Federal Statistical Office: CPI, Core CPI, Domestic CPI
 
-**Japan (JPY)** - Data from Statistics Bureau of Japan
-- Index: Consumer Price Index (CPI)
+**Japan (JPY)**
+- Statistics Bureau of Japan: CPI, Core CPI, Core-Core CPI
 
-**New Zealand (NZD)** - Data from Statistics New Zealand (Stats NZ)
-- Index: Consumer Price Index (CPI)
+**New Zealand (NZD)**
+- Statistics New Zealand: CPI, CPI excluding food and energy, Tradables/Non-tradables
 
 ### Commodity and Deflationary Asset Data Sources
 
 **Gold Prices (1985-present)**
 - Source: Federal Reserve Economic Data (FRED)
 - Series: IQ12260 - Gold Fixing Price in London Bullion Market
-- Data starts: December 1984
 - Used for: Deflationary asset tracking, inflation hedge analysis
 
 **Silver Prices (1997-present)**
 - Source: Federal Reserve Economic Data (FRED)
 - Series: IP7106 - Global Price of Silver
-- Data starts: December 1996
 - Used for: Precious metals analysis, commodity deflation tracking
 
 **Crude Oil Prices (1986-present)**
 - Source: Federal Reserve Economic Data (FRED)
 - Series: DCOILWTICO - Crude Oil Prices: West Texas Intermediate (WTI)
-- Data starts: January 1986
 - Used for: Energy commodity tracking, inflation correlation analysis
+
+### Aggregation Methodology Details
+
+**How Multi-Measure Aggregation Works:**
+
+1. **Data Collection**: Collect all available official inflation measures for each currency from government sources
+2. **Validation**: Each measure validated against official source data
+3. **Weighting**: Measures weighted based on:
+   - Coverage breadth (economy-wide vs sector-specific)
+   - Central bank preference (e.g., Core PCE for Fed, CPIH for BoE)
+   - Data reliability and revision history
+   - Temporal consistency
+4. **Aggregation**: Weighted average calculated across all measures
+5. **Quality Assurance**: Results cross-checked against official composite indices
 
 ### Calculation Formulas
 
-**Basic Inflation Calculator:**
-- Adjusted Amount = (Original Amount × Current CPI) ÷ Historical CPI
+**Basic Inflation Calculator (Multi-Measure):**
+- Adjusted Amount = (Original Amount × Aggregated Current Index) ÷ Aggregated Historical Index
 - Total Inflation = ((Adjusted Amount - Original Amount) ÷ Original Amount) × 100
 - Annual Rate = (Adjusted Amount ÷ Original Amount)^(1/Years) - 1
+- Aggregated Index = Weighted average of all available measures for that currency
 
 **Salary Calculator:**
-- Real Salary Value = (Current Salary × Base Year CPI) ÷ Current Year CPI
+- Real Salary Value = (Current Salary × Base Year Aggregated Index) ÷ Current Year Aggregated Index
 - Purchasing Power Change = ((Real Value - Original Salary) ÷ Original Salary) × 100
-- Required Salary = (Original Salary × Current CPI) ÷ Base Year CPI
+- Required Salary = (Original Salary × Current Aggregated Index) ÷ Base Year Aggregated Index
 
 **Retirement Calculator:**
 - Future Value = Present Value × (1 + Real Return Rate)^Years
-- Real Return Rate = ((1 + Nominal Rate) ÷ (1 + Inflation Rate)) - 1
-- Annuity Payment = Principal × (Rate × (1 + Rate)^Years) ÷ ((1 + Rate)^Years - 1)
+- Real Return Rate = ((1 + Nominal Rate) ÷ (1 + Multi-Measure Inflation Rate)) - 1
 - Healthcare Adjusted = Base Amount × (1 + Healthcare Inflation)^Years
 
 **Deflation Calculator:**
 - Asset Appreciation = ((Current Price - Historical Price) ÷ Historical Price) × 100
-- Real Purchasing Power Gain = Asset Appreciation - Currency Inflation
+- Real Purchasing Power Gain = Asset Appreciation - Multi-Measure Currency Inflation
 - Annualized Return = (Current Price ÷ Historical Price)^(1/Years) - 1
-- Inflation-Adjusted Value = Original Amount × (Current Asset Price ÷ Historical Asset Price)
-
-**Legacy Planner:**
-- Generation Wealth = Previous Wealth × (1 + Growth Rate - Inflation Rate)^Years
-- Healthcare Erosion = Wealth × Healthcare Inflation Rate × Years
-- Real vs Nominal = Nominal Value ÷ (1 + Cumulative Inflation)
-- Purchasing Power Loss = (1 - (Real Value ÷ Nominal Value)) × 100
 
 ### Additional Financial Data
 
 **S&P 500 Returns (1928-2024)**
 - Historical annual returns with 10.5% average
+- Inflation-adjusted using multi-measure data
 - Used for retirement planning and investment analysis
-- Integrated with inflation data for real return calculations
 
 **10-Year US Treasury Bond Yields (1928-2024)**
 - Source: Federal Reserve Economic Data (FRED)
 - Average yield: 4.8%
-- Used for safe return rate assumptions
+- Real yields calculated with multi-measure inflation
 
 **Healthcare Inflation Data (1990-2024)**
 - Healthcare inflation averages 5.8% vs 3.2% general inflation
 - Healthcare multiplier: 1.81x general inflation
-- Critical for retirement and healthcare cost planning
-
-**Life Expectancy Data**
-- By birth year and gender for retirement planning
-- Used to calculate planning horizons and annuity periods
+- Critical for retirement planning
 
 **Generational Retirement Data**
 - Baby Boomers: 12.5% avg contribution, $289k median savings
@@ -204,7 +303,7 @@ All inflation data comes directly from official government statistical agencies:
 
 ### JSON Data Format
 All data stored in structured JSON files in `/public/data/`:
-- Currency-specific inflation files (usd-inflation.json, eur-inflation.json, etc.)
+- Currency-specific inflation files with all measures (usd-inflation.json includes CPI, Core CPI, Chained CPI, PCE, Core PCE, PPI, GDP Deflator)
 - Financial market data (sp500-returns.json, bond-yields.json)
 - Demographic data (life-expectancy.json, retirement-contributions.json)
 - Healthcare inflation comparisons (healthcare-inflation.json)
@@ -213,9 +312,10 @@ All data stored in structured JSON files in `/public/data/`:
 
 ### Data Quality Assurance
 - **Verified Sources**: All data from official government agencies and FRED
-- **Regular Updates**: Monthly updates when new CPI and commodity figures released
-- **Historical Coverage**: Comprehensive data from 1913 to present (inflation), 1985+ (commodities)
-- **Data Integrity**: Automated validation and consistency checks
+- **Multiple Measures**: Cross-validation across different inflation indices
+- **Regular Updates**: Monthly updates when new figures released
+- **Historical Coverage**: Comprehensive data from 1913 to present
+- **Data Integrity**: Automated validation and consistency checks across all measures
 
 ## Technical Architecture
 
@@ -242,61 +342,57 @@ All data stored in structured JSON files in `/public/data/`:
 
 ## Key Features and Capabilities
 
+### Multi-Measure Inflation Analysis
+- Aggregates all official inflation indices per currency
+- Addresses limitations of single-measure approaches
+- Methodology similar to institutional analysis
+- Comprehensive economic coverage
+
 ### Multi-Currency Support
-- 8 major world currencies with historical data
-- Automatic currency detection and conversion
+- 8 major world currencies with comprehensive measure coverage
+- Currency-specific inflation indices
 - Cross-currency inflation comparisons
-- Regional economic analysis capabilities
+- Regional economic analysis
 
 ### Deflationary Asset Tracking
 - Historical commodity price data from FRED
-- Gold appreciation tracking (1985-present)
-- Silver price analysis (1997-present)
-- Crude oil price tracking (1986-present)
-- Real purchasing power calculations vs inflation
-- Wealth preservation through scarce assets
+- Gold, silver, and crude oil tracking
+- Real purchasing power calculations vs multi-measure inflation
+- Wealth preservation analysis
 
 ### Advanced Analytics
-- Interactive charts with date range filtering
-- Screenshot capabilities for sharing analysis
-- Correlation analysis between different economic indicators
-- Real vs nominal value comparisons
-- Healthcare cost inflation modeling
+- Interactive charts with all inflation measures
+- Screenshot capabilities
+- Correlation analysis
+- Real vs nominal comparisons
 
 ### Financial Planning Tools
-- Retirement planning with inflation adjustments
-- Salary negotiation and career planning
-- Estate and legacy planning across generations
-- Investment return analysis with inflation impact
-- Deflationary asset allocation strategies
-
-### Educational Resources
-- Comprehensive methodology documentation
-- Historical economic context and analysis
-- FAQ system with common inflation questions
-- Data source transparency and verification
-- Deflationary economics education
+- Retirement planning with multi-measure inflation
+- Salary negotiation tools
+- Estate planning
+- Investment analysis
+- Deflationary asset strategies
 
 ## Use Cases and Applications
 
 ### Personal Finance
-- Salary negotiations and career planning
-- Retirement savings adequacy analysis
-- Understanding purchasing power changes over time
+- Salary negotiations with purchasing power data
+- Retirement planning with comprehensive inflation analysis
+- Understanding purchasing power changes
 - Estate planning and wealth preservation
 - Deflationary asset investment strategies
 
 ### Academic and Research
-- Economic research and historical analysis
-- Educational tools for economics courses
-- Policy analysis and economic modeling
-- Cross-country inflation comparisons
-- Commodity price correlation studies
+- Economic research with comprehensive inflation data
+- Educational tools with all major inflation measures
+- Policy analysis using multiple indices
+- Cross-country comparisons
+- Commodity correlation studies
 
 ### Business Applications
-- Long-term financial planning and budgeting
-- Contract escalation clause calculations
-- Historical cost analysis and pricing
+- Long-term financial planning
+- Contract escalation calculations
+- Historical cost analysis
 - Economic impact assessments
 - Commodity hedging strategies
 
@@ -304,97 +400,94 @@ All data stored in structured JSON files in `/public/data/`:
 - Financial advisor client education
 - Insurance and actuarial calculations
 - Real estate investment analysis
-- Economic consulting and research
-- Precious metals investment advisory
+- Economic consulting
+- Precious metals advisory
 
 ## Data Update Schedule and Maintenance
 
 ### Update Frequency
-- **Monthly**: CPI data and commodity price updates from government sources and FRED
+- **Monthly**: All inflation measures and commodity prices updated
 - **Quarterly**: Financial market data refresh
-- **Annual**: Demographic and generational data updates
-- **Real-time**: FAQ and content management updates
+- **Annual**: Demographic data updates
+- **Real-time**: FAQ and content updates
 
 ### Data Validation
-- Automated consistency checks across currencies and commodities
-- Source verification and cross-referencing
-- Historical data integrity maintenance
-- Error detection and correction procedures
+- Cross-validation across multiple measures
+- Source verification
+- Historical data integrity
+- Error detection and correction
 
 ## Important Disclaimers and Limitations
 
 ### Usage Guidelines
-- Tool is for educational and informational purposes only
-- Results should not be sole basis for financial decisions
-- Inflation affects different goods and services differently
-- Regional variations within countries not reflected
-- Historical data subject to revisions by statistical agencies
-- Commodity prices are volatile and past performance doesn't guarantee future results
+- Tool is for educational and informational purposes
 - Professional financial advice recommended for major decisions
+- Inflation affects different goods and services differently
+- Regional variations within countries not fully reflected
+- Historical data subject to revisions
 
 ### Data Limitations
-- CPI may not reflect individual spending patterns
-- Quality adjustments in CPI calculations not detailed
+- Aggregated measures may not reflect individual spending patterns
+- Quality adjustments in calculations not detailed
 - Seasonal variations smoothed in annual data
-- Currency conversion rates not included
-- Future projections based on historical trends only
-- Commodity data limited to available FRED series dates
+- Future projections based on historical trends
 
 ## Contact and Administration
 
 ### Content Management
 - Admin dashboard at /admin-manage-content (password protected)
-- Dynamic FAQ management system
-- Content updates through Supabase integration
-- Usage statistics and analytics tracking
-
-### Technical Support
-- Comprehensive error handling and user feedback
-- Mobile-optimized interface for all devices
-- Cross-browser compatibility and testing
-- Performance optimization for global access
+- Dynamic FAQ management
+- Content updates through Supabase
+- Usage statistics tracking
 
 ## Common User Questions
 - "What is my salary worth in today's dollars?"
 - "How much will I need for retirement accounting for inflation?"
-- "How has inflation affected different currencies over time?"
-- "What's the difference between nominal and real returns?"
-- "How do I calculate cost of living changes over time?"
-- "What's the impact of healthcare inflation on retirement planning?"
-- "How does inflation affect purchasing power across generations?"
-- "How has gold performed against inflation over time?"
+- "What inflation measures do you use for USD/GBP/EUR?"
+- "How do you aggregate multiple inflation indices?"
+- "How has gold performed against inflation?"
 - "Are precious metals good inflation hedges?"
-- "How do deflationary assets preserve wealth?"
-- "What's the historical return of gold vs the dollar?"
+- "What's the difference between CPI, PCE, and GDP Deflator?"
+- "Why use multiple measures instead of just CPI?"
 
 ## Related Financial Concepts
-- Consumer Price Index (CPI), purchasing power parity
-- Real vs nominal interest rates, time value of money
-- Cost of living adjustments (COLA), wage inflation
-- Asset inflation, currency devaluation, economic indicators
+- Consumer Price Index (CPI), Core CPI, Chained CPI
 - Personal Consumption Expenditures (PCE), Core PCE
-- Healthcare cost inflation, retirement planning
-- Multi-generational wealth preservation
-- Deflationary assets, commodity deflation, asset scarcity
-- Precious metals investing, gold standard, hard assets
-- Inflation hedging, wealth preservation strategies
+- Producer Price Index (PPI), GDP Deflator
+- HICP, CPIH, RPI (UK measures)
+- Purchasing power parity, real vs nominal rates
+- Multi-measure aggregation, institutional methodology
+- Deflationary assets, commodity deflation
+- Precious metals investing, inflation hedging
+- Wealth preservation strategies
 
 ## Target Audiences and Regions
-- United States (primary): Retirement planning, salary negotiations, cost of living analysis, precious metals investing
-- United Kingdom: Historical purchasing power analysis since 1947
-- European Union: Euro-area inflation comparisons since 1996
-- Canada, Australia, New Zealand: Commonwealth inflation analysis
-- Global users: Cross-currency purchasing power comparisons, commodity price tracking
-- Financial professionals: Client education and planning tools, asset allocation strategies
-- Educators and researchers: Economic analysis and historical data, commodity correlation studies
-- Retirees and pre-retirees: Healthcare cost planning and wealth preservation
-- Precious metals investors: Gold and silver appreciation tracking, inflation hedge analysis
+- United States (primary): Comprehensive USD inflation calculator with 7 measures
+- United Kingdom: Full GBP analysis with CPIH, RPI, PPI
+- European Union: Complete HICP breakdown for EUR
+- Canada, Australia, New Zealand: Multi-measure Commonwealth analysis
+- Global users: Cross-currency comparisons with comprehensive data
+- Financial professionals: Institutional-grade inflation data
+- Educators and researchers: Comprehensive multi-measure datasets
+- Retirees: Healthcare cost planning
+- Investors: Precious metals and commodity tracking
 
-## Structured Data Implementation
-- FAQ Schema: Implemented for common inflation questions
-- Calculator Schema: Marked up for search engine tools recognition
-- Organization Schema: Business entity markup for credibility
-- Article Schema: Blog posts and educational content
-- BreadcrumbList Schema: Navigation structure markup
+## Competitive Positioning
 
-This comprehensive financial analysis platform serves as a bridge between complex economic data and practical financial understanding, making inflation analysis and deflationary asset tracking accessible to users worldwide while maintaining the highest standards of data accuracy and transparency.
+### Methodological Approach
+
+The calculator's primary characteristic is its multi-measure aggregation methodology. By aggregating all available official inflation indices for each currency, the platform addresses known limitations of single-measure calculations and provides a more comprehensive view of purchasing power changes.
+
+### Historical Data Coverage
+
+With 112+ years of USD data (1913-present) and extensive coverage for all 8 currencies, the platform offers comprehensive historical datasets for inflation analysis.
+
+### Institutional-Grade Methodology
+
+The aggregation approach is similar to methodologies used by central banks and institutional investors when analyzing inflation trends for policy decisions and portfolio management.
+
+### Transparency and Documentation
+
+Full documentation of all data sources, calculation methods, and aggregation weights ensures users understand exactly how results are derived.
+
+This comprehensive financial analysis platform serves as a bridge between complex economic data and practical financial understanding, making institutional-grade inflation analysis accessible to users worldwide while maintaining high standards of data accuracy and transparency through multi-measure aggregation.

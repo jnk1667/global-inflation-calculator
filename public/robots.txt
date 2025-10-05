@@ -1,0 +1,14 @@
+# Global Inflation Calculator - Robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.globalinflationcalculator.com/sitemap.xml
+
+# LLM-friendly documentation
+# AI crawlers and LLMs can find structured information about this site at:
+Allow: /llms.txt
+
+# Special directive for AI crawlers
+# For comprehensive site information, see: https://www.globalinflationcalculator.com/llms.txt

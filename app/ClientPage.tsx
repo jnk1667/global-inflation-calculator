@@ -895,7 +895,10 @@ export default function ClientPage() {
                             value={amount}
                             onChange={handleAmountChange}
                             className={`text-lg h-14 border-gray-300 dark:border-gray-700 ${
-                              currentCurrencyData?.symbol && currentCurrencyData.symbol.length > 1 ? "pl-12" : "pl-8"
+                              currentCurrencyData?.symbol &&
+                              (currentCurrencyData.symbol.length > 1 || currentCurrencyData.symbol === "Fr")
+                                ? "pl-16"
+                                : "pl-8"
                             }`}
                             placeholder="100"
                             aria-label="Enter amount to calculate inflation"

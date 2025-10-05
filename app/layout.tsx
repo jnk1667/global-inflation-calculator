@@ -41,6 +41,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  other: {
+    "llms-txt": "/llms.txt",
+  },
   openGraph: {
     title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
     description:
@@ -97,6 +100,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly site information" />
+      </head>
       <body className={inter.className}>
         {/* Google AdSense */}
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
