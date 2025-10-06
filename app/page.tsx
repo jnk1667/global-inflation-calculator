@@ -2,9 +2,9 @@ import type { Metadata } from "next"
 import ClientPage from "./ClientPage"
 
 export const metadata: Metadata = {
-  title: "Global Inflation Calculator - Historical Currency Purchasing Power 1913-2025",
+  title: "Global Inflation Calculator - Historical Purchasing Power",
   description:
-    "Calculate historical inflation and purchasing power across 8 major currencies from 1913 to present. Compare USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD with real government data.",
+    "Calculate historical inflation and purchasing power across 8 major currencies. Compare USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD with real government data.",
   keywords: [
     "inflation calculator",
     "purchasing power calculator",
