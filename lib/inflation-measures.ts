@@ -361,7 +361,29 @@ export function getDataQualityScore(measures: Record<string, InflationMeasureDat
   let totalYearsCoverage = 0
 
   for (const measureData of Object.values(measures)) {
-    if (measureData.source.includes("FRED") || measureData.source.includes("ONS")) {
+    const isRealData =
+      measureData.source.includes("FRED") ||
+      measureData.source.includes("ONS") ||
+      measureData.source.includes("US Bureau of Labor Statistics") ||
+      measureData.source.includes("Bureau of Labor Statistics") ||
+      measureData.source.includes("BLS") ||
+      measureData.source.includes("Eurostat") ||
+      measureData.source.includes("Statistics Canada") ||
+      measureData.source.includes("Australian Bureau of Statistics") ||
+      measureData.source.includes("ABS") ||
+      measureData.source.includes("Bank of Japan") ||
+      measureData.source.includes("Statistics Bureau of Japan") ||
+      measureData.source.includes("Swiss Federal Statistical Office") ||
+      measureData.source.includes("Stats NZ") ||
+      measureData.source.includes("Statistics New Zealand") ||
+      measureData.source.includes("Reserve Bank") ||
+      measureData.source.includes("Federal Reserve") ||
+      measureData.source.includes("ECB") ||
+      measureData.source.includes("European Central Bank") ||
+      measureData.source.includes("Official data") ||
+      measureData.source.includes("official data")
+
+    if (isRealData) {
       realDataMeasures++
     } else {
       estimatedMeasures++
@@ -384,5 +406,94 @@ export function getDataQualityScore(measures: Record<string, InflationMeasureDat
       estimatedMeasures,
       averageYearsCoverage: Math.round(averageYearsCoverage),
     },
+  }
+}
+
+// 📈 MEASURE SPREAD ANALYSIS
+export function calculateMeasureSpread(
+  individualMeasures: Array<{
+    measure: string
+    adjustedAmount: number
+    totalInflation: number
+    weight: number
+    confidence: string
+  }>,
+): {
+  spreadPercentage: number
+  standardDeviation: number
+  range: {
+    min: number
+    max: number
+    difference: number
+  }
+  agreementLevel: "High" | "Medium" | "Low"
+  description: string
+} {
+  if (individualMeasures.length === 0) {
+    return {
+      spreadPercentage: 0,
+      standardDeviation: 0,
+      range: { min: 0, max: 0, difference: 0 },
+      agreementLevel: "High",
+      description: "No measures available",
+    }
+  }
+
+  if (individualMeasures.length === 1) {
+    return {
+      spreadPercentage: 0,
+      standardDeviation: 0,
+      range: {
+        min: individualMeasures[0].totalInflation,
+        max: individualMeasures[0].totalInflation,
+        difference: 0,
+      },
+      agreementLevel: "High",
+      description: "Only one measure available",
+    }
+  }
+
+  // Calculate mean inflation
+  const inflationValues = individualMeasures.map((m) => m.totalInflation)
+  const mean = inflationValues.reduce((sum, val) => sum + val, 0) / inflationValues.length
+
+  // Calculate standard deviation
+  const squaredDiffs = inflationValues.map((val) => Math.pow(val - mean, 2))
+  const variance = squaredDiffs.reduce((sum, val) => sum + val, 0) / inflationValues.length
+  const standardDeviation = Math.sqrt(variance)
+
+  // Calculate range
+  const min = Math.min(...inflationValues)
+  const max = Math.max(...inflationValues)
+  const difference = max - min
+
+  // Calculate spread percentage (coefficient of variation)
+  const spreadPercentage = mean !== 0 ? (standardDeviation / Math.abs(mean)) * 100 : 0
+
+  // Determine agreement level
+  let agreementLevel: "High" | "Medium" | "Low"
+  let description: string
+
+  if (spreadPercentage < 5) {
+    agreementLevel = "High"
+    description = "All measures closely agree - high confidence in results"
+  } else if (spreadPercentage < 15) {
+    agreementLevel = "Medium"
+    description = "Measures show moderate variation - typical for multi-measure analysis"
+  } else {
+    agreementLevel = "Low"
+    description = "Significant disagreement between measures - results should be interpreted with caution"
+  }
+
+  return {
+    spreadPercentage: Number(spreadPercentage.toFixed(2)),
+    standardDeviation: Number(standardDeviation.toFixed(2)),
+    range: {
+      min: Number(min.toFixed(2)),
+      max: Number(max.toFixed(2)),
+      difference: Number(difference.toFixed(2)),
+    },
+    agreementLevel,
+    description,
   }
 }

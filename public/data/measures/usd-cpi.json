@@ -2,7 +2,7 @@
   "currency": "USD",
   "measure": "cpi",
   "source": "US Bureau of Labor Statistics",
-  "last_updated": "2025-06-15T10:00:00Z",
+  "last_updated": "2025-10-15T10:00:00Z",
   "earliest_year": "1913",
   "latest_year": "2025",
   "total_years": 113,
@@ -119,6 +119,18 @@
     "2022": { "index_value": 2926.0, "inflation_factor": 29.26, "year_over_year_change": 8.17 },
     "2023": { "index_value": 3069.0, "inflation_factor": 30.69, "year_over_year_change": 4.89 },
     "2024": { "index_value": 3126.0, "inflation_factor": 31.26, "year_over_year_change": 1.86 },
-    "2025": { "index_value": 3215.0, "inflation_factor": 32.15, "year_over_year_change": 2.85 }
+    "2025": {
+      "index_value": 3189.0,
+      "inflation_factor": 31.89,
+      "year_over_year_change": 2.02,
+      "quarterly_data": {
+        "Q1": { "index_value": 3145.0, "inflation_factor": 31.45, "quarter_over_quarter_change": 0.61 },
+        "Q2": { "index_value": 3170.0, "inflation_factor": 31.7, "quarter_over_quarter_change": 0.79 },
+        "Q3": { "index_value": 3189.0, "inflation_factor": 31.89, "quarter_over_quarter_change": 0.6 }
+      },
+      "ytd_average": 31.68,
+      "quarters_available": 3,
+      "is_partial_year": true
+    }
   }
 }

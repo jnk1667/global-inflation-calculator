@@ -714,7 +714,7 @@ export default function ClientPage() {
         )
       } else if (line.startsWith("## ")) {
         return (
-          <h3 key={index} className="text-xl font-semibold text-gray-800 dark:text-gray-300 mt-6 mb-3">
+          <h3 key={index} className="text-xl font-semibold text-gray-800 dark:text-gray-100 mt-6 mb-3">
             {line.substring(3)}
           </h3>
         )
@@ -722,7 +722,7 @@ export default function ClientPage() {
         return <br key={index} />
       } else {
         return (
-          <p key={index} className="text-gray-700 dark:text-gray-400 leading-relaxed mb-4">
+          <p key={index} className="text-gray-700 dark:text-gray-200 leading-relaxed mb-4">
             {line}
           </p>
         )
@@ -1311,7 +1311,7 @@ export default function ClientPage() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="prose prose-gray max-w-none">
-                      <div className="text-gray-700 dark:text-gray-400 leading-relaxed">
+                      <div className="text-gray-700 dark:text-gray-200 leading-relaxed">
                         {renderSEOContent(seoEssay)}
                       </div>
                     </CardContent>
@@ -1323,7 +1323,7 @@ export default function ClientPage() {
                       <CardTitle className="text-xl flex items-center gap-2">🔬 Calculation Methodology</CardTitle>
                     </CardHeader>
                     <CardContent className="prose prose-gray max-w-none">
-                      <div className="text-gray-700 dark:text-gray-400 leading-relaxed space-y-6">
+                      <div className="text-gray-700 dark:text-gray-200 leading-relaxed space-y-6">
                         {/* Basic Inflation Calculation */}
                         <div>
                           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
@@ -1333,14 +1333,14 @@ export default function ClientPage() {
                             Our primary inflation calculation uses the Consumer Price Index (CPI) formula to determine
                             purchasing power changes over time:
                           </p>
-                          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-mono text-sm mb-3">
+                          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-mono text-sm mb-3 text-gray-800 dark:text-gray-100">
                             Adjusted Amount = Original Amount × (Current Year CPI / Base Year CPI)
                           </div>
                           <p className="mb-3">
                             <strong>Example:</strong> $100 in 2000 with CPI of 172.2, compared to 2024 with CPI of
                             310.3:
                           </p>
-                          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-mono text-sm">
+                          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-mono text-sm text-gray-800 dark:text-gray-100">
                             $100 × (310.3 / 172.2) = $180.17
                           </div>
                         </div>
@@ -1357,47 +1357,55 @@ export default function ClientPage() {
 
                           <div className="space-y-4">
                             <div className="border-l-4 border-blue-500 pl-4">
-                              <h4 className="font-semibold">Consumer Price Index (CPI) - Weight: 25%</h4>
-                              <p className="text-sm">
+                              <h4 className="font-semibold text-gray-900 dark:text-white">
+                                Consumer Price Index (CPI) - Weight: 25%
+                              </h4>
+                              <p className="text-sm text-gray-700 dark:text-gray-200">
                                 Standard measure tracking a basket of consumer goods and services. Uses urban consumer
                                 data from national statistics offices.
                               </p>
                             </div>
 
                             <div className="border-l-4 border-green-500 pl-4">
-                              <h4 className="font-semibold">Core CPI - Weight: 20%</h4>
-                              <p className="text-sm">
+                              <h4 className="font-semibold text-gray-900 dark:text-white">Core CPI - Weight: 20%</h4>
+                              <p className="text-sm text-gray-700 dark:text-gray-200">
                                 CPI excluding volatile food and energy prices. Calculated as: Core CPI = CPI - (Food
                                 Component + Energy Component)
                               </p>
                             </div>
 
                             <div className="border-l-4 border-purple-500 pl-4">
-                              <h4 className="font-semibold">Chained CPI - Weight: 15%</h4>
-                              <p className="text-sm">
+                              <h4 className="font-semibold text-gray-900 dark:text-white">Chained CPI - Weight: 15%</h4>
+                              <p className="text-sm text-gray-700 dark:text-gray-200">
                                 Accounts for consumer substitution behavior using geometric mean formula instead of
                                 arithmetic mean, typically 0.2-0.3% lower than regular CPI.
                               </p>
                             </div>
 
                             <div className="border-l-4 border-orange-500 pl-4">
-                              <h4 className="font-semibold">Personal Consumption Expenditures (PCE) - Weight: 15%</h4>
-                              <p className="text-sm">
+                              <h4 className="font-semibold text-gray-900 dark:text-white">
+                                Personal Consumption Expenditures (PCE) - Weight: 15%
+                              </h4>
+                              <p className="text-sm text-gray-700 dark:text-gray-200">
                                 Federal Reserve's preferred measure, covers broader scope of goods and services.
                               </p>
                             </div>
 
                             <div className="border-l-4 border-red-500 pl-4">
-                              <h4 className="font-semibold">Producer Price Index (PPI) - Weight: 10%</h4>
-                              <p className="text-sm">
+                              <h4 className="font-semibold text-gray-900 dark:text-white">
+                                Producer Price Index (PPI) - Weight: 10%
+                              </h4>
+                              <p className="text-sm text-gray-700 dark:text-gray-200">
                                 Measures wholesale price changes from the seller's perspective. Leading indicator of
                                 consumer price changes.
                               </p>
                             </div>
 
                             <div className="border-l-4 border-teal-500 pl-4">
-                              <h4 className="font-semibold">GDP Deflator - Weight: 15%</h4>
-                              <p className="text-sm">
+                              <h4 className="font-semibold text-gray-900 dark:text-white">
+                                GDP Deflator - Weight: 15%
+                              </h4>
+                              <p className="text-sm text-gray-700 dark:text-gray-200">
                                 Measures price changes across the entire economy including government spending and
                                 business investment. Formula: (Nominal GDP / Real GDP) × 100
                               </p>
@@ -1413,20 +1421,22 @@ export default function ClientPage() {
                           <p className="mb-3">
                             Our consensus inflation rate uses a weighted average of all available measures:
                           </p>
-                          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-mono text-sm mb-3">
+                          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg font-mono text-sm mb-3 text-gray-800 dark:text-gray-100">
                             Consensus Rate = Σ(Individual Rate × Weight)
                           </div>
                           <p className="mb-3">
                             <strong>Example calculation:</strong>
                           </p>
-                          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm">
+                          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm text-gray-800 dark:text-gray-100">
                             <div>CPI (3.2%) × 0.25 = 0.80%</div>
                             <div>Core CPI (3.0%) × 0.20 = 0.60%</div>
                             <div>Chained CPI (2.9%) × 0.15 = 0.44%</div>
                             <div>PCE (2.8%) × 0.15 = 0.42%</div>
                             <div>PPI (3.5%) × 0.10 = 0.35%</div>
                             <div>GDP Deflator (3.1%) × 0.15 = 0.47%</div>
-                            <div className="border-t pt-2 mt-2 font-semibold">Consensus Rate = 3.08%</div>
+                            <div className="border-t border-gray-300 dark:border-gray-600 pt-2 mt-2 font-semibold">
+                              Consensus Rate = 3.08%
+                            </div>
                           </div>
                         </div>
 
@@ -1437,8 +1447,8 @@ export default function ClientPage() {
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <h4 className="font-semibold mb-2">Primary Sources:</h4>
-                              <ul className="text-sm space-y-1">
+                              <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">Primary Sources:</h4>
+                              <ul className="text-sm space-y-1 text-gray-700 dark:text-gray-200">
                                 <li>
                                   • <strong>USA:</strong> Bureau of Labor Statistics (BLS)
                                 </li>
@@ -1466,8 +1476,8 @@ export default function ClientPage() {
                               </ul>
                             </div>
                             <div>
-                              <h4 className="font-semibold mb-2">Data Processing:</h4>
-                              <ul className="text-sm space-y-1">
+                              <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">Data Processing:</h4>
+                              <ul className="text-sm space-y-1 text-gray-700 dark:text-gray-200">
                                 <li>• Monthly data collection via FRED API</li>
                                 <li>• Automatic validation and error checking</li>
                                 <li>• Missing data interpolation using linear methods</li>
@@ -1487,7 +1497,7 @@ export default function ClientPage() {
                           <p className="mb-3">
                             Each currency uses its own national inflation data without cross-currency conversion:
                           </p>
-                          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm">
+                          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-sm text-gray-800 dark:text-gray-100">
                             <div>
                               <strong>USD:</strong> Uses US CPI-U (Consumer Price Index for All Urban Consumers)
                             </div>
@@ -1511,7 +1521,7 @@ export default function ClientPage() {
                           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
                             📊 Confidence Level Methodology
                           </h3>
-                          <div className="space-y-3">
+                          <div className="space-y-3 text-gray-700 dark:text-gray-200">
                             <div>
                               <strong>Very High (95%+):</strong> Consensus rate combining multiple official measures
                             </div>
@@ -1539,8 +1549,8 @@ export default function ClientPage() {
                           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
                             ⚠️ Limitations & Considerations
                           </h3>
-                          <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
-                            <ul className="text-sm space-y-2">
+                          <div className="bg-yellow-50 dark:bg-yellow-900/30 p-4 rounded-lg">
+                            <ul className="text-sm space-y-2 text-gray-800 dark:text-gray-100">
                               <li>
                                 • <strong>Regional Variation:</strong> National averages may not reflect local inflation
                                 experiences
@@ -1573,9 +1583,9 @@ export default function ClientPage() {
                           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
                             🔄 Data Update Schedule
                           </h3>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700 dark:text-gray-200">
                             <div>
-                              <h4 className="font-semibold mb-2">Automatic Updates:</h4>
+                              <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">Automatic Updates:</h4>
                               <ul className="space-y-1">
                                 <li>
                                   • <strong>Monthly:</strong> Latest CPI releases
@@ -1592,7 +1602,7 @@ export default function ClientPage() {
                               </ul>
                             </div>
                             <div>
-                              <h4 className="font-semibold mb-2">Manual Reviews:</h4>
+                              <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">Manual Reviews:</h4>
                               <ul className="space-y-1">
                                 <li>
                                   • <strong>Quarterly:</strong> Methodology assessment
@@ -1611,8 +1621,8 @@ export default function ClientPage() {
                           </div>
                         </div>
 
-                        <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                          <p className="text-sm">
+                        <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                          <p className="text-sm text-gray-800 dark:text-gray-100">
                             <strong>Note:</strong> All calculations are performed using official government data and
                             established economic methodologies. Results are for educational purposes and should not be
                             considered as financial advice. Individual inflation experiences may vary based on personal
