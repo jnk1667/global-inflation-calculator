@@ -13,8 +13,6 @@ export const metadata: Metadata = {
     "inflation calculator team",
     "economic data experts",
     "financial calculator mission",
-    "best inflation calculator online",
-    "best inflation calculator 2025 accurate",
     "inflation research team",
     "purchasing power analysis experts",
   ],
