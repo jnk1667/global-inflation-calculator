@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   keywords: [
     "about global inflation calculator",
     "inflation calculator team",
+    "best inflation calculator online",
+    "best inflation calculator 2025 accurate",
     "economic data experts",
     "financial calculator mission",
     "inflation research team",
