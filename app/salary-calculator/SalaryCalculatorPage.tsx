@@ -15,6 +15,7 @@ import Link from "next/link"
 import { trackEvent } from "@/lib/analytics"
 import AdBanner from "@/components/ad-banner"
 import { supabase } from "@/lib/supabase"
+import ErrorBoundary from "@/components/error-boundary" // Assuming ErrorBoundary is in components/error-boundary
 
 interface SalaryResult {
   originalSalary: number
@@ -71,6 +72,15 @@ const fallbackInflationData = {
     2025: 1723.8,
   },
 }
+
+// Dummy function for currency display - replace with actual implementation if needed
+const getCurrencyDisplay = (amount: number) => {
+  // Placeholder, actual implementation should use Intl.NumberFormat based on currency state
+  return `$${amount.toFixed(0)}`
+}
+
+// Dummy function for checking calculation status
+const hasCalculated = (result: SalaryResult | null) => result !== null
 
 const SalaryCalculatorPage: React.FC = () => {
   const [salary, setSalary] = useState<string>("")
@@ -1074,1004 +1084,1078 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
     return `${value >= 0 ? "+" : ""}${value.toFixed(1)}%`
   }
 
+  const adjustedSalary = result ? result.adjustedSalary : 0
+  const hasCalculatedResult = hasCalculated(result)
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="container mx-auto px-4 py-8 pt-32">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Calculator className="h-8 w-8 text-blue-600" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Salary Inflation Calculator
-            </h1>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <div className="container mx-auto px-4 py-8 pt-32">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Calculator className="h-8 w-8 text-blue-600" />
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Salary Inflation Calculator
+              </h1>
+            </div>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Calculate what your historical salary should be worth today. Compare wage growth vs inflation using
+              official government data from 1913-2025.
+            </p>
           </div>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Calculate what your historical salary should be worth today. Compare wage growth vs inflation using official
-            government data from 1913-2025.
-          </p>
-        </div>
 
-        {/* Breadcrumb Navigation */}
-        <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-6">
-          <Link href="/" className="hover:text-blue-600 transition-colors">
-            Home
-          </Link>
-          <span>/</span>
-          <span className="text-gray-900 dark:text-gray-100">Salary Calculator</span>
-        </nav>
+          {/* Breadcrumb Navigation */}
+          <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+            <Link href="/" className="hover:text-blue-600 transition-colors">
+              Home
+            </Link>
+            <span>/</span>
+            <span className="text-gray-900 dark:text-gray-100">Salary Calculator</span>
+          </nav>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Calculator */}
-          <div className="lg:col-span-2">
-            <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <DollarSign className="h-5 w-5 text-green-600" />
-                    <CardTitle>Salary Adjustment Calculator</CardTitle>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant={calculatorMode === "basic" ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setCalculatorMode("basic")}
-                    >
-                      Basic Mode
-                    </Button>
-                    <Button
-                      variant={calculatorMode === "advanced" ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setCalculatorMode("advanced")}
-                    >
-                      Advanced Mode
-                    </Button>
-                  </div>
-                </div>
-                <CardDescription>
-                  {calculatorMode === "basic"
-                    ? "Enter your historical salary to see what it should be worth today after adjusting for inflation."
-                    : "Advanced analysis with multiple inflation measures and detailed comparisons."}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="salary">Original Salary</Label>
-                    <Input
-                      id="salary"
-                      type="number"
-                      placeholder="50000"
-                      value={salary}
-                      onChange={(e) => setSalary(e.target.value)}
-                      className="text-lg"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="currency">Currency</Label>
-                    <Select value={currency} onValueChange={setCurrency}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {currencies.map((curr) => (
-                          <SelectItem key={curr.code} value={curr.code}>
-                            {curr.flag} {curr.code} - {curr.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="fromYear">From Year</Label>
-                    <Input
-                      id="fromYear"
-                      type="number"
-                      placeholder="2000"
-                      value={fromYear}
-                      onChange={(e) => setFromYear(e.target.value)}
-                      min={currency === "NZD" ? "1967" : currency === "EUR" ? "1999" : "1913"}
-                      max="2024"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="toYear">To Year</Label>
-                    <Input
-                      id="toYear"
-                      type="number"
-                      value={toYear}
-                      onChange={(e) => setToYear(e.target.value)}
-                      min="1914"
-                      max="2025"
-                    />
-                  </div>
-                </div>
-
-                {calculatorMode === "advanced" && (
-                  <div className="space-y-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                    <h3 className="font-semibold text-blue-900 dark:text-blue-100">Advanced Options</h3>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="inflationMeasure">Inflation Measure</Label>
-                      <Select value={inflationMeasure} onValueChange={setInflationMeasure}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {inflationMeasures.map((measure) => (
-                            <SelectItem key={measure.code} value={measure.code}>
-                              <div className="flex flex-col">
-                                <span>{measure.name}</span>
-                                <span className="text-xs text-gray-500">{measure.description}</span>
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {inflationMeasures.find((m) => m.code === inflationMeasure)?.description}
-                      </p>
+          <main className="container mx-auto px-4 py-24 max-w-6xl">
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Calculator */}
+              <div className="lg:col-span-2">
+                <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <DollarSign className="h-5 w-5 text-green-600" />
+                        <CardTitle>Salary Adjustment Calculator</CardTitle>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant={calculatorMode === "basic" ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setCalculatorMode("basic")}
+                        >
+                          Basic Mode
+                        </Button>
+                        <Button
+                          variant={calculatorMode === "advanced" ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setCalculatorMode("advanced")}
+                        >
+                          Advanced Mode
+                        </Button>
+                      </div>
                     </div>
-
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="showComparison"
-                        checked={showComparison}
-                        onChange={(e) => setShowComparison(e.target.checked)}
-                        className="rounded"
-                      />
-                      <Label htmlFor="showComparison" className="text-sm">
-                        Show comparison with different inflation measures
-                      </Label>
-                    </div>
-
-                    <Alert>
-                      <Info className="h-4 w-4" />
-                      <AlertDescription className="text-sm">
-                        <strong>Note:</strong> Advanced measures are currently in preview. Results use CPI data with
-                        enhanced analysis features.
-                      </AlertDescription>
-                    </Alert>
-                  </div>
-                )}
-
-                <Button onClick={calculateSalaryAdjustment} disabled={loading} className="w-full" size="lg">
-                  {loading
-                    ? "Calculating..."
-                    : calculatorMode === "basic"
-                      ? "Calculate Salary Adjustment"
-                      : "Calculate Advanced Analysis"}
-                </Button>
-
-                {error && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )}
-
-                {result && (
-                  <div className="space-y-4 p-6 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg border">
-                    <div className="flex items-center gap-2 mb-4">
-                      <CheckCircle className="h-5 w-5 text-green-600" />
-                      <h3 className="text-lg font-semibold">
-                        {calculatorMode === "basic" ? "Salary Adjustment Results" : "Advanced Salary Analysis"}
-                      </h3>
+                    <CardDescription>
+                      {calculatorMode === "basic"
+                        ? "Enter your historical salary to see what it should be worth today after adjusting for inflation."
+                        : "Advanced analysis with multiple inflation measures and detailed comparisons."}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="salary">Original Salary</Label>
+                        <Input
+                          id="salary"
+                          type="number"
+                          placeholder="50000"
+                          value={salary}
+                          onChange={(e) => setSalary(e.target.value)}
+                          className="text-lg"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="currency">Currency</Label>
+                        <Select value={currency} onValueChange={setCurrency}>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {currencies.map((curr) => (
+                              <SelectItem key={curr.code} value={curr.code}>
+                                {curr.flag} {curr.code} - {curr.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-4">
-                      <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Original Salary ({result.fromYear})</p>
-                        <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                          {formatCurrency(result.originalSalary, result.currency)}
-                        </p>
+                      <div className="space-y-2">
+                        <Label htmlFor="fromYear">From Year</Label>
+                        <Input
+                          id="fromYear"
+                          type="number"
+                          placeholder="2000"
+                          value={fromYear}
+                          onChange={(e) => setFromYear(e.target.value)}
+                          min={currency === "NZD" ? "1967" : currency === "EUR" ? "1999" : "1913"}
+                          max="2024"
+                        />
                       </div>
-                      <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Inflation-Adjusted Salary ({result.toYear})
-                        </p>
-                        <p className="text-2xl font-bold text-green-600">
-                          {formatCurrency(result.adjustedSalary, result.currency)}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-4 gap-4 text-center">
-                      <div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Total Inflation</p>
-                        <Badge variant="secondary" className="text-lg px-3 py-1">
-                          {formatPercentage(result.inflationRate * 100)}
-                        </Badge>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Required Annual Growth</p>
-                        <Badge variant="outline" className="text-lg px-3 py-1">
-                          {result.requiredAnnualGrowthRate.toFixed(2)}%
-                        </Badge>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Salary Increase Needed</p>
-                        <Badge variant="outline" className="text-lg px-3 py-1">
-                          {formatCurrency(result.salaryIncreaseNeeded, result.currency)}
-                        </Badge>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Time Period</p>
-                        <Badge variant="outline" className="text-lg px-3 py-1">
-                          {result.yearsDifference} years
-                        </Badge>
+                      <div className="space-y-2">
+                        <Label htmlFor="toYear">To Year</Label>
+                        <Input
+                          id="toYear"
+                          type="number"
+                          value={toYear}
+                          onChange={(e) => setToYear(e.target.value)}
+                          min="1914"
+                          max="2025"
+                        />
                       </div>
                     </div>
 
                     {calculatorMode === "advanced" && (
-                      <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-3">Advanced Insights</h4>
-                        <div className="grid md:grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <p className="font-medium">Negotiation Strategy:</p>
-                            <p className="text-gray-600 dark:text-gray-400">
-                              Request a {result.requiredAnnualGrowthRate.toFixed(1)}% annual increase to maintain
-                              purchasing power.
-                            </p>
-                          </div>
-                          <div>
-                            <p className="font-medium">Career Planning:</p>
-                            <p className="text-gray-600 dark:text-gray-400">
-                              Factor in {result.requiredAnnualGrowthRate.toFixed(1)}% minimum growth when evaluating job
-                              offers.
-                            </p>
-                          </div>
+                      <div className="space-y-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <h3 className="font-semibold text-blue-900 dark:text-blue-100">Advanced Options</h3>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="inflationMeasure">Inflation Measure</Label>
+                          <Select value={inflationMeasure} onValueChange={setInflationMeasure}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {inflationMeasures.map((measure) => (
+                                <SelectItem key={measure.code} value={measure.code}>
+                                  <div className="flex flex-col">
+                                    <span>{measure.name}</span>
+                                    <span className="text-xs text-gray-500">{measure.description}</span>
+                                  </div>
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">
+                            {inflationMeasures.find((m) => m.code === inflationMeasure)?.description}
+                          </p>
                         </div>
 
-                        {showComparison && (
-                          <div className="mt-4 p-3 bg-white dark:bg-gray-800 rounded border">
-                            <p className="font-medium mb-2">Inflation Measure Comparison:</p>
-                            <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
-                              <p>
-                                <strong>CPI:</strong> {formatCurrency(result.adjustedSalary, result.currency)} (Current
-                                calculation)
-                              </p>
-                              <p>
-                                <strong>Core CPI:</strong>{" "}
-                                {formatCurrency(result.adjustedSalary * 0.98, result.currency)} (Estimated)
-                              </p>
-                              <p>
-                                <strong>ECI:</strong> {formatCurrency(result.adjustedSalary * 1.02, result.currency)}{" "}
-                                (Estimated)
-                              </p>
-                              <p className="text-xs mt-2 italic">* Advanced measures coming soon with enhanced data</p>
-                            </div>
-                          </div>
-                        )}
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            id="showComparison"
+                            checked={showComparison}
+                            onChange={(e) => setShowComparison(e.target.checked)}
+                            className="rounded"
+                          />
+                          <Label htmlFor="showComparison" className="text-sm">
+                            Show comparison with different inflation measures
+                          </Label>
+                        </div>
+
+                        <Alert>
+                          <Info className="h-4 w-4" />
+                          <AlertDescription className="text-sm">
+                            <strong>Note:</strong> Advanced measures are currently in preview. Results use CPI data with
+                            enhanced analysis features.
+                          </AlertDescription>
+                        </Alert>
                       </div>
                     )}
 
-                    <Alert>
-                      <Info className="h-4 w-4" />
-                      <AlertDescription>
-                        <strong>Interpretation:</strong> To maintain the same purchasing power as{" "}
-                        {formatCurrency(result.originalSalary, result.currency)} in {result.fromYear}, you would need to
-                        earn {formatCurrency(result.adjustedSalary, result.currency)} in {result.toYear}. This requires
-                        an average annual salary increase of{" "}
-                        <strong>{result.requiredAnnualGrowthRate.toFixed(2)}%</strong> to keep pace with inflation over{" "}
-                        {result.yearsDifference} years.
-                      </AlertDescription>
-                    </Alert>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                    <Button onClick={calculateSalaryAdjustment} disabled={loading} className="w-full" size="lg">
+                      {loading
+                        ? "Calculating..."
+                        : calculatorMode === "basic"
+                          ? "Calculate Salary Adjustment"
+                          : "Calculate Advanced Analysis"}
+                    </Button>
 
-            {/* Ad Banner - After Calculator */}
-            <div className="mt-8">
-              <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
-                <AdBanner slot="salary-calculator-main" format="horizontal" />
-              </Suspense>
-            </div>
+                    {error && (
+                      <Alert variant="destructive">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertDescription>{error}</AlertDescription>
+                      </Alert>
+                    )}
 
-            {/* Enhanced Analysis Sections */}
-            <div className="mt-12 space-y-8">
-              {/* Industry-Specific Analysis */}
-              <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-purple-600" />
-                    Industry-Specific Salary Analysis
-                  </CardTitle>
-                  <CardDescription>
-                    See how salary inflation varies across different industries and sectors
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="industry">Select Your Industry</Label>
-                      <Select defaultValue="technology">
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="technology">💻 Technology</SelectItem>
-                          <SelectItem value="healthcare">🏥 Healthcare</SelectItem>
-                          <SelectItem value="finance">💰 Finance & Banking</SelectItem>
-                          <SelectItem value="education">📚 Education</SelectItem>
-                          <SelectItem value="retail">🛍️ Retail & Consumer</SelectItem>
-                          <SelectItem value="manufacturing">🏭 Manufacturing</SelectItem>
-                          <SelectItem value="government">🏛️ Government</SelectItem>
-                          <SelectItem value="energy">⚡ Energy & Utilities</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="experience">Experience Level</Label>
-                      <Select defaultValue="mid">
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="entry">Entry Level (0-2 years)</SelectItem>
-                          <SelectItem value="mid">Mid Level (3-7 years)</SelectItem>
-                          <SelectItem value="senior">Senior Level (8-15 years)</SelectItem>
-                          <SelectItem value="executive">Executive (15+ years)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg">
-                      <h4 className="font-semibold text-blue-900 dark:text-blue-100">Industry Average</h4>
-                      <p className="text-2xl font-bold text-blue-600">+3.8%</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Annual salary growth</p>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
-                      <h4 className="font-semibold text-green-900 dark:text-green-100">Inflation Adjusted</h4>
-                      <p className="text-2xl font-bold text-green-600">+1.2%</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Real purchasing power</p>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 rounded-lg">
-                      <h4 className="font-semibold text-purple-900 dark:text-purple-100">Market Position</h4>
-                      <p className="text-2xl font-bold text-purple-600">Above Average</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Vs other industries</p>
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
-                    <h4 className="font-semibold text-yellow-900 dark:text-yellow-100 mb-2">💡 Industry Insights</h4>
-                    <div className="text-sm text-yellow-800 dark:text-yellow-200 space-y-1">
-                      <p>• Technology sector shows 15% higher salary growth than national average</p>
-                      <p>• Skills in AI/ML command 25-40% premium over base tech salaries</p>
-                      <p>• Remote work policies have increased competition, driving salaries up 8-12%</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Regional Salary Adjustments */}
-              <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <DollarSign className="h-5 w-5 text-green-600" />
-                    Regional Cost of Living Analysis
-                  </CardTitle>
-                  <CardDescription>Compare salary purchasing power across different cities and regions</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="fromCity">Current Location</Label>
-                      <Select
-                        value={currentLocation}
-                        onValueChange={(value) => {
-                          setCurrentLocation(value)
-                          const fromCity = regionalData[currency]?.cities.find((city) => city.code === value)
-                          const toCity = regionalData[currency]?.cities.find((city) => city.code === targetLocation)
-
-                          if (fromCity && toCity) {
-                            const result = calculateRegionalDifference(fromCity, toCity)
-                            if (result) {
-                              setEquivalentSalary(result.adjustedSalary)
-                              setCostBreakdown({
-                                housingDiff: result.housingDiff,
-                                utilitiesDiff: result.utilitiesDiff,
-                                transportDiff: result.transportDiff,
-                                overallDiff: result.overallDiff,
-                              })
-                            }
-                          }
-                        }}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {regionalData[currency]?.cities.map((city) => (
-                            <SelectItem key={city.code} value={city.code}>
-                              {city.flag} {city.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="toCity">Target Location</Label>
-                      <Select
-                        value={targetLocation}
-                        onValueChange={(value) => {
-                          setTargetLocation(value)
-                          const fromCity = regionalData[currency]?.cities.find((city) => city.code === currentLocation)
-                          const toCity = regionalData[currency]?.cities.find((city) => city.code === value)
-
-                          if (fromCity && toCity) {
-                            const result = calculateRegionalDifference(fromCity, toCity)
-                            if (result) {
-                              setEquivalentSalary(result.adjustedSalary)
-                              setCostBreakdown({
-                                housingDiff: result.housingDiff,
-                                utilitiesDiff: result.utilitiesDiff,
-                                transportDiff: result.transportDiff,
-                                overallDiff: result.overallDiff,
-                              })
-                            }
-                          }
-                        }}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {regionalData[currency]?.cities.map((city) => (
-                            <SelectItem key={city.code} value={city.code}>
-                              {city.flag} {city.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Equivalent Salary</Label>
-                      <div className="h-10 px-3 py-2 border rounded-md bg-gray-50 dark:bg-gray-800 flex items-center">
-                        <span className="text-lg font-semibold text-green-600">
-                          {costBreakdown ? formatCurrency(equivalentSalary, currency) : "$0"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {costBreakdown && (
-                    <div className="grid md:grid-cols-4 gap-3">
-                      <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Housing Cost</p>
-                        <p className="font-bold text-red-600">{formatPercentage(costBreakdown.housingDiff)}</p>
-                      </div>
-                      <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Utilities</p>
-                        <p className="font-bold text-green-600">{formatPercentage(costBreakdown.utilitiesDiff)}</p>
-                      </div>
-                      <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Transportation</p>
-                        <p className="font-bold text-green-600">{formatPercentage(costBreakdown.transportDiff)}</p>
-                      </div>
-                      <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Overall</p>
-                        <p className="font-bold text-green-600">{formatPercentage(costBreakdown.overallDiff)}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  <Alert>
-                    <Info className="h-4 w-4" />
-                    <AlertDescription>
-                      <strong>Regional Insight:</strong> Moving from New York to Austin would increase your purchasing
-                      power by 27%, equivalent to a $27,000 raise. Consider remote work opportunities to maximize this
-                      arbitrage.
-                    </AlertDescription>
-                  </Alert>
-                </CardContent>
-              </Card>
-
-              {/* Salary Trajectory Planner */}
-              <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-blue-600" />
-                    Career Salary Trajectory Planner
-                  </CardTitle>
-                  <CardDescription>
-                    Plan your salary growth over the next 10 years with inflation projections
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="currentSalary">Current Annual Salary</Label>
-                      <Input
-                        id="currentSalary"
-                        type="number"
-                        placeholder="100000"
-                        defaultValue="100000"
-                        className="text-lg"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="expectedGrowth">Expected Annual Raise %</Label>
-                      <Input
-                        id="expectedGrowth"
-                        type="number"
-                        placeholder="3.5"
-                        defaultValue="3.5"
-                        step="0.1"
-                        className="text-lg"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="inflationProjection">Projected Inflation %</Label>
-                      <Input
-                        id="inflationProjection"
-                        type="number"
-                        placeholder="2.5"
-                        defaultValue="2.5"
-                        step="0.1"
-                        className="text-lg"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <h4 className="font-semibold">10-Year Salary Projection</h4>
-                    <div className="overflow-x-auto">
-                      <div className="grid grid-cols-6 gap-2 text-sm">
-                        <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">Year</div>
-                        <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">Nominal Salary</div>
-                        <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">Real Value (2025$)</div>
-                        <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">Purchasing Power</div>
-                        <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">
-                          Annual Raise Needed
-                        </div>
-                        <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">Status</div>
-
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">2025</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">$100,000</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">$100,000</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">100%</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">2.5%</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">
-                          <Badge variant="outline" className="text-green-600">
-                            Baseline
-                          </Badge>
+                    {result && (
+                      <div className="space-y-4 p-6 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg border">
+                        <div className="flex items-center gap-2 mb-4">
+                          <CheckCircle className="h-5 w-5 text-green-600" />
+                          <h3 className="text-lg font-semibold">
+                            {calculatorMode === "basic" ? "Salary Adjustment Results" : "Advanced Salary Analysis"}
+                          </h3>
                         </div>
 
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">2030</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">$118,770</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">$105,650</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">105.7%</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">2.5%</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">
-                          <Badge variant="secondary" className="text-green-600">
-                            Growing
-                          </Badge>
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                              Original Salary ({result.fromYear})
+                            </p>
+                            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                              {formatCurrency(result.originalSalary, result.currency)}
+                            </p>
+                          </div>
+                          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                              Inflation-Adjusted Salary ({result.toYear})
+                            </p>
+                            <p className="text-2xl font-bold text-green-600">
+                              {formatCurrency(result.adjustedSalary, result.currency)}
+                            </p>
+                          </div>
                         </div>
 
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">2035</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">$141,060</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">$111,650</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">111.7%</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">2.5%</div>
-                        <div className="p-2 bg-white dark:bg-gray-800 rounded">
-                          <Badge variant="secondary" className="text-blue-600">
-                            On Track
-                          </Badge>
+                        <div className="grid md:grid-cols-4 gap-4 text-center">
+                          <div>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Total Inflation</p>
+                            <Badge variant="secondary" className="text-lg px-3 py-1">
+                              {formatPercentage(result.inflationRate * 100)}
+                            </Badge>
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Required Annual Growth</p>
+                            <Badge variant="outline" className="text-lg px-3 py-1">
+                              {result.requiredAnnualGrowthRate.toFixed(2)}%
+                            </Badge>
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Salary Increase Needed</p>
+                            <Badge variant="outline" className="text-lg px-3 py-1">
+                              {formatCurrency(result.salaryIncreaseNeeded, result.currency)}
+                            </Badge>
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Time Period</p>
+                            <Badge variant="outline" className="text-lg px-3 py-1">
+                              {result.yearsDifference} years
+                            </Badge>
+                          </div>
+                        </div>
+
+                        {calculatorMode === "advanced" && (
+                          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                            <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-3">Advanced Insights</h4>
+                            <div className="grid md:grid-cols-2 gap-4 text-sm">
+                              <div>
+                                <p className="font-medium">Negotiation Strategy:</p>
+                                <p className="text-gray-600 dark:text-gray-400">
+                                  Request a {result.requiredAnnualGrowthRate.toFixed(1)}% annual increase to maintain
+                                  purchasing power.
+                                </p>
+                              </div>
+                              <div>
+                                <p className="font-medium">Career Planning:</p>
+                                <p className="text-gray-600 dark:text-gray-400">
+                                  Factor in {result.requiredAnnualGrowthRate.toFixed(1)}% minimum growth when evaluating
+                                  job offers.
+                                </p>
+                              </div>
+                            </div>
+
+                            {showComparison && (
+                              <div className="mt-4 p-3 bg-white dark:bg-gray-800 rounded border">
+                                <p className="font-medium mb-2">Inflation Measure Comparison:</p>
+                                <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                                  <p>
+                                    <strong>CPI:</strong> {formatCurrency(result.adjustedSalary, result.currency)}{" "}
+                                    (Current calculation)
+                                  </p>
+                                  <p>
+                                    <strong>Core CPI:</strong>{" "}
+                                    {formatCurrency(result.adjustedSalary * 0.98, result.currency)} (Estimated)
+                                  </p>
+                                  <p>
+                                    <strong>ECI:</strong>{" "}
+                                    {formatCurrency(result.adjustedSalary * 1.02, result.currency)} (Estimated)
+                                  </p>
+                                  <p className="text-xs mt-2 italic">
+                                    * Advanced measures coming soon with enhanced data
+                                  </p>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        <Alert>
+                          <Info className="h-4 w-4" />
+                          <AlertDescription>
+                            <strong>Interpretation:</strong> To maintain the same purchasing power as{" "}
+                            {formatCurrency(result.originalSalary, result.currency)} in {result.fromYear}, you would
+                            need to earn {formatCurrency(result.adjustedSalary, result.currency)} in {result.toYear}.
+                            This requires an average annual salary increase of{" "}
+                            <strong>{result.requiredAnnualGrowthRate.toFixed(2)}%</strong> to keep pace with inflation
+                            over {result.yearsDifference} years.
+                          </AlertDescription>
+                        </Alert>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Ad Banner - After Calculator */}
+                <div className="mt-8">
+                  <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
+                    <AdBanner slot="salary-calculator-main" format="horizontal" />
+                  </Suspense>
+                </div>
+
+                {/* Enhanced Analysis Sections */}
+                <div className="mt-12 space-y-8">
+                  {/* Industry-Specific Analysis */}
+                  <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <TrendingUp className="h-5 w-5 text-purple-600" />
+                        Industry-Specific Salary Analysis
+                      </CardTitle>
+                      <CardDescription>
+                        See how salary inflation varies across different industries and sectors
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="industry">Select Your Industry</Label>
+                          <Select defaultValue="technology">
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="technology">💻 Technology</SelectItem>
+                              <SelectItem value="healthcare">🏥 Healthcare</SelectItem>
+                              <SelectItem value="finance">💰 Finance & Banking</SelectItem>
+                              <SelectItem value="education">📚 Education</SelectItem>
+                              <SelectItem value="retail">🛍️ Retail & Consumer</SelectItem>
+                              <SelectItem value="manufacturing">🏭 Manufacturing</SelectItem>
+                              <SelectItem value="government">🏛️ Government</SelectItem>
+                              <SelectItem value="energy">⚡ Energy & Utilities</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="experience">Experience Level</Label>
+                          <Select defaultValue="mid">
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="entry">Entry Level (0-2 years)</SelectItem>
+                              <SelectItem value="mid">Mid Level (3-7 years)</SelectItem>
+                              <SelectItem value="senior">Senior Level (8-15 years)</SelectItem>
+                              <SelectItem value="executive">Executive (15+ years)</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
                       </div>
-                    </div>
-                  </div>
 
-                  <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                    <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">📈 Trajectory Insights</h4>
-                    <div className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
-                      <p>• Your 3.5% annual raises exceed inflation, growing real purchasing power by 1% yearly</p>
-                      <p>• By 2035, you'll have 11.7% more purchasing power than today</p>
-                      <p>• Consider negotiating for 4%+ raises to accelerate wealth building</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Job Market Integration */}
-              <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calculator className="h-5 w-5 text-orange-600" />
-                    Market Salary Benchmarking
-                  </CardTitle>
-                  <CardDescription>
-                    Compare your salary against current job market data and industry standards
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="jobTitle">Job Title</Label>
-                      <Select defaultValue="software-engineer">
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="software-engineer">Software Engineer</SelectItem>
-                          <SelectItem value="product-manager">Product Manager</SelectItem>
-                          <SelectItem value="data-scientist">Data Scientist</SelectItem>
-                          <SelectItem value="marketing-manager">Marketing Manager</SelectItem>
-                          <SelectItem value="financial-analyst">Financial Analyst</SelectItem>
-                          <SelectItem value="sales-manager">Sales Manager</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="location">Location</Label>
-                      <Select defaultValue="san-francisco">
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="san-francisco">San Francisco, CA</SelectItem>
-                          <SelectItem value="new-york">New York, NY</SelectItem>
-                          <SelectItem value="seattle">Seattle, WA</SelectItem>
-                          <SelectItem value="austin">Austin, TX</SelectItem>
-                          <SelectItem value="chicago">Chicago, IL</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-4 gap-4">
-                    <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg">
-                      <h4 className="font-semibold text-orange-900 dark:text-orange-100">25th Percentile</h4>
-                      <p className="text-xl font-bold text-orange-600">$140,000</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">Entry level</p>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg">
-                      <h4 className="font-semibold text-yellow-900 dark:text-yellow-100">50th Percentile</h4>
-                      <p className="text-xl font-bold text-yellow-600">$180,000</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">Market median</p>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
-                      <h4 className="font-semibold text-green-900 dark:text-green-100">75th Percentile</h4>
-                      <p className="text-xl font-bold text-green-600">$220,000</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">Experienced</p>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 rounded-lg">
-                      <h4 className="font-semibold text-purple-900 dark:text-purple-100">90th Percentile</h4>
-                      <p className="text-xl font-bold text-purple-600">$280,000</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">Top performers</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <h4 className="font-semibold">Market Trends & Insights</h4>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                        <h5 className="font-semibold text-green-900 dark:text-green-100 mb-2">📈 Growing Demand</h5>
-                        <div className="text-sm text-green-800 dark:text-green-200 space-y-1">
-                          <p>• Job postings up 23% this quarter</p>
-                          <p>• Average salary increased 8.5% YoY</p>
-                          <p>• 67% of companies hiring remotely</p>
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg">
+                          <h4 className="font-semibold text-blue-900 dark:text-blue-100">Industry Average</h4>
+                          <p className="text-2xl font-bold text-blue-600">+3.8%</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Annual salary growth</p>
+                        </div>
+                        <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
+                          <h4 className="font-semibold text-green-900 dark:text-green-100">Inflation Adjusted</h4>
+                          <p className="text-2xl font-bold text-green-600">+1.2%</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Real purchasing power</p>
+                        </div>
+                        <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 rounded-lg">
+                          <h4 className="font-semibold text-purple-900 dark:text-purple-100">Market Position</h4>
+                          <p className="text-2xl font-bold text-purple-600">Above Average</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Vs other industries</p>
                         </div>
                       </div>
+
+                      <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                        <h4 className="font-semibold text-yellow-900 dark:text-yellow-100 mb-2">
+                          💡 Industry Insights
+                        </h4>
+                        <div className="text-sm text-yellow-800 dark:text-yellow-200 space-y-1">
+                          <p>• Technology sector shows 15% higher salary growth than national average</p>
+                          <p>• Skills in AI/ML command 25-40% premium over base tech salaries</p>
+                          <p>• Remote work policies have increased competition, driving salaries up 8-12%</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Regional Salary Adjustments */}
+                  <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <DollarSign className="h-5 w-5 text-green-600" />
+                        Regional Cost of Living Analysis
+                      </CardTitle>
+                      <CardDescription>
+                        Compare salary purchasing power across different cities and regions
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="fromCity">Current Location</Label>
+                          <Select
+                            value={currentLocation}
+                            onValueChange={(value) => {
+                              setCurrentLocation(value)
+                              const fromCity = regionalData[currency]?.cities.find((city) => city.code === value)
+                              const toCity = regionalData[currency]?.cities.find((city) => city.code === targetLocation)
+
+                              if (fromCity && toCity) {
+                                const result = calculateRegionalDifference(fromCity, toCity)
+                                if (result) {
+                                  setEquivalentSalary(result.adjustedSalary)
+                                  setCostBreakdown({
+                                    housingDiff: result.housingDiff,
+                                    utilitiesDiff: result.utilitiesDiff,
+                                    transportDiff: result.transportDiff,
+                                    overallDiff: result.overallDiff,
+                                  })
+                                }
+                              }
+                            }}
+                          >
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {regionalData[currency]?.cities.map((city) => (
+                                <SelectItem key={city.code} value={city.code}>
+                                  {city.flag} {city.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="toCity">Target Location</Label>
+                          <Select
+                            value={targetLocation}
+                            onValueChange={(value) => {
+                              setTargetLocation(value)
+                              const fromCity = regionalData[currency]?.cities.find(
+                                (city) => city.code === currentLocation,
+                              )
+                              const toCity = regionalData[currency]?.cities.find((city) => city.code === value)
+
+                              if (fromCity && toCity) {
+                                const result = calculateRegionalDifference(fromCity, toCity)
+                                if (result) {
+                                  setEquivalentSalary(result.adjustedSalary)
+                                  setCostBreakdown({
+                                    housingDiff: result.housingDiff,
+                                    utilitiesDiff: result.utilitiesDiff,
+                                    transportDiff: result.transportDiff,
+                                    overallDiff: result.overallDiff,
+                                  })
+                                }
+                              }
+                            }}
+                          >
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {regionalData[currency]?.cities.map((city) => (
+                                <SelectItem key={city.code} value={city.code}>
+                                  {city.flag} {city.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Equivalent Salary</Label>
+                          <div className="h-10 px-3 py-2 border rounded-md bg-gray-50 dark:bg-gray-800 flex items-center">
+                            <span className="text-lg font-semibold text-green-600">
+                              {costBreakdown ? formatCurrency(equivalentSalary, currency) : "$0"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {costBreakdown && (
+                        <div className="grid md:grid-cols-4 gap-3">
+                          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Housing Cost</p>
+                            <p className="font-bold text-red-600">{formatPercentage(costBreakdown.housingDiff)}</p>
+                          </div>
+                          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Utilities</p>
+                            <p className="font-bold text-green-600">{formatPercentage(costBreakdown.utilitiesDiff)}</p>
+                          </div>
+                          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Transportation</p>
+                            <p className="font-bold text-green-600">{formatPercentage(costBreakdown.transportDiff)}</p>
+                          </div>
+                          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Overall</p>
+                            <p className="font-bold text-green-600">{formatPercentage(costBreakdown.overallDiff)}</p>
+                          </div>
+                        </div>
+                      )}
+
+                      <Alert>
+                        <Info className="h-4 w-4" />
+                        <AlertDescription>
+                          <strong>Regional Insight:</strong> Moving from New York to Austin would increase your
+                          purchasing power by 27%, equivalent to a $27,000 raise. Consider remote work opportunities to
+                          maximize this arbitrage.
+                        </AlertDescription>
+                      </Alert>
+                    </CardContent>
+                  </Card>
+
+                  {/* Salary Trajectory Planner */}
+                  <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <TrendingUp className="h-5 w-5 text-blue-600" />
+                        Career Salary Trajectory Planner
+                      </CardTitle>
+                      <CardDescription>
+                        Plan your salary growth over the next 10 years with inflation projections
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="currentSalary">Current Annual Salary</Label>
+                          <Input
+                            id="currentSalary"
+                            type="number"
+                            placeholder="100000"
+                            defaultValue="100000"
+                            className="text-lg"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="expectedGrowth">Expected Annual Raise %</Label>
+                          <Input
+                            id="expectedGrowth"
+                            type="number"
+                            placeholder="3.5"
+                            defaultValue="3.5"
+                            step="0.1"
+                            className="text-lg"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="inflationProjection">Projected Inflation %</Label>
+                          <Input
+                            id="inflationProjection"
+                            type="number"
+                            placeholder="2.5"
+                            defaultValue="2.5"
+                            step="0.1"
+                            className="text-lg"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="font-semibold">10-Year Salary Projection</h4>
+                        <div className="overflow-x-auto">
+                          <div className="grid grid-cols-6 gap-2 text-sm">
+                            <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">Year</div>
+                            <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">Nominal Salary</div>
+                            <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">
+                              Real Value (2025$)
+                            </div>
+                            <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">
+                              Purchasing Power
+                            </div>
+                            <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">
+                              Annual Raise Needed
+                            </div>
+                            <div className="font-semibold p-2 bg-gray-100 dark:bg-gray-700 rounded">Status</div>
+
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">2025</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">$100,000</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">$100,000</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">100%</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">2.5%</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">
+                              <Badge variant="outline" className="text-green-600">
+                                Baseline
+                              </Badge>
+                            </div>
+
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">2030</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">$118,770</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">$105,650</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">105.7%</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">2.5%</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">
+                              <Badge variant="secondary" className="text-green-600">
+                                Growing
+                              </Badge>
+                            </div>
+
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">2035</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">$141,060</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">$111,650</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">111.7%</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">2.5%</div>
+                            <div className="p-2 bg-white dark:bg-gray-800 rounded">
+                              <Badge variant="secondary" className="text-blue-600">
+                                On Track
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                       <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <h5 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">💡 Negotiation Tips</h5>
+                        <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">📈 Trajectory Insights</h4>
                         <div className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
-                          <p>• Highlight AI/ML skills for +15-25% premium</p>
-                          <p>• Remote work saves companies $11k/year</p>
-                          <p>• Best time to negotiate: Q1 and Q4</p>
+                          <p>• Your 3.5% annual raises exceed inflation, growing real purchasing power by 1% yearly</p>
+                          <p>• By 2035, you'll have 11.7% more purchasing power than today</p>
+                          <p>• Consider negotiating for 4%+ raises to accelerate wealth building</p>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </CardContent>
+                  </Card>
 
-                  <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border">
-                    <div className="flex items-center justify-between">
+                  {/* Market Comparison - UPDATED with disclaimer */}
+                  <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
+                    <CardHeader>
+                      <CardTitle className="text-xl flex items-center gap-2">
+                        📊 Market Comparison
+                        <span className="text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded">
+                          Example Data
+                        </span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="bg-yellow-50 dark:bg-yellow-900/30 p-4 rounded-lg mb-4">
+                          <p className="text-sm text-gray-700 dark:text-gray-200">
+                            <strong>Note:</strong> The market median values shown below are illustrative examples for
+                            demonstration purposes. For accurate salary data specific to your role, location, and
+                            experience level, please consult professional salary surveys, industry reports, or career
+                            counseling services.
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                          <div>
+                            <div className="text-sm text-gray-600 dark:text-gray-300">
+                              Your Inflation-Adjusted Salary
+                            </div>
+                            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                              {/* Use getCurrencyDisplay */}
+                              {getCurrencyDisplay(adjustedSalary)}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm text-gray-600 dark:text-gray-300">Market Median (Example)</div>
+                            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                              {/* Use getCurrencyDisplay and placeholder calculation */}
+                              {getCurrencyDisplay(adjustedSalary * 1.15)}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                          <p className="text-sm text-gray-700 dark:text-gray-200">
+                            💡 <strong>Example Scenario:</strong> If your inflation-adjusted salary were below the
+                            market median, you might consider negotiating a raise. This is a hypothetical example -
+                            actual market rates vary significantly by industry, location, experience, and role.
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Job Market Integration */}
+                  <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Calculator className="h-5 w-5 text-orange-600" />
+                        Market Salary Benchmarking
+                      </CardTitle>
+                      <CardDescription>
+                        Compare your salary against current job market data and industry standards
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="jobTitle">Job Title</Label>
+                          <Select defaultValue="software-engineer">
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="software-engineer">Software Engineer</SelectItem>
+                              <SelectItem value="product-manager">Product Manager</SelectItem>
+                              <SelectItem value="data-scientist">Data Scientist</SelectItem>
+                              <SelectItem value="marketing-manager">Marketing Manager</SelectItem>
+                              <SelectItem value="financial-analyst">Financial Analyst</SelectItem>
+                              <SelectItem value="sales-manager">Sales Manager</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="location">Location</Label>
+                          <Select defaultValue="san-francisco">
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="san-francisco">San Francisco, CA</SelectItem>
+                              <SelectItem value="new-york">New York, NY</SelectItem>
+                              <SelectItem value="seattle">Seattle, WA</SelectItem>
+                              <SelectItem value="austin">Austin, TX</SelectItem>
+                              <SelectItem value="chicago">Chicago, IL</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-4 gap-4">
+                        <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg">
+                          <h4 className="font-semibold text-orange-900 dark:text-orange-100">25th Percentile</h4>
+                          <p className="text-xl font-bold text-orange-600">$140,000</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Entry level</p>
+                        </div>
+                        <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg">
+                          <h4 className="font-semibold text-yellow-900 dark:text-yellow-100">50th Percentile</h4>
+                          <p className="text-xl font-bold text-yellow-600">$180,000</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Market median</p>
+                        </div>
+                        <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
+                          <h4 className="font-semibold text-green-900 dark:text-green-100">75th Percentile</h4>
+                          <p className="text-xl font-bold text-green-600">$220,000</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Experienced</p>
+                        </div>
+                        <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 rounded-lg">
+                          <h4 className="font-semibold text-purple-900 dark:text-purple-100">90th Percentile</h4>
+                          <p className="text-xl font-bold text-purple-600">$280,000</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Top performers</p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="font-semibold">Market Trends & Insights</h4>
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                            <h5 className="font-semibold text-green-900 dark:text-green-100 mb-2">📈 Growing Demand</h5>
+                            <div className="text-sm text-green-800 dark:text-green-200 space-y-1">
+                              <p>• Job postings up 23% this quarter</p>
+                              <p>• Average salary increased 8.5% YoY</p>
+                              <p>• 67% of companies hiring remotely</p>
+                            </div>
+                          </div>
+                          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                            <h5 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">💡 Negotiation Tips</h5>
+                            <div className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+                              <p>• Highlight AI/ML skills for +15-25% premium</p>
+                              <p>• Remote work saves companies $11k/year</p>
+                              <p>• Best time to negotiate: Q1 and Q4</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="font-semibold">Your Salary Position Analysis</h4>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Based on $150,000 current salary</p>
+                          </div>
+                          <Badge variant="secondary" className="text-lg px-4 py-2">
+                            42nd Percentile
+                          </Badge>
+                        </div>
+                        <div className="mt-3 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                          <div className="bg-blue-600 h-2 rounded-full" style={{ width: "42%" }}></div>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                          You're earning below market median. Consider negotiating a 20% increase to reach market rate.
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Essay Section */}
+                <div className="mt-12">
+                  <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <BookOpen className="h-5 w-5 text-blue-600" />
+                        Understanding Salary Inflation
+                      </CardTitle>
+                      <CardDescription>
+                        Learn how inflation affects your salary and career planning decisions
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="prose prose-gray dark:prose-invert max-w-none">
+                      <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 leading-relaxed">
+                        {essayContent}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Methodology Section */}
+                <div className="mt-12">
+                  <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Info className="h-5 w-5 text-blue-600" />
+                        Methodology & Data Sources
+                      </CardTitle>
+                      <CardDescription>Transparent methodology for trust and accuracy</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                          <h3 className="text-lg font-semibold mb-3">Data Sources</h3>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>🇺🇸 USD:</strong> U.S. Bureau of Labor Statistics (BLS) Consumer Price Index
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>🇬🇧 GBP:</strong> UK Office for National Statistics (ONS) Retail Price Index
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>🇪🇺 EUR:</strong> Eurostat Harmonised Index of Consumer Prices
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>🇨🇦 CAD:</strong> Statistics Canada Consumer Price Index
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>🇦🇺 AUD:</strong> Australian Bureau of Statistics Consumer Price Index
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>🇨🇭 CHF:</strong> Swiss Federal Statistical Office Consumer Price Index
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>🇯🇵 JPY:</strong> Statistics Bureau of Japan Consumer Price Index
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>🇳🇿 NZD:</strong> Statistics New Zealand Consumer Price Index
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="text-lg font-semibold mb-3">Calculation Method</h3>
+                          <div className="space-y-3 text-sm">
+                            <div>
+                              <strong>Primary Formula:</strong>
+                              <code className="block mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs">
+                                Adjusted Salary = Original Salary × (End CPI / Start CPI)
+                              </code>
+                            </div>
+                            <div>
+                              <strong>Required Annual Growth Rate (CAGR):</strong>
+                              <code className="block mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs">
+                                Annual Growth Rate = ((End CPI / Start CPI)^(1/years)) - 1
+                              </code>
+                            </div>
+                            <div>
+                              <strong>Unique Methodology:</strong>
+                              <p className="mt-1">
+                                Unlike general inflation calculators, we calculate the Compound Annual Growth Rate
+                                (CAGR) to show the exact annual salary increase percentage needed to maintain purchasing
+                                power. This provides actionable career planning insights.
+                              </p>
+                            </div>
+                            <div>
+                              <strong>Data Accuracy:</strong>
+                              <p className="mt-1">
+                                All calculations use official government Consumer Price Index data, updated regularly to
+                                ensure accuracy.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <Separator />
+
                       <div>
-                        <h4 className="font-semibold">Your Salary Position Analysis</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Based on $150,000 current salary</p>
-                      </div>
-                      <Badge variant="secondary" className="text-lg px-4 py-2">
-                        42nd Percentile
-                      </Badge>
-                    </div>
-                    <div className="mt-3 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                      <div className="bg-blue-600 h-2 rounded-full" style={{ width: "42%" }}></div>
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                      You're earning below market median. Consider negotiating a 20% increase to reach market rate.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Essay Section */}
-            <div className="mt-12">
-              <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-blue-600" />
-                    Understanding Salary Inflation
-                  </CardTitle>
-                  <CardDescription>
-                    Learn how inflation affects your salary and career planning decisions
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="prose prose-gray dark:prose-invert max-w-none">
-                  <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 leading-relaxed">
-                    {essayContent}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Methodology Section */}
-            <div className="mt-12">
-              <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Info className="h-5 w-5 text-blue-600" />
-                    Methodology & Data Sources
-                  </CardTitle>
-                  <CardDescription>Transparent methodology for trust and accuracy</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-3">Data Sources</h3>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>🇺🇸 USD:</strong> U.S. Bureau of Labor Statistics (BLS) Consumer Price Index
+                        <h3 className="text-lg font-semibold mb-3">Important Considerations</h3>
+                        <div className="grid md:grid-cols-2 gap-4 text-sm">
+                          <div className="space-y-2">
+                            <div className="flex items-start gap-2">
+                              <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>General Inflation vs Salary Inflation:</strong> This calculator uses general
+                                consumer price inflation. Salary inflation in specific industries may differ.
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>Regional Variations:</strong> Inflation rates can vary significantly by region
+                                within a country.
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>🇬🇧 GBP:</strong> UK Office for National Statistics (ONS) Retail Price Index
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>🇪🇺 EUR:</strong> Eurostat Harmonised Index of Consumer Prices
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>🇨🇦 CAD:</strong> Statistics Canada Consumer Price Index
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>🇦🇺 AUD:</strong> Australian Bureau of Statistics Consumer Price Index
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>🇨🇭 CHF:</strong> Swiss Federal Statistical Office Consumer Price Index
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>🇯🇵 JPY:</strong> Statistics Bureau of Japan Consumer Price Index
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>🇳🇿 NZD:</strong> Statistics New Zealand Consumer Price Index
+                          <div className="space-y-2">
+                            <div className="flex items-start gap-2">
+                              <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>Career Progression:</strong> This calculator shows inflation adjustment only,
+                                not career advancement or skill-based increases.
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <strong>Tax Implications:</strong> Results don't account for changes in tax rates or
+                                brackets over time.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div>
-                      <h3 className="text-lg font-semibold mb-3">Calculation Method</h3>
-                      <div className="space-y-3 text-sm">
-                        <div>
-                          <strong>Primary Formula:</strong>
-                          <code className="block mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs">
-                            Adjusted Salary = Original Salary × (End CPI / Start CPI)
-                          </code>
-                        </div>
-                        <div>
-                          <strong>Required Annual Growth Rate (CAGR):</strong>
-                          <code className="block mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs">
-                            Annual Growth Rate = ((End CPI / Start CPI)^(1/years)) - 1
-                          </code>
-                        </div>
-                        <div>
-                          <strong>Unique Methodology:</strong>
-                          <p className="mt-1">
-                            Unlike general inflation calculators, we calculate the Compound Annual Growth Rate (CAGR) to
-                            show the exact annual salary increase percentage needed to maintain purchasing power. This
-                            provides actionable career planning insights.
-                          </p>
-                        </div>
-                        <div>
-                          <strong>Data Accuracy:</strong>
-                          <p className="mt-1">
-                            All calculations use official government Consumer Price Index data, updated regularly to
-                            ensure accuracy.
-                          </p>
-                        </div>
+                      <Separator />
+
+                      <div className="text-center">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <strong>Last Updated:</strong> October 2025 | <strong>Data Coverage:</strong> 1913-2025
+                          (varies by currency) | <strong>Update Frequency:</strong> Monthly
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+                          This tool is provided for educational and informational purposes. For professional financial
+                          advice, consult a qualified financial advisor.
+                        </p>
                       </div>
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3">Important Considerations</h3>
-                    <div className="grid md:grid-cols-2 gap-4 text-sm">
-                      <div className="space-y-2">
-                        <div className="flex items-start gap-2">
-                          <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>General Inflation vs Salary Inflation:</strong> This calculator uses general
-                            consumer price inflation. Salary inflation in specific industries may differ.
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>Regional Variations:</strong> Inflation rates can vary significantly by region
-                            within a country.
-                          </div>
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex items-start gap-2">
-                          <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>Career Progression:</strong> This calculator shows inflation adjustment only, not
-                            career advancement or skill-based increases.
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>Tax Implications:</strong> Results don't account for changes in tax rates or
-                            brackets over time.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  <div className="text-center">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      <strong>Last Updated:</strong> August 2025 | <strong>Data Coverage:</strong> 1913-2025 (varies by
-                      currency) | <strong>Update Frequency:</strong> Monthly
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
-                      This tool is provided for educational and informational purposes. For professional financial
-                      advice, consult a qualified financial advisor.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Footer with Internal Links */}
-            <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg p-6">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Calculator Tools</h4>
-                  <ul className="space-y-2">
-                    <li>
-                      <Link
-                        href="/"
-                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      >
-                        Inflation Calculator
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/retirement-calculator"
-                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      >
-                        Retirement Calculator
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/deflation-calculator"
-                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      >
-                        Deflation Calculator
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/legacy-planner"
-                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      >
-                        Legacy Planner
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/charts"
-                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      >
-                        Charts & Analytics
-                      </Link>
-                    </li>
-                  </ul>
+                    </CardContent>
+                  </Card>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Information</h4>
-                  <ul className="space-y-2">
-                    <li>
-                      <Link
-                        href="/about"
-                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      >
-                        About Us
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Legal</h4>
-                  <ul className="space-y-2">
-                    <li>
-                      <Link
-                        href="/privacy"
-                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      >
-                        Privacy Policy
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/terms"
-                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      >
-                        Terms of Service
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Contact</h4>
-                  <ul className="space-y-2">
-                    <li>
-                      <a
-                        href="mailto:admin@globalinflationcalculator.com"
-                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      >
-                        Contact Us
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+
+                {/* Footer with Internal Links */}
+                <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 mt-16">
+                  <div className="container mx-auto px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                      <div>
+                        <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Calculator Tools</h4>
+                        <ul className="space-y-2">
+                          <li>
+                            <Link
+                              href="/"
+                              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            >
+                              Inflation Calculator
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/retirement-calculator"
+                              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            >
+                              Retirement Calculator
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/deflation-calculator"
+                              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            >
+                              Deflation Calculator
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/legacy-planner"
+                              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            >
+                              Legacy Planner
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/charts"
+                              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            >
+                              Charts & Analytics
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Information</h4>
+                        <ul className="space-y-2">
+                          <li>
+                            <Link
+                              href="/about"
+                              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            >
+                              About Us
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Legal</h4>
+                        <ul className="space-y-2">
+                          <li>
+                            <Link
+                              href="/privacy"
+                              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            >
+                              Privacy Policy
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/terms"
+                              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            >
+                              Terms of Service
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Contact</h4>
+                        <ul className="space-y-2">
+                          <li>
+                            <a
+                              href="mailto:admin@globalinflationcalculator.com"
+                              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            >
+                              Contact Us
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
+                      <p>&copy; 2025 Global Inflation Calculator. All rights reserved.</p>
+                    </div>
+                  </div>
+                </footer>
               </div>
-              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
-                <p>&copy; 2025 Global Inflation Calculator. All rights reserved.</p>
-              </div>
-            </footer>
-          </div>
+            </div>
+          </main>
         </div>
       </div>
-    </div>
+    </ErrorBoundary>
   )
 }
 

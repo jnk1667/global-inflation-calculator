@@ -197,6 +197,14 @@ export default function TermsOfService() {
                     </li>
                     <li>
                       <Link
+                        href="/deflation-calculator"
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        Deflation Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
                         href="/salary-calculator"
                         className="text-muted-foreground hover:text-primary transition-colors"
                       >

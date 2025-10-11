@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     template: "%s | Global Inflation Calculator",
   },
   description:
-    "Calculate historical inflation and purchasing power across multiple currencies with official data from as far as 1913 to the present day.",
+    "Calculate historical inflation and purchasing power across multiple currencies. USD, GBP, CAD, AUD, CHF, JPY from 1913; EUR from 1996; NZD from 1960. Official government data.",
   keywords: [
     "inflation calculator",
     "purchasing power",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
     description:
-      "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Compare USD, GBP, EUR, CAD, AUD, CHF, JPY with real government data.",
+      "Calculate historical inflation across multiple currencies. USD, GBP, CAD from 1913; EUR from 1996; NZD from 1960. Real government data.",
     url: "/",
     siteName: "Global Inflation Calculator",
     locale: "en_US",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
-    description: "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present.",
+    description: "Calculate historical inflation across multiple currencies. USD, GBP, CAD from 1913; EUR from 1996.",
     images: ["/placeholder.svg?height=630&width=1200&text=Global+Inflation+Calculator"],
   },
   robots: {

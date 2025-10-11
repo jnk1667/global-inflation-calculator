@@ -32,6 +32,8 @@ export default function ChartsPage() {
   const [audData, setAudData] = useState<any>(null)
   const [jpyData, setJpyData] = useState<any>(null)
   const [nzdData, setNzdData] = useState<any>(null)
+  const [pceData, setPceData] = useState<any>(null)
+  const [corePceData, setCorePceData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -47,6 +49,8 @@ export default function ChartsPage() {
           audResponse,
           jpyResponse,
           nzdResponse,
+          pceResponse,
+          corePceResponse,
         ] = await Promise.all([
           fetch("/data/usd-inflation.json"),
           fetch("/data/eur-inflation.json"),
@@ -57,9 +61,11 @@ export default function ChartsPage() {
           fetch("/data/aud-inflation.json"),
           fetch("/data/jpy-inflation.json"),
           fetch("/data/nzd-inflation.json"),
+          fetch("/data/pce-inflation.json"),
+          fetch("/data/core-pce-inflation.json"),
         ])
 
-        const [usd, eur, gbp, healthcare, chf, cad, aud, jpy, nzd] = await Promise.all([
+        const [usd, eur, gbp, healthcare, chf, cad, aud, jpy, nzd, pce, corePce] = await Promise.all([
           usdResponse.json(),
           eurResponse.json(),
           gbpResponse.json(),
@@ -69,6 +75,8 @@ export default function ChartsPage() {
           audResponse.json(),
           jpyResponse.json(),
           nzdResponse.json(),
+          pceResponse.json(),
+          corePceResponse.json(),
         ])
 
         setUsdData(usd)
@@ -80,6 +88,8 @@ export default function ChartsPage() {
         setAudData(aud)
         setJpyData(jpy)
         setNzdData(nzd)
+        setPceData(pce)
+        setCorePceData(corePce)
         setLoading(false)
       } catch (error) {
         console.error("Error fetching data:", error)
@@ -124,7 +134,9 @@ export default function ChartsPage() {
     !cadData ||
     !audData ||
     !jpyData ||
-    !nzdData
+    !nzdData ||
+    !pceData ||
+    !corePceData
   ) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 pt-32 pb-16">
@@ -493,33 +505,35 @@ export default function ChartsPage() {
 
   // Cost of Living Chart - NEW ADDITION
   const calculateCostOfLivingData = () => {
-    // Load PCE and Core PCE data for cost of living analysis
     const costOfLivingData = []
 
-    // Use years from 1959 to 2025 (available PCE data range)
-    for (let year = 1959; year <= 2025; year++) {
+    // Get all years from PCE data
+    const years = Object.keys(pceData.data).map(Number).sort()
+
+    years.forEach((year) => {
       const yearStr = year.toString()
+      const pceValue = pceData.data[yearStr] as number
+      const corePceValue = corePceData.data[yearStr] as number
+      const baseValue = pceData.data["1959"] as number
 
-      // We'll simulate PCE data loading since we have the structure
-      // In a real implementation, this would load from the actual PCE files
-      const pceBaseline = 100 // 1959 baseline
-      const corePceBaseline = 100
-
-      // Calculate relative cost of living index (1959 = 100)
-      const pceIndex = year === 1959 ? 100 : 100 + (year - 1959) * 2.8 // ~2.8% average PCE inflation
-      const corePceIndex = year === 1959 ? 100 : 100 + (year - 1959) * 2.5 // ~2.5% average Core PCE inflation
+      // Calculate indices (1959 = 100)
+      const pceIndex = (pceValue / baseValue) * 100
+      const corePceIndex = (corePceValue / baseValue) * 100
 
       // Calculate purchasing power (inverse of inflation)
-      const purchasingPower = (100 / pceIndex) * 100
+      const purchasingPower = (baseValue / pceValue) * 100
+
+      // Calculate dollars needed for $1 of 1959 goods
+      const dollarsNeeded = pceValue / baseValue
 
       costOfLivingData.push({
         year,
         costOfLivingIndex: Math.round(pceIndex * 10) / 10,
         coreCostOfLivingIndex: Math.round(corePceIndex * 10) / 10,
         purchasingPower: Math.round(purchasingPower * 10) / 10,
-        dollarsNeeded: Math.round((pceIndex / 100) * 100) / 100,
+        dollarsNeeded: Math.round(dollarsNeeded * 100) / 100,
       })
-    }
+    })
 
     return costOfLivingData
   }

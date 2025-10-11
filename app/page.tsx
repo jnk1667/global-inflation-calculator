@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import ClientPage from "./ClientPage"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Global Inflation Calculator - Historical Purchasing Power",
   description:
-    "Calculate historical inflation and purchasing power across 8 major currencies. Compare USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD with real government data.",
+    "Calculate historical inflation and purchasing power across 8 major currencies. Compare USD, GBP, EUR (from 1996), CAD, AUD, CHF, JPY, and NZD with real government data.",
   keywords: [
     "inflation calculator",
     "best inflation calculator online",
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
     description:
-      "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present. Compare USD, GBP, EUR, CAD, AUD, CHF, JPY with real government data.",
+      "Calculate historical inflation and purchasing power across multiple currencies. USD, GBP, CAD from 1913; EUR from 1996; NZD from 1960. Real government data.",
     url: "/",
     type: "website",
     images: [
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
-    description: "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present.",
+    description: "Calculate historical inflation across multiple currencies. USD, GBP, CAD from 1913; EUR from 1996.",
     images: ["/placeholder.svg?height=630&width=1200&text=Global+Inflation+Calculator"],
   },
   alternates: {
@@ -64,6 +65,63 @@ export default function Home() {
                 Calculate how inflation affects your money over time across different currencies. See real purchasing
                 power changes from 1913 to 2025.
               </p>
+
+              <nav className="mb-6">
+                <h3 className="font-semibold mb-2">Site Navigation:</h3>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/" className="text-blue-600 hover:underline">
+                      Home - Inflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/deflation-calculator" className="text-blue-600 hover:underline">
+                      Deflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/charts" className="text-blue-600 hover:underline">
+                      Charts & Analytics
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/salary-calculator" className="text-blue-600 hover:underline">
+                      Salary Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/retirement-calculator" className="text-blue-600 hover:underline">
+                      Retirement Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/legacy-planner" className="text-blue-600 hover:underline">
+                      Legacy Planner
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about" className="text-blue-600 hover:underline">
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy" className="text-blue-600 hover:underline">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/terms" className="text-blue-600 hover:underline">
+                      Terms of Service
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/sitemap-page" className="text-blue-600 hover:underline">
+                      Sitemap
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+
               <p className="text-sm text-gray-600">
                 This calculator requires JavaScript to function. Please enable JavaScript in your browser to use the
                 interactive features.
