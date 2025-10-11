@@ -3,12 +3,38 @@
 User-agent: *
 Allow: /
 
+# Block llms.txt from appearing in search results (but AI crawlers can still access it)
+User-agent: Googlebot
+Disallow: /llms.txt
+
+User-agent: Bingbot
+Disallow: /llms.txt
+
+# Allow AI/LLM crawlers to access llms.txt
+User-agent: GPTBot
+Allow: /llms.txt
+
+User-agent: ChatGPT-User
+Allow: /llms.txt
+
+User-agent: Claude-Web
+Allow: /llms.txt
+
+User-agent: anthropic-ai
+Allow: /llms.txt
+
+User-agent: Applebot-Extended
+Allow: /llms.txt
+
+User-agent: PerplexityBot
+Allow: /llms.txt
+
+User-agent: Bytespider
+Allow: /llms.txt
+
 # Sitemap
 Sitemap: https://www.globalinflationcalculator.com/sitemap.xml
 
 # LLM-friendly documentation
 # AI crawlers and LLMs can find structured information about this site at:
-Allow: /llms.txt
-
-# Special directive for AI crawlers
-# For comprehensive site information, see: https://www.globalinflationcalculator.com/llms.txt
+# https://www.globalinflationcalculator.com/llms.txt
