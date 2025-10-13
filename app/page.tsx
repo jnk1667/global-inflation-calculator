@@ -53,56 +53,118 @@ export default function Home() {
       {/* Interactive calculator - client component */}
       <ClientPage />
 
-      {/* Static content for crawlers - server rendered */}
       <noscript>
         <div className="container mx-auto px-4 py-12 max-w-4xl">
-          <Card className="bg-white shadow-lg border-0 mb-8">
-            <CardHeader>
-              <CardTitle className="text-2xl">Global Inflation Calculator</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-4">
-                Calculate how inflation affects your money over time across different currencies. See real purchasing
-                power changes from 1913 to 2025.
-              </p>
+          <header>
+            <Card className="bg-white shadow-lg border-0 mb-8">
+              <CardHeader>
+                <CardTitle className="text-2xl">Global Inflation Calculator</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">
+                  Calculate how inflation affects your money over time across different currencies. See real purchasing
+                  power changes from 1913 to 2025.
+                </p>
 
-              <nav className="mb-6">
-                <h3 className="font-semibold mb-2">Site Navigation:</h3>
+                <nav aria-label="Main navigation">
+                  <h3 className="font-semibold mb-2">Site Navigation:</h3>
+                  <ul className="space-y-2">
+                    <li>
+                      <Link href="/" className="text-blue-600 hover:underline">
+                        Home - Inflation Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/deflation-calculator" className="text-blue-600 hover:underline">
+                        Deflation Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/charts" className="text-blue-600 hover:underline">
+                        Charts & Analytics
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/salary-calculator" className="text-blue-600 hover:underline">
+                        Salary Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/retirement-calculator" className="text-blue-600 hover:underline">
+                        Retirement Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/legacy-planner" className="text-blue-600 hover:underline">
+                        Legacy Planner
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/about" className="text-blue-600 hover:underline">
+                        About Us
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/privacy" className="text-blue-600 hover:underline">
+                        Privacy Policy
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/terms" className="text-blue-600 hover:underline">
+                        Terms of Service
+                      </Link>
+                    </li>
+                  </ul>
+                </nav>
+
+                <section className="mt-6" aria-label="Supported currencies">
+                  <h3 className="font-semibold mb-2">Supported Currencies:</h3>
+                  <ul className="space-y-1">
+                    <li>🇺🇸 USD - US Dollar (1913-2025)</li>
+                    <li>🇬🇧 GBP - British Pound (1947-2025)</li>
+                    <li>🇪🇺 EUR - Euro (1996-2025)</li>
+                    <li>🇨🇦 CAD - Canadian Dollar (1913-2025)</li>
+                    <li>🇦🇺 AUD - Australian Dollar (1948-2025)</li>
+                    <li>🇨🇭 CHF - Swiss Franc (1913-2025)</li>
+                    <li>🇯🇵 JPY - Japanese Yen (1946-2025)</li>
+                    <li>🇳🇿 NZD - New Zealand Dollar (1960-2025)</li>
+                  </ul>
+                </section>
+
+                <section className="mt-6" aria-label="Key features">
+                  <h3 className="font-semibold mb-2">Key Features:</h3>
+                  <ul className="space-y-1">
+                    <li>• Historical inflation calculation from 1913-2025</li>
+                    <li>• Multi-currency support across 8 major currencies</li>
+                    <li>• Purchasing power comparison over time</li>
+                    <li>• Interactive charts and visualizations</li>
+                    <li>• Historical context and events</li>
+                    <li>• Real-time calculations using official government data</li>
+                    <li>• Multiple inflation measures (CPI, Core CPI, PCE, PPI, GDP Deflator)</li>
+                  </ul>
+                </section>
+
+                <p className="text-sm text-gray-600 mt-6">
+                  This calculator requires JavaScript to function. Please enable JavaScript in your browser to use the
+                  interactive features.
+                </p>
+              </CardContent>
+            </Card>
+          </header>
+
+          <MethodologyContent />
+          <DataSourcesContent />
+          <SEOContent />
+
+          <footer className="mt-8">
+            <Card className="bg-white shadow-lg border-0">
+              <CardContent className="p-6">
+                <h3 className="font-semibold mb-4">Contact & Legal</h3>
                 <ul className="space-y-2">
                   <li>
-                    <Link href="/" className="text-blue-600 hover:underline">
-                      Home - Inflation Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/deflation-calculator" className="text-blue-600 hover:underline">
-                      Deflation Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/charts" className="text-blue-600 hover:underline">
-                      Charts & Analytics
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/salary-calculator" className="text-blue-600 hover:underline">
-                      Salary Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/retirement-calculator" className="text-blue-600 hover:underline">
-                      Retirement Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/legacy-planner" className="text-blue-600 hover:underline">
-                      Legacy Planner
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/about" className="text-blue-600 hover:underline">
-                      About Us
-                    </Link>
+                    <a href="mailto:admin@globalinflationcalculator.com" className="text-blue-600 hover:underline">
+                      Contact Us: admin@globalinflationcalculator.com
+                    </a>
                   </li>
                   <li>
                     <Link href="/privacy" className="text-blue-600 hover:underline">
@@ -114,26 +176,16 @@ export default function Home() {
                       Terms of Service
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/sitemap-page" className="text-blue-600 hover:underline">
-                      Sitemap
-                    </Link>
-                  </li>
                 </ul>
-              </nav>
-
-              <p className="text-sm text-gray-600">
-                This calculator requires JavaScript to function. Please enable JavaScript in your browser to use the
-                interactive features.
-              </p>
-            </CardContent>
-          </Card>
-
-          <MethodologyContent />
-          <DataSourcesContent />
-          <SEOContent />
+                <p className="text-sm text-gray-600 mt-4">
+                  © 2025 Global Inflation Calculator. All rights reserved. Educational purposes only.
+                </p>
+              </CardContent>
+            </Card>
+          </footer>
         </div>
       </noscript>
+      {/* </CHANGE> */}
     </>
   )
 }
