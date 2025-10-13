@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -18,6 +18,7 @@ import {
 } from "recharts"
 import { Camera } from "lucide-react"
 import html2canvas from "html2canvas"
+import CurrencyComparisonChart from "@/components/currency-comparison-chart"
 
 export default function ChartsPage() {
   const [screenshotting, setScreenshotting] = useState<string | null>(null)
@@ -99,6 +100,28 @@ export default function ChartsPage() {
 
     fetchData()
   }, [])
+
+  const multiCurrencyComparisonData = useMemo(() => {
+    const currencies = [
+      { code: "USD", name: "US Dollar", flag: "🇺🇸", symbol: "$", color: "#3B82F6", data: usdData },
+      { code: "GBP", name: "British Pound", flag: "🇬🇧", symbol: "£", color: "#8B5CF6", data: gbpData },
+      { code: "EUR", name: "Euro", flag: "🇪🇺", symbol: "€", color: "#F97316", data: eurData },
+      { code: "CAD", name: "Canadian Dollar", flag: "🇨🇦", symbol: "C$", color: "#10B981", data: cadData },
+      { code: "AUD", name: "Australian Dollar", flag: "🇦🇺", symbol: "A$", color: "#F59E0B", data: audData },
+      { code: "CHF", name: "Swiss Franc", flag: "🇨🇭", symbol: "Fr", color: "#06B6D4", data: chfData },
+      { code: "JPY", name: "Japanese Yen", flag: "🇯🇵", symbol: "¥", color: "#22C55E", data: jpyData },
+      { code: "NZD", name: "New Zealand Dollar", flag: "🇳🇿", symbol: "NZ$", color: "#EF4444", data: nzdData },
+    ]
+
+    const allInflationData: any = {}
+    currencies.forEach((currency) => {
+      if (currency.data) {
+        allInflationData[currency.code] = currency.data
+      }
+    })
+
+    return allInflationData
+  }, [usdData, gbpData, eurData, cadData, audData, chfData, jpyData, nzdData])
 
   // Screenshot function
   const takeScreenshot = async (elementId: string, filename: string) => {
@@ -880,6 +903,77 @@ export default function ChartsPage() {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Multi-Currency Comparison Chart */}
+        <div className="mb-12">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h2 className="text-2xl font-bold">Multi-Currency Comparison</h2>
+              <p className="text-lg text-muted-foreground mt-2">
+                Compare how $100 has been affected by inflation across 8 major world currencies
+              </p>
+            </div>
+            <Button
+              onClick={() => takeScreenshot("multi-currency-comparison-chart", "multi-currency-comparison")}
+              disabled={screenshotting === "multi-currency-comparison-chart"}
+              variant="outline"
+              size="sm"
+            >
+              <Camera className="w-4 h-4 mr-2" />
+              {screenshotting === "multi-currency-comparison-chart" ? "Capturing..." : "Screenshot"}
+            </Button>
+          </div>
+          {Object.keys(multiCurrencyComparisonData).length > 0 ? (
+            <div id="multi-currency-comparison-chart">
+              <CurrencyComparisonChart
+                amount="100"
+                fromYear={2020}
+                inflationData={multiCurrencyComparisonData}
+                currentYear={new Date().getFullYear()}
+              />
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg mt-6">
+                <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                  This interactive chart compares how $100 from 2020 has been affected by inflation across 8 major world
+                  currencies: USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD. The chart shows both the cumulative inflation
+                  impact and the current purchasing power of each currency. You can adjust the time range using the
+                  sliders to see how inflation has varied across different periods.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-blue-600">8 Currencies</div>
+                    <div className="text-xs">USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-green-600">Interactive Range</div>
+                    <div className="text-xs">Adjust sliders to compare different time periods</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-purple-600">Real-Time Data</div>
+                    <div className="text-xs">Based on official government inflation statistics</div>
+                  </div>
+                </div>
+                <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded">
+                  <h5 className="font-semibold text-blue-800 dark:text-blue-200 mb-1">Key Insights:</h5>
+                  <ul className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
+                    <li>• Progress bars show cumulative inflation impact for each currency</li>
+                    <li>• Line chart displays comparative trends across all currencies</li>
+                    <li>• Toggle between "All Currencies" and "USD Only" views for focused analysis</li>
+                    <li>• Currencies are automatically filtered based on data availability</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="text-center py-12">
+                  <p className="text-gray-600 dark:text-gray-400">Loading multi-currency comparison data...</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Chart 6: Decade Analysis */}

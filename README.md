@@ -1,6 +1,6 @@
 # Global Inflation Calculator
 
-A comprehensive web application for calculating inflation rates and purchasing power across multiple currencies and countries. This is a free tool, purely to educate the masses on the core concepts of Inflation. (https://www.globalinflationcalculator.com/) 
+A comprehensive web application for calculating inflation rates and purchasing power across multiple currencies and countries.
 
 ## Features
 
