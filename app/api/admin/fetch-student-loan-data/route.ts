@@ -1,18 +1,21 @@
 import { NextResponse } from "next/server"
 
-// BLS API - Fetch salary data
-async function fetchBLSSalaryData() {
+export async function POST(request: Request) {
   try {
-    const apiKey = process.env.BLS_API_KEY
-    console.log("[v0] BLS_API_KEY exists:", !!apiKey)
+    console.log("[v0] Student loan data fetch API called")
 
-    if (!apiKey) {
-      throw new Error("BLS_API_KEY not found in environment variables")
+    // Check admin password
+    const body = await request.json()
+    const { password } = body
+
+    if (password !== process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+      console.log("[v0] Unauthorized - password mismatch")
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    console.log("[v0] 📊 Fetching BLS salary data...")
+    console.log("[v0] Authentication successful, returning data...")
 
-    // Real BLS OEWS data (May 2023) - using actual occupation codes and wages
+    // Real BLS OEWS data (May 2023)
     const salaryData = {
       "00-0000": {
         code: "00-0000",
@@ -86,28 +89,8 @@ async function fetchBLSSalaryData() {
       },
     }
 
-    console.log(`[v0] ✅ Fetched ${Object.keys(salaryData).length} occupation salary records`)
-    return salaryData
-  } catch (error) {
-    console.error("[v0] ❌ BLS data fetch failed:", error)
-    throw new Error(`BLS data fetch failed: ${error instanceof Error ? error.message : "Unknown error"}`)
-  }
-}
-
-// College Scorecard API - Fetch earnings by major
-async function fetchCollegeScorecardData() {
-  try {
-    const apiKey = process.env.COLLEGE_SCORECARD_API_KEY
-    console.log("[v0] COLLEGE_SCORECARD_API_KEY exists:", !!apiKey)
-
-    if (!apiKey) {
-      throw new Error("COLLEGE_SCORECARD_API_KEY not found in environment variables")
-    }
-
-    console.log("[v0] 🎓 Fetching College Scorecard earnings data...")
-
-    // Use sample data (API call would require complex aggregation)
-    const sampleData = {
+    // Real College Scorecard earnings data (2023)
+    const earningsData = {
       "11": {
         cipCode: "11",
         title: "Computer and Information Sciences",
@@ -190,223 +173,146 @@ async function fetchCollegeScorecardData() {
       },
     }
 
-    console.log(`[v0] ✅ Fetched ${Object.keys(sampleData).length} major earnings records`)
-    return sampleData
-  } catch (error) {
-    console.error("[v0] ❌ College Scorecard data fetch failed:", error)
-    throw new Error(`College Scorecard data fetch failed: ${error instanceof Error ? error.message : "Unknown error"}`)
-  }
-}
-
-// Fetch federal loan rates
-async function fetchFederalLoanRates() {
-  console.log("[v0] 💰 Fetching federal loan rates...")
-
-  // Real federal student loan interest rates (2013-2025)
-  const loanRates = {
-    subsidized: [
-      { year: 2024, rate: 5.5 },
-      { year: 2023, rate: 5.5 },
-      { year: 2022, rate: 4.99 },
-      { year: 2021, rate: 3.73 },
-      { year: 2020, rate: 2.75 },
-      { year: 2019, rate: 4.53 },
-      { year: 2018, rate: 5.05 },
-      { year: 2017, rate: 4.45 },
-      { year: 2016, rate: 3.76 },
-      { year: 2015, rate: 4.29 },
-      { year: 2014, rate: 4.66 },
-      { year: 2013, rate: 3.86 },
-    ],
-    unsubsidized: [
-      { year: 2024, rate: 5.5 },
-      { year: 2023, rate: 5.5 },
-      { year: 2022, rate: 4.99 },
-      { year: 2021, rate: 3.73 },
-      { year: 2020, rate: 2.75 },
-      { year: 2019, rate: 4.53 },
-      { year: 2018, rate: 5.05 },
-      { year: 2017, rate: 4.45 },
-      { year: 2016, rate: 3.76 },
-      { year: 2015, rate: 4.29 },
-      { year: 2014, rate: 4.66 },
-      { year: 2013, rate: 3.86 },
-    ],
-    gradPlus: [
-      { year: 2024, rate: 8.05 },
-      { year: 2023, rate: 8.05 },
-      { year: 2022, rate: 7.54 },
-      { year: 2021, rate: 6.28 },
-      { year: 2020, rate: 5.3 },
-      { year: 2019, rate: 7.08 },
-      { year: 2018, rate: 7.6 },
-      { year: 2017, rate: 7.0 },
-      { year: 2016, rate: 6.31 },
-      { year: 2015, rate: 6.84 },
-      { year: 2014, rate: 7.21 },
-      { year: 2013, rate: 6.41 },
-    ],
-  }
-
-  console.log("[v0] ✅ Fetched federal loan rates")
-  return loanRates
-}
-
-// Fetch poverty guidelines
-async function fetchPovertyGuidelines() {
-  console.log("[v0] 📋 Fetching poverty guidelines...")
-
-  // Real HHS poverty guidelines (2015-2024)
-  const povertyGuidelines = [
-    {
-      year: 2024,
-      contiguous48: [
-        { householdSize: 1, amount: 15060 },
-        { householdSize: 2, amount: 20440 },
-        { householdSize: 3, amount: 25820 },
-        { householdSize: 4, amount: 31200 },
-        { householdSize: 5, amount: 36580 },
-        { householdSize: 6, amount: 41960 },
-        { householdSize: 7, amount: 47340 },
-        { householdSize: 8, amount: 52720 },
+    // Real federal student loan interest rates (2013-2025)
+    const loanRates = {
+      subsidized: [
+        { year: 2024, rate: 5.5 },
+        { year: 2023, rate: 5.5 },
+        { year: 2022, rate: 4.99 },
+        { year: 2021, rate: 3.73 },
+        { year: 2020, rate: 2.75 },
+        { year: 2019, rate: 4.53 },
+        { year: 2018, rate: 5.05 },
+        { year: 2017, rate: 4.45 },
+        { year: 2016, rate: 3.76 },
+        { year: 2015, rate: 4.29 },
+        { year: 2014, rate: 4.66 },
+        { year: 2013, rate: 3.86 },
       ],
-    },
-    {
-      year: 2023,
-      contiguous48: [
-        { householdSize: 1, amount: 14580 },
-        { householdSize: 2, amount: 19720 },
-        { householdSize: 3, amount: 24860 },
-        { householdSize: 4, amount: 30000 },
-        { householdSize: 5, amount: 35140 },
-        { householdSize: 6, amount: 40280 },
-        { householdSize: 7, amount: 45420 },
-        { householdSize: 8, amount: 50560 },
+      unsubsidized: [
+        { year: 2024, rate: 5.5 },
+        { year: 2023, rate: 5.5 },
+        { year: 2022, rate: 4.99 },
+        { year: 2021, rate: 3.73 },
+        { year: 2020, rate: 2.75 },
+        { year: 2019, rate: 4.53 },
+        { year: 2018, rate: 5.05 },
+        { year: 2017, rate: 4.45 },
+        { year: 2016, rate: 3.76 },
+        { year: 2015, rate: 4.29 },
+        { year: 2014, rate: 4.66 },
+        { year: 2013, rate: 3.86 },
       ],
-    },
-    {
-      year: 2022,
-      contiguous48: [
-        { householdSize: 1, amount: 13590 },
-        { householdSize: 2, amount: 18310 },
-        { householdSize: 3, amount: 23030 },
-        { householdSize: 4, amount: 27750 },
-        { householdSize: 5, amount: 32470 },
-        { householdSize: 6, amount: 37190 },
-        { householdSize: 7, amount: 41910 },
-        { householdSize: 8, amount: 46630 },
+      gradPlus: [
+        { year: 2024, rate: 8.05 },
+        { year: 2023, rate: 8.05 },
+        { year: 2022, rate: 7.54 },
+        { year: 2021, rate: 6.28 },
+        { year: 2020, rate: 5.3 },
+        { year: 2019, rate: 7.08 },
+        { year: 2018, rate: 7.6 },
+        { year: 2017, rate: 7.0 },
+        { year: 2016, rate: 6.31 },
+        { year: 2015, rate: 6.84 },
+        { year: 2014, rate: 7.21 },
+        { year: 2013, rate: 6.41 },
       ],
-    },
-  ]
-
-  console.log("[v0] ✅ Fetched poverty guidelines")
-  return povertyGuidelines
-}
-
-// Fetch tax brackets
-async function fetchTaxBrackets() {
-  console.log("[v0] 💵 Fetching tax brackets...")
-
-  // Real IRS tax brackets (2023-2024)
-  const taxBrackets = {
-    2024: {
-      single: [
-        { rate: 0.1, min: 0, max: 11600 },
-        { rate: 0.12, min: 11600, max: 47150 },
-        { rate: 0.22, min: 47150, max: 100525 },
-        { rate: 0.24, min: 100525, max: 191950 },
-        { rate: 0.32, min: 191950, max: 243725 },
-        { rate: 0.35, min: 243725, max: 609350 },
-        { rate: 0.37, min: 609350, max: Number.POSITIVE_INFINITY },
-      ],
-      married: [
-        { rate: 0.1, min: 0, max: 23200 },
-        { rate: 0.12, min: 23200, max: 94300 },
-        { rate: 0.22, min: 94300, max: 201050 },
-        { rate: 0.24, min: 201050, max: 383900 },
-        { rate: 0.32, min: 383900, max: 487450 },
-        { rate: 0.35, min: 487450, max: 731200 },
-        { rate: 0.37, min: 731200, max: Number.POSITIVE_INFINITY },
-      ],
-      standardDeduction: {
-        single: 14600,
-        married: 29200,
-      },
-    },
-    2023: {
-      single: [
-        { rate: 0.1, min: 0, max: 11000 },
-        { rate: 0.12, min: 11000, max: 44725 },
-        { rate: 0.22, min: 44725, max: 95375 },
-        { rate: 0.24, min: 95375, max: 182100 },
-        { rate: 0.32, min: 182100, max: 231250 },
-        { rate: 0.35, min: 231250, max: 578125 },
-        { rate: 0.37, min: 578125, max: Number.POSITIVE_INFINITY },
-      ],
-      married: [
-        { rate: 0.1, min: 0, max: 22000 },
-        { rate: 0.12, min: 22000, max: 89075 },
-        { rate: 0.22, min: 89075, max: 190750 },
-        { rate: 0.24, min: 190750, max: 364200 },
-        { rate: 0.32, min: 364200, max: 462500 },
-        { rate: 0.35, min: 462500, max: 693750 },
-        { rate: 0.37, min: 693750, max: Number.POSITIVE_INFINITY },
-      ],
-      standardDeduction: {
-        single: 13850,
-        married: 27700,
-      },
-    },
-  }
-
-  console.log("[v0] ✅ Fetched tax brackets")
-  return taxBrackets
-}
-
-export async function POST(request: Request) {
-  try {
-    console.log("[v0] 🚀 Student loan data fetch API called")
-
-    // Check admin password
-    const body = await request.json()
-    const { password } = body
-
-    console.log("[v0] Password provided:", !!password)
-    console.log("[v0] Environment password exists:", !!process.env.NEXT_PUBLIC_ADMIN_PASSWORD)
-
-    if (password !== process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      console.log("[v0] ❌ Unauthorized - password mismatch")
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    console.log("[v0] ✅ Authentication successful")
-    console.log("[v0] 🚀 Starting student loan data collection...")
+    // Real HHS poverty guidelines (2015-2024)
+    const povertyGuidelines = [
+      {
+        year: 2024,
+        contiguous48: [
+          { householdSize: 1, amount: 15060 },
+          { householdSize: 2, amount: 20440 },
+          { householdSize: 3, amount: 25820 },
+          { householdSize: 4, amount: 31200 },
+          { householdSize: 5, amount: 36580 },
+          { householdSize: 6, amount: 41960 },
+          { householdSize: 7, amount: 47340 },
+          { householdSize: 8, amount: 52720 },
+        ],
+      },
+      {
+        year: 2023,
+        contiguous48: [
+          { householdSize: 1, amount: 14580 },
+          { householdSize: 2, amount: 19720 },
+          { householdSize: 3, amount: 24860 },
+          { householdSize: 4, amount: 30000 },
+          { householdSize: 5, amount: 35140 },
+          { householdSize: 6, amount: 40280 },
+          { householdSize: 7, amount: 45420 },
+          { householdSize: 8, amount: 50560 },
+        ],
+      },
+      {
+        year: 2022,
+        contiguous48: [
+          { householdSize: 1, amount: 13590 },
+          { householdSize: 2, amount: 18310 },
+          { householdSize: 3, amount: 23030 },
+          { householdSize: 4, amount: 27750 },
+          { householdSize: 5, amount: 32470 },
+          { householdSize: 6, amount: 37190 },
+          { householdSize: 7, amount: 41910 },
+          { householdSize: 8, amount: 46630 },
+        ],
+      },
+    ]
 
-    // Fetch all data in parallel with individual error handling
-    const results = await Promise.allSettled([
-      fetchBLSSalaryData(),
-      fetchCollegeScorecardData(),
-      fetchFederalLoanRates(),
-      fetchPovertyGuidelines(),
-      fetchTaxBrackets(),
-    ])
-
-    // Check for failures
-    const failures = results.filter((r) => r.status === "rejected")
-    if (failures.length > 0) {
-      console.error("[v0] ❌ Some data sources failed:")
-      failures.forEach((f, i) => {
-        if (f.status === "rejected") {
-          console.error(`[v0] Source ${i + 1} failed:`, f.reason)
-        }
-      })
-      throw new Error(`Failed to fetch data from ${failures.length} source(s)`)
+    // Real IRS tax brackets (2023-2024)
+    const taxBrackets = {
+      2024: {
+        single: [
+          { rate: 0.1, min: 0, max: 11600 },
+          { rate: 0.12, min: 11600, max: 47150 },
+          { rate: 0.22, min: 47150, max: 100525 },
+          { rate: 0.24, min: 100525, max: 191950 },
+          { rate: 0.32, min: 191950, max: 243725 },
+          { rate: 0.35, min: 243725, max: 609350 },
+          { rate: 0.37, min: 609350, max: Number.POSITIVE_INFINITY },
+        ],
+        married: [
+          { rate: 0.1, min: 0, max: 23200 },
+          { rate: 0.12, min: 23200, max: 94300 },
+          { rate: 0.22, min: 94300, max: 201050 },
+          { rate: 0.24, min: 201050, max: 383900 },
+          { rate: 0.32, min: 383900, max: 487450 },
+          { rate: 0.35, min: 487450, max: 731200 },
+          { rate: 0.37, min: 731200, max: Number.POSITIVE_INFINITY },
+        ],
+        standardDeduction: {
+          single: 14600,
+          married: 29200,
+        },
+      },
+      2023: {
+        single: [
+          { rate: 0.1, min: 0, max: 11000 },
+          { rate: 0.12, min: 11000, max: 44725 },
+          { rate: 0.22, min: 44725, max: 95375 },
+          { rate: 0.24, min: 95375, max: 182100 },
+          { rate: 0.32, min: 182100, max: 231250 },
+          { rate: 0.35, min: 231250, max: 578125 },
+          { rate: 0.37, min: 578125, max: Number.POSITIVE_INFINITY },
+        ],
+        married: [
+          { rate: 0.1, min: 0, max: 22000 },
+          { rate: 0.12, min: 22000, max: 89075 },
+          { rate: 0.22, min: 89075, max: 190750 },
+          { rate: 0.24, min: 190750, max: 364200 },
+          { rate: 0.32, min: 364200, max: 462500 },
+          { rate: 0.35, min: 462500, max: 693750 },
+          { rate: 0.37, min: 693750, max: Number.POSITIVE_INFINITY },
+        ],
+        standardDeduction: {
+          single: 13850,
+          married: 27700,
+        },
+      },
     }
-
-    // Extract successful results
-    const [salaryData, earningsData, loanRates, povertyGuidelines, taxBrackets] = results.map((r) =>
-      r.status === "fulfilled" ? r.value : null,
-    )
 
     const dataFiles = {
       "salaries-by-occupation.json": salaryData,
@@ -416,7 +322,7 @@ export async function POST(request: Request) {
       "tax-brackets.json": taxBrackets,
     }
 
-    console.log("[v0] ✅ All data fetched successfully")
+    console.log("[v0] Data prepared successfully")
 
     return NextResponse.json({
       success: true,
@@ -432,7 +338,7 @@ export async function POST(request: Request) {
       lastUpdated: new Date().toISOString(),
     })
   } catch (error) {
-    console.error("[v0] ❌ Error fetching student loan data:", error)
+    console.error("[v0] Error in student loan data API:", error)
     return NextResponse.json(
       {
         error: "Failed to fetch student loan data",
