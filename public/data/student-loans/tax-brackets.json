@@ -1,0 +1,29 @@
+{
+  "lastUpdated": "2025-01-14",
+  "source": "IRS Tax Brackets (Sample Data)",
+  "year": 2024,
+  "single": [
+    { "rate": 10, "min": 0, "max": 11600 },
+    { "rate": 12, "min": 11600, "max": 47150 },
+    { "rate": 22, "min": 47150, "max": 100525 },
+    { "rate": 24, "min": 100525, "max": 191950 },
+    { "rate": 32, "min": 191950, "max": 243725 },
+    { "rate": 35, "min": 243725, "max": 609350 },
+    { "rate": 37, "min": 609350, "max": null }
+  ],
+  "marriedFilingJointly": [
+    { "rate": 10, "min": 0, "max": 23200 },
+    { "rate": 12, "min": 23200, "max": 94300 },
+    { "rate": 22, "min": 94300, "max": 201050 },
+    { "rate": 24, "min": 201050, "max": 383900 },
+    { "rate": 32, "min": 383900, "max": 487450 },
+    { "rate": 35, "min": 487450, "max": 731200 },
+    { "rate": 37, "min": 731200, "max": null }
+  ],
+  "standardDeduction": {
+    "single": 14600,
+    "marriedFilingJointly": 29200,
+    "headOfHousehold": 21900
+  },
+  "studentLoanInterestDeduction": 2500
+}

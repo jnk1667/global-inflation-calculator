@@ -1,0 +1,86 @@
+{
+  "lastUpdated": "2025-01-14",
+  "source": "Bureau of Labor Statistics (Sample Data)",
+  "occupations": [
+    {
+      "code": "15-1252",
+      "title": "Software Developers",
+      "medianAnnualWage": 127260,
+      "percentile25": 92620,
+      "percentile75": 168570,
+      "employmentCount": 1847900
+    },
+    {
+      "code": "29-1141",
+      "title": "Registered Nurses",
+      "medianAnnualWage": 81220,
+      "percentile25": 63120,
+      "percentile75": 101650,
+      "employmentCount": 3175390
+    },
+    {
+      "code": "25-2021",
+      "title": "Elementary School Teachers",
+      "medianAnnualWage": 63930,
+      "percentile25": 50590,
+      "percentile75": 81450,
+      "employmentCount": 1476900
+    },
+    {
+      "code": "13-2011",
+      "title": "Accountants and Auditors",
+      "medianAnnualWage": 79880,
+      "percentile25": 58500,
+      "percentile75": 108090,
+      "employmentCount": 1455200
+    },
+    {
+      "code": "11-2021",
+      "title": "Marketing Managers",
+      "medianAnnualWage": 158280,
+      "percentile25": 103830,
+      "percentile75": 208000,
+      "employmentCount": 345600
+    },
+    {
+      "code": "29-1215",
+      "title": "Family Medicine Physicians",
+      "medianAnnualWage": 224640,
+      "percentile25": 126470,
+      "percentile75": 239200,
+      "employmentCount": 113270
+    },
+    {
+      "code": "23-1011",
+      "title": "Lawyers",
+      "medianAnnualWage": 145760,
+      "percentile25": 80180,
+      "percentile75": 208000,
+      "employmentCount": 681010
+    },
+    {
+      "code": "15-1244",
+      "title": "Network and Computer Systems Administrators",
+      "medianAnnualWage": 95360,
+      "percentile25": 68700,
+      "percentile75": 127420,
+      "employmentCount": 333380
+    },
+    {
+      "code": "13-2051",
+      "title": "Financial Analysts",
+      "medianAnnualWage": 99890,
+      "percentile25": 68150,
+      "percentile75": 141070,
+      "employmentCount": 325410
+    },
+    {
+      "code": "27-3031",
+      "title": "Public Relations Specialists",
+      "medianAnnualWage": 67440,
+      "percentile25": 47470,
+      "percentile75": 95050,
+      "employmentCount": 288590
+    }
+  ]
+}

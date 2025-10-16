@@ -21,6 +21,7 @@ import {
   FileText,
   ImageIcon,
   HelpCircle,
+  Database,
 } from "lucide-react"
 
 interface FAQ {
@@ -132,6 +133,9 @@ The key to successful multi-generational wealth planning lies in balancing growt
       social_links: [],
     },
   ])
+
+  const [fetchingData, setFetchingData] = useState(false)
+  const [dataFetchResult, setDataFetchResult] = useState<any>(null)
 
   // Helper function to get social links safely
   const getSocialLinks = (section: "project" | "admin"): SocialLink[] => {
@@ -535,6 +539,52 @@ The key to successful multi-generational wealth planning lies in balancing growt
     }
   }
 
+  const fetchStudentLoanData = async () => {
+    setFetchingData(true)
+    setDataFetchResult(null)
+    setError("")
+
+    try {
+      const response = await fetch("/api/admin/fetch-student-loan-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to fetch data")
+      }
+
+      setDataFetchResult(result)
+      setMessage("Student loan data fetched successfully! Download the files below.")
+      setTimeout(() => setMessage(""), 5000)
+    } catch (err) {
+      console.error("Error fetching student loan data:", err)
+      setError(`Failed to fetch data: ${err instanceof Error ? err.message : "Unknown error"}`)
+    } finally {
+      setFetchingData(false)
+    }
+  }
+
+  // Download function for JSON files
+  const downloadFile = (filename: string, data: any) => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
   // Retry function
   const retryLoadContent = () => {
     setError("")
@@ -625,7 +675,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
         {/* Main Content */}
         <Tabs defaultValue="content" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="content" className="flex items-center gap-2">
               <FileText className="w-4 h-4" />
               Content
@@ -637,6 +687,10 @@ The key to successful multi-generational wealth planning lies in balancing growt
             <TabsTrigger value="faqs" className="flex items-center gap-2">
               <HelpCircle className="w-4 h-4" />
               FAQs
+            </TabsTrigger>
+            <TabsTrigger value="data" className="flex items-center gap-2">
+              <Database className="w-4 h-4" />
+              Data Collection
             </TabsTrigger>
             <TabsTrigger value="stats" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4" />
@@ -1122,6 +1176,104 @@ The key to successful multi-generational wealth planning lies in balancing growt
                     </div>
                   </div>
                 ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="data" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="w-5 h-5" />
+                  Student Loan Data Collection
+                </CardTitle>
+                <CardDescription>
+                  Fetch live data from BLS, College Scorecard, and other APIs. Download the JSON files and add them to
+                  /public/data/student-loans/ in your GitHub repo.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-blue-900 mb-2">Data Sources:</h4>
+                  <ul className="text-sm text-blue-800 space-y-1">
+                    <li>• BLS API - Salary data by occupation</li>
+                    <li>• College Scorecard API - Earnings by major</li>
+                    <li>• Federal Student Aid - Loan interest rates</li>
+                    <li>• HHS - Poverty guidelines for IDR calculations</li>
+                    <li>• IRS - Tax brackets</li>
+                  </ul>
+                </div>
+
+                <Button
+                  onClick={fetchStudentLoanData}
+                  disabled={fetchingData}
+                  size="lg"
+                  className="w-full flex items-center justify-center gap-2"
+                >
+                  <Database className={`w-5 h-5 ${fetchingData ? "animate-pulse" : ""}`} />
+                  {fetchingData ? "Fetching Data..." : "Fetch Student Loan Data"}
+                </Button>
+
+                {dataFetchResult && dataFetchResult.files && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 space-y-4">
+                    <h4 className="font-semibold text-green-900">Data Fetched Successfully!</h4>
+
+                    <div className="space-y-2">
+                      <p className="text-sm text-green-800 font-medium">Download Files:</p>
+                      {Object.entries(dataFetchResult.files).map(([filename, data]) => (
+                        <Button
+                          key={filename}
+                          onClick={() => downloadFile(filename, data)}
+                          variant="outline"
+                          size="sm"
+                          className="w-full justify-start"
+                        >
+                          <Database className="w-4 h-4 mr-2" />
+                          {filename}
+                        </Button>
+                      ))}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3 text-sm mt-4">
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">Salary Records</p>
+                        <p className="text-2xl font-bold text-green-700">
+                          {dataFetchResult.recordCounts?.salaries || 0}
+                        </p>
+                      </div>
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">Major Earnings</p>
+                        <p className="text-2xl font-bold text-green-700">
+                          {dataFetchResult.recordCounts?.earnings || 0}
+                        </p>
+                      </div>
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">Loan Rate Years</p>
+                        <p className="text-2xl font-bold text-green-700">
+                          {dataFetchResult.recordCounts?.loanRates || 0}
+                        </p>
+                      </div>
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">Poverty Guidelines</p>
+                        <p className="text-2xl font-bold text-green-700">
+                          {dataFetchResult.recordCounts?.povertyGuidelines || 0}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-yellow-50 border border-yellow-200 rounded p-3 mt-4">
+                      <p className="text-sm text-yellow-800">
+                        <strong>Next Steps:</strong> Download all 5 files above, then add them to{" "}
+                        <code className="bg-yellow-100 px-1 rounded">/public/data/student-loans/</code> in your GitHub
+                        repo, replacing the sample files.
+                      </p>
+                    </div>
+
+                    <p className="text-sm text-green-800">
+                      Last updated: {new Date(dataFetchResult.lastUpdated).toLocaleString()}
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>

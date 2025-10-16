@@ -1,0 +1,96 @@
+{
+  "lastUpdated": "2025-01-14",
+  "source": "College Scorecard (Sample Data)",
+  "majors": [
+    {
+      "cipCode": "11.0000",
+      "name": "Computer and Information Sciences",
+      "medianEarnings": 85000,
+      "percentile25": 62000,
+      "percentile75": 115000,
+      "debtMedian": 27500,
+      "completions": 97059
+    },
+    {
+      "cipCode": "14.0000",
+      "name": "Engineering",
+      "medianEarnings": 82000,
+      "percentile25": 65000,
+      "percentile75": 105000,
+      "debtMedian": 28000,
+      "completions": 126214
+    },
+    {
+      "cipCode": "52.0000",
+      "name": "Business, Management, Marketing",
+      "medianEarnings": 65000,
+      "percentile25": 48000,
+      "percentile75": 88000,
+      "debtMedian": 26500,
+      "completions": 386201
+    },
+    {
+      "cipCode": "51.0000",
+      "name": "Health Professions",
+      "medianEarnings": 72000,
+      "percentile25": 52000,
+      "percentile75": 95000,
+      "debtMedian": 32000,
+      "completions": 238014
+    },
+    {
+      "cipCode": "13.0000",
+      "name": "Education",
+      "medianEarnings": 48000,
+      "percentile25": 40000,
+      "percentile75": 58000,
+      "debtMedian": 24000,
+      "completions": 146581
+    },
+    {
+      "cipCode": "23.0000",
+      "name": "English Language and Literature",
+      "medianEarnings": 45000,
+      "percentile25": 35000,
+      "percentile75": 60000,
+      "debtMedian": 23500,
+      "completions": 42783
+    },
+    {
+      "cipCode": "27.0000",
+      "name": "Mathematics and Statistics",
+      "medianEarnings": 75000,
+      "percentile25": 55000,
+      "percentile75": 98000,
+      "debtMedian": 25000,
+      "completions": 21576
+    },
+    {
+      "cipCode": "42.0000",
+      "name": "Psychology",
+      "medianEarnings": 42000,
+      "percentile25": 32000,
+      "percentile75": 55000,
+      "debtMedian": 25500,
+      "completions": 127066
+    },
+    {
+      "cipCode": "45.0000",
+      "name": "Social Sciences",
+      "medianEarnings": 52000,
+      "percentile25": 38000,
+      "percentile75": 70000,
+      "debtMedian": 24500,
+      "completions": 159289
+    },
+    {
+      "cipCode": "50.0000",
+      "name": "Visual and Performing Arts",
+      "medianEarnings": 38000,
+      "percentile25": 28000,
+      "percentile75": 52000,
+      "debtMedian": 26000,
+      "completions": 101508
+    }
+  ]
+}
