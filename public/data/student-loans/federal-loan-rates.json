@@ -1,40 +1,152 @@
 {
-  "lastUpdated": "2025-01-14",
-  "source": "Federal Student Aid (Sample Data)",
-  "historicalRates": [
-    { "year": 2024, "subsidized": 5.5, "unsubsidized": 5.5, "gradPlus": 8.05, "parentPlus": 8.05 },
-    { "year": 2023, "subsidized": 5.5, "unsubsidized": 5.5, "gradPlus": 8.05, "parentPlus": 8.05 },
-    { "year": 2022, "subsidized": 4.99, "unsubsidized": 4.99, "gradPlus": 7.54, "parentPlus": 7.54 },
-    { "year": 2021, "subsidized": 3.73, "unsubsidized": 3.73, "gradPlus": 6.28, "parentPlus": 6.28 },
-    { "year": 2020, "subsidized": 4.53, "unsubsidized": 4.53, "gradPlus": 7.08, "parentPlus": 7.08 },
-    { "year": 2019, "subsidized": 5.05, "unsubsidized": 5.05, "gradPlus": 7.6, "parentPlus": 7.6 },
-    { "year": 2018, "subsidized": 5.05, "unsubsidized": 5.05, "gradPlus": 7.6, "parentPlus": 7.6 },
-    { "year": 2017, "subsidized": 4.45, "unsubsidized": 4.45, "gradPlus": 7.0, "parentPlus": 7.0 },
-    { "year": 2016, "subsidized": 3.76, "unsubsidized": 3.76, "gradPlus": 6.31, "parentPlus": 6.31 },
-    { "year": 2015, "subsidized": 4.29, "unsubsidized": 4.29, "gradPlus": 6.84, "parentPlus": 6.84 }
-  ],
-  "currentRates": {
-    "subsidized": 5.5,
-    "unsubsidized": 5.5,
-    "gradPlus": 8.05,
-    "parentPlus": 8.05
-  },
-  "loanLimits": {
-    "dependentUndergrad": {
-      "freshman": 5500,
-      "sophomore": 6500,
-      "juniorSenior": 7500,
-      "aggregateLimit": 31000
+  "subsidized": [
+    {
+      "year": 2024,
+      "rate": 5.5
     },
-    "independentUndergrad": {
-      "freshman": 9500,
-      "sophomore": 10500,
-      "juniorSenior": 12500,
-      "aggregateLimit": 57500
+    {
+      "year": 2023,
+      "rate": 5.5
     },
-    "graduate": {
-      "annual": 20500,
-      "aggregateLimit": 138500
+    {
+      "year": 2022,
+      "rate": 4.99
+    },
+    {
+      "year": 2021,
+      "rate": 3.73
+    },
+    {
+      "year": 2020,
+      "rate": 2.75
+    },
+    {
+      "year": 2019,
+      "rate": 4.53
+    },
+    {
+      "year": 2018,
+      "rate": 5.05
+    },
+    {
+      "year": 2017,
+      "rate": 4.45
+    },
+    {
+      "year": 2016,
+      "rate": 3.76
+    },
+    {
+      "year": 2015,
+      "rate": 4.29
+    },
+    {
+      "year": 2014,
+      "rate": 4.66
+    },
+    {
+      "year": 2013,
+      "rate": 3.86
     }
-  }
+  ],
+  "unsubsidized": [
+    {
+      "year": 2024,
+      "rate": 5.5
+    },
+    {
+      "year": 2023,
+      "rate": 5.5
+    },
+    {
+      "year": 2022,
+      "rate": 4.99
+    },
+    {
+      "year": 2021,
+      "rate": 3.73
+    },
+    {
+      "year": 2020,
+      "rate": 2.75
+    },
+    {
+      "year": 2019,
+      "rate": 4.53
+    },
+    {
+      "year": 2018,
+      "rate": 5.05
+    },
+    {
+      "year": 2017,
+      "rate": 4.45
+    },
+    {
+      "year": 2016,
+      "rate": 3.76
+    },
+    {
+      "year": 2015,
+      "rate": 4.29
+    },
+    {
+      "year": 2014,
+      "rate": 4.66
+    },
+    {
+      "year": 2013,
+      "rate": 3.86
+    }
+  ],
+  "gradPlus": [
+    {
+      "year": 2024,
+      "rate": 8.05
+    },
+    {
+      "year": 2023,
+      "rate": 8.05
+    },
+    {
+      "year": 2022,
+      "rate": 7.54
+    },
+    {
+      "year": 2021,
+      "rate": 6.28
+    },
+    {
+      "year": 2020,
+      "rate": 5.3
+    },
+    {
+      "year": 2019,
+      "rate": 7.08
+    },
+    {
+      "year": 2018,
+      "rate": 7.6
+    },
+    {
+      "year": 2017,
+      "rate": 7
+    },
+    {
+      "year": 2016,
+      "rate": 6.31
+    },
+    {
+      "year": 2015,
+      "rate": 6.84
+    },
+    {
+      "year": 2014,
+      "rate": 7.21
+    },
+    {
+      "year": 2013,
+      "rate": 6.41
+    }
+  ]
 }

@@ -1,86 +1,72 @@
 {
-  "lastUpdated": "2025-01-14",
-  "source": "Bureau of Labor Statistics (Sample Data)",
-  "occupations": [
-    {
-      "code": "15-1252",
-      "title": "Software Developers",
-      "medianAnnualWage": 127260,
-      "percentile25": 92620,
-      "percentile75": 168570,
-      "employmentCount": 1847900
-    },
-    {
-      "code": "29-1141",
-      "title": "Registered Nurses",
-      "medianAnnualWage": 81220,
-      "percentile25": 63120,
-      "percentile75": 101650,
-      "employmentCount": 3175390
-    },
-    {
-      "code": "25-2021",
-      "title": "Elementary School Teachers",
-      "medianAnnualWage": 63930,
-      "percentile25": 50590,
-      "percentile75": 81450,
-      "employmentCount": 1476900
-    },
-    {
-      "code": "13-2011",
-      "title": "Accountants and Auditors",
-      "medianAnnualWage": 79880,
-      "percentile25": 58500,
-      "percentile75": 108090,
-      "employmentCount": 1455200
-    },
-    {
-      "code": "11-2021",
-      "title": "Marketing Managers",
-      "medianAnnualWage": 158280,
-      "percentile25": 103830,
-      "percentile75": 208000,
-      "employmentCount": 345600
-    },
-    {
-      "code": "29-1215",
-      "title": "Family Medicine Physicians",
-      "medianAnnualWage": 224640,
-      "percentile25": 126470,
-      "percentile75": 239200,
-      "employmentCount": 113270
-    },
-    {
-      "code": "23-1011",
-      "title": "Lawyers",
-      "medianAnnualWage": 145760,
-      "percentile25": 80180,
-      "percentile75": 208000,
-      "employmentCount": 681010
-    },
-    {
-      "code": "15-1244",
-      "title": "Network and Computer Systems Administrators",
-      "medianAnnualWage": 95360,
-      "percentile25": 68700,
-      "percentile75": 127420,
-      "employmentCount": 333380
-    },
-    {
-      "code": "13-2051",
-      "title": "Financial Analysts",
-      "medianAnnualWage": 99890,
-      "percentile25": 68150,
-      "percentile75": 141070,
-      "employmentCount": 325410
-    },
-    {
-      "code": "27-3031",
-      "title": "Public Relations Specialists",
-      "medianAnnualWage": 67440,
-      "percentile25": 47470,
-      "percentile75": 95050,
-      "employmentCount": 288590
-    }
-  ]
+  "00-0000": {
+    "code": "00-0000",
+    "title": "All Occupations",
+    "annualMeanWage": 65470,
+    "hourlyMeanWage": 31.48,
+    "employmentLevel": 164618610
+  },
+  "15-1252": {
+    "code": "15-1252",
+    "title": "Software Developers",
+    "annualMeanWage": 132270,
+    "hourlyMeanWage": 63.59,
+    "employmentLevel": 1795300
+  },
+  "29-1141": {
+    "code": "29-1141",
+    "title": "Registered Nurses",
+    "annualMeanWage": 89010,
+    "hourlyMeanWage": 42.79,
+    "employmentLevel": 3175390
+  },
+  "25-2021": {
+    "code": "25-2021",
+    "title": "Elementary School Teachers",
+    "annualMeanWage": 68000,
+    "hourlyMeanWage": 32.69,
+    "employmentLevel": 1472870
+  },
+  "11-1021": {
+    "code": "11-1021",
+    "title": "General and Operations Managers",
+    "annualMeanWage": 126140,
+    "hourlyMeanWage": 60.64,
+    "employmentLevel": 2984920
+  },
+  "13-2011": {
+    "code": "13-2011",
+    "title": "Accountants and Auditors",
+    "annualMeanWage": 83980,
+    "hourlyMeanWage": 40.38,
+    "employmentLevel": 1441960
+  },
+  "23-1011": {
+    "code": "23-1011",
+    "title": "Lawyers",
+    "annualMeanWage": 145760,
+    "hourlyMeanWage": 70.08,
+    "employmentLevel": 681010
+  },
+  "29-1215": {
+    "code": "29-1215",
+    "title": "Family Medicine Physicians",
+    "annualMeanWage": 224640,
+    "hourlyMeanWage": 107.99,
+    "employmentLevel": 113270
+  },
+  "17-2051": {
+    "code": "17-2051",
+    "title": "Civil Engineers",
+    "annualMeanWage": 95490,
+    "hourlyMeanWage": 45.91,
+    "employmentLevel": 310910
+  },
+  "27-3031": {
+    "code": "27-3031",
+    "title": "Public Relations Specialists",
+    "annualMeanWage": 73250,
+    "hourlyMeanWage": 35.22,
+    "employmentLevel": 257710
+  }
 }

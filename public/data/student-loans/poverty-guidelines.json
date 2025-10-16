@@ -1,35 +1,113 @@
-{
-  "lastUpdated": "2025-01-14",
-  "source": "HHS Poverty Guidelines (Sample Data)",
-  "year": 2024,
-  "contiguous48": [
-    { "householdSize": 1, "guideline": 15060 },
-    { "householdSize": 2, "guideline": 20440 },
-    { "householdSize": 3, "guideline": 25820 },
-    { "householdSize": 4, "guideline": 31200 },
-    { "householdSize": 5, "guideline": 36580 },
-    { "householdSize": 6, "guideline": 41960 },
-    { "householdSize": 7, "guideline": 47340 },
-    { "householdSize": 8, "guideline": 52720 }
-  ],
-  "alaska": [
-    { "householdSize": 1, "guideline": 18810 },
-    { "householdSize": 2, "guideline": 25550 },
-    { "householdSize": 3, "guideline": 32290 },
-    { "householdSize": 4, "guideline": 39030 },
-    { "householdSize": 5, "guideline": 45770 },
-    { "householdSize": 6, "guideline": 52510 },
-    { "householdSize": 7, "guideline": 59250 },
-    { "householdSize": 8, "guideline": 65990 }
-  ],
-  "hawaii": [
-    { "householdSize": 1, "guideline": 17310 },
-    { "householdSize": 2, "guideline": 23510 },
-    { "householdSize": 3, "guideline": 29710 },
-    { "householdSize": 4, "guideline": 35910 },
-    { "householdSize": 5, "guideline": 42110 },
-    { "householdSize": 6, "guideline": 48310 },
-    { "householdSize": 7, "guideline": 54510 },
-    { "householdSize": 8, "guideline": 60710 }
-  ]
-}
+[
+  {
+    "year": 2024,
+    "contiguous48": [
+      {
+        "householdSize": 1,
+        "amount": 15060
+      },
+      {
+        "householdSize": 2,
+        "amount": 20440
+      },
+      {
+        "householdSize": 3,
+        "amount": 25820
+      },
+      {
+        "householdSize": 4,
+        "amount": 31200
+      },
+      {
+        "householdSize": 5,
+        "amount": 36580
+      },
+      {
+        "householdSize": 6,
+        "amount": 41960
+      },
+      {
+        "householdSize": 7,
+        "amount": 47340
+      },
+      {
+        "householdSize": 8,
+        "amount": 52720
+      }
+    ]
+  },
+  {
+    "year": 2023,
+    "contiguous48": [
+      {
+        "householdSize": 1,
+        "amount": 14580
+      },
+      {
+        "householdSize": 2,
+        "amount": 19720
+      },
+      {
+        "householdSize": 3,
+        "amount": 24860
+      },
+      {
+        "householdSize": 4,
+        "amount": 30000
+      },
+      {
+        "householdSize": 5,
+        "amount": 35140
+      },
+      {
+        "householdSize": 6,
+        "amount": 40280
+      },
+      {
+        "householdSize": 7,
+        "amount": 45420
+      },
+      {
+        "householdSize": 8,
+        "amount": 50560
+      }
+    ]
+  },
+  {
+    "year": 2022,
+    "contiguous48": [
+      {
+        "householdSize": 1,
+        "amount": 13590
+      },
+      {
+        "householdSize": 2,
+        "amount": 18310
+      },
+      {
+        "householdSize": 3,
+        "amount": 23030
+      },
+      {
+        "householdSize": 4,
+        "amount": 27750
+      },
+      {
+        "householdSize": 5,
+        "amount": 32470
+      },
+      {
+        "householdSize": 6,
+        "amount": 37190
+      },
+      {
+        "householdSize": 7,
+        "amount": 41910
+      },
+      {
+        "householdSize": 8,
+        "amount": 46630
+      }
+    ]
+  }
+]
