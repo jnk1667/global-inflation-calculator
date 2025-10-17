@@ -41,6 +41,9 @@ interface ContentData {
   salary_essay: string
   retirement_essay: string
   deflation_essay: string
+  student_loan_blog_title: string
+  student_loan_blog_content: string
+  student_loan_methodology: string
   legacy_planner_title: string
   legacy_planner_content: string
   privacy_content: string
@@ -83,6 +86,9 @@ const AdminContentPage: React.FC = () => {
     salary_essay: "",
     retirement_essay: "",
     deflation_essay: "",
+    student_loan_blog_title: "Understanding Student Loans in an Inflationary Economy: A Comprehensive Guide",
+    student_loan_blog_content: "",
+    student_loan_methodology: "",
     legacy_planner_title: "Understanding Multi-Generational Wealth Planning",
     legacy_planner_content: `Multi-generational wealth planning is one of the most complex yet crucial aspects of financial management. As families accumulate wealth over time, the challenge becomes not just preserving it, but ensuring it grows and serves future generations effectively.
 
@@ -382,6 +388,21 @@ The key to successful multi-generational wealth planning lies in balancing growt
         console.log("Legacy planner content not found, using defaults")
       }
 
+      try {
+        const blogResponse = await fetch("/api/student-loan-blog")
+        const blogResult = await blogResponse.json()
+        if (blogResult.success && blogResult.data) {
+          setContent((prev) => ({
+            ...prev,
+            student_loan_blog_title: blogResult.data.title || prev.student_loan_blog_title,
+            student_loan_blog_content: blogResult.data.content || prev.student_loan_blog_content,
+            student_loan_methodology: blogResult.data.methodology || prev.student_loan_methodology,
+          }))
+        }
+      } catch (err) {
+        console.log("Student loan blog content not found, using defaults")
+      }
+
       setMessage("Content loaded successfully!")
       setTimeout(() => setMessage(""), 3000)
     } catch (err) {
@@ -453,6 +474,34 @@ The key to successful multi-generational wealth planning lies in balancing growt
     } catch (err) {
       console.error("Error saving legacy planner content:", err)
       setError("Failed to save legacy planner content")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const saveStudentLoanBlog = async () => {
+    setSaving(true)
+    try {
+      const response = await fetch("/api/student-loan-blog", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: content.student_loan_blog_title,
+          content: content.student_loan_blog_content,
+          methodology: content.student_loan_methodology,
+        }),
+      })
+
+      const result = await response.json()
+      if (!result.success) throw new Error(result.error)
+
+      setMessage("Student loan blog saved successfully!")
+      setTimeout(() => setMessage(""), 3000)
+    } catch (err) {
+      console.error("Error saving student loan blog:", err)
+      setError("Failed to save student loan blog")
     } finally {
       setSaving(false)
     }
@@ -827,6 +876,55 @@ The key to successful multi-generational wealth planning lies in balancing growt
                 <Button onClick={saveLegacyPlannerContent} disabled={saving} className="flex items-center gap-2">
                   <Save className="w-4 h-4" />
                   {saving ? "Saving..." : "Save Legacy Planner Blog"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Student Loan Calculator Blog</CardTitle>
+                <CardDescription>
+                  Educational content for the student loan calculator page (1000+ words recommended)
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Blog Title</label>
+                  <Input
+                    value={content.student_loan_blog_title}
+                    onChange={(e) => setContent((prev) => ({ ...prev, student_loan_blog_title: e.target.value }))}
+                    placeholder="Understanding Student Loans in an Inflationary Economy"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Blog Content</label>
+                  <Textarea
+                    value={content.student_loan_blog_content}
+                    onChange={(e) => setContent((prev) => ({ ...prev, student_loan_blog_content: e.target.value }))}
+                    rows={20}
+                    placeholder="Enter comprehensive blog content about student loans and inflation..."
+                    className="font-mono text-sm"
+                  />
+                  <p className="text-xs text-gray-500">
+                    Current word count: {content.student_loan_blog_content.split(/\s+/).filter(Boolean).length} words
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Methodology Section</label>
+                  <Textarea
+                    value={content.student_loan_methodology}
+                    onChange={(e) => setContent((prev) => ({ ...prev, student_loan_methodology: e.target.value }))}
+                    rows={15}
+                    placeholder="Explain how the calculator works, data sources, and calculation methods..."
+                    className="font-mono text-sm"
+                  />
+                </div>
+
+                <Button onClick={saveStudentLoanBlog} disabled={saving} className="flex items-center gap-2">
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Student Loan Blog"}
                 </Button>
               </CardContent>
             </Card>

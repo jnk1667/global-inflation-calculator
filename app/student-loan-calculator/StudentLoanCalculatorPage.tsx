@@ -13,6 +13,7 @@ import { InfoIcon, TrendingUpIcon, TrendingDownIcon } from "lucide-react"
 import Link from "next/link"
 import { loadCurrencyMeasuresWithFallback } from "@/lib/data-loader"
 import { calculateConsensusInflation } from "@/lib/inflation-measures"
+import { MarkdownRenderer } from "@/components/markdown-renderer"
 
 interface SalaryData {
   [key: string]: {
@@ -35,6 +36,12 @@ interface EarningsData {
   }
 }
 
+interface BlogContent {
+  title: string
+  content: string
+  methodology: string
+}
+
 export default function StudentLoanCalculatorPage() {
   const [loanAmount, setLoanAmount] = useState("30000")
   const [interestRate, setInterestRate] = useState("5.5")
@@ -51,28 +58,37 @@ export default function StudentLoanCalculatorPage() {
   const [inflationRate, setInflationRate] = useState<number | null>(null)
   const [loadingInflation, setLoadingInflation] = useState(false)
   const [inflationData, setInflationData] = useState<{ [year: string]: number } | null>(null)
+  const [blogContent, setBlogContent] = useState<BlogContent | null>(null)
+  const [loadingBlog, setLoadingBlog] = useState(true)
 
   // Load data on mount
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [salariesRes, earningsRes, inflationRes] = await Promise.all([
+        const [salariesRes, earningsRes, inflationRes, blogRes] = await Promise.all([
           fetch("/data/student-loans/salaries-by-occupation.json"),
           fetch("/data/student-loans/earnings-by-major.json"),
           fetch("/data/usd-inflation.json"),
+          fetch("/api/student-loan-blog"),
         ])
 
         const salaries = await salariesRes.json()
         const earnings = await earningsRes.json()
         const inflation = await inflationRes.json()
+        const blog = await blogRes.json()
 
         setSalaryData(salaries)
         setEarningsData(earnings)
         setInflationData(inflation.data)
+
+        if (blog.success && blog.data) {
+          setBlogContent(blog.data)
+        }
       } catch (error) {
         console.error("Error loading student loan data:", error)
       } finally {
         setLoading(false)
+        setLoadingBlog(false)
       }
     }
 
@@ -646,6 +662,39 @@ export default function StudentLoanCalculatorPage() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* Blog Section */}
+        {!loadingBlog && blogContent && (
+          <div className="mt-16 space-y-8">
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-3xl">{blogContent.title}</CardTitle>
+                <CardDescription>
+                  A comprehensive guide to understanding student loans and how inflation affects your repayment
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="prose prose-slate dark:prose-invert max-w-none">
+                <MarkdownRenderer content={blogContent.content} className="text-gray-700 dark:text-gray-300" />
+              </CardContent>
+            </Card>
+
+            {/* Methodology Section */}
+            <Card className="shadow-lg bg-blue-50 dark:bg-blue-950">
+              <CardHeader>
+                <CardTitle className="text-2xl flex items-center gap-2">
+                  <InfoIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  Our Methodology
+                </CardTitle>
+                <CardDescription>How we calculate your student loan payments and projections</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="prose prose-slate dark:prose-invert max-w-none">
+                  <MarkdownRenderer content={blogContent.methodology} className="text-gray-700 dark:text-gray-300" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         <footer className="bg-gray-900 text-white py-12 mt-16">
           <div className="container mx-auto px-4">

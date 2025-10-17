@@ -25,6 +25,7 @@ import {
   Database,
 } from "lucide-react"
 import Link from "next/link"
+import { MarkdownRenderer } from "@/components/markdown-renderer"
 
 // Declare GenerationData type
 type GenerationData = {
@@ -466,11 +467,7 @@ export default function LegacyPlannerPage() {
                       <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
                     </div>
                   ) : (
-                    <div className="text-sm text-gray-600 dark:text-gray-400 space-y-4">
-                      {blogContent.content.split("\n\n").map((paragraph, index) => (
-                        <p key={index}>{paragraph}</p>
-                      ))}
-                    </div>
+                    <MarkdownRenderer content={blogContent.content} />
                   )}
                 </CardContent>
               </Card>

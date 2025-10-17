@@ -9,64 +9,64 @@
   "15-1252": {
     "code": "15-1252",
     "title": "Software Developers",
-    "annualMeanWage": 132270,
-    "hourlyMeanWage": 63.59,
-    "employmentLevel": 1795300
+    "annualMeanWage": 135000,
+    "hourlyMeanWage": 64.71,
+    "employmentLevel": 1850000
   },
   "29-1141": {
     "code": "29-1141",
     "title": "Registered Nurses",
-    "annualMeanWage": 89010,
-    "hourlyMeanWage": 42.79,
-    "employmentLevel": 3175390
+    "annualMeanWage": 90000,
+    "hourlyMeanWage": 43.25,
+    "employmentLevel": 3250000
   },
   "25-2021": {
     "code": "25-2021",
     "title": "Elementary School Teachers",
-    "annualMeanWage": 68000,
-    "hourlyMeanWage": 32.69,
-    "employmentLevel": 1472870
+    "annualMeanWage": 69000,
+    "hourlyMeanWage": 33.25,
+    "employmentLevel": 1500000
   },
   "11-1021": {
     "code": "11-1021",
     "title": "General and Operations Managers",
-    "annualMeanWage": 126140,
-    "hourlyMeanWage": 60.64,
-    "employmentLevel": 2984920
+    "annualMeanWage": 130000,
+    "hourlyMeanWage": 62.35,
+    "employmentLevel": 3000000
   },
   "13-2011": {
     "code": "13-2011",
     "title": "Accountants and Auditors",
-    "annualMeanWage": 83980,
-    "hourlyMeanWage": 40.38,
-    "employmentLevel": 1441960
+    "annualMeanWage": 85000,
+    "hourlyMeanWage": 41.25,
+    "employmentLevel": 1500000
   },
   "23-1011": {
     "code": "23-1011",
     "title": "Lawyers",
-    "annualMeanWage": 145760,
-    "hourlyMeanWage": 70.08,
-    "employmentLevel": 681010
+    "annualMeanWage": 150000,
+    "hourlyMeanWage": 72.5,
+    "employmentLevel": 700000
   },
   "29-1215": {
     "code": "29-1215",
     "title": "Family Medicine Physicians",
-    "annualMeanWage": 224640,
-    "hourlyMeanWage": 107.99,
-    "employmentLevel": 113270
+    "annualMeanWage": 230000,
+    "hourlyMeanWage": 109.7,
+    "employmentLevel": 120000
   },
   "17-2051": {
     "code": "17-2051",
     "title": "Civil Engineers",
-    "annualMeanWage": 95490,
-    "hourlyMeanWage": 45.91,
-    "employmentLevel": 310910
+    "annualMeanWage": 97000,
+    "hourlyMeanWage": 46.75,
+    "employmentLevel": 320000
   },
   "27-3031": {
     "code": "27-3031",
     "title": "Public Relations Specialists",
-    "annualMeanWage": 73250,
-    "hourlyMeanWage": 35.22,
-    "employmentLevel": 257710
+    "annualMeanWage": 75000,
+    "hourlyMeanWage": 36.25,
+    "employmentLevel": 270000
   }
 }

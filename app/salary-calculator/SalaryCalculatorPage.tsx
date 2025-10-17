@@ -16,6 +16,7 @@ import { trackEvent } from "@/lib/analytics"
 import AdBanner from "@/components/ad-banner"
 import { supabase } from "@/lib/supabase"
 import ErrorBoundary from "@/components/error-boundary" // Assuming ErrorBoundary is in components/error-boundary
+import { MarkdownRenderer } from "@/components/markdown-renderer"
 
 interface SalaryResult {
   originalSalary: number
@@ -1885,9 +1886,7 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="prose prose-gray dark:prose-invert max-w-none">
-                      <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 leading-relaxed">
-                        {essayContent}
-                      </div>
+                      <MarkdownRenderer content={essayContent} />
                     </CardContent>
                   </Card>
                 </div>

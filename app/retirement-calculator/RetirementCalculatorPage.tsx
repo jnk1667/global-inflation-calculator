@@ -24,6 +24,7 @@ import {
   BookOpen,
 } from "lucide-react"
 import Link from "next/link"
+import { MarkdownRenderer } from "@/components/markdown-renderer"
 
 interface RetirementData {
   currentAge: number
@@ -1635,9 +1636,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                 </CardDescription>
               </CardHeader>
               <CardContent className="prose prose-gray dark:prose-invert max-w-none">
-                <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 leading-relaxed">
-                  {essayContent}
-                </div>
+                <MarkdownRenderer content={essayContent} />
               </CardContent>
             </Card>
           </div>
