@@ -1730,6 +1730,15 @@ export default function ClientPage() {
                   </li>
                   <li>
                     <Link
+                      href="/student-loan-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Student Loan Calculator
+                    </Link>
+                  </li>
+                  {/* </CHANGE> */}
+                  <li>
+                    <Link
                       href="/deflation-calculator"
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >

@@ -169,6 +169,12 @@ export default function RootLayout({
                   <div className="absolute top-8 right-0 w-48 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800/95 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out">
                     <div className="py-2">
                       <Link
+                        href="/student-loan-calculator"
+                        className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        Student Loan Calculator
+                      </Link>
+                      <Link
                         href="/salary-calculator"
                         className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
