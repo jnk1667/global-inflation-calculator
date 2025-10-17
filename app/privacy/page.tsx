@@ -13,6 +13,8 @@ export const metadata: Metadata = {
     "personal information",
     "cookies policy",
     "user privacy",
+    "best inflation calculator online",
+    "best inflation calculator 2025 accurate",
     "data security",
   ],
   authors: [{ name: "Global Inflation Calculator" }],
