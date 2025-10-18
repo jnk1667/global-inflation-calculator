@@ -10,6 +10,23 @@ import Script from "next/script"
 
 const inter = Inter({ subsets: ["latin"] })
 
+function getMetadataBaseUrl(): URL {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim()
+  const fallbackUrl = "https://www.globalinflationcalculator.com"
+
+  // If no site URL is provided, use fallback
+  if (!siteUrl) {
+    return new URL(fallbackUrl)
+  }
+
+  // Try to construct URL, fallback if invalid
+  try {
+    return new URL(siteUrl)
+  } catch {
+    return new URL(fallbackUrl)
+  }
+}
+
 export const metadata: Metadata = {
   title: {
     default: "Global Inflation Calculator - Inflation & Purchasing Power",
@@ -37,7 +54,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"),
+  metadataBase: getMetadataBaseUrl(),
   alternates: {
     canonical: "/",
   },

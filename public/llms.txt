@@ -13,6 +13,8 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - financial planning tools, economic data analysis
 - deflation calculator, deflationary assets, gold silver calculator
 - precious metals appreciation, commodity price calculator
+- student loan calculator, loan repayment calculator, income-driven repayment
+- student loan inflation, federal student loans, college debt calculator
 
 ## Site URLs and Tools
 
@@ -149,6 +151,201 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Data quality and update procedures
   - Project background and technical approach
 
+- **Student Loan Calculator (/student-loan-calculator)** - Comprehensive student loan repayment planning with inflation analysis
+  
+  **Overview:**
+  Calculate student loan payments with real-world salary data and inflation-adjusted repayment projections. Understand how inflation affects your debt burden over time and compare different repayment strategies.
+  
+  **Data Sources:**
+  
+  - **Bureau of Labor Statistics (BLS) - Occupational Employment and Wage Statistics (OEWS)**
+    - May 2024 OEWS data (latest release: July 5, 2025)
+    - Median salaries for 800+ occupations across the United States
+    - Annual updates provide realistic income expectations by career path
+    - Source: https://www.bls.gov/oes/
+  
+  - **College Scorecard API - U.S. Department of Education**
+    - Median earnings data for graduates by field of study
+    - Data from thousands of institutions nationwide
+    - 2024 earnings data for major-specific salary projections
+    - Source: https://collegescorecard.ed.gov/
+  
+  - **Federal Student Aid - U.S. Department of Education**
+    - Official federal student loan interest rates
+    - Direct Subsidized, Unsubsidized, PLUS, and Grad PLUS rates
+    - Updated annually each July
+    - Source: https://studentaid.gov/
+  
+  - **IRS Tax Brackets**
+    - Current federal income tax brackets for 2024
+    - Used to calculate after-tax income and discretionary income
+    - Standard deduction amounts for accurate tax calculations
+    - Source: https://www.irs.gov/
+  
+  - **HHS Poverty Guidelines**
+    - Federal poverty guidelines updated annually
+    - Used to calculate discretionary income for Income-Driven Repayment plans
+    - 2024 guidelines for household sizes 1-8
+    - Source: https://aspe.hhs.gov/poverty-guidelines
+  
+  **Calculator Features:**
+  
+  - **Loan Input Options:**
+    - Total loan amount ($1,000 to $500,000)
+    - Interest rate (0.1% to 15%)
+    - Loan term (5 to 30 years)
+    - Loan type selection (Federal Subsidized, Unsubsidized, Private, PLUS)
+  
+  - **Income Calculation Methods:**
+    - Select by occupation (800+ BLS occupations with May 2024 median salaries)
+    - Select by college major (100+ majors with 2024 College Scorecard earnings)
+    - Manual income entry for custom scenarios
+  
+  - **Repayment Plan Options:**
+    - Standard 10-year repayment
+    - Graduated repayment (payments increase over time)
+    - Extended repayment (up to 25 years)
+    - Income-Driven Repayment (IDR) plans:
+      - Income-Based Repayment (IBR): 10-15% of discretionary income
+      - Pay As You Earn (PAYE): 10% of discretionary income
+      - Revised Pay As You Earn (REPAYE/SAVE): 10% of discretionary income
+      - Income-Contingent Repayment (ICR): 20% of discretionary income
+  
+  - **Advanced Inflation Analysis:**
+    - Year-by-year payment breakdown showing nominal vs real payment values
+    - Cumulative inflation impact on debt burden
+    - Real purchasing power of payments in today's dollars
+    - Total "savings" from inflation over loan term
+    - Inflation-adjusted total cost of loan
+  
+  - **Salary and Major Data with Real Wage Growth:**
+    - 10-year real wage growth analysis (2014-2024)
+    - Inflation-adjusted salary comparisons
+    - Color-coded indicators (green for positive real growth, red for negative)
+    - Helps assess whether career earnings are keeping pace with inflation
+  
+  **Calculation Methodology:**
+  
+  - **Standard Loan Payment Formula:**
+    - Monthly Payment = P × [r(1 + r)^n] / [(1 + r)^n - 1]
+    - Where P = principal, r = monthly interest rate, n = number of payments
+  
+  - **Income-Driven Repayment Calculation:**
+    - Discretionary Income = Adjusted Gross Income - (150% of Poverty Guideline for family size)
+    - Monthly Payment = (Discretionary Income × Plan Percentage) / 12
+    - Payments capped at standard 10-year payment amount
+    - Remaining balance forgiven after 20-25 years (may be taxable)
+  
+  - **Inflation Adjustment (Advanced Mode):**
+    - For each year of repayment:
+      - Calculate cumulative inflation from loan start date
+      - Adjust nominal payment by inflation factor to show real value in today's dollars
+      - Calculate "savings" from inflation (difference between nominal and real payment)
+      - Display year-by-year breakdown of inflation impact
+    - Uses 2.5% annual inflation assumption for future projections
+    - Historical inflation data from BLS CPI-U for past years
+  
+  - **Real Wage Growth Analysis:**
+    - Current median salary from BLS/College Scorecard (2024 data)
+    - Adjust backwards using historical CPI data to calculate 2014 equivalent
+    - Calculate percentage change to show real wage growth/decline over 10 years
+    - Helps users understand if career earnings are outpacing inflation
+  
+  - **Tax Calculations:**
+    - Uses 2024 federal tax brackets and standard deduction
+    - Calculates after-tax income for discretionary income determination
+    - Does not account for state taxes, itemized deductions, or tax credits
+  
+  **Key Features and Insights:**
+  
+  - **Inflation's Dual Effect on Student Loans:**
+    - Fixed loan payments become less burdensome over time as inflation erodes real value
+    - Salary growth with inflation makes payments more affordable
+    - Real interest rate can become negative during high inflation periods
+    - Calculator shows exact dollar amount of inflation "savings" over loan term
+  
+  - **Career and Major Selection:**
+    - Compare earning potential across 800+ occupations
+    - Analyze 100+ college majors with real earnings data
+    - See which careers have positive real wage growth vs inflation
+    - Make informed decisions about education ROI
+  
+  - **Repayment Strategy Comparison:**
+    - Compare standard vs income-driven repayment plans
+    - See total interest paid under different scenarios
+    - Understand loan forgiveness timelines and amounts
+    - Optimize repayment strategy based on career trajectory
+  
+  - **Real-World Data Integration:**
+    - All salary data from official BLS and Department of Education sources
+    - May 2024 OEWS data (most recent available)
+    - 2024 College Scorecard earnings data
+    - Current federal loan rates and poverty guidelines
+  
+  **Educational Content:**
+  
+  - **Blog Section (1000+ words, editable via admin dashboard):**
+    - Understanding student loans in an inflationary economy
+    - How inflation affects loan repayment burden
+    - Interest rate considerations during inflation
+    - Income-Driven Repayment plans and inflation dynamics
+    - Education as an inflation hedge
+    - Strategic considerations for borrowers
+    - Career planning with wage growth analysis
+  
+  - **Methodology Section (hardcoded for trust signals):**
+    - Detailed explanation of all data sources
+    - Calculation methods and formulas
+    - Assumptions and limitations
+    - Why the approach is unique (inflation-adjusted calculations)
+    - Real wage growth analysis methodology
+  
+  **Use Cases:**
+  
+  - **Prospective Students:**
+    - Evaluate education ROI by comparing major earnings vs loan costs
+    - Understand real debt burden accounting for inflation
+    - Compare career paths with real wage growth data
+    - Make informed borrowing decisions
+  
+  - **Current Borrowers:**
+    - Optimize repayment strategy (standard vs IDR)
+    - Understand how inflation reduces real debt burden
+    - Plan for salary growth and payment affordability
+    - Calculate total cost of different repayment options
+  
+  - **Financial Advisors:**
+    - Client education on student loan economics
+    - Repayment strategy recommendations
+    - Career planning with inflation considerations
+    - Debt management counseling
+  
+  - **Researchers and Educators:**
+    - Analyze student debt burden across occupations and majors
+    - Study inflation's impact on education financing
+    - Compare real wage growth by field of study
+    - Economic research on education ROI
+  
+  **Technical Implementation:**
+  
+  - Real-time calculations with interactive sliders
+  - Dynamic data loading from JSON files (updated with latest BLS/College Scorecard data)
+  - Responsive design for mobile and desktop
+  - Advanced mode toggle for inflation-adjusted analysis
+  - Year-by-year payment breakdown table
+  - Salary and major search with autocomplete
+  - Markdown-formatted blog content with bold, italic, and underline support
+  - Supabase integration for blog content management
+
+- **Legacy Planner (/legacy-planner)** - Multi-generation wealth planning
+
+
+- **Charts & Analytics (/charts)** - Advanced data visualizations
+
+
+- **About Page (/about)** - Detailed methodology and data sources
+
+
 ### Legal and Information Pages
 - **Privacy Policy (/privacy)** - Data protection and privacy practices
 - **Terms of Service (/terms)** - Usage terms and conditions
@@ -157,101 +354,63 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - **FAQs API (/api/faqs)** - Dynamic FAQ content management
   - GET: Retrieve frequently asked questions
   - POST: Add new FAQs (admin only)
+- **Student Loan Blog API (/api/student-loan-blog)** - Student loan calculator blog content
+  - GET: Retrieve blog content and methodology
+  - PUT: Update blog content (admin only)
 
 ## Technical Approach and Methodology
 
-### Understanding Multi-Measure Aggregation
 
-**The Limitations of Single-Measure Approaches:**
+## Official Government Data Sources
 
-Most inflation calculators rely on a single Consumer Price Index (CPI) measure. While CPI is widely used, it has known limitations:
 
-- **Substitution Bias**: CPI uses fixed baskets and doesn't fully account for consumers substituting cheaper alternatives when prices rise. Chained CPI addresses this.
-- **Coverage Gaps**: CPI focuses on consumer goods but misses broader economic inflation captured by GDP Deflator.
-- **Volatile Items**: Core measures exclude food and energy, but these are real costs consumers face.
-- **Sector-Specific Inflation**: Different measures capture different sectors - PPI for wholesale, PCE for personal consumption, HICP for harmonized European data.
+### Student Loan and Education Data Sources
 
-**The Multi-Measure Solution:**
+**Bureau of Labor Statistics (BLS) - Occupational Employment and Wage Statistics**
+- May 2024 OEWS data (latest release: July 5, 2025)
+- 800+ occupations with median annual wages
+- National-level employment and wage estimates
+- Used for: Realistic salary projections by occupation
+- Update frequency: Annual (May data released in July)
+- Source: https://www.bls.gov/oes/
 
-By aggregating multiple official inflation indices, the calculator provides a more comprehensive view of purchasing power changes. Each measure contributes unique insights:
+**U.S. Department of Education - College Scorecard**
+- 2024 median earnings data by field of study
+- Data from thousands of institutions nationwide
+- 10-year post-graduation earnings
+- Used for: Major-specific salary expectations
+- Update frequency: Annual
+- Source: https://collegescorecard.ed.gov/
 
-- **CPI-U**: Urban consumer prices, most widely recognized
-- **Core CPI**: Underlying inflation trends without volatile items
-- **Chained CPI**: Accounts for substitution effects
-- **PCE**: Broader coverage than CPI, includes more services
-- **Core PCE**: Federal Reserve's preferred inflation gauge
-- **PPI**: Wholesale inflation, leading indicator for consumer prices
-- **GDP Deflator**: Economy-wide price changes
+**Federal Student Aid - U.S. Department of Education**
+- Official federal student loan interest rates
+- Direct Subsidized Loans, Direct Unsubsidized Loans
+- Direct PLUS Loans (Parent and Grad)
+- Loan limits and eligibility requirements
+- Used for: Accurate federal loan calculations
+- Update frequency: Annual (rates set each July)
+- Source: https://studentaid.gov/
 
-This approach mirrors methodologies used by central banks and institutional investors when analyzing inflation for policy decisions and portfolio management.
+**Internal Revenue Service (IRS)**
+- Federal income tax brackets for 2024
+- Standard deduction amounts
+- Tax calculation tables
+- Used for: After-tax income and discretionary income calculations
+- Update frequency: Annual
+- Source: https://www.irs.gov/
 
-### Official Government Data Sources
-
-All inflation data comes directly from official government statistical agencies and central banks:
-
-**United States (USD)** - 1913 to present
-- Bureau of Labor Statistics: CPI-U, Core CPI, Chained CPI, PPI
-- Bureau of Economic Analysis: PCE, Core PCE, GDP Deflator
-- Federal Reserve Economic Data (FRED): All series aggregated
-- Coverage: 112+ years with 7 different inflation measures
-
-**United Kingdom (GBP)** - 1947 to present  
-- Office for National Statistics: CPIH, RPI, CPI, PPI Output Prices, Services CPI
-- Coverage: 78+ years with multiple inflation measures
-
-**European Union (EUR)** - 1996 to present
-- Eurostat: HICP, Core HICP, HICP Services, HICP Goods, HICP Energy, HICP Food
-- Coverage: 29+ years with comprehensive HICP breakdown
-
-**Canada (CAD)** - 1914 to present
-- Statistics Canada: CPI, Core measures
-- Bank of Canada: CPI-trim, CPI-median, CPI-common
-- Coverage: 111+ years with multiple measures
-
-**Australia (AUD)** - 1948 to present
-- Australian Bureau of Statistics: CPI, CPI excluding volatile items
-- Reserve Bank of Australia: Trimmed Mean CPI, Weighted Median CPI
-- Coverage: 77+ years with RBA-preferred measures
-
-**Switzerland (CHF)**
-- Swiss Federal Statistical Office: CPI, Core CPI, Domestic CPI
-
-**Japan (JPY)**
-- Statistics Bureau of Japan: CPI, Core CPI, Core-Core CPI
-
-**New Zealand (NZD)**
-- Statistics New Zealand: CPI, CPI excluding food and energy, Tradables/Non-tradables
+**Department of Health and Human Services (HHS)**
+- Federal Poverty Guidelines for 2024
+- Guidelines for household sizes 1-8
+- Used for: Income-Driven Repayment discretionary income calculations
+- Update frequency: Annual (typically January/February)
+- Source: https://aspe.hhs.gov/poverty-guidelines
 
 ### Commodity and Deflationary Asset Data Sources
 
-**Gold Prices (1985-present)**
-- Source: Federal Reserve Economic Data (FRED)
-- Series: IQ12260 - Gold Fixing Price in London Bullion Market
-- Used for: Deflationary asset tracking, inflation hedge analysis
-
-**Silver Prices (1997-present)**
-- Source: Federal Reserve Economic Data (FRED)
-- Series: IP7106 - Global Price of Silver
-- Used for: Precious metals analysis, commodity deflation tracking
-
-**Crude Oil Prices (1986-present)**
-- Source: Federal Reserve Economic Data (FRED)
-- Series: DCOILWTICO - Crude Oil Prices: West Texas Intermediate (WTI)
-- Used for: Energy commodity tracking, inflation correlation analysis
 
 ### Aggregation Methodology Details
 
-**How Multi-Measure Aggregation Works:**
-
-1. **Data Collection**: Collect all available official inflation measures for each currency from government sources
-2. **Validation**: Each measure validated against official source data
-3. **Weighting**: Measures weighted based on:
-   - Coverage breadth (economy-wide vs sector-specific)
-   - Central bank preference (e.g., Core PCE for Fed, CPIH for BoE)
-   - Data reliability and revision history
-   - Temporal consistency
-4. **Aggregation**: Weighted average calculated across all measures
-5. **Quality Assurance**: Results cross-checked against official composite indices
 
 ### Calculation Formulas
 
@@ -260,6 +419,15 @@ All inflation data comes directly from official government statistical agencies 
 - Total Inflation = ((Adjusted Amount - Original Amount) ÷ Original Amount) × 100
 - Annual Rate = (Adjusted Amount ÷ Original Amount)^(1/Years) - 1
 - Aggregated Index = Weighted average of all available measures for that currency
+
+**Student Loan Calculator:**
+- Monthly Payment = P × [r(1 + r)^n] / [(1 + r)^n - 1]
+  - Where P = principal loan amount, r = monthly interest rate, n = number of payments
+- Discretionary Income = AGI - (150% × Federal Poverty Guideline for family size)
+- IDR Monthly Payment = (Discretionary Income × Plan Percentage) / 12
+- Real Payment Value = Nominal Payment ÷ (1 + Cumulative Inflation)
+- Inflation Savings = Σ(Nominal Payment - Real Payment Value) over all years
+- Real Wage Growth = ((Current Salary ÷ CPI_current) - (Historical Salary ÷ CPI_historical)) ÷ (Historical Salary ÷ CPI_historical) × 100
 
 **Salary Calculator:**
 - Real Salary Value = (Current Salary × Base Year Aggregated Index) ÷ Current Year Aggregated Index
@@ -278,26 +446,15 @@ All inflation data comes directly from official government statistical agencies 
 
 ### Additional Financial Data
 
-**S&P 500 Returns (1928-2024)**
-- Historical annual returns with 10.5% average
-- Inflation-adjusted using multi-measure data
-- Used for retirement planning and investment analysis
 
-**10-Year US Treasury Bond Yields (1928-2024)**
-- Source: Federal Reserve Economic Data (FRED)
-- Average yield: 4.8%
-- Real yields calculated with multi-measure inflation
-
-**Healthcare Inflation Data (1990-2024)**
-- Healthcare inflation averages 5.8% vs 3.2% general inflation
-- Healthcare multiplier: 1.81x general inflation
-- Critical for retirement planning
-
-**Generational Retirement Data**
-- Baby Boomers: 12.5% avg contribution, $289k median savings
-- Gen X: 10.8% avg contribution, $142k median savings  
-- Millennials: 8.3% avg contribution, $63k median savings
-- Gen Z: 6.2% avg contribution, $11k median savings
+**Student Loan and Education Data**
+- 800+ occupations with May 2024 median salaries from BLS OEWS
+- 100+ college majors with 2024 median earnings from College Scorecard
+- Federal student loan interest rates (2024-2025 academic year)
+- Income-Driven Repayment plan parameters and forgiveness timelines
+- Federal poverty guidelines for 2024 (household sizes 1-8)
+- 2024 federal tax brackets and standard deductions
+- 10-year real wage growth analysis (2014-2024) by occupation and major
 
 ## Data Structure and Storage
 
@@ -308,6 +465,7 @@ All data stored in structured JSON files in `/public/data/`:
 - Demographic data (life-expectancy.json, retirement-contributions.json)
 - Healthcare inflation comparisons (healthcare-inflation.json)
 - Commodity price data (gold-prices.json, silver-prices.json, oil-prices.json)
+- Student loan data (salaries-by-occupation.json, earnings-by-major.json, federal-loan-rates.json, tax-brackets.json, poverty-guidelines.json)
 - System metadata (last-updated.json, faqs.json)
 
 ### Data Quality Assurance
@@ -316,6 +474,7 @@ All data stored in structured JSON files in `/public/data/`:
 - **Regular Updates**: Monthly updates when new figures released
 - **Historical Coverage**: Comprehensive data from 1913 to present
 - **Data Integrity**: Automated validation and consistency checks across all measures
+- **Student Loan Data**: Annual updates from BLS (July), College Scorecard, Federal Student Aid, IRS, and HHS
 
 ## Technical Architecture
 
@@ -326,49 +485,51 @@ All data stored in structured JSON files in `/public/data/`:
 - Tailwind CSS for responsive design
 - Recharts for data visualizations
 - Dark/light theme support
+- Markdown rendering with formatting support (bold, italic, underline)
 
 ### Database Integration
 - Supabase for dynamic content management
 - Real-time FAQ and content updates
+- Student loan blog content stored in Supabase (student_loan_blog table)
 - Admin dashboard for content management
 - Row Level Security (RLS) for data protection
 
 ### SEO and Accessibility
 - Comprehensive metadata and Open Graph tags
+- Canonical URLs for all pages
 - JSON-LD structured data for FAQs
 - Semantic HTML with proper ARIA attributes
 - Mobile-first responsive design
 - Google Analytics and AdSense integration
+- llms.txt for AI crawler accessibility
 
 ## Key Features and Capabilities
 
 ### Multi-Measure Inflation Analysis
-- Aggregates all official inflation indices per currency
-- Addresses limitations of single-measure approaches
-- Methodology similar to institutional analysis
-- Comprehensive economic coverage
+
 
 ### Multi-Currency Support
-- 8 major world currencies with comprehensive measure coverage
-- Currency-specific inflation indices
-- Cross-currency inflation comparisons
-- Regional economic analysis
+
+
+### Student Loan Analysis with Real-World Data
+- 800+ occupations with May 2024 BLS median salaries
+- 100+ college majors with 2024 College Scorecard earnings
+- Real wage growth analysis (10-year inflation-adjusted)
+- Federal student loan rates and repayment plans
+- Income-Driven Repayment calculations with poverty guidelines
+- Inflation-adjusted payment analysis showing real debt burden
+- Career planning with earning potential vs loan costs
 
 ### Deflationary Asset Tracking
-- Historical commodity price data from FRED
-- Gold, silver, and crude oil tracking
-- Real purchasing power calculations vs multi-measure inflation
-- Wealth preservation analysis
+
 
 ### Advanced Analytics
-- Interactive charts with all inflation measures
-- Screenshot capabilities
-- Correlation analysis
-- Real vs nominal comparisons
+
 
 ### Financial Planning Tools
 - Retirement planning with multi-measure inflation
 - Salary negotiation tools
+- Student loan repayment optimization
 - Estate planning
 - Investment analysis
 - Deflationary asset strategies
@@ -378,16 +539,21 @@ All data stored in structured JSON files in `/public/data/`:
 ### Personal Finance
 - Salary negotiations with purchasing power data
 - Retirement planning with comprehensive inflation analysis
+- Student loan repayment strategy optimization
 - Understanding purchasing power changes
 - Estate planning and wealth preservation
 - Deflationary asset investment strategies
+- Education ROI analysis and career planning
 
 ### Academic and Research
 - Economic research with comprehensive inflation data
 - Educational tools with all major inflation measures
+- Student debt burden analysis across occupations and majors
+- Real wage growth studies by field of study
 - Policy analysis using multiple indices
 - Cross-country comparisons
 - Commodity correlation studies
+- Education financing research
 
 ### Business Applications
 - Long-term financial planning
@@ -395,27 +561,31 @@ All data stored in structured JSON files in `/public/data/`:
 - Historical cost analysis
 - Economic impact assessments
 - Commodity hedging strategies
+- Employee compensation planning
 
 ### Professional Services
 - Financial advisor client education
+- Student loan counseling and debt management
 - Insurance and actuarial calculations
 - Real estate investment analysis
 - Economic consulting
 - Precious metals advisory
+- Career counseling with salary data
 
 ## Data Update Schedule and Maintenance
 
 ### Update Frequency
 - **Monthly**: All inflation measures and commodity prices updated
 - **Quarterly**: Financial market data refresh
-- **Annual**: Demographic data updates
-- **Real-time**: FAQ and content updates
+- **Annual**: Demographic data updates, BLS OEWS data (July), College Scorecard data, federal loan rates (July), tax brackets, poverty guidelines
+- **Real-time**: FAQ and content updates, student loan blog content
 
 ### Data Validation
 - Cross-validation across multiple measures
 - Source verification
 - Historical data integrity
 - Error detection and correction
+- Real wage growth calculations verified against BLS CPI-U data
 
 ## Important Disclaimers and Limitations
 
@@ -425,18 +595,24 @@ All data stored in structured JSON files in `/public/data/`:
 - Inflation affects different goods and services differently
 - Regional variations within countries not fully reflected
 - Historical data subject to revisions
+- Student loan calculations use national median salaries; individual results may vary
+- Tax calculations use federal rates only; state and local taxes not included
+- IDR forgiveness may result in taxable income under current law
 
 ### Data Limitations
 - Aggregated measures may not reflect individual spending patterns
 - Quality adjustments in calculations not detailed
 - Seasonal variations smoothed in annual data
 - Future projections based on historical trends
+- Salary data represents medians; actual earnings vary by location, experience, and employer
+- Real wage growth analysis uses national CPI; regional inflation may differ
 
 ## Contact and Administration
 
 ### Content Management
 - Admin dashboard at /admin-manage-content (password protected)
 - Dynamic FAQ management
+- Student loan blog content management through Supabase
 - Content updates through Supabase
 - Usage statistics tracking
 
@@ -449,6 +625,12 @@ All data stored in structured JSON files in `/public/data/`:
 - "Are precious metals good inflation hedges?"
 - "What's the difference between CPI, PCE, and GDP Deflator?"
 - "Why use multiple measures instead of just CPI?"
+- "How does inflation affect my student loan debt?"
+- "Should I pay off student loans aggressively or invest instead?"
+- "What's the best repayment plan for my income?"
+- "How much will I earn with my college major?"
+- "Is my degree worth the student loan debt?"
+- "What careers have the best real wage growth?"
 
 ## Related Financial Concepts
 - Consumer Price Index (CPI), Core CPI, Chained CPI
@@ -460,6 +642,14 @@ All data stored in structured JSON files in `/public/data/`:
 - Deflationary assets, commodity deflation
 - Precious metals investing, inflation hedging
 - Wealth preservation strategies
+- Student loan debt, federal student loans, private student loans
+- Income-Driven Repayment (IDR), Income-Based Repayment (IBR)
+- Pay As You Earn (PAYE), Revised Pay As You Earn (REPAYE/SAVE)
+- Income-Contingent Repayment (ICR)
+- Loan forgiveness, discretionary income, poverty guidelines
+- Real wage growth, education ROI, human capital investment
+- Occupational wage data, earnings by major
+- Inflation arbitrage, real interest rates
 
 ## Target Audiences and Regions
 - United States (primary): Comprehensive USD inflation calculator with 7 measures
@@ -471,6 +661,9 @@ All data stored in structured JSON files in `/public/data/`:
 - Educators and researchers: Comprehensive multi-measure datasets
 - Retirees: Healthcare cost planning
 - Investors: Precious metals and commodity tracking
+- Students and graduates: Student loan planning and career analysis
+- Parents: Education financing and ROI evaluation
+- Financial advisors: Client education and debt counseling tools
 
 ## Competitive Positioning
 
@@ -478,16 +671,20 @@ All data stored in structured JSON files in `/public/data/`:
 
 The calculator's primary characteristic is its multi-measure aggregation methodology. By aggregating all available official inflation indices for each currency, the platform addresses known limitations of single-measure calculations and provides a more comprehensive view of purchasing power changes.
 
+### Student Loan Calculator Differentiation
+
+The student loan calculator uniquely combines real-world salary data from BLS and College Scorecard with inflation-adjusted repayment analysis. Unlike basic loan calculators that only show nominal payments, this tool reveals how inflation reduces the real burden of debt over time and whether career wage growth is keeping pace with inflation. The integration of 800+ occupations and 100+ majors with 10-year real wage growth data provides unparalleled career planning insights.
+
 ### Historical Data Coverage
 
-With 112+ years of USD data (1913-present) and extensive coverage for all 8 currencies, the platform offers comprehensive historical datasets for inflation analysis.
+With 112+ years of USD data (1913-present) and extensive coverage for all 8 currencies, the platform offers comprehensive historical datasets for inflation analysis. Student loan data includes the latest May 2024 BLS OEWS release and 2024 College Scorecard earnings.
 
 ### Institutional-Grade Methodology
 
-The aggregation approach is similar to methodologies used by central banks and institutional investors when analyzing inflation trends for policy decisions and portfolio management.
+The aggregation approach is similar to methodologies used by central banks and institutional investors when analyzing inflation trends for policy decisions and portfolio management. Student loan calculations use official government data sources exclusively.
 
 ### Transparency and Documentation
 
-Full documentation of all data sources, calculation methods, and aggregation weights ensures users understand exactly how results are derived.
+Full documentation of all data sources, calculation methods, and aggregation weights ensures users understand exactly how results are derived. The student loan calculator includes a comprehensive methodology section explaining data sources, formulas, assumptions, and limitations.
 
-This comprehensive financial analysis platform serves as a bridge between complex economic data and practical financial understanding, making institutional-grade inflation analysis accessible to users worldwide while maintaining high standards of data accuracy and transparency through multi-measure aggregation.
+This comprehensive financial analysis platform serves as a bridge between complex economic data and practical financial understanding, making institutional-grade inflation analysis and student loan planning accessible to users worldwide while maintaining high standards of data accuracy and transparency through multi-measure aggregation and official government data sources.

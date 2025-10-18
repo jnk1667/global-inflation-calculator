@@ -3,7 +3,13 @@ import StudentLoanCalculatorPage from "./StudentLoanCalculatorPage"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"
+const siteUrl = (() => {
+  const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim()
+  if (envUrl && (envUrl.startsWith("http://") || envUrl.startsWith("https://"))) {
+    return envUrl
+  }
+  return "https://www.globalinflationcalculator.com"
+})()
 
 export const metadata: Metadata = {
   title: "Student Loan Calculator - Calculate Repayment Plans | Global Inflation Calculator",
