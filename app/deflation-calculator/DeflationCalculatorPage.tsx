@@ -793,6 +793,14 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
                 </li>
                 <li>
                   <Link
+                    href="/student-loan-calculator"
+                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    Student Loan Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/charts"
                     className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                   >

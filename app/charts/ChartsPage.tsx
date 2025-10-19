@@ -1442,6 +1442,14 @@ export default function ChartsPage() {
                     </a>
                   </li>
                   <li>
+                    <a
+                      href="/student-loan-calculator"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      Student Loan Calculator
+                    </a>
+                  </li>
+                  <li>
                     <a href="/charts" className="text-blue-600 dark:text-blue-400 font-medium">
                       Charts & Analytics
                     </a>

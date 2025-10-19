@@ -1780,6 +1780,9 @@ Successful retirement planning requires a multi-faceted approach that considers 
                   </div>
                 </div>
               </Link>
+              <Link href="/student-loan-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
+                Student Loan Calculator
+              </Link>
               <Link
                 href="/charts"
                 className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
@@ -1817,6 +1820,9 @@ Successful retirement planning requires a multi-faceted approach that considers 
             </Link>
             <Link href="/legacy-planner" className="hover:text-blue-600 dark:hover:text-blue-400">
               Legacy Planner
+            </Link>
+            <Link href="/student-loan-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
+              Student Loan Calculator
             </Link>
             <Link href="/charts" className="hover:text-blue-600 dark:hover:text-blue-400">
               Charts

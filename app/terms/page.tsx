@@ -222,6 +222,14 @@ export default function TermsOfService() {
                       </Link>
                     </li>
                     <li>
+                      <Link
+                        href="/student-loan-calculator"
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        Student Loan Calculator
+                      </Link>
+                    </li>
+                    <li>
                       <Link href="/charts" className="text-muted-foreground hover:text-primary transition-colors">
                         Charts & Analytics
                       </Link>

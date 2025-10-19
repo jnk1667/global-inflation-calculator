@@ -690,6 +690,28 @@ export default function LegacyPlannerPage() {
                     </Link>
                   </CardContent>
                 </Card>
+
+                <Card className="border-green-200 bg-green-50 dark:bg-green-900/20">
+                  <CardHeader>
+                    <CardTitle className="text-green-800 dark:text-green-200 text-lg">
+                      Student Loan Calculator
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-green-700 dark:text-green-300 mb-4 text-sm">
+                      Plan your student loan repayment with inflation-adjusted projections
+                    </p>
+                    <Link href="/student-loan-calculator">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full border-green-300 text-green-700 hover:bg-green-100 bg-transparent"
+                      >
+                        Calculate Student Loan <ArrowRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
@@ -736,6 +758,15 @@ export default function LegacyPlannerPage() {
                     >
                       <TrendingDown className="h-4 w-4 mr-2" />
                       Deflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/student-loan-calculator"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
+                    >
+                      <Calculator className="h-4 w-4 mr-2" />
+                      Student Loan Calculator
                     </Link>
                   </li>
                   <li>
