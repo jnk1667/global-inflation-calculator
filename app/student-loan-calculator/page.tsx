@@ -12,9 +12,9 @@ const siteUrl = (() => {
 })()
 
 export const metadata: Metadata = {
-  title: "Student Loan Calculator - Be Responsible and Get Out of Debt",
+  title: "Student Loan Calculator - Out of Debt",
   description:
-    "Calculate student loan repayment plans, monthly payments, and total interest costs. Compare federal and private loan options with real salary data by occupation and major.",
+    "Calculate student loan repayment plans, monthly payments, and total interest costs. Compare & understand how inflation eases your debt burden while diluting your money.",
   keywords: [
     "student loan calculator",
     "loan repayment calculator",
