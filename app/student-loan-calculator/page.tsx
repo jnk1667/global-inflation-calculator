@@ -12,7 +12,7 @@ const siteUrl = (() => {
 })()
 
 export const metadata: Metadata = {
-  title: "Student Loan Calculator - Calculate Repayment Plans | Global Inflation Calculator",
+  title: "Student Loan Calculator - Be Responsible and Get Out of Debt",
   description:
     "Calculate student loan repayment plans, monthly payments, and total interest costs. Compare federal and private loan options with real salary data by occupation and major.",
   keywords: [
