@@ -1643,7 +1643,7 @@ export default function ClientPage() {
 
                   {/* FAQ */}
                   <Suspense fallback={<div className="h-64 bg-gray-100 dark:bg-gray-700 rounded animate-pulse mb-8" />}>
-                    <FAQ />
+                    <FAQ category="general" />
                   </Suspense>
                 </>
               )}
@@ -1736,7 +1736,6 @@ export default function ClientPage() {
                       Student Loan Calculator
                     </Link>
                   </li>
-                  {/* </CHANGE> */}
                   <li>
                     <Link
                       href="/deflation-calculator"
