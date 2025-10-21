@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "regional inflation analysis",
     "rolling average inflation",
     "best inflation calculator online”,
-    "best inflation calculator 2025 accurate",
+    "best inflation calcultor 2025 accurate",
     "purchasing power convergence",
   ],
   alternates: {
