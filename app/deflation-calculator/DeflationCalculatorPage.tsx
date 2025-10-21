@@ -12,6 +12,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { TrendingUp, Coins, Zap, Fuel, Gem, Bitcoin, Shield, BookOpen, Calculator, BarChart3 } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import Link from "next/link"
+import FAQ from "@/components/faq"
 
 export default function DeflationCalculatorPage() {
   const [amount, setAmount] = useState("1000")
@@ -752,6 +753,11 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
             </div>
           </CardContent>
         </Card>
+
+        {/* FAQ Section */}
+        <div className="mt-16 mb-8 max-w-4xl mx-auto">
+          <FAQ category="deflation" />
+        </div>
 
         {/* Footer Section */}
         <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg p-6">

@@ -17,6 +17,7 @@ import AdBanner from "@/components/ad-banner"
 import { supabase } from "@/lib/supabase"
 import ErrorBoundary from "@/components/error-boundary" // Assuming ErrorBoundary is in components/error-boundary
 import { MarkdownRenderer } from "@/components/markdown-renderer"
+import FAQ from "@/components/faq"
 
 interface SalaryResult {
   originalSalary: number
@@ -2045,6 +2046,10 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                       </div>
                     </CardContent>
                   </Card>
+                </div>
+
+                <div className="mt-16 mb-8">
+                  <FAQ category="salary" />
                 </div>
 
                 {/* Footer with Internal Links */}

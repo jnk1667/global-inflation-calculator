@@ -26,6 +26,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
+import FAQ from "@/components/faq"
 
 // Declare GenerationData type
 type GenerationData = {
@@ -628,6 +629,11 @@ export default function LegacyPlannerPage() {
                   </Alert>
                 </CardContent>
               </Card>
+
+              {/* FAQ Section */}
+              <div className="mb-8">
+                <FAQ category="legacy" />
+              </div>
 
               {/* Related Tools */}
               <div className="grid md:grid-cols-2 gap-4">

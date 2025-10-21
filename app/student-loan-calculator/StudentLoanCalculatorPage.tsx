@@ -14,6 +14,7 @@ import Link from "next/link"
 import { loadCurrencyMeasuresWithFallback } from "@/lib/data-loader"
 import { calculateConsensusInflation } from "@/lib/inflation-measures"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
+import FAQ from "@/components/faq"
 
 interface SalaryData {
   [key: string]: {
@@ -695,6 +696,11 @@ export default function StudentLoanCalculatorPage() {
             </Card>
           </div>
         )}
+
+        {/* FAQ Section */}
+        <div className="mt-16 mb-8">
+          <FAQ category="student-loan" />
+        </div>
 
         <footer className="bg-gray-900 text-white py-12 mt-16">
           <div className="container mx-auto px-4">

@@ -25,6 +25,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
+import FAQ from "@/components/faq" // Assuming FAQ component is available
 
 interface RetirementData {
   currentAge: number
@@ -1780,8 +1781,19 @@ Successful retirement planning requires a multi-faceted approach that considers 
                   </div>
                 </div>
               </Link>
-              <Link href="/student-loan-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
-                Student Loan Calculator
+              <Link
+                href="/student-loan-calculator"
+                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+              >
+                <div className="flex items-center gap-3">
+                  <Calculator className="h-8 w-8 text-orange-600" />
+                  <div>
+                    <h3 className="font-semibold dark:text-white">Student Loan Calculator</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Calculate student loan payments and explore repayment strategies
+                    </p>
+                  </div>
+                </div>
               </Link>
               <Link
                 href="/charts"
@@ -1800,6 +1812,10 @@ Successful retirement planning requires a multi-faceted approach that considers 
             </div>
           </CardContent>
         </Card>
+
+        <section className="mb-12">
+          <FAQ category="retirement" />
+        </section>
 
         {/* Ad Banner - Bottom */}
         <div className="mb-8">

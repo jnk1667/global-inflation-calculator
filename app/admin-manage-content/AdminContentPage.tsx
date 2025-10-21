@@ -23,11 +23,13 @@ import {
   HelpCircle,
   Database,
 } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface FAQ {
   id: string
   question: string
   answer: string
+  category?: string
 }
 
 interface SocialLink {
@@ -112,7 +114,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
   // FAQ state
   const [faqs, setFaqs] = useState<FAQ[]>([])
-  const [newFaq, setNewFaq] = useState({ question: "", answer: "" })
+  const [newFaq, setNewFaq] = useState({ question: "", answer: "", category: "general" })
 
   // Usage stats state
   const [usageStats, setUsageStats] = useState<UsageData>({
@@ -520,7 +522,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
         body: JSON.stringify({
           question: newFaq.question.trim(),
           answer: newFaq.answer.trim(),
-          category: "general",
+          category: newFaq.category || "general",
         }),
       })
 
@@ -533,7 +535,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
       if (result.success && result.data) {
         setFaqs((prev) => [...prev, result.data])
-        setNewFaq({ question: "", answer: "" })
+        setNewFaq({ question: "", answer: "", category: "general" })
         setMessage("FAQ added successfully!")
         setTimeout(() => setMessage(""), 3000)
       }
@@ -562,7 +564,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
     }
   }
 
-  const updateFaq = async (id: string, question: string, answer: string) => {
+  const updateFaq = async (id: string, question: string, answer: string, category?: string) => {
     try {
       const response = await fetch(`/api/faqs/${id}`, {
         method: "PUT",
@@ -572,6 +574,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
         body: JSON.stringify({
           question,
           answer,
+          category: category || "general",
         }),
       })
 
@@ -579,7 +582,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
         throw new Error("Failed to update FAQ")
       }
 
-      setFaqs((prev) => prev.map((faq) => (faq.id === id ? { ...faq, question, answer } : faq)))
+      setFaqs((prev) => prev.map((faq) => (faq.id === id ? { ...faq, question, answer, category } : faq)))
       setMessage("FAQ updated successfully!")
       setTimeout(() => setMessage(""), 3000)
     } catch (err) {
@@ -1221,6 +1224,26 @@ The key to successful multi-generational wealth planning lies in balancing growt
                 <CardTitle>Add New FAQ</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Category</label>
+                  <Select
+                    value={newFaq.category}
+                    onValueChange={(value) => setNewFaq((prev) => ({ ...prev, category: value }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="general">General (Homepage)</SelectItem>
+                      <SelectItem value="salary">Salary Calculator</SelectItem>
+                      <SelectItem value="retirement">Retirement Calculator</SelectItem>
+                      <SelectItem value="student-loan">Student Loan Calculator</SelectItem>
+                      <SelectItem value="deflation">Deflation Calculator</SelectItem>
+                      <SelectItem value="legacy">Legacy Planner</SelectItem>
+                      <SelectItem value="charts">Charts & Analytics</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 <Input
                   placeholder="Question"
                   value={newFaq.question}
@@ -1251,14 +1274,34 @@ The key to successful multi-generational wealth planning lies in balancing growt
               <CardContent className="space-y-4">
                 {faqs.map((faq) => (
                   <div key={faq.id} className="border rounded-lg p-4 space-y-3">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Category</label>
+                      <Select
+                        value={faq.category || "general"}
+                        onValueChange={(value) => updateFaq(faq.id, faq.question, faq.answer, value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="general">General (Homepage)</SelectItem>
+                          <SelectItem value="salary">Salary Calculator</SelectItem>
+                          <SelectItem value="retirement">Retirement Calculator</SelectItem>
+                          <SelectItem value="student-loan">Student Loan Calculator</SelectItem>
+                          <SelectItem value="deflation">Deflation Calculator</SelectItem>
+                          <SelectItem value="legacy">Legacy Planner</SelectItem>
+                          <SelectItem value="charts">Charts & Analytics</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                     <Input
                       value={faq.question}
-                      onChange={(e) => updateFaq(faq.id, e.target.value, faq.answer)}
+                      onChange={(e) => updateFaq(faq.id, e.target.value, faq.answer, faq.category)}
                       className="font-medium"
                     />
                     <Textarea
                       value={faq.answer}
-                      onChange={(e) => updateFaq(faq.id, faq.question, e.target.value)}
+                      onChange={(e) => updateFaq(faq.id, faq.question, e.target.value, faq.category)}
                       rows={3}
                     />
                     <div className="flex justify-end">

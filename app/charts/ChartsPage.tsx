@@ -19,6 +19,7 @@ import {
 import { Camera } from "lucide-react"
 import html2canvas from "html2canvas"
 import CurrencyComparisonChart from "@/components/currency-comparison-chart"
+import FAQ from "@/components/faq"
 
 export default function ChartsPage() {
   const [screenshotting, setScreenshotting] = useState<string | null>(null)
@@ -430,7 +431,7 @@ export default function ChartsPage() {
       {
         name: "Asia-Pacific",
         currencies: [
-          { code: "JPY", data: jpyData, name: "Japanese Yen", flag: "🇯🇵" },
+          { code: "JPY", name: "Japanese Yen", flag: "🇯🇵" },
           { code: "AUD", data: audData, name: "Australian Dollar", flag: "🇦🇺" },
           { code: "NZD", data: nzdData, name: "New Zealand Dollar", flag: "🇳🇿" },
         ],
@@ -445,7 +446,8 @@ export default function ChartsPage() {
 
       regions.forEach((region) => {
         const validCurrencies = region.currencies.filter(
-          (currency) => currency.data.data[year.toString()] && currency.data.data["1996"],
+          (currency) =>
+            currency.data && currency.data.data && currency.data.data[year.toString()] && currency.data.data["1996"],
         )
 
         if (validCurrencies.length > 0) {
@@ -911,7 +913,7 @@ export default function ChartsPage() {
             <div>
               <h2 className="text-2xl font-bold">Multi-Currency Comparison</h2>
               <p className="text-lg text-muted-foreground mt-2">
-                Compare how $100 has been affected by inflation across 8 major world currencies
+                Compare how $100 has been affected by inflation across 8 world currencies
               </p>
             </div>
             <Button
@@ -1391,6 +1393,10 @@ export default function ChartsPage() {
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="mt-12 mb-16 max-w-4xl mx-auto px-4">
+          <FAQ category="charts" />
         </section>
 
         {/* Footer */}
