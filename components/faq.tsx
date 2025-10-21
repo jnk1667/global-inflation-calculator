@@ -73,11 +73,13 @@ export default function FAQ({ category, limit }: FAQProps) {
 
         // Try to fetch from API first
         try {
-          const response = await fetch("/api/faqs")
+          const url = category ? `/api/faqs?category=${encodeURIComponent(category)}` : "/api/faqs"
+          const response = await fetch(url)
           if (response.ok) {
             const data = await response.json()
             if (Array.isArray(data)) {
-              setFaqs(data)
+              const limitedData = typeof limit === "number" && limit > 0 ? data.slice(0, limit) : data
+              setFaqs(limitedData)
               return
             }
           }

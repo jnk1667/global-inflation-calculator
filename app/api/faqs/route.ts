@@ -11,7 +11,7 @@ async function submitFAQUpdateToIndexNow() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        urls: [`${SITE_URL}/about`], // About page contains FAQs
+        urls: [`${SITE_URL}/about`],
         reason: "updated",
       }),
     })
@@ -26,9 +26,11 @@ async function submitFAQUpdateToIndexNow() {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    // Check if environment variables are available
+    const { searchParams } = new URL(request.url)
+    const category = searchParams.get("category")
+
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -37,17 +39,21 @@ export async function GET() {
       return NextResponse.json({ error: "Database configuration error" }, { status: 500 })
     }
 
-    // Create Supabase client
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-    const { data: faqs, error } = await supabase.from("faqs").select("*").eq("is_active", true).order("order_index")
+    let query = supabase.from("faqs").select("*").eq("is_active", true).order("order_index")
+
+    if (category) {
+      query = query.eq("category", category)
+    }
+
+    const { data: faqs, error } = await query
 
     if (error) {
       console.error("Error fetching FAQs:", error)
       return NextResponse.json({ error: "Failed to fetch FAQs" }, { status: 500 })
     }
 
-    // Transform the data to match the expected format
     const transformedFaqs = faqs.map((faq) => ({
       id: faq.id,
       question: faq.question,
