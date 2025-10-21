@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     "Calculate student loan repayment, monthly payments & total interest costs. Compare & understand how inflation eases your debt burden while diluting your money.",
   keywords: [
     "student loan calculator",
+    "best inflation calculator online",
     "loan repayment calculator",
     "federal student loan calculator",
     "private student loan calculator",
