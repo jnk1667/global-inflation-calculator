@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "inflation calculator usd",
     "purchasing power charts",
     "inflation visualization",
+    "currency stability",
     "healthcare inflation",
     "historical inflation data",
     "inflation trends",
@@ -22,7 +23,6 @@ export const metadata: Metadata = {
     "cross currency correlation",
     "regional inflation analysis",
     "rolling average inflation",
-    "best inflation calculator online”,
     "purchasing power convergence",
   ],
   alternates: {
