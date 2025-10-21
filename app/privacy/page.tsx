@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     "Read our comprehensive privacy policy to understand how we collect, use, and protect your personal information when using our inflation calculator.",
   keywords: [
     "privacy policy",
+    "best inflation calculator online",
     "data protection",
     "personal information",
     "cookies policy",
