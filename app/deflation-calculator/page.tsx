@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     "Calculate how deflationary assets like Gold, Silver, Crude Oil, and Cryptocurrency help you preserve and grow the purchasing power of your wealth over time.",
   keywords: [
     "deflation calculator",
+    "best inflation calculator online",
     "purchasing power",
     "purchasing power growth",
     "gold appreciation calculator",
