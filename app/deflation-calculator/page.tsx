@@ -76,8 +76,28 @@ export const metadata: Metadata = {
 }
 
 export default function DeflationCalculator() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Deflation Calculator",
+        item: `${siteUrl}/deflation-calculator`,
+      },
+    ],
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <DeflationCalculatorPage />
 
       <noscript>

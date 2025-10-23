@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { supabase } from "@/lib/supabase"
-import { Loader2, Save, RefreshCw } from "lucide-react"
+import { Loader2, Save, RefreshCw, Download } from "lucide-react"
 
 interface ContentItem {
   id: string
@@ -24,6 +24,8 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState("")
   const [editingContent, setEditingContent] = useState<{ [key: string]: string }>({})
+  const [fetchingCurrency, setFetchingCurrency] = useState<string | null>(null)
+  const [currencyData, setCurrencyData] = useState<any>(null)
 
   useEffect(() => {
     fetchContent()
@@ -40,7 +42,6 @@ export default function AdminDashboard() {
       if (error) throw error
       setContent(data || [])
 
-      // Initialize editing content
       const initialContent: { [key: string]: string } = {}
       data?.forEach((item) => {
         initialContent[`${item.page}-${item.section}`] = item.content
@@ -87,6 +88,57 @@ export default function AdminDashboard() {
     }))
   }
 
+  const fetchCurrencyData = async (currency: string) => {
+    setFetchingCurrency(currency)
+    setCurrencyData(null)
+    setMessage("")
+
+    try {
+      const password = prompt("Enter admin password:")
+      if (!password) {
+        setFetchingCurrency(null)
+        return
+      }
+
+      const response = await fetch(`/api/admin/fetch-${currency.toLowerCase()}-data`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to fetch data")
+      }
+
+      setCurrencyData(result)
+      setMessage(`${currency} data fetched successfully! ${result.recordCount} years of data from ${result.yearRange}`)
+    } catch (error) {
+      console.error(`Error fetching ${currency} data:`, error)
+      setMessage(`Error fetching ${currency} data: ${error instanceof Error ? error.message : "Unknown error"}`)
+    } finally {
+      setFetchingCurrency(null)
+    }
+  }
+
+  const downloadCurrencyData = () => {
+    if (!currencyData?.data) return
+
+    const dataStr = JSON.stringify(currencyData.data, null, 2)
+    const dataBlob = new Blob([dataStr], { type: "application/json" })
+    const url = URL.createObjectURL(dataBlob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = currencyData.file || "currency-data.json"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
   const groupedContent = content.reduce(
     (acc, item) => {
       if (!acc[item.page]) {
@@ -126,14 +178,131 @@ export default function AdminDashboard() {
         </Button>
       </div>
 
-      <Tabs defaultValue={Object.keys(groupedContent)[0]} className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
+      <Tabs defaultValue={Object.keys(groupedContent)[0] || "currency-data"} className="space-y-4">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="currency-data">Currency Data</TabsTrigger>
           {Object.keys(groupedContent).map((page) => (
             <TabsTrigger key={page} value={page} className="capitalize">
               {page.replace("-", " ")}
             </TabsTrigger>
           ))}
         </TabsList>
+
+        <TabsContent value="currency-data" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Fetch Currency Inflation Data</CardTitle>
+              <CardDescription>
+                Fetch real CPI data from official statistical agencies for new currencies
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid gap-4 md:grid-cols-3">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Danish Krone (DKK)</CardTitle>
+                    <CardDescription>Statistics Denmark (DST)</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button
+                      onClick={() => fetchCurrencyData("DKK")}
+                      disabled={fetchingCurrency !== null}
+                      className="w-full"
+                    >
+                      {fetchingCurrency === "DKK" ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Fetching...
+                        </>
+                      ) : (
+                        "Fetch DKK Data"
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Swedish Krona (SEK)</CardTitle>
+                    <CardDescription>Statistics Sweden (SCB)</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button
+                      onClick={() => fetchCurrencyData("SEK")}
+                      disabled={fetchingCurrency !== null}
+                      className="w-full"
+                    >
+                      {fetchingCurrency === "SEK" ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Fetching...
+                        </>
+                      ) : (
+                        "Fetch SEK Data"
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Polish Zloty (PLN)</CardTitle>
+                    <CardDescription>Statistics Poland (GUS)</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button
+                      onClick={() => fetchCurrencyData("PLN")}
+                      disabled={fetchingCurrency !== null}
+                      className="w-full"
+                    >
+                      {fetchingCurrency === "PLN" ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Fetching...
+                        </>
+                      ) : (
+                        "Fetch PLN Data"
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {currencyData && (
+                <Card className="bg-muted">
+                  <CardHeader>
+                    <CardTitle>Fetched Data</CardTitle>
+                    <CardDescription>{currencyData.message}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <strong>File:</strong> {currencyData.file}
+                      </div>
+                      <div>
+                        <strong>Records:</strong> {currencyData.recordCount}
+                      </div>
+                      <div>
+                        <strong>Year Range:</strong> {currencyData.yearRange}
+                      </div>
+                      <div>
+                        <strong>Last Updated:</strong> {new Date(currencyData.lastUpdated).toLocaleString()}
+                      </div>
+                    </div>
+                    <Button onClick={downloadCurrencyData} className="w-full">
+                      <Download className="h-4 w-4 mr-2" />
+                      Download {currencyData.file}
+                    </Button>
+                    <div className="text-xs text-muted-foreground">
+                      <strong>Instructions:</strong> After downloading, add this file to the{" "}
+                      <code className="bg-background px-1 py-0.5 rounded">public/data/</code> directory in your project.
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         {Object.entries(groupedContent).map(([page, items]) => (
           <TabsContent key={page} value={page} className="space-y-4">
