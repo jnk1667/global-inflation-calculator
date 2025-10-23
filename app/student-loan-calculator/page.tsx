@@ -22,6 +22,7 @@ export const metadata: Metadata = {
     "private student loan calculator",
     "monthly payment calculator",
     "student debt calculator",
+    "best inflation calculator online",
     "loan interest calculator",
     "education loan calculator",
     "repayment plan comparison",
