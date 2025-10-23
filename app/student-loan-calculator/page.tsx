@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   keywords: [
     "student loan calculator",
     "loan repayment calculator",
+    "best inflation calculator online",
     "federal student loan calculator",
     "private student loan calculator",
     "monthly payment calculator",
