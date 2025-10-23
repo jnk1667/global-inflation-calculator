@@ -12,53 +12,55 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    console.log("[v0] Fetching SEK CPI data from Statistics Sweden...")
+    console.log("[v0] Fetching SEK CPI data from Statistics Sweden (SCB)...")
 
-    // Fetch CPI data from Statistics Sweden (SCB) API
-    // Using PR0101 table - Consumer Price Index
-    const response = await fetch("https://api.scb.se/OV0104/v1/doris/en/ssd/START/PR/PR0101/PR0101A/KPItotM", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: [
-          {
-            code: "ContentsCode",
-            selection: {
-              filter: "item",
-              values: ["000004VU"],
-            },
+    // Use PxWebApi to fetch CPI data (KPItotM table)
+    const dataRequest = {
+      query: [
+        {
+          code: "ContentsCode",
+          selection: {
+            filter: "item",
+            values: ["000004VU"], // CPI total index
           },
-          {
-            code: "Tid",
-            selection: {
-              filter: "all",
-              values: ["*"],
-            },
-          },
-        ],
-        response: {
-          format: "json",
         },
-      }),
-    })
-
-    if (!response.ok) {
-      throw new Error(`SCB API error: ${response.status}`)
+        {
+          code: "Tid",
+          selection: {
+            filter: "all",
+            values: ["*"], // All time periods
+          },
+        },
+      ],
+      response: {
+        format: "json",
+      },
     }
 
-    const rawData = await response.json()
-    console.log("[v0] Raw SCB data received")
+    console.log("[v0] Requesting CPI data from SCB...")
+    const dataResponse = await fetch("https://api.scb.se/OV0104/v1/doris/en/ssd/START/PR/PR0101/PR0101A/KPItotM", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataRequest),
+    })
 
-    // Process the data into our format
+    if (!dataResponse.ok) {
+      const errorText = await dataResponse.text()
+      console.error("[v0] SCB data API error:", errorText)
+      throw new Error(`SCB data API error: ${dataResponse.status}`)
+    }
+
+    const rawData = await dataResponse.json()
+    console.log("[v0] Raw SCB data received:", rawData.data?.length, "records")
+
+    // Process SCB JSON format
     const cpiData: { [year: string]: number[] } = {}
 
     if (rawData.data && Array.isArray(rawData.data)) {
       rawData.data.forEach((item: any) => {
-        if (item.key && item.values) {
+        if (item.key && item.values && item.values[0]) {
           // Extract year from time key (format: "2024M01")
-          const timeKey = item.key[1]
+          const timeKey = item.key[1] // Second element is time
           const year = timeKey.substring(0, 4)
           const value = Number.parseFloat(item.values[0])
 
@@ -72,16 +74,21 @@ export async function POST(request: Request) {
       })
     }
 
+    console.log("[v0] Years found:", Object.keys(cpiData).length)
+
     // Average monthly values for each year
     const yearlyData: { [year: string]: number } = {}
     Object.entries(cpiData).forEach(([year, values]) => {
       yearlyData[year] = values.reduce((sum, val) => sum + val, 0) / values.length
     })
 
-    // Normalize to base year (earliest year = 1.0)
+    // Normalize to base year
     const years = Object.keys(yearlyData).sort()
-    const baseValue = yearlyData[years[0]] || 100
+    if (years.length === 0) {
+      throw new Error("No data found in SCB response")
+    }
 
+    const baseValue = yearlyData[years[0]] || 100
     const normalizedData: { [year: string]: number } = {}
     years.forEach((year) => {
       normalizedData[year] = Number((yearlyData[year] / baseValue).toFixed(2))
@@ -99,7 +106,7 @@ export async function POST(request: Request) {
       data: normalizedData,
     }
 
-    console.log("[v0] SEK data processed successfully")
+    console.log("[v0] SEK data processed successfully:", Object.keys(normalizedData).length, "years")
 
     return NextResponse.json({
       success: true,
