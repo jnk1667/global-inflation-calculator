@@ -14,51 +14,75 @@ export async function POST(request: Request) {
 
     console.log("[v0] Fetching PLN CPI data from Statistics Poland (GUS)...")
 
-    // Use BDL API to fetch CPI data (variable 1738 = CPI total)
-    // Format: https://bdl.stat.gov.pl/api/v1/data/by-variable/{variable-id}?format=json
-    const dataResponse = await fetch(
-      "https://bdl.stat.gov.pl/api/v1/data/by-variable/1738?format=json&year=1990-2025",
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
+    const apiUrl = "https://bdl.stat.gov.pl/api/v1/data/by-variable/1738?format=json&year=1990-2025"
+    console.log("[v0] Requesting data from:", apiUrl)
+
+    const dataResponse = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
       },
-    )
+    })
+
+    console.log("[v0] GUS response status:", dataResponse.status)
+    console.log("[v0] GUS response headers:", Object.fromEntries(dataResponse.headers.entries()))
 
     if (!dataResponse.ok) {
       const errorText = await dataResponse.text()
-      console.error("[v0] GUS data API error:", errorText)
-      throw new Error(`GUS data API error: ${dataResponse.status}`)
+      console.error("[v0] GUS data API error response:", errorText)
+      return NextResponse.json(
+        {
+          error: "Failed to fetch PLN data",
+          details: `GUS API returned status ${dataResponse.status}`,
+          apiStatus: dataResponse.status,
+          apiResponse: errorText.substring(0, 500),
+          endpoint: apiUrl,
+        },
+        { status: 500 },
+      )
     }
 
     const rawData = await dataResponse.json()
-    console.log("[v0] Raw GUS data received:", rawData.results?.length, "records")
+    console.log("[v0] Raw GUS data structure:", JSON.stringify(rawData, null, 2).substring(0, 1000) + "...")
+    console.log("[v0] GUS results count:", rawData.results?.length)
 
-    // Process GUS BDL format
     const yearlyData: { [year: string]: number } = {}
 
     if (rawData.results && Array.isArray(rawData.results)) {
-      rawData.results.forEach((item: any) => {
+      console.log("[v0] Processing GUS BDL format data...")
+      console.log("[v0] First result structure:", JSON.stringify(rawData.results[0], null, 2))
+
+      rawData.results.forEach((item: any, resultIndex: number) => {
         if (item.values && Array.isArray(item.values)) {
-          item.values.forEach((yearData: any) => {
+          console.log(`[v0] Result ${resultIndex} has ${item.values.length} year values`)
+
+          item.values.forEach((yearData: any, valueIndex: number) => {
             if (yearData.year && yearData.val !== null && yearData.val !== undefined) {
               const year = yearData.year.toString()
               const value = Number.parseFloat(yearData.val)
 
+              if (valueIndex < 3) {
+                console.log(`[v0] Processing value ${valueIndex}: year=${year}, value=${value}`)
+              }
+
               if (!isNaN(value) && !isNaN(Number(year))) {
-                // GUS provides annual CPI values
                 yearlyData[year] = value
               }
             }
           })
         }
       })
+    } else {
+      console.error("[v0] Unexpected data structure. Keys:", Object.keys(rawData))
+      throw new Error("Unexpected data structure from GUS API")
     }
 
     console.log("[v0] Years found:", Object.keys(yearlyData).length)
+    console.log("[v0] Year range:", Object.keys(yearlyData).sort()[0], "to", Object.keys(yearlyData).sort().pop())
+    console.log("[v0] Sample data:", Object.entries(yearlyData).slice(0, 5))
 
-    // Normalize to base year
+    // Process GUS BDL format
+
     const years = Object.keys(yearlyData).sort()
     if (years.length === 0) {
       throw new Error("No data found in GUS response")
@@ -95,10 +119,13 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error("[v0] Error fetching PLN data:", error)
+    console.error("[v0] Error stack:", error instanceof Error ? error.stack : "No stack trace")
     return NextResponse.json(
       {
         error: "Failed to fetch PLN data",
         details: error instanceof Error ? error.message : "Unknown error",
+        errorType: error instanceof Error ? error.constructor.name : typeof error,
+        stack: error instanceof Error ? error.stack?.split("\n").slice(0, 5).join("\n") : undefined,
       },
       { status: 500 },
     )

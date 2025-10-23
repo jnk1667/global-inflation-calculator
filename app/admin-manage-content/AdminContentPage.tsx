@@ -646,7 +646,17 @@ The key to successful multi-generational wealth planning lies in balancing growt
       const result = await response.json()
 
       if (!response.ok) {
-        throw new Error(result.error || "Failed to fetch data")
+        const errorDetails = [
+          `Status: ${response.status}`,
+          `Error: ${result.error || "Unknown error"}`,
+          result.details ? `Details: ${result.details}` : null,
+          result.apiStatus ? `API Status: ${result.apiStatus}` : null,
+          result.apiResponse ? `API Response: ${JSON.stringify(result.apiResponse).substring(0, 200)}...` : null,
+        ]
+          .filter(Boolean)
+          .join("\n")
+
+        throw new Error(errorDetails)
       }
 
       setCurrencyDataResult(result)
@@ -654,7 +664,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
       setTimeout(() => setMessage(""), 5000)
     } catch (err) {
       console.error(`Error fetching ${currency} data:`, err)
-      setError(`Failed to fetch ${currency} data: ${err instanceof Error ? err.message : "Unknown error"}`)
+      setError(`Failed to fetch ${currency} data:\n\n${err instanceof Error ? err.message : "Unknown error"}`)
     } finally {
       setFetchingCurrency(null)
     }
@@ -708,15 +718,8 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
             {error && (
               <Alert className="bg-red-50 border-red-200">
-                <AlertDescription className="text-red-800 text-sm">
+                <AlertDescription className="text-red-800 whitespace-pre-wrap font-mono text-xs">
                   {error}
-                  {error.includes("Failed to load content") && (
-                    <div className="mt-2">
-                      <Button onClick={retryLoadContent} size="sm" variant="outline">
-                        Retry Loading Content
-                      </Button>
-                    </div>
-                  )}
                 </AlertDescription>
               </Alert>
             )}

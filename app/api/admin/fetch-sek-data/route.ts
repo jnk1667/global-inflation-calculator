@@ -37,32 +37,52 @@ export async function POST(request: Request) {
       },
     }
 
-    console.log("[v0] Requesting CPI data from SCB...")
+    console.log("[v0] Requesting CPI data from SCB with payload:", JSON.stringify(dataRequest, null, 2))
     const dataResponse = await fetch("https://api.scb.se/OV0104/v1/doris/en/ssd/START/PR/PR0101/PR0101A/KPItotM", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dataRequest),
     })
 
+    console.log("[v0] SCB response status:", dataResponse.status)
+    console.log("[v0] SCB response headers:", Object.fromEntries(dataResponse.headers.entries()))
+
     if (!dataResponse.ok) {
       const errorText = await dataResponse.text()
-      console.error("[v0] SCB data API error:", errorText)
-      throw new Error(`SCB data API error: ${dataResponse.status}`)
+      console.error("[v0] SCB data API error response:", errorText)
+      return NextResponse.json(
+        {
+          error: "Failed to fetch SEK data",
+          details: `SCB API returned status ${dataResponse.status}`,
+          apiStatus: dataResponse.status,
+          apiResponse: errorText.substring(0, 500),
+          endpoint: "https://api.scb.se/OV0104/v1/doris/en/ssd/START/PR/PR0101/PR0101A/KPItotM",
+          requestPayload: dataRequest,
+        },
+        { status: 500 },
+      )
     }
 
     const rawData = await dataResponse.json()
-    console.log("[v0] Raw SCB data received:", rawData.data?.length, "records")
+    console.log("[v0] Raw SCB data structure:", JSON.stringify(rawData, null, 2).substring(0, 1000) + "...")
+    console.log("[v0] SCB data records:", rawData.data?.length)
 
     // Process SCB JSON format
     const cpiData: { [year: string]: number[] } = {}
 
     if (rawData.data && Array.isArray(rawData.data)) {
-      rawData.data.forEach((item: any) => {
+      console.log("[v0] Processing SCB JSON format data...")
+      console.log("[v0] First data item structure:", JSON.stringify(rawData.data[0], null, 2))
+
+      rawData.data.forEach((item: any, index: number) => {
         if (item.key && item.values && item.values[0]) {
-          // Extract year from time key (format: "2024M01")
-          const timeKey = item.key[1] // Second element is time
+          const timeKey = item.key[1]
           const year = timeKey.substring(0, 4)
           const value = Number.parseFloat(item.values[0])
+
+          if (index < 3) {
+            console.log(`[v0] Processing item ${index}: timeKey=${timeKey}, year=${year}, value=${value}`)
+          }
 
           if (!isNaN(value) && !isNaN(Number(year))) {
             if (!cpiData[year]) {
@@ -72,9 +92,13 @@ export async function POST(request: Request) {
           }
         }
       })
+    } else {
+      console.error("[v0] Unexpected data structure. Keys:", Object.keys(rawData))
+      throw new Error("Unexpected data structure from SCB API")
     }
 
     console.log("[v0] Years found:", Object.keys(cpiData).length)
+    console.log("[v0] Year range:", Object.keys(cpiData).sort()[0], "to", Object.keys(cpiData).sort().pop())
 
     // Average monthly values for each year
     const yearlyData: { [year: string]: number } = {}
@@ -119,10 +143,13 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error("[v0] Error fetching SEK data:", error)
+    console.error("[v0] Error stack:", error instanceof Error ? error.stack : "No stack trace")
     return NextResponse.json(
       {
         error: "Failed to fetch SEK data",
         details: error instanceof Error ? error.message : "Unknown error",
+        errorType: error instanceof Error ? error.constructor.name : typeof error,
+        stack: error instanceof Error ? error.stack?.split("\n").slice(0, 5).join("\n") : undefined,
       },
       { status: 500 },
     )
