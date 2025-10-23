@@ -145,6 +145,9 @@ The key to successful multi-generational wealth planning lies in balancing growt
   const [fetchingData, setFetchingData] = useState(false)
   const [dataFetchResult, setDataFetchResult] = useState<any>(null)
 
+  const [fetchingCurrency, setFetchingCurrency] = useState<string | null>(null)
+  const [currencyDataResult, setCurrencyDataResult] = useState<any>(null)
+
   // Helper function to get social links safely
   const getSocialLinks = (section: "project" | "admin"): SocialLink[] => {
     const item = aboutContent.find((item) => item.section === section)
@@ -621,6 +624,39 @@ The key to successful multi-generational wealth planning lies in balancing growt
       setError(`Failed to fetch data: ${err instanceof Error ? err.message : "Unknown error"}`)
     } finally {
       setFetchingData(false)
+    }
+  }
+
+  const fetchCurrencyData = async (currency: string) => {
+    setFetchingCurrency(currency)
+    setCurrencyDataResult(null)
+    setError("")
+
+    try {
+      const response = await fetch(`/api/admin/fetch-${currency.toLowerCase()}-data`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to fetch data")
+      }
+
+      setCurrencyDataResult(result)
+      setMessage(`${currency} data fetched successfully! Download the file below.`)
+      setTimeout(() => setMessage(""), 5000)
+    } catch (err) {
+      console.error(`Error fetching ${currency} data:`, err)
+      setError(`Failed to fetch ${currency} data: ${err instanceof Error ? err.message : "Unknown error"}`)
+    } finally {
+      setFetchingCurrency(null)
     }
   }
 
@@ -1413,6 +1449,146 @@ The key to successful multi-generational wealth planning lies in balancing growt
                     <p className="text-sm text-green-800">
                       Last updated: {new Date(dataFetchResult.lastUpdated).toLocaleString()}
                     </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="w-5 h-5" />
+                  Currency Inflation Data Collection
+                </CardTitle>
+                <CardDescription>
+                  Fetch real CPI data from official statistical agencies (Statistics Denmark, Statistics Sweden,
+                  Statistics Poland). Download the JSON files and add them to /public/data/ in your GitHub repo.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid gap-4 md:grid-cols-3">
+                  <Card className="border-2">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Danish Krone (DKK)</CardTitle>
+                      <CardDescription className="text-xs">Statistics Denmark (DST)</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Button
+                        onClick={() => fetchCurrencyData("DKK")}
+                        disabled={fetchingCurrency !== null}
+                        className="w-full"
+                        size="sm"
+                      >
+                        {fetchingCurrency === "DKK" ? (
+                          <>
+                            <Database className="w-4 h-4 mr-2 animate-pulse" />
+                            Fetching...
+                          </>
+                        ) : (
+                          <>
+                            <Database className="w-4 h-4 mr-2" />
+                            Fetch DKK Data
+                          </>
+                        )}
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-2">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Swedish Krona (SEK)</CardTitle>
+                      <CardDescription className="text-xs">Statistics Sweden (SCB)</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Button
+                        onClick={() => fetchCurrencyData("SEK")}
+                        disabled={fetchingCurrency !== null}
+                        className="w-full"
+                        size="sm"
+                      >
+                        {fetchingCurrency === "SEK" ? (
+                          <>
+                            <Database className="w-4 h-4 mr-2 animate-pulse" />
+                            Fetching...
+                          </>
+                        ) : (
+                          <>
+                            <Database className="w-4 h-4 mr-2" />
+                            Fetch SEK Data
+                          </>
+                        )}
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-2">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Polish Zloty (PLN)</CardTitle>
+                      <CardDescription className="text-xs">Statistics Poland (GUS)</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Button
+                        onClick={() => fetchCurrencyData("PLN")}
+                        disabled={fetchingCurrency !== null}
+                        className="w-full"
+                        size="sm"
+                      >
+                        {fetchingCurrency === "PLN" ? (
+                          <>
+                            <Database className="w-4 h-4 mr-2 animate-pulse" />
+                            Fetching...
+                          </>
+                        ) : (
+                          <>
+                            <Database className="w-4 h-4 mr-2" />
+                            Fetch PLN Data
+                          </>
+                        )}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {currencyDataResult && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 space-y-4">
+                    <h4 className="font-semibold text-green-900">Currency Data Fetched Successfully!</h4>
+
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">File</p>
+                        <p className="font-mono text-sm text-green-700">{currencyDataResult.file}</p>
+                      </div>
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">Records</p>
+                        <p className="text-2xl font-bold text-green-700">{currencyDataResult.recordCount}</p>
+                      </div>
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">Year Range</p>
+                        <p className="font-semibold text-green-700">{currencyDataResult.yearRange}</p>
+                      </div>
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">Last Updated</p>
+                        <p className="text-xs text-green-700">
+                          {new Date(currencyDataResult.lastUpdated).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+
+                    <Button
+                      onClick={() => downloadFile(currencyDataResult.file, currencyDataResult.data)}
+                      className="w-full"
+                      size="lg"
+                    >
+                      <Database className="w-5 h-5 mr-2" />
+                      Download {currencyDataResult.file}
+                    </Button>
+
+                    <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
+                      <p className="text-sm text-yellow-800">
+                        <strong>Next Steps:</strong> Download the file above, then add it to{" "}
+                        <code className="bg-yellow-100 px-1 rounded">/public/data/</code> in your GitHub repo.
+                      </p>
+                    </div>
                   </div>
                 )}
               </CardContent>
