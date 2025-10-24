@@ -39,11 +39,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "URL or URLs array is required and must not be empty" }, { status: 400 })
     }
 
-    // Validate URLs belong to our domain
+    // Validate URLs belong to our domain (handle both www and non-www)
+    const siteHostname = new URL(SITE_URL).hostname.replace(/^www\./, "")
     const validUrls = urls.filter((url) => {
       try {
         const urlObj = new URL(url)
-        return urlObj.origin === new URL(SITE_URL).origin
+        const urlHostname = urlObj.hostname.replace(/^www\./, "")
+        return urlHostname === siteHostname
       } catch {
         return false
       }
