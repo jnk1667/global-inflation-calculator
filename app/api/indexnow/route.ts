@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-const INDEXNOW_API_KEY = "b6589561e73e407681c5f9f7d66256b7"
+const INDEXNOW_API_KEY = process.env.INDEXNOW_API_KEY || ""
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
 
 // IndexNow endpoint URLs for different search engines
@@ -17,6 +17,15 @@ interface IndexNowRequest {
 
 export async function POST(request: NextRequest) {
   try {
+    // Validate API key
+    if (!INDEXNOW_API_KEY) {
+      console.error("[IndexNow] API key not configured")
+      return NextResponse.json(
+        { error: "IndexNow API key not configured. Please set INDEXNOW_API_KEY environment variable." },
+        { status: 500 },
+      )
+    }
+
     const { urls, reason = "updated" }: IndexNowRequest = await request.json()
 
     if (!urls || !Array.isArray(urls) || urls.length === 0) {

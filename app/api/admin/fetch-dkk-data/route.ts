@@ -14,61 +14,17 @@ export async function POST(request: Request) {
 
     console.log("[v0] Fetching DKK CPI data from Statistics Denmark (DST)...")
 
-    // Step 1: Get table metadata to understand structure
-    console.log("[v0] Step 1: Fetching table metadata from DST...")
-    const metadataResponse = await fetch("https://api.statbank.dk/v1/tableinfo/PRIS9", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ lang: "en" }),
+    // Based on working example: https://api.statbank.dk/v1/data/PRIS111/JSONSTAT?lang=en&VAREGR=000000&ENHED=300&Tid=(-n%2B60)
+    const apiUrl = "https://api.statbank.dk/v1/data/PRIS111/JSONSTAT?lang=en&VAREGR=000000&ENHED=300&Tid=*"
+    console.log("[v0] Requesting data from:", apiUrl)
+
+    const dataResponse = await fetch(apiUrl, {
+      method: "GET",
+      headers: { Accept: "application/json" },
     })
 
-    console.log("[v0] Metadata response status:", metadataResponse.status)
-    console.log("[v0] Metadata response headers:", Object.fromEntries(metadataResponse.headers.entries()))
-
-    if (!metadataResponse.ok) {
-      const errorText = await metadataResponse.text()
-      console.error("[v0] DST metadata API error response:", errorText)
-      return NextResponse.json(
-        {
-          error: "Failed to fetch DKK metadata",
-          details: `DST API returned status ${metadataResponse.status}`,
-          apiStatus: metadataResponse.status,
-          apiResponse: errorText.substring(0, 500),
-          endpoint: "https://api.statbank.dk/v1/tableinfo/PRIS9",
-        },
-        { status: 500 },
-      )
-    }
-
-    const metadata = await metadataResponse.json()
-    console.log("[v0] DST metadata received:", JSON.stringify(metadata, null, 2))
-
-    // Step 2: Request CPI data (total index)
-    const dataRequest = {
-      table: "PRIS9",
-      lang: "en",
-      format: "JSONSTAT",
-      variables: [
-        {
-          code: "PRISENHED",
-          values: ["TOT"], // Total CPI
-        },
-        {
-          code: "Tid",
-          values: ["*"], // All time periods
-        },
-      ],
-    }
-
-    console.log("[v0] Step 2: Requesting CPI data from DST with payload:", JSON.stringify(dataRequest, null, 2))
-    const dataResponse = await fetch("https://api.statbank.dk/v1/data/PRIS9/JSONSTAT", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataRequest),
-    })
-
-    console.log("[v0] Data response status:", dataResponse.status)
-    console.log("[v0] Data response headers:", Object.fromEntries(dataResponse.headers.entries()))
+    console.log("[v0] DST response status:", dataResponse.status)
+    console.log("[v0] DST response headers:", Object.fromEntries(dataResponse.headers.entries()))
 
     if (!dataResponse.ok) {
       const errorText = await dataResponse.text()
@@ -78,34 +34,33 @@ export async function POST(request: Request) {
           error: "Failed to fetch DKK data",
           details: `DST API returned status ${dataResponse.status}`,
           apiStatus: dataResponse.status,
-          apiResponse: errorText.substring(0, 500),
-          endpoint: "https://api.statbank.dk/v1/data/PRIS9/JSONSTAT",
-          requestPayload: dataRequest,
+          apiResponse: errorText ? errorText.substring(0, 500) : "No response text",
+          endpoint: apiUrl,
         },
         { status: 500 },
       )
     }
 
     const rawData = await dataResponse.json()
-    console.log("[v0] Raw DST data structure:", JSON.stringify(rawData, null, 2).substring(0, 1000) + "...")
+    console.log("[v0] Raw DST data structure keys:", Object.keys(rawData))
+    console.log("[v0] Raw DST data preview:", JSON.stringify(rawData, null, 2).substring(0, 1000) + "...")
 
-    // Process JSON-stat format
     const cpiData: { [year: string]: number[] } = {}
 
     if (rawData.dataset && rawData.dataset.dimension && rawData.dataset.value) {
       console.log("[v0] Processing JSON-stat format data...")
-      const timeValues = rawData.dataset.dimension.Tid.category.index
+      const timeValues = rawData.dataset.dimension.Tid?.category?.index || {}
       const dataValues = rawData.dataset.value
 
       console.log("[v0] Time values found:", Object.keys(timeValues).length)
-      console.log("[v0] Data values found:", dataValues.length)
+      console.log("[v0] Data values found:", Object.keys(dataValues).length)
 
       Object.entries(timeValues).forEach(([timeLabel, index]: [string, any]) => {
         const value = dataValues[index]
         if (value !== null && value !== undefined) {
-          // Extract year from time label (format varies: "2024M01" or "2024Q1" or "2024")
-          const year = timeLabel.substring(0, 4)
-          if (!isNaN(Number(year))) {
+          // Extract year from time label (format: "2024M01" or "2024Q1" or "2024")
+          const year = timeLabel?.substring(0, 4)
+          if (year && !isNaN(Number(year))) {
             if (!cpiData[year]) {
               cpiData[year] = []
             }
@@ -119,7 +74,8 @@ export async function POST(request: Request) {
     }
 
     console.log("[v0] Years found:", Object.keys(cpiData).length)
-    console.log("[v0] Year range:", Object.keys(cpiData).sort()[0], "to", Object.keys(cpiData).sort().pop())
+    const sortedYears = Object.keys(cpiData).sort()
+    console.log("[v0] Year range:", sortedYears[0], "to", sortedYears[sortedYears.length - 1])
 
     // Average values for each year
     const yearlyData: { [year: string]: number } = {}

@@ -14,31 +14,23 @@ export async function POST(request: Request) {
 
     console.log("[v0] Fetching SEK CPI data from Statistics Sweden (SCB)...")
 
-    // Use PxWebApi to fetch CPI data (KPItotM table)
     const dataRequest = {
       query: [
         {
-          code: "ContentsCode",
-          selection: {
-            filter: "item",
-            values: ["000004VU"], // CPI total index
-          },
-        },
-        {
           code: "Tid",
           selection: {
-            filter: "all",
-            values: ["*"], // All time periods
+            filter: "top",
+            values: ["100"],
           },
         },
       ],
       response: {
-        format: "json",
+        format: "json-stat",
       },
     }
 
     console.log("[v0] Requesting CPI data from SCB with payload:", JSON.stringify(dataRequest, null, 2))
-    const dataResponse = await fetch("https://api.scb.se/OV0104/v1/doris/en/ssd/START/PR/PR0101/PR0101A/KPItotM", {
+    const dataResponse = await fetch("https://api.scb.se/OV0104/v1/doris/en/ssd/START/PR/PR0101/PR0101A/KPI12MNy", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dataRequest),
@@ -47,48 +39,64 @@ export async function POST(request: Request) {
     console.log("[v0] SCB response status:", dataResponse.status)
     console.log("[v0] SCB response headers:", Object.fromEntries(dataResponse.headers.entries()))
 
+    const rawText = await dataResponse.text()
+    console.log("[v0] SCB raw response (first 500 chars):", rawText.substring(0, 500))
+
     if (!dataResponse.ok) {
-      const errorText = await dataResponse.text()
-      console.error("[v0] SCB data API error response:", errorText)
+      console.error("[v0] SCB data API error response:", rawText)
       return NextResponse.json(
         {
           error: "Failed to fetch SEK data",
           details: `SCB API returned status ${dataResponse.status}`,
           apiStatus: dataResponse.status,
-          apiResponse: errorText.substring(0, 500),
-          endpoint: "https://api.scb.se/OV0104/v1/doris/en/ssd/START/PR/PR0101/PR0101A/KPItotM",
+          apiResponse: rawText ? rawText.substring(0, 500) : "No response text",
+          endpoint: "https://api.scb.se/OV0104/v1/doris/en/ssd/START/PR/PR0101/PR0101A/KPI12MNy",
           requestPayload: dataRequest,
         },
         { status: 500 },
       )
     }
 
-    const rawData = await dataResponse.json()
-    console.log("[v0] Raw SCB data structure:", JSON.stringify(rawData, null, 2).substring(0, 1000) + "...")
-    console.log("[v0] SCB data records:", rawData.data?.length)
+    let rawData
+    try {
+      rawData = JSON.parse(rawText)
+    } catch (parseError) {
+      console.error("[v0] Failed to parse JSON:", parseError)
+      return NextResponse.json(
+        {
+          error: "Failed to fetch SEK data",
+          details: `Invalid JSON response from SCB API`,
+          apiStatus: dataResponse.status,
+          apiResponse: rawText.substring(0, 500),
+          parseError: parseError instanceof Error ? parseError.message : "Unknown parse error",
+        },
+        { status: 500 },
+      )
+    }
 
-    // Process SCB JSON format
+    console.log("[v0] Raw SCB data structure keys:", Object.keys(rawData))
+    console.log("[v0] Raw SCB data preview:", JSON.stringify(rawData, null, 2).substring(0, 1000) + "...")
+
     const cpiData: { [year: string]: number[] } = {}
 
-    if (rawData.data && Array.isArray(rawData.data)) {
-      console.log("[v0] Processing SCB JSON format data...")
-      console.log("[v0] First data item structure:", JSON.stringify(rawData.data[0], null, 2))
+    if (rawData.dataset && rawData.dataset.dimension && rawData.dataset.value) {
+      console.log("[v0] Processing JSON-stat format data...")
+      const timeValues = rawData.dataset.dimension.Tid?.category?.index || {}
+      const dataValues = rawData.dataset.value
 
-      rawData.data.forEach((item: any, index: number) => {
-        if (item.key && item.values && item.values[0]) {
-          const timeKey = item.key[1]
-          const year = timeKey.substring(0, 4)
-          const value = Number.parseFloat(item.values[0])
+      console.log("[v0] Time values found:", Object.keys(timeValues).length)
+      console.log("[v0] Data values found:", Object.keys(dataValues).length)
 
-          if (index < 3) {
-            console.log(`[v0] Processing item ${index}: timeKey=${timeKey}, year=${year}, value=${value}`)
-          }
-
-          if (!isNaN(value) && !isNaN(Number(year))) {
+      Object.entries(timeValues).forEach(([timeLabel, index]: [string, any]) => {
+        const value = dataValues[index]
+        if (value !== null && value !== undefined) {
+          // Extract year from time label (format: "2024M01")
+          const year = timeLabel?.substring(0, 4)
+          if (year && !isNaN(Number(year))) {
             if (!cpiData[year]) {
               cpiData[year] = []
             }
-            cpiData[year].push(value)
+            cpiData[year].push(Number(value))
           }
         }
       })
@@ -98,7 +106,8 @@ export async function POST(request: Request) {
     }
 
     console.log("[v0] Years found:", Object.keys(cpiData).length)
-    console.log("[v0] Year range:", Object.keys(cpiData).sort()[0], "to", Object.keys(cpiData).sort().pop())
+    const sortedYears = Object.keys(cpiData).sort()
+    console.log("[v0] Year range:", sortedYears[0], "to", sortedYears[sortedYears.length - 1])
 
     // Average monthly values for each year
     const yearlyData: { [year: string]: number } = {}
