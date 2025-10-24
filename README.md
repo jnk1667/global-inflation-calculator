@@ -30,13 +30,6 @@ A comprehensive web application for calculating inflation rates and purchasing p
 3. Set up environment variables
 4. Run development server: `npm run dev`
 
-## Environment Variables
-
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `NEXT_PUBLIC_GA_TRACKING_ID`
-- `NEXT_PUBLIC_SITE_URL`
 
 ## Data Sources
 
