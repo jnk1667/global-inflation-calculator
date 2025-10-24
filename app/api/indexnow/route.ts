@@ -11,7 +11,8 @@ const INDEXNOW_ENDPOINTS = [
 ]
 
 interface IndexNowRequest {
-  urls: string[]
+  url?: string // Support single URL
+  urls?: string[] // Support multiple URLs
   reason?: "created" | "updated" | "deleted"
 }
 
@@ -26,10 +27,16 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { urls, reason = "updated" }: IndexNowRequest = await request.json()
+    const body: IndexNowRequest = await request.json()
+    const { url, urls: urlsArray, reason = "updated" } = body
+
+    // Convert single URL to array or use provided array
+    const urls = url ? [url] : urlsArray || []
+
+    console.log("[IndexNow] Received request:", { url, urls, reason })
 
     if (!urls || !Array.isArray(urls) || urls.length === 0) {
-      return NextResponse.json({ error: "URLs array is required and must not be empty" }, { status: 400 })
+      return NextResponse.json({ error: "URL or URLs array is required and must not be empty" }, { status: 400 })
     }
 
     // Validate URLs belong to our domain
@@ -95,7 +102,14 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error("[IndexNow] API Error:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    const errorMessage = error instanceof Error ? error.message : "Unknown error"
+    return NextResponse.json(
+      {
+        error: "Internal server error",
+        details: errorMessage,
+      },
+      { status: 500 },
+    )
   }
 }
 
