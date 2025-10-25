@@ -30,10 +30,16 @@ export async function POST(request: NextRequest) {
     const body: IndexNowRequest = await request.json()
     const { url, urls: urlsArray, reason = "updated" } = body
 
-    // Convert single URL to array or use provided array
-    const urls = url ? [url] : urlsArray || []
+    let urls: string[]
+    if (url) {
+      // If url is provided, check if it's already an array
+      urls = Array.isArray(url) ? url : [url]
+    } else {
+      urls = urlsArray || []
+    }
 
-    console.log("[IndexNow] Received request:", { url, urls, reason })
+    console.log("[IndexNow] Received request:", { url, urls: urlsArray, reason })
+    console.log("[IndexNow] Processed URLs:", urls)
 
     if (!urls || !Array.isArray(urls) || urls.length === 0) {
       return NextResponse.json({ error: "URL or URLs array is required and must not be empty" }, { status: 400 })
