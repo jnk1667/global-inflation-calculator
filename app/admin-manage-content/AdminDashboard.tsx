@@ -124,6 +124,44 @@ export default function AdminDashboard() {
     }
   }
 
+  const fetchFredData = async (currency: string) => {
+    setFetchingCurrency(`FRED-${currency}`)
+    setCurrencyData(null)
+    setMessage("")
+
+    try {
+      const password = prompt("Enter admin password:")
+      if (!password) {
+        setFetchingCurrency(null)
+        return
+      }
+
+      const response = await fetch(`/api/admin/fetch-fred-data`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password, currency }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to fetch FRED data")
+      }
+
+      setCurrencyData(result)
+      setMessage(
+        `${currency} data fetched from FRED successfully! ${result.recordCount} years of data from ${result.yearRange}`,
+      )
+    } catch (error) {
+      console.error(`Error fetching FRED data for ${currency}:`, error)
+      setMessage(`Error fetching FRED data: ${error instanceof Error ? error.message : "Unknown error"}`)
+    } finally {
+      setFetchingCurrency(null)
+    }
+  }
+
   const downloadCurrencyData = () => {
     if (!currencyData?.data) return
 
@@ -193,7 +231,8 @@ export default function AdminDashboard() {
             <CardHeader>
               <CardTitle>Fetch Currency Inflation Data</CardTitle>
               <CardDescription>
-                Fetch real CPI data from official statistical agencies for new currencies
+                Fetch real CPI data from official statistical agencies (Statistics Denmark, Statistics Sweden,
+                Statistics Poland). Download the JSON files and add them to /public/data/ in your GitHub repo.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -268,10 +307,74 @@ export default function AdminDashboard() {
                 </Card>
               </div>
 
+              <Card className="border-2 border-primary/20">
+                <CardHeader>
+                  <CardTitle>FRED API (Cross-Reference)</CardTitle>
+                  <CardDescription>
+                    Fetch inflation data from Federal Reserve Economic Data (FRED) to cross-reference with official
+                    sources
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <Button
+                      onClick={() => fetchFredData("DKK")}
+                      disabled={fetchingCurrency !== null}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      {fetchingCurrency === "FRED-DKK" ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Fetching...
+                        </>
+                      ) : (
+                        "FRED: DKK"
+                      )}
+                    </Button>
+
+                    <Button
+                      onClick={() => fetchFredData("SEK")}
+                      disabled={fetchingCurrency !== null}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      {fetchingCurrency === "FRED-SEK" ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Fetching...
+                        </>
+                      ) : (
+                        "FRED: SEK"
+                      )}
+                    </Button>
+
+                    <Button
+                      onClick={() => fetchFredData("PLN")}
+                      disabled={fetchingCurrency !== null}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      {fetchingCurrency === "FRED-PLN" ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Fetching...
+                        </>
+                      ) : (
+                        "FRED: PLN"
+                      )}
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-4">
+                    FRED Series IDs: DKK (FPCPITOTLZGDNK), SEK (FPCPITOTLZGSWE), PLN (FPCPITOTLZGPOL)
+                  </p>
+                </CardContent>
+              </Card>
+
               {currencyData && (
                 <Card className="bg-muted">
                   <CardHeader>
-                    <CardTitle>Fetched Data</CardTitle>
+                    <CardTitle>Currency Data Fetched Successfully!</CardTitle>
                     <CardDescription>{currencyData.message}</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -293,9 +396,9 @@ export default function AdminDashboard() {
                       <Download className="h-4 w-4 mr-2" />
                       Download {currencyData.file}
                     </Button>
-                    <div className="text-xs text-muted-foreground">
-                      <strong>Instructions:</strong> After downloading, add this file to the{" "}
-                      <code className="bg-background px-1 py-0.5 rounded">public/data/</code> directory in your project.
+                    <div className="text-xs text-muted-foreground bg-background p-3 rounded">
+                      <strong>Next Steps:</strong> Download the file above, then add it to /public/data/ in your GitHub
+                      repo.
                     </div>
                   </CardContent>
                 </Card>

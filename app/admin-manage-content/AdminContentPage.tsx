@@ -43,6 +43,7 @@ interface ContentData {
   salary_essay: string
   retirement_essay: string
   deflation_essay: string
+  charts_essay: string
   student_loan_blog_title: string
   student_loan_blog_content: string
   student_loan_methodology: string
@@ -88,6 +89,7 @@ const AdminContentPage: React.FC = () => {
     salary_essay: "",
     retirement_essay: "",
     deflation_essay: "",
+    charts_essay: "", // Added charts_essay to initial state
     student_loan_blog_title: "Understanding Student Loans in an Inflationary Economy: A Comprehensive Guide",
     student_loan_blog_content: "",
     student_loan_methodology: "",
@@ -301,6 +303,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
           salary_essay: contentMap.salary_essay || prev.salary_essay,
           retirement_essay: contentMap.retirement_essay || prev.retirement_essay,
           deflation_essay: contentMap.deflation_essay || prev.deflation_essay,
+          charts_essay: contentMap.charts_essay || prev.charts_essay, // Load charts_essay
           privacy_content: contentMap.privacy_page || prev.privacy_content,
           terms_content: contentMap.terms_page || prev.terms_content,
         }))
@@ -812,6 +815,31 @@ The key to successful multi-generational wealth planning lies in balancing growt
                 >
                   <Save className="w-4 h-4" />
                   {saving ? "Saving..." : "Save Homepage Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Charts Essay */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Charts Essay</CardTitle>
+                <p className="text-sm text-gray-600">Educational content for the charts page</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.charts_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, charts_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter charts essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("charts_essay", content.charts_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Charts Essay"}
                 </Button>
               </CardContent>
             </Card>

@@ -77,6 +77,26 @@ export interface LegacyPlannerContent {
   updated_at: string
 }
 
+export interface BlogPost {
+  id: string
+  title: string
+  slug: string
+  content: string
+  excerpt: string
+  meta_description: string
+  keywords: string[]
+  author: string
+  featured_image_url: string
+  category: string
+  tags: string[]
+  is_published: boolean
+  published_at: string | null
+  created_at: string
+  updated_at: string
+  view_count: number
+  reading_time_minutes: number
+}
+
 // Helper functions
 export const getFAQs = async () => {
   const { data, error } = await supabase.from("faqs").select("*").eq("is_active", true).order("order_index")
@@ -141,4 +161,29 @@ export const updateLegacyPlannerContent = async (title: string, content: string)
 
   if (error) throw error
   return data as LegacyPlannerContent
+}
+
+export const getBlogPosts = async (publishedOnly = true) => {
+  let query = supabase.from("blog_posts").select("*").order("published_at", { ascending: false })
+
+  if (publishedOnly) {
+    query = query.eq("is_published", true)
+  }
+
+  const { data, error } = await query
+
+  if (error) throw error
+  return data as BlogPost[]
+}
+
+export const getBlogPostBySlug = async (slug: string) => {
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .eq("slug", slug)
+    .eq("is_published", true)
+    .single()
+
+  if (error) throw error
+  return data as BlogPost
 }

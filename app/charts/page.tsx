@@ -13,8 +13,6 @@ export const metadata: Metadata = {
     "inflation calculator usd",
     "purchasing power charts",
     "inflation visualization",
-    "best inflation calculator online",
-    "best inflation calculator 2025 accurate",
     "currency stability",
     "healthcare inflation",
     "historical inflation data",

@@ -20,6 +20,7 @@ import { Camera } from "lucide-react"
 import html2canvas from "html2canvas"
 import CurrencyComparisonChart from "@/components/currency-comparison-chart"
 import FAQ from "@/components/faq"
+import { MarkdownRenderer } from "@/components/markdown-renderer"
 
 export default function ChartsPage() {
   const [screenshotting, setScreenshotting] = useState<string | null>(null)
@@ -37,6 +38,7 @@ export default function ChartsPage() {
   const [pceData, setPceData] = useState<any>(null)
   const [corePceData, setCorePceData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [chartsEssay, setChartsEssay] = useState<string>("")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,6 +94,23 @@ export default function ChartsPage() {
         setNzdData(nzd)
         setPceData(pce)
         setCorePceData(corePce)
+
+        try {
+          const { createClientFunction } = await import("@/lib/supabase")
+          const supabase = createClientFunction()
+          const { data: essayData, error: essayError } = await supabase
+            .from("seo_content")
+            .select("content")
+            .eq("id", "charts_essay")
+            .single()
+
+          if (!essayError && essayData) {
+            setChartsEssay(essayData.content)
+          }
+        } catch (err) {
+          console.log("Charts essay not found, continuing without it")
+        }
+
         setLoading(false)
       } catch (error) {
         console.error("Error fetching data:", error)
@@ -1246,11 +1265,32 @@ export default function ChartsPage() {
               </div>
               <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
                 <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">
                   This regional comparison shows average inflation trends across three major economic regions since
                   1996. Each line represents the weighted average of currencies within that region, indexed to 100 in
-                  1996 for direct comparison.
+                  1996 for direct comparison. The chart reveals fascinating patterns in how different economic zones
+                  have experienced inflation over nearly three decades.
                 </p>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">
+                  North America (USD, CAD) has generally maintained moderate inflation rates, with the Federal Reserve
+                  and Bank of Canada successfully targeting 2% annual inflation for most of this period. The 2008
+                  financial crisis and 2020-2022 COVID-19 pandemic created notable spikes, but both central banks
+                  demonstrated their ability to manage inflation through monetary policy adjustments.
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                  Europe (EUR, GBP, CHF) shows more variation, particularly during the Eurozone debt crisis of 2010-2012
+                  and Brexit-related volatility after 2016. The Swiss Franc stands out for its remarkable stability,
+                  reflecting Switzerland's strong monetary policy framework and safe-haven currency status. The European
+                  Central Bank's quantitative easing programs and negative interest rate policies have significantly
+                  influenced the region's inflation trajectory.
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                  The Asia-Pacific region (JPY, AUD, NZD) displays unique characteristics. Japan's persistent deflation
+                  and ultra-low inflation environment contrasts sharply with Australia and New Zealand's
+                  commodity-driven inflation cycles. The region's inflation patterns are heavily influenced by China's
+                  economic growth, commodity prices, and trade dynamics with major global economies.
+                </p>
+                {/* </CHANGE> */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   {regions.map((region) => (
                     <div key={region.name} className="bg-white dark:bg-gray-700 p-3 rounded">
@@ -1274,32 +1314,75 @@ export default function ChartsPage() {
           </Card>
         </div>
 
+        {chartsEssay && (
+          <section className="mt-20 mb-16 max-w-4xl mx-auto px-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-8">
+              <MarkdownRenderer content={chartsEssay} className="text-gray-700 dark:text-gray-300" />
+            </div>
+          </section>
+        )}
+
         <section className="mt-20 mb-16 max-w-4xl mx-auto px-4">
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-8">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Methodology & Data Sources</h2>
 
             <div className="space-y-8">
+              {/* Introduction */}
+              <div>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                  Our inflation charts and analytics are built on a foundation of rigorous data collection, statistical
+                  analysis, and transparent methodology. We source data exclusively from official government statistical
+                  agencies and central banks, ensuring the highest level of accuracy and reliability. This comprehensive
+                  approach allows us to present inflation trends spanning over a century of economic history across
+                  eight major world currencies.
+                </p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  Understanding inflation requires more than just raw numbers—it demands context, historical
+                  perspective, and careful interpretation. Our methodology section explains how we collect, process, and
+                  present this data to provide meaningful insights into purchasing power erosion, currency stability,
+                  and long-term economic trends.
+                </p>
+              </div>
+
               {/* Data Sources */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Data Sources</h3>
-                <div className="text-gray-700 dark:text-gray-300 space-y-2">
+                <div className="text-gray-700 dark:text-gray-300 space-y-2 leading-relaxed">
                   <p>
                     <strong>US Inflation Data:</strong> Bureau of Labor Statistics (BLS) Consumer Price Index (CPI-U),
-                    covering 1913-2025
+                    covering 1913-2025. The CPI-U represents all urban consumers and accounts for approximately 93% of
+                    the US population. We use the seasonally adjusted series to eliminate regular seasonal variations
+                    and provide clearer trend analysis.
                   </p>
                   <p>
                     <strong>International Data:</strong> OECD Economic Outlook, IMF World Economic Outlook, and national
-                    statistical offices
+                    statistical offices including Statistics Canada, Australian Bureau of Statistics, UK Office for
+                    National Statistics, Eurostat, Swiss Federal Statistical Office, Statistics Bureau of Japan, and
+                    Statistics New Zealand. Each source provides harmonized data that allows for meaningful
+                    cross-country comparisons.
                   </p>
                   <p>
                     <strong>Healthcare Inflation:</strong> BLS Medical Care CPI component, tracking healthcare-specific
-                    price changes
+                    price changes including hospital services, physician services, prescription drugs, and health
+                    insurance. This specialized index reveals how healthcare costs have consistently outpaced general
+                    inflation, a critical concern for retirement planning and long-term financial security.
                   </p>
                   <p>
-                    <strong>Real Estate Data:</strong> Federal Housing Finance Agency (FHFA) House Price Index
+                    <strong>Real Estate Data:</strong> Federal Housing Finance Agency (FHFA) House Price Index, which
+                    measures changes in single-family home prices across the United States. This index is particularly
+                    valuable for understanding how housing costs—typically the largest household expense—have evolved
+                    relative to general inflation.
                   </p>
                   <p>
-                    <strong>Wage Data:</strong> BLS Average Hourly Earnings for production and nonsupervisory employees
+                    <strong>Wage Data:</strong> BLS Average Hourly Earnings for production and nonsupervisory employees,
+                    representing approximately 80% of the private sector workforce. This data helps illustrate whether
+                    wage growth has kept pace with inflation, a key indicator of living standards and economic
+                    well-being.
+                  </p>
+                  <p>
+                    <strong>Cost of Living Measures:</strong> Personal Consumption Expenditures (PCE) and Core PCE from
+                    the Bureau of Economic Analysis. The Federal Reserve prefers PCE over CPI because it better reflects
+                    actual consumer spending patterns and accounts for substitution effects when prices change.
                   </p>
                 </div>
               </div>
@@ -1395,7 +1478,7 @@ export default function ChartsPage() {
           </div>
         </section>
 
-        <section className="mt-12 mb-16 max-w-4xl mx-auto px-4">
+        <section className="mt-20 mb-16 max-w-4xl mx-auto px-4">
           <FAQ category="charts" />
         </section>
 
