@@ -17,6 +17,8 @@ export const metadata: Metadata = {
     "401k calculator",
     "retirement savings",
     "purchasing power retirement",
+    "best inflation calculator online",
+    "best inflation calculator 2025 accurate",
     "inflation adjusted retirement",
   ],
   openGraph: {
