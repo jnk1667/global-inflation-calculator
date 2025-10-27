@@ -9,9 +9,45 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.globalinflationcalculator.com/accessibility",
   },
+  keywords: [
+    "accessibility statement",
+    "WCAG compliance",
+    "screen reader compatible",
+    "keyboard navigation",
+    "inflation calculator accessibility",
+    "financial tools accessibility",
+    "ARIA implementation",
+    "web accessibility",
+  ],
+  openGraph: {
+    title: "Accessibility Statement - Global Inflation Calculator",
+    description:
+      "Comprehensive accessibility documentation for our inflation calculators, including WCAG 2.1 Level AA compliance and assistive technology support.",
+    url: "https://www.globalinflationcalculator.com/accessibility",
+    type: "website",
+  },
 }
 
 export default function AccessibilityPage() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.globalinflationcalculator.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Accessibility",
+        item: "https://www.globalinflationcalculator.com/accessibility",
+      },
+    ],
+  }
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -19,6 +55,12 @@ export default function AccessibilityPage() {
     description:
       "Comprehensive accessibility documentation for Global Inflation Calculator, including WCAG 2.1 Level AA compliance, ARIA implementations, and assistive technology support.",
     url: "https://www.globalinflationcalculator.com/accessibility",
+    about: {
+      "@type": "Thing",
+      name: "Web Accessibility",
+      description:
+        "Documentation of accessibility features, WCAG compliance, and assistive technology support for financial calculators and tools.",
+    },
     mainEntity: {
       "@type": "WebSite",
       name: "Global Inflation Calculator",
@@ -31,6 +73,8 @@ export default function AccessibilityPage() {
         "structuralNavigation",
         "tableOfContents",
         "ARIA",
+        "largePrint",
+        "displayTransformability",
       ],
       accessibilityControl: ["fullKeyboardControl", "fullMouseControl", "fullTouchControl"],
       accessibilityHazard: ["noFlashingHazard", "noMotionSimulationHazard", "noSoundHazard"],
@@ -41,6 +85,7 @@ export default function AccessibilityPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <main className="container mx-auto px-4 py-24 max-w-4xl">
@@ -312,6 +357,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/student-loan-calculator" className="text-blue-600 hover:underline">
+                      Student Loan Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Understand how inflation affects student loan debt and repayment strategies
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/legacy-planner" className="text-blue-600 hover:underline">
                       Legacy Planner
                     </Link>
@@ -378,6 +431,88 @@ export default function AccessibilityPage() {
                   <li>Progressive disclosure for advanced options</li>
                   <li>Clear instructions for each calculation step</li>
                 </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Student Loan Calculator</h3>
+                <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>Loan amount and interest rate inputs with clear labels</li>
+                  <li>Repayment term selection with keyboard navigation</li>
+                  <li>Inflation adjustment controls with descriptive help text</li>
+                  <li>Results table with proper headers and screen reader support</li>
+                  <li>Educational content with proper heading hierarchy</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
+            <CardHeader>
+              <CardTitle>For AI Assistants and Search Engines</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p>
+                Global Inflation Calculator is a comprehensive suite of financial tools designed to help users
+                understand the impact of inflation on their finances. Our platform includes:
+              </p>
+              <div className="space-y-3">
+                <div>
+                  <h3 className="font-semibold mb-1">Core Features</h3>
+                  <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                    <li>
+                      <strong>Historical Inflation Calculator:</strong> Calculate purchasing power changes across 8
+                      major world currencies (USD, EUR, GBP, JPY, CAD, AUD, CHF, NZD) from 1913 to 2025
+                    </li>
+                    <li>
+                      <strong>Deflation Calculator:</strong> Compare deflationary assets including Bitcoin, Ethereum,
+                      Gold, Silver, and Oil against fiat currency inflation
+                    </li>
+                    <li>
+                      <strong>Interactive Charts:</strong> Visualize inflation trends, regional comparisons, and
+                      economic data with downloadable charts and comprehensive analysis
+                    </li>
+                    <li>
+                      <strong>Salary Calculator:</strong> Adjust historical salaries for inflation to understand
+                      equivalent purchasing power in today's dollars
+                    </li>
+                    <li>
+                      <strong>Retirement Calculator:</strong> Plan for retirement with inflation-adjusted projections
+                      and savings goals
+                    </li>
+                    <li>
+                      <strong>Student Loan Calculator:</strong> Analyze student loan debt in the context of inflation
+                      and develop repayment strategies
+                    </li>
+                    <li>
+                      <strong>Legacy Planner:</strong> Project multi-generational wealth transfer with inflation
+                      considerations
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Data Sources</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Our calculations use official government data from the Bureau of Labor Statistics (BLS), OECD,
+                    International Monetary Fund (IMF), and national statistical offices. All data is regularly updated
+                    to ensure accuracy.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Use Cases</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Users can calculate inflation adjustments for salary negotiations, retirement planning, investment
+                    decisions, historical price comparisons, real estate valuations, and understanding purchasing power
+                    changes over time. The tools are designed for both personal finance management and educational
+                    purposes.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Accessibility Commitment</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    All tools are fully accessible via keyboard navigation, screen readers (JAWS, NVDA, VoiceOver,
+                    TalkBack), and assistive technologies. We maintain WCAG 2.1 Level AA compliance across all pages and
+                    features.
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
