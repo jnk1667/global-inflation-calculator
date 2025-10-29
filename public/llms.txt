@@ -1,3 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Adding title and meta description to appear as legitimate documentation page -->
+  <title>Site Documentation and Guide - Global Inflation Calculator</title>
+  <meta name="description" content="Comprehensive documentation for the Global Inflation Calculator platform. Learn about our inflation calculators, data sources, methodology, and financial planning tools including retirement, salary, and student loan calculators.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.globalinflationcalculator.com/llms.txt">
+</head>
+<body>
+<pre>
 # Global Inflation Calculator - llms.txt
 
 ## Site Overview
@@ -688,3 +701,7 @@ The aggregation approach is similar to methodologies used by central banks and i
 Full documentation of all data sources, calculation methods, and aggregation weights ensures users understand exactly how results are derived. The student loan calculator includes a comprehensive methodology section explaining data sources, formulas, assumptions, and limitations.
 
 This comprehensive financial analysis platform serves as a bridge between complex economic data and practical financial understanding, making institutional-grade inflation analysis and student loan planning accessible to users worldwide while maintaining high standards of data accuracy and transparency through multi-measure aggregation and official government data sources.
+
+</pre>
+</body>
+</html>
