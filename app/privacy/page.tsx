@@ -12,8 +12,6 @@ export const metadata: Metadata = {
     "data protection",
     "personal information",
     "cookies policy",
-    "best inflation calculator online",
-    "best inflation calculator 2025 accurate",
     "user privacy",
     "data security",
   ],
