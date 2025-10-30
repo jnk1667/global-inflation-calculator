@@ -25,6 +25,8 @@ export const metadata: Metadata = {
     "scarce assets",
     "deflationary assets",
     "asset scarcity calculator",
+    "best inflation calculator online",
+    "best inflation calculator 2025 accurate",
     "inflation hedge",
     "wealth preservation",
     "commodity calculator",
