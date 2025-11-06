@@ -150,6 +150,9 @@ The key to successful multi-generational wealth planning lies in balancing growt
   const [fetchingCurrency, setFetchingCurrency] = useState<string | null>(null)
   const [currencyDataResult, setCurrencyDataResult] = useState<any>(null)
 
+  const [fetchingHousing, setFetchingHousing] = useState(false)
+  const [housingDataResult, setHousingDataResult] = useState<any>(null)
+
   // Helper function to get social links safely
   const getSocialLinks = (section: "project" | "admin"): SocialLink[] => {
     const item = aboutContent.find((item) => item.section === section)
@@ -684,6 +687,55 @@ The key to successful multi-generational wealth planning lies in balancing growt
     link.click()
     document.body.removeChild(link)
     URL.revokeObjectURL(url)
+  }
+
+  const fetchHousingAffordabilityData = async () => {
+    setFetchingHousing(true)
+    setHousingDataResult(null)
+    setError("")
+
+    try {
+      console.log("[v0] Starting housing affordability data fetch...")
+
+      const response = await fetch("/api/admin/fetch-housing-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
+        }),
+      })
+
+      console.log("[v0] Response status:", response.status)
+      const result = await response.json()
+      console.log("[v0] Response data:", result)
+
+      if (!response.ok) {
+        const errorDetails = [
+          `Status: ${response.status}`,
+          `Error: ${result.error || "Unknown error"}`,
+          result.details ? `Details: ${result.details}` : null,
+          result.casShillerStatus ? `Case-Shiller API Status: ${result.casShillerStatus}` : null,
+          result.incomeStatus ? `Income API Status: ${result.incomeStatus}` : null,
+          result.casShillerError ? `Case-Shiller Error: ${result.casShillerError}` : null,
+          result.incomeError ? `Income Error: ${result.incomeError}` : null,
+        ]
+          .filter(Boolean)
+          .join("\n")
+
+        throw new Error(errorDetails)
+      }
+
+      setHousingDataResult(result)
+      setMessage("Housing affordability data fetched successfully! Download the file below.")
+      setTimeout(() => setMessage(""), 5000)
+    } catch (err) {
+      console.error("[v0] Error fetching housing data:", err)
+      setError(`Failed to fetch housing affordability data:\n\n${err instanceof Error ? err.message : "Unknown error"}`)
+    } finally {
+      setFetchingHousing(false)
+    }
   }
 
   // Retry function
@@ -1479,6 +1531,100 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
                     <p className="text-sm text-green-800">
                       Last updated: {new Date(dataFetchResult.lastUpdated).toLocaleString()}
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Housing Affordability Data Collection section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="w-5 h-5" />
+                  Housing Affordability Data Collection
+                </CardTitle>
+                <CardDescription>
+                  Fetch live data from FRED (Federal Reserve Economic Data). Download the JSON file and add it to
+                  /public/data/ in your GitHub repo.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-blue-900 mb-2">Data Sources:</h4>
+                  <ul className="text-sm text-blue-800 space-y-1">
+                    <li>• FRED API - Case-Shiller U.S. National Home Price Index (CSUSHPISA)</li>
+                    <li>• FRED API - Real Median Household Income (MEHOINUSA672N)</li>
+                    <li>• Data Range: 1987-2025 (Case-Shiller starts in 1987)</li>
+                    <li>• Calculates price-to-income ratios for housing affordability analysis</li>
+                  </ul>
+                </div>
+
+                <Button
+                  onClick={fetchHousingAffordabilityData}
+                  disabled={fetchingHousing}
+                  size="lg"
+                  className="w-full flex items-center justify-center gap-2"
+                >
+                  <Database className={`w-5 h-5 ${fetchingHousing ? "animate-pulse" : ""}`} />
+                  {fetchingHousing ? "Fetching Housing Data..." : "Fetch Housing Affordability Data"}
+                </Button>
+
+                {housingDataResult && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 space-y-4">
+                    <h4 className="font-semibold text-green-900">Housing Data Fetched Successfully!</h4>
+
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">File</p>
+                        <p className="font-mono text-sm text-green-700">{housingDataResult.file}</p>
+                      </div>
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">Total Years</p>
+                        <p className="text-2xl font-bold text-green-700">{housingDataResult.recordCount}</p>
+                      </div>
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">Year Range</p>
+                        <p className="font-semibold text-green-700">{housingDataResult.yearRange}</p>
+                      </div>
+                      <div className="bg-white p-3 rounded">
+                        <p className="text-gray-600">Last Updated</p>
+                        <p className="text-xs text-green-700">
+                          {new Date(housingDataResult.lastUpdated).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+
+                    {housingDataResult.dataQuality && (
+                      <div className="bg-blue-50 border border-blue-200 rounded p-3">
+                        <p className="text-sm font-semibold text-blue-900 mb-2">Data Quality:</p>
+                        <ul className="text-xs text-blue-800 space-y-1">
+                          <li>• Case-Shiller Records: {housingDataResult.dataQuality.casShillerRecords}</li>
+                          <li>• Income Records: {housingDataResult.dataQuality.incomeRecords}</li>
+                          <li>• Latest Case-Shiller: {housingDataResult.dataQuality.latestCaseShiller}</li>
+                          <li>• Latest Income: {housingDataResult.dataQuality.latestIncome}</li>
+                        </ul>
+                      </div>
+                    )}
+
+                    <Button
+                      onClick={() => downloadFile(housingDataResult.file, housingDataResult.data)}
+                      className="w-full"
+                      size="lg"
+                    >
+                      <Database className="w-5 h-5 mr-2" />
+                      Download {housingDataResult.file}
+                    </Button>
+
+                    <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
+                      <p className="text-sm text-yellow-800">
+                        <strong>Next Steps:</strong> Download the file above, then upload it in the v0 chat so it can be
+                        added to <code className="bg-yellow-100 px-1 rounded">/public/data/</code> in your project.
+                      </p>
+                    </div>
+
+                    <p className="text-sm text-green-800">
+                      Last updated: {new Date(housingDataResult.lastUpdated).toLocaleString()}
                     </p>
                   </div>
                 )}

@@ -1,0 +1,275 @@
+[
+  {
+    "year": "1987",
+    "caseShillerIndex": 63.74,
+    "medianIncome": 26061,
+    "approximateHomePrice": 110000,
+    "priceToIncomeRatio": 4.22
+  },
+  {
+    "year": "1988",
+    "caseShillerIndex": 66.24,
+    "medianIncome": 27225,
+    "approximateHomePrice": 114300,
+    "priceToIncomeRatio": 4.2
+  },
+  {
+    "year": "1989",
+    "caseShillerIndex": 69.14,
+    "medianIncome": 28906,
+    "approximateHomePrice": 119300,
+    "priceToIncomeRatio": 4.13
+  },
+  {
+    "year": "1990",
+    "caseShillerIndex": 70.52,
+    "medianIncome": 29943,
+    "approximateHomePrice": 121700,
+    "priceToIncomeRatio": 4.07
+  },
+  {
+    "year": "1991",
+    "caseShillerIndex": 71.04,
+    "medianIncome": 30126,
+    "approximateHomePrice": 122600,
+    "priceToIncomeRatio": 4.07
+  },
+  {
+    "year": "1992",
+    "caseShillerIndex": 71.82,
+    "medianIncome": 30636,
+    "approximateHomePrice": 123900,
+    "priceToIncomeRatio": 4.04
+  },
+  {
+    "year": "1993",
+    "caseShillerIndex": 73.08,
+    "medianIncome": 31241,
+    "approximateHomePrice": 126100,
+    "priceToIncomeRatio": 4.04
+  },
+  {
+    "year": "1994",
+    "caseShillerIndex": 74.89,
+    "medianIncome": 32264,
+    "approximateHomePrice": 129200,
+    "priceToIncomeRatio": 4.01
+  },
+  {
+    "year": "1995",
+    "caseShillerIndex": 76.68,
+    "medianIncome": 34076,
+    "approximateHomePrice": 132300,
+    "priceToIncomeRatio": 3.88
+  },
+  {
+    "year": "1996",
+    "caseShillerIndex": 78.6,
+    "medianIncome": 35492,
+    "approximateHomePrice": 135600,
+    "priceToIncomeRatio": 3.82
+  },
+  {
+    "year": "1997",
+    "caseShillerIndex": 81.24,
+    "medianIncome": 37005,
+    "approximateHomePrice": 140200,
+    "priceToIncomeRatio": 3.79
+  },
+  {
+    "year": "1998",
+    "caseShillerIndex": 85.51,
+    "medianIncome": 38885,
+    "approximateHomePrice": 147500,
+    "priceToIncomeRatio": 3.79
+  },
+  {
+    "year": "1999",
+    "caseShillerIndex": 90.67,
+    "medianIncome": 40696,
+    "approximateHomePrice": 156400,
+    "priceToIncomeRatio": 3.84
+  },
+  {
+    "year": "2000",
+    "caseShillerIndex": 100,
+    "medianIncome": 41990,
+    "approximateHomePrice": 172500,
+    "priceToIncomeRatio": 4.11
+  },
+  {
+    "year": "2001",
+    "caseShillerIndex": 107.93,
+    "medianIncome": 42228,
+    "approximateHomePrice": 186200,
+    "priceToIncomeRatio": 4.41
+  },
+  {
+    "year": "2002",
+    "caseShillerIndex": 116.73,
+    "medianIncome": 42409,
+    "approximateHomePrice": 201400,
+    "priceToIncomeRatio": 4.75
+  },
+  {
+    "year": "2003",
+    "caseShillerIndex": 127.17,
+    "medianIncome": 43318,
+    "approximateHomePrice": 219400,
+    "priceToIncomeRatio": 5.07
+  },
+  {
+    "year": "2004",
+    "caseShillerIndex": 142.89,
+    "medianIncome": 44334,
+    "approximateHomePrice": 246500,
+    "priceToIncomeRatio": 5.56
+  },
+  {
+    "year": "2005",
+    "caseShillerIndex": 163.51,
+    "medianIncome": 46326,
+    "approximateHomePrice": 282100,
+    "priceToIncomeRatio": 6.09
+  },
+  {
+    "year": "2006",
+    "caseShillerIndex": 173.77,
+    "medianIncome": 48201,
+    "approximateHomePrice": 299800,
+    "priceToIncomeRatio": 6.22
+  },
+  {
+    "year": "2007",
+    "caseShillerIndex": 170.48,
+    "medianIncome": 50233,
+    "approximateHomePrice": 294100,
+    "priceToIncomeRatio": 5.85
+  },
+  {
+    "year": "2008",
+    "caseShillerIndex": 156.36,
+    "medianIncome": 50303,
+    "approximateHomePrice": 269800,
+    "priceToIncomeRatio": 5.36
+  },
+  {
+    "year": "2009",
+    "caseShillerIndex": 141.78,
+    "medianIncome": 49777,
+    "approximateHomePrice": 244600,
+    "priceToIncomeRatio": 4.91
+  },
+  {
+    "year": "2010",
+    "caseShillerIndex": 137.24,
+    "medianIncome": 49276,
+    "approximateHomePrice": 236800,
+    "priceToIncomeRatio": 4.81
+  },
+  {
+    "year": "2011",
+    "caseShillerIndex": 129.03,
+    "medianIncome": 50054,
+    "approximateHomePrice": 222600,
+    "priceToIncomeRatio": 4.45
+  },
+  {
+    "year": "2012",
+    "caseShillerIndex": 131.23,
+    "medianIncome": 51017,
+    "approximateHomePrice": 226400,
+    "priceToIncomeRatio": 4.44
+  },
+  {
+    "year": "2013",
+    "caseShillerIndex": 145.34,
+    "medianIncome": 51939,
+    "approximateHomePrice": 250800,
+    "priceToIncomeRatio": 4.83
+  },
+  {
+    "year": "2014",
+    "caseShillerIndex": 154.64,
+    "medianIncome": 53657,
+    "approximateHomePrice": 266800,
+    "priceToIncomeRatio": 4.97
+  },
+  {
+    "year": "2015",
+    "caseShillerIndex": 165.48,
+    "medianIncome": 56516,
+    "approximateHomePrice": 285500,
+    "priceToIncomeRatio": 5.05
+  },
+  {
+    "year": "2016",
+    "caseShillerIndex": 177.45,
+    "medianIncome": 59039,
+    "approximateHomePrice": 306200,
+    "priceToIncomeRatio": 5.19
+  },
+  {
+    "year": "2017",
+    "caseShillerIndex": 191.84,
+    "medianIncome": 61372,
+    "approximateHomePrice": 331000,
+    "priceToIncomeRatio": 5.39
+  },
+  {
+    "year": "2018",
+    "caseShillerIndex": 204.88,
+    "medianIncome": 63179,
+    "approximateHomePrice": 353500,
+    "priceToIncomeRatio": 5.6
+  },
+  {
+    "year": "2019",
+    "caseShillerIndex": 214.68,
+    "medianIncome": 68703,
+    "approximateHomePrice": 370400,
+    "priceToIncomeRatio": 5.39
+  },
+  {
+    "year": "2020",
+    "caseShillerIndex": 228.8,
+    "medianIncome": 67521,
+    "approximateHomePrice": 394800,
+    "priceToIncomeRatio": 5.85
+  },
+  {
+    "year": "2021",
+    "caseShillerIndex": 268.09,
+    "medianIncome": 70784,
+    "approximateHomePrice": 462600,
+    "priceToIncomeRatio": 6.53
+  },
+  {
+    "year": "2022",
+    "caseShillerIndex": 296.56,
+    "medianIncome": 74580,
+    "approximateHomePrice": 511700,
+    "priceToIncomeRatio": 6.86
+  },
+  {
+    "year": "2023",
+    "caseShillerIndex": 304.45,
+    "medianIncome": 80610,
+    "approximateHomePrice": 525300,
+    "priceToIncomeRatio": 6.52
+  },
+  {
+    "year": "2024",
+    "caseShillerIndex": 330.022,
+    "medianIncome": 83730,
+    "approximateHomePrice": 569500,
+    "priceToIncomeRatio": 6.8
+  },
+  {
+    "year": "2025",
+    "caseShillerIndex": 330.22,
+    "medianIncome": 83730,
+    "approximateHomePrice": 569800,
+    "priceToIncomeRatio": 6.81
+  }
+]

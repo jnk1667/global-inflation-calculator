@@ -84,7 +84,8 @@ export default function FAQ({ category, limit }: FAQProps) {
             }
           }
         } catch (apiError) {
-          console.warn("Failed to fetch FAQs from API, using default data")
+          // Silently fall back to default data - this is expected in some environments
+          console.log("[v0] FAQ API unavailable, using default data")
         }
 
         // Fallback to default data

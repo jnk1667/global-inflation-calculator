@@ -1738,6 +1738,14 @@ export default function ClientPage() {
                   </li>
                   <li>
                     <Link
+                      href="/housing-affordability-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Housing Affordability Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/deflation-calculator"
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >
