@@ -20,6 +20,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - precious metals appreciation, commodity price calculator
 - student loan calculator, loan repayment calculator, income-driven repayment
 - student loan inflation, federal student loans, college debt calculator
+- housing affordability calculator, home price to income ratio
 
 ## Site URLs and Tools
 
@@ -125,6 +126,36 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Data Sources: Federal Student Aid, College Scorecard API, Department of Education
   - Target Users: College students, recent graduates, parents, financial aid counselors
   - Update Frequency: Annual (interest rates and income thresholds updated yearly)
+
+- **Housing Affordability Calculator (/housing-affordability-calculator)**
+  - URL: https://www.globalinflationcalculator.com/housing-affordability-calculator
+  - Purpose: Calculate historical housing affordability by comparing home prices to median household income
+  - Features:
+    * Historical home price data (1970-present)
+    * Median household income comparison
+    * Price-to-Income ratio analysis
+    * Affordability trends over time
+    * Interactive charts showing housing market changes
+    * Regional and national housing data
+    * Inflation-adjusted home price analysis
+    * Down payment and mortgage affordability calculations
+  - Metrics Calculated:
+    * Median home price vs median household income
+    * Price-to-Income (PTI) ratio
+    * Housing affordability index
+    * Years of income needed to buy a home
+    * Percentage of income spent on housing
+    * Historical comparison across decades
+  - Educational Content:
+    * Explains housing affordability metrics
+    * Historical context of housing market trends
+    * Impact of interest rates on affordability
+    * Regional housing market variations
+    * First-time homebuyer considerations
+    * Mortgage qualification guidelines
+  - Data Sources: U.S. Census Bureau, Federal Reserve Economic Data (FRED), Department of Housing and Urban Development (HUD)
+  - Target Users: Prospective homebuyers, real estate professionals, housing policy researchers, economic analysts
+  - Update Frequency: Quarterly (housing data updated as new Census/FRED data becomes available)
 
 ### Administrative and Content Management
 
@@ -249,6 +280,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - salary inflation adjustment
 - deflation calculator
 - student loan calculator
+- housing affordability calculator
 
 ### Target Keywords (Long-tail)
 - best inflation calculator 2025 accurate
@@ -259,6 +291,8 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - real vs nominal wage calculator
 - gold silver inflation hedge calculator
 - student loan repayment calculator income-driven
+- historical housing affordability calculator
+- home price to income ratio analysis
 
 ### Content Marketing
 - Educational blog posts on inflation concepts

@@ -768,6 +768,15 @@ export default function LegacyPlannerPage() {
                   </li>
                   <li>
                     <Link
+                      href="/housing-affordability-calculator"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
+                    >
+                      <Home className="h-4 w-4 mr-2" />
+                      Housing Affordability Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/student-loan-calculator"
                       className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
                     >

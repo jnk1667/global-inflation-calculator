@@ -791,6 +791,14 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
                 </li>
                 <li>
                   <Link
+                    href="/housing-affordability-calculator"
+                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    Housing Affordability Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/legacy-planner"
                     className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                   >

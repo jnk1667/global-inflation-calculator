@@ -735,6 +735,11 @@ export default function StudentLoanCalculatorPage() {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/housing-affordability-calculator" className="hover:text-blue-400 transition-colors">
+                      Housing Affordability Calculator
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/retirement-calculator" className="hover:text-blue-400 transition-colors">
                       Legacy Planner
                     </Link>

@@ -226,6 +226,14 @@ export default function PrivacyPolicy() {
                       </li>
                       <li>
                         <Link
+                          href="/housing-affordability-calculator"
+                          className="text-muted-foreground hover:text-primary transition-colors"
+                        >
+                          Housing Affordability Calculator
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
                           href="/student-loan-calculator"
                           className="text-muted-foreground hover:text-primary transition-colors"
                         >

@@ -21,8 +21,6 @@ export const metadata: Metadata = {
     "housing affordability index",
     "home affordability calculator",
     "housing market affordability",
-    "best inflation calculator online",
-    "best inflation calculator 2025 accurate",
     "median home price calculator",
     "housing cost calculator",
     "real estate affordability",

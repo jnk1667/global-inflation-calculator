@@ -1768,6 +1768,20 @@ Successful retirement planning requires a multi-faceted approach that considers 
                 </div>
               </Link>
               <Link
+                href="/housing-affordability-calculator"
+                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+              >
+                <div className="flex items-center gap-3">
+                  <DollarSign className="h-8 w-8 text-blue-600" />
+                  <div>
+                    <h3 className="font-semibold dark:text-white">Housing Affordability Calculator</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Assess your ability to afford a home in today's market
+                    </p>
+                  </div>
+                </div>
+              </Link>
+              <Link
                 href="/legacy-planner"
                 className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
               >
@@ -1833,6 +1847,9 @@ Successful retirement planning requires a multi-faceted approach that considers 
             </Link>
             <Link href="/deflation-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
               Deflation Calculator
+            </Link>
+            <Link href="/housing-affordability-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
+              Housing Affordability Calculator
             </Link>
             <Link href="/legacy-planner" className="hover:text-blue-600 dark:hover:text-blue-400">
               Legacy Planner

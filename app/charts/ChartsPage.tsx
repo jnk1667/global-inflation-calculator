@@ -1524,6 +1524,15 @@ export default function ChartsPage() {
                   </li>
                   <li>
                     <a
+                      href="/housing-affordability-calculator"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      Housing Affordability Calculator
+                    </a>
+                  </li>
+                  {/* </CHANGE> */}
+                  <li>
+                    <a
                       href="/legacy-planner"
                       className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
