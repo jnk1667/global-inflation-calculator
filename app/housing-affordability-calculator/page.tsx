@@ -12,9 +12,9 @@ const siteUrl = (() => {
 })()
 
 export const metadata: Metadata = {
-  title: "Housing Affordability Calculator - Compare Home Prices to Income | Global Inflation Calculator",
+  title: "Housing Affordability Calculator - Judge Home Affordability",
   description:
-    "Calculate housing affordability across decades. Compare house price-to-income ratios from 1987 to today using Case-Shiller index and median income data. See how affordable housing is now vs historical periods.",
+    "Calculate housing affordability across ages. Compare house price-to-income ratios from 1987 to now. See how affordable housing is now versus historical periods.",
   keywords: [
     "housing affordability calculator",
     "house price to income ratio",
