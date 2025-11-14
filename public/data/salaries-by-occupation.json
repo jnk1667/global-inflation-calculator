@@ -1,0 +1,72 @@
+{
+  "00-0000": {
+    "code": "00-0000",
+    "title": "All Occupations",
+    "annualMeanWage": 65470,
+    "hourlyMeanWage": 31.48,
+    "employmentLevel": 164618610
+  },
+  "15-1252": {
+    "code": "15-1252",
+    "title": "Software Developers",
+    "annualMeanWage": 135000,
+    "hourlyMeanWage": 64.71,
+    "employmentLevel": 1850000
+  },
+  "29-1141": {
+    "code": "29-1141",
+    "title": "Registered Nurses",
+    "annualMeanWage": 90000,
+    "hourlyMeanWage": 43.25,
+    "employmentLevel": 3250000
+  },
+  "25-2021": {
+    "code": "25-2021",
+    "title": "Elementary School Teachers",
+    "annualMeanWage": 69000,
+    "hourlyMeanWage": 33.25,
+    "employmentLevel": 1500000
+  },
+  "11-1021": {
+    "code": "11-1021",
+    "title": "General and Operations Managers",
+    "annualMeanWage": 130000,
+    "hourlyMeanWage": 62.35,
+    "employmentLevel": 3000000
+  },
+  "13-2011": {
+    "code": "13-2011",
+    "title": "Accountants and Auditors",
+    "annualMeanWage": 85000,
+    "hourlyMeanWage": 41.25,
+    "employmentLevel": 1500000
+  },
+  "23-1011": {
+    "code": "23-1011",
+    "title": "Lawyers",
+    "annualMeanWage": 150000,
+    "hourlyMeanWage": 72.5,
+    "employmentLevel": 700000
+  },
+  "29-1215": {
+    "code": "29-1215",
+    "title": "Family Medicine Physicians",
+    "annualMeanWage": 230000,
+    "hourlyMeanWage": 109.7,
+    "employmentLevel": 120000
+  },
+  "17-2051": {
+    "code": "17-2051",
+    "title": "Civil Engineers",
+    "annualMeanWage": 97000,
+    "hourlyMeanWage": 46.75,
+    "employmentLevel": 320000
+  },
+  "27-3031": {
+    "code": "27-3031",
+    "title": "Public Relations Specialists",
+    "annualMeanWage": 75000,
+    "hourlyMeanWage": 36.25,
+    "employmentLevel": 270000
+  }
+}

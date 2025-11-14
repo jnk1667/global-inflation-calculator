@@ -120,17 +120,18 @@
     "2023": { "index_value": 3069.0, "inflation_factor": 30.69, "year_over_year_change": 4.89 },
     "2024": { "index_value": 3126.0, "inflation_factor": 31.26, "year_over_year_change": 1.86 },
     "2025": {
-      "index_value": 3189.0,
-      "inflation_factor": 31.89,
-      "year_over_year_change": 2.02,
+      "index_value": 3220.0,
+      "inflation_factor": 32.2,
+      "year_over_year_change": 3.0,
       "quarterly_data": {
         "Q1": { "index_value": 3145.0, "inflation_factor": 31.45, "quarter_over_quarter_change": 0.61 },
         "Q2": { "index_value": 3170.0, "inflation_factor": 31.7, "quarter_over_quarter_change": 0.79 },
-        "Q3": { "index_value": 3189.0, "inflation_factor": 31.89, "quarter_over_quarter_change": 0.6 }
+        "Q3": { "index_value": 3220.0, "inflation_factor": 32.2, "quarter_over_quarter_change": 1.58 }
       },
-      "ytd_average": 31.68,
+      "ytd_average": 31.78,
       "quarters_available": 3,
-      "is_partial_year": true
+      "is_partial_year": true,
+      "notes": "September 2025: CPI-U increased 0.3% monthly, 3.0% annual. October data delayed due to government shutdown."
     }
   }
 }

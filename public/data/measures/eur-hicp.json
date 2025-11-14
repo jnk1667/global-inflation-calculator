@@ -5,7 +5,7 @@
   "description": "The main inflation measure used by the European Central Bank for monetary policy decisions",
   "source": "Eurostat - Official data",
   "source_url": "https://ec.europa.eu/eurostat/web/hicp",
-  "last_updated": "2025-01-15T00:00:00Z",
+  "last_updated": "2025-11-14T00:00:00Z",
   "earliest_year": 1996,
   "latest_year": 2025,
   "total_years": 30,
@@ -41,6 +41,11 @@
     "2022": { "index_value": 144.2, "inflation_factor": 1.442, "year_over_year_change": 8.1 },
     "2023": { "index_value": 150.8, "inflation_factor": 1.508, "year_over_year_change": 4.6 },
     "2024": { "index_value": 154.2, "inflation_factor": 1.542, "year_over_year_change": 2.3 },
-    "2025": { "index_value": 157.1, "inflation_factor": 1.571, "year_over_year_change": 1.9 }
+    "2025": { 
+      "index_value": 157.4, 
+      "inflation_factor": 1.574, 
+      "year_over_year_change": 2.1,
+      "notes": "October 2025 flash estimate: 2.1% annual inflation, down from 2.2% in September. Services: 3.4%, Energy: -1.0%."
+    }
   }
 }

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { ErrorBoundary } from "@/components/error-boundary"
 import LoadingSpinner from "@/components/loading-spinner"
-import { Globe, RefreshCw } from "lucide-react"
+import { Globe, RefreshCw } from 'lucide-react'
 import { supabase } from "@/lib/supabase"
 import { trackPageView } from "@/lib/analytics"
 import Script from "next/script"
@@ -1781,7 +1781,7 @@ export default function ClientPage() {
                     </Link>
                   </li>
                 </ul>
-                <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">Last Updated: October 2025</p>
+                <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">Last Updated: November 2025</p>
               </div>
             </div>
             <div className="border-t border-gray-700 dark:border-gray-600 mt-8 pt-8 text-center text-gray-400 dark:text-gray-500">

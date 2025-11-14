@@ -1,25 +1,25 @@
 {
-  "lastUpdate": "2025-08-01T12:00:00.000Z",
+  "lastUpdate": "2025-11-14T00:00:00.000Z",
   "autoUpdateEnabled": true,
   "currencies": ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY"],
-  "nextScheduledUpdate": "2025-09-01T12:00:00.000Z",
+  "nextScheduledUpdate": "2025-12-01T12:00:00.000Z",
   "updateFrequency": "monthly",
-  "currentMonth": "August",
+  "currentMonth": "November",
   "currentYear": 2025,
   "dataStatus": {
     "USD": {
       "source": "US Bureau of Labor Statistics",
-      "lastFetch": "2025-08-01T12:00:00.000Z",
+      "lastFetch": "2025-11-14T00:00:00.000Z",
       "status": "active"
     },
     "GBP": {
       "source": "UK Office for National Statistics",
-      "lastFetch": "2025-08-01T12:00:00.000Z",
+      "lastFetch": "2025-11-14T00:00:00.000Z",
       "status": "active"
     },
     "EUR": {
       "source": "Eurostat (estimated)",
-      "lastFetch": "2025-08-01T12:00:00.000Z",
+      "lastFetch": "2025-11-14T00:00:00.000Z",
       "status": "active"
     },
     "CAD": {

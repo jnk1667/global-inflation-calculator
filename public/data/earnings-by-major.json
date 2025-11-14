@@ -1,0 +1,82 @@
+{
+  "11": {
+    "cipCode": "11",
+    "title": "Computer and Information Sciences",
+    "medianEarnings": 88000,
+    "percentile25": 67000,
+    "percentile75": 112000,
+    "sampleSize": 15500
+  },
+  "13": {
+    "cipCode": "13",
+    "title": "Education",
+    "medianEarnings": 53000,
+    "percentile25": 46000,
+    "percentile75": 63000,
+    "sampleSize": 10500
+  },
+  "14": {
+    "cipCode": "14",
+    "title": "Engineering",
+    "medianEarnings": 97000,
+    "percentile25": 77000,
+    "percentile75": 122000,
+    "sampleSize": 12500
+  },
+  "23": {
+    "cipCode": "23",
+    "title": "English Language and Literature",
+    "medianEarnings": 49000,
+    "percentile25": 39000,
+    "percentile75": 61000,
+    "sampleSize": 8500
+  },
+  "26": {
+    "cipCode": "26",
+    "title": "Biological and Biomedical Sciences",
+    "medianEarnings": 67000,
+    "percentile25": 51000,
+    "percentile75": 83000,
+    "sampleSize": 9500
+  },
+  "27": {
+    "cipCode": "27",
+    "title": "Mathematics and Statistics",
+    "medianEarnings": 80000,
+    "percentile25": 63000,
+    "percentile75": 99000,
+    "sampleSize": 5500
+  },
+  "45": {
+    "cipCode": "45",
+    "title": "Social Sciences",
+    "medianEarnings": 59000,
+    "percentile25": 46000,
+    "percentile75": 73000,
+    "sampleSize": 11500
+  },
+  "50": {
+    "cipCode": "50",
+    "title": "Visual and Performing Arts",
+    "medianEarnings": 46000,
+    "percentile25": 36000,
+    "percentile75": 59000,
+    "sampleSize": 7500
+  },
+  "51": {
+    "cipCode": "51",
+    "title": "Health Professions",
+    "medianEarnings": 77000,
+    "percentile25": 62000,
+    "percentile75": 97000,
+    "sampleSize": 18500
+  },
+  "52": {
+    "cipCode": "52",
+    "title": "Business, Management, Marketing",
+    "medianEarnings": 72000,
+    "percentile25": 56000,
+    "percentile75": 92000,
+    "sampleSize": 25500
+  }
+}

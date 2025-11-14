@@ -563,7 +563,7 @@ export default function AccessibilityPage() {
           </Card>
 
           <footer className="mt-12 text-center text-sm text-gray-600 dark:text-gray-400">
-            <p>Last updated: October 2025</p>
+            <p>Last updated: November 2025</p>
           </footer>
         </main>
       </div>
