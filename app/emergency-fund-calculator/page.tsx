@@ -17,6 +17,8 @@ export const metadata: Metadata = {
     "Calculate how much you need in your emergency fund for 3-6 months of expenses. Plan for recession with inflation-adjusted emergency savings calculator using real BLS salary data.",
   keywords: [
     "emergency fund calculator",
+    "best inflation calculator online",
+    "best inflation calculator 2025 accurate",
     "emergency savings calculator",
     "3 month emergency fund",
     "6 month emergency fund",
