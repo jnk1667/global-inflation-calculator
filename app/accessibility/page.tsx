@@ -365,6 +365,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/emergency-fund-calculator" className="text-blue-600 hover:underline">
+                      Emergency Fund Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate emergency savings needs with inflation adjustment for economic uncertainty
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/legacy-planner" className="text-blue-600 hover:underline">
                       Legacy Planner
                     </Link>
@@ -442,6 +450,17 @@ export default function AccessibilityPage() {
                   <li>Educational content with proper heading hierarchy</li>
                 </ul>
               </div>
+              <div>
+                <h3 className="font-semibold mb-2">Emergency Fund Calculator</h3>
+                <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>Monthly expense inputs with descriptive labels and help text</li>
+                  <li>Target months selector with keyboard control</li>
+                  <li>Risk assessment with clear visual indicators and screen reader announcements</li>
+                  <li>Savings timeline with accessible progress visualization</li>
+                  <li>Inflation-adjusted projections clearly explained for screen readers</li>
+                  <li>Recommendations section with proper semantic structure</li>
+                </ul>
+              </div>
             </CardContent>
           </Card>
 
@@ -481,6 +500,10 @@ export default function AccessibilityPage() {
                     <li>
                       <strong>Student Loan Calculator:</strong> Analyze student loan debt in the context of inflation
                       and develop repayment strategies
+                    </li>
+                    <li>
+                      <strong>Emergency Fund Calculator:</strong> Calculate emergency savings needs adjusted for
+                      inflation to prepare for economic uncertainty and job loss scenarios
                     </li>
                     <li>
                       <strong>Legacy Planner:</strong> Project multi-generational wealth transfer with inflation

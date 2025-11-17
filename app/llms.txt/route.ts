@@ -21,6 +21,9 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - student loan calculator, loan repayment calculator, income-driven repayment
 - student loan inflation, federal student loans, college debt calculator
 - housing affordability calculator, home price to income ratio
+- emergency fund calculator, emergency savings calculator, recession preparation
+- 3 month emergency fund, 6 month emergency fund, financial safety net
+- economic uncertainty 2025, recession planning, emergency savings goal
 
 ## Site URLs and Tools
 
@@ -157,6 +160,40 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Target Users: Prospective homebuyers, real estate professionals, housing policy researchers, economic analysts
   - Update Frequency: Quarterly (housing data updated as new Census/FRED data becomes available)
 
+- **Emergency Fund Calculator (/emergency-fund-calculator)**
+  - URL: https://www.globalinflationcalculator.com/emergency-fund-calculator
+  - Purpose: Calculate emergency savings needs adjusted for inflation during economic uncertainty
+  - Features:
+    * Monthly expenses input with inflation adjustment
+    * Target months of coverage (3-6 months recommended)
+    * Current savings tracking
+    * Monthly savings capacity calculation
+    * Timeline to reach emergency fund goal
+    * Risk assessment based on employment stability
+    * Inflation-adjusted emergency fund projections
+    * Personalized savings recommendations
+    * Multiple expense categories tracking
+    * Economic uncertainty context (2025 recession concerns)
+  - Calculations:
+    * Basic emergency fund: Monthly expenses × Target months
+    * Inflation-adjusted future need
+    * Required monthly savings to reach goal
+    * Time to reach target savings
+    * Purchasing power erosion over time
+    * Risk-adjusted recommendations
+  - Educational Content:
+    * Explains why 3-6 months of expenses is recommended
+    * Impact of 2025 economic uncertainty
+    * How inflation affects emergency fund adequacy
+    * Importance of high-yield savings accounts
+    * Strategies to build emergency fund faster
+    * When to use emergency fund vs other resources
+    * Job loss and economic downturn preparation
+  - Data Sources: Bureau of Labor Statistics (BLS) salary data, Federal Reserve inflation data, current savings rate data
+  - Target Users: Workers concerned about job security, anyone without adequate emergency savings, recession preparers, financial planners
+  - Context: 2025 economic uncertainty, less than 50% of Americans have 3 months saved, 33% have more credit card debt than emergency savings
+  - Update Frequency: Monthly (inflation data updates)
+
 ### Administrative and Content Management
 
 - **Admin Content Management (/admin-manage-content)**
@@ -256,6 +293,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - **Investors**: Analyzing inflation-adjusted returns
 - **Students**: Calculating student loan repayment with inflation considerations
 - **Homebuyers**: Understanding historical home price appreciation vs inflation
+- **Emergency Fund Builders**: Preparing for economic uncertainty with inflation-adjusted savings
 
 ### Professional Users
 - **Financial Advisors**: Client retirement and investment planning
@@ -281,6 +319,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - deflation calculator
 - student loan calculator
 - housing affordability calculator
+- emergency fund calculator
 
 ### Target Keywords (Long-tail)
 - best inflation calculator 2025 accurate
@@ -293,6 +332,8 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - student loan repayment calculator income-driven
 - historical housing affordability calculator
 - home price to income ratio analysis
+- emergency savings goal calculation
+- economic uncertainty planning
 
 ### Content Marketing
 - Educational blog posts on inflation concepts
