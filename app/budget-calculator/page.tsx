@@ -11,6 +11,8 @@ export const metadata: Metadata = {
     "50/30/20 budget calculator",
     "50 30 20 rule",
     "budget calculator",
+    "best inflation calculator online",
+    "best inflation calculator 2025 accurate",
     "personal budget planner",
     "spending plan calculator",
     "budgeting tool",
