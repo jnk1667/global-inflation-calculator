@@ -373,6 +373,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/budget-calculator" className="text-blue-600 hover:underline">
+                      50/30/20 Budget Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Split your income using the proven 50/30/20 budgeting rule for needs, wants, and savings
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/legacy-planner" className="text-blue-600 hover:underline">
                       Legacy Planner
                     </Link>
@@ -461,6 +469,16 @@ export default function AccessibilityPage() {
                   <li>Recommendations section with proper semantic structure</li>
                 </ul>
               </div>
+              <div>
+                <h3 className="font-semibold mb-2">50/30/20 Budget Calculator</h3>
+                <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>Income input with clear labels and help text</li>
+                  <li>Expense categorization with keyboard navigation</li>
+                  <li>Budget allocation controls with descriptive help text</li>
+                  <li>Results table with proper headers and screen reader support</li>
+                  <li>Guidance on the budgeting rule with proper heading hierarchy</li>
+                </ul>
+              </div>
             </CardContent>
           </Card>
 
@@ -508,6 +526,10 @@ export default function AccessibilityPage() {
                     <li>
                       <strong>Legacy Planner:</strong> Project multi-generational wealth transfer with inflation
                       considerations
+                    </li>
+                    <li>
+                      <strong>50/30/20 Budget Calculator:</strong> Split your income using the proven 50/30/20 budgeting
+                      rule for needs, wants, and savings
                     </li>
                   </ul>
                 </div>

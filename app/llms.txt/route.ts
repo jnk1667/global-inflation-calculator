@@ -194,6 +194,38 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Context: 2025 economic uncertainty, less than 50% of Americans have 3 months saved, 33% have more credit card debt than emergency savings
   - Update Frequency: Monthly (inflation data updates)
 
+- **50/30/20 Budget Calculator (/budget-calculator)**
+  - URL: https://www.globalinflationcalculator.com/budget-calculator
+  - Purpose: Simple budget planning using the proven 50/30/20 rule - 50% needs, 30% wants, 20% savings
+  - Features:
+    * Monthly or annual income input (after-tax)
+    * Visual pie chart showing budget allocation
+    * Automatic calculation of three categories:
+      - Needs (50%): Housing, utilities, groceries, transportation, healthcare, insurance, minimum debt payments
+      - Wants (30%): Dining out, entertainment, hobbies, subscriptions, shopping, travel
+      - Savings (20%): Emergency fund, retirement, extra debt payments, investments, future goals
+    * Detailed category examples for each budget section
+    * Annual savings projections
+    * Monthly budget breakdown with dollar amounts
+    * Mobile-friendly interface with clear visual hierarchy
+  - Calculations:
+    * Needs amount: Monthly income × 0.50
+    * Wants amount: Monthly income × 0.30
+    * Savings amount: Monthly income × 0.20
+    * Annual projections for all categories
+  - Educational Content:
+    * Explains the 50/30/20 budget rule popularized by Elizabeth Warren
+    * Difference between needs and wants with real examples
+    * Why after-tax income should be used
+    * How to adjust percentages for high cost-of-living areas
+    * When 60/20/20 or 70/20/10 splits may be necessary
+    * Importance of saving even if less than 20%
+    * How to track spending and stick to budget
+  - Framework: Based on "All Your Worth: The Ultimate Lifetime Money Plan" by Elizabeth Warren
+  - Target Users: Budget beginners, anyone seeking simple budgeting method, people in 2025 economic uncertainty, those building emergency funds
+  - Context: Most popular budgeting method in 2025, recommended by financial advisors, simple enough for anyone to follow
+  - Update Frequency: Static calculator (no data dependencies)
+
 ### Administrative and Content Management
 
 - **Admin Content Management (/admin-manage-content)**
@@ -294,6 +326,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - **Students**: Calculating student loan repayment with inflation considerations
 - **Homebuyers**: Understanding historical home price appreciation vs inflation
 - **Emergency Fund Builders**: Preparing for economic uncertainty with inflation-adjusted savings
+- **Budget Beginners**: Using the 50/30/20 rule for simple budget planning
 
 ### Professional Users
 - **Financial Advisors**: Client retirement and investment planning
@@ -320,6 +353,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - student loan calculator
 - housing affordability calculator
 - emergency fund calculator
+- budget calculator 50 30 20
 
 ### Target Keywords (Long-tail)
 - best inflation calculator 2025 accurate
@@ -334,6 +368,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - home price to income ratio analysis
 - emergency savings goal calculation
 - economic uncertainty planning
+- 50 30 20 budget rule explanation
 
 ### Content Marketing
 - Educational blog posts on inflation concepts

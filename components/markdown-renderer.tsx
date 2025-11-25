@@ -117,3 +117,5 @@ export function MarkdownRenderer({ content, className = "" }: MarkdownRendererPr
 
   return <div className={className}>{parseMarkdown(content)}</div>
 }
+
+export default MarkdownRenderer
