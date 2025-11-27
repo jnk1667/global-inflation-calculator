@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export const metadata: Metadata = {
-  title: "50/30/20 Budget Calculator | Income Budgeting Tool",
+  title: "50/30/20 Budget Calculator | Budgeting Tool",
   description:
     "Free 50/30/20 budget calculator divides income into needs (50%), wants (30%), savings (20%). Simple budgeting with inflation adjustment.",
   keywords: [
