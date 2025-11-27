@@ -38,12 +38,19 @@ interface SocialLink {
   icon: string
 }
 
-interface ContentData {
+// Updated Content interface to include new essay fields
+interface Content {
+  site_title: string
+  site_description: string
+  footer_text: string // Added footer_text
   seo_essay: string
   salary_essay: string
   retirement_essay: string
   deflation_essay: string
   charts_essay: string
+  housing_affordability_essay: string
+  emergency_fund_essay: string
+  budget_essay: string
   student_loan_blog_title: string
   student_loan_blog_content: string
   student_loan_methodology: string
@@ -52,8 +59,6 @@ interface ContentData {
   privacy_content: string
   terms_content: string
   logo_url: string
-  site_title: string
-  site_description: string
 }
 
 interface UsageData {
@@ -84,12 +89,19 @@ const AdminContentPage: React.FC = () => {
   const [error, setError] = useState("")
 
   // Content state
-  const [content, setContent] = useState<ContentData>({
+  // Initialized new essay fields
+  const [content, setContent] = useState<Content>({
+    site_title: "",
+    site_description: "",
+    footer_text: "", // Added footer_text
     seo_essay: "",
     salary_essay: "",
     retirement_essay: "",
     deflation_essay: "",
-    charts_essay: "", // Added charts_essay to initial state
+    charts_essay: "",
+    housing_affordability_essay: "",
+    emergency_fund_essay: "",
+    budget_essay: "",
     student_loan_blog_title: "Understanding Student Loans in an Inflationary Economy: A Comprehensive Guide",
     student_loan_blog_content: "",
     student_loan_methodology: "",
@@ -110,8 +122,6 @@ The key to successful multi-generational wealth planning lies in balancing growt
     privacy_content: "",
     terms_content: "",
     logo_url: "",
-    site_title: "Global Inflation Calculator",
-    site_description: "Calculate historical inflation and purchasing power across multiple currencies",
   })
 
   // FAQ state
@@ -261,20 +271,16 @@ The key to successful multi-generational wealth planning lies in balancing growt
     setLoading(true)
     setError("") // Clear previous errors
     try {
-      // Load main content
+      // Load content from seo_content table
       const { data: contentData, error: contentError } = await supabase.from("seo_content").select("*")
       if (contentError) {
         console.error("Error loading seo_content:", contentError)
       }
 
-      const { data: siteSettings, error: siteError } = await supabase
-        .from("site_settings")
-        .select("*")
-        .eq("id", "main")
-        .single()
-      if (siteError && siteError.code !== "PGRST116") {
-        // PGRST116 is "not found" error
-        console.error("Error loading site_settings:", siteError)
+      // Load settings from site_settings table
+      const { data: settingsData, error: settingsError } = await supabase.from("site_settings").select("*")
+      if (settingsError) {
+        console.error("Error loading site_settings:", settingsError)
       }
 
       // Load FAQs
@@ -293,33 +299,78 @@ The key to successful multi-generational wealth planning lies in balancing growt
         console.error("Error loading usage_stats:", statsError)
       }
 
-      // Process content data
-      if (contentData && contentData.length > 0) {
-        const contentMap: any = {}
-        contentData.forEach((item: any) => {
-          contentMap[item.id] = item.content
-        })
+      // Transform contentData into a map
+      const contentMap =
+        contentData?.reduce(
+          (acc, item) => {
+            acc[item.id] = item.content
+            return acc
+          },
+          {} as Record<string, string>,
+        ) || {}
 
-        setContent((prev) => ({
-          ...prev,
-          seo_essay: contentMap.main_essay || prev.seo_essay,
-          salary_essay: contentMap.salary_essay || prev.salary_essay,
-          retirement_essay: contentMap.retirement_essay || prev.retirement_essay,
-          deflation_essay: contentMap.deflation_essay || prev.deflation_essay,
-          charts_essay: contentMap.charts_essay || prev.charts_essay, // Load charts_essay
-          privacy_content: contentMap.privacy_page || prev.privacy_content,
-          terms_content: contentMap.terms_page || prev.terms_content,
-        }))
+      // Transform settingsData into a map
+      const settingsMap =
+        settingsData?.reduce(
+          (acc, item) => {
+            acc[item.setting_key] = item.setting_value
+            return acc
+          },
+          {} as Record<string, string>,
+        ) || {}
+
+      // Process content and settings
+      setContent((prev) => ({
+        ...prev,
+        site_title: settingsMap.site_title || prev.site_title,
+        site_description: settingsMap.site_description || prev.site_description,
+        footer_text: settingsMap.footer_text || prev.footer_text, // Load footer_text
+        seo_essay: contentMap.main_essay || prev.seo_essay,
+        salary_essay: contentMap.salary_essay || prev.salary_essay,
+        retirement_essay: contentMap.retirement_essay || prev.retirement_essay,
+        deflation_essay: contentMap.deflation_essay || prev.deflation_essay,
+        charts_essay: contentMap.charts_essay || prev.charts_essay,
+        housing_affordability_essay: contentMap.housing_affordability_essay || prev.housing_affordability_essay,
+        emergency_fund_essay: contentMap.emergency_fund_essay || prev.emergency_fund_essay,
+        budget_essay: contentMap.budget_essay || prev.budget_essay,
+        privacy_content: contentMap.privacy_page || prev.privacy_content,
+        terms_content: contentMap.terms_page || prev.terms_content,
+      }))
+
+      // Load Legacy Planner Content
+      try {
+        const { data: legacyData, error: legacyError } = await supabase
+          .from("legacy_planner_content")
+          .select("*")
+          .eq("id", "main")
+          .single()
+        if (legacyError && legacyError.code !== "PGRST116") {
+          console.error("Error loading legacy_planner_content:", legacyError)
+        }
+        if (legacyData) {
+          setContent((prev) => ({
+            ...prev,
+            legacy_planner_title: legacyData.title || prev.legacy_planner_title,
+            legacy_planner_content: legacyData.content || prev.legacy_planner_content,
+          }))
+        }
+      } catch (err) {
+        console.log("Legacy planner content not found, using defaults")
       }
 
-      // Process site settings
-      if (siteSettings) {
-        setContent((prev) => ({
-          ...prev,
-          logo_url: siteSettings.logo_url || prev.logo_url,
-          site_title: siteSettings.site_title || prev.site_title,
-          site_description: siteSettings.site_description || prev.site_description,
-        }))
+      try {
+        const blogResponse = await fetch("/api/student-loan-blog")
+        const blogResult = await blogResponse.json()
+        if (blogResult.success && blogResult.data) {
+          setContent((prev) => ({
+            ...prev,
+            student_loan_blog_title: blogResult.data.title || prev.student_loan_blog_title,
+            student_loan_blog_content: blogResult.data.content || prev.student_loan_blog_content,
+            student_loan_methodology: blogResult.data.methodology || prev.student_loan_methodology,
+          }))
+        }
+      } catch (err) {
+        console.log("Student loan blog content not found, using defaults")
       }
 
       // Process FAQs
@@ -378,42 +429,6 @@ The key to successful multi-generational wealth planning lies in balancing growt
         setAboutContent(defaultAbout)
       }
 
-      // Load Legacy Planner Content
-      try {
-        const { data: legacyData, error: legacyError } = await supabase
-          .from("legacy_planner_content")
-          .select("*")
-          .eq("id", "main")
-          .single()
-        if (legacyError && legacyError.code !== "PGRST116") {
-          console.error("Error loading legacy_planner_content:", legacyError)
-        }
-        if (legacyData) {
-          setContent((prev) => ({
-            ...prev,
-            legacy_planner_title: legacyData.title || prev.legacy_planner_title,
-            legacy_planner_content: legacyData.content || prev.legacy_planner_content,
-          }))
-        }
-      } catch (err) {
-        console.log("Legacy planner content not found, using defaults")
-      }
-
-      try {
-        const blogResponse = await fetch("/api/student-loan-blog")
-        const blogResult = await blogResponse.json()
-        if (blogResult.success && blogResult.data) {
-          setContent((prev) => ({
-            ...prev,
-            student_loan_blog_title: blogResult.data.title || prev.student_loan_blog_title,
-            student_loan_blog_content: blogResult.data.content || prev.student_loan_blog_content,
-            student_loan_methodology: blogResult.data.methodology || prev.student_loan_methodology,
-          }))
-        }
-      } catch (err) {
-        console.log("Student loan blog content not found, using defaults")
-      }
-
       setMessage("Content loaded successfully!")
       setTimeout(() => setMessage(""), 3000)
     } catch (err) {
@@ -450,10 +465,11 @@ The key to successful multi-generational wealth planning lies in balancing growt
     setSaving(true)
     try {
       const { error } = await supabase.from("site_settings").upsert({
-        id: "main",
-        logo_url: content.logo_url,
+        id: "main", // Assuming 'main' is the identifier for site settings
         site_title: content.site_title,
         site_description: content.site_description,
+        footer_text: content.footer_text, // Saving footer_text
+        logo_url: content.logo_url,
         updated_at: new Date().toISOString(),
       })
 
@@ -971,6 +987,78 @@ The key to successful multi-generational wealth planning lies in balancing growt
               </CardContent>
             </Card>
 
+            <Card>
+              <CardHeader>
+                <CardTitle>Housing Affordability Calculator Essay</CardTitle>
+                <CardDescription>Educational content for the housing affordability calculator page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.housing_affordability_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, housing_affordability_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter housing affordability calculator essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("housing_affordability_essay", content.housing_affordability_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Housing Affordability Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Emergency Fund Calculator Essay</CardTitle>
+                <CardDescription>Educational content for the emergency fund calculator page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.emergency_fund_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, emergency_fund_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter emergency fund calculator essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("emergency_fund_essay", content.emergency_fund_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Emergency Fund Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>50/30/20 Budget Calculator Essay</CardTitle>
+                <CardDescription>Educational content for the 50/30/20 budget calculator page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.budget_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, budget_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter budget calculator essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("budget_essay", content.budget_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save Budget Calculator Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
             {/* Legacy Planner Blog */}
             <Card>
               <CardHeader>
@@ -1307,6 +1395,17 @@ The key to successful multi-generational wealth planning lies in balancing growt
                   />
                 </div>
 
+                {/* Footer Text */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Footer Text</label>
+                  <Textarea
+                    value={content.footer_text}
+                    onChange={(e) => setContent((prev) => ({ ...prev, footer_text: e.target.value }))}
+                    rows={3}
+                    placeholder="Your company name or copyright notice"
+                  />
+                </div>
+
                 {/* Logo URL */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Logo URL</label>
@@ -1360,6 +1459,9 @@ The key to successful multi-generational wealth planning lies in balancing growt
                       <SelectItem value="deflation">Deflation Calculator</SelectItem>
                       <SelectItem value="legacy">Legacy Planner</SelectItem>
                       <SelectItem value="charts">Charts & Analytics</SelectItem>
+                      <SelectItem value="housing-affordability">Housing Affordability Calculator</SelectItem>
+                      <SelectItem value="emergency-fund">Emergency Fund Calculator</SelectItem>
+                      <SelectItem value="budget">50/30/20 Budget Calculator</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -1410,6 +1512,9 @@ The key to successful multi-generational wealth planning lies in balancing growt
                           <SelectItem value="deflation">Deflation Calculator</SelectItem>
                           <SelectItem value="legacy">Legacy Planner</SelectItem>
                           <SelectItem value="charts">Charts & Analytics</SelectItem>
+                          <SelectItem value="housing-affordability">Housing Affordability Calculator</SelectItem>
+                          <SelectItem value="emergency-fund">Emergency Fund Calculator</SelectItem>
+                          <SelectItem value="budget">50/30/20 Budget Calculator</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
