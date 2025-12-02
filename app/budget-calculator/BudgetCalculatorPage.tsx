@@ -4,11 +4,23 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts"
-import { DollarSign, Home, ShoppingBag, PiggyBank, TrendingUp, BookOpen, InfoIcon, AlertTriangle } from "lucide-react"
+import {
+  DollarSign,
+  Home,
+  ShoppingBag,
+  PiggyBank,
+  TrendingUp,
+  BookOpen,
+  InfoIcon,
+  AlertTriangle,
+  Shield,
+} from "lucide-react"
 import AdBanner from "@/components/ad-banner"
 import FAQ from "@/components/faq"
 import MarkdownRenderer from "@/components/markdown-renderer"
 import { getSupabaseClient } from "@/lib/supabase"
+import { treasuryData } from "@/lib/treasury-data"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 const COLORS = {
   needs: "#3b82f6", // blue
@@ -24,6 +36,7 @@ export default function BudgetCalculatorPage() {
   const [advancedMode, setAdvancedMode] = useState(false)
   const [inflationRate, setInflationRate] = useState(3.0) // Default to current 2025 rate
   const [yearsAhead, setYearsAhead] = useState(5)
+  const [currentTreasuryRates, setCurrentTreasuryRates] = useState<any>(null)
 
   const income = Number.parseFloat(monthlyIncome) || 0
   const monthlyAmount =
@@ -80,6 +93,22 @@ export default function BudgetCalculatorPage() {
   const annualNeeds = needs * 12
   const annualWants = wants * 12
   const annualSavings = savings * 12
+
+  useEffect(() => {
+    try {
+      const latestYear = treasuryData.latest_year
+      const latestData = treasuryData.data[latestYear]
+      const savingsBondsI = treasuryData.savings_bonds.series_i.data[latestYear]
+
+      setCurrentTreasuryRates({
+        highYieldSavings: latestData.treasury_bills_3m,
+        iBonds: savingsBondsI.composite_rate,
+        year: latestYear,
+      })
+    } catch (error) {
+      console.error("Error loading Treasury rates:", error)
+    }
+  }, [])
 
   useEffect(() => {
     const loadEssayContent = async () => {
@@ -172,6 +201,10 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value)
+  }
+
+  const calculateSavingsGrowth = (principal: number, rate: number, years: number) => {
+    return principal * Math.pow(1 + rate / 100, years)
   }
 
   const faqs = [
@@ -589,6 +622,137 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
               )}
             </CardContent>
           </Card>
+        )}
+
+        {/* Savings Growth Projection Section */}
+        {calculated && monthlyAmount > 0 && currentTreasuryRates && (
+          <div className="mx-auto mt-8 max-w-6xl">
+            <Card className="border-slate-700 bg-slate-800/50 backdrop-blur">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-white">
+                  <TrendingUp className="h-6 w-6 text-emerald-400" />
+                  Your Savings Growth Potential
+                </CardTitle>
+                <CardDescription className="text-slate-400">
+                  See how your 20% savings ({formatCurrency(annualSavings)}/year) can grow with safe, government-backed
+                  investments
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* High-Yield Savings Growth */}
+                  <div className="p-6 bg-gradient-to-br from-blue-900/30 to-blue-800/20 rounded-lg border border-blue-500/30">
+                    <div className="flex items-center gap-2 mb-4">
+                      <DollarSign className="h-5 w-5 text-blue-400" />
+                      <h3 className="font-semibold text-blue-200">High-Yield Savings Account</h3>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-sm text-slate-400">Current Rate:</span>
+                        <span className="text-xl font-bold text-blue-400">
+                          {currentTreasuryRates.highYieldSavings.toFixed(2)}%
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-sm text-slate-400">After 5 years:</span>
+                        <span className="text-2xl font-bold text-white">
+                          {formatCurrency(
+                            calculateSavingsGrowth(annualSavings * 5, currentTreasuryRates.highYieldSavings, 1),
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-sm text-slate-400">After 10 years:</span>
+                        <span className="text-2xl font-bold text-emerald-400">
+                          {formatCurrency(
+                            calculateSavingsGrowth(annualSavings * 10, currentTreasuryRates.highYieldSavings, 1),
+                          )}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-3">FDIC-insured, instant access to funds</p>
+                    </div>
+                  </div>
+
+                  {/* I-Bonds Growth */}
+                  <div className="p-6 bg-gradient-to-br from-emerald-900/30 to-emerald-800/20 rounded-lg border border-emerald-500/30">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Shield className="h-5 w-5 text-emerald-400" />
+                      <h3 className="font-semibold text-emerald-200">Treasury I-Bonds</h3>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-sm text-slate-400">Current Rate:</span>
+                        <span className="text-xl font-bold text-emerald-400">
+                          {currentTreasuryRates.iBonds.toFixed(2)}%
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-sm text-slate-400">After 5 years:</span>
+                        <span className="text-2xl font-bold text-white">
+                          {formatCurrency(calculateSavingsGrowth(annualSavings * 5, currentTreasuryRates.iBonds, 1))}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-sm text-slate-400">After 10 years:</span>
+                        <span className="text-2xl font-bold text-emerald-400">
+                          {formatCurrency(calculateSavingsGrowth(annualSavings * 10, currentTreasuryRates.iBonds, 1))}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-3">Inflation-protected, 1-year minimum hold</p>
+                    </div>
+                  </div>
+                </div>
+
+                <Alert className="bg-blue-900/20 border-blue-500/30">
+                  <InfoIcon className="h-4 w-4 text-blue-400" />
+                  <AlertDescription className="text-slate-300 text-sm">
+                    <strong>Smart Strategy:</strong> Keep 3-6 months of expenses in a high-yield savings account for
+                    emergencies, then invest additional savings in I-Bonds or other investments for higher returns.
+                    These calculations use current
+                    {currentTreasuryRates.year} Treasury rates and assume you save {formatCurrency(annualSavings)}{" "}
+                    annually (your 20% savings portion).
+                  </AlertDescription>
+                </Alert>
+
+                {advancedMode && (
+                  <div className="p-4 bg-amber-900/20 border border-amber-500/30 rounded-lg">
+                    <div className="flex items-center gap-2 mb-2">
+                      <AlertTriangle className="h-4 w-4 text-amber-400" />
+                      <h4 className="font-semibold text-amber-200 text-sm">Inflation Impact on Savings</h4>
+                    </div>
+                    <p className="text-xs text-slate-400 mb-3">
+                      With {inflationRate}% annual inflation over {yearsAhead} years, your{" "}
+                      {formatCurrency(annualSavings)} annual savings will need to grow to maintain purchasing power:
+                    </p>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <div className="text-sm text-slate-400">High-Yield Savings Real Return:</div>
+                        <div className="text-lg font-bold text-white">
+                          {(currentTreasuryRates.highYieldSavings - inflationRate).toFixed(2)}%
+                        </div>
+                        <div className="text-xs text-slate-500 mt-1">
+                          {currentTreasuryRates.highYieldSavings > inflationRate
+                            ? "✓ Beating inflation"
+                            : "✗ Losing to inflation"}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-sm text-slate-400">I-Bonds Real Return:</div>
+                        <div className="text-lg font-bold text-emerald-400">
+                          {(currentTreasuryRates.iBonds - inflationRate).toFixed(2)}%
+                        </div>
+                        <div className="text-xs text-slate-500 mt-1">
+                          {currentTreasuryRates.iBonds > inflationRate
+                            ? "✓ Beating inflation"
+                            : "✗ Losing to inflation"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         )}
       </section>
 

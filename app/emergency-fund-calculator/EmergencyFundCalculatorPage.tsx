@@ -10,13 +10,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertCircle, BookOpen, Shield, Clock, Target } from 'lucide-react'
+import {
+  Calculator,
+  TrendingUp,
+  DollarSign,
+  Info,
+  CheckCircle,
+  AlertCircle,
+  BookOpen,
+  Shield,
+  Clock,
+  Target,
+} from "lucide-react"
 import Link from "next/link"
 import { trackEvent } from "@/lib/analytics"
 import AdBanner from "@/components/ad-banner"
 import ErrorBoundary from "@/components/error-boundary"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import FAQ from "@/components/faq"
+import { treasuryData } from "@/lib/treasury-data"
 
 interface EmergencyFundResult {
   targetAmount: number
@@ -46,8 +58,8 @@ const EmergencyFundCalculatorPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const [essayContent, setEssayContent] = useState<string>("")
   const [inflationData, setInflationData] = useState<any>(null)
+  const [currentTreasuryRates, setCurrentTreasuryRates] = useState<any>(null)
 
-  // Currency configurations
   const currencies = [
     { code: "USD", symbol: "$", flag: "🇺🇸", name: "US Dollar", inflationRate: 3.0 },
     { code: "GBP", symbol: "£", flag: "🇬🇧", name: "British Pound", inflationRate: 3.8 },
@@ -61,13 +73,28 @@ const EmergencyFundCalculatorPage: React.FC = () => {
 
   const selectedCurrency = currencies.find((c) => c.code === currency) || currencies[0]
 
-  // Format currency
   const formatCurrency = (amount: number, currencyCode: string) => {
     const curr = currencies.find((c) => c.code === currencyCode) || currencies[0]
     return `${curr.symbol}${amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
   }
 
-  // Load essay content
+  useEffect(() => {
+    try {
+      const latestYear = treasuryData.latest_year
+      const latestData = treasuryData.data[latestYear]
+      const savingsBondsI = treasuryData.savings_bonds.series_i.data[latestYear]
+
+      setCurrentTreasuryRates({
+        highYieldSavings: latestData.treasury_bills_3m, // HYSA rates track 3-month T-Bills
+        iBonds: savingsBondsI.composite_rate,
+        moneyMarket: latestData.treasury_bills_6m,
+        year: latestYear,
+      })
+    } catch (error) {
+      console.error("Error loading Treasury rates:", error)
+    }
+  }, [])
+
   useEffect(() => {
     const essayText = `## Why Emergency Funds Are Critical in 2025
 
@@ -93,14 +120,6 @@ One critical factor often overlooked is inflation. At the current rate of 3% ann
 
 This is why our calculator includes inflation adjustments - to help you understand how much you need to save not just for today, but to maintain real purchasing power over time.
 
-### Building Your Fund: A Practical Timeline
-
-The key to building an emergency fund is consistency, not speed. Even small, regular contributions add up:
-
-• **$100/month** builds to $3,600 in 3 years
-• **$200/month** builds to $7,200 in 3 years
-• **$500/month** builds to $18,000 in 3 years
-
 ### Where to Keep Your Emergency Fund
 
 Your emergency fund should be:
@@ -108,7 +127,15 @@ Your emergency fund should be:
 - **Safe:** FDIC-insured savings accounts or money market accounts
 - **Separate:** In a different account from your checking to avoid temptation
 
-High-yield savings accounts currently offer 4-5% interest rates, helping your emergency fund grow while remaining accessible.
+${currentTreasuryRates ? `High-yield savings accounts currently offer around ${currentTreasuryRates.highYieldSavings.toFixed(2)}% interest rates (tracking the 3-month Treasury rate of ${currentTreasuryRates.highYieldSavings}%), while Treasury I-Bonds offer ${currentTreasuryRates.iBonds.toFixed(2)}% with inflation protection. These rates help your emergency fund grow while remaining accessible.` : "High-yield savings accounts currently offer 4-5% interest rates, helping your emergency fund grow while remaining accessible."}
+
+### Building Your Fund: A Practical Timeline
+
+The key to building an emergency fund is consistency, not speed. Even small, regular contributions add up:
+
+• **$100/month** builds to $3,600 in 3 years
+• **$200/month** builds to $7,200 in 3 years
+• **$500/month** builds to $18,000 in 3 years
 
 ### The Peace of Mind Factor
 
@@ -133,18 +160,16 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
     setEssayContent(essayText)
   }, [])
 
-  // Calculate emergency fund
   const calculateEmergencyFund = () => {
     try {
       setLoading(true)
       setError(null)
 
-      const expenses = parseFloat(monthlyExpenses)
-      const savings = parseFloat(currentSavings)
-      const months = parseFloat(monthsOfCoverage)
-      const savingsCapacity = parseFloat(monthlySavingsCapacity)
+      const expenses = Number.parseFloat(monthlyExpenses)
+      const savings = Number.parseFloat(currentSavings)
+      const months = Number.parseFloat(monthsOfCoverage)
+      const savingsCapacity = Number.parseFloat(monthlySavingsCapacity)
 
-      // Validation
       if (isNaN(expenses) || expenses <= 0) {
         setError("Please enter valid monthly expenses")
         setLoading(false)
@@ -157,26 +182,15 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
         return
       }
 
-      // Calculate target amount
       const targetAmount = expenses * months
-
-      // Calculate inflation-adjusted target (5 years projection)
       const inflationRate = selectedCurrency.inflationRate / 100
       const inflationAdjustedTarget = targetAmount * Math.pow(1 + inflationRate, 5)
-
-      // Calculate gap
       const savingsGap = Math.max(0, targetAmount - (savings || 0))
-
-      // Calculate months to goal
       let monthsToGoal = 0
       if (savingsGap > 0 && savingsCapacity > 0) {
         monthsToGoal = Math.ceil(savingsGap / savingsCapacity)
       }
-
-      // Calculate recommended monthly savings
-      const recommendedMonthly = savingsGap > 0 ? Math.ceil(savingsGap / 36) : 0 // 3-year target
-
-      // Determine risk level
+      const recommendedMonthly = savingsGap > 0 ? Math.ceil(savingsGap / 36) : 0
       let riskLevel: "low" | "medium" | "high" = "low"
       const currentMonths = savings / expenses
       if (currentMonths < 1) {
@@ -184,8 +198,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
       } else if (currentMonths < 3) {
         riskLevel = "medium"
       }
-
-      // Calculate purchasing power loss
       const purchasingPowerLoss = ((inflationAdjustedTarget - targetAmount) / targetAmount) * 100
 
       const result: EmergencyFundResult = {
@@ -204,7 +216,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
 
       setResult(result)
 
-      // Track analytics
       trackEvent("emergency_fund_calculated", {
         currency,
         target_amount: targetAmount,
@@ -222,7 +233,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 dark:from-gray-900 dark:via-blue-950 dark:to-gray-900">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
-          {/* Hero Section */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 px-4 py-2 rounded-full mb-4">
               <Shield className="h-4 w-4" />
@@ -237,14 +247,63 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
             </p>
           </div>
 
-          {/* Ad Banner */}
           <div className="mb-8">
             <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
               <AdBanner slot="emergency-fund-top" format="horizontal" />
             </Suspense>
           </div>
 
-          {/* Main Calculator Card */}
+          {currentTreasuryRates && (
+            <Card className="shadow-lg border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/10 backdrop-blur-sm mb-8">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <TrendingUp className="h-5 w-5 text-emerald-600" />
+                  Current Safe Savings Rates (As of {currentTreasuryRates.year})
+                </CardTitle>
+                <CardDescription>
+                  Based on U.S. Treasury data - these are safe, government-backed options for your emergency fund
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-emerald-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Shield className="h-4 w-4 text-blue-600" />
+                      <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300">High-Yield Savings</h4>
+                    </div>
+                    <p className="text-3xl font-bold text-blue-600">
+                      {currentTreasuryRates.highYieldSavings.toFixed(2)}%
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">FDIC-insured, instant access</p>
+                  </div>
+                  <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-emerald-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Target className="h-4 w-4 text-emerald-600" />
+                      <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300">Treasury I-Bonds</h4>
+                    </div>
+                    <p className="text-3xl font-bold text-emerald-600">{currentTreasuryRates.iBonds.toFixed(2)}%</p>
+                    <p className="text-xs text-gray-500 mt-1">Inflation-protected, 1-year lock</p>
+                  </div>
+                  <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-emerald-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <DollarSign className="h-4 w-4 text-purple-600" />
+                      <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300">Money Market</h4>
+                    </div>
+                    <p className="text-3xl font-bold text-purple-600">{currentTreasuryRates.moneyMarket.toFixed(2)}%</p>
+                    <p className="text-xs text-gray-500 mt-1">Check-writing, FDIC-insured</p>
+                  </div>
+                </div>
+                <Alert className="mt-4 border-blue-200 bg-blue-50 dark:bg-blue-900/20">
+                  <Info className="h-4 w-4 text-blue-600" />
+                  <AlertDescription className="text-sm">
+                    <strong>Pro Tip:</strong> High-yield savings rates typically track the 3-month Treasury Bill rate.
+                    When the Federal Reserve changes rates, HYSA rates follow within 1-2 months.
+                  </AlertDescription>
+                </Alert>
+              </CardContent>
+            </Card>
+          )}
+
           <Card className="shadow-xl border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-2xl">
@@ -256,7 +315,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Currency Selection */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="currency">Currency</Label>
@@ -289,7 +347,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                 </div>
               </div>
 
-              {/* Primary Inputs */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="monthlyExpenses">Total Monthly Expenses *</Label>
@@ -327,7 +384,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                 </div>
               </div>
 
-              {/* Additional Inputs */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="monthlySavingsCapacity">Monthly Savings Capacity</Label>
@@ -390,12 +446,10 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                 {loading ? "Calculating..." : "Calculate Emergency Fund"}
               </Button>
 
-              {/* Results Display */}
               {result && (
                 <div className="mt-8 space-y-6">
                   <Separator />
 
-                  {/* Risk Level Alert */}
                   <Alert
                     className={
                       result.riskLevel === "high"
@@ -427,12 +481,13 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                     </AlertDescription>
                   </Alert>
 
-                  {/* Key Metrics */}
                   <div className="grid md:grid-cols-3 gap-4">
                     <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg">
                       <Target className="h-8 w-8 mx-auto mb-2 text-blue-600" />
                       <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-1">Target Amount</h4>
-                      <p className="text-3xl font-bold text-blue-600">{formatCurrency(result.targetAmount, currency)}</p>
+                      <p className="text-3xl font-bold text-blue-600">
+                        {formatCurrency(result.targetAmount, currency)}
+                      </p>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                         {result.monthsOfCoverage} months of expenses
                       </p>
@@ -452,12 +507,11 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                         {result.monthsToGoal > 0 ? `${result.monthsToGoal} mo` : "Complete!"}
                       </p>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        At {formatCurrency(parseFloat(monthlySavingsCapacity), currency)}/month
+                        At {formatCurrency(Number.parseFloat(monthlySavingsCapacity), currency)}/month
                       </p>
                     </div>
                   </div>
 
-                  {/* Progress Bar */}
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
                       <Label>Progress to Goal</Label>
@@ -475,7 +529,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                     </div>
                   </div>
 
-                  {/* Inflation Impact */}
                   <Alert>
                     <TrendingUp className="h-4 w-4" />
                     <AlertDescription>
@@ -486,7 +539,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                     </AlertDescription>
                   </Alert>
 
-                  {/* Recommended Action Plan */}
                   <Card className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-purple-200 dark:border-purple-800">
                     <CardHeader>
                       <CardTitle className="text-purple-900 dark:text-purple-100">Your Action Plan</CardTitle>
@@ -527,14 +579,12 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
             </CardContent>
           </Card>
 
-          {/* Ad Banner - Middle */}
           <div className="mb-8">
             <Suspense fallback={<div className="h-24 bg-gray-100 rounded animate-pulse" />}>
               <AdBanner slot="emergency-fund-middle" format="horizontal" />
             </Suspense>
           </div>
 
-          {/* Essay Section */}
           <div className="mb-12">
             <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
               <CardHeader>
@@ -542,9 +592,7 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                   <BookOpen className="h-5 w-5 text-blue-600" />
                   Understanding Emergency Funds
                 </CardTitle>
-                <CardDescription>
-                  Why emergency funds matter in 2025 and how to build yours effectively
-                </CardDescription>
+                <CardDescription>Why emergency funds matter in 2025 and how to build yours effectively</CardDescription>
               </CardHeader>
               <CardContent className="prose prose-gray dark:prose-invert max-w-none">
                 <MarkdownRenderer content={essayContent} />
@@ -552,7 +600,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
             </Card>
           </div>
 
-          {/* Methodology Section */}
           <div className="mb-12">
             <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
               <CardHeader>
@@ -658,12 +705,10 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
             </Card>
           </div>
 
-          {/* FAQ Section */}
           <div className="mb-12">
             <FAQ category="emergency-fund" />
           </div>
 
-          {/* Related Tools */}
           <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm mb-12">
             <CardHeader>
               <CardTitle>Related Financial Tools</CardTitle>
@@ -705,7 +750,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
             </CardContent>
           </Card>
 
-          {/* Footer */}
           <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 rounded-lg">
             <div className="container mx-auto px-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -713,18 +757,12 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                   <h4 className="font-semibold text-gray-100 mb-3">Calculator Tools</h4>
                   <ul className="space-y-2">
                     <li>
-                      <Link
-                        href="/"
-                        className="text-gray-400 hover:text-blue-400 transition-colors"
-                      >
+                      <Link href="/" className="text-gray-400 hover:text-blue-400 transition-colors">
                         Inflation Calculator
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        href="/salary-calculator"
-                        className="text-gray-400 hover:text-blue-400 transition-colors"
-                      >
+                      <Link href="/salary-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
                         Salary Calculator
                       </Link>
                     </li>
@@ -761,18 +799,12 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        href="/legacy-planner"
-                        className="text-gray-400 hover:text-blue-400 transition-colors"
-                      >
+                      <Link href="/legacy-planner" className="text-gray-400 hover:text-blue-400 transition-colors">
                         Legacy Planner
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        href="/charts"
-                        className="text-gray-400 hover:text-blue-400 transition-colors"
-                      >
+                      <Link href="/charts" className="text-gray-400 hover:text-blue-400 transition-colors">
                         Charts & Analytics
                       </Link>
                     </li>

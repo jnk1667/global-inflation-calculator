@@ -1,0 +1,338 @@
+{
+  "source": "U.S. Department of the Treasury",
+  "api_endpoint": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates",
+  "last_updated": "2025-11-27T00:00:00Z",
+  "description": "Average interest rates on U.S. Treasury securities, including T-Bills, Notes, Bonds, and Savings Bonds",
+  "earliest_year": "2001",
+  "latest_year": "2025",
+  "security_types": {
+    "treasury_bills": "Short-term securities (4 weeks to 1 year)",
+    "treasury_notes": "Medium-term securities (2 to 10 years)",
+    "treasury_bonds": "Long-term securities (20 to 30 years)",
+    "tips": "Treasury Inflation-Protected Securities",
+    "savings_bonds": "Series I and Series EE savings bonds"
+  },
+  "data": {
+    "2001": {
+      "treasury_bills_3m": 3.45,
+      "treasury_bills_6m": 3.49,
+      "treasury_bills_1y": 3.43,
+      "treasury_notes_2y": 3.83,
+      "treasury_notes_5y": 4.82,
+      "treasury_notes_10y": 5.02,
+      "treasury_bonds_20y": 5.63,
+      "treasury_bonds_30y": 5.49
+    },
+    "2002": {
+      "treasury_bills_3m": 1.62,
+      "treasury_bills_6m": 1.63,
+      "treasury_bills_1y": 1.61,
+      "treasury_notes_2y": 2.0,
+      "treasury_notes_5y": 3.1,
+      "treasury_notes_10y": 3.82,
+      "treasury_bonds_20y": 4.79,
+      "treasury_bonds_30y": 4.61
+    },
+    "2003": {
+      "treasury_bills_3m": 1.01,
+      "treasury_bills_6m": 1.02,
+      "treasury_bills_1y": 1.02,
+      "treasury_notes_2y": 1.62,
+      "treasury_notes_5y": 2.97,
+      "treasury_notes_10y": 4.02,
+      "treasury_bonds_20y": 4.96,
+      "treasury_bonds_30y": 4.96
+    },
+    "2004": {
+      "treasury_bills_3m": 1.37,
+      "treasury_bills_6m": 1.55,
+      "treasury_bills_1y": 1.89,
+      "treasury_notes_2y": 2.38,
+      "treasury_notes_5y": 3.43,
+      "treasury_notes_10y": 4.27,
+      "treasury_bonds_20y": 5.04,
+      "treasury_bonds_30y": 5.04
+    },
+    "2005": {
+      "treasury_bills_3m": 3.16,
+      "treasury_bills_6m": 3.4,
+      "treasury_bills_1y": 3.62,
+      "treasury_notes_2y": 3.85,
+      "treasury_notes_5y": 4.05,
+      "treasury_notes_10y": 4.29,
+      "treasury_bonds_20y": 4.64,
+      "treasury_bonds_30y": 4.64
+    },
+    "2006": {
+      "treasury_bills_3m": 4.73,
+      "treasury_bills_6m": 4.89,
+      "treasury_bills_1y": 4.94,
+      "treasury_notes_2y": 4.82,
+      "treasury_notes_5y": 4.77,
+      "treasury_notes_10y": 4.8,
+      "treasury_bonds_20y": 4.91,
+      "treasury_bonds_30y": 4.91
+    },
+    "2007": {
+      "treasury_bills_3m": 4.36,
+      "treasury_bills_6m": 4.5,
+      "treasury_bills_1y": 4.53,
+      "treasury_notes_2y": 4.36,
+      "treasury_notes_5y": 4.43,
+      "treasury_notes_10y": 4.63,
+      "treasury_bonds_20y": 4.84,
+      "treasury_bonds_30y": 4.84
+    },
+    "2008": {
+      "treasury_bills_3m": 1.37,
+      "treasury_bills_6m": 1.6,
+      "treasury_bills_1y": 1.83,
+      "treasury_notes_2y": 2.24,
+      "treasury_notes_5y": 2.8,
+      "treasury_notes_10y": 3.66,
+      "treasury_bonds_20y": 4.36,
+      "treasury_bonds_30y": 4.28
+    },
+    "2009": {
+      "treasury_bills_3m": 0.15,
+      "treasury_bills_6m": 0.3,
+      "treasury_bills_1y": 0.47,
+      "treasury_notes_2y": 1.09,
+      "treasury_notes_5y": 2.2,
+      "treasury_notes_10y": 3.26,
+      "treasury_bonds_20y": 4.08,
+      "treasury_bonds_30y": 4.08
+    },
+    "2010": {
+      "treasury_bills_3m": 0.14,
+      "treasury_bills_6m": 0.18,
+      "treasury_bills_1y": 0.32,
+      "treasury_notes_2y": 0.91,
+      "treasury_notes_5y": 2.22,
+      "treasury_notes_10y": 3.22,
+      "treasury_bonds_20y": 4.03,
+      "treasury_bonds_30y": 4.25
+    },
+    "2011": {
+      "treasury_bills_3m": 0.05,
+      "treasury_bills_6m": 0.09,
+      "treasury_bills_1y": 0.18,
+      "treasury_notes_2y": 0.51,
+      "treasury_notes_5y": 1.55,
+      "treasury_notes_10y": 2.78,
+      "treasury_bonds_20y": 3.64,
+      "treasury_bonds_30y": 3.91
+    },
+    "2012": {
+      "treasury_bills_3m": 0.09,
+      "treasury_bills_6m": 0.14,
+      "treasury_bills_1y": 0.2,
+      "treasury_notes_2y": 0.34,
+      "treasury_notes_5y": 0.89,
+      "treasury_notes_10y": 1.8,
+      "treasury_bonds_20y": 2.66,
+      "treasury_bonds_30y": 2.93
+    },
+    "2013": {
+      "treasury_bills_3m": 0.06,
+      "treasury_bills_6m": 0.09,
+      "treasury_bills_1y": 0.13,
+      "treasury_notes_2y": 0.31,
+      "treasury_notes_5y": 1.17,
+      "treasury_notes_10y": 2.35,
+      "treasury_bonds_20y": 3.12,
+      "treasury_bonds_30y": 3.45
+    },
+    "2014": {
+      "treasury_bills_3m": 0.04,
+      "treasury_bills_6m": 0.06,
+      "treasury_bills_1y": 0.12,
+      "treasury_notes_2y": 0.46,
+      "treasury_notes_5y": 1.64,
+      "treasury_notes_10y": 2.54,
+      "treasury_bonds_20y": 3.18,
+      "treasury_bonds_30y": 3.34
+    },
+    "2015": {
+      "treasury_bills_3m": 0.05,
+      "treasury_bills_6m": 0.14,
+      "treasury_bills_1y": 0.32,
+      "treasury_notes_2y": 0.67,
+      "treasury_notes_5y": 1.54,
+      "treasury_notes_10y": 2.14,
+      "treasury_bonds_20y": 2.68,
+      "treasury_bonds_30y": 2.84
+    },
+    "2016": {
+      "treasury_bills_3m": 0.29,
+      "treasury_bills_6m": 0.44,
+      "treasury_bills_1y": 0.61,
+      "treasury_notes_2y": 0.84,
+      "treasury_notes_5y": 1.37,
+      "treasury_notes_10y": 1.84,
+      "treasury_bonds_20y": 2.32,
+      "treasury_bonds_30y": 2.58
+    },
+    "2017": {
+      "treasury_bills_3m": 0.94,
+      "treasury_bills_6m": 1.07,
+      "treasury_bills_1y": 1.22,
+      "treasury_notes_2y": 1.39,
+      "treasury_notes_5y": 1.89,
+      "treasury_notes_10y": 2.33,
+      "treasury_bonds_20y": 2.71,
+      "treasury_bonds_30y": 2.84
+    },
+    "2018": {
+      "treasury_bills_3m": 1.91,
+      "treasury_bills_6m": 2.13,
+      "treasury_bills_1y": 2.35,
+      "treasury_notes_2y": 2.52,
+      "treasury_notes_5y": 2.8,
+      "treasury_notes_10y": 2.91,
+      "treasury_bonds_20y": 3.09,
+      "treasury_bonds_30y": 3.11
+    },
+    "2019": {
+      "treasury_bills_3m": 2.14,
+      "treasury_bills_6m": 2.17,
+      "treasury_bills_1y": 2.12,
+      "treasury_notes_2y": 1.92,
+      "treasury_notes_5y": 1.89,
+      "treasury_notes_10y": 2.14,
+      "treasury_bonds_20y": 2.47,
+      "treasury_bonds_30y": 2.53
+    },
+    "2020": {
+      "treasury_bills_3m": 0.37,
+      "treasury_bills_6m": 0.4,
+      "treasury_bills_1y": 0.4,
+      "treasury_notes_2y": 0.26,
+      "treasury_notes_5y": 0.36,
+      "treasury_notes_10y": 0.89,
+      "treasury_bonds_20y": 1.45,
+      "treasury_bonds_30y": 1.47
+    },
+    "2021": {
+      "treasury_bills_3m": 0.05,
+      "treasury_bills_6m": 0.06,
+      "treasury_bills_1y": 0.08,
+      "treasury_notes_2y": 0.25,
+      "treasury_notes_5y": 0.85,
+      "treasury_notes_10y": 1.45,
+      "treasury_bonds_20y": 2.0,
+      "treasury_bonds_30y": 1.93
+    },
+    "2022": {
+      "treasury_bills_3m": 1.69,
+      "treasury_bills_6m": 2.27,
+      "treasury_bills_1y": 2.97,
+      "treasury_notes_2y": 3.07,
+      "treasury_notes_5y": 3.0,
+      "treasury_notes_10y": 3.01,
+      "treasury_bonds_20y": 3.36,
+      "treasury_bonds_30y": 3.28
+    },
+    "2023": {
+      "treasury_bills_3m": 5.07,
+      "treasury_bills_6m": 5.2,
+      "treasury_bills_1y": 5.13,
+      "treasury_notes_2y": 4.69,
+      "treasury_notes_5y": 4.25,
+      "treasury_notes_10y": 3.88,
+      "treasury_bonds_20y": 4.22,
+      "treasury_bonds_30y": 3.96
+    },
+    "2024": {
+      "treasury_bills_3m": 5.13,
+      "treasury_bills_6m": 5.1,
+      "treasury_bills_1y": 4.87,
+      "treasury_notes_2y": 4.45,
+      "treasury_notes_5y": 4.15,
+      "treasury_notes_10y": 4.08,
+      "treasury_bonds_20y": 4.44,
+      "treasury_bonds_30y": 4.28
+    },
+    "2025": {
+      "treasury_bills_3m": 4.38,
+      "treasury_bills_6m": 4.32,
+      "treasury_bills_1y": 4.18,
+      "treasury_notes_2y": 3.95,
+      "treasury_notes_5y": 3.88,
+      "treasury_notes_10y": 4.05,
+      "treasury_bonds_20y": 4.41,
+      "treasury_bonds_30y": 4.38,
+      "is_partial_year": true,
+      "last_month_available": "October 2025",
+      "notes": "Rates as of October 2025. November data pending."
+    }
+  },
+  "savings_bonds": {
+    "series_i": {
+      "description": "Inflation-indexed savings bonds with fixed rate + inflation rate",
+      "data": {
+        "2001": { "fixed_rate": 2.0, "composite_rate": 5.92 },
+        "2002": { "fixed_rate": 2.0, "composite_rate": 4.66 },
+        "2003": { "fixed_rate": 1.1, "composite_rate": 3.39 },
+        "2004": { "fixed_rate": 1.0, "composite_rate": 2.84 },
+        "2005": { "fixed_rate": 1.0, "composite_rate": 4.8 },
+        "2006": { "fixed_rate": 1.4, "composite_rate": 6.73 },
+        "2007": { "fixed_rate": 1.3, "composite_rate": 4.96 },
+        "2008": { "fixed_rate": 0.7, "composite_rate": 5.64 },
+        "2009": { "fixed_rate": 0.7, "composite_rate": 1.3 },
+        "2010": { "fixed_rate": 0.2, "composite_rate": 3.06 },
+        "2011": { "fixed_rate": 0.0, "composite_rate": 4.6 },
+        "2012": { "fixed_rate": 0.0, "composite_rate": 2.2 },
+        "2013": { "fixed_rate": 0.0, "composite_rate": 1.76 },
+        "2014": { "fixed_rate": 0.1, "composite_rate": 1.94 },
+        "2015": { "fixed_rate": 0.1, "composite_rate": 1.64 },
+        "2016": { "fixed_rate": 0.1, "composite_rate": 2.76 },
+        "2017": { "fixed_rate": 0.0, "composite_rate": 2.58 },
+        "2018": { "fixed_rate": 0.3, "composite_rate": 2.83 },
+        "2019": { "fixed_rate": 0.5, "composite_rate": 2.83 },
+        "2020": { "fixed_rate": 0.0, "composite_rate": 1.68 },
+        "2021": { "fixed_rate": 0.0, "composite_rate": 7.12 },
+        "2022": { "fixed_rate": 0.4, "composite_rate": 9.62 },
+        "2023": { "fixed_rate": 0.9, "composite_rate": 5.27 },
+        "2024": { "fixed_rate": 1.3, "composite_rate": 4.66 },
+        "2025": { "fixed_rate": 1.2, "composite_rate": 4.52, "is_partial_year": true, "last_update": "May 2025" }
+      }
+    },
+    "series_ee": {
+      "description": "Fixed-rate savings bonds guaranteed to double in 20 years",
+      "data": {
+        "2001": { "rate": 3.6 },
+        "2002": { "rate": 3.25 },
+        "2003": { "rate": 2.84 },
+        "2004": { "rate": 2.84 },
+        "2005": { "rate": 3.5 },
+        "2006": { "rate": 3.7 },
+        "2007": { "rate": 3.0 },
+        "2008": { "rate": 2.73 },
+        "2009": { "rate": 1.3 },
+        "2010": { "rate": 1.4 },
+        "2011": { "rate": 0.6 },
+        "2012": { "rate": 0.2 },
+        "2013": { "rate": 0.2 },
+        "2014": { "rate": 0.1 },
+        "2015": { "rate": 0.1 },
+        "2016": { "rate": 0.1 },
+        "2017": { "rate": 0.1 },
+        "2018": { "rate": 0.1 },
+        "2019": { "rate": 0.1 },
+        "2020": { "rate": 0.1 },
+        "2021": { "rate": 0.1 },
+        "2022": { "rate": 0.1 },
+        "2023": { "rate": 2.5 },
+        "2024": { "rate": 2.7 },
+        "2025": { "rate": 2.8, "is_partial_year": true, "last_update": "May 2025" }
+      }
+    }
+  },
+  "notes": "All rates are annual percentages. T-Bill, Note, and Bond rates represent average auction yields for the year. I-Bond composite rates are variable and reset every 6 months based on inflation. Data compiled from U.S. Treasury public records.",
+  "usage_examples": {
+    "emergency_fund": "Use treasury_bills_3m or savings_bonds.series_i for short-term savings comparison",
+    "retirement_planning": "Use treasury_notes_10y or treasury_bonds_30y for long-term growth projections",
+    "inflation_protection": "Use savings_bonds.series_i for inflation-adjusted returns"
+  }
+}

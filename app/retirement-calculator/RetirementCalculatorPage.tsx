@@ -19,13 +19,13 @@ import {
   Heart,
   DollarSign,
   PiggyBank,
-  Target,
   Shield,
   BookOpen,
 } from "lucide-react"
 import Link from "next/link"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import FAQ from "@/components/faq" // Assuming FAQ component is available
+import { treasuryData } from "@/lib/treasury-data"
 
 interface RetirementData {
   currentAge: number
@@ -409,6 +409,8 @@ export default function RetirementCalculatorPage() {
 
   const [results, setResults] = useState<CalculationResults | null>(null)
   const [essayContent, setEssayContent] = useState<string>("")
+  const [showTreasuryPresets, setShowTreasuryPresets] = useState(false)
+  const [currentTreasuryRates, setCurrentTreasuryRates] = useState<any>(null)
 
   // Auto-calculate generation based on current age
   const calculateGenerationFromAge = (age: number): "babyBoomers" | "genX" | "millennials" | "genZ" => {
@@ -519,6 +521,22 @@ Successful retirement planning requires a multi-faceted approach that considers 
     }
 
     loadEssayContent()
+  }, [])
+
+  useEffect(() => {
+    try {
+      const latestYear = treasuryData.latest_year
+      const latestData = treasuryData.data[latestYear]
+
+      setCurrentTreasuryRates({
+        conservative: latestData.treasury_bonds_30y, // 30-year Treasury for ultra-conservative
+        moderateConservative: latestData.treasury_notes_10y, // 10-year Treasury
+        bonds: (latestData.treasury_notes_5y + latestData.treasury_notes_10y) / 2, // Bond ladder average
+        year: latestYear,
+      })
+    } catch (error) {
+      console.error("Error loading Treasury rates:", error)
+    }
   }, [])
 
   // Calculate retirement projections - runs automatically when data changes
@@ -926,14 +944,12 @@ Successful retirement planning requires a multi-faceted approach that considers 
   const currentCurrency = currencyData[data.currency]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-32">
-      <div className="container mx-auto px-4 max-w-7xl">
+    <div className="min-h-screen bg-slate-50">
+      <div className="container mx-auto max-w-7xl px-4 pt-32 pb-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Global Retirement Calculator
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Global Retirement Calculator</h1>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Plan your retirement with comprehensive analysis across 8 major currencies: USD, GBP, EUR, CAD, AUD, CHF,
             JPY, and NZD. Get insights on lifestyle maintenance, crisis assessment, generational comparisons, and
             healthcare costs.
@@ -941,65 +957,55 @@ Successful retirement planning requires a multi-faceted approach that considers 
         </div>
 
         {/* Ad Banner - Top */}
-        <div className="mb-8">
+        <div className="mb-8 flex justify-center">
           <AdBanner />
         </div>
 
-        {/* Main Calculator */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
-          {/* Input Panel */}
-          <div className="lg:col-span-1">
-            <Card className="dark:bg-gray-800 dark:border-gray-700">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-4 bg-white border border-slate-200">
+            <TabsTrigger value="traditional">Traditional Retirement</TabsTrigger>
+            <TabsTrigger value="healthcare">Healthcare</TabsTrigger>
+            <TabsTrigger value="crisis">Crisis Assessment</TabsTrigger>
+            <TabsTrigger value="generation">Generational Analysis</TabsTrigger>
+          </TabsList>
+
+          {/* Traditional Retirement Tab */}
+          <TabsContent value="traditional" className="space-y-6">
+            <Card className="border-slate-200 bg-white">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white">
-                  <Calculator className="h-5 w-5" />
+                <CardTitle className="flex items-center gap-2 text-slate-900">
+                  <Calculator className="h-6 w-6 text-blue-600" />
                   Your Information
                 </CardTitle>
-                <CardDescription className="dark:text-gray-300">
+                <CardDescription className="text-slate-600">
                   Enter your current financial situation and retirement goals
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6">
                 <div>
-                  <Label htmlFor="currency" className="dark:text-gray-200">
+                  <Label htmlFor="currency" className="text-slate-700">
                     Currency
                   </Label>
                   <Select value={data.currency} onValueChange={(value: any) => setData({ ...data, currency: value })}>
-                    <SelectTrigger className="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <SelectTrigger className="bg-white border-slate-300 text-slate-900">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="dark:bg-gray-700 dark:border-gray-600">
-                      <SelectItem value="USD" className="dark:text-white dark:hover:bg-gray-600">
-                        🇺🇸 USD - US Dollar
-                      </SelectItem>
-                      <SelectItem value="GBP" className="dark:text-white dark:hover:bg-gray-600">
-                        🇬🇧 GBP - British Pound
-                      </SelectItem>
-                      <SelectItem value="EUR" className="dark:text-white dark:hover:bg-gray-600">
-                        🇪🇺 EUR - Euro
-                      </SelectItem>
-                      <SelectItem value="CAD" className="dark:text-white dark:hover:bg-gray-600">
-                        🇨🇦 CAD - Canadian Dollar
-                      </SelectItem>
-                      <SelectItem value="AUD" className="dark:text-white dark:hover:bg-gray-600">
-                        🇦🇺 AUD - Australian Dollar
-                      </SelectItem>
-                      <SelectItem value="CHF" className="dark:text-white dark:hover:bg-gray-600">
-                        🇨🇭 CHF - Swiss Franc
-                      </SelectItem>
-                      <SelectItem value="JPY" className="dark:text-white dark:hover:bg-gray-600">
-                        🇯🇵 JPY - Japanese Yen
-                      </SelectItem>
-                      <SelectItem value="NZD" className="dark:text-white dark:hover:bg-gray-600">
-                        🇳🇿 NZD - New Zealand Dollar
-                      </SelectItem>
+                    <SelectContent className="bg-white border-slate-200">
+                      <SelectItem value="USD">🇺🇸 USD - US Dollar</SelectItem>
+                      <SelectItem value="GBP">🇬🇧 GBP - British Pound</SelectItem>
+                      <SelectItem value="EUR">🇪🇺 EUR - Euro</SelectItem>
+                      <SelectItem value="CAD">🇨🇦 CAD - Canadian Dollar</SelectItem>
+                      <SelectItem value="AUD">🇦🇺 AUD - Australian Dollar</SelectItem>
+                      <SelectItem value="CHF">🇨🇭 CHF - Swiss Franc</SelectItem>
+                      <SelectItem value="JPY">🇯🇵 JPY - Japanese Yen</SelectItem>
+                      <SelectItem value="NZD">🇳🇿 NZD - New Zealand Dollar</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="currentAge" className="dark:text-gray-200">
+                    <Label htmlFor="currentAge" className="text-slate-700">
                       Current Age
                     </Label>
                     <Input
@@ -1007,11 +1013,11 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       type="number"
                       value={data.currentAge}
                       onChange={(e) => setData({ ...data, currentAge: Number.parseInt(e.target.value) || 0 })}
-                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      className="bg-white border-slate-300 text-slate-900"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="retirementAge" className="dark:text-gray-200">
+                    <Label htmlFor="retirementAge" className="text-slate-700">
                       Retirement Age
                     </Label>
                     <Input
@@ -1019,13 +1025,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       type="number"
                       value={data.retirementAge}
                       onChange={(e) => setData({ ...data, retirementAge: Number.parseInt(e.target.value) || 0 })}
-                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      className="bg-white border-slate-300 text-slate-900"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="currentSalary" className="dark:text-gray-200">
+                  <Label htmlFor="currentSalary" className="text-slate-700">
                     Current Annual Salary
                   </Label>
                   <Input
@@ -1033,12 +1039,12 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     type="number"
                     value={data.currentSalary}
                     onChange={(e) => setData({ ...data, currentSalary: Number.parseInt(e.target.value) || 0 })}
-                    className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="bg-white border-slate-300 text-slate-900"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="currentSavings" className="dark:text-gray-200">
+                  <Label htmlFor="currentSavings" className="text-slate-700">
                     Current Retirement Savings
                   </Label>
                   <Input
@@ -1046,12 +1052,12 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     type="number"
                     value={data.currentSavings}
                     onChange={(e) => setData({ ...data, currentSavings: Number.parseInt(e.target.value) || 0 })}
-                    className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="bg-white border-slate-300 text-slate-900"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="monthlyContribution" className="dark:text-gray-200">
+                  <Label htmlFor="monthlyContribution" className="text-slate-700">
                     Monthly Contribution
                   </Label>
                   <Input
@@ -1059,12 +1065,12 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     type="number"
                     value={data.monthlyContribution}
                     onChange={(e) => setData({ ...data, monthlyContribution: Number.parseInt(e.target.value) || 0 })}
-                    className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="bg-white border-slate-300 text-slate-900"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="employerMatch" className="dark:text-gray-200">
+                  <Label htmlFor="employerMatch" className="text-slate-700">
                     Employer Match (%)
                   </Label>
                   <Input
@@ -1072,26 +1078,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     type="number"
                     value={data.employerMatch}
                     onChange={(e) => setData({ ...data, employerMatch: Number.parseFloat(e.target.value) || 0 })}
-                    className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="bg-white border-slate-300 text-slate-900"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="expectedReturn" className="dark:text-gray-200">
-                      Expected Return (%)
-                    </Label>
-                    <Input
-                      id="expectedReturn"
-                      type="number"
-                      step="0.1"
-                      value={data.expectedReturn}
-                      onChange={(e) => setData({ ...data, expectedReturn: Number.parseFloat(e.target.value) || 0 })}
-                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="inflationRate" className="dark:text-gray-200">
+                    <Label htmlFor="inflationRate" className="text-slate-700">
                       Inflation Rate (%)
                     </Label>
                     <Input
@@ -1100,539 +1093,470 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       step="0.1"
                       value={data.inflationRate}
                       onChange={(e) => setData({ ...data, inflationRate: Number.parseFloat(e.target.value) || 0 })}
-                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      className="bg-white border-slate-300 text-slate-900"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="desiredIncome" className="text-slate-700">
+                      Desired Income (% of current)
+                    </Label>
+                    <Input
+                      id="desiredIncome"
+                      type="number"
+                      value={data.desiredIncome}
+                      onChange={(e) => setData({ ...data, desiredIncome: Number.parseInt(e.target.value) || 0 })}
+                      className="bg-white border-slate-300 text-slate-900"
                     />
                   </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="desiredIncome" className="dark:text-gray-200">
-                    Desired Income (% of current)
-                  </Label>
-                  <Input
-                    id="desiredIncome"
-                    type="number"
-                    value={data.desiredIncome}
-                    onChange={(e) => setData({ ...data, desiredIncome: Number.parseInt(e.target.value) || 0 })}
-                    className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                  />
-                </div>
-
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="gender" className="dark:text-gray-200">
+                    <Label htmlFor="gender" className="text-slate-700">
                       Gender
                     </Label>
                     <Select
                       value={data.gender}
                       onValueChange={(value: "male" | "female") => setData({ ...data, gender: value })}
                     >
-                      <SelectTrigger className="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                      <SelectTrigger className="bg-white border-slate-300 text-slate-900">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="dark:bg-gray-700 dark:border-gray-600">
-                        <SelectItem value="male" className="dark:text-white dark:hover:bg-gray-600">
-                          Male
-                        </SelectItem>
-                        <SelectItem value="female" className="dark:text-white dark:hover:bg-gray-600">
-                          Female
-                        </SelectItem>
+                      <SelectContent className="bg-white border-slate-200">
+                        <SelectItem value="male">Male</SelectItem>
+                        <SelectItem value="female">Female</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="generation" className="dark:text-gray-200">
+                    <Label htmlFor="generation" className="text-slate-700">
                       Generation (Auto-detected)
                     </Label>
                     <Select
                       value={data.generation}
                       onValueChange={(value: any) => setData({ ...data, generation: value })}
                     >
-                      <SelectTrigger className="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                      <SelectTrigger className="bg-white border-slate-300 text-slate-900">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="dark:bg-gray-700 dark:border-gray-600">
-                        <SelectItem value="babyBoomers" className="dark:text-white dark:hover:bg-gray-600">
-                          Baby Boomers
-                        </SelectItem>
-                        <SelectItem value="genX" className="dark:text-white dark:hover:bg-gray-600">
-                          Generation X
-                        </SelectItem>
-                        <SelectItem value="millennials" className="dark:text-white dark:hover:bg-gray-600">
-                          Millennials
-                        </SelectItem>
-                        <SelectItem value="genZ" className="dark:text-white dark:hover:bg-gray-600">
-                          Generation Z
-                        </SelectItem>
+                      <SelectContent className="bg-white border-slate-200">
+                        <SelectItem value="babyBoomers">Baby Boomers</SelectItem>
+                        <SelectItem value="genX">Generation X</SelectItem>
+                        <SelectItem value="millennials">Millennials</SelectItem>
+                        <SelectItem value="genZ">Generation Z</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
+
+                {/* Expected Return Input */}
+                <div className="grid gap-2">
+                  <Label htmlFor="expectedReturn" className="text-slate-700">
+                    Expected Annual Return (%)
+                  </Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="expectedReturn"
+                      type="number"
+                      value={data.expectedReturn}
+                      onChange={(e) => setData({ ...data, expectedReturn: Number.parseFloat(e.target.value) || 0 })}
+                      className="bg-white border-slate-300 text-slate-900"
+                      step="0.1"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowTreasuryPresets(!showTreasuryPresets)}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors whitespace-nowrap"
+                    >
+                      {showTreasuryPresets ? "Hide" : "Show"} Treasury Rates
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-500">
+                    Historical stock market average: 7-10%. Conservative estimate: 5-6%.
+                  </p>
+
+                  {showTreasuryPresets && currentTreasuryRates && (
+                    <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Shield className="h-4 w-4 text-blue-600" />
+                        <h4 className="font-semibold text-blue-900 text-sm">
+                          Current Treasury Rates ({currentTreasuryRates.year})
+                        </h4>
+                      </div>
+                      <p className="text-xs text-slate-600 mb-3">
+                        Use these government-backed rates for conservative retirement projections
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setData({ ...data, expectedReturn: currentTreasuryRates.bonds })}
+                          className="p-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-left transition-colors"
+                        >
+                          <div className="text-xs text-slate-600 mb-1">Bond Ladder (5-10yr)</div>
+                          <div className="text-lg font-bold text-blue-600">
+                            {currentTreasuryRates.bonds.toFixed(2)}%
+                          </div>
+                          <div className="text-xs text-slate-500">Moderate-Conservative</div>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setData({ ...data, expectedReturn: currentTreasuryRates.moderateConservative })
+                          }
+                          className="p-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-left transition-colors"
+                        >
+                          <div className="text-xs text-slate-600 mb-1">10-Year Treasury</div>
+                          <div className="text-lg font-bold text-blue-600">
+                            {currentTreasuryRates.moderateConservative.toFixed(2)}%
+                          </div>
+                          <div className="text-xs text-slate-500">Conservative</div>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setData({ ...data, expectedReturn: currentTreasuryRates.conservative })}
+                          className="p-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-left transition-colors"
+                        >
+                          <div className="text-xs text-slate-600 mb-1">30-Year Treasury</div>
+                          <div className="text-lg font-bold text-blue-600">
+                            {currentTreasuryRates.conservative.toFixed(2)}%
+                          </div>
+                          <div className="text-xs text-slate-500">Ultra-Conservative</div>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
-          </div>
 
-          {/* Results Panel */}
-          <div className="lg:col-span-2">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="w-full dark:bg-gray-800 flex md:grid md:grid-cols-5 overflow-x-auto gap-1 p-1">
-                <TabsTrigger
-                  value="traditional"
-                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white whitespace-nowrap px-2 py-2 text-xs md:text-sm flex-shrink-0"
-                >
-                  Traditional
-                </TabsTrigger>
-                <TabsTrigger
-                  value="lifestyle"
-                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white whitespace-nowrap px-2 py-2 text-xs md:text-sm flex-shrink-0"
-                >
-                  Lifestyle
-                </TabsTrigger>
-                <TabsTrigger
-                  value="crisis"
-                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white whitespace-nowrap px-2 py-2 text-xs md:text-sm flex-shrink-0"
-                >
-                  Crisis
-                </TabsTrigger>
-                <TabsTrigger
-                  value="generation"
-                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white whitespace-nowrap px-2 py-2 text-xs md:text-sm flex-shrink-0"
-                >
-                  Generation
-                </TabsTrigger>
-                <TabsTrigger
-                  value="healthcare"
-                  className="dark:text-gray-300 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white whitespace-nowrap px-2 py-2 text-xs md:text-sm flex-shrink-0"
-                >
-                  Healthcare
-                </TabsTrigger>
-              </TabsList>
-
-              {/* Traditional Calculator */}
-              <TabsContent value="traditional" className="space-y-6">
-                <Card className="dark:bg-gray-800 dark:border-gray-700">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 dark:text-white">
-                      <PiggyBank className="h-5 w-5" />
-                      Traditional Retirement Projection ({currentCurrency.flag} {data.currency})
-                    </CardTitle>
-                    <CardDescription className="dark:text-gray-300">
-                      Standard future value calculation with compound growth
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {results && (
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div className="space-y-4">
-                          <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                            <h3 className="font-semibold text-green-800 dark:text-green-300">
-                              Total Retirement Savings
-                            </h3>
-                            <p className="text-2xl font-bold text-green-900 dark:text-green-200">
-                              {formatCurrency(results.futureValue)}
-                            </p>
-                          </div>
-                          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                            <h3 className="font-semibold text-blue-800 dark:text-blue-300">Monthly Income (4% Rule)</h3>
-                            <p className="text-2xl font-bold text-blue-900 dark:text-blue-200">
-                              {formatCurrency(results.monthlyRetirementIncome)}
-                            </p>
-                          </div>
-                          <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                            <h3 className="font-semibold text-purple-800 dark:text-purple-300">
-                              Inflation-Adjusted Income
-                            </h3>
-                            <p className="text-2xl font-bold text-purple-900 dark:text-purple-200">
-                              {formatCurrency(results.inflationAdjustedIncome)}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="space-y-4">
-                          {results.shortfall > 0 && (
-                            <Alert className="dark:bg-red-900/20 dark:border-red-800">
-                              <AlertTriangle className="h-4 w-4" />
-                              <AlertDescription className="dark:text-red-300">
-                                <strong>Annual Shortfall: {formatCurrency(results.shortfall)}</strong>
-                                <br />
-                                You may need to increase contributions or adjust expectations.
-                              </AlertDescription>
-                            </Alert>
-                          )}
-                          <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                            <h3 className="font-semibold text-orange-800 dark:text-orange-300">
-                              Recommended Monthly Contribution
-                            </h3>
-                            <p className="text-xl font-bold text-orange-900 dark:text-orange-200">
-                              {formatCurrency(results.recommendedContribution)}
-                            </p>
-                          </div>
-                        </div>
+            {/* Results Panel */}
+            <Card className="border-slate-200 bg-white">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-slate-900">
+                  <PiggyBank className="h-6 w-6 text-blue-600" />
+                  Retirement Projection ({currentCurrency.flag} {data.currency})
+                </CardTitle>
+                <CardDescription className="text-slate-600">Key metrics for your retirement readiness</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {results && (
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <h3 className="font-semibold text-green-900">Total Retirement Savings</h3>
+                        <p className="text-2xl font-bold text-green-700">{formatCurrency(results.futureValue)}</p>
                       </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              {/* Lifestyle Maintenance Calculator */}
-              <TabsContent value="lifestyle" className="space-y-6">
-                <Card className="dark:bg-gray-800 dark:border-gray-700">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 dark:text-white">
-                      <Target className="h-5 w-5" />
-                      Lifestyle Maintenance Calculator
-                    </CardTitle>
-                    <CardDescription className="dark:text-gray-300">
-                      Calculate what you need to maintain your current lifestyle in retirement
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {results && (
-                      <div className="space-y-6">
-                        <div className="grid md:grid-cols-3 gap-4">
-                          <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
-                            <h3 className="font-semibold text-indigo-800 dark:text-indigo-300">
-                              Current Lifestyle Cost
-                            </h3>
-                            <p className="text-xl font-bold text-indigo-900 dark:text-indigo-200">
-                              {formatCurrency(results.lifestyleMaintenanceNeeded * 12)}
-                            </p>
-                            <p className="text-sm text-indigo-600 dark:text-indigo-400">80% of current income</p>
-                          </div>
-                          <div className="p-4 bg-teal-50 dark:bg-teal-900/20 rounded-lg">
-                            <h3 className="font-semibold text-teal-800 dark:text-teal-300">Required Savings</h3>
-                            <p className="text-xl font-bold text-teal-900 dark:text-teal-200">
-                              {formatCurrency((results.lifestyleMaintenanceNeeded * 12) / 0.04)}
-                            </p>
-                            <p className="text-sm text-teal-600 dark:text-teal-400">Using 4% withdrawal rule</p>
-                          </div>
-                          <div className="p-4 bg-rose-50 dark:bg-rose-900/20 rounded-lg">
-                            <h3 className="font-semibold text-rose-800 dark:text-rose-300">Gap to Fill</h3>
-                            <p className="text-xl font-bold text-rose-900 dark:text-rose-200">
-                              {formatCurrency(
-                                Math.max(0, (results.lifestyleMaintenanceNeeded * 12) / 0.04 - results.futureValue),
-                              )}
-                            </p>
-                            <p className="text-sm text-rose-600 dark:text-rose-400">Additional savings needed</p>
-                          </div>
-                        </div>
-
-                        <Alert className="dark:bg-blue-900/20 dark:border-blue-800">
-                          <TrendingUp className="h-4 w-4" />
-                          <AlertDescription className="dark:text-blue-300">
-                            <strong>Lifestyle Maintenance Insight:</strong> The 80% rule assumes you'll need 80% of your
-                            pre-retirement income to maintain your lifestyle. This accounts for reduced work-related
-                            expenses but maintains your standard of living.
+                      <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <h3 className="font-semibold text-blue-900">Monthly Income (4% Rule)</h3>
+                        <p className="text-2xl font-bold text-blue-700">
+                          {formatCurrency(results.monthlyRetirementIncome)}
+                        </p>
+                      </div>
+                      <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                        <h3 className="font-semibold text-purple-900">Inflation-Adjusted Income</h3>
+                        <p className="text-2xl font-bold text-purple-700">
+                          {formatCurrency(results.inflationAdjustedIncome)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      {results.shortfall > 0 && (
+                        <Alert variant="destructive" className="bg-red-50 border-red-200">
+                          <AlertTriangle className="h-4 w-4 text-red-600" />
+                          <AlertDescription className="text-red-700">
+                            <strong>Annual Shortfall: {formatCurrency(results.shortfall)}</strong>
+                            <br />
+                            You may need to increase contributions or adjust expectations.
                           </AlertDescription>
                         </Alert>
+                      )}
+                      <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
+                        <h3 className="font-semibold text-orange-900">Recommended Monthly Contribution</h3>
+                        <p className="text-xl font-bold text-orange-700">
+                          {formatCurrency(results.recommendedContribution)}
+                        </p>
                       </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-              {/* Crisis Calculator */}
-              <TabsContent value="crisis" className="space-y-6">
-                <Card className="dark:bg-gray-800 dark:border-gray-700">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 dark:text-white">
-                      <AlertTriangle className="h-5 w-5" />
-                      Retirement Crisis Assessment
-                    </CardTitle>
-                    <CardDescription className="dark:text-gray-300">
-                      Analyze your retirement readiness and identify potential crisis points
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6">
-                      <div className="flex items-center justify-center">
-                        <Badge
-                          variant={
-                            crisisLevel === "critical"
-                              ? "destructive"
-                              : crisisLevel === "warning"
-                                ? "secondary"
-                                : "default"
-                          }
-                          className="text-lg px-4 py-2"
+          {/* Healthcare Tab */}
+          <TabsContent value="healthcare" className="space-y-6">
+            <Card className="border-slate-200 bg-white">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-slate-900">
+                  <Heart className="h-6 w-6 text-red-600" />
+                  Healthcare Retirement Costs
+                </CardTitle>
+                <CardDescription className="text-slate-600">
+                  Factor in healthcare costs that grow faster than general inflation
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {results && currentCurrency && (
+                  <div className="space-y-6">
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+                        <h3 className="font-semibold text-red-900">Monthly Healthcare Costs</h3>
+                        <p className="text-xl font-bold text-red-700">{formatCurrency(results.healthcareCosts)}</p>
+                        <p className="text-xs text-red-600">In today's dollars</p>
+                      </div>
+                      <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
+                        <h3 className="font-semibold text-orange-900">Annual Healthcare Costs</h3>
+                        <p className="text-xl font-bold text-orange-700">
+                          {formatCurrency(results.healthcareCosts * 12)}
+                        </p>
+                        <p className="text-xs text-orange-600">15% of current income</p>
+                      </div>
+                      <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                        <h3 className="font-semibold text-purple-900">Healthcare Multiplier</h3>
+                        <p className="text-xl font-bold text-purple-700">{currentCurrency.healthcareMultiplier}x</p>
+                        <p className="text-xs text-purple-600">vs general inflation</p>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                      <h3 className="font-semibold text-yellow-900 mb-2">Healthcare Cost Reality</h3>
+                      <p className="text-sm text-yellow-700 mb-2">
+                        Healthcare costs have historically grown {currentCurrency.healthcareMultiplier}x faster than
+                        general inflation in {data.currency} regions. This means your healthcare expenses in retirement
+                        will likely consume a larger portion of your income.
+                      </p>
+                      <div className="grid md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                          <h4 className="font-medium text-yellow-800">At Retirement (Future Value)</h4>
+                          <p className="text-lg font-bold text-yellow-700">
+                            {formatCurrency(
+                              results.healthcareCosts *
+                                12 *
+                                Math.pow(
+                                  1 + (data.inflationRate * currentCurrency.healthcareMultiplier) / 100,
+                                  data.retirementAge - data.currentAge,
+                                ),
+                            )}
+                          </p>
+                          <p className="text-xs text-yellow-600">Annual healthcare costs</p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-yellow-800">Lifetime Healthcare Costs</h4>
+                          <p className="text-lg font-bold text-yellow-700">
+                            {formatCurrency(
+                              results.healthcareCosts *
+                                12 *
+                                data.retirementDuration *
+                                Math.pow(
+                                  1 + (data.inflationRate * currentCurrency.healthcareMultiplier) / 100,
+                                  data.retirementAge - data.currentAge,
+                                ),
+                            )}
+                          </p>
+                          <p className="text-xs text-yellow-600">Total retirement healthcare</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Alert className="bg-red-50 border-red-200">
+                      <Heart className="h-4 w-4 text-red-600" />
+                      <AlertDescription className="text-red-700">
+                        <strong>Healthcare Planning Tip:</strong>{" "}
+                        {data.currency === "USD" &&
+                          "Consider Health Savings Accounts (HSAs) for triple tax advantages, long-term care insurance, and factor healthcare inflation into your retirement income planning. Medicare doesn't cover everything!"}
+                        {data.currency === "GBP" &&
+                          "While the NHS provides healthcare security, consider private health insurance for retirement, long-term care costs, and dental/optical expenses not covered by the NHS."}
+                        {data.currency === "EUR" &&
+                          "European healthcare systems vary by country. Consider supplemental insurance for services not covered by your national system, long-term care, and cross-border healthcare needs."}
+                        {data.currency === "CAD" &&
+                          "While Canada has universal healthcare, consider supplemental insurance for prescription drugs, dental, vision, and long-term care not covered by provincial health plans."}
+                        {data.currency === "AUD" &&
+                          "Medicare provides basic coverage, but consider private health insurance for faster access to specialists, choice of doctor, and coverage for services not covered by Medicare."}
+                        {data.currency === "CHF" &&
+                          "Switzerland has mandatory health insurance with high deductibles. Consider supplemental insurance for better coverage and factor in rising healthcare premiums in retirement planning."}
+                        {data.currency === "JPY" &&
+                          "Japan's universal healthcare covers 70% of costs. Consider supplemental insurance for the remaining 30%, long-term care insurance, and rising healthcare costs with aging."}
+                        {data.currency === "NZD" &&
+                          "While New Zealand has public healthcare, consider private insurance for faster access to specialists, choice of provider, and services not covered by the public system."}
+                      </AlertDescription>
+                    </Alert>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Crisis Assessment Tab */}
+          <TabsContent value="crisis" className="space-y-6">
+            <Card className="border-slate-200 bg-white">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-slate-900">
+                  <AlertTriangle className="h-6 w-6 text-red-600" />
+                  Retirement Crisis Assessment
+                </CardTitle>
+                <CardDescription className="text-slate-600">
+                  Analyze your retirement readiness and identify potential crisis points
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  <div className="flex items-center justify-center">
+                    <Badge
+                      variant={
+                        crisisLevel === "critical" ? "destructive" : crisisLevel === "warning" ? "secondary" : "default"
+                      }
+                      className="text-lg px-4 py-2"
+                    >
+                      {crisisLevel === "critical" && "🚨 CRITICAL"}
+                      {crisisLevel === "warning" && "⚠️ WARNING"}
+                      {crisisLevel === "safe" && "✅ ON TRACK"}
+                    </Badge>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div className="p-4 bg-slate-100 rounded-lg border border-slate-200">
+                        <h3 className="font-semibold text-slate-900">Current Savings Rate</h3>
+                        <p className="text-2xl font-bold text-slate-900">
+                          {(((data.monthlyContribution * 12) / data.currentSalary) * 100).toFixed(1)}%
+                        </p>
+                      </div>
+                      <div className="p-4 bg-slate-100 rounded-lg border border-slate-200">
+                        <h3 className="font-semibold text-slate-900">Years to Retirement</h3>
+                        <p className="text-2xl font-bold text-slate-900">
+                          {data.retirementAge - data.currentAge} years
+                        </p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      {crisisLevel === "critical" && (
+                        <Alert variant="destructive" className="bg-red-50 border-red-200">
+                          <AlertTriangle className="h-4 w-4 text-red-600" />
+                          <AlertDescription className="text-red-700">
+                            <strong>Retirement Crisis Alert!</strong> Your current savings rate is below 10%. You're at
+                            high risk of not having enough for retirement. Consider increasing contributions
+                            immediately.
+                          </AlertDescription>
+                        </Alert>
+                      )}
+                      {crisisLevel === "warning" && (
+                        <Alert className="bg-yellow-50 border-yellow-200">
+                          <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                          <AlertDescription className="text-yellow-700">
+                            <strong>Warning:</strong> Your savings rate is below the recommended 15%. Consider
+                            increasing contributions to ensure a comfortable retirement.
+                          </AlertDescription>
+                        </Alert>
+                      )}
+                      {crisisLevel === "safe" && (
+                        <Alert className="bg-green-50 border-green-200">
+                          <TrendingUp className="h-4 w-4 text-green-600" />
+                          <AlertDescription className="text-green-700">
+                            <strong>Great job!</strong> You're saving at a healthy rate for retirement. Keep up the good
+                            work and consider periodic reviews.
+                          </AlertDescription>
+                        </Alert>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <h3 className="font-semibold text-yellow-900 mb-2">Crisis Prevention Tips</h3>
+                    <ul className="text-sm space-y-1 text-yellow-700">
+                      <li>• Aim for 15% total savings rate (including employer match)</li>
+                      <li>• Start early - compound interest is your best friend</li>
+                      <li>• Increase contributions with salary raises</li>
+                      <li>• Consider catch-up contributions if over 50</li>
+                      <li>• Don't withdraw from retirement accounts early</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Generational Analysis Tab */}
+          <TabsContent value="generation" className="space-y-6">
+            <Card className="border-slate-200 bg-white">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-slate-900">
+                  <Users className="h-6 w-6 text-blue-600" />
+                  Generational Retirement Gap ({currentCurrency.flag} {data.currency})
+                </CardTitle>
+                <CardDescription className="text-slate-600">
+                  Compare retirement challenges across different generations
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {results && currentCurrency && (
+                  <div className="space-y-6">
+                    <div className="text-center">
+                      <h3 className="text-lg font-semibold mb-2 text-slate-900">
+                        You are: {getGenerationName(data.generation)}
+                      </h3>
+                      <p className="text-slate-600">
+                        Born: {currentCurrency.generationData[data.generation]?.birthYears}
+                      </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                      {Object.entries(currentCurrency.generationData).map(([gen, genData]: [string, any]) => (
+                        <div
+                          key={gen}
+                          className={`p-4 rounded-lg border-2 ${
+                            gen === data.generation ? "border-blue-500 bg-blue-50" : "border-slate-200 bg-white"
+                          }`}
                         >
-                          {crisisLevel === "critical" && "🚨 CRITICAL"}
-                          {crisisLevel === "warning" && "⚠️ WARNING"}
-                          {crisisLevel === "safe" && "✅ ON TRACK"}
-                        </Badge>
-                      </div>
-
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div className="space-y-4">
-                          <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                            <h3 className="font-semibold dark:text-white">Current Savings Rate</h3>
-                            <p className="text-2xl font-bold dark:text-white">
-                              {(((data.monthlyContribution * 12) / data.currentSalary) * 100).toFixed(1)}%
-                            </p>
-                          </div>
-                          <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                            <h3 className="font-semibold dark:text-white">Years to Retirement</h3>
-                            <p className="text-2xl font-bold dark:text-white">
-                              {data.retirementAge - data.currentAge} years
-                            </p>
+                          <h4 className="font-semibold text-sm text-slate-900">{getGenerationName(gen)}</h4>
+                          <div className="mt-2 space-y-1 text-xs text-slate-600">
+                            <p>Avg Contribution: {genData.averageContribution}%</p>
+                            <p>Median Savings: {formatCurrency(genData.medianSavings)}</p>
+                            <p>Retirement Age: {genData.retirementAge}</p>
+                            <p>State Pension: {formatCurrency(genData.socialSecurityBenefit)}/mo</p>
                           </div>
                         </div>
-                        <div className="space-y-4">
-                          {crisisLevel === "critical" && (
-                            <Alert variant="destructive" className="dark:bg-red-900/20 dark:border-red-800">
-                              <AlertTriangle className="h-4 w-4" />
-                              <AlertDescription className="dark:text-red-300">
-                                <strong>Retirement Crisis Alert!</strong> Your current savings rate is below 10%. You're
-                                at high risk of not having enough for retirement. Consider increasing contributions
-                                immediately.
-                              </AlertDescription>
-                            </Alert>
-                          )}
-                          {crisisLevel === "warning" && (
-                            <Alert className="dark:bg-yellow-900/20 dark:border-yellow-800">
-                              <AlertTriangle className="h-4 w-4" />
-                              <AlertDescription className="dark:text-yellow-300">
-                                <strong>Warning:</strong> Your savings rate is below the recommended 15%. Consider
-                                increasing contributions to ensure a comfortable retirement.
-                              </AlertDescription>
-                            </Alert>
-                          )}
-                          {crisisLevel === "safe" && (
-                            <Alert className="dark:bg-green-900/20 dark:border-green-800">
-                              <TrendingUp className="h-4 w-4" />
-                              <AlertDescription className="dark:text-green-300">
-                                <strong>Great job!</strong> You're saving at a healthy rate for retirement. Keep up the
-                                good work and consider periodic reviews.
-                              </AlertDescription>
-                            </Alert>
-                          )}
-                        </div>
-                      </div>
+                      ))}
+                    </div>
 
-                      <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                        <h3 className="font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
-                          Crisis Prevention Tips
-                        </h3>
-                        <ul className="text-sm text-yellow-700 dark:text-yellow-400 space-y-1">
-                          <li>• Aim for 15% total savings rate (including employer match)</li>
-                          <li>• Start early - compound interest is your best friend</li>
-                          <li>• Increase contributions with salary raises</li>
-                          <li>• Consider catch-up contributions if over 50</li>
-                          <li>• Don't withdraw from retirement accounts early</li>
+                    <Alert className="bg-blue-50 border-blue-200">
+                      <Users className="h-4 w-4 text-blue-600" />
+                      <AlertDescription className="text-blue-700">
+                        <strong>Generational Insight:</strong> {getGenerationInsight(data.generation, data.currency)}
+                      </AlertDescription>
+                    </Alert>
+
+                    <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                      <h3 className="font-semibold text-purple-900 mb-2">Your Generation's Challenges</h3>
+                      <div className="text-sm space-y-1 text-purple-700">
+                        <ul className="space-y-1">
+                          {getGenerationChallenges(data.generation, data.currency).map((challenge, index) => (
+                            <li key={index}>• {challenge}</li>
+                          ))}
                         </ul>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              {/* Generation Gap Calculator */}
-              <TabsContent value="generation" className="space-y-6">
-                <Card className="dark:bg-gray-800 dark:border-gray-700">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 dark:text-white">
-                      <Users className="h-5 w-5" />
-                      Generational Retirement Gap ({currentCurrency.flag} {data.currency})
-                    </CardTitle>
-                    <CardDescription className="dark:text-gray-300">
-                      Compare retirement challenges across different generations
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {results && currentCurrency && (
-                      <div className="space-y-6">
-                        <div className="text-center">
-                          <h3 className="text-lg font-semibold mb-2 dark:text-white">
-                            You are: {getGenerationName(data.generation)}
-                          </h3>
-                          <p className="text-gray-600 dark:text-gray-400">
-                            Born: {currentCurrency.generationData[data.generation]?.birthYears}
-                          </p>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                          {Object.entries(currentCurrency.generationData).map(([gen, genData]: [string, any]) => (
-                            <div
-                              key={gen}
-                              className={`p-4 rounded-lg border-2 ${
-                                gen === data.generation
-                                  ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-400"
-                                  : "border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700"
-                              }`}
-                            >
-                              <h4 className="font-semibold text-sm dark:text-white">{getGenerationName(gen)}</h4>
-                              <div className="mt-2 space-y-1 text-xs dark:text-gray-300">
-                                <p>Avg Contribution: {genData.averageContribution}%</p>
-                                <p>Median Savings: {formatCurrency(genData.medianSavings)}</p>
-                                <p>Retirement Age: {genData.retirementAge}</p>
-                                <p>State Pension: {formatCurrency(genData.socialSecurityBenefit)}/mo</p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-
-                        <Alert className="dark:bg-blue-900/20 dark:border-blue-800">
-                          <Users className="h-4 w-4" />
-                          <AlertDescription className="dark:text-blue-300">
-                            <strong>Generational Insight:</strong>{" "}
-                            {getGenerationInsight(data.generation, data.currency)}
-                          </AlertDescription>
-                        </Alert>
-
-                        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
-                          <h3 className="font-semibold text-indigo-800 dark:text-indigo-300 mb-2">
-                            Your Generation's Challenges
-                          </h3>
-                          <div className="text-sm text-indigo-700 dark:text-indigo-400">
-                            <ul className="space-y-1">
-                              {getGenerationChallenges(data.generation, data.currency).map((challenge, index) => (
-                                <li key={index}>• {challenge}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              {/* Healthcare Calculator */}
-              <TabsContent value="healthcare" className="space-y-6">
-                <Card className="dark:bg-gray-800 dark:border-gray-700">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 dark:text-white">
-                      <Heart className="h-5 w-5" />
-                      Healthcare Retirement Calculator
-                    </CardTitle>
-                    <CardDescription className="dark:text-gray-300">
-                      Factor in healthcare costs that grow faster than general inflation
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {results && currentCurrency && (
-                      <div className="space-y-6">
-                        <div className="grid md:grid-cols-3 gap-4">
-                          <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                            <h3 className="font-semibold text-red-800 dark:text-red-300">Monthly Healthcare Costs</h3>
-                            <p className="text-xl font-bold text-red-900 dark:text-red-200">
-                              {formatCurrency(results.healthcareCosts)}
-                            </p>
-                            <p className="text-sm text-red-600 dark:text-red-400">In today's dollars</p>
-                          </div>
-                          <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                            <h3 className="font-semibold text-orange-800 dark:text-orange-300">
-                              Annual Healthcare Costs
-                            </h3>
-                            <p className="text-xl font-bold text-orange-900 dark:text-orange-200">
-                              {formatCurrency(results.healthcareCosts * 12)}
-                            </p>
-                            <p className="text-sm text-orange-600 dark:text-orange-400">15% of current income</p>
-                          </div>
-                          <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                            <h3 className="font-semibold text-purple-800 dark:text-purple-300">
-                              Healthcare Multiplier
-                            </h3>
-                            <p className="text-xl font-bold text-purple-900 dark:text-purple-200">
-                              {currentCurrency.healthcareMultiplier}x
-                            </p>
-                            <p className="text-sm text-purple-600 dark:text-purple-400">vs general inflation</p>
-                          </div>
-                        </div>
-
-                        <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                          <h3 className="font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
-                            Healthcare Cost Reality
-                          </h3>
-                          <p className="text-sm text-yellow-700 dark:text-yellow-400 mb-2">
-                            Healthcare costs have historically grown {currentCurrency.healthcareMultiplier}x faster than
-                            general inflation in {data.currency} regions. This means your healthcare expenses in
-                            retirement will likely consume a larger portion of your income.
-                          </p>
-                          <div className="grid md:grid-cols-2 gap-4 mt-4">
-                            <div>
-                              <h4 className="font-medium text-yellow-800 dark:text-yellow-300">
-                                At Retirement (Future Value)
-                              </h4>
-                              <p className="text-lg font-bold text-yellow-900 dark:text-yellow-200">
-                                {formatCurrency(
-                                  results.healthcareCosts *
-                                    12 *
-                                    Math.pow(
-                                      1 + (data.inflationRate * currentCurrency.healthcareMultiplier) / 100,
-                                      data.retirementAge - data.currentAge,
-                                    ),
-                                )}
-                              </p>
-                              <p className="text-xs text-yellow-600 dark:text-yellow-500">Annual healthcare costs</p>
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-yellow-800 dark:text-yellow-300">
-                                Lifetime Healthcare Costs
-                              </h4>
-                              <p className="text-lg font-bold text-yellow-900 dark:text-yellow-200">
-                                {formatCurrency(
-                                  results.healthcareCosts *
-                                    12 *
-                                    data.retirementDuration *
-                                    Math.pow(
-                                      1 + (data.inflationRate * currentCurrency.healthcareMultiplier) / 100,
-                                      data.retirementAge - data.currentAge,
-                                    ),
-                                )}
-                              </p>
-                              <p className="text-xs text-yellow-600 dark:text-yellow-500">
-                                Total retirement healthcare
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <Alert className="dark:bg-red-900/20 dark:border-red-800">
-                          <Heart className="h-4 w-4" />
-                          <AlertDescription className="dark:text-red-300">
-                            <strong>Healthcare Planning Tip:</strong>{" "}
-                            {data.currency === "USD" &&
-                              "Consider Health Savings Accounts (HSAs) for triple tax advantages, long-term care insurance, and factor healthcare inflation into your retirement income planning. Medicare doesn't cover everything!"}
-                            {data.currency === "GBP" &&
-                              "While the NHS provides healthcare security, consider private health insurance for retirement, long-term care costs, and dental/optical expenses not covered by the NHS."}
-                            {data.currency === "EUR" &&
-                              "European healthcare systems vary by country. Consider supplemental insurance for services not covered by your national system, long-term care, and cross-border healthcare needs."}
-                            {data.currency === "CAD" &&
-                              "While Canada has universal healthcare, consider supplemental insurance for prescription drugs, dental, vision, and long-term care not covered by provincial health plans."}
-                            {data.currency === "AUD" &&
-                              "Medicare provides basic coverage, but consider private health insurance for faster access to specialists, choice of doctor, and coverage for services not covered by Medicare."}
-                            {data.currency === "CHF" &&
-                              "Switzerland has mandatory health insurance with high deductibles. Consider supplemental insurance for better coverage and factor in rising healthcare premiums in retirement planning."}
-                            {data.currency === "JPY" &&
-                              "Japan's universal healthcare covers 70% of costs. Consider supplemental insurance for the remaining 30%, long-term care insurance, and rising healthcare costs with aging."}
-                            {data.currency === "NZD" &&
-                              "While New Zealand has public healthcare, consider private insurance for faster access to specialists, choice of provider, and services not covered by the public system."}
-                          </AlertDescription>
-                        </Alert>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            </Tabs>
-          </div>
-        </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
 
         {/* Ad Banner - Middle */}
-        <div className="mb-12">
+        <div className="mb-12 flex justify-center">
           <AdBanner />
         </div>
 
         {/* Essay Section */}
         {essayContent && (
           <div className="mb-12">
-            <Card className="dark:bg-gray-800 dark:border-gray-700">
+            <Card className="border-slate-200 bg-white">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white">
-                  <BookOpen className="h-5 w-5 text-blue-600" />
+                <CardTitle className="flex items-center gap-2 text-slate-900">
+                  <BookOpen className="h-6 w-6 text-blue-600" />
                   Understanding Retirement Planning
                 </CardTitle>
-                <CardDescription className="dark:text-gray-300">
+                <CardDescription className="text-slate-600">
                   Essential insights for building a secure retirement strategy
                 </CardDescription>
               </CardHeader>
@@ -1644,21 +1568,21 @@ Successful retirement planning requires a multi-faceted approach that considers 
         )}
 
         {/* Methodology Section */}
-        <Card className="mb-12 dark:bg-gray-800 dark:border-gray-700">
+        <Card className="mb-12 border-slate-200 bg-white">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 dark:text-white">
-              <Shield className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 text-slate-900">
+              <Shield className="h-6 w-6 text-blue-600" />
               Methodology & Data Sources
             </CardTitle>
-            <CardDescription className="dark:text-gray-300">
+            <CardDescription className="text-slate-600">
               Transparent calculations based on historical data and established financial principles
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h3 className="font-semibold mb-2 dark:text-white">Calculation Methods</h3>
-                <ul className="text-sm space-y-1 text-gray-600 dark:text-gray-400">
+                <h3 className="font-semibold mb-2 text-slate-900">Calculation Methods</h3>
+                <ul className="text-sm space-y-1 text-slate-600">
                   <li>
                     • <strong>Future Value:</strong> Compound interest formula with monthly contributions
                   </li>
@@ -1677,8 +1601,8 @@ Successful retirement planning requires a multi-faceted approach that considers 
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold mb-2 dark:text-white">Data Sources</h3>
-                <ul className="text-sm space-y-1 text-gray-600 dark:text-gray-400">
+                <h3 className="font-semibold mb-2 text-slate-900">Data Sources</h3>
+                <ul className="text-sm space-y-1 text-slate-600">
                   <li>
                     • <strong>US Data:</strong> Federal Reserve, Social Security Administration, BLS
                   </li>
@@ -1698,11 +1622,11 @@ Successful retirement planning requires a multi-faceted approach that considers 
               </div>
             </div>
 
-            <Separator className="dark:border-gray-600" />
+            <Separator className="border-slate-200" />
 
             <div>
-              <h3 className="font-semibold mb-2 dark:text-white">Important Disclaimers</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <h3 className="font-semibold mb-2 text-slate-900">Important Disclaimers</h3>
+              <p className="text-sm text-slate-600">
                 These calculations are for educational purposes and should not be considered financial advice. Past
                 performance does not guarantee future results. Consult with a qualified financial advisor for
                 personalized retirement planning. Market volatility, sequence of returns risk, changing economic
@@ -1716,24 +1640,21 @@ Successful retirement planning requires a multi-faceted approach that considers 
         </Card>
 
         {/* Related Tools */}
-        <Card className="mb-12 dark:bg-gray-800 dark:border-gray-700">
+        <Card className="mb-12 border-slate-200 bg-white">
           <CardHeader>
-            <CardTitle className="dark:text-white">Related Financial Tools</CardTitle>
-            <CardDescription className="dark:text-gray-300">
+            <CardTitle className="text-slate-900">Related Financial Tools</CardTitle>
+            <CardDescription className="text-slate-600">
               Explore our other calculators to get a complete picture of your financial future
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
-              <Link
-                href="/"
-                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
-              >
+              <Link href="/" className="p-4 border rounded-lg hover:bg-slate-50 transition-colors border-slate-200">
                 <div className="flex items-center gap-3">
                   <DollarSign className="h-8 w-8 text-blue-600" />
                   <div>
-                    <h3 className="font-semibold dark:text-white">Inflation Calculator</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <h3 className="font-semibold text-slate-900">Inflation Calculator</h3>
+                    <p className="text-sm text-slate-600">
                       Calculate purchasing power changes over time across multiple currencies
                     </p>
                   </div>
@@ -1741,13 +1662,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
               </Link>
               <Link
                 href="/salary-calculator"
-                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+                className="p-4 border rounded-lg hover:bg-slate-50 transition-colors border-slate-200"
               >
                 <div className="flex items-center gap-3">
                   <TrendingUp className="h-8 w-8 text-green-600" />
                   <div>
-                    <h3 className="font-semibold dark:text-white">Salary Calculator</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <h3 className="font-semibold text-slate-900">Salary Calculator</h3>
+                    <p className="text-sm text-slate-600">
                       Analyze salary growth and purchasing power over your career
                     </p>
                   </div>
@@ -1755,13 +1676,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
               </Link>
               <Link
                 href="/deflation-calculator"
-                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+                className="p-4 border rounded-lg hover:bg-slate-50 transition-colors border-slate-200"
               >
                 <div className="flex items-center gap-3">
                   <TrendingUp className="h-8 w-8 text-red-600" />
                   <div>
-                    <h3 className="font-semibold dark:text-white">Deflation Calculator</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <h3 className="font-semibold text-slate-900">Deflation Calculator</h3>
+                    <p className="text-sm text-slate-600">
                       Calculate the effects of deflation on purchasing power and savings
                     </p>
                   </div>
@@ -1769,27 +1690,25 @@ Successful retirement planning requires a multi-faceted approach that considers 
               </Link>
               <Link
                 href="/housing-affordability-calculator"
-                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+                className="p-4 border rounded-lg hover:bg-slate-50 transition-colors border-slate-200"
               >
                 <div className="flex items-center gap-3">
                   <DollarSign className="h-8 w-8 text-blue-600" />
                   <div>
-                    <h3 className="font-semibold dark:text-white">Housing Affordability Calculator</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Assess your ability to afford a home in today's market
-                    </p>
+                    <h3 className="font-semibold text-slate-900">Housing Affordability Calculator</h3>
+                    <p className="text-sm text-slate-600">Assess your ability to afford a home in today's market</p>
                   </div>
                 </div>
               </Link>
               <Link
                 href="/legacy-planner"
-                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+                className="p-4 border rounded-lg hover:bg-slate-50 transition-colors border-slate-200"
               >
                 <div className="flex items-center gap-3">
                   <DollarSign className="h-8 w-8 text-purple-600" />
                   <div>
-                    <h3 className="font-semibold dark:text-white">Legacy Planner</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <h3 className="font-semibold text-slate-900">Legacy Planner</h3>
+                    <p className="text-sm text-slate-600">
                       Plan your estate and ensure your assets are distributed as intended
                     </p>
                   </div>
@@ -1797,13 +1716,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
               </Link>
               <Link
                 href="/student-loan-calculator"
-                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+                className="p-4 border rounded-lg hover:bg-slate-50 transition-colors border-slate-200"
               >
                 <div className="flex items-center gap-3">
                   <Calculator className="h-8 w-8 text-orange-600" />
                   <div>
-                    <h3 className="font-semibold dark:text-white">Student Loan Calculator</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <h3 className="font-semibold text-slate-900">Student Loan Calculator</h3>
+                    <p className="text-sm text-slate-600">
                       Calculate student loan payments and explore repayment strategies
                     </p>
                   </div>
@@ -1811,13 +1730,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
               </Link>
               <Link
                 href="/charts"
-                className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:border-gray-600"
+                className="p-4 border rounded-lg hover:bg-slate-50 transition-colors border-slate-200"
               >
                 <div className="flex items-center gap-3">
                   <DollarSign className="h-8 w-8 text-yellow-600" />
                   <div>
-                    <h3 className="font-semibold dark:text-white">Charts</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <h3 className="font-semibold text-slate-900">Charts</h3>
+                    <p className="text-sm text-slate-600">
                       Visualize your financial data and trends with interactive charts
                     </p>
                   </div>
@@ -1832,45 +1751,105 @@ Successful retirement planning requires a multi-faceted approach that considers 
         </section>
 
         {/* Ad Banner - Bottom */}
-        <div className="mb-8">
+        <div className="mb-8 flex justify-center">
           <AdBanner />
         </div>
 
-        {/* Footer */}
-        <footer className="text-center text-gray-600 dark:text-gray-400 text-sm">
-          <div className="flex justify-center space-x-6 mb-4">
-            <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400">
-              Home
-            </Link>
-            <Link href="/salary-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
-              Salary Calculator
-            </Link>
-            <Link href="/deflation-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
-              Deflation Calculator
-            </Link>
-            <Link href="/housing-affordability-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
-              Housing Affordability Calculator
-            </Link>
-            <Link href="/legacy-planner" className="hover:text-blue-600 dark:hover:text-blue-400">
-              Legacy Planner
-            </Link>
-            <Link href="/student-loan-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">
-              Student Loan Calculator
-            </Link>
-            <Link href="/charts" className="hover:text-blue-600 dark:hover:text-blue-400">
-              Charts
-            </Link>
-            <Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400">
-              About
-            </Link>
-            <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400">
-              Privacy
-            </Link>
-            <Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400">
-              Terms
-            </Link>
+        <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 rounded-lg">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <h4 className="font-semibold text-gray-100 mb-3">Calculator Tools</h4>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/" className="text-gray-400 hover:text-blue-400 transition-colors">
+                      Inflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/salary-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
+                      Salary Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/retirement-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
+                      Retirement Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/student-loan-calculator"
+                      className="text-gray-400 hover:text-blue-400 transition-colors"
+                    >
+                      Student Loan Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/housing-affordability-calculator"
+                      className="text-gray-400 hover:text-blue-400 transition-colors"
+                    >
+                      Housing Affordability Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/deflation-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
+                      Deflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/legacy-planner" className="text-gray-400 hover:text-blue-400 transition-colors">
+                      Legacy Planner
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/charts" className="text-gray-400 hover:text-blue-400 transition-colors">
+                      Charts & Analytics
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-100 mb-3">Information</h4>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/about" className="text-gray-400 hover:text-blue-400 transition-colors">
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy" className="text-gray-400 hover:text-blue-400 transition-colors">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/terms" className="text-gray-400 hover:text-blue-400 transition-colors">
+                      Terms of Service
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-100 mb-3">Contact</h4>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/contact" className="text-gray-400 hover:text-blue-400 transition-colors">
+                      Contact Us
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <Separator className="my-8 bg-gray-700" />
+
+            <div className="text-center text-gray-400 text-sm">
+              <p>© 2025 Global Inflation Calculator. All rights reserved.</p>
+              <p className="mt-2">Educational purposes only. Not financial advice.</p>
+            </div>
           </div>
-          <p>© 2025 Global Inflation Calculator. All rights reserved.</p>
         </footer>
       </div>
     </div>
