@@ -12,9 +12,9 @@ const siteUrl = (() => {
 })()
 
 export const metadata: Metadata = {
-  title: "Emergency Fund Calculator - Build Financial Security | Global Inflation Calculator",
+  title: "Emergency Fund Calculator - Build Your Financial Security",
   description:
-    "Calculate how much you need in your emergency fund for 3-6 months of expenses. Plan for recession with inflation-adjusted emergency savings calculator using real BLS salary data.",
+    "Calculate how much you need in your emergency fund for 3-6 months of expenses. Plan for recession with our inflation-adjusted emergency savings calculator.",
   keywords: [
     "emergency fund calculator",
     "emergency savings calculator",
