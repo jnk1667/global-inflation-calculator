@@ -4,9 +4,9 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export const metadata: Metadata = {
-  title: "Salary Calculator - Adjust for Inflation | Global Inflation Calculator",
+  title: "Salary Calculator | Inflation Adjustment Calculator",
   description:
-    "Calculate how inflation affects your salary over time. Compare purchasing power and real wages across different years with our comprehensive salary inflation calculator.",
+    "Calculate how inflation affects your salary over time. Compare purchasing power and real wages from 1913-2025 with official CPI data.",
   keywords: "salary calculator, inflation adjustment, real wages, purchasing power, salary inflation, wage calculator",
   openGraph: {
     title: "Salary Calculator - Adjust for Inflation",

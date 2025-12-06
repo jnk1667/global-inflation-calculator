@@ -3,9 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Accessibility Statement - Global Inflation Calculator",
+  title: "Accessibility Statement | Global Inflation Calculator",
   description:
-    "Learn about our commitment to web accessibility and the features we've implemented to make our inflation calculator accessible to all users.",
+    "Our commitment to web accessibility. Learn about WCAG 2.1 Level AA compliance, screen reader support, and assistive technology features.",
   alternates: {
     canonical: "https://www.globalinflationcalculator.com/accessibility",
   },
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "web accessibility",
   ],
   openGraph: {
-    title: "Accessibility Statement - Global Inflation Calculator",
+    title: "Accessibility Statement | Global Inflation Calculator",
     description:
       "Comprehensive accessibility documentation for our inflation calculators, including WCAG 2.1 Level AA compliance and assistive technology support.",
     url: "https://www.globalinflationcalculator.com/accessibility",
@@ -373,6 +373,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/mortgage-calculator" className="text-blue-600 hover:underline">
+                      Mortgage Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate mortgage affordability and compare home prices to household income over time
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/budget-calculator" className="text-blue-600 hover:underline">
                       50/30/20 Budget Calculator
                     </Link>
@@ -470,6 +478,16 @@ export default function AccessibilityPage() {
                 </ul>
               </div>
               <div>
+                <h3 className="font-semibold mb-2">Mortgage Calculator</h3>
+                <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>Mortgage amount and interest rate inputs with clear labels</li>
+                  <li>Loan term selection with keyboard navigation</li>
+                  <li>Inflation adjustment controls with descriptive help text</li>
+                  <li>Results table with proper headers and screen reader support</li>
+                  <li>Comparison charts with accessible alternatives</li>
+                </ul>
+              </div>
+              <div>
                 <h3 className="font-semibold mb-2">50/30/20 Budget Calculator</h3>
                 <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
                   <li>Income input with clear labels and help text</li>
@@ -522,6 +540,10 @@ export default function AccessibilityPage() {
                     <li>
                       <strong>Emergency Fund Calculator:</strong> Calculate emergency savings needs adjusted for
                       inflation to prepare for economic uncertainty and job loss scenarios
+                    </li>
+                    <li>
+                      <strong>Mortgage Calculator:</strong> Calculate mortgage affordability and compare home prices to
+                      household income over time
                     </li>
                     <li>
                       <strong>Legacy Planner:</strong> Project multi-generational wealth transfer with inflation

@@ -4,9 +4,9 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export const metadata: Metadata = {
-  title: "Charts & Analytics - Global Inflation Calculator",
+  title: "Inflation Charts & Analytics | Global Calculator",
   description:
-    "Comprehensive inflation charts and analytics across many currencies. Visualize the purchasing power erosion, inflation and healthcare trends with data graphs.",
+    "Interactive inflation charts across 8 currencies from 1913-2025. Visualize purchasing power erosion, currency stability, and historical trends.",
   keywords: [
     "inflation charts",
     "currency analytics",
@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     canonical: "https://www.globalinflationcalculator.com/charts",
   },
   openGraph: {
-    title: "Inflation Charts & Analytics - Global Inflation Calculator",
+    title: "Inflation Charts & Analytics | Global Calculator",
     description:
-      "Comprehensive inflation charts and analytics across multiple currencies from 1913-2025. Interactive visualizations of purchasing power erosion, currency stability, and healthcare inflation trends.",
+      "Interactive inflation charts across 8 currencies from 1913-2025. Visualize purchasing power erosion, currency stability, and historical trends.",
     url: "https://www.globalinflationcalculator.com/charts",
     siteName: "Global Inflation Calculator",
     type: "website",
@@ -46,8 +46,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Inflation Charts & Analytics - Global Inflation Calculator",
-    description: "Interactive inflation charts across multiple currencies from 1913-2025",
+    title: "Inflation Charts & Analytics | Global Calculator",
+    description: "Interactive inflation charts across 8 currencies from 1913-2025",
     images: ["https://www.globalinflationcalculator.com/og-charts.png"],
   },
   robots: {

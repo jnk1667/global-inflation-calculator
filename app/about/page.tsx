@@ -5,9 +5,9 @@ import Link from "next/link"
 const siteUrl = "https://www.globalinflationcalculator.com"
 
 export const metadata: Metadata = {
-  title: "About Us - Global Inflation Calculator | Our Mission",
+  title: "About Us | Global Inflation Calculator Mission",
   description:
-    "Learn about the Global Inflation Calculator project, our mission to provide accurate historical inflation data to everyone for free.",
+    "Learn about Global Inflation Calculator's mission to provide accurate historical inflation data for free to everyone worldwide.",
   keywords: [
     "about global inflation calculator",
     "inflation calculator team",

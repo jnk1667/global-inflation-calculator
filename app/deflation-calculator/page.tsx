@@ -12,9 +12,9 @@ const siteUrl = (() => {
 })()
 
 export const metadata: Metadata = {
-  title: "Deflation Calculator",
+  title: "Deflation Calculator | Track Purchasing Power Growth",
   description:
-    "Calculate how deflationary assets like Gold, Silver, Crude Oil, and Cryptocurrency help you preserve and grow the purchasing power of your wealth over time.",
+    "Calculate how deflationary assets like Gold, Silver, Crude Oil preserve purchasing power. Historical data 1985-2025 with real market prices.",
   keywords: [
     "deflation calculator",
     "best inflation calculator online",

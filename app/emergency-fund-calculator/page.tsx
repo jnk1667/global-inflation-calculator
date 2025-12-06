@@ -12,9 +12,9 @@ const siteUrl = (() => {
 })()
 
 export const metadata: Metadata = {
-  title: "Emergency Fund Calculator - Build Financial Security | Global Inflation Calculator",
+  title: "Emergency Fund Calculator | Build Financial Security",
   description:
-    "Calculate how much you need in your emergency fund for 3-6 months of expenses. Plan for recession with inflation-adjusted emergency savings calculator using real BLS salary data.",
+    "Calculate 3-6 months emergency fund needs with inflation adjustment. Plan for recession using real BLS salary data by occupation nationwide.",
   keywords: [
     "emergency fund calculator",
     "emergency savings calculator",
@@ -55,7 +55,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Emergency Fund Calculator - Financial Security Planning",
-    description: "Calculate how much you need in emergency savings for 3-6 months of expenses with inflation adjustment.",
+    description:
+      "Calculate how much you need in emergency savings for 3-6 months of expenses with inflation adjustment.",
     images: [`${siteUrl}/placeholder.svg?height=630&width=1200&text=Emergency+Fund+Calculator`],
   },
   robots: {

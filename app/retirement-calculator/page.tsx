@@ -4,9 +4,9 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export const metadata: Metadata = {
-  title: "Retirement Calculator - Complete Planning Tool | Global Inflation Calculator",
+  title: "Retirement Calculator | Complete Financial Planning",
   description:
-    "Comprehensive retirement calculator with lifestyle maintenance, crisis analysis, generation gap comparison, and healthcare cost projections. Plan your retirement with accurate inflation-adjusted calculations.",
+    "Comprehensive retirement calculator with lifestyle maintenance, crisis analysis, generation gap comparison, healthcare costs, and inflation adjustment.",
   keywords: [
     "retirement calculator",
     "retirement planning",

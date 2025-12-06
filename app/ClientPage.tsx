@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { ErrorBoundary } from "@/components/error-boundary"
 import LoadingSpinner from "@/components/loading-spinner"
-import { Globe, RefreshCw } from 'lucide-react'
+import { Globe, RefreshCw } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { trackPageView } from "@/lib/analytics"
 import Script from "next/script"
@@ -1153,7 +1153,7 @@ export default function ClientPage() {
                             )}
 
                             {/* Action Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                            <div className="flex flex-col sm:flex-flex-row gap-3 justify-center">
                               <Button
                                 variant="outline"
                                 className="bg-white text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -1754,10 +1754,17 @@ export default function ClientPage() {
                   </li>
                   <li>
                     <Link
-                      href="/legacy-planner"
+                      href="/mortgage-calculator"
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >
-                      Legacy Planner
+                      Mortgage Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/legacy-planner">
+                      <Button className="bg-purple-600 dark:bg-purple-800 hover:bg-purple-700 dark:hover:bg-purple-900 text-white">
+                        Plan Your Legacy →
+                      </Button>
                     </Link>
                   </li>
                   <li>

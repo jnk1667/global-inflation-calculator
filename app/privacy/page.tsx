@@ -4,9 +4,9 @@ import Link from "next/link"
 const siteUrl = "https://www.globalinflationcalculator.com"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Global Inflation Calculator",
+  title: "Privacy Policy | Global Inflation Calculator",
   description:
-    "Read our comprehensive privacy policy to understand how we collect, use, and protect your personal information when using our inflation calculator.",
+    "Read our privacy policy on data collection, usage, and protection. Learn how we secure your personal information online.",
   keywords: [
     "privacy policy",
     "data protection",
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     canonical: `${siteUrl}/privacy`,
   },
   openGraph: {
-    title: "Privacy Policy - Global Inflation Calculator",
-    description: "Read our comprehensive privacy policy to understand how we protect your personal information.",
+    title: "Privacy Policy | Global Inflation Calculator",
+    description: "Read our privacy policy on data collection, usage, and protection.",
     url: `${siteUrl}/privacy`,
     siteName: "Global Inflation Calculator",
     images: [
@@ -40,8 +40,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Privacy Policy - Global Inflation Calculator",
-    description: "Read our comprehensive privacy policy to understand how we protect your personal information.",
+    title: "Privacy Policy | Global Inflation Calculator",
+    description: "Read our privacy policy on data collection, usage, and protection.",
     images: ["/images/globe-icon.png"],
   },
   robots: {

@@ -2,9 +2,9 @@ import type { Metadata } from "next"
 import LegacyPlannerPage from "./LegacyPlannerPage"
 
 export const metadata: Metadata = {
-  title: "Legacy Planner | Estate Planning Tool",
+  title: "Legacy Planner | Multi-Generation Wealth Tool",
   description:
-    "Calculate how inflation affects inheritance, estate planning and wealth transfer. Free multi-generation wealth planning calculator with healthcare cost.",
+    "Calculate inflation effects on inheritance and estate planning. Free multi-generation wealth transfer calculator with healthcare cost projections.",
   metadataBase: new URL("https://globalinflationcalculator.com"),
   keywords: [
     "legacy planner",

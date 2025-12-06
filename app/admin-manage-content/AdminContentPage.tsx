@@ -989,15 +989,15 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
             <Card>
               <CardHeader>
-                <CardTitle>Housing Affordability Calculator Essay</CardTitle>
-                <CardDescription>Educational content for the housing affordability calculator page</CardDescription>
+                <CardTitle>Mortgage Calculator Essay</CardTitle>
+                <CardDescription>Educational content for the mortgage calculator page</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Textarea
                   value={content.housing_affordability_essay}
                   onChange={(e) => setContent((prev) => ({ ...prev, housing_affordability_essay: e.target.value }))}
                   rows={15}
-                  placeholder="Enter housing affordability calculator essay content..."
+                  placeholder="Enter mortgage calculator essay content..."
                   className="font-mono text-sm"
                 />
                 <Button
@@ -1006,7 +1006,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
                   className="flex items-center gap-2"
                 >
                   <Save className="w-4 h-4" />
-                  {saving ? "Saving..." : "Save Housing Affordability Essay"}
+                  {saving ? "Saving..." : "Save Mortgage Calculator Essay"}
                 </Button>
               </CardContent>
             </Card>
@@ -1459,7 +1459,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
                       <SelectItem value="deflation">Deflation Calculator</SelectItem>
                       <SelectItem value="legacy">Legacy Planner</SelectItem>
                       <SelectItem value="charts">Charts & Analytics</SelectItem>
-                      <SelectItem value="housing-affordability">Housing Affordability Calculator</SelectItem>
+                      <SelectItem value="housing-affordability">Mortgage Calculator</SelectItem>
                       <SelectItem value="emergency-fund">Emergency Fund Calculator</SelectItem>
                       <SelectItem value="budget">50/30/20 Budget Calculator</SelectItem>
                     </SelectContent>
@@ -1512,7 +1512,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
                           <SelectItem value="deflation">Deflation Calculator</SelectItem>
                           <SelectItem value="legacy">Legacy Planner</SelectItem>
                           <SelectItem value="charts">Charts & Analytics</SelectItem>
-                          <SelectItem value="housing-affordability">Housing Affordability Calculator</SelectItem>
+                          <SelectItem value="housing-affordability">Mortgage Calculator</SelectItem>
                           <SelectItem value="emergency-fund">Emergency Fund Calculator</SelectItem>
                           <SelectItem value="budget">50/30/20 Budget Calculator</SelectItem>
                         </SelectContent>

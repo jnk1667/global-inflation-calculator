@@ -19,8 +19,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - deflation calculator, deflationary assets, gold silver calculator
 - precious metals appreciation, commodity price calculator
 - student loan calculator, loan repayment calculator, income-driven repayment
-- student loan inflation, federal student loans, college debt calculator
-- housing affordability calculator, home price to income ratio
+- mortgage calculator, home loan calculator, mortgage payment calculator
 - emergency fund calculator, emergency savings calculator, recession preparation
 - 3 month emergency fund, 6 month emergency fund, financial safety net
 - economic uncertainty 2025, recession planning, emergency savings goal
@@ -130,9 +129,9 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Target Users: College students, recent graduates, parents, financial aid counselors
   - Update Frequency: Annual (interest rates and income thresholds updated yearly)
 
-- **Housing Affordability Calculator (/housing-affordability-calculator)**
-  - URL: https://www.globalinflationcalculator.com/housing-affordability-calculator
-  - Purpose: Calculate historical housing affordability by comparing home prices to median household income
+- **Mortgage Calculator (/mortgage-calculator)**
+  - URL: https://www.globalinflationcalculator.com/mortgage-calculator
+  - Purpose: Calculate mortgage affordability and compare home prices to household income over time
   - Features:
     * Historical home price data (1970-present)
     * Median household income comparison
@@ -142,6 +141,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
     * Regional and national housing data
     * Inflation-adjusted home price analysis
     * Down payment and mortgage affordability calculations
+    * Mortgage qualification guidelines
   - Metrics Calculated:
     * Median home price vs median household income
     * Price-to-Income (PTI) ratio
@@ -157,7 +157,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
     * First-time homebuyer considerations
     * Mortgage qualification guidelines
   - Data Sources: U.S. Census Bureau, Federal Reserve Economic Data (FRED), Department of Housing and Urban Development (HUD)
-  - Target Users: Prospective homebuyers, real estate professionals, housing policy researchers, economic analysts
+  - Target Users: Prospective homebuyers, real estate professionals, housing policy researchers, economic analysts, mortgage applicants
   - Update Frequency: Quarterly (housing data updated as new Census/FRED data becomes available)
 
 - **Emergency Fund Calculator (/emergency-fund-calculator)**
@@ -351,7 +351,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - salary inflation adjustment
 - deflation calculator
 - student loan calculator
-- housing affordability calculator
+- mortgage calculator
 - emergency fund calculator
 - budget calculator 50 30 20
 
@@ -364,18 +364,11 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - real vs nominal wage calculator
 - gold silver inflation hedge calculator
 - student loan repayment calculator income-driven
-- historical housing affordability calculator
+- mortgage affordability calculator
 - home price to income ratio analysis
 - emergency savings goal calculation
 - economic uncertainty planning
 - 50 30 20 budget rule explanation
-
-### Content Marketing
-- Educational blog posts on inflation concepts
-- Case studies showing real-world applications
-- Video tutorials on using the calculators
-- Infographics on historical inflation trends
-- Social media content on economic data insights
 
 ## Privacy and Data Protection
 

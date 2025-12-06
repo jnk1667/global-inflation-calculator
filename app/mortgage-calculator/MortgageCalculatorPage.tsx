@@ -45,7 +45,7 @@ interface ComparisonResult {
   affordabilityChange: string
 }
 
-export default function HousingAffordabilityCalculatorPage() {
+export default function MortgageCalculatorPage() {
   const [currentYear, setCurrentYear] = useState("2024")
   const [compareYear, setCompareYear] = useState("2006")
   const [result, setResult] = useState<ComparisonResult | null>(null)
@@ -57,35 +57,35 @@ export default function HousingAffordabilityCalculatorPage() {
   const [inflationData, setInflationData] = useState<{ [key: string]: number }>({})
 
   const essayContent = `
-# Understanding Housing Affordability
+# Understanding Mortgage Affordability
 
-Housing affordability has become one of the most pressing economic issues of our time. This calculator helps you understand how housing costs have changed relative to income over the past several decades.
+Mortgage affordability has become one of the most pressing economic issues of our time. This calculator helps you understand how mortgage costs have changed relative to income over the past several decades.
 
 ## The Price-to-Income Ratio
 
-The price-to-income ratio is a key metric for understanding housing affordability. It represents how many years of median household income it would take to purchase a median-priced home. Historically, a ratio of 3-4x has been considered affordable, while ratios above 5x indicate housing stress.
+The price-to-income ratio is a key metric for understanding mortgage affordability. It represents how many years of median household income it would take to purchase a median-priced home with a mortgage. Historically, a ratio of 3-4x has been considered affordable, while ratios above 5x indicate mortgage stress.
 
 ## Historical Context
 
-### The 1990s: Affordable Housing Era
-During the 1990s, housing was relatively affordable with price-to-income ratios around 3.5-4x. This period represented a healthy housing market where homeownership was accessible to middle-class families.
+### The 1990s: Affordable Mortgage Era
+During the 1990s, mortgages were relatively affordable with price-to-income ratios around 3.5-4x. This period represented a healthy mortgage market where homeownership was accessible to middle-class families.
 
-### 2006: The Housing Bubble Peak
-The mid-2000s saw an unprecedented housing bubble, with price-to-income ratios reaching 5.3x by 2006. This unsustainable growth was fueled by loose lending standards and speculation, ultimately leading to the 2008 financial crisis.
+### 2006: The Mortgage Bubble Peak
+The mid-2000s saw an unprecedented mortgage bubble, with price-to-income ratios reaching 5.3x by 2006. This unsustainable growth was fueled by loose lending standards and speculation, ultimately leading to the 2008 financial crisis.
 
 ### 2012: Post-Crash Recovery
-Following the housing crash, affordability improved significantly. By 2012, ratios had fallen back to more sustainable levels around 4.8x, creating opportunities for buyers who had been priced out during the bubble.
+Following the housing crash, mortgage affordability improved significantly. By 2012, ratios had fallen back to more sustainable levels around 4.8x, creating opportunities for buyers who had been priced out during the bubble.
 
-### 2020-2024: The New Housing Crisis
-The COVID-19 pandemic triggered another housing boom, driven by low interest rates, remote work, and limited supply. By 2022, price-to-income ratios had surged to 5.75x, exceeding even the 2006 bubble peak in many markets.
+### 2020-2024: The New Mortgage Crisis
+The COVID-19 pandemic triggered another mortgage boom, driven by low interest rates, remote work, and limited supply. By 2022, price-to-income ratios had surged to 5.75x, exceeding even the 2006 bubble peak in many markets.
 
 ## Why This Matters
 
-Housing affordability affects:
+Mortgage affordability affects:
 - **Homeownership rates**: Higher ratios make it harder for first-time buyers to enter the market
-- **Economic mobility**: Housing costs consume a larger share of household budgets
+- **Economic mobility**: Mortgage costs consume a larger share of household budgets
 - **Wealth inequality**: Those who already own homes benefit from appreciation, while renters fall further behind
-- **Geographic mobility**: High housing costs in job-rich areas limit where people can afford to live
+- **Geographic mobility**: High mortgage costs in job-rich areas limit where people can afford to live
 
 ## Data Sources
 
@@ -256,16 +256,10 @@ This calculator uses official data from:
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="flex flex-col items-center gap-4">
             <HomeIcon className="h-12 w-12 text-blue-600 dark:text-blue-400" />
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
-              Housing Affordability Calculator
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Mortgage Calculator</h1>
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Compare housing affordability across decades using real Case-Shiller home price data and median household
-            income
-          </p>
         </div>
 
         {/* Breadcrumb */}
@@ -274,7 +268,7 @@ This calculator uses official data from:
             Home
           </Link>
           <span>/</span>
-          <span className="text-gray-900 dark:text-white">Housing Affordability Calculator</span>
+          <span className="text-gray-900 dark:text-white">Mortgage Calculator</span>
         </nav>
 
         {/* Inflation adjustment toggle */}
@@ -295,7 +289,7 @@ This calculator uses official data from:
             <InfoIcon className="h-4 w-4 text-purple-600 dark:text-purple-400" />
             <AlertDescription className="text-purple-900 dark:text-purple-100">
               <strong>Inflation-Adjusted Mode:</strong> All values are adjusted to {currentYear} dollars, showing the
-              "real" purchasing power. This reveals how much housing affordability has truly changed after accounting
+              "real" purchasing power. This reveals how much mortgage affordability has truly changed after accounting
               for inflation's impact on both home prices and incomes.
             </AlertDescription>
           </Alert>
@@ -311,7 +305,7 @@ This calculator uses official data from:
                 Select Years to Compare
               </CardTitle>
               <CardDescription className="text-blue-100">
-                Choose two years to compare housing affordability
+                Choose two years to compare mortgage affordability
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
@@ -377,7 +371,7 @@ This calculator uses official data from:
                 <TrendingUpIcon className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                 Quick Facts
               </CardTitle>
-              <CardDescription>Key housing affordability insights</CardDescription>
+              <CardDescription>Key mortgage affordability insights</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="p-4 bg-white dark:bg-gray-800 rounded-lg">
@@ -413,13 +407,42 @@ This calculator uses official data from:
               <Alert className="bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800">
                 <AlertTriangleIcon className="h-4 w-4 text-amber-600 dark:text-amber-400" />
                 <AlertDescription className="text-amber-900 dark:text-amber-100 text-sm">
-                  Housing is currently at the worst affordability level in recorded history, exceeding even the 2006
+                  Mortgage is currently at the worst affordability level in recorded history, exceeding even the 2006
                   bubble
                 </AlertDescription>
               </Alert>
             </CardContent>
           </Card>
         </div>
+
+        {/* Mortgage Calculator Data Sources Info Card */}
+        <Card className="shadow-xl border-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 border-l-4 border-l-blue-600">
+          <CardContent className="pt-6">
+            <div className="flex items-start gap-3">
+              <InfoIcon className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-1 flex-shrink-0" />
+              <div>
+                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+                  This calculator helps you understand how home prices have changed relative to household incomes over
+                  the past several decades, revealing long-term trends in housing affordability and mortgage
+                  qualification requirements.
+                </p>
+                <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                  <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Data Sources:</p>
+                  <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                    <li>
+                      • <span className="font-medium">Case-Shiller U.S. National Home Price Index</span> - The most
+                      widely-followed measure of U.S. home prices
+                    </li>
+                    <li>
+                      • <span className="font-medium">Federal Reserve Economic Data (FRED)</span> - Median household
+                      income statistics from the U.S. Census Bureau
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Results Section */}
         {result && (
@@ -434,7 +457,7 @@ This calculator uses official data from:
                   )}
                 </CardTitle>
                 <CardDescription className="text-indigo-100">
-                  Housing is{" "}
+                  Mortgage is{" "}
                   <strong className="text-white">
                     {result.affordabilityChange === "less affordable"
                       ? "LESS AFFORDABLE"
@@ -624,10 +647,10 @@ This calculator uses official data from:
                   >
                     <strong>Analysis {inflationAdjusted && "(Inflation-Adjusted)"}:</strong>{" "}
                     {result.affordabilityChange === "less affordable"
-                      ? `Housing has become significantly less affordable. ${inflationAdjusted ? "In real terms, after accounting for inflation, " : ""}While incomes grew ${result.incomeDifference.toFixed(1)}%, home prices increased ${result.priceDifference.toFixed(1)}%, requiring ${Math.abs(result.ratioDifference).toFixed(1)} more years of income to purchase a home.`
+                      ? `Mortgage has become significantly less affordable. ${inflationAdjusted ? "In real terms, after accounting for inflation, " : ""}While incomes grew ${result.incomeDifference.toFixed(1)}%, home prices increased ${result.priceDifference.toFixed(1)}%, requiring ${Math.abs(result.ratioDifference).toFixed(1)} more years of income to purchase a home with a mortgage.`
                       : result.affordabilityChange === "more affordable"
-                        ? `Housing has become more affordable. ${inflationAdjusted ? "In real terms, after accounting for inflation, " : ""}Income growth of ${result.incomeDifference.toFixed(1)}% has outpaced home price growth of ${result.priceDifference.toFixed(1)}%, reducing the years of income needed by ${Math.abs(result.ratioDifference).toFixed(1)}.`
-                        : `Housing affordability has remained relatively stable between these periods, with similar price-to-income ratios.`}
+                        ? `Mortgage has become more affordable. ${inflationAdjusted ? "In real terms, after accounting for inflation, " : ""}Income growth of ${result.incomeDifference.toFixed(1)}% has outpaced home price growth of ${result.priceDifference.toFixed(1)}%, reducing the years of income needed by ${Math.abs(result.ratioDifference).toFixed(1)}.`
+                        : `Mortgage affordability has remained relatively stable between these periods, with similar price-to-income ratios.`}
                   </AlertDescription>
                 </Alert>
               </CardContent>
@@ -696,7 +719,7 @@ This calculator uses official data from:
         {essayContent && (
           <Card className="shadow-xl border-0 mt-8">
             <CardHeader>
-              <CardTitle className="text-2xl">Understanding Housing Affordability</CardTitle>
+              <CardTitle className="text-2xl">Understanding Mortgage Affordability</CardTitle>
               <CardDescription>Historical context and economic analysis</CardDescription>
             </CardHeader>
             <CardContent className="prose prose-slate dark:prose-invert max-w-none">
@@ -707,7 +730,7 @@ This calculator uses official data from:
 
         {/* FAQ Section */}
         <div className="mt-16 mb-8">
-          <FAQ category="housing-affordability" />
+          <FAQ category="mortgage-affordability" />
         </div>
 
         {/* Cross-Promotion */}
@@ -755,9 +778,9 @@ This calculator uses official data from:
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
-                <h3 className="text-xl font-semibold mb-4">Housing Affordability Calculator</h3>
+                <h3 className="text-xl font-semibold mb-4">Mortgage Calculator</h3>
                 <p className="text-gray-300 mb-6">
-                  Compare housing costs across decades using real Case-Shiller and median income data.
+                  Compare mortgage costs across decades using real Case-Shiller and median income data.
                 </p>
               </div>
               <div>
@@ -788,8 +811,8 @@ This calculator uses official data from:
                     </Link>
                   </li>
                   <li>
-                    <Link href="/housing-affordability-calculator" className="hover:text-blue-400 transition-colors">
-                      Housing Affordability Calculator
+                    <Link href="/mortgage-calculator" className="hover:text-blue-400 transition-colors">
+                      Mortgage Calculator
                     </Link>
                   </li>
                   <li>

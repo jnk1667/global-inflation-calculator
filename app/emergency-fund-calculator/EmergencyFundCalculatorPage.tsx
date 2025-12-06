@@ -746,6 +746,16 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                     Plan for retirement with comprehensive calculations
                   </p>
                 </Link>
+                <Link
+                  href="/mortgage-calculator"
+                  className="p-4 border rounded-lg hover:shadow-lg transition-shadow bg-white dark:bg-gray-800"
+                >
+                  <DollarSign className="h-8 w-8 text-green-600 mb-2" />
+                  <h4 className="font-semibold mb-1">Mortgage Calculator</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Calculate your mortgage payments and affordability
+                  </p>
+                </Link>
               </div>
             </CardContent>
           </Card>

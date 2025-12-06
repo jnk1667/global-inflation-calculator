@@ -4,9 +4,9 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export const metadata: Metadata = {
-  title: "50/30/20 Budget Calculator | Income Budgeting Tool",
+  title: "50/30/20 Budget Calculator | Income Budgeting",
   description:
-    "Free 50/30/20 budget calculator divides income into needs (50%), wants (30%), savings (20%). Simple budgeting with inflation adjustment.",
+    "Free 50/30/20 budget calculator splits income: 50% needs, 30% wants, 20% savings. Simple budgeting with inflation adjustment included.",
   keywords: [
     "50/30/20 budget calculator",
     "50 30 20 rule",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "50/30/20 Budget Calculator - Income Budgeting Tool",
     description:
-      "Split your income the smart way: 50% needs, 30% wants, 20% savings. Free inflation-adjusted budget calculator with spending breakdowns.",
+      "Split your income the smart way: 50% needs, 30% wants, 20% savings. Free budget calculator with inflation adjustment.",
     type: "website",
     url: "https://globalinflationcalculator.com/budget-calculator",
     siteName: "Global Inflation Calculator",
@@ -51,7 +51,6 @@ export const metadata: Metadata = {
     follow: true,
   },
 }
-// </CHANGE>
 
 export default function Page() {
   const breadcrumbSchema = {
@@ -209,7 +208,6 @@ export default function Page() {
           </header>
         </div>
       </noscript>
-      {/* </CHANGE> */}
     </>
   )
 }

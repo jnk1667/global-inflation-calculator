@@ -822,7 +822,10 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                   </Link>
                 </li>
                 <li>
-                  <Link href="/housing-affordability-calculator" className="hover:text-white">
+                  <Link
+                    href="/housing-affordability-calculator"
+                    className="text-gray-400 hover:text-blue-400 transition-colors"
+                  >
                     Housing Affordability Calculator
                   </Link>
                 </li>

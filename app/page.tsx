@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Global Inflation Calculator - Historical Purchasing Power",
+  title: "Global Inflation Calculator | Track Purchasing Power",
   description:
-    "Calculate historical inflation and purchasing power across 8 major currencies. Compare USD, GBP, EUR (from 1996), CAD, AUD, CHF, JPY, and NZD with real government data.",
+    "Calculate historical inflation across 8 currencies from 1913-2025. USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD with real government data.",
   keywords: [
     "inflation calculator",
     "best inflation calculator online",

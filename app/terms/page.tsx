@@ -4,9 +4,9 @@ import Link from "next/link"
 const siteUrl = "https://www.globalinflationcalculator.com"
 
 export const metadata: Metadata = {
-  title: "Terms of Service - Global Inflation Calculator",
+  title: "Terms of Service | Global Inflation Calculator",
   description:
-    "Read our terms of service to understand the rules and guidelines for using our free inflation calculator and historical economic data.",
+    "Read our terms of service covering usage rules, data accuracy disclaimers, and legal guidelines for our free inflation calculator.",
   keywords: [
     "terms of service",
     "terms and conditions",
@@ -25,8 +25,9 @@ export const metadata: Metadata = {
     canonical: `${siteUrl}/terms`,
   },
   openGraph: {
-    title: "Terms of Service - Global Inflation Calculator",
-    description: "Read our terms of service to understand the rules and guidelines for using our inflation calculator.",
+    title: "Terms of Service | Global Inflation Calculator",
+    description:
+      "Read our terms of service covering usage rules, data accuracy disclaimers, and legal guidelines for our free inflation calculator.",
     url: `${siteUrl}/terms`,
     siteName: "Global Inflation Calculator",
     images: [
@@ -42,8 +43,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Terms of Service - Global Inflation Calculator",
-    description: "Read our terms of service to understand the rules and guidelines for using our inflation calculator.",
+    title: "Terms of Service | Global Inflation Calculator",
+    description:
+      "Read our terms of service covering usage rules, data accuracy disclaimers, and legal guidelines for our free inflation calculator.",
     images: ["/images/globe-icon.png"],
   },
   robots: {
