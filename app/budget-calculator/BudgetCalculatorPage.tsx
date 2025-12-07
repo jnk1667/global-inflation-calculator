@@ -21,6 +21,8 @@ import MarkdownRenderer from "@/components/markdown-renderer"
 import { getSupabaseClient } from "@/lib/supabase"
 import { treasuryData } from "@/lib/treasury-data"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
 
 const COLORS = {
   needs: "#3b82f6", // blue
@@ -37,6 +39,7 @@ export default function BudgetCalculatorPage() {
   const [inflationRate, setInflationRate] = useState(3.0) // Default to current 2025 rate
   const [yearsAhead, setYearsAhead] = useState(5)
   const [currentTreasuryRates, setCurrentTreasuryRates] = useState<any>(null)
+  const [mounted, setMounted] = useState(false)
 
   const income = Number.parseFloat(monthlyIncome) || 0
   const monthlyAmount =
@@ -93,6 +96,10 @@ export default function BudgetCalculatorPage() {
   const annualNeeds = needs * 12
   const annualWants = wants * 12
   const annualSavings = savings * 12
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     try {
@@ -285,10 +292,10 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
 
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="income" className="mb-2 block text-sm font-medium text-slate-300">
+                  <Label htmlFor="income" className="mb-2 block text-sm font-medium text-slate-300">
                     Income Amount (After Taxes)
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     id="income"
                     value={monthlyIncome}
@@ -299,9 +306,9 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                 </div>
 
                 <div>
-                  <label htmlFor="frequency" className="mb-2 block text-sm font-medium text-slate-300">
+                  <Label htmlFor="frequency" className="mb-2 block text-sm font-medium text-slate-300">
                     Income Frequency
-                  </label>
+                  </Label>
                   <select
                     id="frequency"
                     value={frequency}
@@ -319,10 +326,10 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                 {advancedMode && (
                   <div className="space-y-4 rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-4">
                     <div>
-                      <label htmlFor="inflationRate" className="mb-2 block text-sm font-medium text-slate-300">
+                      <Label htmlFor="inflationRate" className="mb-2 block text-sm font-medium text-slate-300">
                         Expected Annual Inflation Rate (%)
-                      </label>
-                      <input
+                      </Label>
+                      <Input
                         type="number"
                         id="inflationRate"
                         value={inflationRate}
@@ -335,10 +342,10 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                     </div>
 
                     <div>
-                      <label htmlFor="yearsAhead" className="mb-2 block text-sm font-medium text-slate-300">
+                      <Label htmlFor="yearsAhead" className="mb-2 block text-sm font-medium text-slate-300">
                         Years to Project
-                      </label>
-                      <input
+                      </Label>
+                      <Input
                         type="number"
                         id="yearsAhead"
                         value={yearsAhead}
@@ -371,57 +378,56 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
           {/* Right Column - Chart and Breakdown */}
           <div className="space-y-6">
             {/* Chart Card */}
-            <Card className="border-slate-700 bg-slate-800/50 backdrop-blur">
+            <Card className="border-slate-200">
               <CardHeader>
-                <CardTitle className="text-white">Your Budget Split</CardTitle>
+                <CardTitle className="text-slate-900">Your Budget Split</CardTitle>
+                <CardDescription className="text-slate-600">Visual breakdown of your budget allocation</CardDescription>
               </CardHeader>
-              <CardContent>
-                {calculated && monthlyAmount > 0 ? (
-                  <div className="space-y-4">
-                    <ResponsiveContainer width="100%" height={300}>
-                      <PieChart>
-                        <Pie
-                          data={chartData}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          label={({ name, percentage }) => `${name.split(" ")[0]} ${percentage}%`}
-                          outerRadius={80}
-                          fill="#8884d8"
-                          dataKey="value"
-                        >
-                          {chartData.map((entry, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={index === 0 ? COLORS.needs : index === 1 ? COLORS.wants : COLORS.savings}
-                            />
-                          ))}
-                        </Pie>
-                        <Tooltip
-                          formatter={(value: number) => formatCurrency(value)}
-                          contentStyle={{
-                            backgroundColor: "#1e293b",
-                            border: "1px solid #475569",
-                            borderRadius: "8px",
-                          }}
-                          labelStyle={{ color: "#fff" }}
-                        />
-                        <Legend />
-                      </PieChart>
-                    </ResponsiveContainer>
-
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between rounded-lg bg-blue-500/10 p-3">
-                        <span className="text-slate-300">Monthly Take-Home:</span>
-                        <span className="text-xl font-bold text-white">{formatCurrency(monthlyAmount)}</span>
-                      </div>
-                    </div>
-                  </div>
+              <CardContent className="pt-6">
+                {mounted ? (
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={chartData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={({ name, percentage }) => `${name.split(" ")[0]} ${percentage}%`}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {chartData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={index === 0 ? COLORS.needs : index === 1 ? COLORS.wants : COLORS.savings}
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        formatter={(value: number) => formatCurrency(value)}
+                        contentStyle={{
+                          backgroundColor: "#1e293b",
+                          border: "1px solid #475569",
+                          borderRadius: "8px",
+                        }}
+                        labelStyle={{ color: "#fff" }}
+                      />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
                 ) : (
-                  <div className="flex h-[300px] items-center justify-center text-slate-400">
-                    Enter your income to see your budget breakdown
+                  <div className="w-full h-[300px] flex items-center justify-center bg-slate-50 rounded-lg">
+                    <p className="text-slate-500">Loading chart...</p>
                   </div>
                 )}
+
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between rounded-lg bg-blue-500/10 p-3">
+                    <span className="text-slate-300">Monthly Take-Home:</span>
+                    <span className="text-xl font-bold text-white">{formatCurrency(monthlyAmount)}</span>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 

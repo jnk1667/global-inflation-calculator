@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   experimental: {
     optimizePackageImports: ['lucide-react', 'recharts'],
   },
@@ -15,6 +14,15 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
+  },
+  redirects: async () => {
+    return [
+      {
+        source: '/housing-affordability-calculator',
+        destination: '/mortgage-calculator',
+        permanent: true, // 301 redirect
+      },
+    ]
   },
   headers: async () => {
     return [

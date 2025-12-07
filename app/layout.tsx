@@ -198,10 +198,10 @@ export default function RootLayout({
                         Salary Calculator
                       </Link>
                       <Link
-                        href="/housing-affordability-calculator"
+                        href="/mortgage-calculator"
                         className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
-                        Housing Affordability Calculator
+                        Mortgage Calculator
                       </Link>
                       <Link
                         href="/emergency-fund-calculator"
@@ -222,16 +222,16 @@ export default function RootLayout({
                         Legacy Planner
                       </Link>
                       <Link
-                        href="/about"
-                        className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                      >
-                        About
-                      </Link>
-                      <Link
                         href="/retirement-calculator"
                         className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
                         Retirement Calculator
+                      </Link>
+                      <Link
+                        href="/about"
+                        className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        About
                       </Link>
                       <Link
                         href="/privacy"
@@ -244,12 +244,6 @@ export default function RootLayout({
                         className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
                         Terms of Service
-                      </Link>
-                      <Link
-                        href="/mortgage-calculator"
-                        className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                      >
-                        Mortgage Calculator
                       </Link>
                     </div>
                   </div>
