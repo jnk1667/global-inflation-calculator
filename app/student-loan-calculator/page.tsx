@@ -75,6 +75,30 @@ export const metadata: Metadata = {
 }
 
 export default function StudentLoanCalculator() {
+  const calculatorSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Student Loan Calculator",
+    applicationCategory: "FinanceApplication",
+    description:
+      "Calculate student loan payments, compare repayment plans, and estimate total costs with real salary data by occupation and major.",
+    url: `${siteUrl}/student-loan-calculator`,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "Federal and private loan calculations",
+      "Standard, graduated, and income-driven repayment plans",
+      "Total interest cost estimation",
+      "BLS salary data by occupation",
+      "College Scorecard earnings by major",
+      "Federal interest rates and poverty guidelines",
+      "Tax bracket analysis",
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -96,6 +120,7 @@ export default function StudentLoanCalculator() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <StudentLoanCalculatorPage />
 

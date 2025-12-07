@@ -75,6 +75,31 @@ export const metadata: Metadata = {
 }
 
 export default function LegacyPlannerPageWrapper() {
+  const calculatorSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Legacy Planner",
+    applicationCategory: "FinanceApplication",
+    description:
+      "Multi-generation wealth planning tool to calculate inflation effects on inheritance and estate planning across generations.",
+    url: "https://globalinflationcalculator.com/legacy-planner",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "Multi-generation wealth planning",
+      "Inheritance value calculator",
+      "Estate planning with inflation adjustment",
+      "Healthcare cost projections",
+      "Wealth erosion analysis",
+      "Family financial planning tool",
+      "Generational wealth transfer calculator",
+    ],
+  }
+  // </CHANGE>
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -96,6 +121,8 @@ export default function LegacyPlannerPageWrapper() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
+      {/* </CHANGE> */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <LegacyPlannerPage />
     </>

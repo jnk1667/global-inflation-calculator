@@ -76,6 +76,31 @@ export const metadata: Metadata = {
 }
 
 export default function DeflationCalculator() {
+  const calculatorSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Deflation Calculator",
+    applicationCategory: "FinanceApplication",
+    description:
+      "Calculate purchasing power growth with deflationary assets like Gold, Silver, Crude Oil, Bitcoin, and Ethereum from 1985-2025.",
+    url: `${siteUrl}/deflation-calculator`,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "Gold price tracking (1985-2025)",
+      "Silver price tracking (1985-2025)",
+      "Crude Oil (WTI) analysis (1985-2025)",
+      "Bitcoin analysis (2013-2025)",
+      "Ethereum analysis (2015-2025)",
+      "Purchasing power growth calculator",
+      "Deflation vs inflation comparison",
+      "Scarcity mechanisms dashboard",
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -97,6 +122,7 @@ export default function DeflationCalculator() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <DeflationCalculatorPage />
 
@@ -205,7 +231,6 @@ export default function DeflationCalculator() {
           </header>
         </div>
       </noscript>
-      {/* </CHANGE> */}
     </>
   )
 }

@@ -37,6 +37,29 @@ export const metadata: Metadata = {
 }
 
 export default function SalaryCalculatorPageRoute() {
+  const calculatorSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Salary Calculator",
+    applicationCategory: "FinanceApplication",
+    description:
+      "Calculate inflation-adjusted salary and purchasing power changes from 1913-2025 across multiple currencies.",
+    url: "https://globalinflationcalculator.com/salary-calculator",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "Inflation-adjusted salary calculations",
+      "Real wage vs nominal wage comparison",
+      "Purchasing power analysis",
+      "Multi-currency support (8 currencies)",
+      "Historical salary data from 1913",
+      "Regional cost of living adjustments",
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -58,6 +81,7 @@ export default function SalaryCalculatorPageRoute() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <SalaryCalculatorPage />
 
@@ -138,7 +162,6 @@ export default function SalaryCalculatorPageRoute() {
           </header>
         </div>
       </noscript>
-      {/* </CHANGE> */}
     </>
   )
 }

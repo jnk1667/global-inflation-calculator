@@ -73,6 +73,30 @@ export const metadata: Metadata = {
 }
 
 export default function EmergencyFundCalculatorRoute() {
+  const calculatorSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Emergency Fund Calculator",
+    applicationCategory: "FinanceApplication",
+    description:
+      "Calculate 3-6 month emergency fund needs with inflation adjustment and real BLS salary data by occupation.",
+    url: `${siteUrl}/emergency-fund-calculator`,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "3-6 month emergency fund calculation",
+      "Inflation-adjusted savings goals",
+      "BLS salary data by occupation",
+      "Personalized savings timeline",
+      "Recession preparation planning",
+      "Multi-currency support",
+      "Treasury interest rate data",
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -94,6 +118,7 @@ export default function EmergencyFundCalculatorRoute() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <EmergencyFundCalculatorPage />
 
@@ -119,6 +144,7 @@ export default function EmergencyFundCalculatorRoute() {
                     <li>• Personalized savings timeline calculator</li>
                     <li>• Recession preparation planning tools</li>
                     <li>• Multi-currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)</li>
+                    <li>• Treasury interest rate data</li>
                   </ul>
                 </section>
 

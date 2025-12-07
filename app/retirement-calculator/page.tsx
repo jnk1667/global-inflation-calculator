@@ -46,6 +46,30 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
+  const calculatorSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Retirement Calculator",
+    applicationCategory: "FinanceApplication",
+    description:
+      "Comprehensive retirement planning calculator with lifestyle maintenance, crisis analysis, healthcare costs, and generational comparisons.",
+    url: "https://www.globalinflationcalculator.com/retirement-calculator",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "Traditional retirement planning",
+      "Lifestyle maintenance calculator",
+      "Retirement crisis assessment",
+      "Healthcare cost projections",
+      "Generational retirement analysis",
+      "Inflation-adjusted calculations",
+      "Multiple currency support",
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -67,6 +91,7 @@ export default function Page() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <RetirementCalculatorPage />
 
