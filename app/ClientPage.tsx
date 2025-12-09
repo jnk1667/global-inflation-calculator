@@ -1761,10 +1761,11 @@ export default function ClientPage() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/legacy-planner">
-                      <Button className="bg-purple-600 dark:bg-purple-800 hover:bg-purple-700 dark:hover:bg-purple-900 text-white">
-                        Plan Your Legacy →
-                      </Button>
+                    <Link
+                      href="/legacy-planner"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Legacy Planner
                     </Link>
                   </li>
                   <li>

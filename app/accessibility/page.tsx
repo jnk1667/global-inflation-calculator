@@ -416,6 +416,16 @@ export default function AccessibilityPage() {
                       Terms and conditions for using our service
                     </p>
                   </li>
+                  <li>
+                    <Link href="/roi-calculator" className="text-blue-600 hover:underline">
+                      ROI Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate return on investment with inflation adjustment across 8 currencies. Compare your ROI
+                      against Treasury rates and discover your real purchasing power gains with advanced mode for
+                      institutional-level analysis
+                    </p>
+                  </li>
                 </ul>
               </nav>
             </CardContent>
@@ -497,6 +507,17 @@ export default function AccessibilityPage() {
                   <li>Guidance on the budgeting rule with proper heading hierarchy</li>
                 </ul>
               </div>
+              <div>
+                <h3 className="font-semibold mb-2">ROI Calculator</h3>
+                <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>Return on investment inputs with clear labels and help text</li>
+                  <li>Currency selection with radio buttons and clear labels</li>
+                  <li>Real-time validation with error messages</li>
+                  <li>Results presented in accessible format with context</li>
+                  <li>Comparison against Treasury rates with clear visual indicators</li>
+                  <li>Advanced mode for institutional-level analysis with proper semantic structure</li>
+                </ul>
+              </div>
             </CardContent>
           </Card>
 
@@ -552,6 +573,11 @@ export default function AccessibilityPage() {
                     <li>
                       <strong>50/30/20 Budget Calculator:</strong> Split your income using the proven 50/30/20 budgeting
                       rule for needs, wants, and savings
+                    </li>
+                    <li>
+                      <strong>ROI Calculator:</strong> Calculate return on investment with inflation adjustment across 8
+                      currencies. Compare your ROI against Treasury rates and discover your real purchasing power gains
+                      with advanced mode for institutional-level analysis
                     </li>
                   </ul>
                 </div>

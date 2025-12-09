@@ -204,6 +204,12 @@ export default function RootLayout({
                         Mortgage Calculator
                       </Link>
                       <Link
+                        href="/roi-calculator"
+                        className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        ROI Calculator
+                      </Link>
+                      <Link
                         href="/emergency-fund-calculator"
                         className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >

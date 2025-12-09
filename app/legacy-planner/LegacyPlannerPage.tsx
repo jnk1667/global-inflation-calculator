@@ -20,7 +20,6 @@ import {
   Calculator,
   Info,
   ArrowRight,
-  Home,
   BookOpen,
   Database,
 } from "lucide-react"
@@ -724,127 +723,87 @@ export default function LegacyPlannerPage() {
         </main>
 
         {/* Footer */}
-        <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8 mt-12">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="grid md:grid-cols-3 gap-8">
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Calculators</h3>
-                <ul className="space-y-2">
-                  <li>
-                    <Link
-                      href="/"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
-                    >
-                      <Home className="h-4 w-4 mr-2" />
-                      Inflation Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/salary-calculator"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
-                    >
-                      <Calculator className="h-4 w-4 mr-2" />
-                      Salary Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/retirement-calculator"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
-                    >
-                      <TrendingUp className="h-4 w-4 mr-2" />
-                      Retirement Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/deflation-calculator"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
-                    >
-                      <TrendingDown className="h-4 w-4 mr-2" />
-                      Deflation Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/housing-affordability-calculator"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
-                    >
-                      <Home className="h-4 w-4 mr-2" />
-                      Housing Affordability Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/student-loan-calculator"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
-                    >
-                      <Calculator className="h-4 w-4 mr-2" />
-                      Student Loan Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/charts"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm flex items-center"
-                    >
-                      <Database className="h-4 w-4 mr-2" />
-                      Charts & Analytics
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Information</h3>
-                <ul className="space-y-2">
-                  <li>
-                    <Link
-                      href="/about"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm"
-                    >
-                      About
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/privacy"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/terms"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm"
-                    >
-                      Terms of Service
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Legacy Planning</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                  Understand how inflation affects wealth transfer across generations with our comprehensive legacy
-                  planning tool.
-                </p>
-              </div>
-            </div>
-
-            <Separator className="my-6" />
-
-            <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-              <p>
-                © 2025 Global Inflation Calculator. Legacy planning projections are estimates based on historical data.
-              </p>
-              <p className="mt-1">
-                Data sources: Government statistics, historical market returns, healthcare cost indices.
+        <footer className="mt-12 bg-slate-900 text-white rounded-lg overflow-hidden">
+          <div className="grid md:grid-cols-3 gap-8 p-8">
+            {/* About Section */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">Legacy Planner</h3>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                Understand how inflation affects wealth transfer across generations with our comprehensive legacy
+                planning tool. Plan your family's financial future.
               </p>
             </div>
+
+            {/* Data Sources */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Data Sources</h3>
+              <ul className="space-y-2 text-sm text-slate-300">
+                <li>• Historical Market Returns</li>
+                <li>• Government Statistics</li>
+                <li>• Healthcare Cost Indices</li>
+                <li>• Bureau of Labor Statistics</li>
+                <li>• Federal Reserve Data</li>
+              </ul>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <Link href="/" className="text-slate-300 hover:text-white transition-colors">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/deflation-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Deflation Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/mortgage-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Mortgage Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/legacy-planner" className="text-slate-300 hover:text-white transition-colors">
+                    Legacy Planner
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/salary-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Salary Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/charts" className="text-slate-300 hover:text-white transition-colors">
+                    Charts & Analytics
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="text-slate-300 hover:text-white transition-colors">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="text-slate-300 hover:text-white transition-colors">
+                    Terms of Service
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy" className="text-slate-300 hover:text-white transition-colors">
+                    Privacy Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div className="border-t border-slate-800 px-8 py-6 text-center">
+            <p className="text-sm text-slate-400">
+              © 2025 Global Inflation Calculator. Legacy planning projections are estimates based on historical data.
+            </p>
           </div>
         </footer>
       </div>

@@ -21,6 +21,7 @@ import html2canvas from "html2canvas"
 import CurrencyComparisonChart from "@/components/currency-comparison-chart"
 import FAQ from "@/components/faq"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
+import Link from "next/link"
 
 export default function ChartsPage() {
   const [screenshotting, setScreenshotting] = useState<string | null>(null)
@@ -1483,135 +1484,98 @@ export default function ChartsPage() {
         </section>
 
         {/* Footer */}
-        <footer className="mt-20 border-t border-gray-200 dark:border-gray-700 pt-12">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Tools & Calculators */}
+        <footer className="mt-20 bg-slate-900 text-white rounded-lg overflow-hidden">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8 p-8">
+              {/* About Section */}
               <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Tools & Calculators</h3>
-                <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="/"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      Inflation Calculator
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/salary-calculator"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      Salary Calculator
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/retirement-calculator"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      Retirement Calculator
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/deflation-calculator"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      Deflation Calculator
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/housing-affordability-calculator"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      Housing Affordability Calculator
-                    </a>
-                  </li>
-                  {/* </CHANGE> */}
-                  <li>
-                    <a
-                      href="/legacy-planner"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      Legacy Planner
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/student-loan-calculator"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      Student Loan Calculator
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/charts" className="text-blue-600 dark:text-blue-400 font-medium">
-                      Charts & Analytics
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Information */}
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Information</h3>
-                <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="/about"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      About
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/privacy"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      Privacy Policy
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/terms"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      Terms of Service
-                    </a>
-                  </li>
-                </ul>
+                <h3 className="text-xl font-bold mb-4">Charts & Analytics</h3>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  Interactive inflation charts across 8 currencies from 1913-2025. Visualize purchasing power erosion
+                  and currency stability trends.
+                </p>
               </div>
 
               {/* Data Sources */}
               <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Data Sources</h3>
-                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                  <li>US Bureau of Labor Statistics</li>
-                  <li>UK Office for National Statistics</li>
-                  <li>Eurostat</li>
-                  <li>Bank of Canada</li>
-                  <li>Reserve Bank of Australia</li>
-                  <li>Swiss National Bank</li>
-                  <li>Bank of Japan</li>
-                  <li>Reserve Bank of New Zealand</li>
+                <h3 className="text-lg font-semibold mb-4">Data Sources</h3>
+                <ul className="space-y-2 text-sm text-slate-300">
+                  <li>• US Bureau of Labor Statistics</li>
+                  <li>• UK Office for National Statistics</li>
+                  <li>• Eurostat</li>
+                  <li>• Statistics Canada</li>
+                  <li>• Australian Bureau of Statistics</li>
+                  <li>• Swiss Federal Statistical Office</li>
+                  <li>• Statistics Bureau of Japan</li>
+                  <li>• Statistics New Zealand</li>
+                </ul>
+              </div>
+
+              {/* Quick Links */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <Link href="/" className="text-slate-300 hover:text-white transition-colors">
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/deflation-calculator" className="text-slate-300 hover:text-white transition-colors">
+                      Deflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/mortgage-calculator" className="text-slate-300 hover:text-white transition-colors">
+                      Mortgage Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/legacy-planner" className="text-slate-300 hover:text-white transition-colors">
+                      Legacy Planner
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/salary-calculator" className="text-slate-300 hover:text-white transition-colors">
+                      Salary Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/charts" className="text-slate-300 hover:text-white transition-colors">
+                      Charts & Analytics
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about" className="text-slate-300 hover:text-white transition-colors">
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/terms" className="text-slate-300 hover:text-white transition-colors">
+                      Terms of Service
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy" className="text-slate-300 hover:text-white transition-colors">
+                      Privacy Policy
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>
 
-            <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+            {/* Copyright */}
+            <div className="border-t border-slate-800 px-8 py-6 text-center">
+              <p className="text-sm text-slate-400">
                 All charts are based on official government data sources. Charts are screenshot-ready and shareable.
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+              <p className="text-xs text-slate-500 mt-2">
                 Data last updated: September 2025 | © 2025 Global Inflation Calculator
               </p>
             </div>
           </div>
         </footer>
+        {/* </CHANGE> */}
       </div>
     </div>
   )

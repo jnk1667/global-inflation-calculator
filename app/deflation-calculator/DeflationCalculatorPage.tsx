@@ -760,119 +760,84 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
         </div>
 
         {/* Footer Section */}
-        <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg p-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <footer className="mt-12 bg-slate-900 text-white rounded-lg overflow-hidden">
+          <div className="grid md:grid-cols-3 gap-8 p-8">
+            {/* About Section */}
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Calculator Tools</h4>
-              <ul className="space-y-2">
+              <h3 className="text-xl font-bold mb-4">Deflation Calculator</h3>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                Calculate purchasing power changes during deflation periods with historical data from 1913 to 2025.
+              </p>
+            </div>
+
+            {/* Data Sources */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Data Sources</h3>
+              <ul className="space-y-2 text-sm text-slate-300">
+                <li>• Bureau of Labor Statistics (BLS)</li>
+                <li>• Federal Reserve Economic Data</li>
+                <li>• Historical CPI Records</li>
+                <li>• US Treasury Department</li>
+                <li>• OECD Economic Indicators</li>
+              </ul>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+              <ul className="space-y-2 text-sm">
                 <li>
-                  <Link
-                    href="/"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    Inflation Calculator
+                  <Link href="/" className="text-slate-300 hover:text-white transition-colors">
+                    Home
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/salary-calculator"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    Salary Calculator
+                  <Link href="/deflation-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Deflation Calculator
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/retirement-calculator"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    Retirement Calculator
+                  <Link href="/mortgage-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Mortgage Calculator
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/housing-affordability-calculator"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    Housing Affordability Calculator
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/legacy-planner"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
+                  <Link href="/legacy-planner" className="text-slate-300 hover:text-white transition-colors">
                     Legacy Planner
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/student-loan-calculator"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    Student Loan Calculator
+                  <Link href="/salary-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Salary Calculator
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/charts"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
+                  <Link href="/charts" className="text-slate-300 hover:text-white transition-colors">
                     Charts & Analytics
                   </Link>
                 </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Information</h4>
-              <ul className="space-y-2">
                 <li>
-                  <Link
-                    href="/about"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
+                  <Link href="/about" className="text-slate-300 hover:text-white transition-colors">
                     About Us
                   </Link>
                 </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Legal</h4>
-              <ul className="space-y-2">
                 <li>
-                  <Link
-                    href="/privacy"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/terms"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
+                  <Link href="/terms" className="text-slate-300 hover:text-white transition-colors">
                     Terms of Service
                   </Link>
                 </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Contact</h4>
-              <ul className="space-y-2">
                 <li>
-                  <a
-                    href="mailto:admin@globalinflationcalculator.com"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    Contact Us
-                  </a>
+                  <Link href="/privacy" className="text-slate-300 hover:text-white transition-colors">
+                    Privacy Policy
+                  </Link>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
-            <p>&copy; 2025 Global Inflation Calculator. All rights reserved.</p>
+
+          {/* Copyright */}
+          <div className="border-t border-slate-800 px-8 py-6 text-center">
+            <p className="text-sm text-slate-400">© 2025 Global Inflation Calculator. Educational purposes only.</p>
           </div>
         </footer>
       </div>

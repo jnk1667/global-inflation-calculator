@@ -51,6 +51,7 @@ interface Content {
   housing_affordability_essay: string
   emergency_fund_essay: string
   budget_essay: string
+  roi_essay: string
   student_loan_blog_title: string
   student_loan_blog_content: string
   student_loan_methodology: string
@@ -102,6 +103,7 @@ const AdminContentPage: React.FC = () => {
     housing_affordability_essay: "",
     emergency_fund_essay: "",
     budget_essay: "",
+    roi_essay: "",
     student_loan_blog_title: "Understanding Student Loans in an Inflationary Economy: A Comprehensive Guide",
     student_loan_blog_content: "",
     student_loan_methodology: "",
@@ -319,22 +321,27 @@ The key to successful multi-generational wealth planning lies in balancing growt
           {} as Record<string, string>,
         ) || {}
 
-      // Process content and settings
+      // Update content state with loaded data
       setContent((prev) => ({
         ...prev,
-        site_title: settingsMap.site_title || prev.site_title,
-        site_description: settingsMap.site_description || prev.site_description,
-        footer_text: settingsMap.footer_text || prev.footer_text, // Load footer_text
-        seo_essay: contentMap.main_essay || prev.seo_essay,
-        salary_essay: contentMap.salary_essay || prev.salary_essay,
-        retirement_essay: contentMap.retirement_essay || prev.retirement_essay,
-        deflation_essay: contentMap.deflation_essay || prev.deflation_essay,
-        charts_essay: contentMap.charts_essay || prev.charts_essay,
-        housing_affordability_essay: contentMap.housing_affordability_essay || prev.housing_affordability_essay,
-        emergency_fund_essay: contentMap.emergency_fund_essay || prev.emergency_fund_essay,
-        budget_essay: contentMap.budget_essay || prev.budget_essay,
-        privacy_content: contentMap.privacy_page || prev.privacy_content,
-        terms_content: contentMap.terms_page || prev.terms_content,
+        site_title: settingsMap["site_title"] || "",
+        site_description: settingsMap["site_description"] || "",
+        footer_text: settingsMap["footer_text"] || "",
+        logo_url: settingsMap["logo_url"] || "",
+        seo_essay: contentMap["main_essay"] || "",
+        salary_essay: contentMap["salary_essay"] || "",
+        retirement_essay: contentMap["retirement_essay"] || "",
+        deflation_essay: contentMap["deflation_essay"] || "",
+        charts_essay: contentMap["charts_essay"] || "",
+        housing_affordability_essay: contentMap["housing_affordability_essay"] || "",
+        emergency_fund_essay: contentMap["emergency_fund_essay"] || "",
+        budget_essay: contentMap["budget_essay"] || "",
+        roi_essay: contentMap["roi_essay"] || "",
+        student_loan_blog_title: contentMap["student_loan_blog_title"] || "",
+        student_loan_blog_content: contentMap["student_loan_blog_content"] || "",
+        student_loan_methodology: contentMap["student_loan_methodology"] || "",
+        privacy_content: contentMap["privacy_content"] || "",
+        terms_content: contentMap["terms_content"] || "",
       }))
 
       // Load Legacy Planner Content
@@ -1037,6 +1044,30 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
             <Card>
               <CardHeader>
+                <CardTitle>ROI Calculator Essay</CardTitle>
+                <CardDescription>Educational content for the ROI calculator page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.roi_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, roi_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter ROI calculator essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("roi_essay", content.roi_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save ROI Calculator Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
                 <CardTitle>50/30/20 Budget Calculator Essay</CardTitle>
                 <CardDescription>Educational content for the 50/30/20 budget calculator page</CardDescription>
               </CardHeader>
@@ -1462,6 +1493,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
                       <SelectItem value="housing-affordability">Mortgage Calculator</SelectItem>
                       <SelectItem value="emergency-fund">Emergency Fund Calculator</SelectItem>
                       <SelectItem value="budget">50/30/20 Budget Calculator</SelectItem>
+                      <SelectItem value="roi">ROI Calculator</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -1515,6 +1547,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
                           <SelectItem value="housing-affordability">Mortgage Calculator</SelectItem>
                           <SelectItem value="emergency-fund">Emergency Fund Calculator</SelectItem>
                           <SelectItem value="budget">50/30/20 Budget Calculator</SelectItem>
+                          <SelectItem value="roi">ROI Calculator</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

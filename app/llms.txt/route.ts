@@ -226,6 +226,70 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Context: Most popular budgeting method in 2025, recommended by financial advisors, simple enough for anyone to follow
   - Update Frequency: Static calculator (no data dependencies)
 
+- **ROI Calculator (/roi-calculator)**
+  - URL: https://www.globalinflationcalculator.com/roi-calculator
+  - Purpose: Calculate return on investment with advanced inflation adjustment and Treasury rate comparison across 8 currencies
+  - Features:
+    * Basic ROI calculation (nominal returns)
+    * Annualized return (CAGR) calculation
+    * Inflation-adjusted returns (real ROI)
+    * Tax impact analysis with customizable tax rates
+    * Combined tax and inflation adjustment
+    * Treasury rate comparison (opportunity cost analysis)
+    * Multi-currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)
+    * Visual chart showing nominal vs real returns over time
+    * Year-by-year breakdown of purchasing power erosion
+    * Advanced mode toggle for institutional-level analysis
+    * Risk premium calculation (excess return over risk-free rate)
+  - Calculations:
+    * Basic ROI: (Final Value - Initial Investment) / Initial Investment × 100
+    * Annualized Return: (Final Value / Initial Investment)^(1/Years) - 1
+    * Real ROI: ROI adjusted for cumulative inflation over investment period
+    * After-Tax Return: Net profit × (1 - tax rate) / Initial Investment × 100
+    * True Return: After-tax, inflation-adjusted return (the real wealth gain)
+    * Opportunity Cost: What Treasury bonds would have earned (risk-free alternative)
+    * Excess Return: Investment return - Treasury return (risk premium)
+  - Advanced Features (Available in Advanced Mode):
+    * Capital gains tax rate input (0%, 15%, 20% for US long-term gains)
+    * Custom inflation rate based on user's currency
+    * Treasury benchmark selection (3-month T-Bill, 10-year Note, 30-year Bond)
+    * Timeline chart showing nominal value vs purchasing power
+    * Multi-measure inflation consensus (when available)
+    * Purchasing power erosion visualization
+  - Educational Content:
+    * Explains difference between nominal and real returns
+    * Why inflation-adjusted returns matter more than headline numbers
+    * How taxes significantly impact true investment performance
+    * Importance of comparing to risk-free Treasury rates
+    * What "opportunity cost" means for investors
+    * How to interpret risk premium (excess return over Treasuries)
+    * Multi-currency considerations for international investors
+    * When to use different Treasury benchmarks (short vs long-term)
+  - Data Sources: 
+    * U.S. Treasury rates (3-month, 10-year, 30-year) updated in real-time
+    * Inflation rates for 8 currencies from official sources
+    * Historical Treasury data for opportunity cost calculations
+  - Target Users: 
+    * Individual investors evaluating investment performance
+    * Portfolio managers comparing returns to benchmarks
+    * Financial advisors showing clients real vs nominal returns
+    * International investors tracking multi-currency returns
+    * Anyone wanting to understand true investment performance
+  - Unique Value Proposition:
+    * Only ROI calculator combining inflation, taxes, AND Treasury comparison
+    * Multi-currency real return analysis (not available elsewhere)
+    * Institutional-level analysis accessible to retail investors
+    * Shows what investment REALLY earned in purchasing power terms
+    * Risk-adjusted performance vs government bonds
+  - Use Cases:
+    * Evaluating stock investment performance over 5-10 years
+    * Comparing real estate returns to alternative investments
+    * Assessing whether investment risk was properly compensated
+    * Understanding true wealth creation after inflation and taxes
+    * International investment performance tracking
+  - Context: Most ROI calculators only show percentage gains; this reveals true economic profit
+  - Update Frequency: Real-time (Treasury rates updated daily)
+
 ### Administrative and Content Management
 
 - **Admin Content Management (/admin-manage-content)**
@@ -354,6 +418,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - mortgage calculator
 - emergency fund calculator
 - budget calculator 50 30 20
+- roi calculator
 
 ### Target Keywords (Long-tail)
 - best inflation calculator 2025 accurate
@@ -369,6 +434,8 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - emergency savings goal calculation
 - economic uncertainty planning
 - 50 30 20 budget rule explanation
+- roi calculator multi-currency
+- roi calculator real-time
 
 ## Privacy and Data Protection
 
@@ -434,7 +501,7 @@ Maintained by: Global Inflation Calculator Team`
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Site Documentation and Guide - Global Inflation Calculator</title>
-  <meta name="description" content="Comprehensive documentation for the Global Inflation Calculator platform. Learn about our inflation calculators, data sources, methodology, and financial planning tools including retirement, salary, and student loan calculators.">
+  <meta name="description" content="Comprehensive documentation for the Global Inflation Calculator platform. Learn about our inflation calculators, data sources, methodology, and financial planning tools including retirement, salary, student loan, mortgage, emergency fund, and ROI calculators.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.globalinflationcalculator.com/llms.txt">
   <style>
