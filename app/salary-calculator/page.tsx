@@ -79,10 +79,50 @@ export default function SalaryCalculatorPageRoute() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How do I calculate my inflation-adjusted salary?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "To calculate your inflation-adjusted salary, enter your current or historical salary, select the year it was earned, and choose a comparison year. The calculator uses Consumer Price Index (CPI) data to show what that salary is worth in today's dollars or any other year you choose.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is the difference between real wages and nominal wages?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Nominal wages are the actual dollar amounts you earn without any adjustments. Real wages account for inflation, showing your true purchasing power. For example, a $50,000 salary in 2000 had more purchasing power than $50,000 in 2024 due to cumulative inflation.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Why has my purchasing power decreased even though my salary increased?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "If your salary increases don't keep pace with inflation, your purchasing power decreases. For example, a 3% salary raise when inflation is 5% actually results in a 2% decrease in real purchasing power. This is why inflation-adjusted comparisons are crucial for understanding true wage growth.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How accurate is historical salary data?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Our salary calculator uses official Consumer Price Index (CPI) data from government sources like the Bureau of Labor Statistics. CPI is the standard measure for inflation calculations and provides reliable historical comparisons dating back to 1913.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <SalaryCalculatorPage />
 
       <noscript>

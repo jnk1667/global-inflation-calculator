@@ -91,10 +91,50 @@ export default function Page() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How much house can I afford based on my income?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "A general rule is that your home price should be 2.5-3 times your annual household income. However, this varies based on interest rates, down payment, debts, and local market conditions. Our calculator uses historical median income and Case-Shiller home price data to show affordability trends over time.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is the price-to-income ratio and why does it matter?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The price-to-income ratio divides median home prices by median household income. It measures housing affordability - a higher ratio means homes are less affordable relative to incomes. Historically, ratios above 4.0 indicate housing markets may be overvalued.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How have home prices changed relative to wages over time?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Using Case-Shiller data since 1987, home prices have generally outpaced wage growth. While median household incomes have roughly doubled, home prices in many markets have tripled or quadrupled. This trend has made housing less affordable for average income earners.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What factors affect mortgage affordability?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Key factors include interest rates, home prices, household income, down payment size, property taxes, insurance costs, and existing debts. Lower interest rates improve affordability, while rising home prices reduce it. Our calculator helps you understand these historical relationships.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <MortgageCalculatorPage />
     </>

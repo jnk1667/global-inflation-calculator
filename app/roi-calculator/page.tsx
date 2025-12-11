@@ -80,6 +80,45 @@ export default function Page() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What is ROI and how is it calculated?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "ROI (Return on Investment) measures the profitability of an investment. It's calculated as: (Final Value - Initial Investment) / Initial Investment × 100. For example, if you invest $1,000 and it grows to $1,500, your ROI is 50%.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How does inflation affect my investment returns?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Inflation reduces the real purchasing power of your returns. While you may earn 8% nominal returns, if inflation is 3%, your real return is only about 5%. Our calculator adjusts for inflation to show your true purchasing power gains.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What's the difference between nominal and real ROI?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Nominal ROI shows the raw percentage return without accounting for inflation. Real ROI adjusts for inflation to show the actual increase in purchasing power. Real ROI = (1 + Nominal ROI) / (1 + Inflation Rate) - 1.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How should I compare my ROI to Treasury rates?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Treasury rates represent risk-free returns. If your investment ROI doesn't beat Treasury rates (adjusted for inflation), you're taking on extra risk without adequate reward. Our calculator helps you make this comparison across different time periods.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
@@ -87,6 +126,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <ROICalculatorPage />
     </>
   )

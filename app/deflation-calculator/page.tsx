@@ -120,10 +120,50 @@ export default function DeflationCalculator() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What is deflation and how does it differ from inflation?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Deflation is when prices decrease over time, increasing the purchasing power of money. Unlike inflation where money loses value, deflation means each dollar buys more goods and services. Deflationary assets like gold and bitcoin have limited supply, making them scarce and valuable over time.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Why are gold and silver considered deflationary assets?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Gold and silver are physically scarce with limited supply. Mining becomes more expensive over time, and total reserves are finite. Unlike fiat currency that can be printed infinitely, precious metals maintain purchasing power through scarcity, making them effective inflation hedges.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How does Bitcoin's supply mechanism create deflation?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Bitcoin has a fixed maximum supply of 21 million coins. New bitcoins are created through mining, with the reward halving approximately every 4 years. This programmatic scarcity creates deflationary pressure as demand grows but supply becomes increasingly limited.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can crude oil be considered a deflationary asset?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Crude oil has deflationary characteristics due to finite reserves and increasing extraction costs. As easily accessible oil depletes, remaining reserves become more expensive to extract. However, oil prices are also heavily influenced by geopolitical factors and technological changes in energy production.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <DeflationCalculatorPage />
 
       <noscript>
