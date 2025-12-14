@@ -116,10 +116,50 @@ export default function EmergencyFundCalculatorRoute() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How much should I have in my emergency fund?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Financial experts recommend saving 3-6 months of essential expenses. If you have dependents, irregular income, or work in a volatile industry, aim for 6-12 months. Calculate your monthly essential expenses (housing, utilities, food, insurance, minimum debt payments) and multiply by your target months.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Where should I keep my emergency fund?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Keep your emergency fund in a high-yield savings account or money market account that's FDIC-insured. The money should be easily accessible but separate from your checking account to avoid temptation. Avoid investing emergency funds in stocks or other volatile assets.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What counts as an emergency expense?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "True emergencies include job loss, medical emergencies, urgent car repairs, home repairs (broken furnace, roof leak), or unexpected family emergencies. Non-emergencies like vacations, holiday shopping, or planned purchases should come from your regular budget or separate savings.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Should I pay off debt or build an emergency fund first?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Start with a small emergency fund of $500-$1,000, then focus on high-interest debt (credit cards over 15% APR). Once high-interest debt is paid, build your full 3-6 month emergency fund. Continue paying minimums on all debts while building your emergency fund.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <EmergencyFundCalculatorPage />
 
       <noscript>

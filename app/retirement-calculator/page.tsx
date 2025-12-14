@@ -89,10 +89,50 @@ export default function Page() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How much money do I need to retire?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "A common rule is the 25x rule: multiply your annual expenses by 25. For example, if you need $60,000/year, aim for $1.5 million. This assumes a 4% withdrawal rate. However, consider healthcare costs, inflation, longevity, and your desired retirement lifestyle when planning.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is the 4% retirement withdrawal rule?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The 4% rule suggests withdrawing 4% of your retirement savings in the first year, then adjusting for inflation annually. This strategy aims to make your savings last 30 years. For $1 million saved, you'd withdraw $40,000 in year one, increasing each year with inflation.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How does inflation affect retirement savings?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Inflation erodes purchasing power over time. At 3% annual inflation, $100,000 today will have the purchasing power of about $55,000 in 20 years. Plan for inflation by investing in growth assets during retirement and regularly adjusting your withdrawal amounts.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What are the biggest retirement expenses?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Healthcare is the largest retirement expense, often exceeding $300,000 per couple over retirement. Other major costs include housing, long-term care insurance, travel and leisure, and inflation on everyday expenses. Healthcare inflation typically runs 2-3% higher than general inflation.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <RetirementCalculatorPage />
 
       <noscript>

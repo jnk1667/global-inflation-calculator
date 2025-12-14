@@ -1,46 +1,77 @@
 {
-  "lastUpdate": "2025-11-14T00:00:00.000Z",
+  "lastUpdate": "2025-12-14T00:00:00.000Z",
   "autoUpdateEnabled": true,
-  "currencies": ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY"],
-  "nextScheduledUpdate": "2025-12-01T12:00:00.000Z",
+  "currencies": ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY", "NZD"],
+  "nextScheduledUpdate": "2026-01-15T12:00:00.000Z",
   "updateFrequency": "monthly",
-  "currentMonth": "November",
+  "currentMonth": "December",
   "currentYear": 2025,
   "dataStatus": {
     "USD": {
       "source": "US Bureau of Labor Statistics",
-      "lastFetch": "2025-11-14T00:00:00.000Z",
-      "status": "active"
+      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "status": "active",
+      "latestPeriod": "September 2025",
+      "annualRate": "3.0%"
     },
     "GBP": {
       "source": "UK Office for National Statistics",
-      "lastFetch": "2025-11-14T00:00:00.000Z",
-      "status": "active"
+      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "status": "active",
+      "latestPeriod": "October 2025",
+      "annualRate": "3.6%"
     },
     "EUR": {
-      "source": "Eurostat (estimated)",
-      "lastFetch": "2025-11-14T00:00:00.000Z",
-      "status": "active"
+      "source": "Eurostat",
+      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "status": "active",
+      "latestPeriod": "November 2025",
+      "annualRate": "2.2%"
     },
     "CAD": {
-      "source": "Statistics Canada (estimated)",
-      "lastFetch": "2025-08-01T12:00:00.000Z",
-      "status": "active"
+      "source": "Statistics Canada",
+      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "status": "active",
+      "latestPeriod": "October 2025",
+      "annualRate": "2.2%"
     },
     "AUD": {
-      "source": "Australian Bureau of Statistics (estimated)",
-      "lastFetch": "2025-08-01T12:00:00.000Z",
-      "status": "active"
+      "source": "Australian Bureau of Statistics",
+      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "status": "active",
+      "latestPeriod": "October 2025",
+      "annualRate": "3.8%"
     },
     "CHF": {
-      "source": "Swiss Federal Statistical Office (estimated)",
-      "lastFetch": "2025-08-01T12:00:00.000Z",
-      "status": "active"
+      "source": "Swiss Federal Statistical Office",
+      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "status": "active",
+      "latestPeriod": "November 2025",
+      "annualRate": "0.0%"
     },
     "JPY": {
-      "source": "Statistics Bureau of Japan (estimated)",
-      "lastFetch": "2025-08-01T12:00:00.000Z",
-      "status": "active"
+      "source": "Statistics Bureau of Japan",
+      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "status": "active",
+      "latestPeriod": "October 2025",
+      "annualRate": "3.0%"
+    },
+    "NZD": {
+      "source": "Stats NZ",
+      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "status": "active",
+      "latestPeriod": "Q3 2025",
+      "annualRate": "3.0%"
+    }
+  },
+  "treasuryRates": {
+    "lastFetch": "2025-12-14T00:00:00.000Z",
+    "source": "U.S. Department of the Treasury",
+    "latestDate": "December 12, 2025",
+    "key_rates": {
+      "treasury_10y": "4.18%",
+      "treasury_30y": "4.84%",
+      "treasury_2y": "3.53%"
     }
   }
 }

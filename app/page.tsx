@@ -47,9 +47,58 @@ export const metadata: Metadata = {
   },
 }
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is inflation and how does it affect my money?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Inflation is the rate at which the general level of prices for goods and services rises, eroding purchasing power. When inflation is 3%, something that costs $100 today would cost $103 next year. This means your money buys less over time if it doesn't grow at least at the rate of inflation.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How accurate is this inflation calculator?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Our calculator uses official government data from sources like the Bureau of Labor Statistics (BLS), Office for National Statistics (ONS), Eurostat, and other national statistical agencies. The data is updated monthly and reflects the most accurate historical inflation rates available. However, individual experiences with inflation may vary based on personal spending patterns.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which currencies are supported?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "We support 8 major world currencies: US Dollar (USD) from 1913, British Pound (GBP) from 1947, Euro (EUR) from 1996, Canadian Dollar (CAD) from 1913, Australian Dollar (AUD) from 1948, Swiss Franc (CHF) from 1913, Japanese Yen (JPY) from 1946, and New Zealand Dollar (NZD) from 1960.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What's the difference between CPI and other inflation measures?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CPI (Consumer Price Index) measures price changes in a basket of consumer goods and services. Core CPI excludes volatile food and energy prices. PCE (Personal Consumption Expenditures) is the Fed's preferred measure and covers a broader range of goods. PPI (Producer Price Index) measures wholesale prices. Each measure serves different purposes in economic analysis.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How often is the inflation data updated?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Our inflation data is updated monthly as new official statistics are released by government agencies. The US Bureau of Labor Statistics typically releases CPI data around the middle of each month for the previous month. Other countries follow similar schedules with their respective statistical agencies.",
+      },
+    },
+  ],
+}
+
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+
       {/* Interactive calculator - client component */}
       <ClientPage />
 

@@ -699,7 +699,7 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                 </div>
 
                 <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                  <strong>Last Updated:</strong> November 2025 | <strong>Update Frequency:</strong> Monthly
+                  <strong>Last Updated:</strong> December 2025 | <strong>Update Frequency:</strong> Monthly
                 </div>
               </CardContent>
             </Card>

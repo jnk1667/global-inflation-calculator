@@ -1,7 +1,7 @@
 {
   "source": "U.S. Department of the Treasury",
   "api_endpoint": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates",
-  "last_updated": "2025-11-27T00:00:00Z",
+  "last_updated": "2025-12-14T00:00:00Z",
   "description": "Average interest rates on U.S. Treasury securities, including T-Bills, Notes, Bonds, and Savings Bonds",
   "earliest_year": "2001",
   "latest_year": "2025",
@@ -254,17 +254,19 @@
       "treasury_bonds_30y": 4.28
     },
     "2025": {
-      "treasury_bills_3m": 4.38,
-      "treasury_bills_6m": 4.32,
-      "treasury_bills_1y": 4.18,
-      "treasury_notes_2y": 3.95,
-      "treasury_notes_5y": 3.88,
-      "treasury_notes_10y": 4.05,
-      "treasury_bonds_20y": 4.41,
-      "treasury_bonds_30y": 4.38,
+      "treasury_bills_3m": 3.62,
+      "treasury_bills_6m": 3.59,
+      "treasury_bills_1y": 3.53,
+      "treasury_notes_2y": 3.53,
+      "treasury_notes_3y": 3.59,
+      "treasury_notes_5y": 3.75,
+      "treasury_notes_7y": 3.95,
+      "treasury_notes_10y": 4.18,
+      "treasury_bonds_20y": 4.82,
+      "treasury_bonds_30y": 4.84,
       "is_partial_year": true,
-      "last_month_available": "October 2025",
-      "notes": "Rates as of October 2025. November data pending."
+      "last_month_available": "December 2025",
+      "notes": "Rates as of December 12, 2025."
     }
   },
   "savings_bonds": {
@@ -295,7 +297,7 @@
         "2022": { "fixed_rate": 0.4, "composite_rate": 9.62 },
         "2023": { "fixed_rate": 0.9, "composite_rate": 5.27 },
         "2024": { "fixed_rate": 1.3, "composite_rate": 4.66 },
-        "2025": { "fixed_rate": 1.2, "composite_rate": 4.52, "is_partial_year": true, "last_update": "May 2025" }
+        "2025": { "fixed_rate": 1.2, "composite_rate": 4.28, "is_partial_year": true, "last_update": "November 2025" }
       }
     },
     "series_ee": {
@@ -325,7 +327,7 @@
         "2022": { "rate": 0.1 },
         "2023": { "rate": 2.5 },
         "2024": { "rate": 2.7 },
-        "2025": { "rate": 2.8, "is_partial_year": true, "last_update": "May 2025" }
+        "2025": { "rate": 2.8, "is_partial_year": true, "last_update": "November 2025" }
       }
     }
   },

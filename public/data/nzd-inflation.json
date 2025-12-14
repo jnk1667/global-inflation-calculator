@@ -62,10 +62,10 @@
     "2022": 1512.8,
     "2023": 1634.7,
     "2024": 1689.2,
-    "2025": 1723.8
+    "2025": 1739.7
   },
   "source": "Statistics New Zealand (Stats NZ)",
-  "lastUpdated": "2025-08-01",
+  "lastUpdated": "2025-12-14T00:00:00Z",
   "startYear": 1967,
   "endYear": 2025,
   "notes": "Consumer Price Index data from Statistics New Zealand. NZD introduced in 1967 replacing the New Zealand pound."

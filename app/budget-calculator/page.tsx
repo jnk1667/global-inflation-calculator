@@ -88,10 +88,51 @@ export default function Page() {
     },
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What is the 50/30/20 budget rule?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The 50/30/20 budget rule divides your after-tax income into three categories: 50% for needs (essential expenses like housing, utilities, groceries), 30% for wants (discretionary spending like entertainment and dining out), and 20% for savings and debt repayment.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How do I calculate my 50/30/20 budget?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Start with your after-tax income (take-home pay). Multiply by 0.5 for needs (50%), 0.3 for wants (30%), and 0.2 for savings (20%). For example, with $5,000 monthly income: $2,500 needs, $1,500 wants, $1,000 savings.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What counts as needs in the 50/30/20 rule?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Needs include essential expenses you cannot avoid: rent/mortgage, utilities, groceries, insurance (health, car, home), minimum debt payments, and basic transportation costs. These are expenses required to maintain your basic standard of living.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can I adjust the 50/30/20 percentages?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, the 50/30/20 rule is a guideline. Adjust based on your situation: if you live in a high-cost area, you might need 60% for needs and 20% for wants. If you're aggressively saving for a goal, you could do 50/20/30 or even 50/10/40.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      {/* */}
       <BudgetCalculatorPage />
 
       <noscript>

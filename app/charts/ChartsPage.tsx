@@ -1570,7 +1570,8 @@ export default function ChartsPage() {
                 All charts are based on official government data sources. Charts are screenshot-ready and shareable.
               </p>
               <p className="text-xs text-slate-500 mt-2">
-                Data last updated: September 2025 | © 2025 Global Inflation Calculator
+                Data last updated: December 2025 | © 2025 Global Inflation Calculator
+                {/* </CHANGE> */}
               </p>
             </div>
           </div>

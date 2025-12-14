@@ -114,23 +114,6 @@ export default function FAQ({ category, limit }: FAQProps) {
     loadFAQs()
   }, [category, limit])
 
-  const generateFAQSchema = () => {
-    if (faqs.length === 0) return null
-
-    return {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: faqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: faq.answer,
-        },
-      })),
-    }
-  }
-
   if (loading) {
     return (
       <div className="space-y-4">
@@ -190,15 +173,6 @@ export default function FAQ({ category, limit }: FAQProps) {
 
   return (
     <>
-      {faqs.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(generateFAQSchema()),
-          }}
-        />
-      )}
-
       <div className="space-y-4">
         <div>
           <h3 className="flex items-center gap-2 text-lg font-semibold mb-2">

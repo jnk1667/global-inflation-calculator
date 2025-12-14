@@ -879,7 +879,7 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
             </div>
           </div>
           <div className="mt-8 border-t border-white/10 pt-8 text-center text-sm text-slate-400">
-            <p>Last Updated: November 2025 | © 2025 Global Inflation Calculator. All rights reserved.</p>
+            <p>Last Updated: December 2025 | © 2025 Global Inflation Calculator. All rights reserved.</p>
           </div>
         </div>
       </footer>

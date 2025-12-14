@@ -98,7 +98,6 @@ export default function LegacyPlannerPageWrapper() {
       "Generational wealth transfer calculator",
     ],
   }
-  // </CHANGE>
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -119,11 +118,51 @@ export default function LegacyPlannerPageWrapper() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What is legacy planning?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Legacy planning is the process of organizing your financial affairs to transfer wealth to future generations efficiently. It includes estate planning, will creation, trust establishment, tax minimization strategies, and ensuring your family's financial security across multiple generations.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How does inflation affect inheritance?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Inflation erodes the purchasing power of inherited wealth over time. At 3% annual inflation, $1 million today will have the purchasing power of only $740,000 in 10 years and $550,000 in 20 years. Proper legacy planning accounts for inflation through growth-oriented investments and strategic asset allocation.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is the best way to transfer wealth to heirs?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The best method depends on your situation, but common strategies include: establishing trusts to avoid probate and provide control, gifting assets during your lifetime to reduce estate taxes, creating family LLCs or partnerships for business assets, and using life insurance for tax-free wealth transfer. Consult an estate planning attorney for personalized advice.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How much can I gift to family members tax-free?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "As of 2025, you can gift up to $18,000 per person per year without filing a gift tax return (annual exclusion). Married couples can jointly gift $36,000 per recipient. The lifetime gift and estate tax exemption is $13.61 million per individual ($27.22 million per couple), allowing substantial wealth transfer without federal taxes.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
-      {/* </CHANGE> */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      {/* </CHANGE> */}
       <LegacyPlannerPage />
     </>
   )

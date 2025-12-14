@@ -83,9 +83,49 @@ export default function Page() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What inflation charts are available?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Our charts include USD Century of Inflation (1913-2025), Healthcare vs General Inflation, Real Estate vs Inflation, Wage Growth vs Inflation, Multi-Currency Comparison across 8 major currencies, Currency Stability Rankings, Regional Inflation Analysis, and more. All charts use official government data from central banks and statistical agencies.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How often are inflation charts updated?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Charts are updated monthly when new official inflation statistics are released by government agencies like the Bureau of Labor Statistics (BLS), Office for National Statistics (ONS), and Eurostat. Historical data is also reviewed and corrected when revisions are published.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Which currency has the most stable inflation rate?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Historically, the Swiss Franc (CHF) has shown the most stable inflation rates among major currencies, often maintaining rates near or below 2%. The Euro (EUR) and Japanese Yen (JPY) have also demonstrated relative stability in recent decades. Currency stability depends on central bank policy, economic fundamentals, and geopolitical factors.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How does healthcare inflation compare to general inflation?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Healthcare inflation consistently runs 2-3 percentage points higher than general CPI inflation. Over the past 30 years, healthcare costs have increased at roughly 5-6% annually while general inflation averaged 2-3%. This means healthcare expenses double approximately every 12-15 years, making it a critical consideration for retirement planning.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <ChartsPage />
 
       <noscript>

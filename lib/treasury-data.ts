@@ -4,16 +4,16 @@ export const treasuryData = {
   latest_year: 2025,
   data: {
     2025: {
-      treasury_bills_3m: 4.38,
-      treasury_bills_6m: 4.42,
-      treasury_bills_1y: 4.45,
-      treasury_notes_2y: 4.28,
-      treasury_notes_3y: 4.22,
-      treasury_notes_5y: 4.18,
-      treasury_notes_7y: 4.25,
-      treasury_notes_10y: 4.48,
+      treasury_bills_3m: 3.62,
+      treasury_bills_6m: 3.59,
+      treasury_bills_1y: 3.53,
+      treasury_notes_2y: 3.53,
+      treasury_notes_3y: 3.59,
+      treasury_notes_5y: 3.75,
+      treasury_notes_7y: 3.95,
+      treasury_notes_10y: 4.18,
       treasury_bonds_20y: 4.82,
-      treasury_bonds_30y: 4.71,
+      treasury_bonds_30y: 4.84,
     },
     2024: {
       treasury_bills_3m: 5.21,
@@ -44,9 +44,9 @@ export const treasuryData = {
     series_i: {
       data: {
         2025: {
-          composite_rate: 4.52,
+          composite_rate: 4.28,
           fixed_rate: 1.2,
-          inflation_rate: 3.32,
+          inflation_rate: 3.08,
         },
         2024: {
           composite_rate: 4.28,
@@ -63,7 +63,7 @@ export const treasuryData = {
     series_ee: {
       data: {
         2025: {
-          fixed_rate: 2.7,
+          fixed_rate: 2.8,
         },
         2024: {
           fixed_rate: 2.6,

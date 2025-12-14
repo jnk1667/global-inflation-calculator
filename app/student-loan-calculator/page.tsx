@@ -118,10 +118,50 @@ export default function StudentLoanCalculator() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What is the average student loan payment?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The average monthly student loan payment is around $200-$300, but this varies widely based on loan amount, interest rate, and repayment plan. For the average borrower with $30,000 in loans at 5% interest on a 10-year plan, payments are approximately $318/month.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Should I pay off student loans early?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "It depends on your interest rate and financial situation. If your rate is above 6%, prioritize paying extra toward loans. If below 4%, you might benefit more from investing. Always pay high-interest debt (credit cards) first and maintain an emergency fund before making extra loan payments.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is an income-driven repayment plan?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Income-driven repayment (IDR) plans cap monthly payments at 10-20% of discretionary income based on family size and poverty guidelines. After 20-25 years of payments, remaining balances may be forgiven. Popular IDR plans include SAVE (formerly REPAYE), PAYE, and IBR.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How is student loan interest calculated?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Student loan interest is calculated daily based on your outstanding principal balance and interest rate. Formula: (Principal × Interest Rate) ÷ 365 = daily interest. Monthly interest is the daily amount multiplied by the number of days in the month. Interest compounds, meaning you pay interest on accumulated interest.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <StudentLoanCalculatorPage />
 
       <noscript>

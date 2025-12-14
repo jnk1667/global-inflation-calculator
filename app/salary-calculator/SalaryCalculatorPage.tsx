@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertCircle, BookOpen } from 'lucide-react'
+import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertCircle, BookOpen } from "lucide-react"
 import Link from "next/link"
 import { trackEvent } from "@/lib/analytics"
 import AdBanner from "@/components/ad-banner"
@@ -2035,10 +2035,12 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                       <Separator />
 
                       <div className="text-center">
+                        {/* CHANGE */}
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          <strong>Last Updated:</strong> November 2025 | <strong>Data Coverage:</strong> 1913-2025
+                          <strong>Last Updated:</strong> December 2025 | <strong>Data Coverage:</strong> 1913-2025
                           (varies by currency) | <strong>Update Frequency:</strong> Monthly
                         </p>
+                        {/* </CHANGE> */}
                         <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
                           This tool is provided for educational and informational purposes. For professional financial
                           advice, consult a qualified financial advisor.
@@ -2167,9 +2169,7 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                       </div>
                     </div>
                     <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
-                      <p>
-                        &copy; 2025 Global Inflation Calculator. All rights reserved.
-                      </p>
+                      <p>&copy; 2025 Global Inflation Calculator. All rights reserved.</p>
                     </div>
                   </div>
                 </footer>
