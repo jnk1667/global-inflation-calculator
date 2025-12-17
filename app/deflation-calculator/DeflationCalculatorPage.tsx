@@ -9,10 +9,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
-import { TrendingUp, Coins, Zap, Fuel, Gem, Bitcoin, Shield, BookOpen, Calculator, BarChart3 } from "lucide-react"
+import {
+  TrendingUp,
+  Coins,
+  Zap,
+  Fuel,
+  Gem,
+  Bitcoin,
+  Shield,
+  BookOpen,
+  Calculator,
+  BarChart3,
+  RefreshCw,
+} from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import Link from "next/link"
 import FAQ from "@/components/faq"
+import { getCryptoHistoricalPrices } from "@/lib/api/coingecko-api"
+import { getCommodityPrice } from "@/lib/api/alphavantage-api"
 
 export default function DeflationCalculatorPage() {
   const [amount, setAmount] = useState("1000")
@@ -22,6 +36,9 @@ export default function DeflationCalculatorPage() {
   const [calculationResult, setCalculationResult] = useState<any>(null)
   const [blogContent, setBlogContent] = useState("")
   const [blogLoading, setBlogLoading] = useState(true)
+  const [isLoadingLiveData, setIsLoadingLiveData] = useState(false)
+  const [liveDataStatus, setLiveDataStatus] = useState<Record<string, boolean>>({})
+  const [priceData, setPriceData] = useState<any>(null)
 
   const mockData = {
     bitcoin: {
@@ -185,7 +202,9 @@ export default function DeflationCalculatorPage() {
   }, [selectedAsset])
 
   const calculatePurchasingPower = () => {
-    const asset = mockData[selectedAsset as keyof typeof mockData]
+    const asset = priceData
+      ? priceData[selectedAsset as keyof typeof priceData]
+      : mockData[selectedAsset as keyof typeof mockData]
     if (!asset) return
 
     const startPrice = asset[Number.parseInt(startYear) as keyof typeof asset]
@@ -281,6 +300,68 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
     loadBlogContent()
   }, [])
 
+  const fetchLiveData = async (asset: string, year: number) => {
+    try {
+      setIsLoadingLiveData(true)
+
+      if (asset === "bitcoin" || asset === "ethereum") {
+        // Use CoinGecko for cryptocurrencies
+        const coinId = asset === "bitcoin" ? "bitcoin" : "ethereum"
+        const historicalData = await getCryptoHistoricalPrices(coinId, year === 2025 ? 365 : 30)
+
+        if (historicalData && historicalData.length > 0) {
+          setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
+          return historicalData[0].price // Return latest price
+        }
+      } else if (asset === "gold" || asset === "silver") {
+        // Use Alpha Vantage for precious metals
+        const symbol = asset === "gold" ? "GLD" : "SLV"
+        const price = await getCommodityPrice(symbol)
+
+        if (price) {
+          setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
+          return price
+        }
+      } else if (asset === "oil") {
+        // Use Alpha Vantage for oil
+        const price = await getCommodityPrice("USO") // US Oil Fund ETF
+
+        if (price) {
+          setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
+          return price
+        }
+      }
+
+      return null
+    } catch (error) {
+      console.log("[v0] Error fetching live data:", error)
+      setLiveDataStatus((prev) => ({ ...prev, [asset]: false }))
+      return null
+    } finally {
+      setIsLoadingLiveData(false)
+    }
+  }
+
+  useEffect(() => {
+    const fetchCurrentPrices = async () => {
+      if (endYear === "2025") {
+        const livePrice = await fetchLiveData(selectedAsset, 2025)
+        if (livePrice) {
+          // Update mock data with live price
+          setPriceData((prev: any) => ({
+            ...prev,
+            [selectedAsset]: {
+              ...mockData[selectedAsset as keyof typeof mockData],
+              2025: livePrice,
+            },
+          }))
+        }
+      }
+    }
+
+    fetchCurrentPrices()
+  }, [selectedAsset, endYear])
+
   const comparisonData = [
     { year: 2020, cash: 1000, bitcoin: 1000, gold: 1000, inflation: 1000 },
     { year: 2021, cash: 950, bitcoin: 1620, gold: 1055, inflation: 920 },
@@ -305,6 +386,12 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
             Discover how scarce assets preserve and grow your purchasing power over time. See the opposite of inflation
             with deflationary asset appreciation.
           </p>
+          {liveDataStatus[selectedAsset] && (
+            <div className="mt-4 inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-sm">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              Using Live {assetInfo[selectedAsset as keyof typeof assetInfo]?.name} Price Data
+            </div>
+          )}
         </div>
 
         {/* Main Calculator */}
@@ -313,6 +400,15 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
             <CardTitle className="flex items-center gap-2 text-2xl">
               <Calculator className="w-6 h-6" />
               Purchasing Power Growth Calculator
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => fetchLiveData(selectedAsset, Number.parseInt(endYear))}
+                disabled={isLoadingLiveData}
+                className="ml-auto text-white hover:bg-white/20"
+              >
+                <RefreshCw className={`w-4 h-4 ${isLoadingLiveData ? "animate-spin" : ""}`} />
+              </Button>
             </CardTitle>
             <CardDescription className="text-purple-100">
               Calculate how your money would grow with deflationary assets

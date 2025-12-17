@@ -50,10 +50,10 @@ The vulnerability allowed unauthenticated remote code execution by exploiting ho
 ## Next Steps
 
 1. **Redeploy immediately** after running:
-   \`\`\`bash
+   ```bash
    npm install
    npm run build
-   \`\`\`
+   ```
 
 2. **Monitor logs** for any suspicious activity in past 72 hours
 
