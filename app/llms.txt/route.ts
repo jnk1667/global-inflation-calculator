@@ -500,10 +500,51 @@ Maintained by: Global Inflation Calculator Team`
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Site Documentation and Guide - Global Inflation Calculator</title>
-  <meta name="description" content="Comprehensive documentation for the Global Inflation Calculator platform. Learn about our inflation calculators, data sources, methodology, and financial planning tools including retirement, salary, student loan, mortgage, emergency fund, and ROI calculators.">
-  <meta name="robots" content="index, follow">
+  <title>AI Documentation & Site Guide - Global Inflation Calculator | llms.txt</title>
+  <meta name="description" content="Comprehensive AI-friendly documentation for the Global Inflation Calculator platform. Machine-readable guide to our inflation calculators, data sources, methodology, and financial planning tools. Optimized for LLMs, search engines, and AI assistants.">
+  <meta name="keywords" content="llms.txt, AI documentation, site guide, inflation calculator API, LLM documentation, machine-readable documentation, AI assistant guide, chatbot integration">
+  
+  <!-- Enhanced SEO meta tags for better indexing -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://www.globalinflationcalculator.com/llms.txt">
+  
+  <!-- Open Graph meta tags for social sharing -->
+  <meta property="og:title" content="AI Documentation & Site Guide - Global Inflation Calculator">
+  <meta property="og:description" content="Comprehensive AI-friendly documentation for inflation calculators, financial planning tools, and economic data resources.">
+  <meta property="og:url" content="https://www.globalinflationcalculator.com/llms.txt">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Global Inflation Calculator">
+  
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Documentation & Site Guide - Global Inflation Calculator">
+  <meta name="twitter:description" content="Machine-readable guide to our inflation calculators, data sources, and financial planning tools.">
+  
+  <!-- Structured data for better search understanding -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "AI Documentation & Site Guide - Global Inflation Calculator",
+    "description": "Comprehensive documentation for AI assistants and language models to understand and reference the Global Inflation Calculator platform.",
+    "author": {
+      "@type": "Organization",
+      "name": "Global Inflation Calculator"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Global Inflation Calculator",
+      "url": "https://www.globalinflationcalculator.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.globalinflationcalculator.com/llms.txt"
+    },
+    "dateModified": "${new Date().toISOString()}",
+    "inLanguage": "en-US"
+  }
+  </script>
+  
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -528,9 +569,27 @@ Maintained by: Global Inflation Calculator Team`
       border-bottom: 2px solid #2563eb;
       padding-bottom: 10px;
     }
+    .header-info {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid #2563eb;
+    }
+    .header-info h1 {
+      margin-top: 0;
+      border: none;
+    }
   </style>
 </head>
 <body>
+  <!-- Added header section with SEO-friendly content -->
+  <div class="header-info">
+    <h1>🤖 AI Documentation & Site Guide</h1>
+    <p><strong>Purpose:</strong> This page provides machine-readable documentation for AI assistants, language models, and search engines to understand the Global Inflation Calculator platform.</p>
+    <p><strong>Format:</strong> llms.txt - A standardized format for AI-friendly site documentation</p>
+    <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
+  </div>
   <pre>${plainTextContent}</pre>
 </body>
 </html>`

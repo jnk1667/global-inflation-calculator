@@ -3,12 +3,7 @@
 User-agent: *
 Allow: /
 
-# Block llms.txt from appearing in search results (but AI crawlers can still access it)
-User-agent: Googlebot
-Disallow: /llms.txt
-
-User-agent: Bingbot
-Disallow: /llms.txt
+# llms.txt is now indexable by all search engines to help AI bots discover it
 
 # Allow AI/LLM crawlers to access llms.txt
 User-agent: GPTBot
