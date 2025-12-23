@@ -23,6 +23,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - emergency fund calculator, emergency savings calculator, recession preparation
 - 3 month emergency fund, 6 month emergency fund, financial safety net
 - economic uncertainty 2025, recession planning, emergency savings goal
+- purchasing power parity calculator, PPP calculator, international salary comparison
 
 ## Site URLs and Tools
 
@@ -290,6 +291,75 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Context: Most ROI calculators only show percentage gains; this reveals true economic profit
   - Update Frequency: Real-time (Treasury rates updated daily)
 
+- **PPP Calculator (/ppp-calculator)**
+  - URL: https://www.globalinflationcalculator.com/ppp-calculator
+  - Purpose: Calculate purchasing power parity (PPP) to compare real value of money across major global economies
+  - Features:
+    * PPP conversion between major economies (USA, UK, Canada, Australia, Japan, Eurozone, Switzerland, China, India, Brazil)
+    * Basic mode: Simple PPP currency conversion using World Bank data
+    * Advanced mode: Historical PPP trends (1990-2023), sector-specific breakdowns, multi-country comparison matrix
+    * Historical Time Machine: See how purchasing power has evolved between countries over 30+ years
+    * Sector-Specific PPP: Compare housing, healthcare, food, education, and energy costs across countries
+    * Multi-Country Matrix: Compare 3-5 countries simultaneously
+    * Visual charts showing PPP trends and comparisons
+    * Salary purchasing power analysis across borders
+    * Real-time calculations with World Bank and OECD data
+  - Calculations:
+    * Basic PPP Conversion: Amount × (Target Country PPP / Source Country PPP)
+    * Purchasing Power Equivalent: What same amount of money can buy in different countries
+    * Historical PPP Comparison: Track how PPP ratios have changed over time (1990-2023)
+    * Sector PPP Breakdown: Housing, healthcare, food, education, energy purchasing power
+    * Salary Equivalence: What salary in one country equals in purchasing power elsewhere
+  - Advanced Features (Toggle-enabled):
+    * Historical Time Machine: Compare purchasing power between two time periods
+    * Sector-Specific Analysis: Granular breakdown by spending category
+    * Multi-Country Matrix: Side-by-side comparison of 3+ countries
+    * Inflation-adjusted PPP trends using historical inflation data
+    * OECD detailed sector data for 38 OECD countries
+  - Educational Content:
+    * Explains what Purchasing Power Parity (PPP) means and why it differs from exchange rates
+    * Why PPP is more accurate than exchange rates for salary and cost of living comparisons
+    * How PPP accounts for local price levels and cost of living
+    * Limitations of PPP (average baskets, quality differences, spending category variations)
+    * How to use PPP for international salary negotiations
+    * Understanding the "Big Mac Index" and commodity-based PPP
+    * Combining PPP with tax considerations for true purchasing power
+  - Data Sources:
+    * World Bank PPP conversion factors (200+ countries, 1990-2023)
+    * OECD PPP data with sector breakdowns (38 OECD countries)
+    * BLS category-specific price indices for sector comparisons
+    * Historical exchange rates and inflation data for time-series analysis
+  - Methodology:
+    * World Bank International Comparison Program (ICP) methodology
+    * OECD PPP benchmarks using standardized basket of goods
+    * Sector-specific PPP calculated from BLS subcategory indices
+    * Historical calculations combine PPP ratios with inflation adjustment
+    * Multi-country comparisons use normalized purchasing power metrics
+  - Target Users:
+    * International workers comparing salary offers across countries
+    * Expats and digital nomads evaluating cost of living
+    * HR professionals setting international compensation packages
+    * Economists and researchers studying purchasing power trends
+    * Students understanding international economics concepts
+    * Investors analyzing currency valuation and market opportunities
+    * Policy makers evaluating economic development and standards of living
+  - Unique Value Proposition:
+    * Only PPP calculator with 30+ years of historical trend analysis
+    * Sector-specific breakdowns (housing, healthcare, education) not available elsewhere
+    * Combines PPP with inflation data for time-adjusted comparisons
+    * Multi-country matrix comparison (most calculators only do 2-country)
+    * Advanced mode with institutional-level analysis accessible to everyone
+    * Integration with existing inflation calculator infrastructure
+  - Use Cases:
+    * Salary negotiation: "My $100k salary in NYC equals £62k purchasing power in London"
+    * Relocation planning: Understanding true cost of living differences
+    * International hiring: Setting fair compensation across borders
+    * Economic research: Tracking purchasing power convergence/divergence
+    * Investment analysis: Currency valuation and arbitrage opportunities
+    * Academic study: Teaching international economics and PPP concepts
+  - Context: Essential tool for globalized economy where salary and cost comparisons must account for local purchasing power
+  - Update Frequency: Annually (World Bank PPP data updated yearly, historical data static)
+
 ### Administrative and Content Management
 
 - **Admin Content Management (/admin-manage-content)**
@@ -391,6 +461,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - **Homebuyers**: Understanding historical home price appreciation vs inflation
 - **Emergency Fund Builders**: Preparing for economic uncertainty with inflation-adjusted savings
 - **Budget Beginners**: Using the 50/30/20 rule for simple budget planning
+- **International Workers**: Comparing salary offers across countries using PPP analysis
 
 ### Professional Users
 - **Financial Advisors**: Client retirement and investment planning
@@ -419,6 +490,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - emergency fund calculator
 - budget calculator 50 30 20
 - roi calculator
+- ppp calculator
 
 ### Target Keywords (Long-tail)
 - best inflation calculator 2025 accurate
@@ -436,6 +508,8 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - 50 30 20 budget rule explanation
 - roi calculator multi-currency
 - roi calculator real-time
+- purchasing power parity comparison
+- international salary analysis
 
 ## Privacy and Data Protection
 
@@ -510,7 +584,7 @@ Maintained by: Global Inflation Calculator Team`
   
   <!-- Open Graph meta tags for social sharing -->
   <meta property="og:title" content="AI Documentation & Site Guide - Global Inflation Calculator">
-  <meta property="og:description" content="Comprehensive AI-friendly documentation for inflation calculators, financial planning tools, and economic data resources.">
+  <meta property="og:description" content="Comprehensive documentation for AI assistants and language models to understand and reference the Global Inflation Calculator platform.">
   <meta property="og:url" content="https://www.globalinflationcalculator.com/llms.txt">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Global Inflation Calculator">
@@ -526,7 +600,7 @@ Maintained by: Global Inflation Calculator Team`
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "AI Documentation & Site Guide - Global Inflation Calculator",
-    "description": "Comprehensive documentation for AI assistants and language models to understand and reference the Global Inflation Calculator platform.",
+    "description": "Comprehensive documentation for AI assistants and language models to understand the Global Inflation Calculator platform.",
     "author": {
       "@type": "Organization",
       "name": "Global Inflation Calculator"

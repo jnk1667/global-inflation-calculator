@@ -52,6 +52,7 @@ interface Content {
   emergency_fund_essay: string
   budget_essay: string
   roi_essay: string
+  ppp_essay: string // Added ppp_essay
   student_loan_blog_title: string
   student_loan_blog_content: string
   student_loan_methodology: string
@@ -104,6 +105,7 @@ const AdminContentPage: React.FC = () => {
     emergency_fund_essay: "",
     budget_essay: "",
     roi_essay: "",
+    ppp_essay: "", // Initialized ppp_essay field
     student_loan_blog_title: "Understanding Student Loans in an Inflationary Economy: A Comprehensive Guide",
     student_loan_blog_content: "",
     student_loan_methodology: "",
@@ -337,6 +339,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
         emergency_fund_essay: contentMap["emergency_fund_essay"] || "",
         budget_essay: contentMap["budget_essay"] || "",
         roi_essay: contentMap["roi_essay"] || "",
+        ppp_essay: contentMap["ppp_essay"] || "", // Load ppp_essay
         student_loan_blog_title: contentMap["student_loan_blog_title"] || "",
         student_loan_blog_content: contentMap["student_loan_blog_content"] || "",
         student_loan_methodology: contentMap["student_loan_methodology"] || "",
@@ -994,6 +997,31 @@ The key to successful multi-generational wealth planning lies in balancing growt
               </CardContent>
             </Card>
 
+            {/* PPP Calculator Essay Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>PPP Calculator Essay</CardTitle>
+                <CardDescription>Educational content for the PPP calculator page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.ppp_essay}
+                  onChange={(e) => setContent((prev) => ({ ...prev, ppp_essay: e.target.value }))}
+                  rows={15}
+                  placeholder="Enter PPP calculator essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("ppp_essay", content.ppp_essay)}
+                  disabled={saving}
+                  className="flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {saving ? "Saving..." : "Save PPP Calculator Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle>Mortgage Calculator Essay</CardTitle>
@@ -1494,6 +1522,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
                       <SelectItem value="emergency-fund">Emergency Fund Calculator</SelectItem>
                       <SelectItem value="budget">50/30/20 Budget Calculator</SelectItem>
                       <SelectItem value="roi">ROI Calculator</SelectItem>
+                      <SelectItem value="ppp">PPP Calculator</SelectItem> {/* Added PPP Calculator category */}
                     </SelectContent>
                   </Select>
                 </div>
@@ -1548,6 +1577,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
                           <SelectItem value="emergency-fund">Emergency Fund Calculator</SelectItem>
                           <SelectItem value="budget">50/30/20 Budget Calculator</SelectItem>
                           <SelectItem value="roi">ROI Calculator</SelectItem>
+                          <SelectItem value="ppp">PPP Calculator</SelectItem> {/* Added PPP Calculator category */}
                         </SelectContent>
                       </Select>
                     </div>

@@ -397,6 +397,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/ppp-calculator" className="text-blue-600 hover:underline">
+                      PPP Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Compare purchasing power parity across major economies with historical trends
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/about" className="text-blue-600 hover:underline">
                       About Us
                     </Link>
@@ -508,14 +516,23 @@ export default function AccessibilityPage() {
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold mb-2">ROI Calculator</h3>
+                <h3 className="font-semibold mb-2">Legacy Planner</h3>
                 <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-                  <li>Return on investment inputs with clear labels and help text</li>
-                  <li>Currency selection with radio buttons and clear labels</li>
+                  <li>Form fields with descriptive labels and help text</li>
                   <li>Real-time validation with error messages</li>
                   <li>Results presented in accessible format with context</li>
-                  <li>Comparison against Treasury rates with clear visual indicators</li>
-                  <li>Advanced mode for institutional-level analysis with proper semantic structure</li>
+                  <li>Progressive disclosure for advanced options</li>
+                  <li>Clear instructions for each calculation step</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">PPP Calculator</h3>
+                <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>Currency selection with radio buttons and clear labels</li>
+                  <li>Year range sliders with keyboard control and value announcements</li>
+                  <li>Amount input with proper labeling and validation messages</li>
+                  <li>Results announced to screen readers with context</li>
+                  <li>Multi-currency comparison chart with data table alternative</li>
                 </ul>
               </div>
             </CardContent>
@@ -578,6 +595,10 @@ export default function AccessibilityPage() {
                       <strong>ROI Calculator:</strong> Calculate return on investment with inflation adjustment across 8
                       currencies. Compare your ROI against Treasury rates and discover your real purchasing power gains
                       with advanced mode for institutional-level analysis
+                    </li>
+                    <li>
+                      <strong>PPP Calculator:</strong> Compare purchasing power parity across major economies with
+                      historical trends
                     </li>
                   </ul>
                 </div>

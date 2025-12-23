@@ -50,6 +50,7 @@ export async function submitDataUpdatePages(): Promise<void> {
     "/salary-calculator", // Calculator with updated inflation data
     "/retirement-calculator", // Retirement calculator with updated data
     "/legacy-planner", // Legacy planner with updated data
+    "/ppp-calculator", // PPP calculator with World Bank data
   ]
 
   console.log("[IndexNow] Submitting data update pages...")

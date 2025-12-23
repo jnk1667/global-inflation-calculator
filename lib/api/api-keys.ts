@@ -31,6 +31,11 @@ export function checkApiKeysStatus(): Record<string, ApiKeyStatus> {
       name: "Alpha Vantage",
       requiredFor: ["Stock prices", "Commodity ETFs", "Oil prices"],
     },
+    eia: {
+      isConfigured: !!process.env.EIA_API_KEY,
+      name: "EIA (Energy Information Administration)",
+      requiredFor: ["Gasoline prices", "Crude oil", "Natural gas", "Electricity prices"],
+    },
   }
 }
 
