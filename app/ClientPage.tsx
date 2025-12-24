@@ -1691,7 +1691,7 @@ export default function ClientPage() {
                     aria-label="Follow us on X (Twitter)"
                   >
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.244H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
                   </a>
                 </div>
@@ -1712,6 +1712,32 @@ export default function ClientPage() {
               <div>
                 <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                  <li>
+                    <Link href="/" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                      Home - Inflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/deflation-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Deflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/charts" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                      Charts & Analytics
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/ppp-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      PPP Calculator
+                    </Link>
+                  </li>
                   <li>
                     <Link
                       href="/salary-calculator"
@@ -1736,15 +1762,6 @@ export default function ClientPage() {
                       Student Loan Calculator
                     </Link>
                   </li>
-                  {/* CHANGE> Removed Housing Affordability Calculator link as it was replaced by Mortgage Calculator */}
-                  <li>
-                    <Link
-                      href="/deflation-calculator"
-                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
-                    >
-                      Deflation Calculator
-                    </Link>
-                  </li>
                   <li>
                     <Link
                       href="/mortgage-calculator"
@@ -1755,15 +1772,34 @@ export default function ClientPage() {
                   </li>
                   <li>
                     <Link
+                      href="/budget-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Budget Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/emergency-fund-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Emergency Fund Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/roi-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      ROI Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/legacy-planner"
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >
                       Legacy Planner
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/charts" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
-                      Charts & Analytics
                     </Link>
                   </li>
                   <li>

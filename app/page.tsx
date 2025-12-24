@@ -134,6 +134,11 @@ export default function Home() {
                       </Link>
                     </li>
                     <li>
+                      <Link href="/ppp-calculator" className="text-blue-600 hover:underline">
+                        PPP Calculator
+                      </Link>
+                    </li>
+                    <li>
                       <Link href="/salary-calculator" className="text-blue-600 hover:underline">
                         Salary Calculator
                       </Link>
@@ -141,6 +146,31 @@ export default function Home() {
                     <li>
                       <Link href="/retirement-calculator" className="text-blue-600 hover:underline">
                         Retirement Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/student-loan-calculator" className="text-blue-600 hover:underline">
+                        Student Loan Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/mortgage-calculator" className="text-blue-600 hover:underline">
+                        Mortgage Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/budget-calculator" className="text-blue-600 hover:underline">
+                        Budget Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/emergency-fund-calculator" className="text-blue-600 hover:underline">
+                        Emergency Fund Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/roi-calculator" className="text-blue-600 hover:underline">
+                        ROI Calculator
                       </Link>
                     </li>
                     <li>

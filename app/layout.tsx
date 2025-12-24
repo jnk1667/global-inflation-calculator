@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { Toaster } from "@/components/ui/toaster"
 import Link from "next/link"
 import Script from "next/script"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -267,6 +268,8 @@ export default function RootLayout({
           {children}
           <Toaster />
         </ThemeProvider>
+
+        <SpeedInsights />
       </body>
     </html>
   )
