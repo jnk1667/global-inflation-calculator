@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
+  compress: true,
+  poweredByHeader: false,
   experimental: {
     optimizePackageImports: ['lucide-react', 'recharts'],
+    optimizeCss: true,
   },
   images: {
     domains: ['localhost'],
@@ -14,6 +18,11 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
   },
   redirects: async () => {
     return [
@@ -40,6 +49,10 @@ const nextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

@@ -10,13 +10,11 @@ interface UsageStats {
 
 export default function UsageStats() {
   const [stats, setStats] = useState<UsageStats | null>(null)
-  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        setLoading(true)
         setError(null)
 
         // Try to fetch from API first
@@ -41,8 +39,6 @@ export default function UsageStats() {
 
         setStats(mockStats)
         setError(null)
-      } finally {
-        setLoading(false)
       }
     }
 
@@ -54,20 +50,24 @@ export default function UsageStats() {
     return () => clearInterval(interval)
   }, [])
 
-  if (loading) {
-    return <div className="text-xs text-gray-500 dark:text-gray-400">Loading...</div>
-  }
-
   if (error) {
-    return <div className="text-xs text-red-500 dark:text-red-400">Stats unavailable</div>
+    return <div className="text-xs text-red-500 dark:text-red-400 h-10 flex items-center">Stats unavailable</div>
   }
 
   if (!stats) {
-    return null
+    return (
+      <div className="text-xs text-gray-600 dark:text-gray-300 space-y-1 min-w-[140px]">
+        <div className="flex items-center gap-2 h-4">
+          <span className="w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full"></span>
+          <span className="text-transparent">Loading...</span>
+        </div>
+        <div className="text-gray-500 dark:text-gray-400 h-4 text-transparent">Loading...</div>
+      </div>
+    )
   }
 
   return (
-    <div className="text-xs text-gray-600 dark:text-gray-300 space-y-1">
+    <div className="text-xs text-gray-600 dark:text-gray-300 space-y-1 min-w-[140px]">
       <div className="flex items-center gap-2">
         <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
         <span>{stats.activeUsers.toLocaleString()} users online</span>
