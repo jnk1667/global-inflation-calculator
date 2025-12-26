@@ -735,13 +735,13 @@ export default function StudentLoanCalculatorPage() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/housing-affordability-calculator" className="hover:text-blue-400 transition-colors">
-                      Housing Affordability Calculator
+                    <Link href="/charts" className="hover:text-blue-400 transition-colors">
+                      Charts & Analytics
                     </Link>
                   </li>
                   <li>
-                    <Link href="/retirement-calculator" className="hover:text-blue-400 transition-colors">
-                      Legacy Planner
+                    <Link href="/ppp-calculator" className="hover:text-blue-400 transition-colors">
+                      PPP Calculator
                     </Link>
                   </li>
                   <li>
@@ -750,8 +750,38 @@ export default function StudentLoanCalculatorPage() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/charts" className="hover:text-blue-400 transition-colors">
-                      Charts & Analytics
+                    <Link href="/retirement-calculator" className="hover:text-blue-400 transition-colors">
+                      Retirement Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/student-loan-calculator" className="hover:text-blue-400 transition-colors">
+                      Student Loan Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/mortgage-calculator" className="hover:text-blue-400 transition-colors">
+                      Mortgage Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/budget-calculator" className="hover:text-blue-400 transition-colors">
+                      Budget Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/emergency-fund-calculator" className="hover:text-blue-400 transition-colors">
+                      Emergency Fund Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/roi-calculator" className="hover:text-blue-400 transition-colors">
+                      ROI Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/legacy-planner" className="hover:text-blue-400 transition-colors">
+                      Legacy Planner
                     </Link>
                   </li>
                   <li>
@@ -760,13 +790,13 @@ export default function StudentLoanCalculatorPage() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/terms" className="hover:text-blue-400 transition-colors">
-                      Terms of Service
+                    <Link href="/privacy" className="hover:text-blue-400 transition-colors">
+                      Privacy Policy
                     </Link>
                   </li>
                   <li>
-                    <Link href="/privacy" className="hover:text-blue-400 transition-colors">
-                      Privacy Policy
+                    <Link href="/terms" className="hover:text-blue-400 transition-colors">
+                      Terms of Service
                     </Link>
                   </li>
                 </ul>
