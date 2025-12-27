@@ -250,7 +250,7 @@ export default function ROICalculatorPage() {
     {
       question: "Why should I compare my ROI to Treasury rates?",
       answer:
-        "Treasury rates represent risk-free returns backed by the government. Comparing your investment to Treasuries shows your 'opportunity cost' - what you could have earned with zero risk. If your investment returned 6% but 10-year Treasuries paid 4.5%, you earned 1.5% above the risk-free rate.",
+        "Treasury rates represent risk-free returns backed by the government. Compare your investment to Treasuries shows your 'opportunity cost' - what you could have earned with zero risk. If your investment returned 6% but 10-year Treasuries paid 4.5%, you earned 1.5% above the risk-free rate.",
     },
     {
       question: "How does inflation erode investment returns?",
@@ -270,7 +270,7 @@ export default function ROICalculatorPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 pt-32 pb-20">
         <div className="container mx-auto px-4 text-center">
@@ -300,7 +300,7 @@ export default function ROICalculatorPage() {
 
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Ad Banner */}
-        <div className="mb-8">
+        <div className="mb-8 flex justify-center">
           <AdBanner slot="roi-calculator-top" format="horizontal" />
         </div>
 
@@ -793,7 +793,7 @@ export default function ROICalculatorPage() {
                 </p>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
+                <h4 className="text-lg font-semibold mb-4 text-white">Data Sources</h4>
                 <ul className="text-gray-300 space-y-2">
                   <li>• US Treasury Department</li>
                   <li>• Federal Reserve (FRED)</li>
@@ -803,7 +803,7 @@ export default function ROICalculatorPage() {
                 </ul>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+                <h4 className="text-lg font-semibold mb-4 text-white">Quick Links</h4>
                 <ul className="text-gray-300 space-y-2">
                   <li>
                     <Link href="/" className="hover:text-blue-400 transition-colors">
@@ -816,13 +816,13 @@ export default function ROICalculatorPage() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/mortgage-calculator" className="hover:text-blue-400 transition-colors">
-                      Mortgage Calculator
+                    <Link href="/charts" className="hover:text-blue-400 transition-colors">
+                      Charts & Analytics
                     </Link>
                   </li>
                   <li>
-                    <Link href="/legacy-planner" className="hover:text-blue-400 transition-colors">
-                      Legacy Planner
+                    <Link href="/ppp-calculator" className="hover:text-blue-400 transition-colors">
+                      PPP Calculator
                     </Link>
                   </li>
                   <li>
@@ -831,8 +831,38 @@ export default function ROICalculatorPage() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/charts" className="hover:text-blue-400 transition-colors">
-                      Charts & Analytics
+                    <Link href="/retirement-calculator" className="hover:text-blue-400 transition-colors">
+                      Retirement Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/student-loan-calculator" className="hover:text-blue-400 transition-colors">
+                      Student Loan Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/mortgage-calculator" className="hover:text-blue-400 transition-colors">
+                      Mortgage Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/budget-calculator" className="hover:text-blue-400 transition-colors">
+                      Budget Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/emergency-fund-calculator" className="hover:text-blue-400 transition-colors">
+                      Emergency Fund Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/roi-calculator" className="hover:text-blue-400 transition-colors">
+                      ROI Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/legacy-planner" className="hover:text-blue-400 transition-colors">
+                      Legacy Planner
                     </Link>
                   </li>
                   <li>
@@ -841,13 +871,13 @@ export default function ROICalculatorPage() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/terms" className="hover:text-blue-400 transition-colors">
-                      Terms of Service
+                    <Link href="/privacy" className="hover:text-blue-400 transition-colors">
+                      Privacy Policy
                     </Link>
                   </li>
                   <li>
-                    <Link href="/privacy" className="hover:text-blue-400 transition-colors">
-                      Privacy Policy
+                    <Link href="/terms" className="hover:text-blue-400 transition-colors">
+                      Terms of Service
                     </Link>
                   </li>
                 </ul>

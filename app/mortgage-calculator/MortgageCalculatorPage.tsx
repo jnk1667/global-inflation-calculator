@@ -796,6 +796,26 @@ This calculator uses official data from:
                 <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul className="text-gray-300 space-y-2">
                   <li>
+                    <Link href="/" className="hover:text-blue-400 transition-colors">
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/deflation-calculator" className="hover:text-blue-400 transition-colors">
+                      Deflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/charts" className="hover:text-blue-400 transition-colors">
+                      Charts & Analytics
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/ppp-calculator" className="hover:text-blue-400 transition-colors">
+                      PPP Calculator
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/salary-calculator" className="hover:text-blue-400 transition-colors">
                       Salary Calculator
                     </Link>
@@ -816,18 +836,23 @@ This calculator uses official data from:
                     </Link>
                   </li>
                   <li>
-                    <Link href="/deflation-calculator" className="hover:text-blue-400 transition-colors">
-                      Deflation Calculator
+                    <Link href="/budget-calculator" className="hover:text-blue-400 transition-colors">
+                      Budget Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/emergency-fund-calculator" className="hover:text-blue-400 transition-colors">
+                      Emergency Fund Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/roi-calculator" className="hover:text-blue-400 transition-colors">
+                      ROI Calculator
                     </Link>
                   </li>
                   <li>
                     <Link href="/legacy-planner" className="hover:text-blue-400 transition-colors">
                       Legacy Planner
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/charts" className="hover:text-blue-400 transition-colors">
-                      Charts & Analytics
                     </Link>
                   </li>
                   <li>

@@ -760,15 +760,54 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
             </CardContent>
           </Card>
 
-          <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 rounded-lg">
+          <footer className="bg-gray-900 text-white py-12 rounded-lg">
             <div className="container mx-auto px-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Description Section */}
                 <div>
-                  <h4 className="font-semibold text-gray-100 mb-3">Calculator Tools</h4>
-                  <ul className="space-y-2">
+                  <h3 className="text-xl font-bold mb-3">Emergency Fund Calculator</h3>
+                  <p className="text-gray-400 mb-4">
+                    Calculate your emergency fund needs based on monthly expenses and income stability with data-driven
+                    recommendations.
+                  </p>
+                </div>
+
+                {/* Data Sources Section */}
+                <div>
+                  <h4 className="font-semibold text-white mb-3">Data Sources</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li className="text-gray-400">• Bureau of Labor Statistics (BLS)</li>
+                    <li className="text-gray-400">• Federal Reserve Economic Data</li>
+                    <li className="text-gray-400">• Consumer Financial Protection Bureau</li>
+                    <li className="text-gray-400">• National Financial Capability Study</li>
+                  </ul>
+                </div>
+
+                {/* Quick Links Section */}
+                <div>
+                  <h4 className="font-semibold text-white mb-3">Quick Links</h4>
+                  <ul className="space-y-2 text-sm">
                     <li>
                       <Link href="/" className="text-gray-400 hover:text-blue-400 transition-colors">
-                        Inflation Calculator
+                        Home
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/deflation-calculator"
+                        className="text-gray-400 hover:text-blue-400 transition-colors"
+                      >
+                        Deflation Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/charts" className="text-gray-400 hover:text-blue-400 transition-colors">
+                        Charts & Analytics
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/ppp-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
+                        PPP Calculator
                       </Link>
                     </li>
                     <li>
@@ -793,19 +832,26 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        href="/housing-affordability-calculator"
-                        className="text-gray-400 hover:text-blue-400 transition-colors"
-                      >
-                        Housing Affordability Calculator
+                      <Link href="/mortgage-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
+                        Mortgage Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/budget-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
+                        Budget Calculator
                       </Link>
                     </li>
                     <li>
                       <Link
-                        href="/deflation-calculator"
+                        href="/emergency-fund-calculator"
                         className="text-gray-400 hover:text-blue-400 transition-colors"
                       >
-                        Deflation Calculator
+                        Emergency Fund Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/roi-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
+                        ROI Calculator
                       </Link>
                     </li>
                     <li>
@@ -813,17 +859,6 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                         Legacy Planner
                       </Link>
                     </li>
-                    <li>
-                      <Link href="/charts" className="text-gray-400 hover:text-blue-400 transition-colors">
-                        Charts & Analytics
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-gray-100 mb-3">Information</h4>
-                  <ul className="space-y-2">
                     <li>
                       <Link href="/about" className="text-gray-400 hover:text-blue-400 transition-colors">
                         About Us
@@ -841,24 +876,12 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                     </li>
                   </ul>
                 </div>
-
-                <div>
-                  <h4 className="font-semibold text-gray-100 mb-3">Contact</h4>
-                  <ul className="space-y-2">
-                    <li>
-                      <Link href="/contact" className="text-gray-400 hover:text-blue-400 transition-colors">
-                        Contact Us
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
               </div>
 
               <Separator className="my-8 bg-gray-700" />
 
               <div className="text-center text-gray-400 text-sm">
-                <p>© 2025 Global Inflation Calculator. All rights reserved.</p>
-                <p className="mt-2">Educational purposes only. Not financial advice.</p>
+                <p>© 2025 Global Inflation Calculator. Educational purposes only.</p>
               </div>
             </div>
           </footer>
