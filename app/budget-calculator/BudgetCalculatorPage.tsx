@@ -791,95 +791,113 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 bg-slate-900/80 py-8">
+      <footer className="border-t border-white/10 bg-slate-900/80 py-12">
         <div className="container mx-auto px-4">
-          <div className="grid gap-8 md:grid-cols-4">
+          <div className="grid gap-8 md:grid-cols-3">
+            {/* Budget Calculator Description */}
             <div>
-              <h3 className="mb-4 font-semibold text-white">Calculator Tools</h3>
+              <h3 className="mb-4 text-xl font-bold text-white">Budget Calculator</h3>
+              <p className="mb-4 text-sm text-slate-400 leading-relaxed">
+                Plan your personal or household budget with inflation-adjusted expenses and track your spending across
+                categories.
+              </p>
+            </div>
+
+            {/* Data Sources */}
+            <div>
+              <h3 className="mb-4 font-semibold text-white">Data Sources</h3>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li>• Bureau of Labor Statistics (BLS)</li>
+                <li>• Consumer Expenditure Survey</li>
+                <li>• Federal Reserve Economic Data</li>
+                <li>• U.S. Census Bureau</li>
+              </ul>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="mb-4 font-semibold text-white">Quick Links</h3>
               <ul className="space-y-2 text-sm text-slate-400">
                 <li>
-                  <Link href="/" className="hover:text-white">
-                    Inflation Calculator
+                  <Link href="/" className="hover:text-white transition-colors">
+                    Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="/deflation-calculator" className="hover:text-white">
+                  <Link href="/deflation-calculator" className="hover:text-white transition-colors">
                     Deflation Calculator
                   </Link>
                 </li>
                 <li>
-                  <Link href="/salary-calculator" className="hover:text-white">
+                  <Link href="/charts" className="hover:text-white transition-colors">
+                    Charts & Analytics
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/ppp-calculator" className="hover:text-white transition-colors">
+                    PPP Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/salary-calculator" className="hover:text-white transition-colors">
                     Salary Calculator
                   </Link>
                 </li>
                 <li>
-                  <Link href="/retirement-calculator" className="hover:text-white">
+                  <Link href="/retirement-calculator" className="hover:text-white transition-colors">
                     Retirement Calculator
                   </Link>
                 </li>
                 <li>
-                  <Link href="/student-loan-calculator" className="hover:text-white">
+                  <Link href="/student-loan-calculator" className="hover:text-white transition-colors">
                     Student Loan Calculator
                   </Link>
                 </li>
                 <li>
-                  <Link href="/emergency-fund-calculator" className="hover:text-white">
+                  <Link href="/mortgage-calculator" className="hover:text-white transition-colors">
+                    Mortgage Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/budget-calculator" className="hover:text-white transition-colors">
+                    Budget Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/emergency-fund-calculator" className="hover:text-white transition-colors">
                     Emergency Fund Calculator
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/housing-affordability-calculator"
-                    className="text-gray-400 hover:text-blue-400 transition-colors"
-                  >
-                    Housing Affordability Calculator
+                  <Link href="/roi-calculator" className="hover:text-white transition-colors">
+                    ROI Calculator
                   </Link>
                 </li>
                 <li>
-                  <Link href="/charts" className="hover:text-white">
-                    Charts & Analytics
+                  <Link href="/legacy-planner" className="hover:text-white transition-colors">
+                    Legacy Planner
                   </Link>
                 </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 font-semibold text-white">Information</h3>
-              <ul className="space-y-2 text-sm text-slate-400">
                 <li>
-                  <Link href="/about" className="hover:text-white">
+                  <Link href="/about" className="hover:text-white transition-colors">
                     About Us
                   </Link>
                 </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 font-semibold text-white">Legal</h3>
-              <ul className="space-y-2 text-sm text-slate-400">
                 <li>
-                  <Link href="/privacy" className="hover:text-white">
+                  <Link href="/privacy" className="hover:text-white transition-colors">
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link href="/terms" className="hover:text-white">
+                  <Link href="/terms" className="hover:text-white transition-colors">
                     Terms of Service
                   </Link>
                 </li>
               </ul>
             </div>
-            <div>
-              <h3 className="mb-4 font-semibold text-white">Contact</h3>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li>
-                  <a href="mailto:admin@globalinflationcalculator.com" className="hover:text-white">
-                    Contact Us
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
           <div className="mt-8 border-t border-white/10 pt-8 text-center text-sm text-slate-400">
-            <p>Last Updated: December 2025 | © 2025 Global Inflation Calculator. All rights reserved.</p>
+            <p>© 2025 Global Inflation Calculator. Educational purposes only.</p>
           </div>
         </div>
       </footer>

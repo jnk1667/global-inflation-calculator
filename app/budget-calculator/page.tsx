@@ -94,34 +94,50 @@ export default function Page() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "What is the 50/30/20 budget rule?",
+        name: "What is the budget calculator?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "The 50/30/20 budget rule divides your after-tax income into three categories: 50% for needs (essential expenses like housing, utilities, groceries), 30% for wants (discretionary spending like entertainment and dining out), and 20% for savings and debt repayment.",
+          text: "The budget calculator helps you create and manage a comprehensive household budget by tracking your income, fixed expenses, variable expenses, and savings goals. It provides a clear picture of your financial health and helps identify areas for improvement.",
         },
       },
       {
         "@type": "Question",
-        name: "How do I calculate my 50/30/20 budget?",
+        name: "How do I create an effective budget?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Start with your after-tax income (take-home pay). Multiply by 0.5 for needs (50%), 0.3 for wants (30%), and 0.2 for savings (20%). For example, with $5,000 monthly income: $2,500 needs, $1,500 wants, $1,000 savings.",
+          text: "Start by listing all sources of income, then categorize your expenses into fixed (rent, insurance) and variable (groceries, entertainment). Aim to allocate at least 20% to savings and investments, 50% to needs, and 30% to wants. Adjust these percentages based on your financial goals and circumstances.",
         },
       },
       {
         "@type": "Question",
-        name: "What counts as needs in the 50/30/20 rule?",
+        name: "What expenses should I track in my budget?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Needs include essential expenses you cannot avoid: rent/mortgage, utilities, groceries, insurance (health, car, home), minimum debt payments, and basic transportation costs. These are expenses required to maintain your basic standard of living.",
+          text: "Track all expenses including housing (rent/mortgage, utilities, insurance), transportation (car payments, gas, maintenance), food (groceries, dining out), healthcare, debt payments, entertainment, personal care, and savings. Don't forget irregular expenses like annual subscriptions or seasonal costs.",
         },
       },
       {
         "@type": "Question",
-        name: "Can I adjust the 50/30/20 percentages?",
+        name: "How often should I review my budget?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes, the 50/30/20 rule is a guideline. Adjust based on your situation: if you live in a high-cost area, you might need 60% for needs and 20% for wants. If you're aggressively saving for a goal, you could do 50/20/30 or even 50/10/40.",
+          text: "Review your budget monthly to track spending patterns and make adjustments. Conduct a more thorough review quarterly to assess progress toward financial goals. Annual reviews help you plan for the coming year and adjust for major life changes like job transitions, marriage, or having children.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is the 50/30/20 budgeting rule?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The 50/30/20 rule suggests allocating 50% of after-tax income to needs (housing, utilities, groceries), 30% to wants (entertainment, dining out, hobbies), and 20% to savings and debt repayment. This provides a simple framework, though you may need to adjust percentages based on your cost of living and financial goals.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How can inflation affect my budget?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Inflation reduces your purchasing power over time, meaning your money buys less. As prices rise, you may need to adjust your budget allocations, reduce discretionary spending, or seek ways to increase income. Regular budget reviews help you adapt to inflationary pressures and maintain financial stability.",
         },
       },
     ],

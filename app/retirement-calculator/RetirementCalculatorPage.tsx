@@ -1755,99 +1755,156 @@ Successful retirement planning requires a multi-faceted approach that considers 
           <AdBanner />
         </div>
 
-        <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 rounded-lg">
+        <footer className="bg-slate-900 dark:bg-slate-800 text-white py-12">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
-                <h4 className="font-semibold text-gray-100 mb-3">Calculator Tools</h4>
-                <ul className="space-y-2">
+                <h3 className="text-xl font-bold mb-4">Retirement Calculator</h3>
+                <p className="text-slate-300 dark:text-slate-400 mb-4 text-sm leading-relaxed">
+                  Plan your retirement with inflation-adjusted projections using real salary data from BLS and
+                  retirement statistics.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-lg mb-4">Data Sources</h4>
+                <ul className="space-y-2 text-sm">
+                  <li className="text-slate-300 dark:text-slate-400">• Bureau of Labor Statistics (BLS)</li>
+                  <li className="text-slate-300 dark:text-slate-400">• Social Security Administration</li>
+                  <li className="text-slate-300 dark:text-slate-400">• Federal Reserve Economic Data</li>
+                  <li className="text-slate-300 dark:text-slate-400">• IRS Retirement Guidelines</li>
+                  <li className="text-slate-300 dark:text-slate-400">• Historical Market Returns</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
+                <ul className="space-y-2 text-sm">
                   <li>
-                    <Link href="/" className="text-gray-400 hover:text-blue-400 transition-colors">
-                      Inflation Calculator
+                    <Link href="/" className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors">
+                      Home
                     </Link>
                   </li>
                   <li>
-                    <Link href="/salary-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
+                    <Link
+                      href="/deflation-calculator"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
+                      Deflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/charts"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
+                      Charts & Analytics
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/ppp-calculator"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
+                      PPP Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/salary-calculator"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
                       Salary Calculator
                     </Link>
                   </li>
                   <li>
-                    <Link href="/retirement-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
+                    <Link
+                      href="/retirement-calculator"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
                       Retirement Calculator
                     </Link>
                   </li>
                   <li>
                     <Link
                       href="/student-loan-calculator"
-                      className="text-gray-400 hover:text-blue-400 transition-colors"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
                     >
                       Student Loan Calculator
                     </Link>
                   </li>
                   <li>
                     <Link
-                      href="/housing-affordability-calculator"
-                      className="text-gray-400 hover:text-blue-400 transition-colors"
+                      href="/mortgage-calculator"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
                     >
-                      Housing Affordability Calculator
+                      Mortgage Calculator
                     </Link>
                   </li>
                   <li>
-                    <Link href="/deflation-calculator" className="text-gray-400 hover:text-blue-400 transition-colors">
-                      Deflation Calculator
+                    <Link
+                      href="/budget-calculator"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
+                      Budget Calculator
                     </Link>
                   </li>
                   <li>
-                    <Link href="/legacy-planner" className="text-gray-400 hover:text-blue-400 transition-colors">
+                    <Link
+                      href="/emergency-fund-calculator"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
+                      Emergency Fund Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/roi-calculator"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
+                      ROI Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/legacy-planner"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
                       Legacy Planner
                     </Link>
                   </li>
                   <li>
-                    <Link href="/charts" className="text-gray-400 hover:text-blue-400 transition-colors">
-                      Charts & Analytics
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-100 mb-3">Information</h4>
-                <ul className="space-y-2">
-                  <li>
-                    <Link href="/about" className="text-gray-400 hover:text-blue-400 transition-colors">
+                    <Link
+                      href="/about"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
                       About Us
                     </Link>
                   </li>
                   <li>
-                    <Link href="/privacy" className="text-gray-400 hover:text-blue-400 transition-colors">
+                    <Link
+                      href="/privacy"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
                       Privacy Policy
                     </Link>
                   </li>
                   <li>
-                    <Link href="/terms" className="text-gray-400 hover:text-blue-400 transition-colors">
+                    <Link
+                      href="/terms"
+                      className="text-slate-300 dark:text-slate-400 hover:text-blue-400 transition-colors"
+                    >
                       Terms of Service
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-100 mb-3">Contact</h4>
-                <ul className="space-y-2">
-                  <li>
-                    <Link href="/contact" className="text-gray-400 hover:text-blue-400 transition-colors">
-                      Contact Us
                     </Link>
                   </li>
                 </ul>
               </div>
             </div>
 
-            <Separator className="my-8 bg-gray-700" />
+            <Separator className="my-8 bg-slate-700 dark:bg-slate-600" />
 
-            <div className="text-center text-gray-400 text-sm">
-              <p>© 2025 Global Inflation Calculator. All rights reserved.</p>
-              <p className="mt-2">Educational purposes only. Not financial advice.</p>
+            <div className="text-center text-slate-400 dark:text-slate-500 text-sm">
+              <p>© 2025 Global Inflation Calculator. Educational purposes only.</p>
             </div>
           </div>
         </footer>

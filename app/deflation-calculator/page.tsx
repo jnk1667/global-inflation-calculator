@@ -126,34 +126,34 @@ export default function DeflationCalculator() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "What is deflation and how does it differ from inflation?",
+        name: "What is the deflation calculator?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Deflation is when prices decrease over time, increasing the purchasing power of money. Unlike inflation where money loses value, deflation means each dollar buys more goods and services. Deflationary assets like gold and bitcoin have limited supply, making them scarce and valuable over time.",
+          text: "The deflation calculator helps you understand how the purchasing power of money changes over time due to deflation. It allows you to compare the value of money between different time periods, accounting for negative inflation rates.",
         },
       },
       {
         "@type": "Question",
-        name: "Why are gold and silver considered deflationary assets?",
+        name: "How does deflation affect my money?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Gold and silver are physically scarce with limited supply. Mining becomes more expensive over time, and total reserves are finite. Unlike fiat currency that can be printed infinitely, precious metals maintain purchasing power through scarcity, making them effective inflation hedges.",
+          text: "During deflation, prices decrease over time, which means your money can buy more goods and services in the future. This increases the real value of your savings and fixed-income investments. However, deflation can also lead to economic challenges like reduced spending and lower business revenues.",
         },
       },
       {
         "@type": "Question",
-        name: "How does Bitcoin's supply mechanism create deflation?",
+        name: "How accurate is the deflation calculator?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Bitcoin has a fixed maximum supply of 21 million coins. New bitcoins are created through mining, with the reward halving approximately every 4 years. This programmatic scarcity creates deflationary pressure as demand grows but supply becomes increasingly limited.",
+          text: "The calculator uses historical deflation data from reliable sources like the Bureau of Labor Statistics and Federal Reserve. While it provides accurate historical calculations, it cannot predict future deflation rates. Past performance does not guarantee future results.",
         },
       },
       {
         "@type": "Question",
-        name: "Can crude oil be considered a deflationary asset?",
+        name: "What is the difference between deflation and inflation?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Crude oil has deflationary characteristics due to finite reserves and increasing extraction costs. As easily accessible oil depletes, remaining reserves become more expensive to extract. However, oil prices are also heavily influenced by geopolitical factors and technological changes in energy production.",
+          text: "Deflation is when prices decrease over time, making money more valuable. Inflation is when prices increase over time, making money less valuable. Both affect purchasing power but in opposite directions. The deflation calculator helps you understand periods when deflation occurred.",
         },
       },
     ],

@@ -761,13 +761,13 @@ export default function LegacyPlannerPage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/mortgage-calculator" className="text-slate-300 hover:text-white transition-colors">
-                    Mortgage Calculator
+                  <Link href="/charts" className="text-slate-300 hover:text-white transition-colors">
+                    Charts & Analytics
                   </Link>
                 </li>
                 <li>
-                  <Link href="/legacy-planner" className="text-slate-300 hover:text-white transition-colors">
-                    Legacy Planner
+                  <Link href="/ppp-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    PPP Calculator
                   </Link>
                 </li>
                 <li>
@@ -776,8 +776,38 @@ export default function LegacyPlannerPage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/charts" className="text-slate-300 hover:text-white transition-colors">
-                    Charts & Analytics
+                  <Link href="/retirement-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Retirement Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/student-loan-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Student Loan Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/mortgage-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Mortgage Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/budget-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Budget Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/emergency-fund-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    Emergency Fund Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/roi-calculator" className="text-slate-300 hover:text-white transition-colors">
+                    ROI Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/legacy-planner" className="text-slate-300 hover:text-white transition-colors">
+                    Legacy Planner
                   </Link>
                 </li>
                 <li>
@@ -786,13 +816,13 @@ export default function LegacyPlannerPage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/terms" className="text-slate-300 hover:text-white transition-colors">
-                    Terms of Service
+                  <Link href="/privacy" className="text-slate-300 hover:text-white transition-colors">
+                    Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link href="/privacy" className="text-slate-300 hover:text-white transition-colors">
-                    Privacy Policy
+                  <Link href="/terms" className="text-slate-300 hover:text-white transition-colors">
+                    Terms of Service
                   </Link>
                 </li>
               </ul>

@@ -89,34 +89,42 @@ export default function Page() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "What inflation charts are available?",
+        name: "What inflation data do the charts show?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Our charts include USD Century of Inflation (1913-2025), Healthcare vs General Inflation, Real Estate vs Inflation, Wage Growth vs Inflation, Multi-Currency Comparison across 8 major currencies, Currency Stability Rankings, Regional Inflation Analysis, and more. All charts use official government data from central banks and statistical agencies.",
+          text: "The charts display historical inflation rates across multiple countries from 1913 to 2025, sourced from official government statistics bureaus including the US Bureau of Labor Statistics, UK Office for National Statistics, Eurostat, Statistics Canada, Australian Bureau of Statistics, and other central banks worldwide.",
         },
       },
       {
         "@type": "Question",
-        name: "How often are inflation charts updated?",
+        name: "How do I compare inflation across countries?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Charts are updated monthly when new official inflation statistics are released by government agencies like the Bureau of Labor Statistics (BLS), Office for National Statistics (ONS), and Eurostat. Historical data is also reviewed and corrected when revisions are published.",
+          text: "Use the interactive charts to select multiple countries and view their inflation rates side by side. The comparison feature helps you understand how different economies experience inflation differently due to monetary policy, economic conditions, and regional factors. You can filter by date range to focus on specific periods.",
         },
       },
       {
         "@type": "Question",
-        name: "Which currency has the most stable inflation rate?",
+        name: "What time periods can I analyze?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Historically, the Swiss Franc (CHF) has shown the most stable inflation rates among major currencies, often maintaining rates near or below 2%. The Euro (EUR) and Japanese Yen (JPY) have also demonstrated relative stability in recent decades. Currency stability depends on central bank policy, economic fundamentals, and geopolitical factors.",
+          text: "The charts cover inflation data from 1913 to 2025, allowing you to analyze over a century of inflation trends. You can zoom into specific periods like the Great Depression, post-war inflation, the 1970s stagflation, the 2008 financial crisis, or recent pandemic-era inflation spikes.",
         },
       },
       {
         "@type": "Question",
-        name: "How does healthcare inflation compare to general inflation?",
+        name: "How often is the inflation data updated?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Healthcare inflation consistently runs 2-3 percentage points higher than general CPI inflation. Over the past 30 years, healthcare costs have increased at roughly 5-6% annually while general inflation averaged 2-3%. This means healthcare expenses double approximately every 12-15 years, making it a critical consideration for retirement planning.",
+          text: "The inflation data is updated monthly with the latest releases from official government sources. Historical data remains stable, while current year data is refreshed as new CPI reports are published by national statistics bureaus, typically within the first two weeks of each month.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can I download or export the chart data?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, you can export chart data and visualizations for your own analysis or presentations. The charts are interactive and allow you to hover over data points to see specific values, making it easy to extract the information you need for research, reports, or financial planning.",
         },
       },
     ],
