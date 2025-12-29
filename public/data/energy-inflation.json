@@ -1,0 +1,243 @@
+{
+  "description": "Energy Price Inflation Data (1994-2025)",
+  "sources": ["EIA (Energy Information Administration)", "Bureau of Labor Statistics"],
+  "lastUpdated": "2025-12-29",
+  "data": [
+    { "year": 1994, "gasoline": 1.11, "electricity": 8.38, "naturalGas": 6.12, "energyCPI": 100, "generalCPI": 100 },
+    { "year": 1995, "gasoline": 1.15, "electricity": 8.4, "naturalGas": 5.8, "energyCPI": 101.8, "generalCPI": 102.8 },
+    {
+      "year": 1996,
+      "gasoline": 1.23,
+      "electricity": 8.36,
+      "naturalGas": 6.34,
+      "energyCPI": 106.5,
+      "generalCPI": 105.8
+    },
+    {
+      "year": 1997,
+      "gasoline": 1.23,
+      "electricity": 8.43,
+      "naturalGas": 6.93,
+      "energyCPI": 107.2,
+      "generalCPI": 108.2
+    },
+    { "year": 1998, "gasoline": 1.06, "electricity": 8.26, "naturalGas": 6.82, "energyCPI": 97.8, "generalCPI": 109.8 },
+    {
+      "year": 1999,
+      "gasoline": 1.17,
+      "electricity": 8.16,
+      "naturalGas": 6.69,
+      "energyCPI": 103.2,
+      "generalCPI": 112.2
+    },
+    {
+      "year": 2000,
+      "gasoline": 1.51,
+      "electricity": 8.24,
+      "naturalGas": 7.76,
+      "energyCPI": 124.5,
+      "generalCPI": 116.0
+    },
+    {
+      "year": 2001,
+      "gasoline": 1.46,
+      "electricity": 8.58,
+      "naturalGas": 9.63,
+      "energyCPI": 121.3,
+      "generalCPI": 119.2
+    },
+    {
+      "year": 2002,
+      "gasoline": 1.36,
+      "electricity": 8.44,
+      "naturalGas": 7.89,
+      "energyCPI": 114.8,
+      "generalCPI": 121.2
+    },
+    {
+      "year": 2003,
+      "gasoline": 1.59,
+      "electricity": 8.72,
+      "naturalGas": 9.52,
+      "energyCPI": 127.5,
+      "generalCPI": 124.0
+    },
+    {
+      "year": 2004,
+      "gasoline": 1.88,
+      "electricity": 8.95,
+      "naturalGas": 10.75,
+      "energyCPI": 145.2,
+      "generalCPI": 127.3
+    },
+    { "year": 2005, "gasoline": 2.3, "electricity": 9.45, "naturalGas": 12.7, "energyCPI": 172.8, "generalCPI": 131.6 },
+    {
+      "year": 2006,
+      "gasoline": 2.59,
+      "electricity": 10.4,
+      "naturalGas": 13.73,
+      "energyCPI": 189.5,
+      "generalCPI": 135.9
+    },
+    {
+      "year": 2007,
+      "gasoline": 2.8,
+      "electricity": 10.65,
+      "naturalGas": 13.08,
+      "energyCPI": 201.2,
+      "generalCPI": 140.0
+    },
+    {
+      "year": 2008,
+      "gasoline": 3.27,
+      "electricity": 11.26,
+      "naturalGas": 13.89,
+      "energyCPI": 234.8,
+      "generalCPI": 145.3
+    },
+    {
+      "year": 2009,
+      "gasoline": 2.35,
+      "electricity": 11.51,
+      "naturalGas": 12.14,
+      "energyCPI": 178.5,
+      "generalCPI": 144.8
+    },
+    {
+      "year": 2010,
+      "gasoline": 2.79,
+      "electricity": 11.54,
+      "naturalGas": 11.39,
+      "energyCPI": 204.2,
+      "generalCPI": 147.2
+    },
+    {
+      "year": 2011,
+      "gasoline": 3.53,
+      "electricity": 11.72,
+      "naturalGas": 11.03,
+      "energyCPI": 248.5,
+      "generalCPI": 151.8
+    },
+    {
+      "year": 2012,
+      "gasoline": 3.64,
+      "electricity": 11.88,
+      "naturalGas": 10.68,
+      "energyCPI": 256.3,
+      "generalCPI": 154.9
+    },
+    {
+      "year": 2013,
+      "gasoline": 3.53,
+      "electricity": 12.12,
+      "naturalGas": 10.33,
+      "energyCPI": 251.2,
+      "generalCPI": 157.2
+    },
+    {
+      "year": 2014,
+      "gasoline": 3.37,
+      "electricity": 12.52,
+      "naturalGas": 10.97,
+      "energyCPI": 243.8,
+      "generalCPI": 159.8
+    },
+    {
+      "year": 2015,
+      "gasoline": 2.45,
+      "electricity": 12.65,
+      "naturalGas": 10.38,
+      "energyCPI": 189.2,
+      "generalCPI": 160.0
+    },
+    {
+      "year": 2016,
+      "gasoline": 2.14,
+      "electricity": 12.55,
+      "naturalGas": 10.05,
+      "energyCPI": 168.5,
+      "generalCPI": 162.0
+    },
+    {
+      "year": 2017,
+      "gasoline": 2.42,
+      "electricity": 12.89,
+      "naturalGas": 10.91,
+      "energyCPI": 184.3,
+      "generalCPI": 165.5
+    },
+    {
+      "year": 2018,
+      "gasoline": 2.74,
+      "electricity": 12.87,
+      "naturalGas": 10.54,
+      "energyCPI": 202.5,
+      "generalCPI": 169.5
+    },
+    {
+      "year": 2019,
+      "gasoline": 2.6,
+      "electricity": 13.01,
+      "naturalGas": 10.54,
+      "energyCPI": 196.8,
+      "generalCPI": 172.5
+    },
+    {
+      "year": 2020,
+      "gasoline": 2.17,
+      "electricity": 13.15,
+      "naturalGas": 10.66,
+      "energyCPI": 168.2,
+      "generalCPI": 174.7
+    },
+    {
+      "year": 2021,
+      "gasoline": 3.01,
+      "electricity": 13.72,
+      "naturalGas": 12.26,
+      "energyCPI": 218.5,
+      "generalCPI": 182.8
+    },
+    {
+      "year": 2022,
+      "gasoline": 3.97,
+      "electricity": 15.12,
+      "naturalGas": 15.04,
+      "energyCPI": 298.3,
+      "generalCPI": 197.5
+    },
+    {
+      "year": 2023,
+      "gasoline": 3.53,
+      "electricity": 16.11,
+      "naturalGas": 14.55,
+      "energyCPI": 272.5,
+      "generalCPI": 204.2
+    },
+    {
+      "year": 2024,
+      "gasoline": 3.3,
+      "electricity": 16.63,
+      "naturalGas": 13.75,
+      "energyCPI": 258.8,
+      "generalCPI": 209.8
+    },
+    {
+      "year": 2025,
+      "gasoline": 3.18,
+      "electricity": 17.05,
+      "naturalGas": 13.2,
+      "energyCPI": 252.3,
+      "generalCPI": 214.5
+    }
+  ],
+  "statistics": {
+    "gasolineChange": "186%",
+    "electricityChange": "103%",
+    "naturalGasChange": "116%",
+    "energyCPIChange": "152%",
+    "generalCPIChange": "114%",
+    "energyOutpacesGeneral": "33%"
+  }
+}

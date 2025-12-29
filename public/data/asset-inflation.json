@@ -1,0 +1,189 @@
+{
+  "description": "Asset Price Inflation vs CPI (1970-2025)",
+  "sources": ["S&P Global", "Federal Reserve (FRED)", "Case-Shiller", "Bureau of Labor Statistics"],
+  "lastUpdated": "2025-12-29",
+  "data": [
+    {
+      "year": 1970,
+      "sp500Index": 100,
+      "housingIndex": 100,
+      "bondYield": 6.59,
+      "cpiIndex": 100,
+      "realSP500": 100,
+      "realHousing": 100
+    },
+    {
+      "year": 1975,
+      "sp500Index": 90.2,
+      "housingIndex": 125.3,
+      "bondYield": 7.99,
+      "cpiIndex": 138.5,
+      "realSP500": 65.1,
+      "realHousing": 90.5
+    },
+    {
+      "year": 1980,
+      "sp500Index": 135.8,
+      "housingIndex": 195.2,
+      "bondYield": 11.46,
+      "cpiIndex": 203.8,
+      "realSP500": 66.6,
+      "realHousing": 95.8
+    },
+    {
+      "year": 1985,
+      "sp500Index": 242.2,
+      "housingIndex": 262.4,
+      "bondYield": 10.62,
+      "cpiIndex": 258.5,
+      "realSP500": 93.7,
+      "realHousing": 101.5
+    },
+    {
+      "year": 1990,
+      "sp500Index": 418.5,
+      "housingIndex": 352.8,
+      "bondYield": 8.55,
+      "cpiIndex": 314.0,
+      "realSP500": 133.3,
+      "realHousing": 112.4
+    },
+    {
+      "year": 1995,
+      "sp500Index": 615.9,
+      "housingIndex": 408.5,
+      "bondYield": 6.57,
+      "cpiIndex": 366.2,
+      "realSP500": 168.2,
+      "realHousing": 111.6
+    },
+    {
+      "year": 2000,
+      "sp500Index": 1469.2,
+      "housingIndex": 531.5,
+      "bondYield": 6.03,
+      "cpiIndex": 414.0,
+      "realSP500": 354.9,
+      "realHousing": 128.4
+    },
+    {
+      "year": 2005,
+      "sp500Index": 1248.3,
+      "housingIndex": 868.8,
+      "bondYield": 4.29,
+      "cpiIndex": 469.5,
+      "realSP500": 265.9,
+      "realHousing": 185.1
+    },
+    {
+      "year": 2010,
+      "sp500Index": 1139.9,
+      "housingIndex": 728.5,
+      "bondYield": 3.22,
+      "cpiIndex": 523.8,
+      "realSP500": 217.6,
+      "realHousing": 139.1
+    },
+    {
+      "year": 2015,
+      "sp500Index": 2058.9,
+      "housingIndex": 878.2,
+      "bondYield": 2.14,
+      "cpiIndex": 569.5,
+      "realSP500": 361.5,
+      "realHousing": 154.2
+    },
+    {
+      "year": 2020,
+      "sp500Index": 3756.1,
+      "housingIndex": 1214.5,
+      "bondYield": 0.89,
+      "cpiIndex": 621.8,
+      "realSP500": 604.2,
+      "realHousing": 195.3
+    },
+    {
+      "year": 2021,
+      "sp500Index": 4766.2,
+      "housingIndex": 1422.8,
+      "bondYield": 1.44,
+      "cpiIndex": 650.5,
+      "realSP500": 732.7,
+      "realHousing": 218.7
+    },
+    {
+      "year": 2022,
+      "sp500Index": 3839.5,
+      "housingIndex": 1574.2,
+      "bondYield": 3.01,
+      "cpiIndex": 702.8,
+      "realSP500": 546.4,
+      "realHousing": 224.0
+    },
+    {
+      "year": 2023,
+      "sp500Index": 4769.8,
+      "housingIndex": 1615.5,
+      "bondYield": 4.05,
+      "cpiIndex": 731.5,
+      "realSP500": 652.1,
+      "realHousing": 220.8
+    },
+    {
+      "year": 2024,
+      "sp500Index": 5881.6,
+      "housingIndex": 1705.2,
+      "bondYield": 4.25,
+      "cpiIndex": 753.2,
+      "realSP500": 781.0,
+      "realHousing": 226.4
+    },
+    {
+      "year": 2025,
+      "sp500Index": 6025.4,
+      "housingIndex": 1752.8,
+      "bondYield": 4.35,
+      "cpiIndex": 772.5,
+      "realSP500": 780.1,
+      "realHousing": 226.9
+    }
+  ],
+  "annualData": [
+    { "year": 2000, "sp500Return": -9.1, "housingReturn": 8.5, "bondReturn": 6.03, "inflation": 3.4 },
+    { "year": 2001, "sp500Return": -11.89, "housingReturn": 7.9, "bondReturn": 5.02, "inflation": 2.8 },
+    { "year": 2002, "sp500Return": -22.1, "housingReturn": 8.2, "bondReturn": 4.61, "inflation": 1.6 },
+    { "year": 2003, "sp500Return": 28.68, "housingReturn": 8.9, "bondReturn": 4.01, "inflation": 2.3 },
+    { "year": 2004, "sp500Return": 10.88, "housingReturn": 12.4, "bondReturn": 4.27, "inflation": 2.7 },
+    { "year": 2005, "sp500Return": 4.91, "housingReturn": 14.5, "bondReturn": 4.29, "inflation": 3.4 },
+    { "year": 2006, "sp500Return": 15.79, "housingReturn": 6.3, "bondReturn": 4.97, "inflation": 3.2 },
+    { "year": 2007, "sp500Return": 5.49, "housingReturn": -1.9, "bondReturn": 4.63, "inflation": 2.8 },
+    { "year": 2008, "sp500Return": -37.0, "housingReturn": -8.4, "bondReturn": 3.66, "inflation": 3.8 },
+    { "year": 2009, "sp500Return": 26.46, "housingReturn": -9.2, "bondReturn": 3.26, "inflation": -0.4 },
+    { "year": 2010, "sp500Return": 15.06, "housingReturn": -3.2, "bondReturn": 3.22, "inflation": 1.6 },
+    { "year": 2011, "sp500Return": 2.11, "housingReturn": -6.0, "bondReturn": 2.78, "inflation": 3.2 },
+    { "year": 2012, "sp500Return": 16.0, "housingReturn": 1.7, "bondReturn": 1.76, "inflation": 2.1 },
+    { "year": 2013, "sp500Return": 32.39, "housingReturn": 10.8, "bondReturn": 2.35, "inflation": 1.5 },
+    { "year": 2014, "sp500Return": 13.69, "housingReturn": 6.4, "bondReturn": 2.54, "inflation": 1.6 },
+    { "year": 2015, "sp500Return": 1.38, "housingReturn": 7.0, "bondReturn": 2.14, "inflation": 0.1 },
+    { "year": 2016, "sp500Return": 11.96, "housingReturn": 7.2, "bondReturn": 1.84, "inflation": 1.3 },
+    { "year": 2017, "sp500Return": 21.83, "housingReturn": 8.1, "bondReturn": 2.33, "inflation": 2.1 },
+    { "year": 2018, "sp500Return": -4.38, "housingReturn": 6.9, "bondReturn": 2.91, "inflation": 2.4 },
+    { "year": 2019, "sp500Return": 31.49, "housingReturn": 4.8, "bondReturn": 2.14, "inflation": 1.8 },
+    { "year": 2020, "sp500Return": 18.4, "housingReturn": 6.6, "bondReturn": 0.89, "inflation": 1.2 },
+    { "year": 2021, "sp500Return": 28.71, "housingReturn": 17.2, "bondReturn": 1.44, "inflation": 4.7 },
+    { "year": 2022, "sp500Return": -18.11, "housingReturn": 10.6, "bondReturn": 3.01, "inflation": 8.0 },
+    { "year": 2023, "sp500Return": 26.29, "housingReturn": 2.6, "bondReturn": 4.05, "inflation": 4.1 },
+    { "year": 2024, "sp500Return": 25.02, "housingReturn": 5.5, "bondReturn": 4.25, "inflation": 2.9 },
+    { "year": 2025, "sp500Return": 2.45, "housingReturn": 2.8, "bondReturn": 4.35, "inflation": 2.6 }
+  ],
+  "statistics": {
+    "sp500TotalReturn": "5925%",
+    "housingTotalReturn": "1653%",
+    "cpiTotalIncrease": "673%",
+    "sp500RealReturn": "680%",
+    "housingRealReturn": "127%",
+    "avgAnnualSP500": "10.5%",
+    "avgAnnualHousing": "5.2%",
+    "avgAnnualInflation": "3.8%"
+  }
+}

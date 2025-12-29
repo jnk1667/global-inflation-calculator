@@ -15,6 +15,9 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
+  AreaChart,
+  Area,
+  ComposedChart,
 } from "recharts"
 import { Camera } from "lucide-react"
 import html2canvas from "html2canvas"
@@ -22,6 +25,71 @@ import CurrencyComparisonChart from "@/components/currency-comparison-chart"
 import FAQ from "@/components/faq"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import Link from "next/link"
+
+interface EnergyInflationData {
+  year: number
+  gasoline: number
+  electricity: number
+  naturalGas: number
+  energyCPI: number
+  generalCPI: number
+}
+
+interface WagesVsInflationData {
+  year: number
+  nominalWage: number
+  realWage: number
+  cpi: number
+  purchasingPower: number
+}
+
+interface OccupationData {
+  name: string
+  wage2000: number
+  wage2025: number
+  nominalGrowth: number
+  realGrowth: number
+}
+
+interface AssetInflationData {
+  year: number
+  sp500Return?: number
+  housingReturn?: number
+  bondReturn?: number
+  inflation?: number
+  sp500Index?: number
+  housingIndex?: number
+  bondYield?: number
+  cpiIndex?: number
+  realSP500?: number
+  realHousing?: number
+}
+
+interface EducationInflationData {
+  year: number
+  publicTuition: number
+  privateTuition: number
+  educationCPI: number
+  generalCPI: number
+}
+
+interface MajorEarningsData {
+  major: string
+  avgDebt: number
+  startSalary: number
+  mid10YearSalary: number
+  debtToIncomeRatio: number
+}
+
+interface HealthcareDeepDiveData {
+  year: number
+  hospitalCPI: number
+  prescriptionCPI: number
+  insurancePremium: number
+  outOfPocket: number
+  generalCPI: number
+}
+// </CHANGE>
 
 export default function ChartsPage() {
   const [screenshotting, setScreenshotting] = useState<string | null>(null)
@@ -41,6 +109,29 @@ export default function ChartsPage() {
   const [loading, setLoading] = useState(true)
   const [chartsEssay, setChartsEssay] = useState<string>("")
 
+  const [energyData, setEnergyData] = useState<{ data: EnergyInflationData[]; statistics: any } | null>(null)
+  const [wagesData, setWagesData] = useState<{
+    data: WagesVsInflationData[]
+    occupations: OccupationData[]
+    statistics: any
+  } | null>(null)
+  const [assetData, setAssetData] = useState<{
+    data: AssetInflationData[]
+    annualData: AssetInflationData[]
+    statistics: any
+  } | null>(null)
+  const [educationData, setEducationData] = useState<{
+    data: EducationInflationData[]
+    earningsByMajor: MajorEarningsData[]
+    statistics: any
+  } | null>(null)
+  const [healthcareDeepDiveData, setHealthcareDeepDiveData] = useState<{
+    data: HealthcareDeepDiveData[]
+    categoryBreakdown: any[]
+    statistics: any
+  } | null>(null)
+  // </CHANGE>
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,6 +147,12 @@ export default function ChartsPage() {
           nzdResponse,
           pceResponse,
           corePceResponse,
+          energyResponse,
+          wagesResponse,
+          assetResponse,
+          educationResponse,
+          healthcareDeepDiveResponse,
+          // </CHANGE>
         ] = await Promise.all([
           fetch("/data/usd-inflation.json"),
           fetch("/data/eur-inflation.json"),
@@ -68,9 +165,32 @@ export default function ChartsPage() {
           fetch("/data/nzd-inflation.json"),
           fetch("/data/pce-inflation.json"),
           fetch("/data/core-pce-inflation.json"),
+          fetch("/data/energy-inflation.json"),
+          fetch("/data/wages-vs-inflation.json"),
+          fetch("/data/asset-inflation.json"),
+          fetch("/data/education-inflation.json"),
+          fetch("/data/healthcare-deep-dive.json"),
+          // </CHANGE>
         ])
 
-        const [usd, eur, gbp, healthcare, chf, cad, aud, jpy, nzd, pce, corePce] = await Promise.all([
+        const [
+          usd,
+          eur,
+          gbp,
+          healthcare,
+          chf,
+          cad,
+          aud,
+          jpy,
+          nzd,
+          pce,
+          corePce,
+          energy,
+          wages,
+          asset,
+          education,
+          healthcareDeepDive,
+        ] = await Promise.all([
           usdResponse.json(),
           eurResponse.json(),
           gbpResponse.json(),
@@ -82,6 +202,12 @@ export default function ChartsPage() {
           nzdResponse.json(),
           pceResponse.json(),
           corePceResponse.json(),
+          energyResponse.json(),
+          wagesResponse.json(),
+          assetResponse.json(),
+          educationResponse.json(),
+          healthcareDeepDiveResponse.json(),
+          // </CHANGE>
         ])
 
         setUsdData(usd)
@@ -95,6 +221,12 @@ export default function ChartsPage() {
         setNzdData(nzd)
         setPceData(pce)
         setCorePceData(corePce)
+        setEnergyData(energy)
+        setWagesData(wages)
+        setAssetData(asset)
+        setEducationData(education)
+        setHealthcareDeepDiveData(healthcareDeepDive)
+        // </CHANGE>
 
         try {
           const { createClientFunction } = await import("@/lib/supabase")
@@ -180,7 +312,12 @@ export default function ChartsPage() {
     !jpyData ||
     !nzdData ||
     !pceData ||
-    !corePceData
+    !corePceData ||
+    !energyData || // Check loading state for new data
+    !wagesData ||
+    !assetData ||
+    !educationData ||
+    !healthcareDeepDiveData
   ) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 pt-32 pb-16">
@@ -588,6 +725,36 @@ export default function ChartsPage() {
   const getFilteredCostOfLivingData = () => {
     return filterDataByDateRange(costOfLivingData, Number.parseInt(startDate), Number.parseInt(endDate))
   }
+
+  const getFilteredEnergyData = () => {
+    if (!energyData?.data) return []
+    return energyData.data.filter((d) => d.year >= Number.parseInt(startDate) && d.year <= Number.parseInt(endDate))
+  }
+
+  const getFilteredWagesData = () => {
+    if (!wagesData?.data) return []
+    return wagesData.data.filter((d) => d.year >= Number.parseInt(startDate) && d.year <= Number.parseInt(endDate))
+  }
+
+  const getFilteredAssetData = () => {
+    if (!assetData?.annualData) return []
+    return assetData.annualData.filter(
+      (d) => d.year >= Number.parseInt(startDate) && d.year <= Number.parseInt(endDate),
+    )
+  }
+
+  const getFilteredEducationData = () => {
+    if (!educationData?.data) return []
+    return educationData.data.filter((d) => d.year >= Number.parseInt(startDate) && d.year <= Number.parseInt(endDate))
+  }
+
+  const getFilteredHealthcareDeepDiveData = () => {
+    if (!healthcareDeepDiveData?.data) return []
+    return healthcareDeepDiveData.data.filter(
+      (d) => d.year >= Number.parseInt(startDate) && d.year <= Number.parseInt(endDate),
+    )
+  }
+  // </CHANGE>
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 pt-32 pb-16">
@@ -1314,6 +1481,532 @@ export default function ChartsPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Chart 10: Energy Inflation Tracker */}
+        {energyData && (
+          <div className="mb-12">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h2 className="text-2xl font-bold">
+                  Energy Price Inflation ({startDate}-{endDate})
+                </h2>
+                <p className="text-lg text-muted-foreground mt-2">
+                  How gasoline, electricity, and natural gas prices have outpaced general inflation
+                </p>
+              </div>
+              <Button
+                onClick={() => takeScreenshot("energy-inflation-chart", "energy-price-inflation")}
+                disabled={screenshotting === "energy-inflation-chart"}
+                variant="outline"
+                size="sm"
+              >
+                <Camera className="w-4 h-4 mr-2" />
+                {screenshotting === "energy-inflation-chart" ? "Capturing..." : "Screenshot"}
+              </Button>
+            </div>
+            <Card id="energy-inflation-chart">
+              <CardContent className="pt-6">
+                <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={getFilteredEnergyData()}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="year" />
+                      <YAxis />
+                      <Tooltip
+                        formatter={(value: any, name: string) => {
+                          if (name === "gasoline") return [`$${value.toFixed(2)}/gal`, "Gasoline"]
+                          if (name === "electricity") return [`${value.toFixed(2)}¢/kWh`, "Electricity"]
+                          if (name === "naturalGas") return [`$${value.toFixed(2)}/mcf`, "Natural Gas"]
+                          if (name === "energyCPI" || name === "generalCPI")
+                            return [
+                              `${value.toFixed(1)}`,
+                              name === "energyCPI" ? "Energy CPI Index" : "General CPI Index",
+                            ]
+                          return [value, name]
+                        }}
+                      />
+                      <Legend />
+                      <Line
+                        type="monotone"
+                        dataKey="energyCPI"
+                        stroke="#ef4444"
+                        strokeWidth={3}
+                        name="Energy CPI Index"
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="generalCPI"
+                        stroke="#3b82f6"
+                        strokeWidth={2}
+                        name="General CPI Index"
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="gasoline"
+                        stroke="#f97316"
+                        strokeWidth={2}
+                        name="Gasoline ($/gal)"
+                        dot={false}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    Energy costs have been one of the most volatile components of inflation, often outpacing general CPI
+                    by 2-3x during price spikes. Since 1994, energy prices have increased by{" "}
+                    {energyData.statistics?.energyCPIChange || "152%"} compared to{" "}
+                    {energyData.statistics?.generalCPIChange || "114%"} for general inflation—a gap of over 33%. The
+                    2022 energy crisis pushed gasoline to nearly $4/gallon and electricity rates to historic highs.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-orange-600">Gasoline</div>
+                      <div className="text-2xl font-bold">+{energyData.statistics?.gasolineChange || "186%"}</div>
+                      <div className="text-xs text-gray-500">Since 1994</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-yellow-600">Electricity</div>
+                      <div className="text-2xl font-bold">+{energyData.statistics?.electricityChange || "103%"}</div>
+                      <div className="text-xs text-gray-500">Since 1994</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-blue-600">Natural Gas</div>
+                      <div className="text-2xl font-bold">+{energyData.statistics?.naturalGasChange || "116%"}</div>
+                      <div className="text-xs text-gray-500">Since 1994</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-red-600">Energy vs General</div>
+                      <div className="text-2xl font-bold">+{energyData.statistics?.energyOutpacesGeneral || "33%"}</div>
+                      <div className="text-xs text-gray-500">Gap</div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Chart 11: Wages vs Inflation Reality Check */}
+        {wagesData && (
+          <div className="mb-12">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h2 className="text-2xl font-bold">
+                  Real Wages vs Inflation ({startDate}-{endDate})
+                </h2>
+                <p className="text-lg text-muted-foreground mt-2">
+                  Are your wages keeping up with inflation? The purchasing power reality check
+                </p>
+              </div>
+              <Button
+                onClick={() => takeScreenshot("wages-inflation-chart", "real-wages-vs-inflation")}
+                disabled={screenshotting === "wages-inflation-chart"}
+                variant="outline"
+                size="sm"
+              >
+                <Camera className="w-4 h-4 mr-2" />
+                {screenshotting === "wages-inflation-chart" ? "Capturing..." : "Screenshot"}
+              </Button>
+            </div>
+            <Card id="wages-inflation-chart">
+              <CardContent className="pt-6">
+                <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <ComposedChart data={getFilteredWagesData()}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="year" />
+                      <YAxis yAxisId="left" orientation="left" />
+                      <YAxis yAxisId="right" orientation="right" domain={[85, 105]} />
+                      <Tooltip
+                        formatter={(value: any, name: string) => {
+                          if (name === "nominalWage" || name === "realWage")
+                            return [
+                              `$${value.toFixed(2)}/hr`,
+                              name === "nominalWage" ? "Nominal Wage" : "Real Wage (1979$)",
+                            ]
+                          if (name === "purchasingPower") return [`${value.toFixed(1)}%`, "Purchasing Power"]
+                          return [value, name]
+                        }}
+                      />
+                      <Legend />
+                      <Bar
+                        yAxisId="left"
+                        dataKey="nominalWage"
+                        fill="#22c55e"
+                        name="Nominal Wage ($/hr)"
+                        opacity={0.6}
+                      />
+                      <Line
+                        yAxisId="left"
+                        type="monotone"
+                        dataKey="realWage"
+                        stroke="#ef4444"
+                        strokeWidth={3}
+                        name="Real Wage (1979$)"
+                      />
+                      <Line
+                        yAxisId="right"
+                        type="monotone"
+                        dataKey="purchasingPower"
+                        stroke="#3b82f6"
+                        strokeWidth={2}
+                        name="Purchasing Power %"
+                        dot={false}
+                      />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    Despite nominal wages rising from $6.33/hour in 1979 to over $31/hour in 2025 (
+                    {wagesData.statistics?.avgNominalGrowth || "392%"} increase), real purchasing power has actually
+                    declined by approximately {wagesData.statistics?.avgRealGrowthLoss || "4.2%"}. The red line shows
+                    what workers can actually buy with their wages—and it's been essentially flat for 45+ years. Peak
+                    purchasing power was reached in {wagesData.statistics?.peakPurchasingPower?.year || 2020}, showing
+                    brief gains during low inflation periods.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm mt-4">
+                    {wagesData.occupations?.slice(0, 6).map((occ: OccupationData) => (
+                      <div key={occ.name} className="bg-white dark:bg-gray-700 p-3 rounded">
+                        <div className="font-semibold text-gray-800 dark:text-gray-200">{occ.name}</div>
+                        <div className="flex justify-between items-center mt-1">
+                          <span className="text-xs text-gray-500">Nominal: +{occ.nominalGrowth}%</span>
+                          <span
+                            className={`text-sm font-bold ${occ.realGrowth >= 0 ? "text-green-600" : "text-red-600"}`}
+                          >
+                            Real: {occ.realGrowth >= 0 ? "+" : ""}
+                            {occ.realGrowth}%
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Chart 12: Asset Inflation - Stocks, Bonds & Housing */}
+        {assetData && (
+          <div className="mb-12">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h2 className="text-2xl font-bold">
+                  Asset Returns vs Inflation ({startDate}-{endDate})
+                </h2>
+                <p className="text-lg text-muted-foreground mt-2">
+                  How stocks, housing, and bonds have performed as inflation hedges
+                </p>
+              </div>
+              <Button
+                onClick={() => takeScreenshot("asset-inflation-chart", "asset-returns-vs-inflation")}
+                disabled={screenshotting === "asset-inflation-chart"}
+                variant="outline"
+                size="sm"
+              >
+                <Camera className="w-4 h-4 mr-2" />
+                {screenshotting === "asset-inflation-chart" ? "Capturing..." : "Screenshot"}
+              </Button>
+            </div>
+            <Card id="asset-inflation-chart">
+              <CardContent className="pt-6">
+                <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={getFilteredAssetData()}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="year" />
+                      <YAxis domain={[-40, 40]} />
+                      <Tooltip
+                        formatter={(value: any, name: string) => {
+                          return [`${value.toFixed(1)}%`, name]
+                        }}
+                      />
+                      <Legend />
+                      <Bar dataKey="sp500Return" fill="#22c55e" name="S&P 500 Return" />
+                      <Bar dataKey="housingReturn" fill="#3b82f6" name="Housing Return" />
+                      <Bar dataKey="inflation" fill="#ef4444" name="Inflation Rate" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    Since 1970, stocks (S&P 500) have returned {assetData.statistics?.sp500TotalReturn || "5925%"}{" "}
+                    nominally, but only {assetData.statistics?.sp500RealReturn || "680%"} in real (inflation-adjusted)
+                    terms. Housing has returned {assetData.statistics?.housingTotalReturn || "1653%"} nominally (
+                    {assetData.statistics?.housingRealReturn || "127%"} real), while general prices increased{" "}
+                    {assetData.statistics?.cpiTotalIncrease || "673%"}. Stocks have been the superior inflation hedge
+                    historically, averaging {assetData.statistics?.avgAnnualSP500 || "10.5%"} annual returns vs{" "}
+                    {assetData.statistics?.avgAnnualInflation || "3.8%"} inflation.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-green-600">S&P 500 Real Return</div>
+                      <div className="text-2xl font-bold">+{assetData.statistics?.sp500RealReturn || "680%"}</div>
+                      <div className="text-xs text-gray-500">Since 1970</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-blue-600">Housing Real Return</div>
+                      <div className="text-2xl font-bold">+{assetData.statistics?.housingRealReturn || "127%"}</div>
+                      <div className="text-xs text-gray-500">Since 1970</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-purple-600">Avg Annual Stock</div>
+                      <div className="text-2xl font-bold">{assetData.statistics?.avgAnnualSP500 || "10.5%"}</div>
+                      <div className="text-xs text-gray-500">Per year</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-red-600">Avg Annual Inflation</div>
+                      <div className="text-2xl font-bold">{assetData.statistics?.avgAnnualInflation || "3.8%"}</div>
+                      <div className="text-xs text-gray-500">Per year</div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Chart 13: Education Cost Explosion */}
+        {educationData && (
+          <div className="mb-12">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h2 className="text-2xl font-bold">
+                  Education Cost Explosion ({startDate}-{endDate})
+                </h2>
+                <p className="text-lg text-muted-foreground mt-2">
+                  College tuition inflation has far outpaced general prices for 45 years
+                </p>
+              </div>
+              <Button
+                onClick={() => takeScreenshot("education-inflation-chart", "education-cost-inflation")}
+                disabled={screenshotting === "education-inflation-chart"}
+                variant="outline"
+                size="sm"
+              >
+                <Camera className="w-4 h-4 mr-2" />
+                {screenshotting === "education-inflation-chart" ? "Capturing..." : "Screenshot"}
+              </Button>
+            </div>
+            <Card id="education-inflation-chart">
+              <CardContent className="pt-6">
+                <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={getFilteredEducationData()}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="year" />
+                      <YAxis />
+                      <Tooltip
+                        formatter={(value: any, name: string) => {
+                          if (name === "publicTuition" || name === "privateTuition")
+                            return [
+                              `$${value.toLocaleString()}`,
+                              name === "publicTuition" ? "Public Tuition" : "Private Tuition",
+                            ]
+                          return [
+                            `${value.toFixed(1)}`,
+                            name === "educationCPI" ? "Education CPI Index" : "General CPI Index",
+                          ]
+                        }}
+                      />
+                      <Legend />
+                      <Line
+                        type="monotone"
+                        dataKey="educationCPI"
+                        stroke="#ef4444"
+                        strokeWidth={3}
+                        name="Education CPI Index"
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="generalCPI"
+                        stroke="#3b82f6"
+                        strokeWidth={2}
+                        name="General CPI Index"
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    Education costs have increased at nearly {educationData.statistics?.tuitionVsInflationGap || "4.8x"}{" "}
+                    the rate of general inflation since 1980. Public university tuition has risen{" "}
+                    {educationData.statistics?.publicTuitionIncrease || "1452%"} (from $804 to $12,480), while private
+                    tuition increased {educationData.statistics?.privateTuitionIncrease || "1107%"} (from $3,617 to
+                    $43,650). General CPI only increased {educationData.statistics?.generalCPIIncrease || "282%"} over
+                    the same period. Average student debt now stands at $
+                    {educationData.statistics?.avgStudentDebt2025?.toLocaleString() || "37,850"}.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm mb-4">
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-red-600">Public Tuition</div>
+                      <div className="text-2xl font-bold">
+                        +{educationData.statistics?.publicTuitionIncrease || "1452%"}
+                      </div>
+                      <div className="text-xs text-gray-500">Since 1980</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-purple-600">Private Tuition</div>
+                      <div className="text-2xl font-bold">
+                        +{educationData.statistics?.privateTuitionIncrease || "1107%"}
+                      </div>
+                      <div className="text-xs text-gray-500">Since 1980</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-blue-600">General CPI</div>
+                      <div className="text-2xl font-bold">
+                        +{educationData.statistics?.generalCPIIncrease || "282%"}
+                      </div>
+                      <div className="text-xs text-gray-500">Since 1980</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                      <div className="font-semibold text-orange-600">Avg Student Debt</div>
+                      <div className="text-2xl font-bold">
+                        ${(educationData.statistics?.avgStudentDebt2025 / 1000).toFixed(1) || "37.9"}K
+                      </div>
+                      <div className="text-xs text-gray-500">Class of 2025</div>
+                    </div>
+                  </div>
+                  <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded">
+                    <h5 className="font-semibold text-blue-800 dark:text-blue-200 mb-2">
+                      ROI by Major (Real Wage Growth):
+                    </h5>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                      {educationData.earningsByMajor?.slice(0, 8).map((major: MajorEarningsData) => (
+                        <div key={major.major} className="bg-white dark:bg-gray-700 p-2 rounded">
+                          <div className="font-semibold">{major.major}</div>
+                          <div
+                            className={`${major.debtToIncomeRatio < 0.5 ? "text-green-600" : major.debtToIncomeRatio < 0.7 ? "text-yellow-600" : "text-red-600"}`}
+                          >
+                            Debt/Income: {(major.debtToIncomeRatio * 100).toFixed(0)}%
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Chart 14: Healthcare Inflation Deep Dive */}
+        {healthcareDeepDiveData && (
+          <div className="mb-12">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h2 className="text-2xl font-bold">
+                  Healthcare Cost Deep Dive ({startDate}-{endDate})
+                </h2>
+                <p className="text-lg text-muted-foreground mt-2">
+                  Hospital costs, prescriptions, and insurance premiums vs general inflation
+                </p>
+              </div>
+              <Button
+                onClick={() => takeScreenshot("healthcare-deep-dive-chart", "healthcare-cost-deep-dive")}
+                disabled={screenshotting === "healthcare-deep-dive-chart"}
+                variant="outline"
+                size="sm"
+              >
+                <Camera className="w-4 h-4 mr-2" />
+                {screenshotting === "healthcare-deep-dive-chart" ? "Capturing..." : "Screenshot"}
+              </Button>
+            </div>
+            <Card id="healthcare-deep-dive-chart">
+              <CardContent className="pt-6">
+                <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={getFilteredHealthcareDeepDiveData()}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="year" />
+                      <YAxis />
+                      <Tooltip
+                        formatter={(value: any, name: string) => {
+                          if (name === "insurancePremium")
+                            return [`$${value.toLocaleString()}`, "Annual Insurance Premium"]
+                          if (name === "outOfPocket") return [`$${value.toLocaleString()}`, "Out-of-Pocket Costs"]
+                          return [
+                            `${value.toFixed(1)}`,
+                            name === "hospitalCPI"
+                              ? "Hospital CPI Index"
+                              : name === "prescriptionCPI"
+                                ? "Prescription CPI Index"
+                                : "General CPI Index",
+                          ]
+                        }}
+                      />
+                      <Legend />
+                      <Area
+                        type="monotone"
+                        dataKey="hospitalCPI"
+                        stackId="1"
+                        stroke="#ef4444"
+                        fill="#ef4444"
+                        fillOpacity={0.3}
+                        name="Hospital CPI Index"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="prescriptionCPI"
+                        stackId="2"
+                        stroke="#f97316"
+                        fill="#f97316"
+                        fillOpacity={0.3}
+                        name="Prescription CPI Index"
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="generalCPI"
+                        stroke="#3b82f6"
+                        strokeWidth={3}
+                        name="General CPI Index"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    Healthcare inflation has consistently outpaced general prices by{" "}
+                    {healthcareDeepDiveData.statistics?.healthcareVsGeneralGap || "5.3x"} since 1990. Hospital services
+                    have increased {healthcareDeepDiveData.statistics?.hospitalInflation || "778%"}, insurance premiums
+                    by {healthcareDeepDiveData.statistics?.insuranceInflation || "964%"}, and prescription drugs by{" "}
+                    {healthcareDeepDiveData.statistics?.prescriptionInflation || "495%"}—while general inflation only
+                    rose {healthcareDeepDiveData.statistics?.generalInflation || "148%"}. Average annual healthcare
+                    inflation is {healthcareDeepDiveData.statistics?.avgAnnualHealthcare || "6.0%"} vs{" "}
+                    {healthcareDeepDiveData.statistics?.avgAnnualGeneral || "2.6%"} for general prices.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-5 gap-3 text-sm">
+                    {healthcareDeepDiveData.categoryBreakdown?.map((cat: any) => (
+                      <div key={cat.category} className="bg-white dark:bg-gray-700 p-3 rounded">
+                        <div className="font-semibold text-gray-800 dark:text-gray-200 text-xs">{cat.category}</div>
+                        <div className="text-xl font-bold text-red-600">+{cat.inflationRate1990_2025}</div>
+                        <div className="text-xs text-gray-500">{cat.annualAvg}/yr avg</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 rounded">
+                    <h5 className="font-semibold text-red-800 dark:text-red-200 mb-1">
+                      Impact on Retirement Planning:
+                    </h5>
+                    <p className="text-xs text-red-700 dark:text-red-300">
+                      At current rates, healthcare costs for a 65-year-old couple over their retirement could exceed
+                      $400,000. This makes healthcare inflation the single biggest threat to retirement security—your
+                      savings lose value faster than you can spend them on medical care.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+        {/* </CHANGE> NEW TIER 1 CHARTS END HERE */}
 
         {chartsEssay && (
           <section className="mt-20 mb-16 max-w-4xl mx-auto px-4">

@@ -1,0 +1,91 @@
+{
+  "description": "Education Cost Inflation (1980-2025)",
+  "sources": ["College Board", "Bureau of Labor Statistics", "National Center for Education Statistics"],
+  "lastUpdated": "2025-12-29",
+  "data": [
+    { "year": 1980, "publicTuition": 804, "privateTuition": 3617, "educationCPI": 100, "generalCPI": 100 },
+    { "year": 1985, "publicTuition": 1318, "privateTuition": 6121, "educationCPI": 145.2, "generalCPI": 126.8 },
+    { "year": 1990, "publicTuition": 1908, "privateTuition": 9340, "educationCPI": 205.5, "generalCPI": 154.2 },
+    { "year": 1995, "publicTuition": 2860, "privateTuition": 12432, "educationCPI": 287.8, "generalCPI": 178.5 },
+    { "year": 2000, "publicTuition": 3510, "privateTuition": 16332, "educationCPI": 358.2, "generalCPI": 203.5 },
+    { "year": 2001, "publicTuition": 3766, "privateTuition": 17272, "educationCPI": 382.5, "generalCPI": 209.2 },
+    { "year": 2002, "publicTuition": 4115, "privateTuition": 18273, "educationCPI": 415.8, "generalCPI": 212.5 },
+    { "year": 2003, "publicTuition": 4694, "privateTuition": 19710, "educationCPI": 468.2, "generalCPI": 218.3 },
+    { "year": 2004, "publicTuition": 5132, "privateTuition": 20082, "educationCPI": 512.5, "generalCPI": 224.0 },
+    { "year": 2005, "publicTuition": 5491, "privateTuition": 21235, "educationCPI": 548.8, "generalCPI": 231.5 },
+    { "year": 2006, "publicTuition": 5836, "privateTuition": 22218, "educationCPI": 585.2, "generalCPI": 239.2 },
+    { "year": 2007, "publicTuition": 6185, "privateTuition": 23712, "educationCPI": 622.5, "generalCPI": 246.0 },
+    { "year": 2008, "publicTuition": 6585, "privateTuition": 25143, "educationCPI": 662.8, "generalCPI": 255.8 },
+    { "year": 2009, "publicTuition": 7020, "privateTuition": 26273, "educationCPI": 708.5, "generalCPI": 255.0 },
+    { "year": 2010, "publicTuition": 7605, "privateTuition": 27293, "educationCPI": 762.2, "generalCPI": 259.2 },
+    { "year": 2011, "publicTuition": 8244, "privateTuition": 28500, "educationCPI": 825.8, "generalCPI": 267.2 },
+    { "year": 2012, "publicTuition": 8655, "privateTuition": 29056, "educationCPI": 868.2, "generalCPI": 272.8 },
+    { "year": 2013, "publicTuition": 8893, "privateTuition": 30094, "educationCPI": 895.5, "generalCPI": 276.8 },
+    { "year": 2014, "publicTuition": 9139, "privateTuition": 31231, "educationCPI": 922.8, "generalCPI": 281.0 },
+    { "year": 2015, "publicTuition": 9410, "privateTuition": 32405, "educationCPI": 952.5, "generalCPI": 281.5 },
+    { "year": 2016, "publicTuition": 9650, "privateTuition": 33480, "educationCPI": 982.2, "generalCPI": 285.2 },
+    { "year": 2017, "publicTuition": 9970, "privateTuition": 34740, "educationCPI": 1015.8, "generalCPI": 291.5 },
+    { "year": 2018, "publicTuition": 10230, "privateTuition": 35830, "educationCPI": 1048.2, "generalCPI": 298.5 },
+    { "year": 2019, "publicTuition": 10440, "privateTuition": 36880, "educationCPI": 1078.5, "generalCPI": 304.2 },
+    { "year": 2020, "publicTuition": 10560, "privateTuition": 37650, "educationCPI": 1098.2, "generalCPI": 307.5 },
+    { "year": 2021, "publicTuition": 10740, "privateTuition": 38070, "educationCPI": 1118.5, "generalCPI": 321.8 },
+    { "year": 2022, "publicTuition": 11260, "privateTuition": 39400, "educationCPI": 1172.5, "generalCPI": 347.5 },
+    { "year": 2023, "publicTuition": 11610, "privateTuition": 40850, "educationCPI": 1215.8, "generalCPI": 361.8 },
+    { "year": 2024, "publicTuition": 12030, "privateTuition": 42170, "educationCPI": 1262.2, "generalCPI": 372.5 },
+    { "year": 2025, "publicTuition": 12480, "privateTuition": 43650, "educationCPI": 1312.5, "generalCPI": 382.2 }
+  ],
+  "earningsByMajor": [
+    {
+      "major": "Computer Science",
+      "avgDebt": 28500,
+      "startSalary": 82500,
+      "mid10YearSalary": 132000,
+      "debtToIncomeRatio": 0.35
+    },
+    {
+      "major": "Engineering",
+      "avgDebt": 31200,
+      "startSalary": 75800,
+      "mid10YearSalary": 118500,
+      "debtToIncomeRatio": 0.41
+    },
+    { "major": "Nursing", "avgDebt": 25800, "startSalary": 65200, "mid10YearSalary": 88500, "debtToIncomeRatio": 0.4 },
+    { "major": "Business", "avgDebt": 29500, "startSalary": 58500, "mid10YearSalary": 95800, "debtToIncomeRatio": 0.5 },
+    {
+      "major": "Education",
+      "avgDebt": 26800,
+      "startSalary": 42500,
+      "mid10YearSalary": 58200,
+      "debtToIncomeRatio": 0.63
+    },
+    {
+      "major": "Psychology",
+      "avgDebt": 27200,
+      "startSalary": 38500,
+      "mid10YearSalary": 52800,
+      "debtToIncomeRatio": 0.71
+    },
+    {
+      "major": "Liberal Arts",
+      "avgDebt": 28500,
+      "startSalary": 36800,
+      "mid10YearSalary": 55200,
+      "debtToIncomeRatio": 0.77
+    },
+    {
+      "major": "Fine Arts",
+      "avgDebt": 32500,
+      "startSalary": 35200,
+      "mid10YearSalary": 48500,
+      "debtToIncomeRatio": 0.92
+    }
+  ],
+  "statistics": {
+    "publicTuitionIncrease": "1452%",
+    "privateTuitionIncrease": "1107%",
+    "generalCPIIncrease": "282%",
+    "tuitionVsInflationGap": "4.8x",
+    "avgStudentDebt2025": 37850,
+    "avgRepaymentYears": 21.2
+  }
+}
