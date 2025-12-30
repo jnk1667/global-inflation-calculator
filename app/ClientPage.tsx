@@ -240,7 +240,11 @@ export default function ClientPage() {
   useEffect(() => {
     const loadSEOEssay = async () => {
       try {
-        const { data, error } = await supabase.from("seo_content").select("content").eq("id", "main_essay").single()
+        const { data, error } = await supabase
+          .from("seo_content")
+          .select("content")
+          .eq("id", "main_essay")
+          .maybeSingle()
 
         if (error || !data?.content) {
           console.log("Using default SEO essay content")
@@ -1634,9 +1638,9 @@ export default function ClientPage() {
                         <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
                           <p className="text-sm text-gray-800 dark:text-gray-100">
                             <strong>Note:</strong> All calculations are performed using official government data and
-                            established economic methodologies. Results are for educational purposes and should not be
-                            considered as financial advice. Individual inflation experiences may vary based on personal
-                            spending patterns, geographic location, and other factors.
+                            established economic methodologies. Results are for educational purposes only and should not
+                            be considered as financial advice. Individual inflation experiences may vary based on
+                            personal spending patterns, geographic location, and other factors.
                           </p>
                         </div>
                       </div>

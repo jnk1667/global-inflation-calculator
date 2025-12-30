@@ -31,6 +31,8 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
     const category = searchParams.get("category")
 
+    console.log("[v0] FAQ API: Received GET request for category:", category || "all")
+
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -49,6 +51,9 @@ export async function GET(request: Request) {
 
     const { data: faqs, error } = await query
 
+    console.log("[v0] FAQ API: Query results - Found", faqs?.length || 0, "FAQs")
+    console.log("[v0] FAQ API: Categories in results:", faqs?.map((f) => f.category).join(", ") || "none")
+
     if (error) {
       console.error("Error fetching FAQs:", error)
       return NextResponse.json({ error: "Failed to fetch FAQs" }, { status: 500 })
@@ -61,6 +66,8 @@ export async function GET(request: Request) {
       category: faq.category || "general",
       tags: faq.tags || [],
     }))
+
+    console.log("[v0] FAQ API: Returning", transformedFaqs.length, "transformed FAQs")
 
     return NextResponse.json(transformedFaqs)
   } catch (error) {

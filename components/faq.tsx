@@ -71,21 +71,32 @@ export default function FAQ({ category, limit }: FAQProps) {
         setLoading(true)
         setError(null)
 
+        console.log("[v0] FAQ Component: Requesting category:", category || "all")
+
         // Try to fetch from API first
         try {
           const url = category ? `/api/faqs?category=${encodeURIComponent(category)}` : "/api/faqs"
+          console.log("[v0] FAQ Component: Fetching from URL:", url)
+
           const response = await fetch(url)
+
+          console.log("[v0] FAQ Component: Response status:", response.status)
+
           if (response.ok) {
             const data = await response.json()
+            console.log("[v0] FAQ Component: Received data:", data.length, "FAQs")
+            console.log("[v0] FAQ Component: FAQ categories:", data.map((f: FAQItem) => f.category).join(", "))
+
             if (Array.isArray(data)) {
               const limitedData = typeof limit === "number" && limit > 0 ? data.slice(0, limit) : data
+              console.log("[v0] FAQ Component: Setting", limitedData.length, "FAQs after limit")
               setFaqs(limitedData)
               return
             }
           }
         } catch (apiError) {
           // Silently fall back to default data - this is expected in some environments
-          console.log("[v0] FAQ API unavailable, using default data")
+          console.log("[v0] FAQ Component: API unavailable, using default data:", apiError)
         }
 
         // Fallback to default data
@@ -94,6 +105,7 @@ export default function FAQ({ category, limit }: FAQProps) {
         // Filter by category if specified
         if (category && typeof category === "string") {
           filteredFAQs = filteredFAQs.filter((faq) => faq.category === category)
+          console.log("[v0] FAQ Component: Filtered to", filteredFAQs.length, "default FAQs for category:", category)
         }
 
         // Limit results if specified
