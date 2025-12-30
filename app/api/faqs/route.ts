@@ -69,7 +69,11 @@ export async function GET(request: Request) {
 
     console.log("[v0] FAQ API: Returning", transformedFaqs.length, "transformed FAQs")
 
-    return NextResponse.json(transformedFaqs)
+    return NextResponse.json(transformedFaqs, {
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+      },
+    })
   } catch (error) {
     console.error("Error in FAQs API:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
