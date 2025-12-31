@@ -87,6 +87,41 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
     * Cost of living adjustments
   - Use Cases: Salary negotiations, wage analysis, economic research, career planning
 
+- **Auto Loan Calculator (/auto-loan-calculator)**
+  - URL: https://www.globalinflationcalculator.com/auto-loan-calculator
+  - Purpose: Calculate auto loan payments and total vehicle ownership costs with inflation and gas price analysis
+  - Features:
+    * Vehicle price and loan amount inputs
+    * Interest rate (APR) and loan term configuration (12-84 months)
+    * Down payment calculator with percentage options
+    * Monthly payment calculation with principal and interest breakdown
+    * Total interest paid over loan lifetime
+    * Inflation-adjusted cost analysis
+    * Gas price inflation projections and fuel cost estimates
+    * Total cost of ownership including fuel over loan term
+    * Real vs nominal vehicle cost comparison
+    * Historical vehicle price inflation trends
+  - Calculations:
+    * Monthly Payment: P × [r(1+r)^n] / [(1+r)^n - 1] where P = principal, r = monthly rate, n = months
+    * Total Interest: (Monthly Payment × Loan Term) - Loan Amount
+    * Inflation-Adjusted Total Cost: Vehicle cost + interest + fuel costs adjusted for inflation
+    * Real Cost of Vehicle: Inflation-adjusted purchasing power equivalent
+    * Fuel Cost Projection: Annual miles ÷ MPG × gas price × years × inflation factor
+  - Educational Content:
+    * Explains auto loan mechanics and vehicle financing basics
+    * How down payments reduce total interest costs
+    * Why shorter loan terms save money despite higher monthly payments
+    * Impact of vehicle price inflation on affordability (50+ increase since 2020)
+    * Gas price volatility and fuel cost projections
+    * True cost of ownership beyond monthly payments
+    * Comparing loan offers and negotiating rates
+    * Avoiding negative equity situations
+  - Data Sources: Federal Reserve auto loan rates, BLS transportation CPI, gasoline price indices
+  - Target Users: Car buyers, vehicle financing seekers, auto loan borrowers, first-time car buyers, budget-conscious consumers
+  - Use Cases: Vehicle purchase planning, auto loan comparison, financing decisions, budget planning for car ownership
+  - Context: Vehicle prices have inflated dramatically post-2020, making financing more challenging
+  - Update Frequency: Monthly (gas price and inflation data updates)
+
 - **Deflation Calculator (/deflation-calculator)**
   - URL: https://www.globalinflationcalculator.com/deflation-calculator
   - Purpose: Calculate appreciation of deflationary assets (gold, silver, Bitcoin)

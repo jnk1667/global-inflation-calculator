@@ -349,6 +349,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/auto-loan-calculator" className="text-blue-600 hover:underline">
+                      Auto Loan Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate auto loan payments with inflation and gas price analysis
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/retirement-calculator" className="text-blue-600 hover:underline">
                       Retirement Calculator
                     </Link>
@@ -475,6 +483,18 @@ export default function AccessibilityPage() {
                 </ul>
               </div>
               <div>
+                <h3 className="font-semibold mb-2">Auto Loan Calculator</h3>
+                <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>Vehicle price and loan amount inputs with clear labels</li>
+                  <li>Interest rate and term selection with keyboard navigation</li>
+                  <li>Down payment calculator with percentage slider and keyboard control</li>
+                  <li>Monthly payment results announced to screen readers</li>
+                  <li>Total cost breakdown with accessible table structure</li>
+                  <li>Gas price and fuel cost projections with descriptive labels</li>
+                  <li>Educational content about auto financing with proper heading hierarchy</li>
+                </ul>
+              </div>
+              <div>
                 <h3 className="font-semibold mb-2">Student Loan Calculator</h3>
                 <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
                   <li>Loan amount and interest rate inputs with clear labels</li>
@@ -568,6 +588,10 @@ export default function AccessibilityPage() {
                       equivalent purchasing power in today's dollars
                     </li>
                     <li>
+                      <strong>Auto Loan Calculator:</strong> Calculate auto loan payments with inflation-adjusted
+                      vehicle costs and gas price projections for complete ownership analysis
+                    </li>
+                    <li>
                       <strong>Retirement Calculator:</strong> Plan for retirement with inflation-adjusted projections
                       and savings goals
                     </li>
@@ -614,9 +638,9 @@ export default function AccessibilityPage() {
                   <h3 className="font-semibold mb-1">Use Cases</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Users can calculate inflation adjustments for salary negotiations, retirement planning, investment
-                    decisions, historical price comparisons, real estate valuations, and understanding purchasing power
-                    changes over time. The tools are designed for both personal finance management and educational
-                    purposes.
+                    returns, student loan repayment, emergency fund needs, mortgage affordability, budget allocation,
+                    legacy planning, purchasing power parity across countries, and auto loan vehicle financing
+                    decisions.
                   </p>
                 </div>
                 <div>
@@ -631,7 +655,7 @@ export default function AccessibilityPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
+          <Card className="bg-white dark:bg-gray-800 shadow-lg border-0">
             <CardHeader>
               <CardTitle>Feedback</CardTitle>
             </CardHeader>

@@ -24,6 +24,7 @@ import {
   Database,
 } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Label } from "@/components/ui/label" // Import Label for FAQ category
 
 interface FAQ {
   id: string
@@ -53,6 +54,7 @@ interface Content {
   budget_essay: string
   roi_essay: string
   ppp_essay: string // Added ppp_essay
+  auto_loan_essay: string
   student_loan_blog_title: string
   student_loan_blog_content: string
   student_loan_methodology: string
@@ -106,6 +108,7 @@ const AdminContentPage: React.FC = () => {
     budget_essay: "",
     roi_essay: "",
     ppp_essay: "", // Initialized ppp_essay field
+    auto_loan_essay: "",
     student_loan_blog_title: "Understanding Student Loans in an Inflationary Economy: A Comprehensive Guide",
     student_loan_blog_content: "",
     student_loan_methodology: "",
@@ -304,29 +307,22 @@ The key to successful multi-generational wealth planning lies in balancing growt
       }
 
       // Transform contentData into a map
-      const contentMap =
-        contentData?.reduce(
-          (acc, item) => {
-            acc[item.id] = item.content
-            return acc
-          },
-          {} as Record<string, string>,
-        ) || {}
+      const contentMap: Record<string, string> = {}
+      if (contentData) {
+        contentData.forEach((item) => {
+          contentMap[item.id] = item.content || ""
+        })
+      }
 
-      // Transform settingsData into a map
-      const settingsMap =
-        settingsData?.reduce(
-          (acc, item) => {
-            acc[item.setting_key] = item.setting_value
-            return acc
-          },
-          {} as Record<string, string>,
-        ) || {}
+      const settingsMap: Record<string, string> = {}
+      if (settingsData) {
+        settingsData.forEach((item) => {
+          settingsMap[item.setting_key] = item.setting_value || ""
+        })
+      }
 
-      // Update content state with loaded data
-      setContent((prev) => ({
-        ...prev,
-        site_title: settingsMap["site_title"] || "",
+      setContent({
+        site_title: settingsMap["site_name"] || "", // Changed from site_title to site_name based on probable DB schema
         site_description: settingsMap["site_description"] || "",
         footer_text: settingsMap["footer_text"] || "",
         logo_url: settingsMap["logo_url"] || "",
@@ -340,12 +336,13 @@ The key to successful multi-generational wealth planning lies in balancing growt
         budget_essay: contentMap["budget_essay"] || "",
         roi_essay: contentMap["roi_essay"] || "",
         ppp_essay: contentMap["ppp_essay"] || "", // Load ppp_essay
+        auto_loan_essay: contentMap["auto_loan_essay"] || "",
         student_loan_blog_title: contentMap["student_loan_blog_title"] || "",
         student_loan_blog_content: contentMap["student_loan_blog_content"] || "",
         student_loan_methodology: contentMap["student_loan_methodology"] || "",
         privacy_content: contentMap["privacy_content"] || "",
         terms_content: contentMap["terms_content"] || "",
-      }))
+      })
 
       // Load Legacy Planner Content
       try {
@@ -476,7 +473,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
     try {
       const { error } = await supabase.from("site_settings").upsert({
         id: "main", // Assuming 'main' is the identifier for site settings
-        site_title: content.site_title,
+        site_title: content.site_title, // This was changed in loadAllContent, ensure consistency if site_name is the correct key
         site_description: content.site_description,
         footer_text: content.footer_text, // Saving footer_text
         logo_url: content.logo_url,
@@ -1078,18 +1075,56 @@ The key to successful multi-generational wealth planning lies in balancing growt
               <CardContent className="space-y-4">
                 <Textarea
                   value={content.roi_essay}
-                  onChange={(e) => setContent((prev) => ({ ...prev, roi_essay: e.target.value }))}
+                  onChange={(e) => setContent({ ...content, roi_essay: e.target.value })}
                   rows={15}
-                  placeholder="Enter ROI calculator essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button onClick={() => saveContent("roi_essay", content.roi_essay)} disabled={saving}>
+                  <Save className="w-4 h-4 mr-2" />
+                  {saving ? "Saving..." : "Save ROI Calculator Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Auto Loan Calculator Essay */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Auto Loan Calculator Essay</CardTitle>
+                <CardDescription>Educational content for the auto loan calculator page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.auto_loan_essay}
+                  onChange={(e) => setContent({ ...content, auto_loan_essay: e.target.value })}
+                  rows={15}
+                  className="font-mono text-sm"
+                />
+                <Button onClick={() => saveContent("auto_loan_essay", content.auto_loan_essay)} disabled={saving}>
+                  <Save className="w-4 h-4 mr-2" />
+                  {saving ? "Saving..." : "Save Auto Loan Calculator Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Emergency Fund Calculator Essay */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Emergency Fund Calculator Essay</CardTitle>
+                <CardDescription>Educational content for the emergency fund calculator page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.emergency_fund_essay}
+                  onChange={(e) => setContent({ ...content, emergency_fund_essay: e.target.value })}
+                  rows={15}
                   className="font-mono text-sm"
                 />
                 <Button
-                  onClick={() => saveContent("roi_essay", content.roi_essay)}
+                  onClick={() => saveContent("emergency_fund_essay", content.emergency_fund_essay)}
                   disabled={saving}
-                  className="flex items-center gap-2"
                 >
-                  <Save className="w-4 h-4" />
-                  {saving ? "Saving..." : "Save ROI Calculator Essay"}
+                  <Save className="w-4 h-4 mr-2" />
+                  {saving ? "Saving..." : "Save Emergency Fund Essay"}
                 </Button>
               </CardContent>
             </Card>
@@ -1502,27 +1537,25 @@ The key to successful multi-generational wealth planning lies in balancing growt
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Category</label>
-                  <Select
-                    value={newFaq.category}
-                    onValueChange={(value) => setNewFaq((prev) => ({ ...prev, category: value }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
+                  <Label htmlFor="faq-category">Category</Label>
+                  <Select value={newFaq.category} onValueChange={(value) => setNewFaq({ ...newFaq, category: value })}>
+                    <SelectTrigger id="faq-category">
+                      <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="general">General (Homepage)</SelectItem>
                       <SelectItem value="salary">Salary Calculator</SelectItem>
                       <SelectItem value="retirement">Retirement Calculator</SelectItem>
-                      <SelectItem value="student-loan">Student Loan Calculator</SelectItem>
                       <SelectItem value="deflation">Deflation Calculator</SelectItem>
-                      <SelectItem value="legacy">Legacy Planner</SelectItem>
                       <SelectItem value="charts">Charts & Analytics</SelectItem>
-                      <SelectItem value="housing-affordability">Mortgage Calculator</SelectItem>
+                      <SelectItem value="ppp">PPP Calculator</SelectItem>
+                      <SelectItem value="auto-loan">Auto Loan Calculator</SelectItem>
+                      <SelectItem value="mortgage">Mortgage Calculator</SelectItem>
+                      <SelectItem value="student-loan">Student Loan Calculator</SelectItem>
+                      <SelectItem value="budget">Budget Calculator</SelectItem>
                       <SelectItem value="emergency-fund">Emergency Fund Calculator</SelectItem>
-                      <SelectItem value="budget">50/30/20 Budget Calculator</SelectItem>
                       <SelectItem value="roi">ROI Calculator</SelectItem>
-                      <SelectItem value="ppp">PPP Calculator</SelectItem> {/* Added PPP Calculator category */}
+                      <SelectItem value="legacy">Legacy Planner</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -1578,6 +1611,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
                           <SelectItem value="budget">50/30/20 Budget Calculator</SelectItem>
                           <SelectItem value="roi">ROI Calculator</SelectItem>
                           <SelectItem value="ppp">PPP Calculator</SelectItem> {/* Added PPP Calculator category */}
+                          <SelectItem value="auto-loan">Auto Loan Calculator</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

@@ -1754,6 +1754,14 @@ export default function ClientPage() {
                   </li>
                   <li>
                     <Link
+                      href="/auto-loan-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Auto Loan Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/salary-calculator"
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >

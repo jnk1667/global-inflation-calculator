@@ -193,6 +193,12 @@ export default function RootLayout({
                         PPP Calculator
                       </Link>
                       <Link
+                        href="/auto-loan-calculator"
+                        className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        Auto Loan Calculator
+                      </Link>
+                      <Link
                         href="/student-loan-calculator"
                         className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
