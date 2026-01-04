@@ -34,7 +34,32 @@ const nextConfig = {
   headers: async () => {
     return [
       {
-        source: '/(.*)',
+        // JSON data files should revalidate more frequently
+        source: '/data/:path*.json',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, stale-while-revalidate=86400',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+        ],
+      },
+      {
+        // Static assets can be cached longer
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        // Default headers for other routes
+        source: '/((?!data|_next/static).*)',
         headers: [
           {
             key: 'X-Frame-Options',
@@ -50,7 +75,7 @@ const nextConfig = {
           },
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: 'public, max-age=0, must-revalidate',
           },
         ],
       },
