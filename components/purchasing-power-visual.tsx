@@ -10,21 +10,31 @@ interface PurchasingPowerVisualProps {
   toYear?: number
   currency?: string
   inflationRate?: number
+  symbol?: string
+  inflationData?: { endYear?: number } | null
 }
 
 export default function PurchasingPowerVisual({
   originalAmount = 100,
   adjustedAmount = 119.1,
   fromYear = 2020,
-  toYear = 2025,
+  toYear = 2026,
   currency = "$",
   inflationRate = 4.33,
+  symbol,
+  inflationData,
 }: PurchasingPowerVisualProps) {
+  // Use symbol if provided, otherwise fall back to currency
+  const displayCurrency = symbol || currency
+
+  const currentYear = new Date().getFullYear()
+  const actualToYear = inflationData?.endYear || toYear || currentYear
+
   // Safe number validation
   const safeOriginalAmount = typeof originalAmount === "number" && isFinite(originalAmount) ? originalAmount : 100
   const safeAdjustedAmount = typeof adjustedAmount === "number" && isFinite(adjustedAmount) ? adjustedAmount : 119.1
   const safeFromYear = typeof fromYear === "number" && isFinite(fromYear) ? fromYear : 2020
-  const safeToYear = typeof toYear === "number" && isFinite(toYear) ? toYear : 2025
+  const safeToYear = typeof actualToYear === "number" && isFinite(actualToYear) ? actualToYear : currentYear
   const safeInflationRate = typeof inflationRate === "number" && isFinite(inflationRate) ? inflationRate : 4.33
 
   // Calculate purchasing power metrics
@@ -35,13 +45,13 @@ export default function PurchasingPowerVisual({
 
   // Format currency safely
   const formatCurrency = (value: number) => {
-    if (!isFinite(value) || isNaN(value)) return `${currency}0.00`
+    if (!isFinite(value) || isNaN(value)) return `${displayCurrency}0.00`
 
     // Multi-character symbols need spacing
-    if (currency.length > 1 || currency === "Fr") {
-      return `${currency} ${value.toFixed(2)}`
+    if (displayCurrency.length > 1 || displayCurrency === "Fr") {
+      return `${displayCurrency} ${value.toFixed(2)}`
     }
-    return `${currency}${value.toFixed(2)}`
+    return `${displayCurrency}${value.toFixed(2)}`
   }
 
   return (
@@ -65,7 +75,7 @@ export default function PurchasingPowerVisual({
               <p className="text-sm text-blue-600 dark:text-blue-300 mt-2">Original purchasing power</p>
             </div>
 
-            {/* Adjusted Amount */}
+            {/* Adjusted Amount - now uses safeToYear which will be 2026 */}
             <div className="bg-green-100 dark:bg-green-900/30 p-6 rounded-lg text-center">
               <div className="text-4xl mb-2">💎</div>
               <div className="text-2xl font-bold text-green-800 dark:text-green-200">
@@ -115,7 +125,7 @@ export default function PurchasingPowerVisual({
         </CardContent>
       </Card>
 
-      {/* Purchasing Power Over Time */}
+      {/* Purchasing Power Over Time - now shows 2026 as Current Year */}
       <Card className="shadow-lg border-0">
         <CardHeader>
           <CardTitle className="text-lg">Purchasing Power Over Time</CardTitle>

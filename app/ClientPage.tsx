@@ -62,9 +62,24 @@ const currencies = {
 
 // Historical context data by decade
 const getHistoricalContext = (year: number) => {
-  if (year >= 2020) {
+  if (year >= 2025) {
     return {
-      events: ["• COVID-19 pandemic", "• Remote work boom", "• Supply chain disruptions", "• Cryptocurrency surge"],
+      events: [
+        "• Fed rate cuts to 3.5-3.75%",
+        "• AI market boom continues",
+        "• Stock markets reach all-time highs",
+        "• Global inflation eases to ~3%",
+      ],
+      prices: ["• $13.00 Movie ticket", "• $3.35 Gallon of gas", "• $2.50 Loaf of bread", "• $6.00 Cup of coffee"],
+    }
+  } else if (year >= 2020) {
+    return {
+      events: [
+        "• COVID-19 pandemic",
+        "• Remote work revolution",
+        "• Supply chain disruptions",
+        "• Historic inflation surge",
+      ],
       prices: ["• $12.50 Movie ticket", "• $3.45 Gallon of gas", "• $3.25 Loaf of bread", "• $5.50 Cup of coffee"],
     }
   } else if (year >= 2010) {
@@ -175,6 +190,42 @@ For businesses, inflation protection strategies might include flexible pricing m
 This comprehensive understanding of inflation helps explain why tools like our Global Inflation Calculator are valuable for making informed financial decisions and understanding the long-term impact of monetary policy on personal wealth and economic planning.
 `
 
+const getLatestAvailableYearFromData = (data: Record<string, number>, requestedYear: number): number => {
+  if (data[requestedYear.toString()]) {
+    return requestedYear
+  }
+  // Find the highest year available in the data
+  const years = Object.keys(data)
+    .map((y) => Number.parseInt(y, 10))
+    .filter((y) => !isNaN(y))
+  if (years.length > 0) {
+    const maxAvailable = Math.max(...years)
+    return Math.min(maxAvailable, requestedYear) // Don't go beyond requested year
+  }
+  return requestedYear
+}
+
+const getEarliestAvailableYearFromData = (data: Record<string, number>, requestedYear: number): number => {
+  if (data[requestedYear.toString()]) {
+    return requestedYear
+  }
+  // Find the lowest year available in the data that's >= requestedYear
+  const years = Object.keys(data)
+    .map((y) => Number.parseInt(y, 10))
+    .filter((y) => !isNaN(y) && y >= requestedYear)
+  if (years.length > 0) {
+    return Math.min(...years)
+  }
+  // If no years >= requestedYear, just return the lowest available
+  const allYears = Object.keys(data)
+    .map((y) => Number.parseInt(y, 10))
+    .filter((y) => !isNaN(y))
+  if (allYears.length > 0) {
+    return Math.min(...allYears)
+  }
+  return requestedYear
+}
+
 export default function ClientPage() {
   const [amount, setAmount] = useState("100")
   const [fromYear, setFromYear] = useState(2020)
@@ -196,7 +247,7 @@ export default function ClientPage() {
   const loadingControllerRef = useRef<AbortController | null>(null)
 
   const currentYear = new Date().getFullYear()
-  const maxYear = currentYear
+  const maxYear = currentYear + 1 // Updated to include the latest projected year
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com/"
 
   // Track page view
@@ -484,21 +535,21 @@ export default function ClientPage() {
   const generateYearMarkers = () => {
     const markers = []
     if (selectedCurrency === "USD") {
-      markers.push(1920, 1940, 1960, 1980, 2000, 2020)
+      markers.push(1920, 1940, 1960, 1980, 2000, 2020, 2025)
     } else if (selectedCurrency === "CAD") {
-      markers.push(1920, 1940, 1960, 1980, 2000, 2020)
+      markers.push(1920, 1940, 1960, 1980, 2000, 2020, 2025)
     } else if (selectedCurrency === "GBP") {
-      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
+      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020, 2025)
     } else if (selectedCurrency === "AUD") {
-      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
+      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020, 2025)
     } else if (selectedCurrency === "EUR") {
-      markers.push(2000, 2010, 2020)
+      markers.push(2000, 2010, 2020, 2025)
     } else if (selectedCurrency === "CHF") {
-      markers.push(1920, 1940, 1960, 1980, 2000, 2020)
+      markers.push(1920, 1940, 1960, 1980, 2000, 2020, 2025)
     } else if (selectedCurrency === "JPY") {
-      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
+      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020, 2025)
     } else if (selectedCurrency === "NZD") {
-      markers.push(1970, 1980, 1990, 2000, 2010, 2020)
+      markers.push(1970, 1980, 1990, 2000, 2010, 2020, 2025)
     }
     return markers.filter((year) => year > minYear && year < maxYear)
   }
@@ -508,31 +559,42 @@ export default function ClientPage() {
   // Calculate inflation with memoization
   const calculateInflation = () => {
     if (!currentCurrencyData?.data) {
-      return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [] }
+      return {
+        adjustedAmount: 0,
+        totalInflation: 0,
+        annualRate: 0,
+        chartData: [],
+        actualToYear: currentYear,
+        actualFromYear: fromYear,
+      }
     }
 
-    const fromInflation = currentCurrencyData.data[fromYear.toString()]
-    const currentInflation = currentCurrencyData.data[currentYear.toString()]
+    // Get actual years we can use (fall back if data doesn't exist for requested years)
+    const actualToYear = getLatestAvailableYearFromData(currentCurrencyData.data, currentYear)
+    const actualFromYear = getEarliestAvailableYearFromData(currentCurrencyData.data, fromYear)
+
+    const fromInflation = currentCurrencyData.data[actualFromYear.toString()]
+    const currentInflation = currentCurrencyData.data[actualToYear.toString()]
 
     if (!fromInflation || !currentInflation || fromInflation <= 0 || currentInflation <= 0) {
-      return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [] }
+      return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [], actualToYear, actualFromYear }
     }
 
     const amountValue = Number.parseFloat(amount)
     if (isNaN(amountValue) || amountValue <= 0) {
-      return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [] }
+      return { adjustedAmount: 0, totalInflation: 0, annualRate: 0, chartData: [], actualToYear, actualFromYear }
     }
 
     const adjustedAmount = (amountValue * currentInflation) / fromInflation
     const totalInflation = ((adjustedAmount - amountValue) / amountValue) * 100
-    const years = currentYear - fromYear
+    const years = actualToYear - actualFromYear
     const annualRate = years > 0 ? Math.pow(adjustedAmount / amountValue, 1 / years) - 1 : 0
 
     // Generate chart data
     const chartData = []
-    const stepSize = Math.max(1, Math.floor((currentYear - fromYear) / 20))
+    const stepSize = Math.max(1, Math.floor((actualToYear - actualFromYear) / 20))
 
-    for (let year = fromYear; year <= currentYear; year += stepSize) {
+    for (let year = actualFromYear; year <= actualToYear; year += stepSize) {
       const yearInflation = currentCurrencyData.data[year.toString()]
       if (yearInflation && yearInflation > 0 && fromInflation > 0) {
         const yearValue = (amountValue * yearInflation) / fromInflation
@@ -542,9 +604,9 @@ export default function ClientPage() {
       }
     }
 
-    if (chartData.length === 0 || chartData[chartData.length - 1].year !== currentYear) {
+    if (chartData.length === 0 || chartData[chartData.length - 1].year !== actualToYear) {
       if (isFinite(adjustedAmount) && adjustedAmount > 0) {
-        chartData.push({ year: currentYear, value: adjustedAmount })
+        chartData.push({ year: actualToYear, value: adjustedAmount })
       }
     }
 
@@ -553,18 +615,24 @@ export default function ClientPage() {
       totalInflation: isFinite(totalInflation) && !isNaN(totalInflation) ? totalInflation : 0,
       annualRate: isFinite(annualRate) && !isNaN(annualRate) ? annualRate * 100 : 0,
       chartData,
+      actualToYear,
+      actualFromYear,
     }
   }
 
   const calculateMultipleInflationMeasures = () => {
     if (!currentCurrencyData?.data) {
-      return { measures: [], consensus: null }
+      return { measures: [], consensus: null, actualToYear: currentYear, actualFromYear: fromYear }
     }
 
     const amountValue = Number.parseFloat(amount)
     if (isNaN(amountValue) || amountValue <= 0) {
-      return { measures: [], consensus: null }
+      return { measures: [], consensus: null, actualToYear: currentYear, actualFromYear: fromYear }
     }
+
+    // Get actual years we can use
+    const actualToYear = getLatestAvailableYearFromData(currentCurrencyData.data, currentYear)
+    const actualFromYear = getEarliestAvailableYearFromData(currentCurrencyData.data, fromYear)
 
     // Try to use real measures data first
     const currencyMeasures = realMeasuresData[selectedCurrency]
@@ -574,8 +642,8 @@ export default function ClientPage() {
         const result = calculateConsensusInflation(
           currencyMeasures,
           selectedCurrency,
-          fromYear,
-          currentYear,
+          actualFromYear,
+          actualToYear,
           amountValue,
         )
 
@@ -598,7 +666,7 @@ export default function ClientPage() {
         }
 
         console.log(`[v0] Successfully calculated ${measures.length} real measures for ${selectedCurrency}`)
-        return { measures, consensus }
+        return { measures, consensus, actualToYear: result.actualToYear, actualFromYear: result.actualFromYear }
       } catch (error) {
         console.warn(`[v0] Error calculating real measures, falling back to simulated:`, error)
       }
@@ -606,11 +674,11 @@ export default function ClientPage() {
 
     // Fallback to simulated data (existing logic)
     console.log(`[v0] Using simulated inflation measures for ${selectedCurrency}`)
-    const fromInflation = currentCurrencyData.data[fromYear.toString()]
-    const currentInflation = currentCurrencyData.data[currentYear.toString()]
+    const fromInflation = currentCurrencyData.data[actualFromYear.toString()]
+    const currentInflation = currentCurrencyData.data[actualToYear.toString()]
 
     if (!fromInflation || !currentInflation || fromInflation <= 0 || currentInflation <= 0) {
-      return { measures: [], consensus: null }
+      return { measures: [], consensus: null, actualToYear, actualFromYear }
     }
 
     // For now, we'll simulate different measures with slight variations
@@ -681,14 +749,19 @@ export default function ClientPage() {
       confidence: "Very High",
     }
 
-    return { measures, consensus }
+    return { measures, consensus, actualToYear, actualFromYear }
   }
 
-  const { measures: inflationMeasures, consensus: consensusInflation } = calculateMultipleInflationMeasures()
+  const {
+    measures: inflationMeasures,
+    consensus: consensusInflation,
+    actualToYear: measuresActualToYear,
+    actualFromYear: measuresActualFromYear,
+  } = calculateMultipleInflationMeasures()
 
-  const { adjustedAmount, totalInflation, annualRate, chartData } = calculateInflation()
-  const yearsAgo = currentYear - fromYear
-  const historicalContext = getHistoricalContext(fromYear)
+  const { adjustedAmount, totalInflation, annualRate, chartData, actualToYear, actualFromYear } = calculateInflation()
+  const yearsAgo = (actualToYear || currentYear) - (actualFromYear || fromYear)
+  const historicalContext = getHistoricalContext(actualFromYear || fromYear)
 
   // Get proper currency symbol with spacing
   const getCurrencyDisplay = (value: number) => {
@@ -969,17 +1042,19 @@ export default function ClientPage() {
 
                         {/* Large Year Display */}
                         <div className="text-center">
-                          <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2">{fromYear}</div>
+                          <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                            {actualFromYear || fromYear}
+                          </div>
                           <div className="text-base text-gray-500 dark:text-gray-400">{yearsAgo} years ago</div>
                         </div>
 
                         {/* Year Slider */}
                         <div className="px-4">
                           <Slider
-                            value={[fromYear]}
+                            value={[actualFromYear || fromYear]}
                             onValueChange={handleYearChange}
                             min={minYear}
-                            max={maxYear}
+                            max={maxYear} // Use updated maxYear for the slider
                             step={1}
                             className="w-full"
                             aria-label={`Select year from ${minYear} to ${maxYear}`}
@@ -1010,7 +1085,7 @@ export default function ClientPage() {
                         {/* Info text */}
                         <div className="text-center text-sm text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-gray-800 p-4 rounded mt-8">
                           💡 Drag the slider or tap the year buttons above • Data available from {minYear} to{" "}
-                          {currentYear} • Updated December 2025
+                          {currentYear} • Updated January 2026
                         </div>
                       </div>
                     </CardContent>
@@ -1041,11 +1116,11 @@ export default function ClientPage() {
                             </div>
 
                             <div className="text-xl mb-8 opacity-90">
-                              {getCurrencyDisplay(Number.parseFloat(amount))} in {fromYear} equals{" "}
-                              {consensusInflation
-                                ? getCurrencyDisplay(consensusInflation.adjustedAmount)
-                                : getCurrencyDisplay(adjustedAmount)}{" "}
-                              in {currentYear}
+                              {getCurrencyDisplay(Number.parseFloat(amount))} in {actualFromYear || fromYear} equals{" "}
+                              {getCurrencyDisplay(
+                                consensusInflation ? consensusInflation.adjustedAmount : adjustedAmount,
+                              )}{" "}
+                              in {actualToYear || currentYear}
                               {consensusInflation && (
                                 <div className="text-sm mt-2 opacity-75">
                                   📊 Consensus of {inflationMeasures.length} inflation measures
@@ -1178,7 +1253,7 @@ export default function ClientPage() {
                                   const finalInflation = consensusInflation
                                     ? consensusInflation.totalInflation
                                     : totalInflation
-                                  const shareText = `💰 ${getCurrencyDisplay(Number.parseFloat(amount))} in ${fromYear} equals ${getCurrencyDisplay(finalAmount)} in ${currentYear}! That's ${finalInflation.toFixed(1)}% total inflation.`
+                                  const shareText = `💰 ${getCurrencyDisplay(Number.parseFloat(amount))} in ${actualFromYear || fromYear} equals ${getCurrencyDisplay(finalAmount)} in ${actualToYear || currentYear}! That's ${finalInflation.toFixed(1)}% total inflation.`
                                   try {
                                     await navigator.clipboard.writeText(`${shareText} ${siteUrl}`)
                                     alert("✅ Result copied to clipboard!")
@@ -1212,9 +1287,9 @@ export default function ClientPage() {
                       >
                         <CurrencyComparisonChart
                           amount={amount}
-                          fromYear={fromYear}
+                          fromYear={actualFromYear || fromYear}
                           inflationData={inflationData}
-                          currentYear={currentYear}
+                          currentYear={actualToYear || currentYear}
                         />
                       </Suspense>
 
@@ -1236,7 +1311,7 @@ export default function ClientPage() {
                           adjustedAmount={adjustedAmount}
                           currency={selectedCurrency}
                           symbol={currentCurrencyData?.symbol || "$"}
-                          fromYear={fromYear}
+                          fromYear={actualFromYear || fromYear}
                           inflationData={currentCurrencyData}
                         />
                       </Suspense>
@@ -1254,14 +1329,14 @@ export default function ClientPage() {
                       <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
                         <CardHeader>
                           <CardTitle className="text-xl flex items-center gap-2">
-                            📚 Historical Context for {fromYear}
+                            📚 Historical Context for {actualFromYear || fromYear}
                           </CardTitle>
                         </CardHeader>
                         <CardContent>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                               <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
-                                What was happening in {fromYear}:
+                                What was happening in {actualFromYear || fromYear}:
                               </h4>
                               <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
                                 {historicalContext.events.map((event, index) => (
@@ -1271,7 +1346,7 @@ export default function ClientPage() {
                             </div>
                             <div>
                               <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
-                                Typical prices in {fromYear}:
+                                Typical prices in {actualFromYear || fromYear}:
                               </h4>
                               <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
                                 {historicalContext.prices.map((price, index) => (
@@ -1840,11 +1915,11 @@ export default function ClientPage() {
                     </Link>
                   </li>
                 </ul>
-                <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">Last Updated: December 2025</p>
+                <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">Last Updated: January 2026</p>
               </div>
             </div>
             <div className="border-t border-gray-700 dark:border-gray-600 mt-8 pt-8 text-center text-gray-400 dark:text-gray-500">
-              <p>&copy; 2025 Global Inflation Calculator. Educational purposes only.</p>
+              <p>&copy; 2026 Global Inflation Calculator. Educational purposes only.</p>
             </div>
           </div>
         </footer>

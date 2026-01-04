@@ -139,6 +139,54 @@ export async function loadAllMeasuresForCurrency(currency: string): Promise<Reco
   return measures
 }
 
+// Helper function to get the latest available year from measure data
+export function getLatestAvailableYear(measureData: InflationMeasureData, requestedYear: number): number {
+  // First check if the requested year exists
+  if (measureData.data[requestedYear.toString()]) {
+    return requestedYear
+  }
+
+  // Fall back to the latest_year from metadata
+  const latestFromMetadata = Number.parseInt(measureData.latest_year, 10)
+  if (!isNaN(latestFromMetadata) && measureData.data[latestFromMetadata.toString()]) {
+    return latestFromMetadata
+  }
+
+  // Last resort: find the highest year in the data
+  const years = Object.keys(measureData.data)
+    .map((y) => Number.parseInt(y, 10))
+    .filter((y) => !isNaN(y))
+  if (years.length > 0) {
+    return Math.max(...years)
+  }
+
+  return requestedYear // Return original if nothing found
+}
+
+// Helper to get earliest available year
+export function getEarliestAvailableYear(measureData: InflationMeasureData, requestedYear: number): number {
+  // First check if the requested year exists
+  if (measureData.data[requestedYear.toString()]) {
+    return requestedYear
+  }
+
+  // Fall back to the earliest_year from metadata
+  const earliestFromMetadata = Number.parseInt(measureData.earliest_year, 10)
+  if (!isNaN(earliestFromMetadata) && measureData.data[earliestFromMetadata.toString()]) {
+    return Math.max(earliestFromMetadata, requestedYear) // Don't go earlier than requested
+  }
+
+  // Last resort: find the lowest year in the data that's >= requestedYear
+  const years = Object.keys(measureData.data)
+    .map((y) => Number.parseInt(y, 10))
+    .filter((y) => !isNaN(y) && y >= requestedYear)
+  if (years.length > 0) {
+    return Math.min(...years)
+  }
+
+  return requestedYear
+}
+
 // 🧮 CALCULATION FUNCTIONS
 export function calculateInflationForMeasure(
   measureData: InflationMeasureData,
@@ -149,13 +197,20 @@ export function calculateInflationForMeasure(
   adjustedAmount: number
   totalInflation: number
   annualAverage: number
+  actualFromYear: number
+  actualToYear: number
 } {
-  const fromData = measureData.data[fromYear.toString()]
-  const toData = measureData.data[toYear.toString()]
+  // Get the actual years we can use (fall back if requested years don't have data)
+  const actualFromYear = getEarliestAvailableYear(measureData, fromYear)
+  const actualToYear = getLatestAvailableYear(measureData, toYear)
+
+  const fromData = measureData.data[actualFromYear.toString()]
+  const toData = measureData.data[actualToYear.toString()]
 
   if (!fromData || !toData) {
     throw new Error(
-      `Data not available for ${measureData.currency} ${measureData.measure} from ${fromYear} to ${toYear}`,
+      `Data not available for ${measureData.currency} ${measureData.measure} from ${fromYear} to ${toYear}. ` +
+        `Available range: ${measureData.earliest_year} to ${measureData.latest_year}`,
     )
   }
 
@@ -164,13 +219,15 @@ export function calculateInflationForMeasure(
 
   const adjustedAmount = (amount * toInflationFactor) / fromInflationFactor
   const totalInflation = ((adjustedAmount - amount) / amount) * 100
-  const years = toYear - fromYear
+  const years = actualToYear - actualFromYear
   const annualAverage = years > 0 ? Math.pow(adjustedAmount / amount, 1 / years) - 1 : 0
 
   return {
     adjustedAmount: Number(adjustedAmount.toFixed(2)),
     totalInflation: Number(totalInflation.toFixed(2)),
     annualAverage: Number((annualAverage * 100).toFixed(2)),
+    actualFromYear,
+    actualToYear,
   }
 }
 
@@ -184,6 +241,8 @@ export function calculateConsensusInflation(
   consensusAdjustedAmount: number
   consensusTotalInflation: number
   consensusAnnualAverage: number
+  actualFromYear: number
+  actualToYear: number
   individualMeasures: Array<{
     measure: string
     adjustedAmount: number
@@ -208,6 +267,8 @@ export function calculateConsensusInflation(
   let weightedAdjustedAmount = 0
   let weightedTotalInflation = 0
   let totalWeight = 0
+  let actualFromYear = fromYear
+  let actualToYear = toYear
 
   // Calculate for each available measure
   for (const [measureName, measureData] of Object.entries(measures)) {
@@ -216,6 +277,12 @@ export function calculateConsensusInflation(
 
     try {
       const result = calculateInflationForMeasure(measureData, fromYear, toYear, amount)
+
+      // Track actual years used (use the first successful calculation as reference)
+      if (totalWeight === 0) {
+        actualFromYear = result.actualFromYear
+        actualToYear = result.actualToYear
+      }
 
       // Determine confidence level based on data source
       let confidence = "Medium"
@@ -253,13 +320,15 @@ export function calculateConsensusInflation(
     })
   }
 
-  const years = toYear - fromYear
+  const years = actualToYear - actualFromYear
   const consensusAnnualAverage = years > 0 ? Math.pow(weightedAdjustedAmount / amount, 1 / years) - 1 : 0
 
   return {
     consensusAdjustedAmount: Number(weightedAdjustedAmount.toFixed(2)),
     consensusTotalInflation: Number(weightedTotalInflation.toFixed(2)),
     consensusAnnualAverage: Number((consensusAnnualAverage * 100).toFixed(2)),
+    actualFromYear,
+    actualToYear,
     individualMeasures: individualMeasures.sort((a, b) => b.weight - a.weight), // Sort by weight descending
   }
 }

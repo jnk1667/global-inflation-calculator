@@ -4,6 +4,8 @@ interface AdBannerProps {
   size?: "small" | "medium" | "large"
   position?: "top" | "bottom" | "sidebar"
   className?: string
+  slot?: string
+  format?: "horizontal" | "square" | "vertical"
 }
 
 export default function AdBanner({ size = "medium", position = "top", className = "" }: AdBannerProps) {
@@ -30,7 +32,7 @@ export default function AdBanner({ size = "medium", position = "top", className 
   }
 
   return (
-    <div className={`${getSizeClasses()} ${getPositionClasses()} ${className} w-full`}>
+    <div className={`${getSizeClasses()} ${getPositionClasses()} ${className} w-full mx-auto`}>
       <div className="h-full w-full bg-gray-50/50 dark:bg-gray-800/30 border border-gray-200/50 dark:border-gray-700/50 rounded-lg flex items-center justify-center">
         {/* Google Ads will be injected here */}
         <div className="text-xs text-gray-400 dark:text-gray-500 opacity-50">Advertisement</div>

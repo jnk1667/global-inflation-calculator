@@ -431,8 +431,8 @@ export default function CurrencyComparisonChart({
 
         {/* Disclaimer */}
         <div className="text-xs text-gray-500 dark:text-gray-400 text-center pt-2 border-t border-gray-100 dark:border-gray-800">
-          * Currencies are automatically filtered based on data availability. For example, EUR only shows from 1999
-          onwards, while USD and CAD have data back to 1913.
+          * Data updated January 2026. Currencies are automatically filtered based on data availability. EUR data
+          available from 1996, USD and CAD from 1913.
         </div>
       </CardContent>
     </Card>
