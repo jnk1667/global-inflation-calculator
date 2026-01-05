@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     "llms-txt": "/llms.txt",
   },
   openGraph: {
-    title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
+    title: "Global Inflation Calculator - Track Purchasing Power",
     description:
       "Calculate historical inflation across multiple currencies. USD, GBP, CAD from 1913; EUR from 1996; NZD from 1960. Real government data.",
     url: "/",
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Global Inflation Calculator - Track Currency Purchasing Power 1913-2025",
+    title: "Global Inflation Calculator - Track Purchasing Power",
     description: "Calculate historical inflation across multiple currencies. USD, GBP, CAD from 1913; EUR from 1996.",
     images: ["/placeholder.svg?height=630&width=1200&text=Global+Inflation+Calculator"],
   },

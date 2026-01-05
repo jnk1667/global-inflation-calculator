@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     canonical: `${siteUrl}/student-loan-calculator`,
   },
   openGraph: {
-    title: "Student Loan Calculator - Compare Repayment Plans & Calculate Costs",
+    title: "Student Loan Calculator - Compare Repayment Plans",
     description:
       "Calculate student loan payments, total interest costs, and compare repayment options. Real salary data by occupation and major from BLS and College Scorecard.",
     url: `${siteUrl}/student-loan-calculator`,

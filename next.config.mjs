@@ -29,6 +29,16 @@ const nextConfig = {
         destination: '/mortgage-calculator',
         permanent: true, // 301 redirect
       },
+      {
+        source: '/terms-of-service',
+        destination: '/terms',
+        permanent: true, // 308 redirect for search engines
+      },
+      {
+        source: '/privacy-policy',
+        destination: '/privacy',
+        permanent: true, // 308 redirect for search engines
+      },
     ]
   },
   headers: async () => {

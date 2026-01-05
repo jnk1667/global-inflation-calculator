@@ -123,7 +123,7 @@ export default function AboutClientPage() {
       <header className="border-b bg-card dark:bg-card dark:border-b dark:border-foreground">
         <div className="container mx-auto px-4 py-6 sm:py-8">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4 dark:text-foreground">About Us</h1>
+            <p className="text-3xl sm:text-4xl font-bold text-foreground mb-4 dark:text-foreground">About Us</p>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-2 dark:text-muted-foreground">
               Learn about our mission to make inflation data accessible and the team behind the Global Inflation
               Calculator.
@@ -133,6 +133,8 @@ export default function AboutClientPage() {
       </header>
 
       <main className="container mx-auto px-4 py-8 sm:py-12 max-w-6xl">
+        <h1 className="sr-only">About Global Inflation Calculator</h1>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Project Section */}
           {projectContent ? (

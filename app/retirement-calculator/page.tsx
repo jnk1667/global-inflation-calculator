@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "inflation adjusted retirement",
   ],
   openGraph: {
-    title: "Complete Retirement Calculator - Plan Your Financial Future",
+    title: "Retirement Calculator - Plan Your Financial Future", // Shortened title from 60 to 53 characters
     description:
       "Calculate retirement needs with lifestyle maintenance, crisis analysis, and healthcare cost projections. Compare generational retirement requirements.",
     url: "/retirement-calculator",

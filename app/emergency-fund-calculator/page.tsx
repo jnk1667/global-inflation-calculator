@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     canonical: `${siteUrl}/emergency-fund-calculator`,
   },
   openGraph: {
-    title: "Emergency Fund Calculator - Build Financial Security for 2025",
+    title: "Emergency Fund Calculator - Build Financial Security",
     description:
       "Calculate your emergency fund needs with inflation adjustment. Plan for 3-6 months of expenses with real salary data from BLS.",
     url: `${siteUrl}/emergency-fund-calculator`,

@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     canonical: `${siteUrl}/auto-loan-calculator`,
   },
   openGraph: {
-    title: "Auto Loan Calculator - True Cost with Inflation Analysis",
+    title: "Auto Loan Calculator - Car Payment & Inflation",
     description:
       "Calculate auto loan payments and discover true ownership costs. Advanced mode shows car price inflation, gas cost impact, and inflation-adjusted analysis.",
     url: `${siteUrl}/auto-loan-calculator`,

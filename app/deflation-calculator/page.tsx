@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     canonical: `${siteUrl}/deflation-calculator`,
   },
   openGraph: {
-    title: "Deflation Calculator - Track Purchasing Power Growth with Scarce Assets",
+    title: "Deflation Calculator - Track Purchasing Power Growth",
     description:
       "Calculate how deflationary assets like Gold, Silver, and Crude Oil preserve purchasing power over time. Historical data from 1985-2025.",
     url: `${siteUrl}/deflation-calculator`,
