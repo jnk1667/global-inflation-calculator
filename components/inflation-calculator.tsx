@@ -34,7 +34,6 @@ export default function InflationCalculator() {
 
   useEffect(() => {
     const loadInflationData = async () => {
-      // Skip if data already loaded for this currency
       if (inflationData[currency]) {
         return
       }
@@ -54,7 +53,7 @@ export default function InflationCalculator() {
     }
 
     loadInflationData()
-  }, [currency]) // Only reload when currency changes
+  }, [currency, inflationData]) // Added inflationData to dependency array
 
   const calculateInflation = () => {
     setLoading(true)
