@@ -911,6 +911,8 @@ export default function ClientPage() {
                   <img
                     src={logoUrl || "/placeholder.svg"}
                     alt="Global Inflation Calculator Globe Icon"
+                    width={64}
+                    height={64}
                     className="w-16 h-16 rounded-full shadow-lg"
                     loading="eager"
                     onError={() => setLogoUrl("")}

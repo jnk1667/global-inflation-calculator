@@ -1,7 +1,23 @@
 import type { Metadata } from "next"
-import BudgetCalculatorPage from "./BudgetCalculatorPage"
+import dynamic from "next/dynamic"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+const BudgetCalculatorPage = dynamic(() => import("./BudgetCalculatorPage"), {
+  loading: () => (
+    <div className="container mx-auto px-4 py-12 max-w-4xl">
+      <div className="text-center mb-8">
+        <div className="h-10 w-3/4 mx-auto bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-4"></div>
+        <div className="h-6 w-2/3 mx-auto bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+      </div>
+      <div className="grid gap-6">
+        <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
+        <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
+      </div>
+    </div>
+  ),
+  ssr: false,
+})
 
 export const metadata: Metadata = {
   title: "50/30/20 Budget Calculator | Income Budgeting",
@@ -129,7 +145,7 @@ export default function Page() {
         name: "What is the 50/30/20 budgeting rule?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "The 50/30/20 rule suggests allocating 50% of after-tax income to needs (housing, utilities, groceries), 30% to wants (entertainment, dining out, hobbies), and 20% to savings and debt repayment. This provides a simple framework, though you may need to adjust percentages based on your cost of living and financial goals.",
+          text: "The 50/30/20 budget rule suggests allocating 50% of after-tax income to needs (housing, utilities, groceries), 30% to wants (entertainment, dining out, hobbies), and 20% to savings and debt repayment. This provides a simple framework, though you may need to adjust percentages based on your cost of living and financial goals.",
         },
       },
       {

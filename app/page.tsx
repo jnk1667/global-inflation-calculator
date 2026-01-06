@@ -1,51 +1,6 @@
-import type { Metadata } from "next"
-import ClientPage from "./ClientPage"
+import dynamic from "next/dynamic"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
-
-export const metadata: Metadata = {
-  title: "Global Inflation Calculator | Track Purchasing Power",
-  description:
-    "Calculate historical inflation across 8 currencies from 1913-2025. USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD with real government data.",
-  keywords: [
-    "inflation calculator",
-    "best inflation calculator online",
-    "best inflation calculator 2025 accurate",
-    "purchasing power calculator",
-    "historical inflation rates",
-    "currency inflation comparison",
-    "CPI calculator",
-    "money value over time",
-    "inflation rate by year",
-    "cost of living calculator",
-    "economic inflation data",
-    "financial planning tool",
-  ],
-  openGraph: {
-    title: "Global Inflation Calculator - Track Purchasing Power",
-    description:
-      "Calculate historical inflation and purchasing power across multiple currencies. USD, GBP, CAD from 1913; EUR from 1996; NZD from 1960. Real government data.",
-    url: "/",
-    type: "website",
-    images: [
-      {
-        url: "/placeholder.svg?height=630&width=1200&text=Global+Inflation+Calculator",
-        width: 1200,
-        height: 630,
-        alt: "Global Inflation Calculator - Historical Currency Analysis",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Global Inflation Calculator - Track Purchasing Power",
-    description: "Calculate historical inflation across multiple currencies. USD, GBP, CAD from 1913; EUR from 1996.",
-    images: ["/placeholder.svg?height=630&width=1200&text=Global+Inflation+Calculator"],
-  },
-  alternates: {
-    canonical: "/",
-  },
-}
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -93,6 +48,21 @@ const faqSchema = {
     },
   ],
 }
+
+const ClientPage = dynamic(() => import("./ClientPage"), {
+  loading: () => (
+    <div className="container mx-auto px-4 py-12 max-w-7xl">
+      <div className="text-center mb-16 mt-12">
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+          <div className="h-12 w-96 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+        </div>
+        <div className="h-6 w-2/3 mx-auto bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+      </div>
+    </div>
+  ),
+  ssr: false,
+})
 
 export default function Home() {
   return (
@@ -264,7 +234,6 @@ export default function Home() {
           </footer>
         </div>
       </noscript>
-      {/* </CHANGE> */}
     </>
   )
 }

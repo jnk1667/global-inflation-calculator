@@ -34,29 +34,27 @@ export default function InflationCalculator() {
 
   useEffect(() => {
     const loadInflationData = async () => {
+      // Skip if data already loaded for this currency
+      if (inflationData[currency]) {
+        return
+      }
+
       try {
-        const dataPromises = currencies.map(async (curr) => {
-          const response = await fetch(`/data/${curr.code.toLowerCase()}-inflation.json`)
-          const data = await response.json()
-          return { code: curr.code, data }
-        })
+        const response = await fetch(`/data/${currency.toLowerCase()}-inflation.json`)
+        const data = await response.json()
 
-        const results = await Promise.all(dataPromises)
-        const dataMap: { [key: string]: InflationData[] } = {}
-
-        results.forEach(({ code, data }) => {
-          dataMap[code] = data
-        })
-
-        setInflationData(dataMap)
+        setInflationData((prev) => ({
+          ...prev,
+          [currency]: data,
+        }))
       } catch (error) {
-        console.error("Error loading inflation data:", error)
+        console.error(`Error loading inflation data for ${currency}:`, error)
         setError("Failed to load inflation data")
       }
     }
 
     loadInflationData()
-  }, [])
+  }, [currency]) // Only reload when currency changes
 
   const calculateInflation = () => {
     setLoading(true)

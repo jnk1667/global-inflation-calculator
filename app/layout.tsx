@@ -9,7 +9,7 @@ import Link from "next/link"
 import Script from "next/script"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], display: "swap", preload: true })
 
 function getMetadataBaseUrl(): URL {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim()
@@ -157,7 +157,7 @@ export default function RootLayout({
           </div>
 
           {/* Navigation - Center Top - Moved lower to avoid overlap */}
-          <nav className="fixed top-16 left-1/2 transform -translate-x-1/2 z-40">
+          <nav className="fixed top-16 left-1/2 transform -translate-x-1/2 z-40 min-h-[48px]">
             <div className="bg-white/90 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 shadow-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800/90">
               <div className="flex items-center space-x-3 sm:space-x-6">
                 <Link
