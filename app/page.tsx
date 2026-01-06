@@ -61,7 +61,6 @@ const ClientPage = dynamic(() => import("./ClientPage"), {
       </div>
     </div>
   ),
-  ssr: false,
 })
 
 export default function Home() {

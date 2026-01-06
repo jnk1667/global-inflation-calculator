@@ -16,7 +16,6 @@ const BudgetCalculatorPage = dynamic(() => import("./BudgetCalculatorPage"), {
       </div>
     </div>
   ),
-  ssr: false,
 })
 
 export const metadata: Metadata = {
