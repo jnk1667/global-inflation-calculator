@@ -75,6 +75,28 @@ const fallbackInflationData = {
   },
 }
 
+const exchangeRates: Record<string, number> = {
+  USD: 1.0,
+  GBP: 1.27, // 1 GBP = 1.27 USD
+  EUR: 1.1, // 1 EUR = 1.10 USD
+  CAD: 0.73, // 1 CAD = 0.73 USD
+  AUD: 0.67, // 1 AUD = 0.67 USD
+  CHF: 1.18, // 1 CHF = 1.18 USD
+  JPY: 0.0069, // 1 JPY = 0.0069 USD
+  NZD: 0.58, // 1 NZD = 0.58 USD
+}
+
+const currencyToCountry: Record<string, string> = {
+  USD: "United States",
+  GBP: "United Kingdom",
+  EUR: "European Union",
+  CAD: "Canada",
+  AUD: "Australia",
+  CHF: "Switzerland",
+  JPY: "Japan",
+  NZD: "New Zealand",
+}
+
 // Dummy function for currency display - replace with actual implementation if needed
 const getCurrencyDisplay = (amount: number) => {
   // Placeholder, actual implementation should use Intl.NumberFormat based on currency state
@@ -87,7 +109,7 @@ const hasCalculated = (result: SalaryResult | null) => result !== null
 const SalaryCalculatorPage: React.FC = () => {
   const [salary, setSalary] = useState<string>("")
   const [fromYear, setFromYear] = useState<string>("")
-  const [toYear, setToYear] = useState<string>("2025")
+  const [toYear, setToYear] = useState<string>("2026")
   const [currency, setCurrency] = useState<string>("USD")
   const [result, setResult] = useState<SalaryResult | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -835,10 +857,48 @@ const SalaryCalculatorPage: React.FC = () => {
     },
   }
 
+  interface CityData {
+    code: string
+    name: string
+    flag: string
+    housingPercent: number
+    utilities: number
+    transport?: number
+    food?: number
+    overall: number
+    rent?: number
+    salary?: number
+    currency: string // Added currency metadata
+    country: string // Added country metadata
+  }
+
   const [currentLocation, setCurrentLocation] = useState<string>("")
   const [targetLocation, setTargetLocation] = useState<string>("")
   const [equivalentSalary, setEquivalentSalary] = useState<number>(0)
   const [costBreakdown, setCostBreakdown] = useState<any>(null)
+
+  useEffect(() => {
+    if (currentLocation && targetLocation && salary) {
+      const fromCity = allCities.find((city) => city.code === currentLocation)
+      const toCity = allCities.find((city) => city.code === targetLocation)
+      const baseSalary = Number.parseFloat(salary)
+
+      if (fromCity && toCity && !isNaN(baseSalary) && baseSalary > 0) {
+        const result = calculateRegionalDifference(fromCity, toCity, baseSalary)
+        if (result) {
+          setEquivalentSalary(result.adjustedSalary)
+          setCostBreakdown({
+            housingDiff: result.housingDiff,
+            utilitiesDiff: result.utilitiesDiff,
+            transportDiff: result.transportDiff,
+            overallDiff: result.overallDiff,
+            fromCity,
+            toCity,
+          })
+        }
+      }
+    }
+  }, [salary, currentLocation, targetLocation])
 
   const inflationMeasures = [
     { code: "cpi", name: "Consumer Price Index (CPI)", description: "General price changes for goods and services" },
@@ -928,11 +988,28 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
     loadEssayContent()
   }, [])
 
-  const calculateRegionalDifference = (fromCity: any, toCity: any, baseSalary = 100000) => {
+  const allCities: CityData[] = Object.entries(regionalData).flatMap(([currencyCode, data]) =>
+    data.cities.map((city) => ({
+      ...city,
+      currency: currencyCode,
+      country: currencyToCountry[currencyCode] || currencyCode,
+    })),
+  )
+
+  const calculateRegionalDifference = (fromCity: CityData, toCity: CityData, baseSalary = 100000) => {
     if (!fromCity || !toCity) return null
 
+    // If currencies differ, convert baseSalary to USD, then to target currency
+    let adjustedBaseSalary = baseSalary
+    if (fromCity.currency !== toCity.currency) {
+      // Convert from source currency to USD
+      const inUSD = baseSalary * exchangeRates[fromCity.currency]
+      // Convert from USD to target currency
+      adjustedBaseSalary = inUSD / exchangeRates[toCity.currency]
+    }
+
     const costDifference = toCity.overall / fromCity.overall
-    const adjustedSalary = baseSalary * costDifference
+    const adjustedSalary = adjustedBaseSalary * costDifference
 
     const housingDiff = ((toCity.housingPercent - fromCity.housingPercent) / fromCity.housingPercent) * 100
     const utilitiesDiff = ((toCity.utilities - fromCity.utilities) / fromCity.utilities) * 100
@@ -978,8 +1055,8 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
         throw new Error(`Data for ${currency} is only available from ${minYear} onwards.`)
       }
 
-      if (toYearValue > 2025) {
-        throw new Error("Data is only available up to 2025.")
+      if (toYearValue > 2026) {
+        throw new Error("Data is only available up to 2026.")
       }
 
       let inflationData
@@ -1089,6 +1166,51 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
   const adjustedSalary = result ? result.adjustedSalary : 0
   const hasCalculatedResult = hasCalculated(result)
 
+  // Extract location handlers
+  const handleCurrentLocationChange = (value: string) => {
+    setCurrentLocation(value)
+    const fromCity = allCities.find((city) => city.code === value)
+    const toCity = allCities.find((city) => city.code === targetLocation)
+    const baseSalary = Number.parseFloat(salary) || 100000
+
+    if (fromCity && toCity) {
+      const result = calculateRegionalDifference(fromCity, toCity, baseSalary)
+      if (result) {
+        setEquivalentSalary(result.adjustedSalary)
+        setCostBreakdown({
+          housingDiff: result.housingDiff,
+          utilitiesDiff: result.utilitiesDiff,
+          transportDiff: result.transportDiff,
+          overallDiff: result.overallDiff,
+          fromCity,
+          toCity,
+        })
+      }
+    }
+  }
+
+  const handleTargetLocationChange = (value: string) => {
+    setTargetLocation(value)
+    const fromCity = allCities.find((city) => city.code === currentLocation)
+    const toCity = allCities.find((city) => city.code === value)
+    const baseSalary = Number.parseFloat(salary) || 100000
+
+    if (fromCity && toCity) {
+      const result = calculateRegionalDifference(fromCity, toCity, baseSalary)
+      if (result) {
+        setEquivalentSalary(result.adjustedSalary)
+        setCostBreakdown({
+          housingDiff: result.housingDiff,
+          utilitiesDiff: result.utilitiesDiff,
+          transportDiff: result.transportDiff,
+          overallDiff: result.overallDiff,
+          fromCity,
+          toCity,
+        })
+      }
+    }
+  }
+
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -1103,7 +1225,7 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
             </div>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Calculate what your historical salary should be worth today. Compare wage growth vs inflation using
-              official government data from 1913-2025.
+              official government data from 1913-2026.
             </p>
           </div>
 
@@ -1190,7 +1312,8 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                           value={fromYear}
                           onChange={(e) => setFromYear(e.target.value)}
                           min={currency === "NZD" ? "1967" : currency === "EUR" ? "1999" : "1913"}
-                          max="2024"
+                          // Updated max year for input
+                          max="2025"
                         />
                       </div>
                       <div className="space-y-2">
@@ -1201,7 +1324,8 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                           value={toYear}
                           onChange={(e) => setToYear(e.target.value)}
                           min="1914"
-                          max="2025"
+                          // Updated max year for input
+                          max="2026"
                         />
                       </div>
                     </div>
@@ -1488,113 +1612,160 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                       <div className="grid md:grid-cols-3 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="fromCity">Current Location</Label>
-                          <Select
-                            value={currentLocation}
-                            onValueChange={(value) => {
-                              setCurrentLocation(value)
-                              const fromCity = regionalData[currency]?.cities.find((city) => city.code === value)
-                              const toCity = regionalData[currency]?.cities.find((city) => city.code === targetLocation)
-
-                              if (fromCity && toCity) {
-                                const result = calculateRegionalDifference(fromCity, toCity)
-                                if (result) {
-                                  setEquivalentSalary(result.adjustedSalary)
-                                  setCostBreakdown({
-                                    housingDiff: result.housingDiff,
-                                    utilitiesDiff: result.utilitiesDiff,
-                                    transportDiff: result.transportDiff,
-                                    overallDiff: result.overallDiff,
-                                  })
-                                }
-                              }
-                            }}
-                          >
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {regionalData[currency]?.cities.map((city) => (
-                                <SelectItem key={city.code} value={city.code}>
-                                  {city.flag} {city.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <div className="space-y-1">
+                            {/* Country badge */}
+                            {currentLocation && allCities.find((c) => c.code === currentLocation) && (
+                              <div className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200 rounded border border-blue-200 dark:border-blue-800 w-fit">
+                                {allCities.find((c) => c.code === currentLocation)?.country}
+                              </div>
+                            )}
+                            <Select value={currentLocation} onValueChange={handleCurrentLocationChange}>
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {Object.entries(
+                                  allCities.reduce(
+                                    (acc, city) => {
+                                      if (!acc[city.country]) acc[city.country] = []
+                                      acc[city.country].push(city)
+                                      return acc
+                                    },
+                                    {} as Record<string, CityData[]>,
+                                  ),
+                                )
+                                  .sort(([a], [b]) => a.localeCompare(b))
+                                  .map(([country, cities]) => (
+                                    <div key={country}>
+                                      <div className="px-2 py-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                                        {country}
+                                      </div>
+                                      {cities.map((city) => (
+                                        <SelectItem key={city.code} value={city.code}>
+                                          {city.flag} {city.name}
+                                        </SelectItem>
+                                      ))}
+                                    </div>
+                                  ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="toCity">Target Location</Label>
-                          <Select
-                            value={targetLocation}
-                            onValueChange={(value) => {
-                              setTargetLocation(value)
-                              const fromCity = regionalData[currency]?.cities.find(
-                                (city) => city.code === currentLocation,
-                              )
-                              const toCity = regionalData[currency]?.cities.find((city) => city.code === value)
-
-                              if (fromCity && toCity) {
-                                const result = calculateRegionalDifference(fromCity, toCity)
-                                if (result) {
-                                  setEquivalentSalary(result.adjustedSalary)
-                                  setCostBreakdown({
-                                    housingDiff: result.housingDiff,
-                                    utilitiesDiff: result.utilitiesDiff,
-                                    transportDiff: result.transportDiff,
-                                    overallDiff: result.overallDiff,
-                                  })
-                                }
-                              }
-                            }}
-                          >
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {regionalData[currency]?.cities.map((city) => (
-                                <SelectItem key={city.code} value={city.code}>
-                                  {city.flag} {city.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <div className="space-y-1">
+                            {/* Country badge */}
+                            {targetLocation && allCities.find((c) => c.code === targetLocation) && (
+                              <div className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 rounded border border-green-200 dark:border-green-800 w-fit">
+                                {allCities.find((c) => c.code === targetLocation)?.country}
+                              </div>
+                            )}
+                            <Select value={targetLocation} onValueChange={handleTargetLocationChange}>
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {Object.entries(
+                                  allCities.reduce(
+                                    (acc, city) => {
+                                      if (!acc[city.country]) acc[city.country] = []
+                                      acc[city.country].push(city)
+                                      return acc
+                                    },
+                                    {} as Record<string, CityData[]>,
+                                  ),
+                                )
+                                  .sort(([a], [b]) => a.localeCompare(b))
+                                  .map(([country, cities]) => (
+                                    <div key={country}>
+                                      <div className="px-2 py-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                                        {country}
+                                      </div>
+                                      {cities.map((city) => (
+                                        <SelectItem key={city.code} value={city.code}>
+                                          {city.flag} {city.name}
+                                        </SelectItem>
+                                      ))}
+                                    </div>
+                                  ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </div>
                         <div className="space-y-2">
                           <Label>Equivalent Salary</Label>
                           <div className="h-10 px-3 py-2 border rounded-md bg-gray-50 dark:bg-gray-800 flex items-center">
                             <span className="text-lg font-semibold text-green-600">
-                              {costBreakdown ? formatCurrency(equivalentSalary, currency) : "$0"}
+                              {costBreakdown && targetLocation
+                                ? formatCurrency(
+                                    equivalentSalary,
+                                    allCities.find((c) => c.code === targetLocation)?.currency || currency,
+                                  )
+                                : "$0"}
                             </span>
                           </div>
                         </div>
                       </div>
 
-                      {costBreakdown && (
-                        <div className="grid md:grid-cols-4 gap-3">
-                          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                            <p className="text-sm text-gray-600 dark:text-gray-400">Housing Cost</p>
-                            <p className="font-bold text-red-600">{formatPercentage(costBreakdown.housingDiff)}</p>
-                          </div>
-                          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                            <p className="text-sm text-gray-600 dark:text-gray-400">Utilities</p>
-                            <p className="font-bold text-green-600">{formatPercentage(costBreakdown.utilitiesDiff)}</p>
-                          </div>
-                          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                            <p className="text-sm text-gray-600 dark:text-gray-400">Transportation</p>
-                            <p className="font-bold text-green-600">{formatPercentage(costBreakdown.transportDiff)}</p>
-                          </div>
-                          <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
-                            <p className="text-sm text-gray-600 dark:text-gray-400">Overall</p>
-                            <p className="font-bold text-green-600">{formatPercentage(costBreakdown.overallDiff)}</p>
-                          </div>
+                      <div className="grid md:grid-cols-4 gap-3">
+                        <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Housing Cost</p>
+                          <p className="font-bold text-red-600">{formatPercentage(costBreakdown?.housingDiff ?? 0)}</p>
                         </div>
-                      )}
+                        <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Utilities</p>
+                          <p className="font-bold text-green-600">
+                            {formatPercentage(costBreakdown?.utilitiesDiff ?? 0)}
+                          </p>
+                        </div>
+                        <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Transportation</p>
+                          <p className="font-bold text-green-600">
+                            {formatPercentage(costBreakdown?.transportDiff ?? 0)}
+                          </p>
+                        </div>
+                        <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Overall</p>
+                          <p className="font-bold text-green-600">
+                            {formatPercentage(costBreakdown?.overallDiff ?? 0)}
+                          </p>
+                        </div>
+                      </div>
 
                       <Alert>
                         <Info className="h-4 w-4" />
                         <AlertDescription>
-                          <strong>Regional Insight:</strong> Moving from New York to Austin would increase your
-                          purchasing power by 27%, equivalent to a $27,000 raise. Consider remote work opportunities to
-                          maximize this arbitrage.
+                          {(() => {
+                            const fromCity = allCities.find((c) => c.code === currentLocation)
+                            const toCity = allCities.find((c) => c.code === targetLocation)
+
+                            if (!fromCity || !toCity || !costBreakdown) {
+                              return (
+                                <>
+                                  <strong>Regional Insight:</strong> Select two cities to see a detailed comparison of
+                                  cost of living and purchasing power differences.
+                                </>
+                              )
+                            }
+
+                            const isIncrease = costBreakdown.overallDiff > 0
+                            const absPercentage = Math.abs(costBreakdown.overallDiff).toFixed(1)
+                            const crossCurrency = fromCity.currency !== toCity.currency
+
+                            return (
+                              <>
+                                <strong>Regional Insight:</strong> Moving from {fromCity.name} ({fromCity.country}) to{" "}
+                                {toCity.name} ({toCity.country}) would {isIncrease ? "decrease" : "increase"} your
+                                purchasing power by {absPercentage}%
+                                {crossCurrency &&
+                                  ` (after currency conversion from ${fromCity.currency} to ${toCity.currency})`}
+                                .{" "}
+                                {isIncrease
+                                  ? "You would need a higher salary to maintain the same standard of living."
+                                  : "Consider remote work opportunities to maximize this cost of living advantage."}
+                              </>
+                            )
+                          })()}
                         </AlertDescription>
                       </Alert>
                     </CardContent>
@@ -2037,8 +2208,8 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                       <div className="text-center">
                         {/* CHANGE */}
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          <strong>Last Updated:</strong> December 2025 | <strong>Data Coverage:</strong> 1913-2025
-                          (varies by currency) | <strong>Update Frequency:</strong> Monthly
+                          <strong>Last Updated:</strong> January 2026 | <strong>Data Coverage:</strong> 1913-2026 |{" "}
+                          <strong>Update Frequency:</strong> Monthly
                         </p>
                         {/* </CHANGE> */}
                         <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
@@ -2189,9 +2360,11 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
 
                     {/* Copyright Footer */}
                     <div className="mt-8 pt-8 border-t border-gray-800 text-center">
+                      {/* Updated copyright year */}
                       <p className="text-gray-500 text-sm">
-                        © 2025 Global Inflation Calculator. Educational purposes only.
+                        © 2026 Global Inflation Calculator. Educational purposes only.
                       </p>
+                      {/* </CHANGE> */}
                     </div>
                   </div>
                 </footer>
