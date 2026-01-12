@@ -1,0 +1,387 @@
+{
+  "lastUpdated": "2026-01-12",
+  "dataVersion": "1.0.0",
+  "totalCities": 20,
+  "cities": [
+    {
+      "code": "newyork-ny",
+      "name": "New York, NY",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "🗽",
+      "metrics": {
+        "housing_rent_monthly": 3200,
+        "housing_cost_percent": 42.5,
+        "utilities_monthly": 165,
+        "food_monthly": 520,
+        "transportation_monthly": 135,
+        "overall_cost_index": 100,
+        "affordability_ratio": 0.45
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "sanfrancisco-ca",
+      "name": "San Francisco, CA",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "🌉",
+      "metrics": {
+        "housing_rent_monthly": 3500,
+        "housing_cost_percent": 45.2,
+        "utilities_monthly": 120,
+        "food_monthly": 540,
+        "transportation_monthly": 145,
+        "overall_cost_index": 105.5,
+        "affordability_ratio": 0.48
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "losangeles-ca",
+      "name": "Los Angeles, CA",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "🌴",
+      "metrics": {
+        "housing_rent_monthly": 2800,
+        "housing_cost_percent": 38.5,
+        "utilities_monthly": 140,
+        "food_monthly": 480,
+        "transportation_monthly": 155,
+        "overall_cost_index": 93.5,
+        "affordability_ratio": 0.41
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "chicago-il",
+      "name": "Chicago, IL",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "🏙️",
+      "metrics": {
+        "housing_rent_monthly": 1950,
+        "housing_cost_percent": 30.5,
+        "utilities_monthly": 155,
+        "food_monthly": 420,
+        "transportation_monthly": 125,
+        "overall_cost_index": 82.5,
+        "affordability_ratio": 0.33
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "austin-tx",
+      "name": "Austin, TX",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "🤠",
+      "metrics": {
+        "housing_rent_monthly": 1850,
+        "housing_cost_percent": 28.5,
+        "utilities_monthly": 145,
+        "food_monthly": 390,
+        "transportation_monthly": 140,
+        "overall_cost_index": 78.5,
+        "affordability_ratio": 0.31
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "dallas-tx",
+      "name": "Dallas, TX",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "🏈",
+      "metrics": {
+        "housing_rent_monthly": 1750,
+        "housing_cost_percent": 27.5,
+        "utilities_monthly": 150,
+        "food_monthly": 385,
+        "transportation_monthly": 145,
+        "overall_cost_index": 76.5,
+        "affordability_ratio": 0.29
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "houston-tx",
+      "name": "Houston, TX",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "🚀",
+      "metrics": {
+        "housing_rent_monthly": 1650,
+        "housing_cost_percent": 26.5,
+        "utilities_monthly": 155,
+        "food_monthly": 380,
+        "transportation_monthly": 150,
+        "overall_cost_index": 74.5,
+        "affordability_ratio": 0.28
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "sanantonio-tx",
+      "name": "San Antonio, TX",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "🌵",
+      "metrics": {
+        "housing_rent_monthly": 1450,
+        "housing_cost_percent": 24.5,
+        "utilities_monthly": 145,
+        "food_monthly": 360,
+        "transportation_monthly": 135,
+        "overall_cost_index": 69.5,
+        "affordability_ratio": 0.26
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "denver-co",
+      "name": "Denver, CO",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "⛰️",
+      "metrics": {
+        "housing_rent_monthly": 2100,
+        "housing_cost_percent": 32.5,
+        "utilities_monthly": 135,
+        "food_monthly": 430,
+        "transportation_monthly": 130,
+        "overall_cost_index": 85.5,
+        "affordability_ratio": 0.35
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "atlanta-ga",
+      "name": "Atlanta, GA",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "🍑",
+      "metrics": {
+        "housing_rent_monthly": 1800,
+        "housing_cost_percent": 29.5,
+        "utilities_monthly": 165,
+        "food_monthly": 400,
+        "transportation_monthly": 140,
+        "overall_cost_index": 79.5,
+        "affordability_ratio": 0.32
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "seattle-wa",
+      "name": "Seattle, WA",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "☕",
+      "metrics": {
+        "housing_rent_monthly": 2600,
+        "housing_cost_percent": 36.5,
+        "utilities_monthly": 125,
+        "food_monthly": 490,
+        "transportation_monthly": 130,
+        "overall_cost_index": 91.5,
+        "affordability_ratio": 0.39
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "boston-ma",
+      "name": "Boston, MA",
+      "country": "United States",
+      "currency": "USD",
+      "flag": "⚾",
+      "metrics": {
+        "housing_rent_monthly": 2900,
+        "housing_cost_percent": 39.5,
+        "utilities_monthly": 175,
+        "food_monthly": 510,
+        "transportation_monthly": 120,
+        "overall_cost_index": 95.5,
+        "affordability_ratio": 0.42
+      },
+      "dataSource": "BLS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "london-uk",
+      "name": "London",
+      "country": "United Kingdom",
+      "currency": "GBP",
+      "flag": "🇬🇧",
+      "metrics": {
+        "housing_rent_monthly": 2100,
+        "housing_cost_percent": 45.5,
+        "utilities_monthly": 180,
+        "food_monthly": 420,
+        "transportation_monthly": 165,
+        "overall_cost_index": 98.5,
+        "affordability_ratio": 0.48
+      },
+      "dataSource": "UK ONS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "manchester-uk",
+      "name": "Manchester",
+      "country": "United Kingdom",
+      "currency": "GBP",
+      "flag": "⚽",
+      "metrics": {
+        "housing_rent_monthly": 1150,
+        "housing_cost_percent": 32.5,
+        "utilities_monthly": 165,
+        "food_monthly": 350,
+        "transportation_monthly": 135,
+        "overall_cost_index": 72.5,
+        "affordability_ratio": 0.35
+      },
+      "dataSource": "UK ONS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "paris-fr",
+      "name": "Paris",
+      "country": "France",
+      "currency": "EUR",
+      "flag": "🇫🇷",
+      "metrics": {
+        "housing_rent_monthly": 1550,
+        "housing_cost_percent": 38.5,
+        "utilities_monthly": 145,
+        "food_monthly": 480,
+        "transportation_monthly": 75,
+        "overall_cost_index": 88.5,
+        "affordability_ratio": 0.41
+      },
+      "dataSource": "Eurostat 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "berlin-de",
+      "name": "Berlin",
+      "country": "Germany",
+      "currency": "EUR",
+      "flag": "🇩🇪",
+      "metrics": {
+        "housing_rent_monthly": 1250,
+        "housing_cost_percent": 32.5,
+        "utilities_monthly": 185,
+        "food_monthly": 420,
+        "transportation_monthly": 85,
+        "overall_cost_index": 78.5,
+        "affordability_ratio": 0.35
+      },
+      "dataSource": "Eurostat 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "amsterdam-nl",
+      "name": "Amsterdam",
+      "country": "Netherlands",
+      "currency": "EUR",
+      "flag": "🇳🇱",
+      "metrics": {
+        "housing_rent_monthly": 1850,
+        "housing_cost_percent": 42.5,
+        "utilities_monthly": 175,
+        "food_monthly": 450,
+        "transportation_monthly": 95,
+        "overall_cost_index": 92.5,
+        "affordability_ratio": 0.45
+      },
+      "dataSource": "Eurostat 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "toronto-ca",
+      "name": "Toronto",
+      "country": "Canada",
+      "currency": "CAD",
+      "flag": "🇨🇦",
+      "metrics": {
+        "housing_rent_monthly": 2300,
+        "housing_cost_percent": 41.5,
+        "utilities_monthly": 135,
+        "food_monthly": 520,
+        "transportation_monthly": 140,
+        "overall_cost_index": 89.5,
+        "affordability_ratio": 0.44
+      },
+      "dataSource": "Statistics Canada 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "vancouver-ca",
+      "name": "Vancouver",
+      "country": "Canada",
+      "currency": "CAD",
+      "flag": "🏔️",
+      "metrics": {
+        "housing_rent_monthly": 2450,
+        "housing_cost_percent": 44.5,
+        "utilities_monthly": 120,
+        "food_monthly": 540,
+        "transportation_monthly": 135,
+        "overall_cost_index": 93.5,
+        "affordability_ratio": 0.47
+      },
+      "dataSource": "Statistics Canada 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    },
+    {
+      "code": "sydney-au",
+      "name": "Sydney",
+      "country": "Australia",
+      "currency": "AUD",
+      "flag": "🇦🇺",
+      "metrics": {
+        "housing_rent_monthly": 2650,
+        "housing_cost_percent": 43.5,
+        "utilities_monthly": 185,
+        "food_monthly": 580,
+        "transportation_monthly": 155,
+        "overall_cost_index": 94.5,
+        "affordability_ratio": 0.46
+      },
+      "dataSource": "ABS 2026",
+      "lastUpdated": "2026-01-01",
+      "confidence": "high"
+    }
+  ]
+}
