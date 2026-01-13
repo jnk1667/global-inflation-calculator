@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
 import {
   Select,
   SelectContent,
@@ -75,6 +74,7 @@ export default function RegionalCostOfLivingPage() {
   const [citiesData, setCitiesData] = useState<CitiesData | null>(null)
   const [loading, setLoading] = useState(true)
   const [baseSalary, setBaseSalary] = useState("75000")
+  const [salaryCurrency, setSalaryCurrency] = useState<string>("USD")
   const [currentCity, setCurrentCity] = useState<string>("newyork-ny")
   const [targetCity, setTargetCity] = useState<string>("london-uk")
 
@@ -84,6 +84,7 @@ export default function RegionalCostOfLivingPage() {
       try {
         const response = await fetch("/api/cost-of-living/cities")
         const data = await response.json()
+        console.log("[v0] Loaded cities data:", data.totalCities, "cities")
         setCitiesData(data)
       } catch (error) {
         console.error("[v0] Error loading cities data:", error)
@@ -108,177 +109,184 @@ export default function RegionalCostOfLivingPage() {
     return grouped
   }, [citiesData])
 
-  // Get selected city data
-  const currentCityData = citiesData?.cities.find((c) => c.code === currentCity)
-  const targetCityData = citiesData?.cities.find((c) => c.code === targetCity)
+  // Get current and target city data
+  const currentCityData = useMemo(() => {
+    return citiesData?.cities.find((c) => c.code === currentCity)
+  }, [citiesData, currentCity])
+
+  const targetCityData = useMemo(() => {
+    return citiesData?.cities.find((c) => c.code === targetCity)
+  }, [citiesData, targetCity])
 
   // Calculate equivalent salary
   const equivalentSalary = useMemo(() => {
     if (!currentCityData || !targetCityData || !baseSalary) return 0
 
-    const salary = Number.parseFloat(baseSalary) || 0
+    const salary = Number.parseFloat(baseSalary)
+    if (isNaN(salary)) return 0
+
+    const salaryInUSD = salary / exchangeRates[salaryCurrency]
+
+    // Calculate cost difference ratio
     const costRatio = targetCityData.metrics.overall_cost_index / currentCityData.metrics.overall_cost_index
 
-    // Convert to target currency
-    const currentToUSD = salary * exchangeRates[currentCityData.currency]
-    const usdToTarget = currentToUSD / exchangeRates[targetCityData.currency]
+    // Calculate equivalent salary in USD
+    const equivalentInUSD = salaryInUSD * costRatio
 
-    return Math.round(usdToTarget * costRatio)
-  }, [baseSalary, currentCityData, targetCityData])
+    // Convert to target city's currency
+    const equivalent = equivalentInUSD * exchangeRates[targetCityData.currency]
+
+    return Math.round(equivalent)
+  }, [currentCityData, targetCityData, baseSalary, salaryCurrency])
 
   // Calculate cost differences
   const costDifferences = useMemo(() => {
-    if (!currentCityData || !targetCityData) return null
-
-    const housing =
-      ((targetCityData.metrics.housing_cost_percent - currentCityData.metrics.housing_cost_percent) /
-        currentCityData.metrics.housing_cost_percent) *
-      100
-    const utilities =
-      ((targetCityData.metrics.utilities_monthly - currentCityData.metrics.utilities_monthly) /
-        currentCityData.metrics.utilities_monthly) *
-      100
-    const food =
-      ((targetCityData.metrics.food_monthly - currentCityData.metrics.food_monthly) /
-        currentCityData.metrics.food_monthly) *
-      100
-    const transportation =
-      ((targetCityData.metrics.transportation_monthly - currentCityData.metrics.transportation_monthly) /
-        currentCityData.metrics.transportation_monthly) *
-      100
-    const overall =
-      ((targetCityData.metrics.overall_cost_index - currentCityData.metrics.overall_cost_index) /
-        currentCityData.metrics.overall_cost_index) *
-      100
-
-    return { housing, utilities, food, transportation, overall }
-  }, [currentCityData, targetCityData])
-
-  // Generate insight
-  const insight = useMemo(() => {
-    if (!currentCityData || !targetCityData || !costDifferences) return ""
-
-    const direction = costDifferences.overall > 0 ? "increase" : "decrease"
-    const percentage = Math.abs(costDifferences.overall).toFixed(1)
-    const isCrossCurrency = currentCityData.currency !== targetCityData.currency
-
-    let text = `Moving from ${currentCityData.name} (${currentCityData.country}) to ${targetCityData.name} (${targetCityData.country}) would ${direction} your cost of living by ${percentage}%`
-
-    if (isCrossCurrency) {
-      text += ` (after currency conversion from ${currentCityData.currency} to ${targetCityData.currency})`
+    if (!currentCityData || !targetCityData) {
+      return {
+        housing: 0,
+        utilities: 0,
+        food: 0,
+        transportation: 0,
+        overall: 0,
+      }
     }
 
-    text += `. You would need a ${direction === "increase" ? "higher" : "lower"} salary to maintain the same standard of living.`
+    return {
+      housing:
+        ((targetCityData.metrics.housing_cost_percent - currentCityData.metrics.housing_cost_percent) /
+          currentCityData.metrics.housing_cost_percent) *
+        100,
+      utilities:
+        ((targetCityData.metrics.utilities_monthly - currentCityData.metrics.utilities_monthly) /
+          currentCityData.metrics.utilities_monthly) *
+        100,
+      food:
+        ((targetCityData.metrics.food_monthly - currentCityData.metrics.food_monthly) /
+          currentCityData.metrics.food_monthly) *
+        100,
+      transportation:
+        ((targetCityData.metrics.transportation_monthly - currentCityData.metrics.transportation_monthly) /
+          currentCityData.metrics.transportation_monthly) *
+        100,
+      overall:
+        ((targetCityData.metrics.overall_cost_index - currentCityData.metrics.overall_cost_index) /
+          currentCityData.metrics.overall_cost_index) *
+        100,
+    }
+  }, [currentCityData, targetCityData])
 
-    return text
-  }, [currentCityData, targetCityData, costDifferences])
+  const formatPercentage = (value: number) => {
+    const sign = value >= 0 ? "+" : ""
+    return `${sign}${value.toFixed(1)}%`
+  }
+
+  const currentYear = new Date().getFullYear()
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
-              <p className="mt-4 text-gray-600">Loading cities data...</p>
-            </div>
-          </div>
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">Loading city data...</div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12">
-      <div className="container mx-auto px-4 max-w-7xl">
-        {/* Breadcrumb */}
-        <nav className="mb-6" aria-label="Breadcrumb">
-          <ol className="flex items-center space-x-2 text-sm text-gray-600">
-            <li>
-              <Link href="/" className="hover:text-gray-900 transition-colors">
-                Home
-              </Link>
-            </li>
-            <li>/</li>
-            <li>
-              <Link href="/salary-calculator" className="hover:text-gray-900 transition-colors">
-                Salary Calculator
-              </Link>
-            </li>
-            <li>/</li>
-            <li className="text-gray-900 font-medium">Regional Cost of Living</li>
-          </ol>
-        </nav>
-
-        {/* Header */}
-        <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3">
-            <MapPin className="w-10 h-10 text-blue-600" />
-            Regional Cost of Living Comparison
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Compare cost of living across {citiesData?.totalCities || 20}+ cities worldwide with comprehensive data from
-            official government sources
+    <div className="min-h-screen bg-background flex flex-col">
+      <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-background border-b pt-24">
+        <div className="container mx-auto px-4 py-12 text-center">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <MapPin className="h-10 w-10 text-primary" />
+            <h1 className="text-4xl font-bold text-balance">Regional Cost of Living Comparison</h1>
+          </div>
+          <p className="text-xl text-muted-foreground text-pretty max-w-4xl mx-auto">
+            Compare cost of living across 80+ cities worldwide with comprehensive data from official government sources
           </p>
-        </header>
+        </div>
+      </div>
 
-        <AdBanner slot="top-regional-comparison" />
+      <div className="container mx-auto px-4 py-8 max-w-6xl flex-grow">
+        {/* Ad Banner */}
+        <div className="mb-8">
+          <AdBanner slot="8765432109" format="horizontal" />
+        </div>
+
+        <div className="mb-6 text-sm text-muted-foreground">
+          <Link href="/" className="hover:text-foreground">
+            Home
+          </Link>
+          {" / "}
+          <Link href="/salary-calculator" className="hover:text-foreground">
+            Salary Calculator
+          </Link>
+          {" / "}
+          <span className="text-foreground">Regional Cost of Living</span>
+        </div>
 
         {/* Main Comparison Tool */}
-        <Card className="mb-8 shadow-lg border-0">
-          <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-            <CardTitle className="text-2xl flex items-center gap-2">
-              <DollarSign className="w-6 h-6" />
+        <Card className="bg-gradient-to-br from-primary/5 to-background border-primary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-2xl">
+              <DollarSign className="h-6 w-6" />
               Compare Cities
             </CardTitle>
-            <CardDescription className="text-blue-100">
+            <CardDescription>
               Enter your salary and select cities to compare purchasing power and cost differences
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-6">
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              {/* Base Salary */}
-              <div>
-                <Label htmlFor="baseSalary" className="text-sm font-semibold mb-2 block">
-                  Your Current Salary
-                </Label>
+          <CardContent className="space-y-6">
+            {/* Salary Input with Currency Selector */}
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="salary">Your Current Salary</Label>
                 <Input
-                  id="baseSalary"
+                  id="salary"
                   type="number"
                   value={baseSalary}
                   onChange={(e) => setBaseSalary(e.target.value)}
                   placeholder="75000"
                   className="text-lg"
                 />
-                {currentCityData && (
-                  <p className="text-sm text-gray-600 mt-1">In {currencySymbols[currentCityData.currency]}</p>
-                )}
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="currency">Currency</Label>
+                <Select value={salaryCurrency} onValueChange={setSalaryCurrency}>
+                  <SelectTrigger id="currency" className="text-lg">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="USD">🇺🇸 USD - US Dollar</SelectItem>
+                    <SelectItem value="GBP">🇬🇧 GBP - British Pound</SelectItem>
+                    <SelectItem value="EUR">🇪🇺 EUR - Euro</SelectItem>
+                    <SelectItem value="CAD">🇨🇦 CAD - Canadian Dollar</SelectItem>
+                    <SelectItem value="AUD">🇦🇺 AUD - Australian Dollar</SelectItem>
+                    <SelectItem value="CHF">🇨🇭 CHF - Swiss Franc</SelectItem>
+                    <SelectItem value="JPY">🇯🇵 JPY - Japanese Yen</SelectItem>
+                    <SelectItem value="NZD">🇳🇿 NZD - New Zealand Dollar</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
 
-              {/* Current City */}
-              <div>
-                <Label htmlFor="currentCity" className="text-sm font-semibold mb-2 block">
-                  Current Location
-                </Label>
+            {/* City Selectors */}
+            <div className="grid gap-4 md:grid-cols-2">
+              {/* Current Location */}
+              <div className="space-y-2">
+                <Label htmlFor="current-city">Current Location</Label>
                 {currentCityData && (
-                  <Badge variant="secondary" className="mb-2 bg-blue-100 text-blue-800">
+                  <Badge variant="outline" className="mb-2">
                     {currentCityData.country}
                   </Badge>
                 )}
                 <Select value={currentCity} onValueChange={setCurrentCity}>
-                  <SelectTrigger id="currentCity" className="text-lg">
-                    <SelectValue>
-                      {currentCityData && (
-                        <span>
-                          {currentCityData.flag} {currentCityData.name}
-                        </span>
-                      )}
-                    </SelectValue>
+                  <SelectTrigger id="current-city">
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
                     {Object.entries(citiesByCountry).map(([country, cities]) => (
                       <SelectGroup key={country}>
-                        <SelectLabel className="text-xs font-semibold text-gray-500 uppercase">{country}</SelectLabel>
+                        <SelectLabel>{country}</SelectLabel>
                         {cities.map((city) => (
                           <SelectItem key={city.code} value={city.code}>
                             {city.flag} {city.name}
@@ -290,30 +298,22 @@ export default function RegionalCostOfLivingPage() {
                 </Select>
               </div>
 
-              {/* Target City */}
-              <div>
-                <Label htmlFor="targetCity" className="text-sm font-semibold mb-2 block">
-                  Target Location
-                </Label>
+              {/* Target Location */}
+              <div className="space-y-2">
+                <Label htmlFor="target-city">Target Location</Label>
                 {targetCityData && (
-                  <Badge variant="secondary" className="mb-2 bg-green-100 text-green-800">
+                  <Badge variant="outline" className="mb-2">
                     {targetCityData.country}
                   </Badge>
                 )}
                 <Select value={targetCity} onValueChange={setTargetCity}>
-                  <SelectTrigger id="targetCity" className="text-lg">
-                    <SelectValue>
-                      {targetCityData && (
-                        <span>
-                          {targetCityData.flag} {targetCityData.name}
-                        </span>
-                      )}
-                    </SelectValue>
+                  <SelectTrigger id="target-city">
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
                     {Object.entries(citiesByCountry).map(([country, cities]) => (
                       <SelectGroup key={country}>
-                        <SelectLabel className="text-xs font-semibold text-gray-500 uppercase">{country}</SelectLabel>
+                        <SelectLabel>{country}</SelectLabel>
                         {cities.map((city) => (
                           <SelectItem key={city.code} value={city.code}>
                             {city.flag} {city.name}
@@ -326,141 +326,343 @@ export default function RegionalCostOfLivingPage() {
               </div>
             </div>
 
-            {/* Equivalent Salary Display */}
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-lg border-2 border-green-200 mb-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-gray-600 mb-1">Equivalent Salary Needed</p>
-                  <p className="text-4xl font-bold text-green-700">
-                    {targetCityData && currencySymbols[targetCityData.currency]}
-                    {equivalentSalary.toLocaleString()}
-                  </p>
-                  <p className="text-sm text-gray-600 mt-1">
-                    To maintain the same standard of living in {targetCityData?.name}
-                  </p>
-                </div>
-                <ArrowRight className="w-12 h-12 text-green-600" />
-              </div>
-            </div>
+            {/* Equivalent Salary Result */}
+            {currentCityData && targetCityData && (
+              <Card className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border-green-200 dark:border-green-900">
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Equivalent Salary Needed</p>
+                      <p className="text-4xl font-bold text-green-700 dark:text-green-400">
+                        {currencySymbols[targetCityData.currency]}
+                        {equivalentSalary.toLocaleString()}
+                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        To maintain the same standard of living in {targetCityData.name}
+                      </p>
+                    </div>
+                    <ArrowRight className="h-12 w-12 text-green-600 dark:text-green-500" />
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
-            {/* Cost Differences */}
-            {costDifferences && (
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <Home className="w-6 h-6 mx-auto mb-2 text-blue-600" />
-                  <p className="text-xs text-gray-600 mb-1">Housing</p>
-                  <p className={`text-xl font-bold ${costDifferences.housing > 0 ? "text-red-600" : "text-green-600"}`}>
-                    {costDifferences.housing > 0 ? "+" : ""}
-                    {costDifferences.housing.toFixed(1)}%
-                  </p>
-                </div>
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <Zap className="w-6 h-6 mx-auto mb-2 text-yellow-600" />
-                  <p className="text-xs text-gray-600 mb-1">Utilities</p>
-                  <p
-                    className={`text-xl font-bold ${costDifferences.utilities > 0 ? "text-red-600" : "text-green-600"}`}
-                  >
-                    {costDifferences.utilities > 0 ? "+" : ""}
-                    {costDifferences.utilities.toFixed(1)}%
-                  </p>
-                </div>
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <ShoppingCart className="w-6 h-6 mx-auto mb-2 text-green-600" />
-                  <p className="text-xs text-gray-600 mb-1">Food</p>
-                  <p className={`text-xl font-bold ${costDifferences.food > 0 ? "text-red-600" : "text-green-600"}`}>
-                    {costDifferences.food > 0 ? "+" : ""}
-                    {costDifferences.food.toFixed(1)}%
-                  </p>
-                </div>
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <Car className="w-6 h-6 mx-auto mb-2 text-purple-600" />
-                  <p className="text-xs text-gray-600 mb-1">Transportation</p>
-                  <p
-                    className={`text-xl font-bold ${costDifferences.transportation > 0 ? "text-red-600" : "text-green-600"}`}
-                  >
-                    {costDifferences.transportation > 0 ? "+" : ""}
-                    {costDifferences.transportation.toFixed(1)}%
-                  </p>
-                </div>
-                <div className="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
-                  <Building className="w-6 h-6 mx-auto mb-2 text-blue-600" />
-                  <p className="text-xs text-gray-600 mb-1">Overall</p>
-                  <p className={`text-xl font-bold ${costDifferences.overall > 0 ? "text-red-600" : "text-green-600"}`}>
-                    {costDifferences.overall > 0 ? "+" : ""}
-                    {costDifferences.overall.toFixed(1)}%
-                  </p>
-                </div>
+            {/* Cost Breakdown */}
+            {currentCityData && targetCityData && (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <Card className="text-center">
+                  <CardContent className="pt-6">
+                    <Home className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                    <p className="text-xs text-muted-foreground mb-1">Housing</p>
+                    <p
+                      className={`text-lg font-bold ${costDifferences.housing >= 0 ? "text-red-600" : "text-green-600"}`}
+                    >
+                      {formatPercentage(costDifferences.housing)}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="text-center">
+                  <CardContent className="pt-6">
+                    <Zap className="h-8 w-8 mx-auto mb-2 text-yellow-600" />
+                    <p className="text-xs text-muted-foreground mb-1">Utilities</p>
+                    <p
+                      className={`text-lg font-bold ${costDifferences.utilities >= 0 ? "text-red-600" : "text-green-600"}`}
+                    >
+                      {formatPercentage(costDifferences.utilities)}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="text-center">
+                  <CardContent className="pt-6">
+                    <ShoppingCart className="h-8 w-8 mx-auto mb-2 text-green-600" />
+                    <p className="text-xs text-muted-foreground mb-1">Food</p>
+                    <p className={`text-lg font-bold ${costDifferences.food >= 0 ? "text-red-600" : "text-green-600"}`}>
+                      {formatPercentage(costDifferences.food)}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="text-center">
+                  <CardContent className="pt-6">
+                    <Car className="h-8 w-8 mx-auto mb-2 text-purple-600" />
+                    <p className="text-xs text-muted-foreground mb-1">Transportation</p>
+                    <p
+                      className={`text-lg font-bold ${costDifferences.transportation >= 0 ? "text-red-600" : "text-green-600"}`}
+                    >
+                      {formatPercentage(costDifferences.transportation)}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="text-center">
+                  <CardContent className="pt-6">
+                    <Building className="h-8 w-8 mx-auto mb-2 text-indigo-600" />
+                    <p className="text-xs text-muted-foreground mb-1">Overall</p>
+                    <p
+                      className={`text-lg font-bold ${costDifferences.overall >= 0 ? "text-red-600" : "text-green-600"}`}
+                    >
+                      {formatPercentage(costDifferences.overall)}
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
             )}
 
             {/* Regional Insight */}
-            <Alert className="bg-blue-50 border-blue-200">
-              <Info className="h-4 w-4 text-blue-600" />
-              <AlertDescription className="text-gray-700">
-                <strong className="font-semibold">Regional Insight:</strong> {insight}
-              </AlertDescription>
-            </Alert>
+            {currentCityData && targetCityData && (
+              <Alert>
+                <Info className="h-4 w-4" />
+                <AlertDescription>
+                  <strong>Regional Insight:</strong> Moving from {currentCityData.name} ({currentCityData.country}) to{" "}
+                  {targetCityData.name} ({targetCityData.country}) would{" "}
+                  {costDifferences.overall >= 0 ? "increase" : "decrease"} your cost of living by{" "}
+                  {Math.abs(costDifferences.overall).toFixed(1)}%{" "}
+                  {currentCityData.currency !== targetCityData.currency &&
+                    `(after currency conversion from ${currentCityData.currency} to ${targetCityData.currency})`}
+                  . You would need {costDifferences.overall >= 0 ? "a higher" : "a lower"} salary to maintain the same
+                  standard of living.
+                </AlertDescription>
+              </Alert>
+            )}
           </CardContent>
         </Card>
 
-        <AdBanner slot="middle-regional-comparison" />
-
         {/* Data Sources */}
-        <Card className="mb-8 shadow-lg border-0">
+        <Card className="mt-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <AlertCircle className="w-5 h-5" />
+              <AlertCircle className="h-5 w-5" />
               Data Sources & Methodology
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="prose max-w-none">
-              <p className="text-gray-600 mb-4">
-                Our cost of living data is sourced from official government agencies and updated regularly to ensure
-                accuracy:
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>
-                  <strong>United States:</strong> Bureau of Labor Statistics (BLS) - Updated monthly
-                </li>
-                <li>
-                  <strong>United Kingdom:</strong> Office for National Statistics (ONS) - Updated quarterly
-                </li>
-                <li>
-                  <strong>European Union:</strong> Eurostat - Updated quarterly
-                </li>
-                <li>
-                  <strong>Canada:</strong> Statistics Canada - Updated monthly
-                </li>
-                <li>
-                  <strong>Australia:</strong> Australian Bureau of Statistics (ABS) - Updated quarterly
-                </li>
-                <li>
-                  <strong>Switzerland:</strong> Swiss Federal Statistical Office - Updated annually
-                </li>
-                <li>
-                  <strong>Japan:</strong> Statistics Bureau of Japan - Updated monthly
-                </li>
-                <li>
-                  <strong>New Zealand:</strong> Stats NZ - Updated quarterly
-                </li>
-              </ul>
-              <p className="text-sm text-gray-500 mt-4">
-                Last data update: {citiesData?.lastUpdated} • Data version: {citiesData?.dataVersion}
-              </p>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              All cost of living data is sourced from official government statistical agencies to ensure accuracy and
+              reliability:
+            </p>
+            <div className="grid md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <strong>United States:</strong> Bureau of Labor Statistics (BLS)
+              </div>
+              <div>
+                <strong>United Kingdom:</strong> Office for National Statistics (ONS)
+              </div>
+              <div>
+                <strong>European Union:</strong> Eurostat
+              </div>
+              <div>
+                <strong>Canada:</strong> Statistics Canada
+              </div>
+              <div>
+                <strong>Australia:</strong> Australian Bureau of Statistics (ABS)
+              </div>
+              <div>
+                <strong>Switzerland:</strong> Swiss Federal Statistical Office (FSO)
+              </div>
+              <div>
+                <strong>Japan:</strong> Statistics Bureau of Japan
+              </div>
+              <div>
+                <strong>New Zealand:</strong> Stats NZ
+              </div>
             </div>
+            <p className="text-xs text-muted-foreground">
+              Last updated: {citiesData?.lastUpdated} | Data version: {citiesData?.dataVersion}
+            </p>
           </CardContent>
         </Card>
-
-        {/* Navigation */}
-        <div className="text-center">
-          <Link href="/salary-calculator">
-            <Button variant="outline" size="lg">
-              Back to Salary Calculator
-            </Button>
-          </Link>
-        </div>
       </div>
+
+      <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 mt-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Global Inflation Calculator</h3>
+              <p className="text-gray-300 dark:text-gray-50 mb-6">
+                Track inflation across major world currencies with historical data from 1913 to {currentYear}.
+              </p>
+              <div className="flex gap-4">
+                <a
+                  href="https://www.youtube.com/@GlobalInflationCalculator"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-red-500 transition-colors"
+                  aria-label="Visit our YouTube channel"
+                >
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://www.pinterest.com/globalinflationcalculator/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-red-600 transition-colors"
+                  aria-label="Follow us on Pinterest"
+                >
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://x.com/GInflationCalc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-blue-400 transition-colors"
+                  aria-label="Follow us on X (Twitter)"
+                >
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.244H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
+              <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                <li>• US Bureau of Labor Statistics</li>
+                <li>• UK Office for National Statistics</li>
+                <li>• Eurostat</li>
+                <li>• Statistics Canada</li>
+                <li>• Australian Bureau of Statistics</li>
+                <li>• Swiss Federal Statistical Office</li>
+                <li>• Statistics Bureau of Japan</li>
+                <li>• Statistics New Zealand</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                <li>
+                  <Link href="/" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Home - Inflation Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/deflation-calculator"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Deflation Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/charts" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Charts & Analytics
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/ppp-calculator"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    PPP Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/auto-loan-calculator"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Auto Loan Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/salary-calculator"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Salary Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/retirement-calculator"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Retirement Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/student-loan-calculator"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Student Loan Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/mortgage-calculator"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Mortgage Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/budget-calculator"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Budget Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/emergency-fund-calculator"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Emergency Fund Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/roi-calculator"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    ROI Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legacy-planner"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Legacy Planner
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/privacy-policy"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/terms-of-service"
+                    className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                  >
+                    Terms of Service
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+            <p>© {currentYear} Global Inflation Calculator. Educational purposes only.</p>
+            <p className="mt-2">Last Updated: January {currentYear}</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

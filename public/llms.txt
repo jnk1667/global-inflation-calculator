@@ -1,0 +1,98 @@
+# Global Inflation Calculator - LLM Context
+
+## Site Overview
+Global Inflation Calculator is a comprehensive financial planning platform offering 15+ calculators for inflation analysis, salary comparison, retirement planning, and cost of living comparisons across multiple currencies.
+
+## Core Tools
+
+### Inflation Calculator (Homepage)
+URL: https://globalinflationcalculator.com/
+Calculate historical inflation for 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD) from 1913-2026.
+
+### Salary Calculator
+URL: https://globalinflationcalculator.com/salary-calculator
+Adjust historical salaries for inflation to understand purchasing power over time.
+
+### Regional Cost of Living Comparison
+URL: https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living
+Compare cost of living across 80+ cities worldwide in 8 currencies. Analyze housing, utilities, food, and transportation costs with official government data from BLS, UK ONS, Eurostat, Statistics Canada, ABS, Swiss FSO, Statistics Bureau of Japan, and Stats NZ. Features include cross-currency salary comparison, affordability metrics, and real-time cost calculations.
+
+### Retirement Calculator
+URL: https://globalinflationcalculator.com/retirement-calculator
+Plan retirement savings considering inflation's impact on nest eggs.
+
+### Student Loan Calculator
+URL: https://globalinflationcalculator.com/student-loan-calculator
+Calculate student loan repayment with inflation adjustments.
+
+### Mortgage Calculator
+URL: https://globalinflationcalculator.com/mortgage-calculator
+Analyze home affordability and mortgage payments adjusted for inflation.
+
+### Auto Loan Calculator
+URL: https://globalinflationcalculator.com/auto-loan-calculator
+Calculate auto loan payments with gas price and inflation analysis.
+
+### Emergency Fund Calculator
+URL: https://globalinflationcalculator.com/emergency-fund-calculator
+Determine emergency savings needs with inflation protection.
+
+### Budget Calculator
+URL: https://globalinflationcalculator.com/budget-calculator
+Use the 50/30/20 rule for budgeting with inflation considerations.
+
+### ROI Calculator
+URL: https://globalinflationcalculator.com/roi-calculator
+Calculate investment returns adjusted for inflation.
+
+### PPP Calculator
+URL: https://globalinflationcalculator.com/ppp-calculator
+Compare purchasing power parity across economies.
+
+### Legacy Planner
+URL: https://globalinflationcalculator.com/legacy-planner
+Project multi-generational wealth transfer with inflation.
+
+### Deflation Calculator
+URL: https://globalinflationcalculator.com/deflation-calculator
+Analyze purchasing power growth of Bitcoin, Ethereum, Gold, Silver, Oil.
+
+### Charts & Analytics
+URL: https://globalinflationcalculator.com/charts
+Interactive inflation trends and economic data visualizations.
+
+## Data Sources
+- US Bureau of Labor Statistics (BLS)
+- UK Office for National Statistics (ONS)
+- Eurostat (European Statistics)
+- Statistics Canada
+- Australian Bureau of Statistics (ABS)
+- Swiss Federal Statistical Office (FSO)
+- Statistics Bureau of Japan
+- Statistics New Zealand (Stats NZ)
+- Federal Reserve Economic Data (FRED)
+
+## Technical Details
+- 8 supported currencies: USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD
+- Historical data: 1913-2026
+- 80+ cities for cost of living comparison
+- Real-time calculations
+- Government data sources for accuracy
+- Full keyboard accessibility (WCAG 2.1 AA)
+- Mobile-responsive design
+
+## Key Features
+- Historical inflation tracking
+- Salary purchasing power analysis
+- Multi-city cost of living comparison
+- Retirement planning with inflation
+- Loan calculators (student, mortgage, auto)
+- Budget planning tools
+- Investment ROI analysis
+- Cross-currency comparisons
+- Data transparency with source attribution
+
+## Accessibility
+WCAG 2.1 Level AA compliant, full keyboard navigation, screen reader support, high contrast modes.
+
+Last Updated: January 2026

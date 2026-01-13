@@ -349,6 +349,15 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/salary-calculator/regional-cost-of-living" className="text-blue-600 hover:underline">
+                      Regional Cost of Living Comparison
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Compare cost of living across 80+ cities worldwide with housing, utilities, food, and
+                      transportation costs from official government sources
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/auto-loan-calculator" className="text-blue-600 hover:underline">
                       Auto Loan Calculator
                     </Link>
@@ -555,6 +564,16 @@ export default function AccessibilityPage() {
                   <li>Multi-currency comparison chart with data table alternative</li>
                 </ul>
               </div>
+              <div>
+                <h3 className="font-semibold mb-2">Regional Cost of Living Comparison</h3>
+                <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>City selection with clear labels</li>
+                  <li>Cost category sliders with keyboard control and value announcements</li>
+                  <li>Comparison results table with proper headers and screen reader support</li>
+                  <li>Interactive map with keyboard navigation</li>
+                  <li>Downloadable data with accessible CSV format</li>
+                </ul>
+              </div>
             </CardContent>
           </Card>
 
@@ -623,6 +642,10 @@ export default function AccessibilityPage() {
                     <li>
                       <strong>PPP Calculator:</strong> Compare purchasing power parity across major economies with
                       historical trends
+                    </li>
+                    <li>
+                      <strong>Regional Cost of Living Comparison:</strong> Compare cost of living across 80+ cities
+                      worldwide with housing, utilities, food, and transportation costs from official government sources
                     </li>
                   </ul>
                 </div>

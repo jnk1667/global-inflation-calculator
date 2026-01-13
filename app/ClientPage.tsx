@@ -1847,6 +1847,14 @@ export default function ClientPage() {
                   </li>
                   <li>
                     <Link
+                      href="/salary-calculator/regional-cost-of-living"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Regional Cost of Living
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/retirement-calculator"
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >

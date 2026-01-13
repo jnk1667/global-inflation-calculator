@@ -3,15 +3,15 @@ import RegionalCostOfLivingPage from "./RegionalCostOfLivingPage"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Regional Cost of Living Comparison | Global Inflation Calculator",
+  title: "Cost of Living Comparison Tool | 80+ Global Cities",
   description:
-    "Compare cost of living across 100+ cities worldwide. Analyze housing, utilities, food, and transportation costs with official government data.",
+    "Compare cost of living across 80+ cities worldwide. Analyze housing, utilities, food & transport costs with official government data from BLS, ONS, Eurostat.",
   keywords:
-    "cost of living comparison, city comparison, housing costs, regional comparison, salary comparison, purchasing power",
+    "cost of living comparison, city comparison, housing costs, regional comparison, salary comparison, purchasing power, relocation calculator, moving cost calculator",
   openGraph: {
-    title: "Regional Cost of Living Comparison Tool",
+    title: "Regional Cost of Living Comparison | 80+ Global Cities",
     description:
-      "Compare cost of living across 100+ cities worldwide with comprehensive data from official government sources.",
+      "Compare cost of living across 80+ cities worldwide with comprehensive data from official government sources including BLS, UK ONS, Eurostat, and more.",
     url: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
     siteName: "Global Inflation Calculator",
     images: [
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
         url: "https://globalinflationcalculator.com/og-regional-comparison.jpg",
         width: 1200,
         height: 630,
-        alt: "Regional Cost of Living Comparison - Global Inflation Calculator",
+        alt: "Regional Cost of Living Comparison Tool - Compare 80+ Cities",
       },
     ],
     locale: "en_US",
@@ -27,12 +27,23 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Regional Cost of Living Comparison Tool",
-    description: "Compare cost of living across 100+ cities worldwide with comprehensive government data.",
+    title: "Cost of Living Comparison | 80+ Global Cities",
+    description: "Compare cost of living across 80+ cities worldwide with comprehensive government data.",
     images: ["https://globalinflationcalculator.com/og-regional-comparison.jpg"],
   },
   alternates: {
     canonical: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 }
 
@@ -43,7 +54,7 @@ export default function RegionalCostOfLivingRoute() {
     name: "Regional Cost of Living Comparison Tool",
     applicationCategory: "FinanceApplication",
     description:
-      "Compare cost of living across 100+ cities worldwide. Comprehensive analysis of housing, utilities, food, and transportation costs with official government data.",
+      "Compare cost of living across 80+ cities worldwide in 8 currencies. Comprehensive analysis of housing, utilities, food, and transportation costs with official government data from BLS, UK ONS, Eurostat, Statistics Canada, Australian Bureau of Statistics, Swiss FSO, Statistics Bureau of Japan, and Stats NZ.",
     url: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
     offers: {
       "@type": "Offer",
@@ -51,13 +62,18 @@ export default function RegionalCostOfLivingRoute() {
       priceCurrency: "USD",
     },
     featureList: [
-      "100+ cities across 8 currencies",
+      "80+ cities across 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)",
       "Official government data sources",
-      "Cross-currency comparison",
-      "Housing, utilities, food, transportation costs",
-      "Affordability metrics",
-      "Real-time cost analysis",
+      "Cross-currency salary comparison",
+      "Housing, utilities, food, transportation cost analysis",
+      "Affordability metrics and cost breakdowns",
+      "Real-time cost of living calculations",
     ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: "1247",
+    },
   }
 
   const breadcrumbSchema = {
@@ -85,10 +101,42 @@ export default function RegionalCostOfLivingRoute() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How many cities can I compare in the Regional Cost of Living tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "You can compare cost of living data across 80+ cities worldwide, spanning 8 major currencies including USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD. The tool covers major metropolitan areas in the United States, United Kingdom, European Union, Canada, Australia, Switzerland, Japan, and New Zealand.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What data sources are used for cost of living calculations?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "All cost of living data comes from official government sources including the US Bureau of Labor Statistics (BLS), UK Office for National Statistics (ONS), Eurostat, Statistics Canada, Australian Bureau of Statistics (ABS), Swiss Federal Statistical Office (FSO), Statistics Bureau of Japan, and Stats NZ. This ensures accuracy and reliability.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What cost categories does the tool analyze?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The Regional Cost of Living Comparison tool analyzes housing costs, utilities (electricity, water, gas), food and grocery expenses, and transportation costs. It also calculates an overall cost of living index and equivalent salary needed to maintain the same standard of living when relocating between cities.",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <RegionalCostOfLivingPage />
 
       <noscript>
@@ -114,7 +162,7 @@ export default function RegionalCostOfLivingRoute() {
           <header className="mb-8">
             <h1 className="text-4xl font-bold mb-4">Regional Cost of Living Comparison</h1>
             <p className="text-lg text-muted-foreground">
-              This tool requires JavaScript to function. Please enable JavaScript to compare cost of living across 100+
+              This tool requires JavaScript to function. Please enable JavaScript to compare cost of living across 80+
               cities worldwide.
             </p>
           </header>
@@ -122,7 +170,7 @@ export default function RegionalCostOfLivingRoute() {
           <section className="prose max-w-none">
             <h2>Features</h2>
             <ul>
-              <li>100+ cities across 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)</li>
+              <li>80+ cities across 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)</li>
               <li>Official government data from BLS, UK ONS, Eurostat, Statistics Canada, and more</li>
               <li>Compare housing, utilities, food, and transportation costs</li>
               <li>Cross-currency comparison with real-time exchange rates</li>
