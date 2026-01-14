@@ -55,6 +55,7 @@ interface Content {
   roi_essay: string
   ppp_essay: string // Added ppp_essay
   auto_loan_essay: string
+  regional_cost_of_living_essay: string // Add regional_cost_of_living_essay
   student_loan_blog_title: string
   student_loan_blog_content: string
   student_loan_methodology: string
@@ -109,6 +110,7 @@ const AdminContentPage: React.FC = () => {
     roi_essay: "",
     ppp_essay: "", // Initialized ppp_essay field
     auto_loan_essay: "",
+    regional_cost_of_living_essay: "", // Initialize regional_cost_of_living_essay
     student_loan_blog_title: "Understanding Student Loans in an Inflationary Economy: A Comprehensive Guide",
     student_loan_blog_content: "",
     student_loan_methodology: "",
@@ -337,6 +339,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
         roi_essay: contentMap["roi_essay"] || "",
         ppp_essay: contentMap["ppp_essay"] || "", // Load ppp_essay
         auto_loan_essay: contentMap["auto_loan_essay"] || "",
+        regional_cost_of_living_essay: contentMap["regional_cost_of_living_essay"] || "", // Load regional_cost_of_living_essay
         student_loan_blog_title: contentMap["student_loan_blog_title"] || "",
         student_loan_blog_content: contentMap["student_loan_blog_content"] || "",
         student_loan_methodology: contentMap["student_loan_methodology"] || "",
@@ -1129,6 +1132,30 @@ The key to successful multi-generational wealth planning lies in balancing growt
               </CardContent>
             </Card>
 
+            {/* Regional Cost of Living Essay Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Regional Cost of Living Essay</CardTitle>
+                <CardDescription>Educational content for the regional cost of living comparison page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.regional_cost_of_living_essay}
+                  onChange={(e) => setContent({ ...content, regional_cost_of_living_essay: e.target.value })}
+                  rows={15}
+                  placeholder="Enter regional cost of living essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("regional_cost_of_living_essay", content.regional_cost_of_living_essay)}
+                  disabled={saving}
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  {saving ? "Saving..." : "Save Regional Cost of Living Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle>50/30/20 Budget Calculator Essay</CardTitle>
@@ -1556,6 +1583,8 @@ The key to successful multi-generational wealth planning lies in balancing growt
                       <SelectItem value="emergency-fund">Emergency Fund Calculator</SelectItem>
                       <SelectItem value="roi">ROI Calculator</SelectItem>
                       <SelectItem value="legacy">Legacy Planner</SelectItem>
+                      <SelectItem value="regional-cost-of-living">Regional Cost of Living</SelectItem>{" "}
+                      {/* Added for new section */}
                     </SelectContent>
                   </Select>
                 </div>
@@ -1612,6 +1641,8 @@ The key to successful multi-generational wealth planning lies in balancing growt
                           <SelectItem value="roi">ROI Calculator</SelectItem>
                           <SelectItem value="ppp">PPP Calculator</SelectItem> {/* Added PPP Calculator category */}
                           <SelectItem value="auto-loan">Auto Loan Calculator</SelectItem>
+                          <SelectItem value="regional-cost-of-living">Regional Cost of Living</SelectItem>{" "}
+                          {/* Added for new section */}
                         </SelectContent>
                       </Select>
                     </div>
