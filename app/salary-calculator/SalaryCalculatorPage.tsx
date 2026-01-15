@@ -1099,7 +1099,7 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
         )
 
         const closestEndYear = availableYears.reduce((prev, curr) =>
-          Math.abs(curr - toYearValue) < Math.abs(prev - toYearValue) ? curr : prev,
+          Math.abs(curr - toYearValue) < Math.abs(prev - fromYearValue) ? curr : prev,
         )
 
         startCPI = fallbackData[closestStartYear as keyof typeof fallbackData]
@@ -1214,7 +1214,7 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        <div className="container mx-auto px-4 py-8 pt-32">
+        <div className="max-w-6xl mx-auto px-4 py-8 pt-32">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
@@ -1238,7 +1238,7 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
             <span className="text-gray-900 dark:text-gray-100">Salary Calculator</span>
           </nav>
 
-          <main className="container mx-auto px-4 py-24 max-w-6xl">
+          <main className="space-y-8">
             <div className="grid lg:grid-cols-3 gap-8">
               {/* Calculator */}
               <div className="lg:col-span-2">
