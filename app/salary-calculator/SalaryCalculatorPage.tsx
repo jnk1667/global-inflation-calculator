@@ -10,7 +10,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import { Calculator, TrendingUp, DollarSign, Info, CheckCircle, AlertCircle, BookOpen } from "lucide-react"
+import {
+  Calculator,
+  TrendingUp,
+  DollarSign,
+  Info,
+  CheckCircle,
+  AlertCircle,
+  BookOpen,
+  ArrowRight,
+  Globe,
+} from "lucide-react"
 import Link from "next/link"
 import { trackEvent } from "@/lib/analytics"
 import AdBanner from "@/components/ad-banner"
@@ -1597,7 +1607,7 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                     </CardContent>
                   </Card>
 
-                  {/* Regional Salary Adjustments */}
+                  {/* Regional Cost of Living Analysis */}
                   <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
@@ -1770,6 +1780,38 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                       </Alert>
                     </CardContent>
                   </Card>
+
+                  {/* CTA Banner for Regional Cost of Living Comparison page */}
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-lg p-6 md:p-8">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-blue-900 dark:text-blue-100 mb-2">
+                          Need a Deeper Analysis?
+                        </h3>
+                        <p className="text-blue-700 dark:text-blue-200 mb-4">
+                          Explore how your salary compares across 80+ cities worldwide with our comprehensive Regional
+                          Cost of Living Comparison tool. Get advanced insights, multi-city comparisons, affordability
+                          gaps, and 5-year cost projections.
+                        </p>
+                        <Link
+                          href="/salary-calculator/regional-cost-of-living"
+                          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+                        >
+                          Explore Regional Analysis
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
+                      </div>
+                      <div className="text-center">
+                        <Globe className="h-16 w-16 text-blue-600 dark:text-blue-400 mb-3" />
+                        <p className="text-sm text-blue-600 dark:text-blue-300 font-semibold">
+                          80+ Cities
+                          <br />8 Currencies
+                          <br />
+                          Official Data
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Salary Trajectory Planner */}
                   <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
@@ -2229,14 +2271,27 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                 <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12 mt-16 rounded-t-lg">
                   <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                      {/* Left Column - Salary Calculator Description */}
+                      {/* Left Column - Salary Calculator Description + Related Tools */}
                       <div>
                         <h3 className="text-xl font-bold mb-4">Salary Calculator</h3>
-                        <p className="text-gray-400 text-sm leading-relaxed">
+                        <p className="text-gray-400 text-sm leading-relaxed mb-6">
                           Calculate and compare salaries across different time periods and countries, accounting for
                           inflation, cost of living differences, and purchasing power. Make informed career decisions
                           with comprehensive salary analysis.
                         </p>
+
+                        <h4 className="text-lg font-semibold mb-3 text-blue-400">Related Tools</h4>
+                        <ul className="space-y-2 text-sm">
+                          <li>
+                            <Link
+                              href="/salary-calculator/regional-cost-of-living"
+                              className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"
+                            >
+                              <ArrowRight className="h-3 w-3" />
+                              Regional Cost of Living
+                            </Link>
+                          </li>
+                        </ul>
                       </div>
 
                       {/* Middle Column - Data Sources */}
