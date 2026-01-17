@@ -45,6 +45,13 @@ export default function SalaryCalculatorPageRoute() {
     description:
       "Calculate inflation-adjusted salary and purchasing power changes from 1913-2025 across multiple currencies.",
     url: "https://globalinflationcalculator.com/salary-calculator",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: "2156",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",

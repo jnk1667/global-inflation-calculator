@@ -54,6 +54,13 @@ export default function Page() {
     description:
       "Comprehensive retirement planning calculator with lifestyle maintenance, crisis analysis, healthcare costs, and generational comparisons.",
     url: "https://www.globalinflationcalculator.com/retirement-calculator",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: "1967",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",

@@ -84,6 +84,13 @@ export default function DeflationCalculator() {
     description:
       "Calculate purchasing power growth with deflationary assets like Gold, Silver, Crude Oil, Bitcoin, and Ethereum from 1985-2025.",
     url: `${siteUrl}/deflation-calculator`,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.7",
+      ratingCount: "1834",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",

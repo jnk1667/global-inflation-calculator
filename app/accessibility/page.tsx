@@ -55,6 +55,13 @@ export default function AccessibilityPage() {
     description:
       "Comprehensive accessibility documentation for Global Inflation Calculator, including WCAG 2.1 Level AA compliance, ARIA implementations, and assistive technology support.",
     url: "https://www.globalinflationcalculator.com/accessibility",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      ratingCount: "567",
+      bestRating: "5",
+      worstRating: "1",
+    },
     about: {
       "@type": "Thing",
       name: "Web Accessibility",

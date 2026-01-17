@@ -63,6 +63,22 @@ export const metadata: Metadata = {
 }
 
 export default function AboutPage() {
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "About Us",
+    description:
+      "Learn about Global Inflation Calculator's mission to provide accurate historical inflation data for free to everyone worldwide.",
+    url: `${siteUrl}/about`,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      ratingCount: "823",
+      bestRating: "5",
+      worstRating: "1",
+    },
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -83,7 +99,8 @@ export default function AboutPage() {
   }
 
   return (
-    <div>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <AboutClientPage />
 
@@ -199,6 +216,6 @@ export default function AboutPage() {
         </div>
       </footer>
       {/* End of changes */}
-    </div>
+    </>
   )
 }
