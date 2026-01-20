@@ -1223,7 +1223,7 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" style={{ contain: "layout style" }}>
         <div className="max-w-6xl mx-auto px-4 py-8 pt-32">
           {/* Header */}
           <div className="text-center mb-8">

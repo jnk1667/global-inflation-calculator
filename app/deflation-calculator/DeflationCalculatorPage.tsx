@@ -371,7 +371,7 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900/20">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900/20" style={{ contain: "layout style" }}>
       <div className="container mx-auto px-4 py-24">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -386,12 +386,14 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
             Discover how scarce assets preserve and grow your purchasing power over time. See the opposite of inflation
             with deflationary asset appreciation.
           </p>
-          {liveDataStatus[selectedAsset] && (
-            <div className="mt-4 inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-sm">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              Using Live {assetInfo[selectedAsset as keyof typeof assetInfo]?.name} Price Data
-            </div>
-          )}
+          <div style={{ minHeight: "32px" }}>
+            {liveDataStatus[selectedAsset] && (
+              <div className="mt-4 inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-sm">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                Using Live {assetInfo[selectedAsset as keyof typeof assetInfo]?.name} Price Data
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Main Calculator */}

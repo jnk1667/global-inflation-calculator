@@ -109,6 +109,54 @@
   }
 }
 
+/* CLS Prevention - Reserve space for dynamic content */
+@layer utilities {
+  /* Chart containers - reserve space before charts load */
+  .chart-container {
+    contain: layout style;
+    min-height: 300px;
+  }
+  
+  .chart-container-sm {
+    contain: layout style;
+    min-height: 200px;
+  }
+  
+  .chart-container-lg {
+    contain: layout style;
+    min-height: 400px;
+  }
+
+  /* Result sections - prevent shift when results appear */
+  .result-container {
+    contain: layout;
+    min-height: 0;
+  }
+
+  /* Card containers - stable sizing */
+  .stable-card {
+    contain: layout style;
+  }
+
+  /* FAQ section - reserve space */
+  .faq-container {
+    contain: layout;
+    min-height: 200px;
+  }
+
+  /* Essay/blog content container */
+  .content-container {
+    contain: layout;
+    min-height: 100px;
+  }
+
+  /* Prevent font-related CLS */
+  .font-stable {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
+}
+
 /* Mobile Media Queries - Keep desktop layout but optimize for mobile */
 @media screen and (max-width: 768px) {
   /* Ensure proper viewport behavior */

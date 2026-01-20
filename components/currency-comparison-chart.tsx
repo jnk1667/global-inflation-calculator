@@ -222,8 +222,8 @@ export default function CurrencyComparisonChart({
 
   if (!isComparing) {
     return (
-      <Card className="bg-white dark:bg-gray-800 shadow-lg border-0">
-        <CardContent className="p-6 text-center">
+      <Card className="bg-white dark:bg-gray-800 shadow-lg border-0" style={{ minHeight: "200px", contain: "layout" }}>
+        <CardContent className="p-6 text-center" style={{ minHeight: "160px" }}>
           <Button
             onClick={() => setIsComparing(true)}
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-lg"
@@ -239,7 +239,7 @@ export default function CurrencyComparisonChart({
   }
 
   return (
-    <Card className="bg-white dark:bg-gray-800 shadow-lg border-0">
+    <Card className="bg-white dark:bg-gray-800 shadow-lg border-0" style={{ minHeight: "800px", contain: "layout" }}>
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>

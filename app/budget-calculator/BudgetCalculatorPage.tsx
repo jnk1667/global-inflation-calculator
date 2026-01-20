@@ -248,7 +248,7 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900" style={{ contain: "layout style" }}>
       {/* Hero Section */}
       <section className="container mx-auto px-4 pt-32 pb-12 text-center">
         <h1 className="mb-4 text-4xl font-bold text-white md:text-5xl">50/30/20 Budget Calculator</h1>

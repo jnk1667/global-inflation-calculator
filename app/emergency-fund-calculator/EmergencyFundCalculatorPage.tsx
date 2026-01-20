@@ -231,7 +231,7 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 dark:from-gray-900 dark:via-blue-950 dark:to-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 dark:from-gray-900 dark:via-blue-950 dark:to-gray-900" style={{ contain: "layout style" }}>
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 px-4 py-2 rounded-full mb-4">
@@ -253,56 +253,55 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
             </Suspense>
           </div>
 
-          {currentTreasuryRates && (
-            <Card className="shadow-lg border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/10 backdrop-blur-sm mb-8">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl">
-                  <TrendingUp className="h-5 w-5 text-emerald-600" />
-                  Current Safe Savings Rates (As of {currentTreasuryRates.year})
-                </CardTitle>
-                <CardDescription>
-                  Based on U.S. Treasury data - these are safe, government-backed options for your emergency fund
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-emerald-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Shield className="h-4 w-4 text-blue-600" />
-                      <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300">High-Yield Savings</h4>
+          <div style={{ minHeight: currentTreasuryRates ? "auto" : "0", contain: "layout" }}>
+            {currentTreasuryRates && (
+              <Card className="shadow-lg border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/10 backdrop-blur-sm mb-8">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-xl">
+                    <TrendingUp className="h-5 w-5 text-emerald-600" />
+                    Current Safe Savings Rates (As of {currentTreasuryRates.year})
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-emerald-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Shield className="h-4 w-4 text-blue-600" />
+                        <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300">High-Yield Savings</h4>
+                      </div>
+                      <p className="text-3xl font-bold text-blue-600">
+                        {currentTreasuryRates.highYieldSavings.toFixed(2)}%
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">FDIC-insured, instant access</p>
                     </div>
-                    <p className="text-3xl font-bold text-blue-600">
-                      {currentTreasuryRates.highYieldSavings.toFixed(2)}%
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">FDIC-insured, instant access</p>
-                  </div>
-                  <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-emerald-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Target className="h-4 w-4 text-emerald-600" />
-                      <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300">Treasury I-Bonds</h4>
+                    <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-emerald-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Target className="h-4 w-4 text-emerald-600" />
+                        <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300">Treasury I-Bonds</h4>
+                      </div>
+                      <p className="text-3xl font-bold text-emerald-600">{currentTreasuryRates.iBonds.toFixed(2)}%</p>
+                      <p className="text-xs text-gray-500 mt-1">Inflation-protected, 1-year lock</p>
                     </div>
-                    <p className="text-3xl font-bold text-emerald-600">{currentTreasuryRates.iBonds.toFixed(2)}%</p>
-                    <p className="text-xs text-gray-500 mt-1">Inflation-protected, 1-year lock</p>
-                  </div>
-                  <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-emerald-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <DollarSign className="h-4 w-4 text-purple-600" />
-                      <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300">Money Market</h4>
+                    <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-emerald-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <DollarSign className="h-4 w-4 text-purple-600" />
+                        <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300">Money Market</h4>
+                      </div>
+                      <p className="text-3xl font-bold text-purple-600">{currentTreasuryRates.moneyMarket.toFixed(2)}%</p>
+                      <p className="text-xs text-gray-500 mt-1">Check-writing, FDIC-insured</p>
                     </div>
-                    <p className="text-3xl font-bold text-purple-600">{currentTreasuryRates.moneyMarket.toFixed(2)}%</p>
-                    <p className="text-xs text-gray-500 mt-1">Check-writing, FDIC-insured</p>
                   </div>
-                </div>
-                <Alert className="mt-4 border-blue-200 bg-blue-50 dark:bg-blue-900/20">
-                  <Info className="h-4 w-4 text-blue-600" />
-                  <AlertDescription className="text-sm">
-                    <strong>Pro Tip:</strong> High-yield savings rates typically track the 3-month Treasury Bill rate.
-                    When the Federal Reserve changes rates, HYSA rates follow within 1-2 months.
-                  </AlertDescription>
-                </Alert>
-              </CardContent>
-            </Card>
-          )}
+                  <Alert className="mt-4 border-blue-200 bg-blue-50 dark:bg-blue-900/20">
+                    <Info className="h-4 w-4 text-blue-600" />
+                    <AlertDescription className="text-sm">
+                      <strong>Pro Tip:</strong> High-yield savings rates typically track the 3-month Treasury Bill rate.
+                      When the Federal Reserve changes rates, HYSA rates follow within 1-2 months.
+                    </AlertDescription>
+                  </Alert>
+                </CardContent>
+              </Card>
+            )}
+          </div>
 
           <Card className="shadow-xl border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm mb-8">
             <CardHeader>

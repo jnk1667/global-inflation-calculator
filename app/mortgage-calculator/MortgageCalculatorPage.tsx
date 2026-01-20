@@ -252,7 +252,7 @@ This calculator uses official data from:
   const data2024 = historicalData["2024"]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-32 pb-16">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-32 pb-16" style={{ contain: "layout style" }}>
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-12">
@@ -283,9 +283,9 @@ This calculator uses official data from:
           <InfoIcon className="h-4 w-4 text-gray-500 dark:text-gray-400" />
         </div>
 
-        {/* Explanation alert for inflation adjustment */}
-        {inflationAdjusted && (
-          <Alert className="mb-6 bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800">
+        {/* Explanation alert for inflation adjustment - uses opacity to prevent CLS */}
+        <div style={{ minHeight: inflationAdjusted ? "auto" : "0", overflow: "hidden", transition: "min-height 0.2s ease-out" }}>
+          <Alert className={`mb-6 bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800 transition-opacity duration-200 ${inflationAdjusted ? "opacity-100" : "opacity-0 h-0 mb-0 p-0 border-0 overflow-hidden"}`}>
             <InfoIcon className="h-4 w-4 text-purple-600 dark:text-purple-400" />
             <AlertDescription className="text-purple-900 dark:text-purple-100">
               <strong>Inflation-Adjusted Mode:</strong> All values are adjusted to {currentYear} dollars, showing the
@@ -293,7 +293,7 @@ This calculator uses official data from:
               for inflation's impact on both home prices and incomes.
             </AlertDescription>
           </Alert>
-        )}
+        </div>
 
         {/* Main Calculator */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">

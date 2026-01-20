@@ -143,8 +143,8 @@ export default function SimpleLineChart({
 
   if (!chartData || chartData.length === 0) {
     return (
-      <Card>
-        <CardContent className="p-6">
+      <Card style={{ minHeight: "520px", contain: "layout" }}>
+        <CardContent className="p-6 flex items-center justify-center" style={{ minHeight: "480px" }}>
           <div className="text-center text-muted-foreground">Loading chart data...</div>
         </CardContent>
       </Card>
@@ -176,7 +176,7 @@ export default function SimpleLineChart({
         </p>
       </CardHeader>
       <CardContent>
-        <div className="h-[400px] w-full">
+        <div className="h-[400px] w-full" style={{ contain: "layout style", minHeight: "400px" }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />

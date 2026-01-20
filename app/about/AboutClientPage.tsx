@@ -108,7 +108,7 @@ export default function AboutClientPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center" style={{ contain: "layout style" }}>
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
       </div>
     )
@@ -118,7 +118,7 @@ export default function AboutClientPage() {
   const adminContent = aboutContent.find((content) => content.section === "admin")
 
   return (
-    <div className="min-h-screen bg-background pt-16 sm:pt-20 dark:bg-background dark:text-foreground">
+    <div className="min-h-screen bg-background pt-16 sm:pt-20 dark:bg-background dark:text-foreground" style={{ contain: "layout style" }}>
       {/* Header */}
       <header className="border-b bg-card dark:bg-card dark:border-b dark:border-foreground">
         <div className="container mx-auto px-4 py-6 sm:py-8">

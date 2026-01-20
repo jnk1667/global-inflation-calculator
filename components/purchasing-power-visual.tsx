@@ -55,7 +55,7 @@ export default function PurchasingPowerVisual({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" style={{ contain: "layout", minHeight: "400px" }}>
       {/* Purchasing Power Comparison */}
       <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 border-0 shadow-lg">
         <CardHeader>

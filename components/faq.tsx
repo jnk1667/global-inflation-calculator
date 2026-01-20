@@ -128,7 +128,7 @@ export default function FAQ({ category, limit }: FAQProps) {
 
   if (loading) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-4" style={{ minHeight: "280px", contain: "layout" }}>
         <div>
           <h3 className="flex items-center gap-2 text-lg font-semibold mb-2">
             <HelpCircle className="h-5 w-5" />
@@ -184,27 +184,25 @@ export default function FAQ({ category, limit }: FAQProps) {
   }
 
   return (
-    <>
-      <div className="space-y-4">
-        <div>
-          <h3 className="flex items-center gap-2 text-lg font-semibold mb-2">
-            <HelpCircle className="h-5 w-5" />
-            Frequently Asked Questions
-          </h3>
-          <p className="text-sm text-muted-foreground mb-4">Common questions about inflation and our calculator</p>
-        </div>
-
-        <Accordion type="single" collapsible className="w-full">
-          {faqs.map((faq) => (
-            <AccordionItem key={faq.id} value={faq.id}>
-              <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-              <AccordionContent>
-                <p className="text-sm text-gray-700 dark:text-gray-300">{faq.answer}</p>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+    <div className="space-y-4" style={{ minHeight: "280px", contain: "layout" }}>
+      <div>
+        <h3 className="flex items-center gap-2 text-lg font-semibold mb-2">
+          <HelpCircle className="h-5 w-5" />
+          Frequently Asked Questions
+        </h3>
+        <p className="text-sm text-muted-foreground mb-4">Common questions about inflation and our calculator</p>
       </div>
-    </>
+
+      <Accordion type="single" collapsible className="w-full">
+        {faqs.map((faq) => (
+          <AccordionItem key={faq.id} value={faq.id}>
+            <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
+            <AccordionContent>
+              <p className="text-sm text-gray-700 dark:text-gray-300">{faq.answer}</p>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </div>
   )
 }

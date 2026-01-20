@@ -117,7 +117,7 @@ Last Updated: December 2025
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-32">
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-32" style={{ contain: "layout style" }}>
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <main>
             <div className="text-center mb-12">

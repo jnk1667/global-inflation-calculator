@@ -16,19 +16,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  MapPin,
-  DollarSign,
-  Info,
-  ArrowRight,
-  Home,
-  Zap,
-  ShoppingCart,
-  Car,
-  Building,
-  AlertCircle,
-  BlendIcon as TrendIcon,
-} from "lucide-react"
+import { MapPin, DollarSign, Info, ArrowRight, Home, Zap, ShoppingCart, Car, Building, AlertCircle, BlendIcon as TrendIcon } from "lucide-react"
 import Link from "next/link"
 import AdBanner from "@/components/ad-banner"
 import { supabase } from "@/lib/supabase"
@@ -460,7 +448,7 @@ Making informed decisions about where to live requires comprehensive understandi
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background" style={{ contain: "layout style" }}>
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">Loading city data...</div>
         </div>
@@ -469,7 +457,7 @@ Making informed decisions about where to live requires comprehensive understandi
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col" style={{ contain: "layout style" }}>
       <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-background border-b pt-24">
         <div className="container mx-auto px-4 py-12 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">

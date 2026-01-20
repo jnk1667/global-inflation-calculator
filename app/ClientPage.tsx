@@ -902,11 +902,11 @@ export default function ClientPage() {
           </div>
         </div>
 
-        <main className="container mx-auto px-4 py-24 max-w-4xl">
+        <main className="container mx-auto px-4 py-24 max-w-4xl" style={{ contain: "layout" }}>
           {/* Header */}
           <div className="text-center mb-16 mt-12">
             <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0" style={{ width: "64px", height: "64px", minWidth: "64px", minHeight: "64px" }}>
                 {logoUrl ? (
                   <img
                     src={logoUrl || "/placeholder.svg"}
@@ -915,10 +915,11 @@ export default function ClientPage() {
                     height={64}
                     className="w-16 h-16 rounded-full shadow-lg"
                     loading="eager"
+                    style={{ width: "64px", height: "64px" }}
                     onError={() => setLogoUrl("")}
                   />
                 ) : (
-                  <Globe className="w-16 h-16 text-blue-600 dark:text-blue-400" />
+                  <Globe className="w-16 h-16 text-blue-600 dark:text-blue-400" style={{ width: "64px", height: "64px" }} />
                 )}
               </div>
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
