@@ -31,7 +31,7 @@ import { getCommodityPrice } from "@/lib/api/alphavantage-api"
 export default function DeflationCalculatorPage() {
   const [amount, setAmount] = useState("1000")
   const [startYear, setStartYear] = useState("2015")
-  const [endYear, setEndYear] = useState("2025")
+  const [endYear, setEndYear] = useState("2026")
   const [selectedAsset, setSelectedAsset] = useState("bitcoin")
   const [calculationResult, setCalculationResult] = useState<any>(null)
   const [blogContent, setBlogContent] = useState("")
@@ -58,6 +58,7 @@ export default function DeflationCalculatorPage() {
       2023: 42000,
       2024: 67000,
       2025: 95000,
+      2026: 98000,
     },
     ethereum: {
       2015: 0.75,
@@ -71,6 +72,7 @@ export default function DeflationCalculatorPage() {
       2023: 2300,
       2024: 3500,
       2025: 4200,
+      2026: 4500,
     },
     gold: {
       1985: 280,
@@ -90,6 +92,7 @@ export default function DeflationCalculatorPage() {
       2023: 2000,
       2024: 2100,
       2025: 2150,
+      2026: 2200,
     },
     silver: {
       1997: 5,
@@ -107,6 +110,7 @@ export default function DeflationCalculatorPage() {
       2023: 28,
       2024: 30,
       2025: 32,
+      2026: 34,
     },
     oil: {
       1986: 28,
@@ -126,15 +130,40 @@ export default function DeflationCalculatorPage() {
       2023: 80,
       2024: 90,
       2025: 92,
+      2026: 95,
+    },
+    platinum: {
+      1990: 467,
+      1995: 425,
+      2000: 543,
+      2005: 897,
+      2010: 1610,
+      2011: 1722,
+      2012: 1552,
+      2013: 1487,
+      2014: 1386,
+      2015: 1055,
+      2016: 990,
+      2017: 954,
+      2018: 880,
+      2019: 863,
+      2020: 885,
+      2021: 1095,
+      2022: 970,
+      2023: 920,
+      2024: 950,
+      2025: 980,
+      2026: 1020,
     },
   }
 
   const assetYearRanges = {
-    bitcoin: { start: 2010, end: 2025 },
-    ethereum: { start: 2015, end: 2025 },
-    gold: { start: 1985, end: 2025 },
-    silver: { start: 1997, end: 2025 },
-    oil: { start: 1986, end: 2025 },
+    bitcoin: { start: 2010, end: 2026 },
+    ethereum: { start: 2015, end: 2026 },
+    gold: { start: 1985, end: 2026 },
+    silver: { start: 1997, end: 2026 },
+    oil: { start: 1986, end: 2026 },
+    platinum: { start: 1990, end: 2026 },
   }
 
   const assetInfo = {
@@ -172,6 +201,13 @@ export default function DeflationCalculatorPage() {
       color: "hsl(0 0% 20%)",
       mechanism: "Depleting Reserves",
       description: "Finite fossil fuel reserves with extraction challenges",
+    },
+    platinum: {
+      name: "Platinum",
+      icon: Gem,
+      color: "hsl(210 20% 85%)",
+      mechanism: "Rare Industrial Catalyst + Jewelry Demand",
+      description: "Rarer than gold with critical industrial applications in catalytic converters",
     },
   }
 
@@ -226,6 +262,16 @@ export default function DeflationCalculatorPage() {
     const finalValue = units * endPrice
     const growth = ((finalValue - initialAmount) / initialAmount) * 100
 
+    // Calculate CAGR (Compound Annual Growth Rate)
+    const years = Number.parseInt(endYear) - Number.parseInt(startYear)
+    const cagr = years > 0 ? (Math.pow(finalValue / initialAmount, 1 / years) - 1) * 100 : 0
+
+    // Calculate inflation-adjusted returns (approximate CPI: 3% annual average)
+    const avgInflationRate = 0.03 // 3% average annual inflation
+    const cumulativeInflation = Math.pow(1 + avgInflationRate, years)
+    const inflationAdjustedFinalValue = finalValue / cumulativeInflation
+    const inflationAdjustedGrowth = ((inflationAdjustedFinalValue - initialAmount) / initialAmount) * 100
+
     setCalculationResult({
       initialAmount,
       finalValue,
@@ -233,6 +279,10 @@ export default function DeflationCalculatorPage() {
       units,
       startPrice,
       endPrice,
+      cagr,
+      inflationAdjustedFinalValue,
+      inflationAdjustedGrowth,
+      years,
     })
   }
 
@@ -363,16 +413,18 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
   }, [selectedAsset, endYear])
 
   const comparisonData = [
-    { year: 2020, cash: 1000, bitcoin: 1000, gold: 1000, inflation: 1000 },
-    { year: 2021, cash: 950, bitcoin: 1620, gold: 1055, inflation: 920 },
-    { year: 2022, cash: 900, bitcoin: 570, gold: 1083, inflation: 840 },
-    { year: 2023, cash: 850, bitcoin: 1450, gold: 1111, inflation: 770 },
-    { year: 2024, cash: 800, bitcoin: 2310, gold: 1167, inflation: 700 },
+    { year: 2020, cash: 1000, bitcoin: 1000, gold: 1000, platinum: 1000, inflation: 1000 },
+    { year: 2021, cash: 950, bitcoin: 1620, gold: 1055, platinum: 1237, inflation: 920 },
+    { year: 2022, cash: 900, bitcoin: 570, gold: 1083, platinum: 1096, inflation: 840 },
+    { year: 2023, cash: 850, bitcoin: 1450, gold: 1111, platinum: 1040, inflation: 770 },
+    { year: 2024, cash: 800, bitcoin: 2310, gold: 1167, platinum: 1073, inflation: 700 },
+    { year: 2025, cash: 750, bitcoin: 3180, gold: 1189, platinum: 1107, inflation: 650 },
+    { year: 2026, cash: 700, bitcoin: 3390, gold: 1208, platinum: 1153, inflation: 600 },
   ]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900/20" style={{ contain: "layout style" }}>
-      <div className="container mx-auto px-4 py-24">
+      <div className="container mx-auto px-4 pt-40 pb-24">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
@@ -524,13 +576,41 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
                     </div>
 
                     <div className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-                      <span className="text-gray-900 dark:text-gray-100">Growth:</span>
+                      <span className="text-gray-900 dark:text-gray-100">Total Growth:</span>
                       <Badge
                         variant={calculationResult.growth > 0 ? "default" : "destructive"}
                         className="text-lg px-3 py-1"
                       >
                         {calculationResult.growth > 0 ? "+" : ""}
                         {calculationResult.growth?.toFixed(1) || "0"}%
+                      </Badge>
+                    </div>
+
+                    <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 rounded-lg border border-blue-200 dark:border-blue-700">
+                      <div className="flex flex-col">
+                        <span className="text-xs text-gray-600 dark:text-gray-400">Annual Return (CAGR)</span>
+                        <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                          {calculationResult.cagr?.toFixed(2) || "0"}% per year
+                        </span>
+                      </div>
+                      <Badge variant="secondary" className="text-xs">
+                        {calculationResult.years || 0} years
+                      </Badge>
+                    </div>
+
+                    <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-emerald-100 dark:from-green-900/30 dark:to-emerald-800/30 rounded-lg border border-green-200 dark:border-green-700">
+                      <div className="flex flex-col">
+                        <span className="text-xs text-gray-600 dark:text-gray-400">Inflation-Adjusted Value</span>
+                        <span className="text-sm font-semibold text-green-900 dark:text-green-100">
+                          ${calculationResult.inflationAdjustedFinalValue?.toLocaleString(undefined, { maximumFractionDigits: 0 }) || "0"}
+                        </span>
+                      </div>
+                      <Badge 
+                        variant={calculationResult.inflationAdjustedGrowth > 0 ? "default" : "secondary"}
+                        className="text-xs bg-green-600 hover:bg-green-700"
+                      >
+                        {calculationResult.inflationAdjustedGrowth > 0 ? "+" : ""}
+                        {calculationResult.inflationAdjustedGrowth?.toFixed(1) || "0"}%
                       </Badge>
                     </div>
 
@@ -584,6 +664,7 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
                     name="Bitcoin"
                   />
                   <Line type="monotone" dataKey="gold" stroke="hsl(45 93% 47%)" strokeWidth={3} name="Gold" />
+                  <Line type="monotone" dataKey="platinum" stroke="hsl(210 20% 65%)" strokeWidth={2} name="Platinum" />
                   <Line
                     type="monotone"
                     dataKey="cash"
@@ -602,21 +683,25 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="mt-6 grid grid-cols-2 md:grid-cols-5 gap-4">
               <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-purple-600">+131%</div>
+                <div className="text-2xl font-bold text-purple-600">+239%</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Bitcoin Growth</div>
               </div>
               <div className="text-center p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-yellow-600">+16.7%</div>
+                <div className="text-2xl font-bold text-yellow-600">+20.8%</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Gold Growth</div>
               </div>
+              <div className="text-center p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                <div className="text-2xl font-bold text-slate-600">+15.3%</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Platinum Growth</div>
+              </div>
               <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <div className="text-2xl font-bold text-gray-600">-20%</div>
+                <div className="text-2xl font-bold text-gray-600">-30%</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Cash (No Growth)</div>
               </div>
               <div className="text-center p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-red-600">-30%</div>
+                <div className="text-2xl font-bold text-red-600">-40%</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Cash (Inflation)</div>
               </div>
             </div>
@@ -670,7 +755,9 @@ The rise of digital deflationary assets represents a paradigm shift in how we th
                                         ? "85%"
                                         : key === "silver"
                                           ? "70%"
-                                          : "75%",
+                                          : key === "platinum"
+                                            ? "90%"
+                                            : "75%",
                               }}
                             ></div>
                           </div>
