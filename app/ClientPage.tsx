@@ -1752,7 +1752,7 @@ export default function ClientPage() {
                 <p className="text-gray-300 dark:text-gray-50 mb-6">
                   Track inflation across major world currencies with historical data from 1913 to {currentYear}.
                 </p>
-                <div className="flex gap-4">
+                <div className="flex gap-4 mb-8">
                   <a
                     href="https://www.youtube.com/@GlobalInflationCalculator"
                     target="_blank"
@@ -1786,6 +1786,19 @@ export default function ClientPage() {
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.244H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
                   </a>
+                </div>
+                <div className="mt-6">
+                  <h4 className="text-lg font-semibold mb-4">Related Tools</h4>
+                  <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                    <li>
+                      <Link
+                        href="/salary-calculator/regional-cost-of-living"
+                        className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                      >
+                        Regional Cost of Living
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
               </div>
               <div>
@@ -1844,14 +1857,6 @@ export default function ClientPage() {
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >
                       Salary Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/salary-calculator/regional-cost-of-living"
-                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
-                    >
-                      Regional Cost of Living
                     </Link>
                   </li>
                   <li>
