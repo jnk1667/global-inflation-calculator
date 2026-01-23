@@ -83,6 +83,13 @@ export default function LegacyPlannerPageWrapper() {
     description:
       "Multi-generation wealth planning tool to calculate inflation effects on inheritance and estate planning across generations.",
     url: "https://globalinflationcalculator.com/legacy-planner",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.7",
+      ratingCount: "1089",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",

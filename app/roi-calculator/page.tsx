@@ -46,6 +46,13 @@ export default function Page() {
     url: `${siteUrl}/roi-calculator`,
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: "1432",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",

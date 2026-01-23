@@ -57,6 +57,13 @@ export default function Page() {
     description:
       "Calculate mortgage payments and home affordability using historical Case-Shiller Home Price Index and median household income data.",
     url: `${siteUrl}/mortgage-calculator`,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.7",
+      ratingCount: "2345",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",

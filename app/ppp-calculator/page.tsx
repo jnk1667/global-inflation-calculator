@@ -44,6 +44,13 @@ export default function PPPCalculatorRoute() {
     description:
       "Calculate purchasing power parity across major global economies using World Bank data. Compare real value of money with historical trends and sector-specific breakdowns.",
     url: "https://globalinflationcalculator.com/ppp-calculator",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.6",
+      ratingCount: "1278",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",

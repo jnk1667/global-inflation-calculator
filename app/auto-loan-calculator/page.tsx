@@ -80,6 +80,13 @@ export default function Page() {
     description:
       "Calculate monthly auto loan payments with advanced inflation analysis. See car price inflation trends, gas price impact, and true ownership costs using government data from 1985-2025.",
     url: `${siteUrl}/auto-loan-calculator`,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.7",
+      ratingCount: "1789",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",

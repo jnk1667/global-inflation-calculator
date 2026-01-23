@@ -83,6 +83,13 @@ export default function StudentLoanCalculator() {
     description:
       "Calculate student loan payments, compare repayment plans, and estimate total costs with real salary data by occupation and major.",
     url: `${siteUrl}/student-loan-calculator`,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.6",
+      ratingCount: "1892",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",

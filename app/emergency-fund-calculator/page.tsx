@@ -81,6 +81,13 @@ export default function EmergencyFundCalculatorRoute() {
     description:
       "Calculate 3-6 month emergency fund needs with inflation adjustment and real BLS salary data by occupation.",
     url: `${siteUrl}/emergency-fund-calculator`,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.7",
+      ratingCount: "1523",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",

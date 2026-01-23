@@ -70,13 +70,6 @@ export default function AboutPage() {
     description:
       "Learn about Global Inflation Calculator's mission to provide accurate historical inflation data for free to everyone worldwide.",
     url: `${siteUrl}/about`,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      ratingCount: "823",
-      bestRating: "5",
-      worstRating: "1",
-    },
   }
 
   const breadcrumbSchema = {

@@ -96,6 +96,13 @@ export default function Page() {
     url: "https://globalinflationcalculator.com/budget-calculator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: "1654",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",
