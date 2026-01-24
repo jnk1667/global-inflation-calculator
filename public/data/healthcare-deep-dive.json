@@ -1,7 +1,7 @@
 {
   "description": "Healthcare Cost Deep Dive (1990-2025)",
   "sources": ["Bureau of Labor Statistics", "Centers for Medicare & Medicaid Services", "Kaiser Family Foundation"],
-  "lastUpdated": "2025-12-29",
+  "lastUpdated": "2026-01-24",
   "data": [
     {
       "year": 1990,
@@ -226,6 +226,86 @@
       "insurancePremium": 34525,
       "outOfPocket": 3295,
       "generalCPI": 248.5
+    },
+    {
+      "year": 2026,
+      "hospitalCPI": 925.2,
+      "prescriptionCPI": 625.8,
+      "insurancePremium": 36845,
+      "outOfPocket": 3452,
+      "generalCPI": 255.2
+    },
+    {
+      "year": 2027,
+      "hospitalCPI": 972.8,
+      "prescriptionCPI": 658.2,
+      "insurancePremium": 39125,
+      "outOfPocket": 3612,
+      "generalCPI": 261.8
+    },
+    {
+      "year": 2028,
+      "hospitalCPI": 1022.5,
+      "prescriptionCPI": 692.5,
+      "insurancePremium": 41452,
+      "outOfPocket": 3775,
+      "generalCPI": 268.5
+    },
+    {
+      "year": 2029,
+      "hospitalCPI": 1075.2,
+      "prescriptionCPI": 728.2,
+      "insurancePremium": 43825,
+      "outOfPocket": 3945,
+      "generalCPI": 275.2
+    },
+    {
+      "year": 2030,
+      "hospitalCPI": 1130.8,
+      "prescriptionCPI": 765.8,
+      "insurancePremium": 46245,
+      "outOfPocket": 4118,
+      "generalCPI": 282.1
+    },
+    {
+      "year": 2031,
+      "hospitalCPI": 1188.5,
+      "prescriptionCPI": 805.2,
+      "insurancePremium": 48715,
+      "outOfPocket": 4295,
+      "generalCPI": 289.2
+    },
+    {
+      "year": 2032,
+      "hospitalCPI": 1248.2,
+      "prescriptionCPI": 846.8,
+      "insurancePremium": 51235,
+      "outOfPocket": 4478,
+      "generalCPI": 296.5
+    },
+    {
+      "year": 2033,
+      "hospitalCPI": 1310.5,
+      "prescriptionCPI": 890.2,
+      "insurancePremium": 53805,
+      "outOfPocket": 4665,
+      "generalCPI": 304.0
+    },
+    {
+      "year": 2034,
+      "hospitalCPI": 1375.2,
+      "prescriptionCPI": 935.8,
+      "insurancePremium": 56425,
+      "outOfPocket": 4858,
+      "generalCPI": 311.8
+    },
+    {
+      "year": 2035,
+      "hospitalCPI": 1442.8,
+      "prescriptionCPI": 983.5,
+      "insurancePremium": 59095,
+      "outOfPocket": 5058,
+      "generalCPI": 319.8
     }
   ],
   "categoryBreakdown": [

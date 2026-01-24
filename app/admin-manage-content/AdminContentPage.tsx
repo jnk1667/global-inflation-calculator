@@ -56,6 +56,7 @@ interface Content {
   ppp_essay: string // Added ppp_essay
   auto_loan_essay: string
   regional_cost_of_living_essay: string // Add regional_cost_of_living_essay
+  insurance_inflation_essay: string
   student_loan_blog_title: string
   student_loan_blog_content: string
   student_loan_methodology: string
@@ -111,6 +112,7 @@ const AdminContentPage: React.FC = () => {
     ppp_essay: "", // Initialized ppp_essay field
     auto_loan_essay: "",
     regional_cost_of_living_essay: "", // Initialize regional_cost_of_living_essay
+    insurance_inflation_essay: "",
     student_loan_blog_title: "Understanding Student Loans in an Inflationary Economy: A Comprehensive Guide",
     student_loan_blog_content: "",
     student_loan_methodology: "",
@@ -340,6 +342,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
         ppp_essay: contentMap["ppp_essay"] || "", // Load ppp_essay
         auto_loan_essay: contentMap["auto_loan_essay"] || "",
         regional_cost_of_living_essay: contentMap["regional_cost_of_living_essay"] || "", // Load regional_cost_of_living_essay
+        insurance_inflation_essay: contentMap["insurance_inflation_essay"] || "",
         student_loan_blog_title: contentMap["student_loan_blog_title"] || "",
         student_loan_blog_content: contentMap["student_loan_blog_content"] || "",
         student_loan_methodology: contentMap["student_loan_methodology"] || "",
@@ -1152,6 +1155,30 @@ The key to successful multi-generational wealth planning lies in balancing growt
                 >
                   <Save className="w-4 h-4 mr-2" />
                   {saving ? "Saving..." : "Save Regional Cost of Living Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Insurance Inflation Calculator Essay */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Insurance Inflation Calculator Essay</CardTitle>
+                <CardDescription>Educational content for the insurance inflation calculator page</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.insurance_inflation_essay}
+                  onChange={(e) => setContent({ ...content, insurance_inflation_essay: e.target.value })}
+                  rows={15}
+                  placeholder="Enter insurance inflation calculator essay content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("insurance_inflation_essay", content.insurance_inflation_essay)}
+                  disabled={saving}
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  {saving ? "Saving..." : "Save Insurance Inflation Essay"}
                 </Button>
               </CardContent>
             </Card>

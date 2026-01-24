@@ -1,0 +1,201 @@
+{
+  "description": "Insurance Calculator Data - Age multipliers, family size adjustments, state variations, and plan types",
+  "lastUpdated": "2026-01-24",
+  "sources": ["Centers for Medicare & Medicaid Services", "Kaiser Family Foundation", "Healthcare.gov", "Department of Health & Human Services"],
+  
+  "ageMultipliers": {
+    "description": "Premium multipliers by age relative to 40-year-old baseline (1.0)",
+    "baselineAge": 40,
+    "data": {
+      "18": 0.65,
+      "19": 0.67,
+      "20": 0.69,
+      "21": 0.71,
+      "22": 0.73,
+      "23": 0.75,
+      "24": 0.77,
+      "25": 0.79,
+      "26": 0.81,
+      "27": 0.83,
+      "28": 0.85,
+      "29": 0.87,
+      "30": 0.89,
+      "31": 0.91,
+      "32": 0.93,
+      "33": 0.95,
+      "34": 0.97,
+      "35": 0.99,
+      "36": 1.01,
+      "37": 1.03,
+      "38": 1.05,
+      "39": 1.02,
+      "40": 1.0,
+      "41": 1.02,
+      "42": 1.05,
+      "43": 1.08,
+      "44": 1.11,
+      "45": 1.15,
+      "46": 1.19,
+      "47": 1.23,
+      "48": 1.28,
+      "49": 1.33,
+      "50": 1.38,
+      "51": 1.44,
+      "52": 1.50,
+      "53": 1.57,
+      "54": 1.64,
+      "55": 1.72,
+      "56": 1.80,
+      "57": 1.89,
+      "58": 1.99,
+      "59": 2.09,
+      "60": 2.20,
+      "61": 2.32,
+      "62": 2.45,
+      "63": 2.59,
+      "64": 2.74
+    }
+  },
+
+  "familySizeMultipliers": {
+    "description": "Premium adjustments based on family composition",
+    "baselineType": "Individual",
+    "data": {
+      "Individual": 1.0,
+      "Individual+Spouse": 1.85,
+      "Individual+1Child": 1.65,
+      "Individual+2Children": 2.15,
+      "Individual+3orMore": 2.65,
+      "Family of 4": 2.85,
+      "Family of 5+": 3.25
+    }
+  },
+
+  "planTypeMultipliers": {
+    "description": "Premium multipliers by ACA marketplace plan tier (relative to Silver)",
+    "baselinePlan": "Silver",
+    "metalLevels": {
+      "Catastrophic": 0.55,
+      "Bronze": 0.80,
+      "Silver": 1.0,
+      "Gold": 1.25,
+      "Platinum": 1.55
+    },
+    "metalDescriptions": {
+      "Catastrophic": "Lowest premium, highest out-of-pocket. Covers 10% of costs. For healthy individuals under 30 or exempt.",
+      "Bronze": "Lower premium, medium out-of-pocket. Covers 60% of costs. Deductible $6,700-$13,400.",
+      "Silver": "Mid-tier premium and costs. Covers 70% of costs. Deductible $4,500-$9,100. Most popular choice.",
+      "Gold": "Higher premium, lower out-of-pocket. Covers 80% of costs. Deductible $2,300-$4,600.",
+      "Platinum": "Highest premium, lowest out-of-pocket. Covers 90% of costs. Deductible $0-$2,300."
+    }
+  },
+
+  "statePremiumVariations": {
+    "description": "2025 average monthly individual Silver plan premiums by state (before subsidies)",
+    "baselineState": "National Average",
+    "nationalAverage": 438,
+    "data": {
+      "Alabama": 425,
+      "Alaska": 895,
+      "Arizona": 412,
+      "Arkansas": 418,
+      "California": 385,
+      "Colorado": 398,
+      "Connecticut": 445,
+      "Delaware": 455,
+      "DC": 468,
+      "Florida": 428,
+      "Georgia": 435,
+      "Hawaii": 485,
+      "Idaho": 405,
+      "Illinois": 422,
+      "Indiana": 415,
+      "Iowa": 398,
+      "Kansas": 402,
+      "Kentucky": 408,
+      "Louisiana": 445,
+      "Maine": 455,
+      "Maryland": 438,
+      "Massachusetts": 462,
+      "Michigan": 425,
+      "Minnesota": 418,
+      "Mississippi": 438,
+      "Missouri": 425,
+      "Montana": 412,
+      "Nebraska": 395,
+      "Nevada": 422,
+      "NewHampshire": 458,
+      "NewJersey": 448,
+      "NewMexico": 398,
+      "NewYork": 425,
+      "NorthCarolina": 428,
+      "NorthDakota": 388,
+      "Ohio": 420,
+      "Oklahoma": 412,
+      "Oregon": 402,
+      "Pennsylvania": 435,
+      "RhodeIsland": 452,
+      "SouthCarolina": 432,
+      "SouthDakota": 392,
+      "Tennessee": 428,
+      "Texas": 405,
+      "Utah": 368,
+      "Vermont": 495,
+      "Virginia": 432,
+      "Washington": 388,
+      "WestVirginia": 422,
+      "Wisconsin": 408,
+      "Wyoming": 398
+    }
+  },
+
+  "smokingMultiplier": 1.50,
+  "smokingDescription": "Non-smokers vs smokers: tobacco use increases premiums by 50%",
+
+  "employerCoverageComparison": {
+    "description": "Average monthly premiums by source of coverage (2025 data)",
+    "individual": 438,
+    "employerSponsoredIndividual": 185,
+    "employerSponsoredFamily": 560,
+    "medicaid": 0,
+    "medicare": "Varies by plan, typically Part B $165-$560"
+  },
+
+  "subsidyEligibility": {
+    "description": "Federal subsidy thresholds (2026)",
+    "incomeLimits": {
+      "100pctFPL": "100% Federal Poverty Level",
+      "150pctFPL": "150% - Modest subsidies begin",
+      "200pctFPL": "200% - Full subsidies available",
+      "400pctFPL": "400% - Most subsidies phase out"
+    },
+    "2026FederalPovertyLevel": {
+      "individual": 15060,
+      "familyOf2": 20440,
+      "familyOf3": 25820,
+      "familyOf4": 31200,
+      "familyOf5": 36580,
+      "familyOf6": 41960
+    }
+  },
+
+  "historicalPremiumGrowth": {
+    "description": "Year-over-year premium growth rates",
+    "2020_2021": 0.045,
+    "2021_2022": 0.068,
+    "2022_2023": 0.054,
+    "2023_2024": 0.054,
+    "2024_2025": 0.063,
+    "2025_2026": 0.067,
+    "averageAnnualGrowth": 0.058
+  },
+
+  "projectionAssumptions": {
+    "description": "Assumptions used for premium projections",
+    "baselineInflationRate": 0.027,
+    "medicalInflationRate": 0.054,
+    "agingAdjustment": "Increases 2% per year",
+    "policyRenewals": "Assumes continuous same-plan coverage with annual rate adjustments",
+    "subsidyAssumption": "Pre-subsidy amounts shown; eligible individuals receive federal assistance"
+  }
+}
