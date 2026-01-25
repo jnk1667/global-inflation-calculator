@@ -1,0 +1,111 @@
+{
+  "country": "Switzerland",
+  "currency": "CHF",
+  "lastUpdated": "2026-01-25",
+  "dataSource": "FOPH (Bundesamt für Gesundheit), Canton Basel-Stadt Data",
+  "medicalInflationRate": 4.5,
+  "ageMultipliers": {
+    "description": "Age-based premium multipliers - Swiss flat-rate by age band",
+    "data": {
+      "0": 0.2,
+      "1": 0.2,
+      "16": 0.25,
+      "19": 1.0,
+      "26": 1.0,
+      "46": 1.1,
+      "56": 1.2,
+      "66": 1.3
+    }
+  },
+  "familySizeMultipliers": {
+    "description": "Family discounts in Swiss health insurance (no family plans - individual policies)",
+    "data": {
+      "Individual": 1.0,
+      "Individual+Spouse": 2.0,
+      "Individual+1Child": 1.25,
+      "Individual+2Children": 1.5,
+      "Individual+3orMore": 1.75,
+      "Family of 4": 1.6,
+      "Family of 5+": 2.0
+    }
+  },
+  "smokingMultiplier": 1.0,
+  "smokerSurchargePercent": 0,
+  "basePremiums": {
+    "annual": {
+      "single": 4400,
+      "adult26": 6348,
+      "youngAdult1925": 4546,
+      "child": 1723
+    },
+    "monthly": {
+      "single": 367,
+      "adult26": 529,
+      "youngAdult1925": 379,
+      "child": 143.5
+    }
+  },
+  "cantons": {
+    "description": "Canton-based premium variations (example: Basel-Stadt 2025)",
+    "data": {
+      "BaselStadt": 1.04,
+      "Zurich": 1.1,
+      "Geneva": 1.15,
+      "Bern": 0.98,
+      "Lucerne": 1.0,
+      "St. Gallen": 0.95,
+      "Appenzell": 0.88,
+      "Graubunden": 0.92,
+      "Ticino": 1.05,
+      "Valais": 1.0,
+      "Vaud": 1.08,
+      "Uri": 0.85
+    }
+  },
+  "insurerOptions": {
+    "description": "Major Swiss insurers (example from Basel-Stadt 2025)",
+    "data": [
+      { "name": "Helsana", "adultPremium": 657 },
+      { "name": "Concordia", "adultPremium": 677.50 },
+      { "name": "SWICA", "adultPremium": 709.60 },
+      { "name": "CSS", "adultPremium": 677 },
+      { "name": "Avenir", "adultPremium": 674.60 },
+      { "name": "Vivao Sympany", "adultPremium": 652 },
+      { "name": "KPT/CPT", "adultPremium": 697.80 },
+      { "name": "Atupri", "adultPremium": 678.60 }
+    ]
+  },
+  "planTypes": {
+    "description": "Model types in Swiss insurance (franchise/deductible based)",
+    "data": {
+      "Franchise300": 1.0,
+      "Franchise1500": 0.9,
+      "Franchise2500": 0.82,
+      "HMO": 0.85,
+      "Hausarzt": 0.88
+    }
+  },
+  "historicalPremiums": {
+    "description": "Historical average annual premiums in CHF (adult)",
+    "data": [
+      { "year": 2010, "annualPremium": 3200 },
+      { "year": 2015, "annualPremium": 4100 },
+      { "year": 2020, "annualPremium": 5200 },
+      { "year": 2023, "annualPremium": 6100 },
+      { "year": 2024, "annualPremium": 6200 },
+      { "year": 2025, "annualPremium": 6348 }
+    ]
+  },
+  "mandatoryInsurance": {
+    "description": "Swiss healthcare context",
+    "mandatory": true,
+    "type": "Universal mandatory private insurance"
+  },
+  "healthcareSystem": {
+    "description": "Swiss healthcare context",
+    "type": "Mandatory Private Insurance",
+    "publicCoverage": false,
+    "privateRequired": true,
+    "notes": "All residents must have basic health insurance; high quality, world-leading system"
+  }
+}

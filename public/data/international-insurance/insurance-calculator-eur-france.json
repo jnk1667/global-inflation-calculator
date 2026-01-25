@@ -1,0 +1,68 @@
+{
+  "country": "France",
+  "currency": "EUR",
+  "region": "France",
+  "lastUpdated": "2026-01-25",
+  "dataSource": "SNCF Mutuelle, Sécurité Sociale, French Insurance Federation",
+  "medicalInflationRate": 3.5,
+  "systemType": "Mandatory Public + Supplemental",
+  "basePremiums": {
+    "annual": {
+      "description": "Supplemental mutuelle insurance (top-up to social security)",
+      "note": "Wide range based on coverage level and age"
+    },
+    "ranges": {
+      "basic": { "min": 300, "max": 600 },
+      "standard": { "min": 600, "max": 1200 },
+      "comprehensive": { "min": 1200, "max": 2000 }
+    }
+  },
+  "medicalInflationTrend": {
+    "description": "French health insurance premium increases 2024-2025",
+    "data": [
+      { "type": "Personal Policies", "increase": 5.3 },
+      { "type": "Employee Policies", "increase": 7.3 },
+      { "type": "Average Mutuelle", "increase": 6.0 }
+    ]
+  },
+  "ageImpact": {
+    "description": "Age considerations in French supplemental insurance",
+    "note": "Costs typically increase with age, but amounts vary by insurer"
+  },
+  "familySizeMultipliers": {
+    "description": "Family coverage structure in French supplemental insurance",
+    "data": {
+      "Individual": 1.0,
+      "Couple": 1.6,
+      "Family": 2.2
+    }
+  },
+  "smokerSurcharge": 0,
+  "majorMutelles": {
+    "description": "Major supplemental insurance providers in France",
+    "data": [
+      { "name": "SNCF Mutuelle", "focus": "SNCF employees" },
+      { "name": "Malakoff Humanis", "focus": "Large employer" },
+      { "name": "MNT", "focus": "National mutual" },
+      { "name": "Axa", "focus": "Private insurance" },
+      { "name": "Allianz", "focus": "Private insurance" }
+    ]
+  },
+  "historicalPremiums": {
+    "description": "Historical trends in French supplemental insurance (estimated)",
+    "data": [
+      { "year": 2010, "avgAnnual": 500 },
+      { "year": 2015, "avgAnnual": 700 },
+      { "year": 2020, "avgAnnual": 900 },
+      { "year": 2024, "avgAnnual": 1050 },
+      { "year": 2025, "avgAnnual": 1113 }
+    ]
+  },
+  "healthcareSystem": {
+    "type": "Universal Public System + Supplemental Insurance",
+    "public": true,
+    "mandatory": false,
+    "supplementalRecommended": true,
+    "notes": "Sécurité Sociale covers 70-80%; supplemental mutuelle covers gaps"
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "lastUpdated": "2026-01-25",
+  "title": "International Health Insurance Calculator Data",
+  "description": "Comprehensive health insurance premium and medical inflation data for 8 currencies across 10+ regions",
+  "currencies": [
+    {
+      "code": "USD",
+      "country": "United States",
+      "dataFile": "insurance-calculator.json (main)",
+      "coverage": "50 states + DC",
+      "dataSource": "CMS, KFF, FRED, BLS",
+      "medicalInflationRate": 5.4,
+      "completeness": "Complete"
+    },
+    {
+      "code": "GBP",
+      "country": "United Kingdom",
+      "dataFile": "insurance-calculator-gbp.json",
+      "coverage": "National + 8 regions",
+      "dataSource": "Bupa, Aviva, ABI, ONS",
+      "medicalInflationRate": 4.1,
+      "completeness": "Moderate"
+    },
+    {
+      "code": "CAD",
+      "country": "Canada",
+      "dataFile": "insurance-calculator-cad.json",
+      "coverage": "National + provinces",
+      "dataSource": "CLHIA, Statistics Canada",
+      "medicalInflationRate": 6.2,
+      "completeness": "Moderate"
+    },
+    {
+      "code": "AUD",
+      "country": "Australia",
+      "dataFile": "insurance-calculator-aud.json",
+      "coverage": "National + 8 states",
+      "dataSource": "APRA, PrivateHealth.gov.au",
+      "medicalInflationRate": 5.8,
+      "completeness": "Complete"
+    },
+    {
+      "code": "CHF",
+      "country": "Switzerland",
+      "dataFile": "insurance-calculator-chf.json",
+      "coverage": "National + cantons",
+      "dataSource": "FOPH, Basel-Stadt Data",
+      "medicalInflationRate": 4.5,
+      "completeness": "Complete"
+    },
+    {
+      "code": "EUR",
+      "country": "Euro Zone (Multiple)",
+      "dataFiles": [
+        "insurance-calculator-eur-germany.json",
+        "insurance-calculator-eur-france.json"
+      ],
+      "coverage": "Germany, France (expandable)",
+      "dataSource": "National Statistical Offices, Insurance Associations",
+      "medicalInflationRate": "3.5-3.8 (varies by country)",
+      "completeness": "Moderate"
+    },
+    {
+      "code": "JPY",
+      "country": "Japan",
+      "dataFile": "insurance-calculator-jpy.json",
+      "coverage": "National",
+      "dataSource": "MHLW, Shakaihoken",
+      "medicalInflationRate": 2.8,
+      "completeness": "Simplified"
+    },
+    {
+      "code": "NZD",
+      "country": "New Zealand",
+      "dataFile": "insurance-calculator-nzd.json",
+      "coverage": "National",
+      "dataSource": "PrivateHealth.gov.nz, UniMed, Southern Cross",
+      "medicalInflationRate": 5.5,
+      "completeness": "Moderate"
+    }
+  ],
+  "dataQuality": {
+    "USD": {
+      "ageMultipliers": "Precise CMS data",
+      "familyMultipliers": "Precise marketplace data",
+      "planTypes": "Standardized ACA tiers",
+      "regionalVariations": "50 states + DC with precise rates",
+      "status": "Production Ready"
+    },
+    "GBP": {
+      "ageMultipliers": "Insurer comparison data (Bupa, Aviva)",
+      "familyMultipliers": "Estimated from policy structures",
+      "planTypes": "4-tier system (Basic-Comprehensive)",
+      "regionalVariations": "8 regions estimated",
+      "status": "Good"
+    },
+    "CAD": {
+      "ageMultipliers": "Estimated from industry data",
+      "familyMultipliers": "From CLHIA reports",
+      "planTypes": "4-tier system",
+      "regionalVariations": "8 provinces",
+      "status": "Good"
+    },
+    "AUD": {
+      "ageMultipliers": "APRA 2% annual loading standard",
+      "familyMultipliers": "Industry standard",
+      "planTypes": "Gold/Silver/Bronze tiers",
+      "regionalVariations": "8 states + territories",
+      "status": "Production Ready"
+    },
+    "CHF": {
+      "ageMultipliers": "FOPH published age bands",
+      "familyMultipliers": "Individual policies (no family plans)",
+      "planTypes": "Franchise-based model",
+      "regionalVariations": "26 cantons with published rates",
+      "status": "Production Ready"
+    },
+    "EUR": {
+      "Germany": {
+        "ageMultipliers": "Not applicable (income-based)",
+        "familyMultipliers": "Statutory coverage structure",
+        "planTypes": "Risk equalization (no tiers)",
+        "status": "Good - but simplified model"
+      },
+      "France": {
+        "ageMultipliers": "Estimated from mutuelle data",
+        "familyMultipliers": "3-tier coverage",
+        "planTypes": "3-tier supplemental model",
+        "status": "Good"
+      }
+    },
+    "JPY": {
+      "incomeMultipliers": "MHLW documented rates",
+      "ageConsiderations": "Long-term care insurance at 40+",
+      "familyStructure": "Insured + dependents",
+      "status": "Simplified - unique income-based model"
+    },
+    "NZD": {
+      "ageMultipliers": "Industry standard ratios",
+      "familyMultipliers": "Common discount structure",
+      "planTypes": "4-tier system",
+      "status": "Good"
+    }
+  },
+  "dataGaps": {
+    "description": "Known limitations and gaps in international data",
+    "critical": [
+      "EUR system varies dramatically by country - France, Germany, Italy, Spain all different",
+      "JPY system is income-based, not age-based - requires different calculator logic",
+      "Pre-existing condition loading data not available for most countries",
+      "Health status adjustments vary by insurer/country - hard to standardize"
+    ],
+    "moderate": [
+      "Age multipliers for UK/CAD are estimates from insurer websites",
+      "Family multiplier ranges may vary significantly within countries",
+      "Regional variations for EUR countries not fully mapped",
+      "Historical data only goes back 10-15 years for some countries"
+    ],
+    "minor": [
+      "Smoking surcharge not tracked in most European systems",
+      "Discount structures for multi-policy holders vary",
+      "Waiting period impacts not quantified"
+    ]
+  },
+  "updateSchedule": {
+    "frequency": "Quarterly (or annual minimum)",
+    "sources": {
+      "USA": "CMS/KFF quarterly updates",
+      "UK": "Insurer websites + ABI reports (annual)",
+      "Canada": "CLHIA annual facts (annual)",
+      "Australia": "APRA quarterly reports",
+      "Switzerland": "FOPH annual cantonal rates",
+      "Germany": "Krankenkassen annual rates (January)",
+      "France": "SNCF/Mutuelle reports (January)",
+      "Japan": "MHLW annual updates",
+      "NZ": "Insurer reports (January/August)"
+    }
+  },
+  "implementationNotes": {
+    "tier1Full": ["USD", "AUD", "CHF"],
+    "tier2Moderate": ["GBP", "CAD", "NZD"],
+    "tier3Simplified": ["EUR (Germany/France)", "JPY"],
+    "tier3Notes": "EUR requires country selection within EUR; JPY needs different calculator logic (income-based not age-based)"
+  },
+  "nextSteps": [
+    "Implement currency/country selector in UI",
+    "Load appropriate JSON based on currency selection",
+    "Update calculateProjection() function to handle country-specific multiplier structures",
+    "Add disclaimers about data quality and update dates",
+    "Create regional/state selectors for countries with variations",
+    "Handle JPY and EUR specially (income-based vs. statutory systems)"
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "country": "Japan",
+  "currency": "JPY",
+  "lastUpdated": "2026-01-25",
+  "dataSource": "MHLW (Ministry of Health, Labour and Welfare), Shakaihoken",
+  "medicalInflationRate": 2.8,
+  "systemType": "Mandatory Social Insurance (Income-Based)",
+  "basePremiums": {
+    "description": "Japanese health insurance is income-based, not age-based",
+    "calculation": "Standard monthly compensation × Insurance premium rate (typically 4-7%)"
+  },
+  "incomeBasedMultipliers": {
+    "description": "Insurance premiums vary by income bracket (Shakaihoken)",
+    "data": {
+      "incomeLevel1": { "bracket": "Up to ¥580,000/month", "rate": 0.04 },
+      "incomeLevel2": { "bracket": "¥580,000-¥900,000/month", "rate": 0.05 },
+      "incomeLevel3": { "bracket": "¥900,000-¥1,300,000/month", "rate": 0.06 },
+      "incomeLevel4": { "bracket": "¥1,300,000+/month", "rate": 0.07 }
+    }
+  },
+  "ageConsiderations": {
+    "description": "Japanese system treats age differently",
+    "under40": "Standard health insurance premium (4-7% income)",
+    "age4064": "Includes long-term care insurance (0.5-1% income added)",
+    "age65plus": "Senior-specific insurance with different contribution structure"
+  },
+  "familyCoverage": {
+    "description": "Japanese family structure in health insurance",
+    "insuredAndDependents": "Insured person pays; dependents covered free"
+  },
+  "majorSystems": {
+    "description": "Types of health insurance in Japan",
+    "data": [
+      {
+        "type": "Shakaihoken",
+        "coverage": "Employees and employers (50/50 split)"
+      },
+      {
+        "type": "Kokumin Kenko Hoken",
+        "coverage": "Self-employed, unemployed, farmers"
+      },
+      {
+        "type": "Koukuren",
+        "coverage": "Government employees"
+      }
+    ]
+  },
+  "medicalCoverageRate": {
+    "description": "Japanese insurance covers 70% of medical costs",
+    "percentage": 70,
+    "outOfPocket": 30
+  },
+  "historicalContributions": {
+    "description": "Historical contribution rates in Japan",
+    "data": [
+      { "year": 2010, "avgRate": 0.042 },
+      { "year": 2015, "avgRate": 0.048 },
+      { "year": 2020, "avgRate": 0.053 },
+      { "year": 2024, "avgRate": 0.058 },
+      { "year": 2025, "avgRate": 0.059 }
+    ]
+  },
+  "healthcareSystem": {
+    "type": "Universal Mandatory Income-Based System",
+    "public": true,
+    "mandatory": true,
+    "notes": "All residents must have insurance; age NOT primary factor, income is"
+  }
+}
