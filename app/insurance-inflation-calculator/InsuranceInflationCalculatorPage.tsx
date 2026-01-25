@@ -42,7 +42,7 @@ export default function InsuranceInflationCalculatorPage() {
   const [currentPremium, setCurrentPremium] = useState("300")
   const [familySize, setFamilySize] = useState("individual")
   const [planType, setPlanType] = useState("silver")
-  const [state, setState] = useState("CA")
+  const [state, setState] = useState("California")
   const [yearsProjected, setYearsProjected] = useState("10")
   const [smoking, setSmoking] = useState("no")
 
@@ -107,16 +107,27 @@ export default function InsuranceInflationCalculatorPage() {
     const years = Number.parseInt(yearsProjected)
 
     // Get age multiplier
-    const ageMultiplier = insuranceData.ageMultipliers[age.toString()] || 1.0
+    const ageMultiplier = insuranceData.ageMultipliers.data[age.toString()] || 1.0
 
-    // Get family size multiplier
-    const familyMultiplier = insuranceData.familySizeMultipliers[familySize] || 1.0
+    // Get family size multiplier - handle different family size values
+    let familyKey = familySize
+    if (familySize === "individual") familyKey = "Individual"
+    else if (familySize === "individual+spouse") familyKey = "Individual+Spouse"
+    else if (familySize === "individual+1child") familyKey = "Individual+1Child"
+    else if (familySize === "individual+2children") familyKey = "Individual+2Children"
+    else if (familySize === "individual+3plus") familyKey = "Individual+3orMore"
+    else if (familySize === "family4") familyKey = "Family of 4"
+    else if (familySize === "family5plus") familyKey = "Family of 5+"
+
+    const familyMultiplier = insuranceData.familySizeMultipliers.data[familyKey] || 1.0
 
     // Get plan tier multiplier
-    const planMultiplier = insuranceData.planTierMultipliers[planType] || 1.0
+    let planKey = planType.charAt(0).toUpperCase() + planType.slice(1).toLowerCase()
+    const planMultiplier = insuranceData.planTypeMultipliers.metalLevels[planKey] || 1.0
 
-    // Get state multiplier
-    const stateMultiplier = insuranceData.stateVariations[state]?.relativeMultiplier || 1.0
+    // Get state multiplier - calculate relative to national average
+    const statePremium = insuranceData.statePremiumVariations.data[state] || 438
+    const stateMultiplier = statePremium / insuranceData.statePremiumVariations.nationalAverage
 
     // Get smoking surcharge
     const smokingMultiplier = smoking === "yes" ? 1.5 : 1.0
@@ -236,10 +247,12 @@ export default function InsuranceInflationCalculatorPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="individual">Individual</SelectItem>
-                    <SelectItem value="couple">Couple (2 people)</SelectItem>
-                    <SelectItem value="family-3">Family (3 people)</SelectItem>
-                    <SelectItem value="family-4">Family (4 people)</SelectItem>
-                    <SelectItem value="family-5plus">Family (5+ people)</SelectItem>
+                    <SelectItem value="individual+spouse">Individual + Spouse</SelectItem>
+                    <SelectItem value="individual+1child">Individual + 1 Child</SelectItem>
+                    <SelectItem value="individual+2children">Individual + 2 Children</SelectItem>
+                    <SelectItem value="individual+3plus">Individual + 3+ Children</SelectItem>
+                    <SelectItem value="family4">Family of 4</SelectItem>
+                    <SelectItem value="family5plus">Family of 5+</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -267,56 +280,57 @@ export default function InsuranceInflationCalculatorPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="AL">Alabama</SelectItem>
-                    <SelectItem value="AK">Alaska</SelectItem>
-                    <SelectItem value="AZ">Arizona</SelectItem>
-                    <SelectItem value="AR">Arkansas</SelectItem>
-                    <SelectItem value="CA">California</SelectItem>
-                    <SelectItem value="CO">Colorado</SelectItem>
-                    <SelectItem value="CT">Connecticut</SelectItem>
-                    <SelectItem value="DE">Delaware</SelectItem>
-                    <SelectItem value="FL">Florida</SelectItem>
-                    <SelectItem value="GA">Georgia</SelectItem>
-                    <SelectItem value="HI">Hawaii</SelectItem>
-                    <SelectItem value="ID">Idaho</SelectItem>
-                    <SelectItem value="IL">Illinois</SelectItem>
-                    <SelectItem value="IN">Indiana</SelectItem>
-                    <SelectItem value="IA">Iowa</SelectItem>
-                    <SelectItem value="KS">Kansas</SelectItem>
-                    <SelectItem value="KY">Kentucky</SelectItem>
-                    <SelectItem value="LA">Louisiana</SelectItem>
-                    <SelectItem value="ME">Maine</SelectItem>
-                    <SelectItem value="MD">Maryland</SelectItem>
-                    <SelectItem value="MA">Massachusetts</SelectItem>
-                    <SelectItem value="MI">Michigan</SelectItem>
-                    <SelectItem value="MN">Minnesota</SelectItem>
-                    <SelectItem value="MS">Mississippi</SelectItem>
-                    <SelectItem value="MO">Missouri</SelectItem>
-                    <SelectItem value="MT">Montana</SelectItem>
-                    <SelectItem value="NE">Nebraska</SelectItem>
-                    <SelectItem value="NV">Nevada</SelectItem>
-                    <SelectItem value="NH">New Hampshire</SelectItem>
-                    <SelectItem value="NJ">New Jersey</SelectItem>
-                    <SelectItem value="NM">New Mexico</SelectItem>
-                    <SelectItem value="NY">New York</SelectItem>
-                    <SelectItem value="NC">North Carolina</SelectItem>
-                    <SelectItem value="ND">North Dakota</SelectItem>
-                    <SelectItem value="OH">Ohio</SelectItem>
-                    <SelectItem value="OK">Oklahoma</SelectItem>
-                    <SelectItem value="OR">Oregon</SelectItem>
-                    <SelectItem value="PA">Pennsylvania</SelectItem>
-                    <SelectItem value="RI">Rhode Island</SelectItem>
-                    <SelectItem value="SC">South Carolina</SelectItem>
-                    <SelectItem value="SD">South Dakota</SelectItem>
-                    <SelectItem value="TN">Tennessee</SelectItem>
-                    <SelectItem value="TX">Texas</SelectItem>
-                    <SelectItem value="UT">Utah</SelectItem>
-                    <SelectItem value="VT">Vermont</SelectItem>
-                    <SelectItem value="VA">Virginia</SelectItem>
-                    <SelectItem value="WA">Washington</SelectItem>
-                    <SelectItem value="WV">West Virginia</SelectItem>
-                    <SelectItem value="WI">Wisconsin</SelectItem>
-                    <SelectItem value="WY">Wyoming</SelectItem>
+                    <SelectItem value="Alabama">Alabama</SelectItem>
+                    <SelectItem value="Alaska">Alaska</SelectItem>
+                    <SelectItem value="Arizona">Arizona</SelectItem>
+                    <SelectItem value="Arkansas">Arkansas</SelectItem>
+                    <SelectItem value="California">California</SelectItem>
+                    <SelectItem value="Colorado">Colorado</SelectItem>
+                    <SelectItem value="Connecticut">Connecticut</SelectItem>
+                    <SelectItem value="Delaware">Delaware</SelectItem>
+                    <SelectItem value="Florida">Florida</SelectItem>
+                    <SelectItem value="Georgia">Georgia</SelectItem>
+                    <SelectItem value="Hawaii">Hawaii</SelectItem>
+                    <SelectItem value="Idaho">Idaho</SelectItem>
+                    <SelectItem value="Illinois">Illinois</SelectItem>
+                    <SelectItem value="Indiana">Indiana</SelectItem>
+                    <SelectItem value="Iowa">Iowa</SelectItem>
+                    <SelectItem value="Kansas">Kansas</SelectItem>
+                    <SelectItem value="Kentucky">Kentucky</SelectItem>
+                    <SelectItem value="Louisiana">Louisiana</SelectItem>
+                    <SelectItem value="Maine">Maine</SelectItem>
+                    <SelectItem value="Maryland">Maryland</SelectItem>
+                    <SelectItem value="Massachusetts">Massachusetts</SelectItem>
+                    <SelectItem value="Michigan">Michigan</SelectItem>
+                    <SelectItem value="Minnesota">Minnesota</SelectItem>
+                    <SelectItem value="Mississippi">Mississippi</SelectItem>
+                    <SelectItem value="Missouri">Missouri</SelectItem>
+                    <SelectItem value="Montana">Montana</SelectItem>
+                    <SelectItem value="Nebraska">Nebraska</SelectItem>
+                    <SelectItem value="Nevada">Nevada</SelectItem>
+                    <SelectItem value="New Hampshire">New Hampshire</SelectItem>
+                    <SelectItem value="New Jersey">New Jersey</SelectItem>
+                    <SelectItem value="New Mexico">New Mexico</SelectItem>
+                    <SelectItem value="New York">New York</SelectItem>
+                    <SelectItem value="North Carolina">North Carolina</SelectItem>
+                    <SelectItem value="North Dakota">North Dakota</SelectItem>
+                    <SelectItem value="Ohio">Ohio</SelectItem>
+                    <SelectItem value="Oklahoma">Oklahoma</SelectItem>
+                    <SelectItem value="Oregon">Oregon</SelectItem>
+                    <SelectItem value="Pennsylvania">Pennsylvania</SelectItem>
+                    <SelectItem value="Rhode Island">Rhode Island</SelectItem>
+                    <SelectItem value="South Carolina">South Carolina</SelectItem>
+                    <SelectItem value="South Dakota">South Dakota</SelectItem>
+                    <SelectItem value="Tennessee">Tennessee</SelectItem>
+                    <SelectItem value="Texas">Texas</SelectItem>
+                    <SelectItem value="Utah">Utah</SelectItem>
+                    <SelectItem value="Vermont">Vermont</SelectItem>
+                    <SelectItem value="Virginia">Virginia</SelectItem>
+                    <SelectItem value="Washington">Washington</SelectItem>
+                    <SelectItem value="West Virginia">West Virginia</SelectItem>
+                    <SelectItem value="Wisconsin">Wisconsin</SelectItem>
+                    <SelectItem value="Wyoming">Wyoming</SelectItem>
+                    <SelectItem value="DC">Washington D.C.</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
