@@ -132,8 +132,14 @@ export default function InsuranceInflationCalculatorPage() {
     // Get smoking surcharge
     const smokingMultiplier = smoking === "yes" ? 1.5 : 1.0
 
-    // Base current premium with all multipliers
-    const adjustedCurrentPremium = premium * ageMultiplier * familyMultiplier * planMultiplier * smokingMultiplier
+    // Calculate combined multiplier for projection (don't apply to current premium display)
+    const combinedMultiplier = ageMultiplier * familyMultiplier * planMultiplier * smokingMultiplier
+
+    // Current premium stays as user input (no multipliers applied to display)
+    const currentPremiumDisplay = premium
+
+    // For projection, apply multipliers to account for age, family, plan type effects
+    const baseForProjection = premium * combinedMultiplier
 
     // Calculate average medical inflation rate
     const avgMedicalInflation =
@@ -142,13 +148,13 @@ export default function InsuranceInflationCalculatorPage() {
       100
 
     // Project premium
-    const projectedPremium = adjustedCurrentPremium * Math.pow(1 + avgMedicalInflation, years)
-    const totalIncrease = projectedPremium - adjustedCurrentPremium
-    const percentageIncrease = ((projectedPremium - adjustedCurrentPremium) / adjustedCurrentPremium) * 100
+    const projectedPremium = baseForProjection * Math.pow(1 + avgMedicalInflation, years)
+    const totalIncrease = projectedPremium - baseForProjection
+    const percentageIncrease = ((projectedPremium - baseForProjection) / baseForProjection) * 100
     const annualGrowthRate = (avgMedicalInflation * 100).toFixed(2)
 
     setResult({
-      currentPremium: adjustedCurrentPremium,
+      currentPremium: currentPremiumDisplay,
       currentAge: age,
       yearsProjected: years,
       projectedPremium,
@@ -163,6 +169,7 @@ export default function InsuranceInflationCalculatorPage() {
 
     // Generate chart data
     const newChartData: ChartDataPoint[] = []
+    const adjustedCurrentPremium = premium; // Declare the variable here
     for (let i = 0; i <= years; i++) {
       const year = 2026 + i
       const premiumAtYear = adjustedCurrentPremium * Math.pow(1 + avgMedicalInflation, i)
@@ -232,10 +239,11 @@ export default function InsuranceInflationCalculatorPage() {
                 <Input
                   type="number"
                   min="0"
-                  step="10"
+                  step="1"
                   value={currentPremium}
                   onChange={(e) => setCurrentPremium(e.target.value)}
                   className="mt-2"
+                  placeholder="e.g., 320, 323, 303"
                 />
               </div>
 
