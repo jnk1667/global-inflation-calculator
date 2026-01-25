@@ -1,0 +1,93 @@
+{
+  "country": "United Kingdom",
+  "currency": "GBP",
+  "lastUpdated": "2026-01-25",
+  "dataSource": "Bupa, Aviva, ABI, ONS Health Accounts",
+  "medicalInflationRate": 4.1,
+  "ageMultipliers": {
+    "description": "Age-based premium multipliers for UK health insurance",
+    "data": {
+      "25": 0.8,
+      "30": 0.95,
+      "35": 1.0,
+      "40": 1.15,
+      "45": 1.35,
+      "50": 1.65,
+      "55": 2.0,
+      "60": 2.5,
+      "65": 3.2
+    }
+  },
+  "familySizeMultipliers": {
+    "description": "Family size adjustments for UK health insurance premiums",
+    "data": {
+      "Individual": 1.0,
+      "Individual+Spouse": 1.75,
+      "Individual+1Child": 1.45,
+      "Individual+2Children": 1.8,
+      "Individual+3orMore": 2.1,
+      "Family of 4": 1.9,
+      "Family of 5+": 2.2
+    }
+  },
+  "smokingMultiplier": 1.20,
+  "smokerSurchargePercent": 20,
+  "basePremiums": {
+    "annual": {
+      "single25": 600,
+      "single30": 720,
+      "single40": 900,
+      "single50": 1200,
+      "couple3050": 1320,
+      "family2adults2children": 2640
+    },
+    "monthly": {
+      "single25": 50,
+      "single30": 60,
+      "single40": 75,
+      "single50": 100,
+      "couple3050": 110,
+      "family2adults2children50s": 220
+    }
+  },
+  "regions": {
+    "description": "Regional premium variations in UK",
+    "data": {
+      "London": 1.25,
+      "South East": 1.1,
+      "East Anglia": 1.0,
+      "Midlands": 0.95,
+      "Wales": 0.92,
+      "Scotland": 0.98,
+      "Northern Ireland": 0.95,
+      "North": 0.92
+    }
+  },
+  "planTypes": {
+    "description": "Coverage tiers in UK private health insurance",
+    "data": {
+      "Basic": 0.7,
+      "Standard": 1.0,
+      "Enhanced": 1.25,
+      "Comprehensive": 1.5
+    }
+  },
+  "historicalPremiums": {
+    "description": "Historical average premiums in GBP",
+    "data": [
+      { "year": 2010, "annualPremium": 800 },
+      { "year": 2015, "annualPremium": 1100 },
+      { "year": 2020, "annualPremium": 1400 },
+      { "year": 2023, "annualPremium": 1650 },
+      { "year": 2024, "annualPremium": 1750 },
+      { "year": 2025, "annualPremium": 1820 }
+    ]
+  },
+  "healthcareSystem": {
+    "description": "UK healthcare context",
+    "type": "Mixed (Public NHS + Private)",
+    "publicCoverage": true,
+    "privateRequired": false,
+    "notes": "Private health insurance complements NHS coverage"
+  }
+}

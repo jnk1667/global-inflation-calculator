@@ -1,0 +1,96 @@
+{
+  "country": "New Zealand",
+  "currency": "NZD",
+  "lastUpdated": "2026-01-25",
+  "dataSource": "PrivateHealth.gov.nz, Insurance Council of NZ, UniMed, Southern Cross",
+  "medicalInflationRate": 5.5,
+  "ageMultipliers": {
+    "description": "Age-based premium multipliers for NZ private health insurance",
+    "data": {
+      "25": 0.7,
+      "30": 0.85,
+      "35": 1.0,
+      "40": 1.15,
+      "45": 1.35,
+      "50": 1.65,
+      "55": 2.0,
+      "60": 2.5,
+      "65": 3.2
+    }
+  },
+  "familySizeMultipliers": {
+    "description": "Family size adjustments for NZ health insurance",
+    "data": {
+      "Individual": 1.0,
+      "Individual+Spouse": 1.7,
+      "Individual+1Child": 1.4,
+      "Individual+2Children": 1.75,
+      "Individual+3orMore": 2.0,
+      "Family of 4": 1.85,
+      "Family of 5+": 2.15
+    }
+  },
+  "smokerSurcharge": 0,
+  "smokingMultiplier": 1.0,
+  "basePremiums": {
+    "annual": {
+      "single25": 1250,
+      "single3549": 2100,
+      "single50": 3500,
+      "couple": 3900,
+      "family": 5200
+    },
+    "monthly": {
+      "single25": 104,
+      "single3549": 175,
+      "single50": 292,
+      "couple": 325,
+      "family": 433
+    }
+  },
+  "planTypes": {
+    "description": "Coverage tiers in NZ private health insurance",
+    "data": {
+      "Basic": 0.7,
+      "Standard": 1.0,
+      "Enhanced": 1.25,
+      "Comprehensive": 1.5
+    }
+  },
+  "majorInsurers": {
+    "description": "Major private health insurers in New Zealand",
+    "data": [
+      { "name": "Southern Cross", "market": "Largest" },
+      { "name": "UniMed", "market": "Second largest" },
+      { "name": "Chubb", "market": "Growing" }
+    ]
+  },
+  "premiumReviewSchedule": {
+    "description": "Premium adjustment practices in NZ",
+    "data": {
+      "reviewFrequency": "Twice yearly (January and August typically)",
+      "adjustmentFactors": [
+        "Age-related increases",
+        "Medical inflation",
+        "Claims cost trends"
+      ]
+    }
+  },
+  "historicalPremiums": {
+    "description": "Historical average annual premiums in NZD (single)",
+    "data": [
+      { "year": 2010, "annualPremium": 800 },
+      { "year": 2015, "annualPremium": 1200 },
+      { "year": 2020, "annualPremium": 1600 },
+      { "year": 2023, "annualPremium": 1850 },
+      { "year": 2024, "annualPremium": 2000 },
+      { "year": 2025, "annualPremium": 2150 }
+    ]
+  },
+  "healthcareSystem": {
+    "type": "Mixed (Public DHBs + Private)",
+    "public": true,
+    "privateRequired": false,
+    "notes": "Public system funded through taxes; private insurance supplements for faster access"
+  }
+}

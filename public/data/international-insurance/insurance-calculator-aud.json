@@ -1,0 +1,95 @@
+{
+  "country": "Australia",
+  "currency": "AUD",
+  "lastUpdated": "2026-01-25",
+  "dataSource": "APRA, PrivateHealth.gov.au, Australian Insurance Council",
+  "medicalInflationRate": 5.8,
+  "ageMultipliers": {
+    "description": "Age-based premium multipliers using 2% loading per year over age 30",
+    "data": {
+      "18": 0.78,
+      "21": 0.78,
+      "25": 0.78,
+      "30": 1.0,
+      "35": 1.1,
+      "40": 1.22,
+      "45": 1.35,
+      "50": 1.5,
+      "55": 1.67,
+      "60": 1.86,
+      "65": 2.07,
+      "70": 2.3
+    }
+  },
+  "familySizeMultipliers": {
+    "description": "Family size adjustments for Australian health insurance",
+    "data": {
+      "Individual": 1.0,
+      "Individual+Spouse": 1.75,
+      "Individual+1Child": 1.5,
+      "Individual+2Children": 1.85,
+      "Individual+3orMore": 2.15,
+      "Family of 4": 1.95,
+      "Family of 5+": 2.25
+    }
+  },
+  "smokingMultiplier": 1.0,
+  "smokerSurchargePercent": 0,
+  "basePremiums": {
+    "annual": {
+      "single": 2800,
+      "couple": 4500,
+      "family": 6200
+    },
+    "monthly": {
+      "single": 233,
+      "couple": 375,
+      "family": 517
+    }
+  },
+  "states": {
+    "description": "State-based premium variations in Australia",
+    "data": {
+      "NSW": 1.05,
+      "VIC": 1.02,
+      "QLD": 1.0,
+      "WA": 1.08,
+      "SA": 0.98,
+      "TAS": 0.95,
+      "ACT": 1.0,
+      "NT": 1.15
+    }
+  },
+  "planTypes": {
+    "description": "Coverage tiers in Australian health insurance (Gold/Silver/Bronze)",
+    "data": {
+      "Bronze": 0.65,
+      "Silver": 1.0,
+      "Gold": 1.35,
+      "Platinum": 1.65
+    }
+  },
+  "historicalPremiums": {
+    "description": "Historical average annual premiums in AUD (single)",
+    "data": [
+      { "year": 2010, "annualPremium": 1400 },
+      { "year": 2015, "annualPremium": 1800 },
+      { "year": 2020, "annualPremium": 2400 },
+      { "year": 2023, "annualPremium": 2650 },
+      { "year": 2024, "annualPremium": 2750 },
+      { "year": 2025, "annualPremium": 2900 }
+    ]
+  },
+  "rebateScheme": {
+    "description": "Private health insurance rebate (Australian government subsidy)",
+    "baseRebate": 0.25,
+    "notes": "Government provides 25% rebate on private insurance premiums (income-tested)"
+  },
+  "healthcareSystem": {
+    "description": "Australian healthcare context",
+    "type": "Mixed (Public Medicare + Private)",
+    "publicCoverage": true,
+    "privateRequired": false,
+    "notes": "Medicare covers basic healthcare; private insurance offers private hospital options"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "country": "Germany",
+  "currency": "EUR",
+  "region": "Germany",
+  "lastUpdated": "2026-01-25",
+  "dataSource": "Krankenkassen (Statutory Health Funds), BKK, AOK",
+  "medicalInflationRate": 3.8,
+  "systemType": "Statutory (Mandatory)",
+  "basePremiums": {
+    "annual": {
+      "description": "Statutory health insurance contributions 2026 (14.6% general + 2.9% additional average)",
+      "note": "Based on gross income up to €5,812.50/month"
+    },
+    "contribution": {
+      "percent": 14.6,
+      "additionalContribution": 2.9,
+      "totalPercent": 17.5,
+      "employeeShare": 8.75,
+      "employerShare": 8.75
+    }
+  },
+  "ageMultipliers": {
+    "description": "German system uses risk equalization, not direct age multipliers",
+    "data": {
+      "note": "Age impacts income but not direct premium rate"
+    }
+  },
+  "familySizeMultipliers": {
+    "description": "Family coverage structure in German statutory insurance",
+    "data": {
+      "Individual": 1.0,
+      "WithSpouse": 1.5,
+      "WithChildren": 0.5,
+      "note": "Children under 23 covered free if non-working"
+    }
+  },
+  "smokerSurcharge": 0,
+  "baseFund": {
+    "description": "Major statutory health insurance funds (Krankenkassen)",
+    "data": [
+      { "name": "AOK", "contribution": 16.5 },
+      { "name": "TK (Techniker)", "contribution": 15.6 },
+      { "name": "Barmer", "contribution": 15.8 },
+      { "name": "DAK", "contribution": 15.9 },
+      { "name": "BKK", "contribution": 16.0 }
+    ]
+  },
+  "historicalContributions": {
+    "description": "Historical contribution rates in Germany",
+    "data": [
+      { "year": 2010, "percent": 14.9 },
+      { "year": 2015, "percent": 15.7 },
+      { "year": 2020, "percent": 14.9 },
+      { "year": 2024, "percent": 14.6 },
+      { "year": 2025, "percent": 14.6 },
+      { "year": 2026, "percent": 14.6 }
+    ]
+  },
+  "healthcareSystem": {
+    "type": "Mandatory Statutory System (Bismarck Model)",
+    "public": true,
+    "mandatory": true,
+    "notes": "All residents must have insurance; funded through income-based contributions"
+  }
+}

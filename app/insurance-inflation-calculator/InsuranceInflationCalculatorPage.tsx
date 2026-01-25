@@ -26,7 +26,7 @@ interface CalculationResult {
   annualGrowthRate: number
   familyMultiplier: number
   planMultiplier: number
-  stateMultiplier: number
+  regionMultiplier: number
   medicalInflationRate: number
 }
 
@@ -37,14 +37,229 @@ interface ChartDataPoint {
   medicalInflation: number
 }
 
+interface CurrencyConfig {
+  code: string
+  country: string
+  dataFile: string
+  symbol: string
+  medicalInflationRate: number
+  regions: { [key: string]: string }
+}
+
+// Currency configurations
+const CURRENCY_CONFIGS: { [key: string]: CurrencyConfig } = {
+  USD: {
+    code: "USD",
+    country: "United States",
+    dataFile: "/data/insurance-calculator.json",
+    symbol: "$",
+    medicalInflationRate: 5.4,
+    regions: {
+      Alabama: "Alabama",
+      Alaska: "Alaska",
+      Arizona: "Arizona",
+      Arkansas: "Arkansas",
+      California: "California",
+      Colorado: "Colorado",
+      Connecticut: "Connecticut",
+      Delaware: "Delaware",
+      Florida: "Florida",
+      Georgia: "Georgia",
+      Hawaii: "Hawaii",
+      Idaho: "Idaho",
+      Illinois: "Illinois",
+      Indiana: "Indiana",
+      Iowa: "Iowa",
+      Kansas: "Kansas",
+      Kentucky: "Kentucky",
+      Louisiana: "Louisiana",
+      Maine: "Maine",
+      Maryland: "Maryland",
+      Massachusetts: "Massachusetts",
+      Michigan: "Michigan",
+      Minnesota: "Minnesota",
+      Mississippi: "Mississippi",
+      Missouri: "Missouri",
+      Montana: "Montana",
+      Nebraska: "Nebraska",
+      Nevada: "Nevada",
+      "New Hampshire": "New Hampshire",
+      "New Jersey": "New Jersey",
+      "New Mexico": "New Mexico",
+      "New York": "New York",
+      "North Carolina": "North Carolina",
+      "North Dakota": "North Dakota",
+      Ohio: "Ohio",
+      Oklahoma: "Oklahoma",
+      Oregon: "Oregon",
+      Pennsylvania: "Pennsylvania",
+      "Rhode Island": "Rhode Island",
+      "South Carolina": "South Carolina",
+      "South Dakota": "South Dakota",
+      Tennessee: "Tennessee",
+      Texas: "Texas",
+      Utah: "Utah",
+      Vermont: "Vermont",
+      Virginia: "Virginia",
+      Washington: "Washington",
+      "West Virginia": "West Virginia",
+      Wisconsin: "Wisconsin",
+      Wyoming: "Wyoming",
+      DC: "Washington D.C.",
+    },
+  },
+  GBP: {
+    code: "GBP",
+    country: "United Kingdom",
+    dataFile: "/data/international-insurance/insurance-calculator-gbp.json",
+    symbol: "£",
+    medicalInflationRate: 4.1,
+    regions: {
+      National: "National",
+      "London & South East": "London & South East",
+      Midlands: "Midlands",
+      "North West": "North West",
+      "North East": "North East",
+      "South West": "South West",
+      "East Anglia": "East Anglia",
+      Wales: "Wales",
+      Scotland: "Scotland",
+    },
+  },
+  CAD: {
+    code: "CAD",
+    country: "Canada",
+    dataFile: "/data/international-insurance/insurance-calculator-cad.json",
+    symbol: "C$",
+    medicalInflationRate: 6.2,
+    regions: {
+      National: "National",
+      Alberta: "Alberta",
+      "British Columbia": "British Columbia",
+      Manitoba: "Manitoba",
+      "New Brunswick": "New Brunswick",
+      "Newfoundland and Labrador": "Newfoundland and Labrador",
+      "Nova Scotia": "Nova Scotia",
+      Ontario: "Ontario",
+      "Prince Edward Island": "Prince Edward Island",
+      Quebec: "Quebec",
+      Saskatchewan: "Saskatchewan",
+    },
+  },
+  AUD: {
+    code: "AUD",
+    country: "Australia",
+    dataFile: "/data/international-insurance/insurance-calculator-aud.json",
+    symbol: "A$",
+    medicalInflationRate: 5.8,
+    regions: {
+      National: "National",
+      "New South Wales": "New South Wales",
+      Victoria: "Victoria",
+      Queensland: "Queensland",
+      "South Australia": "South Australia",
+      "Western Australia": "Western Australia",
+      Tasmania: "Tasmania",
+      "Northern Territory": "Northern Territory",
+      "Australian Capital Territory": "Australian Capital Territory",
+    },
+  },
+  CHF: {
+    code: "CHF",
+    country: "Switzerland",
+    dataFile: "/data/international-insurance/insurance-calculator-chf.json",
+    symbol: "CHF",
+    medicalInflationRate: 4.5,
+    regions: {
+      National: "National",
+      "Aargau": "Aargau",
+      "Appenzell Ausserrhoden": "Appenzell Ausserrhoden",
+      "Appenzell Innerrhoden": "Appenzell Innerrhoden",
+      "Basel-Landschaft": "Basel-Landschaft",
+      "Basel-Stadt": "Basel-Stadt",
+      Bern: "Bern",
+      Fribourg: "Fribourg",
+      Geneva: "Geneva",
+      Glarus: "Glarus",
+      Graubünden: "Graubünden",
+      Jura: "Jura",
+      Lucerne: "Lucerne",
+      Neuchâtel: "Neuchâtel",
+      Nidwalden: "Nidwalden",
+      Obwalden: "Obwalden",
+      Schaffhausen: "Schaffhausen",
+      Solothurn: "Solothurn",
+      "St. Gallen": "St. Gallen",
+      Thurgau: "Thurgau",
+      Ticino: "Ticino",
+      Uri: "Uri",
+      Valais: "Valais",
+      Vaud: "Vaud",
+      Zug: "Zug",
+      Zurich: "Zurich",
+    },
+  },
+  EUR: {
+    code: "EUR",
+    country: "European Union",
+    dataFile: "/data/international-insurance/insurance-calculator-eur-germany.json",
+    symbol: "€",
+    medicalInflationRate: 3.8,
+    regions: {
+      Germany: "Germany",
+      France: "France",
+      "Other EU": "Other EU Countries",
+    },
+  },
+  JPY: {
+    code: "JPY",
+    country: "Japan",
+    dataFile: "/data/international-insurance/insurance-calculator-jpy.json",
+    symbol: "¥",
+    medicalInflationRate: 2.8,
+    regions: {
+      National: "National",
+      Tokyo: "Tokyo",
+      Osaka: "Osaka",
+      Kyoto: "Kyoto",
+      Yokohama: "Yokohama",
+      Other: "Other Prefectures",
+    },
+  },
+  NZD: {
+    code: "NZD",
+    country: "New Zealand",
+    dataFile: "/data/international-insurance/insurance-calculator-nzd.json",
+    symbol: "NZ$",
+    medicalInflationRate: 5.5,
+    regions: {
+      National: "National",
+      "Auckland": "Auckland",
+      "Waikato": "Waikato",
+      "Bay of Plenty": "Bay of Plenty",
+      "Gisborne": "Gisborne",
+      "Hawke's Bay": "Hawke's Bay",
+      "Taranaki": "Taranaki",
+      "Manawatū-Wanganui": "Manawatū-Wanganui",
+      "Wellington": "Wellington",
+      "Tasman": "Tasman",
+      "Canterbury": "Canterbury",
+      "Otago": "Otago",
+      "Southland": "Southland",
+    },
+  },
+}
+
 export default function InsuranceInflationCalculatorPage() {
+  const [currency, setCurrency] = useState("USD")
   const [currentAge, setCurrentAge] = useState("35")
   const [currentPremium, setCurrentPremium] = useState("300")
   const [familySize, setFamilySize] = useState("individual")
   const [planType, setPlanType] = useState("silver")
-  const [state, setState] = useState("CA")
+  const [region, setRegion] = useState("California")
   const [yearsProjected, setYearsProjected] = useState("10")
   const [smoking, setSmoking] = useState("no")
+  const [state, setState] = useState("California")
 
   const [result, setResult] = useState<CalculationResult | null>(null)
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
@@ -55,21 +270,39 @@ export default function InsuranceInflationCalculatorPage() {
   const [faqItems, setFaqItems] = useState<any[]>([])
   const [contentLoaded, setContentLoaded] = useState(false)
 
+  // Update region when currency changes
+  useEffect(() => {
+    const config = CURRENCY_CONFIGS[currency]
+    const firstRegion = Object.keys(config.regions)[0]
+    setRegion(firstRegion)
+  }, [currency])
+
+  // Load data files based on currency
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [insuranceResponse, healthcareResponse] = await Promise.all([
-          fetch("/data/insurance-calculator.json"),
-          fetch("/data/healthcare-inflation.json"),
-        ])
-
+        const config = CURRENCY_CONFIGS[currency]
+        const insuranceResponse = await fetch(config.dataFile)
         const insuranceJson = await insuranceResponse.json()
-        const healthcareJson = await healthcareResponse.json()
-
         setInsuranceData(insuranceJson)
-        setHealthcareInflationData(healthcareJson)
 
-        // Load blog content and FAQ from Supabase
+        // Load healthcare inflation - use country-specific if available
+        const healthcareFile = currency === "USD" ? "/data/healthcare-inflation.json" : `${config.dataFile}`
+        const healthcareResponse = await fetch(healthcareFile)
+        const healthcareJson = await healthcareResponse.json()
+        setHealthcareInflationData(healthcareJson)
+      } catch (error) {
+        console.error(`Error loading data for ${currency}:`, error)
+      }
+    }
+
+    loadData()
+  }, [currency])
+
+  // Load blog content and FAQ
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
         const { data: contentData } = await supabase
           .from("site_content")
           .select("insurance_inflation_essay")
@@ -79,7 +312,6 @@ export default function InsuranceInflationCalculatorPage() {
           setBlogContent(contentData.insurance_inflation_essay)
         }
 
-        // Load FAQ items
         const { data: faqData } = await supabase
           .from("faqs")
           .select("*")
@@ -91,12 +323,12 @@ export default function InsuranceInflationCalculatorPage() {
 
         setContentLoaded(true)
       } catch (error) {
-        console.error("Error loading data:", error)
+        console.error("Error loading content:", error)
         setContentLoaded(true)
       }
     }
 
-    loadData()
+    loadContent()
   }, [])
 
   const calculateProjection = () => {
@@ -105,39 +337,75 @@ export default function InsuranceInflationCalculatorPage() {
     const age = Number.parseInt(currentAge)
     const premium = Number.parseFloat(currentPremium)
     const years = Number.parseInt(yearsProjected)
+    const config = CURRENCY_CONFIGS[currency]
 
-    // Get age multiplier
-    const ageMultiplier = insuranceData.ageMultipliers[age.toString()] || 1.0
+    // Handle special cases for different currency systems
+    let ageMultiplier = 1.0
+    let familyMultiplier = 1.0
+    let planMultiplier = 1.0
+    let regionMultiplier = 1.0
+    let smokingMultiplier = smoking === "yes" ? 1.5 : 1.0
 
-    // Get family size multiplier
-    const familyMultiplier = insuranceData.familySizeMultipliers[familySize] || 1.0
+    // Get multipliers from data, with fallbacks for missing data
+    if (insuranceData?.ageMultipliers?.data) {
+      ageMultiplier = insuranceData.ageMultipliers.data[age.toString()] || 1.0
+    }
 
-    // Get plan tier multiplier
-    const planMultiplier = insuranceData.planTierMultipliers[planType] || 1.0
+    if (insuranceData?.familySizeMultipliers?.data) {
+      let familyKey = familySize
+      if (familySize === "individual") familyKey = "Individual"
+      else if (familySize === "individual+spouse") familyKey = "Individual+Spouse"
+      else if (familySize === "individual+1child") familyKey = "Individual+1Child"
+      else if (familySize === "individual+2children") familyKey = "Individual+2Children"
+      else if (familySize === "individual+3plus") familyKey = "Individual+3orMore"
+      else if (familySize === "family4") familyKey = "Family of 4"
+      else if (familySize === "family5plus") familyKey = "Family of 5+"
+      familyMultiplier = insuranceData.familySizeMultipliers.data[familyKey] || 1.0
+    }
 
-    // Get state multiplier
-    const stateMultiplier = insuranceData.stateVariations[state]?.relativeMultiplier || 1.0
+    if (insuranceData?.planTypeMultipliers?.metalLevels) {
+      let planKey = planType.charAt(0).toUpperCase() + planType.slice(1).toLowerCase()
+      planMultiplier = insuranceData.planTypeMultipliers.metalLevels[planKey] || 1.0
+    }
 
-    // Get smoking surcharge
-    const smokingMultiplier = smoking === "yes" ? 1.5 : 1.0
+    if (insuranceData?.regions?.data) {
+      const regionMultiplierValue = insuranceData.regions.data[region]
+      if (regionMultiplierValue !== undefined) {
+        regionMultiplier = regionMultiplierValue
+      }
+    } else if (insuranceData?.statePremiumVariations?.data) {
+      // Fallback for USD data structure
+      const statePremium = insuranceData.statePremiumVariations.data[region] || 438
+      regionMultiplier = statePremium / (insuranceData.statePremiumVariations.nationalAverage || 438)
+    }
 
-    // Base current premium with all multipliers
-    const adjustedCurrentPremium = premium * ageMultiplier * familyMultiplier * planMultiplier * smokingMultiplier
+    // For Japan, smoking multiplier doesn't apply
+    if (currency === "JPY") {
+      smokingMultiplier = 1.0
+    }
 
-    // Calculate average medical inflation rate
-    const avgMedicalInflation =
-      healthcareInflationData.data.reduce((sum: number, item: any) => sum + item.healthcareInflation, 0) /
-      healthcareInflationData.data.length /
-      100
+    const combinedMultiplier = ageMultiplier * familyMultiplier * planMultiplier * regionMultiplier * smokingMultiplier
 
-    // Project premium
-    const projectedPremium = adjustedCurrentPremium * Math.pow(1 + avgMedicalInflation, years)
-    const totalIncrease = projectedPremium - adjustedCurrentPremium
-    const percentageIncrease = ((projectedPremium - adjustedCurrentPremium) / adjustedCurrentPremium) * 100
-    const annualGrowthRate = (avgMedicalInflation * 100).toFixed(2)
+    const currentPremiumDisplay = premium
+
+    const baseForProjection = premium * combinedMultiplier
+
+    // Calculate medical inflation rate from data or use config default
+    let medicalInflationRate = config.medicalInflationRate / 100
+    if (healthcareInflationData?.data && Array.isArray(healthcareInflationData.data)) {
+      medicalInflationRate =
+        healthcareInflationData.data.reduce((sum: number, item: any) => sum + item.healthcareInflation, 0) /
+        healthcareInflationData.data.length /
+        100
+    }
+
+    const projectedPremium = baseForProjection * Math.pow(1 + medicalInflationRate, years)
+    const totalIncrease = projectedPremium - baseForProjection
+    const percentageIncrease = ((projectedPremium - baseForProjection) / baseForProjection) * 100
+    const annualGrowthRate = (medicalInflationRate * 100).toFixed(2)
 
     setResult({
-      currentPremium: adjustedCurrentPremium,
+      currentPremium: currentPremiumDisplay,
       currentAge: age,
       yearsProjected: years,
       projectedPremium,
@@ -146,25 +414,21 @@ export default function InsuranceInflationCalculatorPage() {
       annualGrowthRate: Number.parseFloat(annualGrowthRate as string),
       familyMultiplier,
       planMultiplier,
-      stateMultiplier,
-      medicalInflationRate: avgMedicalInflation * 100,
+      regionMultiplier,
+      medicalInflationRate: medicalInflationRate * 100,
     })
 
     // Generate chart data
-    const newChartData: ChartDataPoint[] = []
-    for (let i = 0; i <= years; i++) {
-      const year = 2026 + i
-      const premiumAtYear = adjustedCurrentPremium * Math.pow(1 + avgMedicalInflation, i)
-      const generalInflation = 2.7 // Average general inflation
-      newChartData.push({
-        year,
-        premium: Math.round(premiumAtYear),
-        generalInflation: Math.round(adjustedCurrentPremium * Math.pow(1 + generalInflation / 100, i)),
-        medicalInflation: Math.round(premiumAtYear),
+    const chartPoints: ChartDataPoint[] = []
+    for (let year = 0; year <= years; year++) {
+      chartPoints.push({
+        year: new Date().getFullYear() + year,
+        premium: baseForProjection * Math.pow(1 + medicalInflationRate, year),
+        generalInflation: year * 2.5,
+        medicalInflation: medicalInflationRate * 100 * year,
       })
     }
-
-    setChartData(newChartData)
+    setChartData(chartPoints)
   }
 
   if (!contentLoaded) {
@@ -205,6 +469,41 @@ export default function InsuranceInflationCalculatorPage() {
             </CardHeader>
             <CardContent className="pt-6 space-y-6">
               <div>
+                <Label>Currency & Country</Label>
+                <Select value={currency} onValueChange={setCurrency}>
+                  <SelectTrigger className="mt-2">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="USD">USD - United States</SelectItem>
+                    <SelectItem value="GBP">GBP - United Kingdom</SelectItem>
+                    <SelectItem value="CAD">CAD - Canada</SelectItem>
+                    <SelectItem value="AUD">AUD - Australia</SelectItem>
+                    <SelectItem value="CHF">CHF - Switzerland</SelectItem>
+                    <SelectItem value="EUR">EUR - European Union</SelectItem>
+                    <SelectItem value="JPY">JPY - Japan</SelectItem>
+                    <SelectItem value="NZD">NZD - New Zealand</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label>Region/State</Label>
+                <Select value={region} onValueChange={setRegion}>
+                  <SelectTrigger className="mt-2">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(CURRENCY_CONFIGS[currency].regions).map(([key, label]) => (
+                      <SelectItem key={key} value={key}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
                 <Label>Current Age</Label>
                 <Input
                   type="number"
@@ -217,14 +516,15 @@ export default function InsuranceInflationCalculatorPage() {
               </div>
 
               <div>
-                <Label>Current Monthly Premium ($)</Label>
+                <Label>Current Monthly Premium ({CURRENCY_CONFIGS[currency].symbol})</Label>
                 <Input
                   type="number"
                   min="0"
-                  step="10"
+                  step="1"
                   value={currentPremium}
                   onChange={(e) => setCurrentPremium(e.target.value)}
                   className="mt-2"
+                  placeholder="e.g., 320, 323, 303"
                 />
               </div>
 
@@ -236,10 +536,12 @@ export default function InsuranceInflationCalculatorPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="individual">Individual</SelectItem>
-                    <SelectItem value="couple">Couple (2 people)</SelectItem>
-                    <SelectItem value="family-3">Family (3 people)</SelectItem>
-                    <SelectItem value="family-4">Family (4 people)</SelectItem>
-                    <SelectItem value="family-5plus">Family (5+ people)</SelectItem>
+                    <SelectItem value="individual+spouse">Individual + Spouse</SelectItem>
+                    <SelectItem value="individual+1child">Individual + 1 Child</SelectItem>
+                    <SelectItem value="individual+2children">Individual + 2 Children</SelectItem>
+                    <SelectItem value="individual+3plus">Individual + 3+ Children</SelectItem>
+                    <SelectItem value="family4">Family of 4</SelectItem>
+                    <SelectItem value="family5plus">Family of 5+</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -256,67 +558,6 @@ export default function InsuranceInflationCalculatorPage() {
                     <SelectItem value="silver">Silver</SelectItem>
                     <SelectItem value="gold">Gold</SelectItem>
                     <SelectItem value="platinum">Platinum</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label>State</Label>
-                <Select value={state} onValueChange={setState}>
-                  <SelectTrigger className="mt-2">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="AL">Alabama</SelectItem>
-                    <SelectItem value="AK">Alaska</SelectItem>
-                    <SelectItem value="AZ">Arizona</SelectItem>
-                    <SelectItem value="AR">Arkansas</SelectItem>
-                    <SelectItem value="CA">California</SelectItem>
-                    <SelectItem value="CO">Colorado</SelectItem>
-                    <SelectItem value="CT">Connecticut</SelectItem>
-                    <SelectItem value="DE">Delaware</SelectItem>
-                    <SelectItem value="FL">Florida</SelectItem>
-                    <SelectItem value="GA">Georgia</SelectItem>
-                    <SelectItem value="HI">Hawaii</SelectItem>
-                    <SelectItem value="ID">Idaho</SelectItem>
-                    <SelectItem value="IL">Illinois</SelectItem>
-                    <SelectItem value="IN">Indiana</SelectItem>
-                    <SelectItem value="IA">Iowa</SelectItem>
-                    <SelectItem value="KS">Kansas</SelectItem>
-                    <SelectItem value="KY">Kentucky</SelectItem>
-                    <SelectItem value="LA">Louisiana</SelectItem>
-                    <SelectItem value="ME">Maine</SelectItem>
-                    <SelectItem value="MD">Maryland</SelectItem>
-                    <SelectItem value="MA">Massachusetts</SelectItem>
-                    <SelectItem value="MI">Michigan</SelectItem>
-                    <SelectItem value="MN">Minnesota</SelectItem>
-                    <SelectItem value="MS">Mississippi</SelectItem>
-                    <SelectItem value="MO">Missouri</SelectItem>
-                    <SelectItem value="MT">Montana</SelectItem>
-                    <SelectItem value="NE">Nebraska</SelectItem>
-                    <SelectItem value="NV">Nevada</SelectItem>
-                    <SelectItem value="NH">New Hampshire</SelectItem>
-                    <SelectItem value="NJ">New Jersey</SelectItem>
-                    <SelectItem value="NM">New Mexico</SelectItem>
-                    <SelectItem value="NY">New York</SelectItem>
-                    <SelectItem value="NC">North Carolina</SelectItem>
-                    <SelectItem value="ND">North Dakota</SelectItem>
-                    <SelectItem value="OH">Ohio</SelectItem>
-                    <SelectItem value="OK">Oklahoma</SelectItem>
-                    <SelectItem value="OR">Oregon</SelectItem>
-                    <SelectItem value="PA">Pennsylvania</SelectItem>
-                    <SelectItem value="RI">Rhode Island</SelectItem>
-                    <SelectItem value="SC">South Carolina</SelectItem>
-                    <SelectItem value="SD">South Dakota</SelectItem>
-                    <SelectItem value="TN">Tennessee</SelectItem>
-                    <SelectItem value="TX">Texas</SelectItem>
-                    <SelectItem value="UT">Utah</SelectItem>
-                    <SelectItem value="VT">Vermont</SelectItem>
-                    <SelectItem value="VA">Virginia</SelectItem>
-                    <SelectItem value="WA">Washington</SelectItem>
-                    <SelectItem value="WV">West Virginia</SelectItem>
-                    <SelectItem value="WI">Wisconsin</SelectItem>
-                    <SelectItem value="WY">Wyoming</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -368,12 +609,12 @@ export default function InsuranceInflationCalculatorPage() {
               <CardContent className="pt-6 space-y-4">
                 <div className="flex justify-between items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                   <span className="text-gray-700 dark:text-gray-300">Current Monthly Premium:</span>
-                  <span className="text-2xl font-bold text-blue-600">${Math.round(result.currentPremium)}</span>
+                  <span className="text-2xl font-bold text-blue-600">{CURRENCY_CONFIGS[currency].symbol}${Math.round(result.currentPremium)}</span>
                 </div>
 
                 <div className="flex justify-between items-center p-4 bg-cyan-50 dark:bg-cyan-900/20 rounded-lg">
                   <span className="text-gray-700 dark:text-gray-300">Projected Monthly Premium:</span>
-                  <span className="text-2xl font-bold text-cyan-600">${Math.round(result.projectedPremium)}</span>
+                  <span className="text-2xl font-bold text-cyan-600">{CURRENCY_CONFIGS[currency].symbol}${Math.round(result.projectedPremium)}</span>
                 </div>
 
                 <Separator />
@@ -381,7 +622,7 @@ export default function InsuranceInflationCalculatorPage() {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span>Total Increase:</span>
-                    <Badge variant="destructive">${Math.round(result.totalIncrease)}</Badge>
+                    <Badge variant="destructive">{CURRENCY_CONFIGS[currency].symbol}${Math.round(result.totalIncrease)}</Badge>
                   </div>
                   <div className="flex justify-between">
                     <span>Percentage Increase:</span>
@@ -441,7 +682,7 @@ export default function InsuranceInflationCalculatorPage() {
                   <XAxis dataKey="year" />
                   <YAxis />
                   <Tooltip
-                    formatter={(value) => `$${value}`}
+                    formatter={(value) => `${CURRENCY_CONFIGS[currency].symbol}${value}`}
                     labelFormatter={(label) => `Year: ${label}`}
                   />
                   <Legend />
