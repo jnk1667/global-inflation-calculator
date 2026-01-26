@@ -196,56 +196,56 @@ All have:
 ## How to Use This Data
 
 ### For USA (Baseline)
-```
+\`\`\`
 currency: "USD"
 file: /public/data/insurance-calculator.json (existing)
 location: State (50 options)
 model: Age + Family + Plan Type + Smoking
-```
+\`\`\`
 
 ### For Phase 2 Countries (AUD, GBP, NZD, CAD)
-```
+\`\`\`
 currency: "AUD|GBP|NZD|CAD"
 file: /public/data/international-insurance/insurance-calculator-[code].json
 location: State/Province/Region
 model: Age + Family + Plan Type + Smoking
-```
+\`\`\`
 
 ### For Switzerland (CHF)
-```
+\`\`\`
 currency: "CHF"
 file: /public/data/international-insurance/insurance-calculator-chf.json
 location: Canton (26 options)
 model: Age + Individual policies (no family plan multiplier)
 specialNote: Franchise/deductible impacts premium significantly
-```
+\`\`\`
 
 ### For Germany (EUR)
-```
+\`\`\`
 currency: "EUR"
 country: "Germany"
 file: /public/data/international-insurance/insurance-calculator-eur-germany.json
 model: Income-based (14.6% contribution rate)
 specialNote: NOT age-based; requires different calculator
-```
+\`\`\`
 
 ### For France (EUR)
-```
+\`\`\`
 currency: "EUR"
 country: "France"
 file: /public/data/international-insurance/insurance-calculator-eur-france.json
 model: Supplemental mutuelle (top-up system)
 location: National
-```
+\`\`\`
 
 ### For Japan (JPY)
-```
+\`\`\`
 currency: "JPY"
 file: /public/data/international-insurance/insurance-calculator-jpy.json
 model: Income-based (4-7% of income)
 specialNote: Requires completely different calculator logic
 location: National
-```
+\`\`\`
 
 ---
 

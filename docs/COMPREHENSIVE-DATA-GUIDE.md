@@ -47,7 +47,7 @@ This system collects comprehensive inflation data from multiple official sources
 ## Setup Instructions
 
 ### 1. Get FRED API Key (Required for US data)
-```bash
+\`\`\`bash
 # Run the setup script
 node scripts/setup-fred-api.js
 
@@ -56,25 +56,25 @@ node scripts/setup-fred-api.js
 # 2. Create free account and get API key
 # 3. Set environment variable:
 export FRED_API_KEY=your_api_key_here
-```
+\`\`\`
 
 ### 2. Collect All Data
-```bash
+\`\`\`bash
 # This will collect all comprehensive inflation data
 node scripts/fetch-comprehensive-inflation-data.js
-```
+\`\`\`
 
 ### 3. Validate Data
-```bash
+\`\`\`bash
 # Validate the collected data
 node scripts/validate-comprehensive-data.js
-```
+\`\`\`
 
 ## Data Structure
 
 Each data file follows this structure:
 
-```json
+\`\`\`json
 {
   "metadata": {
     "series_id": "cpi_all",
@@ -100,7 +100,7 @@ Each data file follows this structure:
   "latest_year": "2025",
   "total_years": 78
 }
-```
+\`\`\`
 
 ## Available Inflation Measures
 
@@ -138,7 +138,7 @@ Each data file follows this structure:
 ## Usage Examples
 
 ### Basic Inflation Calculation
-```javascript
+\`\`\`javascript
 // Load comprehensive US CPI data
 const cpiData = require('./public/data/comprehensive/us-cpi_all.json')
 
@@ -148,10 +148,10 @@ const factor2024 = cpiData.data['2024'].inflation_factor
 const inflationFactor = factor2024 / factor2020
 
 console.log(`$100 in 2020 = $${(100 * inflationFactor).toFixed(2)} in 2024`)
-```
+\`\`\`
 
 ### Compare Different Measures
-```javascript
+\`\`\`javascript
 // Compare CPI vs PCE vs GDP Deflator
 const cpi = require('./public/data/comprehensive/us-cpi_all.json')
 const pce = require('./public/data/comprehensive/us-pce_core.json')
@@ -163,11 +163,11 @@ Object.entries(measures).forEach(([name, data]) => {
   const inflation = (data.data['2024'].inflation_factor / data.data['2020'].inflation_factor - 1) * 100
   console.log(`${name.toUpperCase()}: ${inflation.toFixed(1)}% total inflation`)
 })
-```
+\`\`\`
 
 ## File Organization
 
-```
+\`\`\`
 public/data/comprehensive/
 ├── collection-summary.json          # Collection metadata
 ├── validation-report.json           # Data validation results
@@ -185,7 +185,7 @@ public/data/comprehensive/
 ├── eur-core_hicp.json              # EUR Core HICP
 ├── cad-cpi.json                    # CAD Consumer Price Index
 └── cad-ppi.json                    # CAD Industrial Product Price Index
-```
+\`\`\`
 
 ## Integration with Website
 

@@ -9,9 +9,12 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
-import { Heart, TrendingUpIcon, DollarSignIcon, CalendarIcon, BarChart3Icon, AlertTriangleIcon, InfoIcon } from "lucide-react"
+import { Slider } from "@/components/ui/slider"
+import { Switch } from "@/components/ui/switch"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Heart, TrendingUpIcon, DollarSignIcon, CalendarIcon, BarChart3Icon, AlertTriangleIcon, InfoIcon, SettingsIcon, Zap } from "lucide-react"
 import Link from "next/link"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, Bar } from "recharts"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import FAQ from "@/components/faq"
 import { supabase } from "@/lib/supabase"
@@ -28,6 +31,17 @@ interface CalculationResult {
   planMultiplier: number
   regionMultiplier: number
   medicalInflationRate: number
+  smokingMultiplier?: number
+  ageMultiplier?: number
+  baseForProjection?: number
+}
+
+interface ScenarioComparison {
+  name: string
+  inflationRate: number
+  projectedPremium: number
+  totalIncrease: number
+  percentageIncrease: number
 }
 
 interface ChartDataPoint {
@@ -35,6 +49,9 @@ interface ChartDataPoint {
   premium: number
   generalInflation: number
   medicalInflation: number
+  scenario1?: number
+  scenario2?: number
+  scenario3?: number
 }
 
 interface CurrencyConfig {
@@ -251,6 +268,7 @@ const CURRENCY_CONFIGS: { [key: string]: CurrencyConfig } = {
 }
 
 export default function InsuranceInflationCalculatorPage() {
+  const [advancedMode, setAdvancedMode] = useState(false)
   const [currency, setCurrency] = useState("USD")
   const [currentAge, setCurrentAge] = useState("35")
   const [currentPremium, setCurrentPremium] = useState("300")
@@ -259,7 +277,8 @@ export default function InsuranceInflationCalculatorPage() {
   const [region, setRegion] = useState("California")
   const [yearsProjected, setYearsProjected] = useState("10")
   const [smoking, setSmoking] = useState("no")
-  const [state, setState] = useState("California")
+  const [customInflationRate, setCustomInflationRate] = useState("3.8")
+  const [showScenarios, setShowScenarios] = useState(false)
 
   const [result, setResult] = useState<CalculationResult | null>(null)
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
@@ -286,7 +305,6 @@ export default function InsuranceInflationCalculatorPage() {
         const insuranceJson = await insuranceResponse.json()
         setInsuranceData(insuranceJson)
 
-        // Load healthcare inflation - use country-specific if available
         const healthcareFile = currency === "USD" ? "/data/healthcare-inflation.json" : `${config.dataFile}`
         const healthcareResponse = await fetch(healthcareFile)
         const healthcareJson = await healthcareResponse.json()
@@ -339,14 +357,12 @@ export default function InsuranceInflationCalculatorPage() {
     const years = Number.parseInt(yearsProjected)
     const config = CURRENCY_CONFIGS[currency]
 
-    // Handle special cases for different currency systems
     let ageMultiplier = 1.0
     let familyMultiplier = 1.0
     let planMultiplier = 1.0
     let regionMultiplier = 1.0
     let smokingMultiplier = smoking === "yes" ? 1.5 : 1.0
 
-    // Get multipliers from data, with fallbacks for missing data
     if (insuranceData?.ageMultipliers?.data) {
       ageMultiplier = insuranceData.ageMultipliers.data[age.toString()] || 1.0
     }
@@ -374,25 +390,21 @@ export default function InsuranceInflationCalculatorPage() {
         regionMultiplier = regionMultiplierValue
       }
     } else if (insuranceData?.statePremiumVariations?.data) {
-      // Fallback for USD data structure
       const statePremium = insuranceData.statePremiumVariations.data[region] || 438
       regionMultiplier = statePremium / (insuranceData.statePremiumVariations.nationalAverage || 438)
     }
 
-    // For Japan, smoking multiplier doesn't apply
     if (currency === "JPY") {
       smokingMultiplier = 1.0
     }
 
     const combinedMultiplier = ageMultiplier * familyMultiplier * planMultiplier * regionMultiplier * smokingMultiplier
-
     const currentPremiumDisplay = premium
-
     const baseForProjection = premium * combinedMultiplier
 
-    // Calculate medical inflation rate from data or use config default
-    let medicalInflationRate = config.medicalInflationRate / 100
-    if (healthcareInflationData?.data && Array.isArray(healthcareInflationData.data)) {
+    let medicalInflationRate = advancedMode && customInflationRate ? Number.parseFloat(customInflationRate) / 100 : config.medicalInflationRate / 100
+    
+    if (!advancedMode && healthcareInflationData?.data && Array.isArray(healthcareInflationData.data)) {
       medicalInflationRate =
         healthcareInflationData.data.reduce((sum: number, item: any) => sum + item.healthcareInflation, 0) /
         healthcareInflationData.data.length /
@@ -416,16 +428,26 @@ export default function InsuranceInflationCalculatorPage() {
       planMultiplier,
       regionMultiplier,
       medicalInflationRate: medicalInflationRate * 100,
+      smokingMultiplier,
+      ageMultiplier,
+      baseForProjection,
     })
 
     // Generate chart data
     const chartPoints: ChartDataPoint[] = []
+    const s1Rate = config.medicalInflationRate / 100 * 0.8 // Conservative scenario
+    const s2Rate = config.medicalInflationRate / 100 // Current scenario
+    const s3Rate = config.medicalInflationRate / 100 * 1.2 // Aggressive scenario
+
     for (let year = 0; year <= years; year++) {
       chartPoints.push({
         year: new Date().getFullYear() + year,
         premium: baseForProjection * Math.pow(1 + medicalInflationRate, year),
         generalInflation: year * 2.5,
         medicalInflation: medicalInflationRate * 100 * year,
+        scenario1: baseForProjection * Math.pow(1 + s1Rate, year),
+        scenario2: baseForProjection * Math.pow(1 + s2Rate, year),
+        scenario3: baseForProjection * Math.pow(1 + s3Rate, year),
       })
     }
     setChartData(chartPoints)
@@ -444,8 +466,8 @@ export default function InsuranceInflationCalculatorPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/20" style={{ contain: "layout style" }}>
       <div className="container mx-auto px-4 pt-40 pb-24">
-        {/* Header */}
-        <div className="text-center mb-12">
+        {/* Header with Mode Toggle */}
+        <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Heart className="w-10 h-10 text-blue-600" />
             <h1 className="text-5xl font-bold text-gray-900 dark:text-white">Insurance Inflation Calculator</h1>
@@ -454,6 +476,16 @@ export default function InsuranceInflationCalculatorPage() {
             See how your health insurance premiums will grow over time with medical inflation projections. Plan ahead and understand the real cost of healthcare.
           </p>
           <p className="text-sm text-green-600 dark:text-green-400 mt-2">Using Live 2026 Medical Inflation Data</p>
+
+          {/* Advanced Mode Toggle */}
+          <div className="flex items-center justify-center gap-3 mt-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg px-4 py-3 shadow-md flex items-center gap-3 border border-gray-200 dark:border-gray-700">
+              <SettingsIcon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+              <Label className="text-sm font-medium">Advanced Mode</Label>
+              <Switch checked={advancedMode} onCheckedChange={setAdvancedMode} className="ml-2" />
+              {advancedMode && <Zap className="w-4 h-4 text-amber-500" />}
+            </div>
+          </div>
         </div>
 
         {/* Calculator Section */}
@@ -591,6 +623,51 @@ export default function InsuranceInflationCalculatorPage() {
                 </Select>
               </div>
 
+              {/* Advanced Mode Options */}
+              {advancedMode && (
+                <>
+                  <Separator />
+                  <div>
+                    <Label className="flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-amber-500" />
+                      Custom Medical Inflation Rate (%)
+                    </Label>
+                    <div className="mt-2 space-y-3">
+                      <Slider
+                        value={[Number(customInflationRate)]}
+                        onValueChange={(v) => setCustomInflationRate(v[0].toString())}
+                        min={1}
+                        max={10}
+                        step={0.1}
+                        className="mt-2"
+                      />
+                      <Input
+                        type="number"
+                        min="1"
+                        max="10"
+                        step="0.1"
+                        value={customInflationRate}
+                        onChange={(e) => setCustomInflationRate(e.target.value)}
+                      />
+                      <p className="text-xs text-gray-500">Default: {CURRENCY_CONFIGS[currency].medicalInflationRate}%</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={showScenarios}
+                      onChange={(e) => setShowScenarios(e.target.checked)}
+                      className="w-4 h-4"
+                      id="scenarios"
+                    />
+                    <label htmlFor="scenarios" className="text-sm font-medium cursor-pointer">
+                      Show Scenario Comparison
+                    </label>
+                  </div>
+                </>
+              )}
+
               <Button onClick={calculateProjection} className="w-full bg-blue-600 hover:bg-blue-700 text-white" size="lg">
                 Calculate Premium Forecast
               </Button>
@@ -609,12 +686,12 @@ export default function InsuranceInflationCalculatorPage() {
               <CardContent className="pt-6 space-y-4">
                 <div className="flex justify-between items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                   <span className="text-gray-700 dark:text-gray-300">Current Monthly Premium:</span>
-                  <span className="text-2xl font-bold text-blue-600">{CURRENCY_CONFIGS[currency].symbol}${Math.round(result.currentPremium)}</span>
+                  <span className="text-2xl font-bold text-blue-600">{CURRENCY_CONFIGS[currency].symbol}{Math.round(result.currentPremium)}</span>
                 </div>
 
                 <div className="flex justify-between items-center p-4 bg-cyan-50 dark:bg-cyan-900/20 rounded-lg">
                   <span className="text-gray-700 dark:text-gray-300">Projected Monthly Premium:</span>
-                  <span className="text-2xl font-bold text-cyan-600">{CURRENCY_CONFIGS[currency].symbol}${Math.round(result.projectedPremium)}</span>
+                  <span className="text-2xl font-bold text-cyan-600">{CURRENCY_CONFIGS[currency].symbol}{Math.round(result.projectedPremium)}</span>
                 </div>
 
                 <Separator />
@@ -622,7 +699,7 @@ export default function InsuranceInflationCalculatorPage() {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span>Total Increase:</span>
-                    <Badge variant="destructive">{CURRENCY_CONFIGS[currency].symbol}${Math.round(result.totalIncrease)}</Badge>
+                    <Badge variant="destructive">{CURRENCY_CONFIGS[currency].symbol}{Math.round(result.totalIncrease)}</Badge>
                   </div>
                   <div className="flex justify-between">
                     <span>Percentage Increase:</span>
@@ -637,6 +714,28 @@ export default function InsuranceInflationCalculatorPage() {
                     <Badge className="bg-purple-600">{result.medicalInflationRate.toFixed(2)}%</Badge>
                   </div>
                 </div>
+
+                {advancedMode && (
+                  <>
+                    <Separator />
+                    <div className="space-y-2 text-sm">
+                      <p className="font-semibold flex items-center gap-2">
+                        <Zap className="w-4 h-4 text-amber-500" />
+                        Multiplier Breakdown
+                      </p>
+                      <div className="grid grid-cols-2 gap-2 bg-gray-50 dark:bg-gray-800 p-3 rounded">
+                        <div>Age: {(result.ageMultiplier || 1).toFixed(2)}x</div>
+                        <div>Family: {result.familyMultiplier.toFixed(2)}x</div>
+                        <div>Plan: {result.planMultiplier.toFixed(2)}x</div>
+                        <div>Region: {result.regionMultiplier.toFixed(2)}x</div>
+                        {result.smokingMultiplier && <div>Smoking: {result.smokingMultiplier.toFixed(2)}x</div>}
+                      </div>
+                      <p className="text-xs text-gray-500 pt-2">
+                        Base annual premium: {CURRENCY_CONFIGS[currency].symbol}{Math.round((result.baseForProjection || 0) * 12)}
+                      </p>
+                    </div>
+                  </>
+                )}
 
                 <Alert className="mt-6">
                   <AlertTriangleIcon className="h-4 w-4" />
@@ -665,13 +764,13 @@ export default function InsuranceInflationCalculatorPage() {
           )}
         </div>
 
-        {/* Chart */}
+        {/* Advanced Chart with Scenarios */}
         {chartData.length > 0 && (
           <Card className="mb-12 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <BarChart3Icon className="w-5 h-5" />
-                Premium Growth Over Time
+                Premium Growth Over Time {advancedMode && showScenarios && <Badge className="ml-auto bg-amber-600">With Scenarios</Badge>}
               </CardTitle>
               <CardDescription>Insurance premium vs general inflation comparison</CardDescription>
             </CardHeader>
@@ -682,11 +781,17 @@ export default function InsuranceInflationCalculatorPage() {
                   <XAxis dataKey="year" />
                   <YAxis />
                   <Tooltip
-                    formatter={(value) => `${CURRENCY_CONFIGS[currency].symbol}${value}`}
+                    formatter={(value) => `${CURRENCY_CONFIGS[currency].symbol}${Math.round(value as number)}`}
                     labelFormatter={(label) => `Year: ${label}`}
                   />
                   <Legend />
-                  <Line type="monotone" dataKey="premium" stroke="hsl(200 100% 50%)" strokeWidth={3} name="Insurance Premium" />
+                  <Line type="monotone" dataKey="premium" stroke="hsl(200 100% 50%)" strokeWidth={3} name="Main Projection" />
+                  {advancedMode && showScenarios && (
+                    <>
+                      <Line type="monotone" dataKey="scenario1" stroke="hsl(100 70% 50%)" strokeWidth={2} strokeDasharray="5 5" name="Conservative (-20%)" />
+                      <Line type="monotone" dataKey="scenario3" stroke="hsl(0 70% 50%)" strokeWidth={2} strokeDasharray="5 5" name="Aggressive (+20%)" />
+                    </>
+                  )}
                   <Line type="monotone" dataKey="generalInflation" stroke="hsl(0 0% 50%)" strokeWidth={2} strokeDasharray="5 5" name="General Inflation Baseline" />
                 </LineChart>
               </ResponsiveContainer>
