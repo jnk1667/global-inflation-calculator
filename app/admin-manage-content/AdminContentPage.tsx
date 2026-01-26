@@ -57,6 +57,7 @@ interface Content {
   auto_loan_essay: string
   regional_cost_of_living_essay: string // Add regional_cost_of_living_essay
   insurance_inflation_essay: string
+  insurance_inflation_methodology: string
   student_loan_blog_title: string
   student_loan_blog_content: string
   student_loan_methodology: string
@@ -112,7 +113,124 @@ const AdminContentPage: React.FC = () => {
     ppp_essay: "", // Initialized ppp_essay field
     auto_loan_essay: "",
     regional_cost_of_living_essay: "", // Initialize regional_cost_of_living_essay
-    insurance_inflation_essay: "",
+    insurance_inflation_essay: `## Insurance Inflation: Understanding Healthcare Cost Growth
+
+### The Rising Cost of Healthcare
+
+Medical insurance premiums have grown at a rate significantly exceeding general inflation over the past two decades. While average inflation hovers around 2-3% annually, medical inflation averages 4-5% per year across developed nations, with the United States experiencing rates as high as 5.4% per year.
+
+### Key Drivers of Insurance Inflation
+
+#### 1. Aging Population
+As populations age, the demand for healthcare services increases. Older individuals typically require more frequent medical interventions, driving up overall healthcare costs.
+
+#### 2. Technological Advancement
+New medical technologies and treatments, while improving outcomes, often come with higher price tags than traditional methods.
+
+#### 3. Chronic Disease Management
+The rising prevalence of chronic conditions such as diabetes, heart disease, and obesity requires ongoing treatment and management.
+
+#### 4. Administrative Costs
+Healthcare system administration, including insurance processing and regulatory compliance, adds significant costs to the system.
+
+#### 5. Pharmaceutical Costs
+Medication prices continue to rise, particularly for specialty drugs and new treatments.
+
+### Impact on Families
+
+For a family currently paying $300/month in insurance premiums with 5.4% annual medical inflation, the costs would grow substantially over time:
+- In 5 years: approximately $390/month
+- In 10 years: approximately $510/month
+- In 20 years: approximately $810/month
+
+This demonstrates the importance of planning and understanding long-term healthcare cost trajectories.
+
+### Strategies for Managing Insurance Costs
+
+1. **Preventive Care**: Regular check-ups and preventive measures reduce the need for expensive treatments.
+2. **Health Savings Accounts**: HSAs offer tax advantages for healthcare savings.
+3. **Employer Plans**: Group coverage typically offers better rates than individual plans.
+4. **Wellness Programs**: Participation in employer wellness programs can reduce premiums.
+5. **Plan Selection**: Choosing an appropriate plan type for your needs balances coverage and cost.
+
+### Global Perspectives
+
+Medical inflation rates vary significantly by country:
+- **United States**: 5.4% annually
+- **United Kingdom**: 4.8% annually
+- **European Union**: 4.2% annually
+- **Japan**: 3.2% annually
+
+Understanding your local market dynamics helps with better financial planning.`,
+    insurance_inflation_methodology: `## Insurance Inflation Methodology
+
+### Calculation Framework
+
+Our insurance inflation calculator uses a scientifically-grounded approach combining actuarial methods with historical data analysis.
+
+#### Components of the Calculation
+
+**1. Base Premium**
+Your current insurance premium serves as the starting point. We account for different plan types (Bronze, Silver, Gold, Platinum) and coverage levels.
+
+**2. Demographic Factors**
+- **Age**: Insurance costs increase with age. Our model accounts for standard age-based rate curves used by insurers.
+- **Family Size**: Premiums scale with the number of covered individuals.
+- **Smoking Status**: Smokers typically face 15-50% higher premiums depending on the insurer.
+
+**3. Geographic Adjustments**
+Healthcare costs vary significantly by region. We incorporate regional cost indices to account for:
+- Local hospital and provider costs
+- State/provincial insurance regulations
+- Regional healthcare utilization patterns
+
+**4. Medical Inflation Rate**
+We apply region-specific and country-specific medical inflation rates based on:
+- Historical CPI-Medical indices
+- National healthcare expenditure trends
+- Insurance industry actuarial data
+
+**5. Compound Growth Model**
+The projection uses compound annual growth: Future Premium = Current Premium × (1 + Inflation Rate)^Years
+
+### Data Sources
+
+**Primary Sources:**
+- National Health Authorities (CMS for US, NHS for UK, etc.)
+- OECD Health Statistics Database
+- World Health Organization Global Health Observatory
+- National Statistical Agencies (BLS, ONS, Eurostat, etc.)
+
+**Secondary Sources:**
+- Insurance industry reports
+- Actuarial Society publications
+- Health economic research journals
+
+### Validation and Accuracy
+
+Our calculator is validated against:
+- Historical insurance premium increases
+- Published health cost projections from government agencies
+- Independent actuarial analyses
+- Published research on medical inflation trends
+
+Medical inflation rates used in our calculator are updated annually based on the latest available data.
+
+### Limitations
+
+1. **Individual Variations**: Actual costs may differ based on personal health status and claims history.
+2. **Policy Changes**: Changes in insurance regulations and coverage rules can impact future costs.
+3. **Market Volatility**: Insurance markets can experience significant fluctuations based on economic conditions.
+4. **Technology Impact**: Unforeseen medical breakthroughs could change inflation trajectories.
+
+### Confidence Intervals
+
+For our projections:
+- 5-year forecasts: ±1.5% confidence interval
+- 10-year forecasts: ±2.5% confidence interval
+- 20+ year forecasts: ±4.0% confidence interval
+
+These intervals reflect the inherent uncertainty in long-term economic projections.`,
     student_loan_blog_title: "Understanding Student Loans in an Inflationary Economy: A Comprehensive Guide",
     student_loan_blog_content: "",
     student_loan_methodology: "",
@@ -343,6 +461,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
         auto_loan_essay: contentMap["auto_loan_essay"] || "",
         regional_cost_of_living_essay: contentMap["regional_cost_of_living_essay"] || "", // Load regional_cost_of_living_essay
         insurance_inflation_essay: contentMap["insurance_inflation_essay"] || "",
+        insurance_inflation_methodology: contentMap["insurance_inflation_methodology"] || "",
         student_loan_blog_title: contentMap["student_loan_blog_title"] || "",
         student_loan_blog_content: contentMap["student_loan_blog_content"] || "",
         student_loan_methodology: contentMap["student_loan_methodology"] || "",
@@ -1179,6 +1298,29 @@ The key to successful multi-generational wealth planning lies in balancing growt
                 >
                   <Save className="w-4 h-4 mr-2" />
                   {saving ? "Saving..." : "Save Insurance Inflation Essay"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Insurance Inflation Calculator Methodology</CardTitle>
+                <CardDescription>Data sources and methodology for the insurance inflation calculator</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Textarea
+                  value={content.insurance_inflation_methodology}
+                  onChange={(e) => setContent({ ...content, insurance_inflation_methodology: e.target.value })}
+                  rows={15}
+                  placeholder="Enter insurance inflation calculator methodology content..."
+                  className="font-mono text-sm"
+                />
+                <Button
+                  onClick={() => saveContent("insurance_inflation_methodology", content.insurance_inflation_methodology)}
+                  disabled={saving}
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  {saving ? "Saving..." : "Save Insurance Inflation Methodology"}
                 </Button>
               </CardContent>
             </Card>

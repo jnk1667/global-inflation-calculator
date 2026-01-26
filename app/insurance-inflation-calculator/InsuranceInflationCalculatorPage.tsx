@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Heart, TrendingUpIcon, DollarSignIcon, CalendarIcon, BarChart3Icon, AlertTriangleIcon, InfoIcon, SettingsIcon, Zap } from "lucide-react"
+import { Heart, TrendingUpIcon, DollarSignIcon, CalendarIcon, BarChart3Icon, AlertTriangleIcon, InfoIcon, SettingsIcon, Zap, HelpCircle } from "lucide-react"
 import Link from "next/link"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, Bar } from "recharts"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
@@ -286,6 +286,7 @@ export default function InsuranceInflationCalculatorPage() {
   const [healthcareInflationData, setHealthcareInflationData] = useState<any>(null)
   const [loading, setLoading] = useState(false)
   const [blogContent, setBlogContent] = useState("")
+  const [methodology, setMethodology] = useState("")
   const [faqItems, setFaqItems] = useState<any[]>([])
   const [contentLoaded, setContentLoaded] = useState(false)
 
@@ -321,15 +322,15 @@ export default function InsuranceInflationCalculatorPage() {
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const { data: contentData } = await supabase
-          .from("site_content")
-          .select("insurance_inflation_essay")
-          .single()
-
-        if (contentData?.insurance_inflation_essay) {
-          setBlogContent(contentData.insurance_inflation_essay)
+        // Fetch blog and methodology from API
+        const blogResponse = await fetch("/api/insurance-inflation-blog")
+        const blogData = await blogResponse.json()
+        if (blogData.success && blogData.data) {
+          setBlogContent(blogData.data.essay || "")
+          setMethodology(blogData.data.methodology || "")
         }
 
+        // Fetch FAQs specific to insurance
         const { data: faqData } = await supabase
           .from("faqs")
           .select("*")
@@ -803,25 +804,182 @@ export default function InsuranceInflationCalculatorPage() {
         {blogContent && (
           <Card className="mb-12 shadow-lg">
             <CardHeader>
-              <CardTitle>Understanding Insurance Inflation</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Heart className="w-5 h-5 text-red-500" />
+                Understanding Insurance Inflation
+              </CardTitle>
+              <CardDescription>Comprehensive guide to healthcare costs and medical inflation trends</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="prose dark:prose-invert max-w-none">
               <MarkdownRenderer content={blogContent} />
             </CardContent>
           </Card>
         )}
 
+        {/* Data Sources & Methodology Section */}
+        <Card className="mb-12 shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <InfoIcon className="w-5 h-5" />
+              Data Sources & Methodology
+            </CardTitle>
+            <CardDescription>Understanding our calculations and data sources</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                  <BarChart3Icon className="w-4 h-4" />
+                  Medical Inflation Rates
+                </h3>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex justify-between">
+                    <span>United States (USD):</span>
+                    <Badge>5.4%/year</Badge>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Eurozone (EUR):</span>
+                    <Badge>4.2%/year</Badge>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>United Kingdom (GBP):</span>
+                    <Badge>4.8%/year</Badge>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Canada (CAD):</span>
+                    <Badge>4.6%/year</Badge>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Australia (AUD):</span>
+                    <Badge>4.1%/year</Badge>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Switzerland (CHF):</span>
+                    <Badge>3.9%/year</Badge>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Japan (JPY):</span>
+                    <Badge>3.2%/year</Badge>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>New Zealand (NZD):</span>
+                    <Badge>4.3%/year</Badge>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-lg mb-3">Premium Factors</h3>
+                <div className="space-y-3 text-sm">
+                  <p><strong>Age Adjustments:</strong> Premiums increase with age due to higher medical utilization.</p>
+                  <p><strong>Family Size Multipliers:</strong> Covering more people increases total costs proportionally.</p>
+                  <p><strong>Plan Types:</strong> Bronze, Silver, Gold, and Platinum plans have varying cost structures.</p>
+                  <p><strong>Regional Variations:</strong> Healthcare costs vary significantly by geographic location.</p>
+                  <p><strong>Smoking Status:</strong> Smokers typically face higher insurance premiums.</p>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div>
+              <h3 className="font-semibold text-lg mb-3">Data Sources</h3>
+              <ul className="space-y-2 text-sm list-disc list-inside">
+                <li>National health insurance premium data from official health authorities</li>
+                <li>OECD Health Statistics database for international healthcare costs</li>
+                <li>WHO Global Health Observatory for health expenditure trends</li>
+                <li>National statistical agencies for CPI and medical inflation indices</li>
+                <li>Insurance industry actuarial reports and health cost projections</li>
+              </ul>
+            </div>
+
+            <Separator />
+
+            <div>
+              <h3 className="font-semibold text-lg mb-3">Calculation Method</h3>
+              <p className="text-sm mb-3">
+                Our calculator uses a compound growth model that applies annual medical inflation rates to your current premium. The calculation accounts for:
+              </p>
+              <ol className="space-y-2 text-sm list-decimal list-inside">
+                <li>Your current premium as the base amount</li>
+                <li>Personal factors (age, family size, smoking status)</li>
+                <li>Plan type and coverage level</li>
+                <li>Regional healthcare cost variations</li>
+                <li>Historical and projected medical inflation rates</li>
+                <li>Compound annual growth over your projection period</li>
+              </ol>
+            </div>
+
+            <Alert>
+              <InfoIcon className="h-4 w-4" />
+              <AlertDescription>
+                These projections are estimates based on historical trends and current data. Actual insurance costs may vary due to policy changes, market conditions, and individual circumstances.
+              </AlertDescription>
+            </Alert>
+          </CardContent>
+        </Card>
+
         {/* FAQ Section */}
         {faqItems.length > 0 && (
-          <Card className="shadow-lg">
+          <Card className="mb-12 shadow-lg">
             <CardHeader>
-              <CardTitle>Frequently Asked Questions</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <HelpCircle className="w-5 h-5" />
+                Frequently Asked Questions
+              </CardTitle>
+              <CardDescription>Common questions about insurance inflation and healthcare costs</CardDescription>
             </CardHeader>
             <CardContent>
               <FAQ items={faqItems} />
             </CardContent>
           </Card>
         )}
+
+        {/* Footer Section */}
+        <footer className="mt-16 bg-slate-900 text-white rounded-lg shadow-lg">
+          <div className="container mx-auto px-4 py-12 max-w-7xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+              <div>
+                <h3 className="font-semibold text-lg mb-4">Insurance Inflation Calculator</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  Track insurance cost growth across 8 major currencies with medical inflation projections. Make informed decisions about your healthcare costs with historical data and future projections.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-lg mb-4">Data Sources</h3>
+                <ul className="space-y-2 text-slate-400 text-sm">
+                  <li>National Health Authorities</li>
+                  <li>OECD Health Statistics</li>
+                  <li>World Health Organization</li>
+                  <li>Insurance Industry Reports</li>
+                  <li>Statistical Agencies</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
+                <ul className="space-y-2 text-slate-400 text-sm">
+                  <li><Link href="/" className="hover:text-white transition">Home</Link></li>
+                  <li><Link href="/charts" className="hover:text-white transition">Charts & Analytics</Link></li>
+                  <li><Link href="/mortgage-calculator" className="hover:text-white transition">Mortgage Calculator</Link></li>
+                  <li><Link href="/retirement-calculator" className="hover:text-white transition">Retirement Calculator</Link></li>
+                  <li><Link href="/about" className="hover:text-white transition">About Us</Link></li>
+                </ul>
+              </div>
+            </div>
+
+            <Separator className="bg-slate-700 mb-8" />
+
+            <div className="text-center text-slate-400 text-sm">
+              <p>© 2026 Global Inflation Calculator. Educational purposes only.</p>
+              <p className="mt-2">
+                <Link href="/privacy" className="hover:text-white transition mr-4">Privacy Policy</Link>
+                <Link href="/terms" className="hover:text-white transition">Terms of Service</Link>
+              </p>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   )
