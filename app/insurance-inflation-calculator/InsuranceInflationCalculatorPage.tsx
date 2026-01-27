@@ -101,6 +101,18 @@ export default function InsuranceInflationCalculatorPage() {
     NZD: 4.3,
   }
 
+  // Currency to default region mapping
+  const currencyToRegion: Record<string, string> = {
+    EUR: "Germany",
+    USD: "USA",
+    GBP: "UK",
+    CAD: "Canada",
+    AUD: "Australia",
+    CHF: "Switzerland",
+    JPY: "Japan",
+    NZD: "New Zealand",
+  }
+
   // Family size multipliers
   const familyMultipliers: Record<string, number> = {
     individual: 1.0,
@@ -174,11 +186,32 @@ export default function InsuranceInflationCalculatorPage() {
 
   const result = calculateInsurance()
 
+  // Sync region when currency changes
+  useEffect(() => {
+    const defaultRegion = currencyToRegion[currency]
+    if (defaultRegion && region !== defaultRegion) {
+      setRegion(defaultRegion)
+      console.log("[v0] Currency changed to", currency, "- updating region to", defaultRegion)
+    }
+  }, [currency])
+
+  // Update custom inflation rate when currency changes
+  useEffect(() => {
+    const defaultRate = medicalInflationRates[currency] || 4.2
+    setCustomInflationRate(defaultRate)
+    console.log("[v0] Updating inflation rate for", currency, "to", defaultRate)
+  }, [currency])
+
   // Generate chart data
   const generateChartData = (): ChartDataPoint[] => {
-    if (!result) return []
+    if (!result) {
+      console.log("[v0] No result - cannot generate chart data")
+      return []
+    }
     const data: ChartDataPoint[] = []
     const baseInflation = customInflationRate || medicalInflationRates[currency] || 4.2
+
+    console.log("[v0] Generating chart data with inflation rate:", baseInflation, "for", yearsToProject, "years")
 
     for (let year = 0; year <= yearsToProject; year++) {
       const premium = result.currentPremium * Math.pow(1 + baseInflation / 100, year)
@@ -201,6 +234,7 @@ export default function InsuranceInflationCalculatorPage() {
       }
     }
 
+    console.log("[v0] Generated chart data with", data.length, "points:", data.slice(0, 3))
     return data
   }
 
@@ -465,8 +499,7 @@ export default function InsuranceInflationCalculatorPage() {
                       <YAxis />
                       <Tooltip formatter={(value) => (typeof value === "number" ? `${currency} ${value.toFixed(0)}` : value)} />
                       <Legend />
-                      <Line type="monotone" dataKey="premium" stroke="#2196f3" strokeWidth={2} name="Premium" />
-                      <Line type="monotone" dataKey="medicalInflation" stroke="#f44336" strokeWidth={2} strokeDasharray="5 5" name="Medical Inflation %" />
+                      <Line type="monotone" dataKey="premium" stroke="#2196f3" strokeWidth={3} name={`Monthly Premium (${currency})`} />
                     </LineChart>
                   )}
                 </ResponsiveContainer>
