@@ -507,29 +507,6 @@ export default function InsuranceInflationCalculatorPage() {
             </CardContent>
           </Card>
         )}
-                    </ComposedChart>
-                  ) : (
-                    <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="year" />
-                      <YAxis />
-                      <Tooltip formatter={(value) => (typeof value === "number" ? `${currency} ${value.toFixed(0)}` : value)} />
-                      <Legend />
-                      <Line type="monotone" dataKey="premium" stroke="#2196f3" strokeWidth={3} name={`Monthly Premium (${currency})`} />
-                    </LineChart>
-                  )}
-                </ResponsiveContainer>
-              )}
-
-              <Alert>
-                <AlertTriangleIcon className="h-4 w-4" />
-                <AlertDescription>
-                  Medical inflation ({result.medicalInflationRate.toFixed(2)}%/year) typically outpaces general inflation (2-3%/year), meaning healthcare costs grow faster than other expenses.
-                </AlertDescription>
-              </Alert>
-            </CardContent>
-          </Card>
-        )}
 
         {/* Blog Section - Editable from Admin */}
         {blogContent && (
