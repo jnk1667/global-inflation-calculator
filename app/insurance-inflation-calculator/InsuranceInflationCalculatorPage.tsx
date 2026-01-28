@@ -648,48 +648,94 @@ export default function InsuranceInflationCalculatorPage() {
               {/* Right Column - Quick Links */}
               <div>
                 <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-                <ul className="space-y-2 text-sm">
+                <ul className="space-y-2 text-sm text-gray-400">
                   <li>
-                    <Link href="/" className="text-gray-400 hover:text-white transition-colors">
+                    <Link href="/" className="hover:text-white transition-colors">
                       Home - Inflation Calculator
                     </Link>
                   </li>
                   <li>
-                    <Link href="/charts" className="text-gray-400 hover:text-white transition-colors">
+                    <Link href="/deflation-calculator" className="hover:text-white transition-colors">
+                      Deflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/charts" className="hover:text-white transition-colors">
                       Charts & Analytics
                     </Link>
                   </li>
                   <li>
-                    <Link href="/retirement-calculator" className="text-gray-400 hover:text-white transition-colors">
+                    <Link href="/ppp-calculator" className="hover:text-white transition-colors">
+                      PPP Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/auto-loan-calculator" className="hover:text-white transition-colors">
+                      Auto Loan Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/salary-calculator" className="hover:text-white transition-colors">
+                      Salary Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/retirement-calculator" className="hover:text-white transition-colors">
                       Retirement Calculator
                     </Link>
                   </li>
                   <li>
-                    <Link href="/mortgage-calculator" className="text-gray-400 hover:text-white transition-colors">
+                    <Link href="/student-loan-calculator" className="hover:text-white transition-colors">
+                      Student Loan Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/mortgage-calculator" className="hover:text-white transition-colors">
                       Mortgage Calculator
                     </Link>
                   </li>
                   <li>
-                    <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
+                    <Link href="/budget-calculator" className="hover:text-white transition-colors">
+                      Budget Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/emergency-fund-calculator" className="hover:text-white transition-colors">
+                      Emergency Fund Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/roi-calculator" className="hover:text-white transition-colors">
+                      ROI Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/legacy-planner" className="hover:text-white transition-colors">
+                      Legacy Planner
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about" className="hover:text-white transition-colors">
                       About Us
                     </Link>
                   </li>
+                  <li>
+                    <Link href="/privacy" className="hover:text-white transition-colors">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/terms" className="hover:text-white transition-colors">
+                      Terms of Service
+                    </Link>
+                  </li>
                 </ul>
+                <p className="text-sm text-gray-400 mt-4">Last Updated: January 2026</p>
               </div>
             </div>
 
-            <Separator className="my-8 bg-gray-700" />
-
-            <div className="text-center text-gray-400 text-sm">
-              <p>© 2026 Global Inflation Calculator. Educational purposes only.</p>
-              <p className="mt-2">
-                <Link href="/privacy" className="hover:text-white transition mr-4">
-                  Privacy Policy
-                </Link>
-                <Link href="/terms" className="hover:text-white transition">
-                  Terms of Service
-                </Link>
-              </p>
+            <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+              <p>&copy; 2026 Global Inflation Calculator. Educational purposes only.</p>
             </div>
           </div>
         </footer>
