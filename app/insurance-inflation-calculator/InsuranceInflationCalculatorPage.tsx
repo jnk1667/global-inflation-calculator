@@ -79,6 +79,7 @@ export default function InsuranceInflationCalculatorPage() {
   const [planType, setPlanType] = useState("silver")
   const [currency, setCurrency] = useState("EUR")
   const [region, setRegion] = useState("Germany")
+  const [isSmoker, setIsSmoker] = useState(false)
   const [advancedMode, setAdvancedMode] = useState(false)
   const [enableScenarios, setEnableScenarios] = useState(false)
   const [customInflationRate, setCustomInflationRate] = useState(4.2)
@@ -86,6 +87,7 @@ export default function InsuranceInflationCalculatorPage() {
   const [healthcareInflationData, setHealthcareInflationData] = useState<any>(null)
   const [loading, setLoading] = useState(false)
   const [blogContent, setBlogContent] = useState("")
+  const [methodology, setMethodology] = useState("")
   const [faqItems, setFaqItems] = useState<any[]>([])
   const [contentLoaded, setContentLoaded] = useState(false)
 
