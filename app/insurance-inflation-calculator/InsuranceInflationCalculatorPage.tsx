@@ -278,219 +278,235 @@ export default function InsuranceInflationCalculatorPage() {
           </p>
         </div>
 
-        {/* Calculator Card */}
-        <Card className="shadow-2xl border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm mb-8">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="flex items-center gap-2 text-2xl">
-                  <SettingsIcon className="h-6 w-6 text-blue-600" />
-                  Your Information
-                </CardTitle>
-                <CardDescription>Enter your details to forecast insurance costs</CardDescription>
-              </div>
-              <div className="flex items-center gap-2">
-                <Zap className={`h-5 w-5 ${advancedMode ? "text-purple-600" : "text-gray-400"}`} />
-                <Switch checked={advancedMode} onCheckedChange={setAdvancedMode} aria-label="Toggle advanced mode" />
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Advanced</span>
-              </div>
-            </div>
-          </CardHeader>
+        {/* Calculator Grid - Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Left Column - Your Information */}
+          <Card className="shadow-lg border-0">
+            <CardHeader className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
+              <CardTitle className="flex items-center gap-2">
+                <SettingsIcon className="h-5 w-5" />
+                Your Information
+              </CardTitle>
+              <CardDescription className="text-blue-50">Enter your details to forecast insurance costs</CardDescription>
+            </CardHeader>
 
-          <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Currency & Country */}
-              <div className="space-y-2">
-                <Label htmlFor="currency">Currency & Country</Label>
-                <Select value={currency} onValueChange={setCurrency}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="EUR">EUR - European Union</SelectItem>
-                    <SelectItem value="USD">USD - United States</SelectItem>
-                    <SelectItem value="GBP">GBP - United Kingdom</SelectItem>
-                    <SelectItem value="CAD">CAD - Canada</SelectItem>
-                    <SelectItem value="AUD">AUD - Australia</SelectItem>
-                    <SelectItem value="CHF">CHF - Switzerland</SelectItem>
-                    <SelectItem value="JPY">JPY - Japan</SelectItem>
-                    <SelectItem value="NZD">NZD - New Zealand</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            <CardContent className="pt-6 space-y-4">
+              <div className="space-y-4">
+                {/* Currency & Country */}
+                <div className="space-y-2">
+                  <Label htmlFor="currency">Currency & Country</Label>
+                  <Select value={currency} onValueChange={setCurrency}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="EUR">EUR - European Union</SelectItem>
+                      <SelectItem value="USD">USD - United States</SelectItem>
+                      <SelectItem value="GBP">GBP - United Kingdom</SelectItem>
+                      <SelectItem value="CAD">CAD - Canada</SelectItem>
+                      <SelectItem value="AUD">AUD - Australia</SelectItem>
+                      <SelectItem value="CHF">CHF - Switzerland</SelectItem>
+                      <SelectItem value="JPY">JPY - Japan</SelectItem>
+                      <SelectItem value="NZD">NZD - New Zealand</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Region/State */}
-              <div className="space-y-2">
-                <Label htmlFor="region">Region/State</Label>
-                <Select value={region} onValueChange={setRegion}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Germany">Germany</SelectItem>
-                    <SelectItem value="France">France</SelectItem>
-                    <SelectItem value="Italy">Italy</SelectItem>
-                    <SelectItem value="Spain">Spain</SelectItem>
-                    <SelectItem value="UK">United Kingdom</SelectItem>
-                    <SelectItem value="USA">United States</SelectItem>
-                    <SelectItem value="Canada">Canada</SelectItem>
-                    <SelectItem value="Australia">Australia</SelectItem>
-                    <SelectItem value="Switzerland">Switzerland</SelectItem>
-                    <SelectItem value="Japan">Japan</SelectItem>
-                    <SelectItem value="New Zealand">New Zealand</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {/* Region/State */}
+                <div className="space-y-2">
+                  <Label htmlFor="region">Region/State</Label>
+                  <Select value={region} onValueChange={setRegion}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Germany">Germany</SelectItem>
+                      <SelectItem value="France">France</SelectItem>
+                      <SelectItem value="Italy">Italy</SelectItem>
+                      <SelectItem value="Spain">Spain</SelectItem>
+                      <SelectItem value="UK">United Kingdom</SelectItem>
+                      <SelectItem value="USA">United States</SelectItem>
+                      <SelectItem value="Canada">Canada</SelectItem>
+                      <SelectItem value="Australia">Australia</SelectItem>
+                      <SelectItem value="Switzerland">Switzerland</SelectItem>
+                      <SelectItem value="Japan">Japan</SelectItem>
+                      <SelectItem value="New Zealand">New Zealand</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Current Age */}
-              <div className="space-y-2">
-                <Label>Current Age: {currentAge}</Label>
-                <Slider
-                  value={[currentAge]}
-                  onValueChange={(val) => setCurrentAge(val[0])}
-                  min={18}
-                  max={80}
-                  step={1}
-                  className="w-full"
-                />
-              </div>
+                {/* Current Age */}
+                <div className="space-y-2">
+                  <Label htmlFor="age">Current Age</Label>
+                  <Input
+                    id="age"
+                    type="number"
+                    value={currentAge}
+                    onChange={(e) => setCurrentAge(parseInt(e.target.value) || 18)}
+                    min="18"
+                    max="80"
+                    placeholder="35"
+                  />
+                </div>
 
-              {/* Years to Project */}
-              <div className="space-y-2">
-                <Label>Years to Project: {yearsToProject}</Label>
-                <Slider value={[yearsToProject]} onValueChange={(val) => setYearsToProject(val[0])} min={1} max={40} step={1} className="w-full" />
-              </div>
-
-              {/* Current Monthly Premium */}
-              <div className="space-y-2">
-                <Label htmlFor="premium">Current Monthly Premium</Label>
-                <div className="relative">
-                  <DollarSignIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                {/* Current Monthly Premium */}
+                <div className="space-y-2">
+                  <Label htmlFor="premium">Current Monthly Premium ($)</Label>
                   <Input
                     id="premium"
                     type="number"
                     value={currentPremium}
                     onChange={(e) => setCurrentPremium(parseFloat(e.target.value) || 0)}
-                    className="pl-10"
                     placeholder="300"
                   />
                 </div>
-              </div>
 
-              {/* Family Size */}
-              <div className="space-y-2">
-                <Label htmlFor="family">Family Size</Label>
-                <Select value={familySize} onValueChange={setFamilySize}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="individual">Individual</SelectItem>
-                    <SelectItem value="couple">Couple</SelectItem>
-                    <SelectItem value="family_3">Family (3 people)</SelectItem>
-                    <SelectItem value="family_4">Family (4 people)</SelectItem>
-                    <SelectItem value="family_5plus">Family (5+ people)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Plan Type */}
-              <div className="space-y-2">
-                <Label htmlFor="plan">Plan Type</Label>
-                <Select value={planType} onValueChange={setPlanType}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="bronze">Bronze (Basic Coverage)</SelectItem>
-                    <SelectItem value="silver">Silver (Standard Coverage)</SelectItem>
-                    <SelectItem value="gold">Gold (Enhanced Coverage)</SelectItem>
-                    <SelectItem value="platinum">Platinum (Comprehensive)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {advancedMode && (
-              <div className="space-y-4 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-purple-900 dark:text-purple-100">Advanced Options</h3>
-                  <Badge variant="outline">Pro</Badge>
-                </div>
-
+                {/* Family Size */}
                 <div className="space-y-2">
-                  <Label>Medical Inflation Rate: {customInflationRate.toFixed(2)}%</Label>
-                  <Slider
-                    value={[customInflationRate]}
-                    onValueChange={(val) => setCustomInflationRate(val[0])}
-                    min={1}
-                    max={10}
-                    step={0.1}
-                    className="w-full"
-                  />
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Default: {medicalInflationRates[currency] || 4.2}% for {currency}</p>
+                  <Label htmlFor="family">Family Size</Label>
+                  <Select value={familySize} onValueChange={setFamilySize}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="individual">Individual</SelectItem>
+                      <SelectItem value="couple">Couple</SelectItem>
+                      <SelectItem value="family_3">Individual + 2 Children</SelectItem>
+                      <SelectItem value="family_4">Couple + 2 Children</SelectItem>
+                      <SelectItem value="family_5plus">Family (5+ people)</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <Switch checked={enableScenarios} onCheckedChange={setEnableScenarios} />
-                  <Label className="mb-0">Show Scenario Comparison (Conservative, Current, Aggressive)</Label>
+                {/* Plan Type */}
+                <div className="space-y-2">
+                  <Label htmlFor="plan">Plan Type</Label>
+                  <Select value={planType} onValueChange={setPlanType}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="bronze">Bronze</SelectItem>
+                      <SelectItem value="silver">Silver</SelectItem>
+                      <SelectItem value="gold">Gold</SelectItem>
+                      <SelectItem value="platinum">Platinum</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Years to Project */}
+                <div className="space-y-2">
+                  <Label htmlFor="years">Years to Project</Label>
+                  <Select value={yearsToProject.toString()} onValueChange={(val) => setYearsToProject(parseInt(val))}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[...Array(40)].map((_, i) => (
+                        <SelectItem key={i + 1} value={(i + 1).toString()}>
+                          {i + 1} {i === 0 ? "year" : "years"}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Smoker */}
+                <div className="space-y-2">
+                  <Label htmlFor="smoker">Smoker?</Label>
+                  <Select value={isSmoker ? "yes" : "no"} onValueChange={(val) => setIsSmoker(val === "yes")}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="no">No</SelectItem>
+                      <SelectItem value="yes">Yes (50% surcharge applied)</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
 
-        {/* Results */}
-        {result && (
-          <Card className="shadow-lg border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm mb-8">
-            <CardHeader>
+              <Button onClick={() => setLoading(!loading)} className="w-full bg-blue-600 hover:bg-blue-700">
+                Calculate Premium Forecast
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Right Column - Premium Forecast */}
+          <Card className="shadow-lg border-0">
+            <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-400 text-white">
               <CardTitle className="flex items-center gap-2">
-                <TrendingUpIcon className="h-5 w-5 text-blue-600" />
+                <TrendingUpIcon className="h-5 w-5" />
                 Premium Forecast
               </CardTitle>
-              <CardDescription>Projected monthly premium in {yearsToProject} years</CardDescription>
+              <CardDescription className="text-blue-50">Projected costs in {yearsToProject} years</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                    <span className="text-gray-600 dark:text-gray-300">Current Monthly Premium:</span>
-                    <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">{currency} {result.currentPremium.toFixed(0)}</span>
+              {result && (
+                <>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600 dark:text-gray-300">Current Monthly Premium:</span>
+                      <span className="text-2xl font-bold text-blue-600">{currency}{result.currentPremium.toFixed(0)}</span>
+                    </div>
+                    <Separator />
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600 dark:text-gray-300">Projected Monthly Premium:</span>
+                      <span className="text-2xl font-bold text-emerald-600">{currency}{result.projectedPremium.toFixed(0)}</span>
+                    </div>
+                    <Separator />
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600 dark:text-gray-300">Total Increase:</span>
+                      <Badge className="text-base" variant="destructive">{currency}{result.totalIncrease.toFixed(0)}</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600 dark:text-gray-300">Percentage Increase:</span>
+                      <span className="font-semibold">{result.percentageIncrease.toFixed(1)}%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600 dark:text-gray-300">Annual Growth Rate:</span>
+                      <Badge className="bg-orange-500">{result.annualGrowthRate.toFixed(2)}%</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600 dark:text-gray-300">Medical Inflation Rate:</span>
+                      <Badge className="bg-purple-500">{result.medicalInflationRate.toFixed(2)}%</Badge>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                    <span className="text-gray-600 dark:text-gray-300">Projected Monthly Premium:</span>
-                    <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">{currency} {result.projectedPremium.toFixed(0)}</span>
-                  </div>
-                  <div className="flex justify-between items-center p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                    <span className="text-gray-600 dark:text-gray-300">Total Increase:</span>
-                    <span className="text-2xl font-bold text-red-600 dark:text-red-400">{currency} {result.totalIncrease.toFixed(0)}</span>
-                  </div>
-                </div>
 
-                <div className="space-y-3">
-                  <Badge className="w-full justify-center py-2 text-base bg-purple-500">Percentage Increase: {result.percentageIncrease.toFixed(1)}%</Badge>
-                  <Badge className="w-full justify-center py-2 text-base bg-green-500">Medical Inflation Rate: {result.medicalInflationRate.toFixed(2)}%/year</Badge>
-                  <Badge className="w-full justify-center py-2 text-base bg-indigo-500">Annual Growth Rate: {result.annualGrowthRate.toFixed(2)}%</Badge>
-                </div>
-              </div>
+                  <Alert>
+                    <AlertTriangleIcon className="h-4 w-4" />
+                    <AlertDescription>
+                      Medical inflation ({result.medicalInflationRate.toFixed(2)}%/year) consistently outpaces general inflation (2-3%/year), making healthcare costs one
+                      of the fastest-growing household expenses.
+                    </AlertDescription>
+                  </Alert>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </div>
 
-              {/* Chart */}
-              {chartData.length > 0 && (
-                <ResponsiveContainer width="100%" height={300}>
-                  {enableScenarios ? (
-                    <ComposedChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="year" />
-                      <YAxis />
-                      <Tooltip formatter={(value) => (typeof value === "number" ? `${currency} ${value.toFixed(0)}` : value)} />
-                      <Legend />
-                      {enableScenarios && (
-                        <>
-                          <Line type="monotone" dataKey="scenario1" stroke="#ff9800" strokeWidth={2} name="Conservative (-2%)" />
-                          <Line type="monotone" dataKey="scenario2" stroke="#2196f3" strokeWidth={2} name="Current" />
-                          <Line type="monotone" dataKey="scenario3" stroke="#f44336" strokeWidth={2} name="Aggressive (+2%)" />
-                        </>
-                      )}
+        {/* Chart Section */}
+        {result && chartData.length > 0 && (
+          <Card className="shadow-lg mb-8">
+            <CardHeader>
+              <CardTitle>Premium Growth Over Time</CardTitle>
+              <CardDescription>Projected premium trajectory for the next {yearsToProject} years</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={350}>
+                <LineChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="year" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => (typeof value === "number" ? `${currency} ${value.toFixed(0)}` : value)} />
+                  <Legend />
+                  <Line type="monotone" dataKey="premium" stroke="#2196f3" strokeWidth={3} name={`Monthly Premium (${currency})`} />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        )}
                     </ComposedChart>
                   ) : (
                     <LineChart data={chartData}>
