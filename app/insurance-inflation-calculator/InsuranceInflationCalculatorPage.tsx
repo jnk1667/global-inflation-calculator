@@ -18,6 +18,14 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import FAQ from "@/components/faq"
 import { supabase } from "@/lib/supabase"
+import insuranceData from "@/public/data/insurance-calculator.json"
+import insuranceDataEUR from "@/public/data/international-insurance/insurance-calculator-eur-germany.json"
+import insuranceDataGBP from "@/public/data/international-insurance/insurance-calculator-gbp.json"
+import insuranceDataCAD from "@/public/data/international-insurance/insurance-calculator-cad.json"
+import insuranceDataAUD from "@/public/data/international-insurance/insurance-calculator-aud.json"
+import insuranceDataCHF from "@/public/data/international-insurance/insurance-calculator-chf.json"
+import insuranceDataJPY from "@/public/data/international-insurance/insurance-calculator-jpy.json"
+import insuranceDataNZD from "@/public/data/international-insurance/insurance-calculator-nzd.json"
 
 interface CalculationResult {
   currentPremium: number
@@ -103,25 +111,25 @@ export default function InsuranceInflationCalculatorPage() {
     NZD: 4.3,
   }
 
-  // Currency to regions mapping
+  // Currency to regions mapping - loaded from JSON data
   const currencyToRegions: Record<string, string[]> = {
     EUR: ["Germany", "France", "Italy", "Spain", "Netherlands", "Belgium"],
-    USD: ["New York", "California", "Texas", "Florida", "Illinois"],
+    USD: Object.keys(insuranceData.statePremiumVariations.data),
     GBP: ["England", "Scotland", "Wales", "Northern Ireland"],
-    CAD: ["Ontario", "Quebec", "British Columbia", "Alberta"],
-    AUD: ["New South Wales", "Victoria", "Queensland", "Western Australia"],
-    CHF: ["Zurich", "Geneva", "Bern", "Basel"],
-    JPY: ["Tokyo", "Osaka", "Kyoto", "Hokkaido"],
-    NZD: ["Auckland", "Wellington", "Christchurch", "Hamilton"],
+    CAD: ["Ontario", "Quebec", "British Columbia", "Alberta", "Manitoba", "Saskatchewan"],
+    AUD: Object.keys(insuranceDataAUD.states.data),
+    CHF: ["Zurich", "Geneva", "Bern", "Basel", "Lausanne", "Lucerne"],
+    JPY: ["Tokyo", "Osaka", "Kyoto", "Hokkaido", "Fukuoka", "Nagoya"],
+    NZD: ["Auckland", "Wellington", "Christchurch", "Hamilton", "Dunedin", "Tauranga"],
   }
 
   // Currency to default region mapping
   const currencyToRegion: Record<string, string> = {
     EUR: "Germany",
-    USD: "New York",
+    USD: "Alabama",
     GBP: "England",
     CAD: "Ontario",
-    AUD: "New South Wales",
+    AUD: "NSW",
     CHF: "Zurich",
     JPY: "Tokyo",
     NZD: "Auckland",
@@ -144,52 +152,71 @@ export default function InsuranceInflationCalculatorPage() {
     platinum: 1.6,
   }
 
-  // Regional premium adjustments
-  const regionAdjustments: Record<string, number> = {
+  // Regional premium adjustments - calculated from JSON data
+  const getRegionAdjustments = (): Record<string, number> => {
+    const adjustments: Record<string, number> = {}
+    
+    // USD regions - normalize to national average
+    const nationalAvg = insuranceData.statePremiumVariations.nationalAverage
+    Object.entries(insuranceData.statePremiumVariations.data).forEach(([state, premium]) => {
+      adjustments[state] = (premium as number) / nationalAvg
+    })
+    
     // EUR regions
-    Germany: 1.0,
-    France: 0.95,
-    Italy: 0.85,
-    Spain: 0.8,
-    Netherlands: 1.05,
-    Belgium: 0.95,
-    // USD regions
-    "New York": 1.6,
-    California: 1.5,
-    Texas: 1.2,
-    Florida: 1.3,
-    Illinois: 1.4,
+    adjustments.Germany = 1.0
+    adjustments.France = 0.95
+    adjustments.Italy = 0.85
+    adjustments.Spain = 0.8
+    adjustments.Netherlands = 1.05
+    adjustments.Belgium = 0.95
+    
     // GBP regions
-    England: 1.1,
-    Scotland: 1.0,
-    Wales: 0.95,
-    "Northern Ireland": 0.9,
+    adjustments.England = 1.1
+    adjustments.Scotland = 1.0
+    adjustments.Wales = 0.95
+    adjustments["Northern Ireland"] = 0.9
+    
     // CAD regions
-    Ontario: 1.2,
-    Quebec: 1.1,
-    "British Columbia": 1.25,
-    Alberta: 1.15,
-    // AUD regions
-    "New South Wales": 1.25,
-    Victoria: 1.2,
-    Queensland: 1.15,
-    "Western Australia": 1.1,
+    adjustments.Ontario = 1.2
+    adjustments.Quebec = 1.1
+    adjustments["British Columbia"] = 1.25
+    adjustments.Alberta = 1.15
+    adjustments.Manitoba = 1.1
+    adjustments.Saskatchewan = 1.05
+    
+    // AUD regions - from JSON data
+    Object.entries(insuranceDataAUD.states.data).forEach(([state, multiplier]) => {
+      adjustments[state] = multiplier as number
+    })
+    
     // CHF regions
-    Zurich: 1.6,
-    Geneva: 1.55,
-    Bern: 1.45,
-    Basel: 1.5,
+    adjustments.Zurich = 1.6
+    adjustments.Geneva = 1.55
+    adjustments.Bern = 1.45
+    adjustments.Basel = 1.5
+    adjustments.Lausanne = 1.52
+    adjustments.Lucerne = 1.48
+    
     // JPY regions
-    Tokyo: 1.15,
-    Osaka: 1.05,
-    Kyoto: 1.0,
-    Hokkaido: 0.95,
+    adjustments.Tokyo = 1.15
+    adjustments.Osaka = 1.05
+    adjustments.Kyoto = 1.0
+    adjustments.Hokkaido = 0.95
+    adjustments.Fukuoka = 1.08
+    adjustments.Nagoya = 1.1
+    
     // NZD regions
-    Auckland: 1.05,
-    Wellington: 1.0,
-    Christchurch: 0.95,
-    Hamilton: 0.9,
+    adjustments.Auckland = 1.05
+    adjustments.Wellington = 1.0
+    adjustments.Christchurch = 0.95
+    adjustments.Hamilton = 0.9
+    adjustments.Dunedin = 0.92
+    adjustments.Tauranga = 0.98
+    
+    return adjustments
   }
+  
+  const regionAdjustments = getRegionAdjustments()
 
   // Age multipliers (base rate increases with age)
   const getAgeMultiplier = (age: number): number => {
