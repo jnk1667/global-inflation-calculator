@@ -92,6 +92,7 @@ export default function InsuranceInflationCalculatorPage() {
   const [contentLoaded, setContentLoaded] = useState(false)
   const [insuranceData, setInsuranceData] = useState<any>(null)
   const [stateRegions, setStateRegions] = useState<string[]>([])
+  const [internationalData, setInternationalData] = useState<Record<string, any>>({})
 
   // Medical inflation rates by currency/country
   const medicalInflationRates: Record<string, number> = {
@@ -105,17 +106,42 @@ export default function InsuranceInflationCalculatorPage() {
     NZD: 4.3,
   }
 
-  // Currency to regions mapping - uses loaded data for USD states
-  const currencyToRegions: Record<string, string[]> = {
-    EUR: ["Germany", "France", "Italy", "Spain", "Netherlands", "Belgium"],
-    USD: stateRegions.length > 0 ? stateRegions : ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "Washington DC"],
-    GBP: ["England", "Scotland", "Wales", "Northern Ireland"],
-    CAD: ["Ontario", "Quebec", "British Columbia", "Alberta", "Manitoba", "Saskatchewan"],
-    AUD: ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"],
-    CHF: ["Zurich", "Geneva", "Bern", "Basel", "Lausanne", "Lucerne"],
-    JPY: ["Tokyo", "Osaka", "Kyoto", "Hokkaido", "Fukuoka", "Nagoya"],
-    NZD: ["Auckland", "Wellington", "Christchurch", "Hamilton", "Dunedin", "Tauranga"],
+  // Currency to regions mapping - dynamically loaded from JSON data
+  const getCurrencyRegions = (): Record<string, string[]> => {
+    const regions: Record<string, string[]> = {}
+    
+    // USD - use loaded state data
+    regions.USD = stateRegions.length > 0 ? stateRegions : ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "Washington DC"]
+    
+    // EUR - currently only Germany in data
+    regions.EUR = ["Germany", "France", "Italy", "Spain", "Netherlands", "Belgium"]
+    
+    // GBP - use UK regions
+    regions.GBP = ["England", "Scotland", "Wales", "Northern Ireland"]
+    
+    // CAD - use loaded province data if available
+    if (internationalData.CAD?.provinces?.data) {
+      regions.CAD = Object.keys(internationalData.CAD.provinces.data)
+    } else {
+      regions.CAD = ["Ontario", "Quebec", "British Columbia", "Alberta", "Manitoba", "Saskatchewan"]
+    }
+    
+    // AUD - use state codes
+    regions.AUD = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"]
+    
+    // CHF - Swiss cantons/cities
+    regions.CHF = ["Zurich", "Geneva", "Bern", "Basel", "Lausanne", "Lucerne"]
+    
+    // JPY - Japanese regions
+    regions.JPY = ["Tokyo", "Osaka", "Kyoto", "Hokkaido", "Fukuoka", "Nagoya"]
+    
+    // NZD - New Zealand regions
+    regions.NZD = ["Auckland", "Wellington", "Christchurch", "Hamilton", "Dunedin", "Tauranga"]
+    
+    return regions
   }
+  
+  const currencyToRegions = getCurrencyRegions()
 
   // Currency to default region mapping
   const currencyToRegion: Record<string, string> = {
@@ -146,7 +172,7 @@ export default function InsuranceInflationCalculatorPage() {
     platinum: 1.6,
   }
 
-  // Regional premium adjustments - will be updated from JSON data if loaded
+  // Regional premium adjustments - loaded from JSON data files
   const getRegionAdjustments = (): Record<string, number> => {
     const adjustments: Record<string, number> = {}
     
@@ -176,13 +202,19 @@ export default function InsuranceInflationCalculatorPage() {
     adjustments.Wales = 0.95
     adjustments["Northern Ireland"] = 0.9
     
-    // CAD regions
-    adjustments.Ontario = 1.2
-    adjustments.Quebec = 1.1
-    adjustments["British Columbia"] = 1.25
-    adjustments.Alberta = 1.15
-    adjustments.Manitoba = 1.1
-    adjustments.Saskatchewan = 1.05
+    // CAD regions - use loaded province data if available
+    if (internationalData.CAD?.provinces?.data) {
+      Object.entries(internationalData.CAD.provinces.data).forEach(([province, multiplier]) => {
+        adjustments[province] = multiplier as number
+      })
+    } else {
+      adjustments.Ontario = 1.05
+      adjustments.Quebec = 1.0
+      adjustments["British Columbia"] = 1.1
+      adjustments.Alberta = 1.08
+      adjustments.Manitoba = 1.02
+      adjustments.Saskatchewan = 1.0
+    }
     
     // AUD regions
     adjustments.NSW = 1.25
@@ -312,13 +344,33 @@ export default function InsuranceInflationCalculatorPage() {
   useEffect(() => {
     const loadInsuranceData = async () => {
       try {
-        const response = await fetch('/data/insurance-calculator.json')
-        const data = await response.json()
-        setInsuranceData(data)
+        // Load USD data
+        const usdResponse = await fetch('/data/insurance-calculator.json')
+        const usdData = await usdResponse.json()
+        setInsuranceData(usdData)
         
-        if (data?.statePremiumVariations?.data) {
-          setStateRegions(Object.keys(data.statePremiumVariations.data))
+        if (usdData?.statePremiumVariations?.data) {
+          setStateRegions(Object.keys(usdData.statePremiumVariations.data))
         }
+        
+        // Load international data for all currencies
+        const currencies = ['eur-germany', 'gbp', 'cad', 'aud', 'chf', 'jpy', 'nzd']
+        const internationalDataMap: Record<string, any> = {}
+        
+        await Promise.all(
+          currencies.map(async (currencyFile) => {
+            try {
+              const response = await fetch(`/data/international-insurance/insurance-calculator-${currencyFile}.json`)
+              const data = await response.json()
+              const currencyCode = currencyFile.split('-')[0].toUpperCase()
+              internationalDataMap[currencyCode] = data
+            } catch (err) {
+              console.error(`[v0] Error loading ${currencyFile}:`, err)
+            }
+          })
+        )
+        
+        setInternationalData(internationalDataMap)
       } catch (error) {
         console.error('[v0] Error loading insurance data:', error)
       }
