@@ -90,7 +90,6 @@ export default function InsuranceInflationCalculatorPage() {
   const [methodology, setMethodology] = useState("")
   const [faqItems, setFaqItems] = useState<any[]>([])
   const [contentLoaded, setContentLoaded] = useState(false)
-  const [insuranceData, setInsuranceData] = useState<any>(null)
   const [stateRegions, setStateRegions] = useState<string[]>([])
   const [internationalData, setInternationalData] = useState<Record<string, any>>({})
 
