@@ -2,10 +2,11 @@ import { supabase } from "@/lib/supabase"
 
 export async function GET() {
   try {
-    // Fetch insurance inflation blog content from site_content table
+    // Fetch insurance inflation blog content from seo_content table
     const { data, error } = await supabase
-      .from("site_content")
-      .select("insurance_inflation_essay, insurance_inflation_methodology")
+      .from("seo_content")
+      .select("content")
+      .eq("id", "insurance_inflation_essay")
       .single()
 
     if (error) {
@@ -19,8 +20,8 @@ export async function GET() {
     return Response.json({
       success: true,
       data: {
-        essay: data?.insurance_inflation_essay || "",
-        methodology: data?.insurance_inflation_methodology || "",
+        essay: data?.content || "",
+        methodology: "", // Methodology is hardcoded on the page
       },
     })
   } catch (error) {
