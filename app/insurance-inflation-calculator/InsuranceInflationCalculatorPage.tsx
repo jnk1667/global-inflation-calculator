@@ -103,16 +103,28 @@ export default function InsuranceInflationCalculatorPage() {
     NZD: 4.3,
   }
 
+  // Currency to regions mapping
+  const currencyToRegions: Record<string, string[]> = {
+    EUR: ["Germany", "France", "Italy", "Spain", "Netherlands", "Belgium"],
+    USD: ["New York", "California", "Texas", "Florida", "Illinois"],
+    GBP: ["England", "Scotland", "Wales", "Northern Ireland"],
+    CAD: ["Ontario", "Quebec", "British Columbia", "Alberta"],
+    AUD: ["New South Wales", "Victoria", "Queensland", "Western Australia"],
+    CHF: ["Zurich", "Geneva", "Bern", "Basel"],
+    JPY: ["Tokyo", "Osaka", "Kyoto", "Hokkaido"],
+    NZD: ["Auckland", "Wellington", "Christchurch", "Hamilton"],
+  }
+
   // Currency to default region mapping
   const currencyToRegion: Record<string, string> = {
     EUR: "Germany",
-    USD: "USA",
-    GBP: "UK",
-    CAD: "Canada",
-    AUD: "Australia",
-    CHF: "Switzerland",
-    JPY: "Japan",
-    NZD: "New Zealand",
+    USD: "New York",
+    GBP: "England",
+    CAD: "Ontario",
+    AUD: "New South Wales",
+    CHF: "Zurich",
+    JPY: "Tokyo",
+    NZD: "Auckland",
   }
 
   // Family size multipliers
@@ -134,17 +146,49 @@ export default function InsuranceInflationCalculatorPage() {
 
   // Regional premium adjustments
   const regionAdjustments: Record<string, number> = {
+    // EUR regions
     Germany: 1.0,
     France: 0.95,
     Italy: 0.85,
     Spain: 0.8,
-    UK: 1.1,
-    USA: 1.4,
-    Canada: 1.15,
-    Australia: 1.2,
-    Switzerland: 1.5,
-    Japan: 1.05,
-    "New Zealand": 1.0,
+    Netherlands: 1.05,
+    Belgium: 0.95,
+    // USD regions
+    "New York": 1.6,
+    California: 1.5,
+    Texas: 1.2,
+    Florida: 1.3,
+    Illinois: 1.4,
+    // GBP regions
+    England: 1.1,
+    Scotland: 1.0,
+    Wales: 0.95,
+    "Northern Ireland": 0.9,
+    // CAD regions
+    Ontario: 1.2,
+    Quebec: 1.1,
+    "British Columbia": 1.25,
+    Alberta: 1.15,
+    // AUD regions
+    "New South Wales": 1.25,
+    Victoria: 1.2,
+    Queensland: 1.15,
+    "Western Australia": 1.1,
+    // CHF regions
+    Zurich: 1.6,
+    Geneva: 1.55,
+    Bern: 1.45,
+    Basel: 1.5,
+    // JPY regions
+    Tokyo: 1.15,
+    Osaka: 1.05,
+    Kyoto: 1.0,
+    Hokkaido: 0.95,
+    // NZD regions
+    Auckland: 1.05,
+    Wellington: 1.0,
+    Christchurch: 0.95,
+    Hamilton: 0.9,
   }
 
   // Age multipliers (base rate increases with age)
@@ -188,20 +232,12 @@ export default function InsuranceInflationCalculatorPage() {
 
   const result = calculateInsurance()
 
-  // Sync region when currency changes
+  // Update region when currency changes
   useEffect(() => {
     const defaultRegion = currencyToRegion[currency]
-    if (defaultRegion && region !== defaultRegion) {
+    if (defaultRegion) {
       setRegion(defaultRegion)
-      console.log("[v0] Currency changed to", currency, "- updating region to", defaultRegion)
     }
-  }, [currency])
-
-  // Update custom inflation rate when currency changes
-  useEffect(() => {
-    const defaultRate = medicalInflationRates[currency] || 4.2
-    setCustomInflationRate(defaultRate)
-    console.log("[v0] Updating inflation rate for", currency, "to", defaultRate)
   }, [currency])
 
   // Generate chart data
@@ -322,17 +358,11 @@ export default function InsuranceInflationCalculatorPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Germany">Germany</SelectItem>
-                      <SelectItem value="France">France</SelectItem>
-                      <SelectItem value="Italy">Italy</SelectItem>
-                      <SelectItem value="Spain">Spain</SelectItem>
-                      <SelectItem value="UK">United Kingdom</SelectItem>
-                      <SelectItem value="USA">United States</SelectItem>
-                      <SelectItem value="Canada">Canada</SelectItem>
-                      <SelectItem value="Australia">Australia</SelectItem>
-                      <SelectItem value="Switzerland">Switzerland</SelectItem>
-                      <SelectItem value="Japan">Japan</SelectItem>
-                      <SelectItem value="New Zealand">New Zealand</SelectItem>
+                      {currencyToRegions[currency]?.map((regionOption) => (
+                        <SelectItem key={regionOption} value={regionOption}>
+                          {regionOption}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
