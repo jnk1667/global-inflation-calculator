@@ -18,14 +18,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import FAQ from "@/components/faq"
 import { supabase } from "@/lib/supabase"
-import insuranceData from "@/public/data/insurance-calculator.json"
-import insuranceDataEUR from "@/public/data/international-insurance/insurance-calculator-eur-germany.json"
-import insuranceDataGBP from "@/public/data/international-insurance/insurance-calculator-gbp.json"
-import insuranceDataCAD from "@/public/data/international-insurance/insurance-calculator-cad.json"
-import insuranceDataAUD from "@/public/data/international-insurance/insurance-calculator-aud.json"
-import insuranceDataCHF from "@/public/data/international-insurance/insurance-calculator-chf.json"
-import insuranceDataJPY from "@/public/data/international-insurance/insurance-calculator-jpy.json"
-import insuranceDataNZD from "@/public/data/international-insurance/insurance-calculator-nzd.json"
 
 interface CalculationResult {
   currentPremium: number
@@ -98,6 +90,8 @@ export default function InsuranceInflationCalculatorPage() {
   const [methodology, setMethodology] = useState("")
   const [faqItems, setFaqItems] = useState<any[]>([])
   const [contentLoaded, setContentLoaded] = useState(false)
+  const [insuranceData, setInsuranceData] = useState<any>(null)
+  const [stateRegions, setStateRegions] = useState<string[]>([])
 
   // Medical inflation rates by currency/country
   const medicalInflationRates: Record<string, number> = {
@@ -111,13 +105,13 @@ export default function InsuranceInflationCalculatorPage() {
     NZD: 4.3,
   }
 
-  // Currency to regions mapping - loaded from JSON data
+  // Currency to regions mapping - uses loaded data for USD states
   const currencyToRegions: Record<string, string[]> = {
     EUR: ["Germany", "France", "Italy", "Spain", "Netherlands", "Belgium"],
-    USD: Object.keys(insuranceData.statePremiumVariations.data),
+    USD: stateRegions.length > 0 ? stateRegions : ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "Washington DC"],
     GBP: ["England", "Scotland", "Wales", "Northern Ireland"],
     CAD: ["Ontario", "Quebec", "British Columbia", "Alberta", "Manitoba", "Saskatchewan"],
-    AUD: Object.keys(insuranceDataAUD.states.data),
+    AUD: ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"],
     CHF: ["Zurich", "Geneva", "Bern", "Basel", "Lausanne", "Lucerne"],
     JPY: ["Tokyo", "Osaka", "Kyoto", "Hokkaido", "Fukuoka", "Nagoya"],
     NZD: ["Auckland", "Wellington", "Christchurch", "Hamilton", "Dunedin", "Tauranga"],
@@ -152,15 +146,21 @@ export default function InsuranceInflationCalculatorPage() {
     platinum: 1.6,
   }
 
-  // Regional premium adjustments - calculated from JSON data
+  // Regional premium adjustments - will be updated from JSON data if loaded
   const getRegionAdjustments = (): Record<string, number> => {
     const adjustments: Record<string, number> = {}
     
-    // USD regions - normalize to national average
-    const nationalAvg = insuranceData.statePremiumVariations.nationalAverage
-    Object.entries(insuranceData.statePremiumVariations.data).forEach(([state, premium]) => {
-      adjustments[state] = (premium as number) / nationalAvg
-    })
+    // USD regions - use loaded data if available
+    if (insuranceData?.statePremiumVariations) {
+      const nationalAvg = insuranceData.statePremiumVariations.nationalAverage
+      Object.entries(insuranceData.statePremiumVariations.data).forEach(([state, premium]) => {
+        adjustments[state] = (premium as number) / nationalAvg
+      })
+    } else {
+      // Fallback US state adjustments
+      const usStates = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "Washington DC"]
+      usStates.forEach(state => { adjustments[state] = 1.0 })
+    }
     
     // EUR regions
     adjustments.Germany = 1.0
@@ -184,10 +184,15 @@ export default function InsuranceInflationCalculatorPage() {
     adjustments.Manitoba = 1.1
     adjustments.Saskatchewan = 1.05
     
-    // AUD regions - from JSON data
-    Object.entries(insuranceDataAUD.states.data).forEach(([state, multiplier]) => {
-      adjustments[state] = multiplier as number
-    })
+    // AUD regions
+    adjustments.NSW = 1.25
+    adjustments.VIC = 1.2
+    adjustments.QLD = 1.15
+    adjustments.WA = 1.1
+    adjustments.SA = 1.05
+    adjustments.TAS = 1.0
+    adjustments.ACT = 1.22
+    adjustments.NT = 1.08
     
     // CHF regions
     adjustments.Zurich = 1.6
@@ -302,6 +307,25 @@ export default function InsuranceInflationCalculatorPage() {
     console.log("[v0] Generated chart data with", data.length, "points:", data.slice(0, 3))
     return data
   }
+
+  // Load insurance data from JSON files
+  useEffect(() => {
+    const loadInsuranceData = async () => {
+      try {
+        const response = await fetch('/data/insurance-calculator.json')
+        const data = await response.json()
+        setInsuranceData(data)
+        
+        if (data?.statePremiumVariations?.data) {
+          setStateRegions(Object.keys(data.statePremiumVariations.data))
+        }
+      } catch (error) {
+        console.error('[v0] Error loading insurance data:', error)
+      }
+    }
+    
+    loadInsuranceData()
+  }, [])
 
   // Load blog content
   useEffect(() => {
