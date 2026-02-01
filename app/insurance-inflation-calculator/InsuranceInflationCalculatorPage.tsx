@@ -621,6 +621,13 @@ export default function InsuranceInflationCalculatorPage() {
           </Card>
         )}
 
+        {/* FAQ Section */}
+        <Card className="shadow-lg mb-16">
+          <CardContent className="pt-6">
+            <FAQ category="insurance-inflation" />
+          </CardContent>
+        </Card>
+
         {/* Footer */}
         <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12 mt-16 rounded-t-lg">
           <div className="container mx-auto px-4">
