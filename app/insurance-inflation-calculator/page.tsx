@@ -6,7 +6,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflation
 export const metadata: Metadata = {
   title: "Insurance Inflation Calculator | Premium Cost Forecast",
   description:
-    "Calculate how your health insurance premiums will increase over time with medical inflation. Project 5, 10, or 20-year costs based on age, family size, and location.",
+    "Calculate how your health insurance premiums will increase over time with medical inflation. Project 5, 10, or 20-year costs based on age, family size & location.",
   keywords: [
     "insurance inflation calculator",
     "health insurance cost calculator",
