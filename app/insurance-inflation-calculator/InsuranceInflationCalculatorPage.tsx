@@ -575,7 +575,7 @@ export default function InsuranceInflationCalculatorPage() {
               </CardTitle>
               <CardDescription className="text-blue-50">Projected costs in {yearsToProject} years</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 pt-6">
               {result && (
                 <>
                   <div className="space-y-4">
