@@ -171,16 +171,19 @@ export default function DeflationCalculator() {
       {
         "@type": "Dataset",
         name: "London Bullion Market Association (LBMA) Gold Price",
+        description: "Official daily gold and silver price fixings from the London Bullion Market, the global reference price for precious metals since 1919.",
         url: "https://www.lbma.org.uk/prices-and-data/precious-metal-prices",
       },
       {
         "@type": "Dataset",
         name: "US Energy Information Administration (EIA) Crude Oil Data",
+        description: "Historical West Texas Intermediate (WTI) crude oil spot prices and petroleum market statistics from 1985 to present, published by the U.S. Department of Energy.",
         url: "https://www.eia.gov/petroleum/",
       },
       {
         "@type": "Dataset",
         name: "Federal Reserve Economic Data (FRED)",
+        description: "Comprehensive commodity price indices, precious metals pricing, and asset valuation data maintained by the Federal Reserve Bank of St. Louis.",
         url: "https://fred.stlouisfed.org/",
       },
     ],

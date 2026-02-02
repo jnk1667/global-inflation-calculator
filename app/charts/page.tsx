@@ -161,26 +161,31 @@ export default function Page() {
       {
         "@type": "Dataset",
         name: "Bureau of Labor Statistics CPI",
+        description: "U.S. Consumer Price Index time series data including urban consumers (CPI-U), core inflation, and detailed expenditure category inflation rates from 1913 to present.",
         url: "https://www.bls.gov/cpi/",
       },
       {
         "@type": "Dataset",
         name: "Federal Reserve Economic Data (FRED)",
+        description: "Economic time series for inflation analysis including CPI, PCE, GDP deflator, and cross-country purchasing power parity data from the Federal Reserve Bank of St. Louis.",
         url: "https://fred.stlouisfed.org/",
       },
       {
         "@type": "Dataset",
         name: "Office for National Statistics UK",
+        description: "UK inflation time series including Consumer Prices Index (CPI), CPIH, Retail Prices Index (RPI), and component price indices from 1947 to present.",
         url: "https://www.ons.gov.uk/",
       },
       {
         "@type": "Dataset",
         name: "Eurostat",
+        description: "Harmonised Index of Consumer Prices (HICP) for visualization and cross-country comparison across all European Union member states from 1996 onwards.",
         url: "https://ec.europa.eu/eurostat/",
       },
       {
         "@type": "Dataset",
         name: "OECD Statistics",
+        description: "International inflation and purchasing power parity statistics covering OECD member countries, including CPI, healthcare costs, and cost of living indices.",
         url: "https://stats.oecd.org/",
       },
     ],

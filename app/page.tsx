@@ -91,21 +91,25 @@ const datasetSchema = {
     {
       "@type": "Dataset",
       name: "US Bureau of Labor Statistics CPI Data",
+      description: "Official Consumer Price Index data for all urban consumers (CPI-U) including historical inflation rates, price indices, and cost of living measurements from 1913 to present.",
       url: "https://www.bls.gov/cpi/",
     },
     {
       "@type": "Dataset",
       name: "Federal Reserve Economic Data (FRED)",
+      description: "Comprehensive economic time series data including CPI, PCE, GDP deflator, and purchasing power statistics maintained by the Federal Reserve Bank of St. Louis.",
       url: "https://fred.stlouisfed.org/",
     },
     {
       "@type": "Dataset",
       name: "UK Office for National Statistics",
+      description: "Official UK inflation statistics including Consumer Prices Index (CPI), Retail Prices Index (RPI), and historical price data from 1947 to present.",
       url: "https://www.ons.gov.uk/",
     },
     {
       "@type": "Dataset",
       name: "Eurostat",
+      description: "Harmonised Index of Consumer Prices (HICP) and inflation statistics for European Union member states from 1996 to present.",
       url: "https://ec.europa.eu/eurostat/",
     },
   ],
