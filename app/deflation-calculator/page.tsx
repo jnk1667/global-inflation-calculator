@@ -127,6 +127,65 @@ export default function DeflationCalculator() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Deflation Calculator - Track Purchasing Power Growth with Scarce Assets",
+    description:
+      "Learn how deflationary assets like Gold, Silver, Crude Oil, Bitcoin, and Ethereum help preserve and grow purchasing power over time through scarcity mechanisms.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/favicon-96x96.png`,
+      },
+    },
+    datePublished: "2024-01-15",
+    dateModified: "2026-02-02",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/deflation-calculator`,
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Deflationary Asset Historical Price Data",
+    description:
+      "Historical price data for scarce assets including Gold (1985-2025), Silver (1985-2025), Crude Oil WTI (1985-2025), Bitcoin (2013-2025), and Ethereum (2015-2025).",
+    url: `${siteUrl}/deflation-calculator`,
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "1985/2025",
+    variableMeasured: ["Gold Price", "Silver Price", "Crude Oil Price", "Bitcoin Price", "Ethereum Price"],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "London Bullion Market Association (LBMA) Gold Price",
+        url: "https://www.lbma.org.uk/prices-and-data/precious-metal-prices",
+      },
+      {
+        "@type": "Dataset",
+        name: "US Energy Information Administration (EIA) Crude Oil Data",
+        url: "https://www.eia.gov/petroleum/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Federal Reserve Economic Data (FRED)",
+        url: "https://fred.stlouisfed.org/",
+      },
+    ],
+  }
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -170,6 +229,8 @@ export default function DeflationCalculator() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <DeflationCalculatorPage />
 

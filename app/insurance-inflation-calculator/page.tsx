@@ -81,6 +81,81 @@ export default function Page() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Insurance Inflation Calculator - Health Insurance Premium Cost Forecasting",
+    description:
+      "Calculate how health insurance premiums will increase over time with medical inflation. Project 5, 10, or 20-year costs based on age, family size, region, and plan type across 8 currencies.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/favicon-96x96.png`,
+      },
+    },
+    datePublished: "2024-02-01",
+    dateModified: "2026-02-02",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/insurance-inflation-calculator`,
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Health Insurance Premium Inflation Dataset",
+    description:
+      "Comprehensive health insurance premium data covering regional variations, age multipliers, family size adjustments, and medical inflation rates across USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD currencies.",
+    url: `${siteUrl}/insurance-inflation-calculator`,
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "2015/2026",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "Global - 8 Major Healthcare Markets",
+    },
+    variableMeasured: [
+      "Monthly Insurance Premium",
+      "Medical Inflation Rate",
+      "Regional Premium Variation",
+      "Age-Based Multiplier",
+      "Family Size Adjustment",
+      "Plan Tier Differential",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "National Health Authorities",
+        url: "https://www.who.int/",
+      },
+      {
+        "@type": "Dataset",
+        name: "OECD Health Statistics",
+        url: "https://stats.oecd.org/",
+      },
+      {
+        "@type": "Dataset",
+        name: "World Health Organization Global Health Observatory",
+        url: "https://www.who.int/data/gho",
+      },
+      {
+        "@type": "Dataset",
+        name: "National Statistical Agencies",
+        url: "https://unstats.un.org/",
+      },
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -104,6 +179,8 @@ export default function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <InsuranceInflationCalculatorPage />
     </>
   )

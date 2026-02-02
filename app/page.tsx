@@ -24,6 +24,93 @@ const webAppSchema = {
   },
 }
 
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "Global Inflation Calculator - Understanding Inflation and Purchasing Power",
+  description:
+    "Comprehensive guide to calculating historical inflation and purchasing power across 8 major currencies from 1913-2026 using official government data.",
+  author: {
+    "@type": "Organization",
+    name: "Global Inflation Calculator",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Global Inflation Calculator",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://globalinflationcalculator.com/favicon-96x96.png",
+    },
+  },
+  datePublished: "2024-01-01",
+  dateModified: "2026-02-02",
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": "https://globalinflationcalculator.com/",
+  },
+}
+
+const datasetSchema = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: "Historical Inflation Data - Multi-Currency CPI Database",
+  description:
+    "Comprehensive historical inflation data covering USD (1913-2025), GBP (1947-2025), EUR (1996-2025), CAD (1913-2025), AUD (1948-2025), CHF (1913-2025), JPY (1946-2025), and NZD (1960-2025).",
+  url: "https://globalinflationcalculator.com/",
+  creator: {
+    "@type": "Organization",
+    name: "Global Inflation Calculator",
+  },
+  includedInDataCatalog: {
+    "@type": "DataCatalog",
+    name: "Global Inflation Calculator Data Repository",
+  },
+  temporalCoverage: "1913/2025",
+  spatialCoverage: {
+    "@type": "Place",
+    name: "Global",
+  },
+  variableMeasured: [
+    "Consumer Price Index",
+    "Core CPI",
+    "Chained CPI",
+    "PCE",
+    "PPI",
+    "GDP Deflator",
+    "Purchasing Power",
+  ],
+  distribution: [
+    {
+      "@type": "DataDownload",
+      encodingFormat: "application/json",
+      contentUrl: "https://globalinflationcalculator.com/data/inflation-calculator.json",
+    },
+  ],
+  license: "https://creativecommons.org/licenses/by/4.0/",
+  isBasedOn: [
+    {
+      "@type": "Dataset",
+      name: "US Bureau of Labor Statistics CPI Data",
+      url: "https://www.bls.gov/cpi/",
+    },
+    {
+      "@type": "Dataset",
+      name: "Federal Reserve Economic Data (FRED)",
+      url: "https://fred.stlouisfed.org/",
+    },
+    {
+      "@type": "Dataset",
+      name: "UK Office for National Statistics",
+      url: "https://www.ons.gov.uk/",
+    },
+    {
+      "@type": "Dataset",
+      name: "Eurostat",
+      url: "https://ec.europa.eu/eurostat/",
+    },
+  ],
+}
+
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -89,6 +176,8 @@ export default function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* Interactive calculator - client component */}

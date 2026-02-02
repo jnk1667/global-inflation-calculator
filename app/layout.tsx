@@ -116,10 +116,75 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const siteUrl = "https://www.globalinflationcalculator.com"
+  
+  // Logo Schema
+  const logoSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Global Inflation Calculator",
+    url: siteUrl,
+    logo: `${siteUrl}/favicon-96x96.png`,
+    sameAs: [],
+  }
+
+  // Site Navigation Schema
+  const siteNavigationSchema = {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    name: "Main Navigation",
+    hasPart: [
+      {
+        "@type": "WebPage",
+        name: "Home",
+        url: `${siteUrl}/`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Deflation Calculator",
+        url: `${siteUrl}/deflation-calculator`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Charts",
+        url: `${siteUrl}/charts`,
+      },
+      {
+        "@type": "WebPage",
+        name: "PPP Calculator",
+        url: `${siteUrl}/ppp-calculator`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Insurance Inflation Calculator",
+        url: `${siteUrl}/insurance-inflation-calculator`,
+      },
+    ],
+  }
+
+  // Site Links Search Box Schema
+  const searchBoxSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Global Inflation Calculator",
+    url: siteUrl,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly site information" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(logoSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(searchBoxSchema) }} />
       </head>
       <body className={inter.className}>
         {/* Google AdSense */}

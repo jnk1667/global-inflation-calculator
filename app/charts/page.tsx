@@ -105,6 +105,87 @@ export default function Page() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Inflation Charts & Analytics - Visualize Currency Trends Across Time",
+    description:
+      "Interactive inflation charts and analytics across 8 currencies from 1913-2025. Visualize purchasing power erosion, currency stability, healthcare inflation, and historical trends.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
+      },
+    },
+    datePublished: "2024-01-20",
+    dateModified: "2026-02-02",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": "https://www.globalinflationcalculator.com/charts",
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Multi-Currency Inflation Visualization Dataset",
+    description:
+      "Comprehensive visualization dataset for inflation rates, purchasing power changes, currency stability rankings, and cross-currency correlations from 1913-2025.",
+    url: "https://www.globalinflationcalculator.com/charts",
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "1913/2025",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "Global - 8 Major Currencies",
+    },
+    variableMeasured: [
+      "Annual Inflation Rate",
+      "Cumulative Inflation",
+      "Purchasing Power Index",
+      "Currency Stability Score",
+      "Healthcare Inflation",
+      "Real Estate Inflation",
+      "Wage Growth",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "Bureau of Labor Statistics CPI",
+        url: "https://www.bls.gov/cpi/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Federal Reserve Economic Data (FRED)",
+        url: "https://fred.stlouisfed.org/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Office for National Statistics UK",
+        url: "https://www.ons.gov.uk/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Eurostat",
+        url: "https://ec.europa.eu/eurostat/",
+      },
+      {
+        "@type": "Dataset",
+        name: "OECD Statistics",
+        url: "https://stats.oecd.org/",
+      },
+    ],
+  }
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -156,6 +237,8 @@ export default function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <ChartsPage />
 
