@@ -418,7 +418,23 @@ export default function AccessibilityPage() {
                       PPP Calculator
                     </Link>
                     <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
-                      Compare purchasing power parity across major economies with historical trends
+                      Compare purchasing power parity across international economies
+                    </p>
+                  </li>
+                  <li>
+                    <Link href="/roi-calculator" className="text-blue-600 hover:underline">
+                      ROI Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate investment returns adjusted for inflation
+                    </p>
+                  </li>
+                  <li>
+                    <Link href="/insurance-inflation-calculator" className="text-blue-600 hover:underline">
+                      Insurance Inflation Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate how health insurance premiums increase with medical inflation over 5, 10, or 20 years
                     </p>
                   </li>
                   <li>

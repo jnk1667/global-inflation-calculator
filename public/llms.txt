@@ -49,6 +49,10 @@ Calculate investment returns adjusted for inflation.
 URL: https://globalinflationcalculator.com/ppp-calculator
 Compare purchasing power parity across economies.
 
+### Insurance Inflation Calculator
+URL: https://globalinflationcalculator.com/insurance-inflation-calculator
+Calculate health insurance premium increases over time with medical inflation. Project 5, 10, or 20-year costs based on age, family size, region, plan type, and smoking status across 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD). Features regional premium variations, medical inflation rates 3-6% annually, and comprehensive cost forecasting.
+
 ### Legacy Planner
 URL: https://globalinflationcalculator.com/legacy-planner
 Project multi-generational wealth transfer with inflation.
