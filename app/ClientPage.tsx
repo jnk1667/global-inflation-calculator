@@ -1909,6 +1909,14 @@ export default function ClientPage() {
                   </li>
                   <li>
                     <Link
+                      href="/insurance-inflation-calculator"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Insurance Inflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/legacy-planner"
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >
