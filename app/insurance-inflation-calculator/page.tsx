@@ -138,24 +138,44 @@ export default function Page() {
         name: "National Health Authorities",
         description: "Official health insurance premium data and medical inflation statistics from national health authorities worldwide.",
         url: "https://www.who.int/",
+        creator: {
+          "@type": "Organization",
+          name: "World Health Organization",
+        },
+        license: "https://www.who.int/about/policies/publishing/copyright",
       },
       {
         "@type": "Dataset",
         name: "OECD Health Statistics",
         description: "Comprehensive health expenditure data, insurance coverage statistics, and healthcare cost trends across OECD member countries.",
         url: "https://stats.oecd.org/",
+        creator: {
+          "@type": "Organization",
+          name: "Organisation for Economic Co-operation and Development",
+        },
+        license: "https://www.oecd.org/en/about/terms-conditions.html",
       },
       {
         "@type": "Dataset",
         name: "World Health Organization Global Health Observatory",
         description: "Global health statistics including healthcare expenditure, insurance coverage rates, and medical inflation indicators from WHO member states.",
         url: "https://www.who.int/data/gho",
+        creator: {
+          "@type": "Organization",
+          name: "World Health Organization",
+        },
+        license: "https://www.who.int/about/policies/publishing/copyright",
       },
       {
         "@type": "Dataset",
         name: "National Statistical Agencies",
         description: "Healthcare cost indices, medical CPI data, and insurance premium statistics from national statistical offices globally.",
         url: "https://unstats.un.org/",
+        creator: {
+          "@type": "Organization",
+          name: "United Nations Statistics Division",
+        },
+        license: "https://www.un.org/en/about-us/terms-of-use",
       },
     ],
   }

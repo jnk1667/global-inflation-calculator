@@ -93,24 +93,44 @@ const datasetSchema = {
       name: "US Bureau of Labor Statistics CPI Data",
       description: "Official Consumer Price Index data for all urban consumers (CPI-U) including historical inflation rates, price indices, and cost of living measurements from 1913 to present.",
       url: "https://www.bls.gov/cpi/",
+      creator: {
+        "@type": "Organization",
+        name: "U.S. Bureau of Labor Statistics",
+      },
+      license: "https://www.usa.gov/government-works",
     },
     {
       "@type": "Dataset",
       name: "Federal Reserve Economic Data (FRED)",
       description: "Comprehensive economic time series data including CPI, PCE, GDP deflator, and purchasing power statistics maintained by the Federal Reserve Bank of St. Louis.",
       url: "https://fred.stlouisfed.org/",
+      creator: {
+        "@type": "Organization",
+        name: "Federal Reserve Bank of St. Louis",
+      },
+      license: "https://fred.stlouisfed.org/legal/",
     },
     {
       "@type": "Dataset",
       name: "UK Office for National Statistics",
       description: "Official UK inflation statistics including Consumer Prices Index (CPI), Retail Prices Index (RPI), and historical price data from 1947 to present.",
       url: "https://www.ons.gov.uk/",
+      creator: {
+        "@type": "Organization",
+        name: "UK Office for National Statistics",
+      },
+      license: "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
     },
     {
       "@type": "Dataset",
       name: "Eurostat",
       description: "Harmonised Index of Consumer Prices (HICP) and inflation statistics for European Union member states from 1996 to present.",
       url: "https://ec.europa.eu/eurostat/",
+      creator: {
+        "@type": "Organization",
+        name: "Eurostat - European Commission",
+      },
+      license: "https://creativecommons.org/licenses/by/4.0/",
     },
   ],
 }

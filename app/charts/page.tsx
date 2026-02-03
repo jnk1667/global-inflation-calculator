@@ -163,30 +163,55 @@ export default function Page() {
         name: "Bureau of Labor Statistics CPI",
         description: "U.S. Consumer Price Index time series data including urban consumers (CPI-U), core inflation, and detailed expenditure category inflation rates from 1913 to present.",
         url: "https://www.bls.gov/cpi/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Bureau of Labor Statistics",
+        },
+        license: "https://www.usa.gov/government-works",
       },
       {
         "@type": "Dataset",
         name: "Federal Reserve Economic Data (FRED)",
         description: "Economic time series for inflation analysis including CPI, PCE, GDP deflator, and cross-country purchasing power parity data from the Federal Reserve Bank of St. Louis.",
         url: "https://fred.stlouisfed.org/",
+        creator: {
+          "@type": "Organization",
+          name: "Federal Reserve Bank of St. Louis",
+        },
+        license: "https://fred.stlouisfed.org/legal/",
       },
       {
         "@type": "Dataset",
         name: "Office for National Statistics UK",
         description: "UK inflation time series including Consumer Prices Index (CPI), CPIH, Retail Prices Index (RPI), and component price indices from 1947 to present.",
         url: "https://www.ons.gov.uk/",
+        creator: {
+          "@type": "Organization",
+          name: "UK Office for National Statistics",
+        },
+        license: "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
       },
       {
         "@type": "Dataset",
         name: "Eurostat",
         description: "Harmonised Index of Consumer Prices (HICP) for visualization and cross-country comparison across all European Union member states from 1996 onwards.",
         url: "https://ec.europa.eu/eurostat/",
+        creator: {
+          "@type": "Organization",
+          name: "Eurostat - European Commission",
+        },
+        license: "https://creativecommons.org/licenses/by/4.0/",
       },
       {
         "@type": "Dataset",
         name: "OECD Statistics",
         description: "International inflation and purchasing power parity statistics covering OECD member countries, including CPI, healthcare costs, and cost of living indices.",
         url: "https://stats.oecd.org/",
+        creator: {
+          "@type": "Organization",
+          name: "Organisation for Economic Co-operation and Development",
+        },
+        license: "https://www.oecd.org/en/about/terms-conditions.html",
       },
     ],
   }
