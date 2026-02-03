@@ -66,6 +66,96 @@ export default function PPPCalculatorRoute() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "PPP Calculator - Compare Purchasing Power Parity Across Global Economies",
+    description:
+      "Comprehensive guide to calculating and comparing purchasing power parity across 200+ countries using World Bank and OECD data from 1990-2023 with sector-specific breakdowns.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://globalinflationcalculator.com/favicon-96x96.png",
+      },
+    },
+    datePublished: "2024-01-10",
+    dateModified: "2026-02-03",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": "https://globalinflationcalculator.com/ppp-calculator",
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Purchasing Power Parity (PPP) Conversion Factors Dataset",
+    description:
+      "Comprehensive purchasing power parity conversion factors for 200+ countries from 1990-2023, including sector-specific PPP data for 38 OECD member countries covering housing, healthcare, education, food, and transportation.",
+    url: "https://globalinflationcalculator.com/ppp-calculator",
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "1990/2023",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "Global - 200+ Countries",
+    },
+    variableMeasured: [
+      "PPP Conversion Factor",
+      "Price Level Ratio",
+      "Comparative Price Level",
+      "Sector-specific PPP",
+      "Real GDP per capita (PPP)",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "World Bank PPP Conversion Factors",
+        description:
+          "Official purchasing power parity conversion factors for GDP (PA.NUS.PPP) covering 200+ countries from 1990 to present, published by the World Bank International Comparison Program.",
+        url: "https://data.worldbank.org/indicator/PA.NUS.PPP",
+        creator: {
+          "@type": "Organization",
+          name: "The World Bank",
+        },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "OECD Purchasing Power Parities Data",
+        description:
+          "Detailed sector-specific purchasing power parity statistics for 38 OECD member countries, including breakdowns for housing, healthcare, education, food, transportation, and other expenditure categories.",
+        url: "https://stats.oecd.org/Index.aspx?DataSetCode=PPP",
+        creator: {
+          "@type": "Organization",
+          name: "Organisation for Economic Co-operation and Development",
+        },
+        license: "https://www.oecd.org/en/about/terms-conditions.html",
+      },
+      {
+        "@type": "Dataset",
+        name: "International Monetary Fund Price Level Index",
+        description:
+          "Comparative price levels and purchasing power indicators from IMF World Economic Outlook, providing cross-country price comparisons relative to the United States.",
+        url: "https://www.imf.org/en/Publications/WEO",
+        creator: {
+          "@type": "Organization",
+          name: "International Monetary Fund",
+        },
+        license: "https://www.imf.org/external/terms.htm",
+      },
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -128,6 +218,8 @@ export default function PPPCalculatorRoute() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <PPPCalculatorPage />
     </>
