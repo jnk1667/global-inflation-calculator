@@ -199,12 +199,52 @@ export default function Page() {
     ],
   }
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How much will my health insurance premiums increase over time?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Health insurance premiums typically increase at a rate of 4-6% annually due to medical inflation, which consistently outpaces general inflation. Over 10 years, a $300 monthly premium at 4.2% medical inflation could grow to approximately $453 per month. Our calculator uses OECD and WHO data to project these increases based on your age, location, and family size.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Why does medical inflation grow faster than general inflation?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Medical inflation (4-6% annually) outpaces general inflation (2-3%) due to rising healthcare costs, new medical technologies, an aging population, and increased demand for specialized care. These factors combine to create persistent upward pressure on health insurance premiums and out-of-pocket medical expenses.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How do age and location affect insurance premium increases?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Insurance premiums increase significantly with age, typically doubling or tripling from age 25 to 65. Location also plays a major role, with urban areas and high-cost regions having 20-40% higher premiums than rural areas. Our calculator accounts for both age multipliers and regional variations across different countries.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What data sources does the calculator use for projections?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The calculator uses authoritative data from OECD Health Statistics, WHO Global Health Observatory, and national health authorities. These sources provide historical medical inflation rates, premium trends, and healthcare cost data across multiple countries and currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD).",
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <InsuranceInflationCalculatorPage />
     </>
   )

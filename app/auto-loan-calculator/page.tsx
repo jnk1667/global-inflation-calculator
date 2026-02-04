@@ -105,6 +105,109 @@ export default function Page() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Auto Loan Calculator - Car Payment & Inflation-Adjusted Ownership Costs",
+    description:
+      "Comprehensive guide to calculating auto loan payments with inflation analysis. Understand how car price inflation and gas costs have changed from 1985-2025 using Federal Reserve and EIA data.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/favicon-96x96.png`,
+      },
+    },
+    datePublished: "2024-01-12",
+    dateModified: "2026-02-03",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/auto-loan-calculator`,
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Auto Loan and Vehicle Price Inflation Dataset",
+    description:
+      "Historical vehicle price inflation data and gasoline cost trends from 1985-2025, including Consumer Price Index for new vehicles, used cars, and automotive fuel prices.",
+    url: `${siteUrl}/auto-loan-calculator`,
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "1985/2025",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "United States",
+    },
+    variableMeasured: [
+      "New Vehicle CPI",
+      "Used Car CPI",
+      "Gasoline Price per Gallon",
+      "Auto Loan Interest Rate",
+      "Vehicle Depreciation Rate",
+      "Total Ownership Cost",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "Federal Reserve Economic Data - New Vehicle CPI",
+        description:
+          "Consumer Price Index for new vehicles (CUSR0000SETA01) from 1985 to present, tracking inflation-adjusted price changes for new automobiles and light trucks.",
+        url: "https://fred.stlouisfed.org/series/CUSR0000SETA01",
+        creator: {
+          "@type": "Organization",
+          name: "Federal Reserve Bank of St. Louis",
+        },
+        license: "https://fred.stlouisfed.org/legal/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Federal Reserve Economic Data - Used Car Price Index",
+        description:
+          "Consumer Price Index for used cars and trucks (CUSR0000SETA02), providing historical pricing trends for the secondary automobile market from 1985 onwards.",
+        url: "https://fred.stlouisfed.org/series/CUSR0000SETA02",
+        creator: {
+          "@type": "Organization",
+          name: "Federal Reserve Bank of St. Louis",
+        },
+        license: "https://fred.stlouisfed.org/legal/",
+      },
+      {
+        "@type": "Dataset",
+        name: "US Energy Information Administration Gasoline Prices",
+        description:
+          "Weekly U.S. regular all formulations retail gasoline prices from 1993 to present, including historical trends in automotive fuel costs affecting total vehicle ownership expenses.",
+        url: "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=pet&s=emm_epm0_pte_nus_dpg",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Energy Information Administration",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Federal Reserve Auto Loan Interest Rates",
+        description:
+          "Historical average interest rates for new car loans at commercial banks and credit unions, providing benchmark rates for automotive financing cost analysis.",
+        url: "https://fred.stlouisfed.org/series/TERMCBAUTO48NS",
+        creator: {
+          "@type": "Organization",
+          name: "Federal Reserve Bank of St. Louis",
+        },
+        license: "https://fred.stlouisfed.org/legal/",
+      },
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -167,6 +270,8 @@ export default function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <AutoLoanCalculatorPage />
     </>
