@@ -106,6 +106,122 @@ export default function StudentLoanCalculator() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Student Loan Calculator - Compare Repayment Plans & Income-Driven Options",
+    description:
+      "Comprehensive guide to calculating student loan payments with real BLS salary data by occupation and College Scorecard earnings by major. Compare federal and private loan repayment plans.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/favicon-96x96.png`,
+      },
+    },
+    datePublished: "2024-01-18",
+    dateModified: "2026-02-03",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/student-loan-calculator`,
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Student Loan Repayment and Salary Dataset",
+    description:
+      "Comprehensive dataset combining federal student loan interest rates (2013-2025), BLS occupational salary data, College Scorecard earnings by major, and HHS poverty guidelines for income-driven repayment calculations.",
+    url: `${siteUrl}/student-loan-calculator`,
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "2013/2025",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "United States",
+    },
+    variableMeasured: [
+      "Federal Student Loan Interest Rate",
+      "Occupational Mean Salary",
+      "Median Earnings by College Major",
+      "Federal Poverty Guideline",
+      "Monthly Loan Payment",
+      "Total Interest Cost",
+      "Discretionary Income",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "Bureau of Labor Statistics Occupational Employment and Wage Statistics",
+        description:
+          "Comprehensive salary data by occupation from the 2024 Occupational Employment and Wage Statistics (OEWS) survey, including mean annual wages, hourly wages, and employment levels for over 800 detailed occupations.",
+        url: "https://www.bls.gov/oes/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Bureau of Labor Statistics",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "U.S. Department of Education College Scorecard",
+        description:
+          "Median earnings data by college major (CIP code) 10 years after enrollment, including 25th and 75th percentile earnings and sample sizes for over 1,000 fields of study from the College Scorecard API.",
+        url: "https://collegescorecard.ed.gov/data/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Department of Education",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Federal Student Aid Interest Rates",
+        description:
+          "Official federal student loan interest rates for Direct Subsidized Loans (6.39%), Direct Unsubsidized Loans for undergraduates (6.39%) and graduate students (7.94%), and Direct PLUS Loans (8.94%) for the 2025-2026 academic year, with historical rates from 2013 onwards.",
+        url: "https://studentaid.gov/understand-aid/types/loans/interest-rates",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Department of Education - Federal Student Aid",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "HHS Federal Poverty Guidelines",
+        description:
+          "Annual poverty guidelines issued by the Department of Health and Human Services for the 48 contiguous states and DC, Alaska, and Hawaii, used to calculate discretionary income for income-driven repayment plans.",
+        url: "https://aspe.hhs.gov/poverty-guidelines",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Department of Health and Human Services",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "IRS Federal Tax Brackets",
+        description:
+          "Current federal income tax brackets and rates for single filers, married filing jointly, and head of household, used for calculating after-tax income in repayment planning.",
+        url: "https://www.irs.gov/filing/federal-income-tax-rates-and-brackets",
+        creator: {
+          "@type": "Organization",
+          name: "Internal Revenue Service",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -168,6 +284,8 @@ export default function StudentLoanCalculator() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <StudentLoanCalculatorPage />
 
