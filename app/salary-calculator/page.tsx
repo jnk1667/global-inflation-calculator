@@ -67,6 +67,188 @@ export default function SalaryCalculatorPageRoute() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Salary Calculator - Inflation-Adjusted Wage & Real Purchasing Power Analysis",
+    description:
+      "Comprehensive guide to calculating inflation-adjusted salaries and real wages from 1913-2026. Compare nominal vs real purchasing power using official BLS Consumer Price Index data.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://globalinflationcalculator.com/favicon-96x96.png",
+      },
+    },
+    datePublished: "2024-01-20",
+    dateModified: "2026-02-06",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": "https://globalinflationcalculator.com/salary-calculator",
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Inflation-Adjusted Salary and Wage Dataset",
+    description:
+      "Historical Consumer Price Index (CPI) data for 8 currencies from 1913-2026, enabling accurate inflation-adjusted salary calculations and real wage comparisons across 113 years of economic data.",
+    url: "https://globalinflationcalculator.com/salary-calculator",
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "1913/2026",
+    spatialCoverage: [
+      {
+        "@type": "Place",
+        name: "United States",
+      },
+      {
+        "@type": "Place",
+        name: "United Kingdom",
+      },
+      {
+        "@type": "Place",
+        name: "European Union",
+      },
+      {
+        "@type": "Place",
+        name: "Canada",
+      },
+      {
+        "@type": "Place",
+        name: "Australia",
+      },
+      {
+        "@type": "Place",
+        name: "Switzerland",
+      },
+      {
+        "@type": "Place",
+        name: "Japan",
+      },
+      {
+        "@type": "Place",
+        name: "New Zealand",
+      },
+    ],
+    variableMeasured: [
+      "Consumer Price Index (CPI)",
+      "Inflation Rate",
+      "Real Wage",
+      "Nominal Wage",
+      "Purchasing Power",
+      "Cost of Living Index",
+      "Compound Annual Inflation Rate",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "US Bureau of Labor Statistics Consumer Price Index",
+        description:
+          "Official Consumer Price Index for All Urban Consumers (CPI-U) from 1913 to 2026, the primary measure of inflation in the United States covering all goods and services purchased by urban households.",
+        url: "https://www.bls.gov/cpi/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Bureau of Labor Statistics",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "UK Office for National Statistics CPI and RPI",
+        description:
+          "Consumer Prices Index (CPI) and Retail Prices Index (RPI) for the United Kingdom from 1947 to 2026, providing comprehensive inflation measures for wage adjustment calculations.",
+        url: "https://www.ons.gov.uk/economy/inflationandpriceindices",
+        creator: {
+          "@type": "Organization",
+          name: "UK Office for National Statistics",
+        },
+        license: "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Eurostat Harmonised Index of Consumer Prices",
+        description:
+          "Harmonised Index of Consumer Prices (HICP) for the European Union and Eurozone from 1996 to 2026, standardized inflation data for cross-country salary comparisons.",
+        url: "https://ec.europa.eu/eurostat/databrowser/view/PRC_HICP_MANR",
+        creator: {
+          "@type": "Organization",
+          name: "Eurostat - European Commission",
+        },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Statistics Canada Consumer Price Index",
+        description:
+          "Consumer Price Index for Canada from 1914 to 2026, tracking changes in the price level of a basket of consumer goods and services for Canadian wage adjustments.",
+        url: "https://www150.statcan.gc.ca/n1/en/type/data",
+        creator: {
+          "@type": "Organization",
+          name: "Statistics Canada",
+        },
+        license: "https://www.statcan.gc.ca/en/reference/licence",
+      },
+      {
+        "@type": "Dataset",
+        name: "Australian Bureau of Statistics CPI",
+        description:
+          "Consumer Price Index for Australia from 1948 to 2026, measuring quarterly changes in the price of a basket of goods and services for salary purchasing power analysis.",
+        url: "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia",
+        creator: {
+          "@type": "Organization",
+          name: "Australian Bureau of Statistics",
+        },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Swiss Federal Statistical Office Price Index",
+        description:
+          "Swiss Consumer Price Index from 1922 to 2026, measuring inflation in Switzerland across all major expenditure categories for accurate wage comparisons.",
+        url: "https://www.bfs.admin.ch/bfs/en/home/statistics/prices.html",
+        creator: {
+          "@type": "Organization",
+          name: "Swiss Federal Statistical Office",
+        },
+        license: "https://www.bfs.admin.ch/bfs/en/home/fso/swiss-federal-statistical-office/terms-of-use.html",
+      },
+      {
+        "@type": "Dataset",
+        name: "Statistics Bureau of Japan CPI",
+        description:
+          "Consumer Price Index for Japan from 1946 to 2026, tracking price changes of goods and services consumed by households for real wage analysis.",
+        url: "https://www.stat.go.jp/english/data/cpi/",
+        creator: {
+          "@type": "Organization",
+          name: "Statistics Bureau of Japan",
+        },
+        license: "https://www.stat.go.jp/english/info/guide.html",
+      },
+      {
+        "@type": "Dataset",
+        name: "Stats NZ Consumer Price Index",
+        description:
+          "Consumer Price Index for New Zealand from 1914 to 2026, measuring the rate of price change for goods and services purchased by New Zealand households.",
+        url: "https://www.stats.govt.nz/information-releases/consumers-price-index-december-2023-quarter",
+        creator: {
+          "@type": "Organization",
+          name: "Stats NZ (Statistics New Zealand)",
+        },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -129,6 +311,8 @@ export default function SalaryCalculatorPageRoute() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <SalaryCalculatorPage />
 
