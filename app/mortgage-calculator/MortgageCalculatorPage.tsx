@@ -46,7 +46,7 @@ interface ComparisonResult {
 }
 
 export default function MortgageCalculatorPage() {
-  const [currentYear, setCurrentYear] = useState("2024")
+  const [currentYear, setCurrentYear] = useState("2025")
   const [compareYear, setCompareYear] = useState("2006")
   const [result, setResult] = useState<ComparisonResult | null>(null)
   const [loading, setLoading] = useState(false)
@@ -75,9 +75,9 @@ The mid-2000s saw an unprecedented mortgage bubble, with price-to-income ratios 
 
 ### 2012: Post-Crash Recovery
 Following the housing crash, mortgage affordability improved significantly. By 2012, ratios had fallen back to more sustainable levels around 4.8x, creating opportunities for buyers who had been priced out during the bubble.
+### 2020-2025: The New Mortgage Crisis
 
-### 2020-2024: The New Mortgage Crisis
-The COVID-19 pandemic triggered another mortgage boom, driven by low interest rates, remote work, and limited supply. By 2022, price-to-income ratios had surged to 5.75x, exceeding even the 2006 bubble peak in many markets.
+The COVID-19 pandemic triggered another mortgage boom, driven by low interest rates, remote work, and limited supply. By 2022, price-to-income ratios had surged to 5.75x, exceeding even the 2006 bubble peak. By 2025, ratios reached 6.84x, making housing the least affordable in modern history.
 
 ## Why This Matters
 

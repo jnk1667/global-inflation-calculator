@@ -79,6 +79,122 @@ export default function Page() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Mortgage Calculator - Historical Home Affordability & Price-to-Income Analysis",
+    description:
+      "Comprehensive guide to calculating mortgage affordability using Case-Shiller Home Price Index and median income data from 1987-2025. Analyze how home affordability has changed over nearly 40 years.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/favicon-96x96.png`,
+      },
+    },
+    datePublished: "2024-01-25",
+    dateModified: "2026-02-06",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/mortgage-calculator`,
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Historical Home Affordability and Mortgage Dataset",
+    description:
+      "Comprehensive dataset combining S&P CoreLogic Case-Shiller Home Price Index with U.S. Census Bureau median household income data from 1987-2025, enabling detailed analysis of home affordability trends and price-to-income ratios across 39 years.",
+    url: `${siteUrl}/mortgage-calculator`,
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "1987/2025",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "United States",
+    },
+    variableMeasured: [
+      "Case-Shiller Home Price Index",
+      "Median Household Income",
+      "Median Home Price",
+      "Price-to-Income Ratio",
+      "Housing Affordability Index",
+      "Real Home Price (Inflation-Adjusted)",
+      "Real Median Income",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "S&P CoreLogic Case-Shiller U.S. National Home Price Index",
+        description:
+          "The leading measure of U.S. single-family home prices from 1987 to 2025, tracking the value of residential real estate across major metropolitan areas. The index reached 331.69 in 2025, showing significant appreciation over the 39-year period.",
+        url: "https://www.spglobal.com/spdji/en/indices/indicators/sp-corelogic-case-shiller-us-national-home-price-nsa-index/",
+        creator: {
+          "@type": "Organization",
+          name: "S&P Dow Jones Indices and CoreLogic",
+        },
+        license: "https://www.spglobal.com/spdji/en/terms-of-use/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Federal Reserve Economic Data - Case-Shiller Index",
+        description:
+          "Time series data of the S&P/Case-Shiller U.S. National Home Price Index (CSUSHPINSA), providing monthly observations of home price changes for economic and housing market analysis.",
+        url: "https://fred.stlouisfed.org/series/CSUSHPINSA",
+        creator: {
+          "@type": "Organization",
+          name: "Federal Reserve Bank of St. Louis",
+        },
+        license: "https://fred.stlouisfed.org/legal/",
+      },
+      {
+        "@type": "Dataset",
+        name: "U.S. Census Bureau Median Household Income",
+        description:
+          "Annual median household income statistics for the United States from 1987 to 2025, measuring the income at which half of households earn more and half earn less. Latest data shows median income at $83,730 (2024), used for affordability ratio calculations.",
+        url: "https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-households.html",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Census Bureau",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Federal Reserve Mortgage Interest Rates",
+        description:
+          "Historical 30-year fixed-rate mortgage average from 1987 to present, tracking how borrowing costs have affected home affordability alongside price and income changes.",
+        url: "https://fred.stlouisfed.org/series/MORTGAGE30US",
+        creator: {
+          "@type": "Organization",
+          name: "Federal Reserve Bank of St. Louis",
+        },
+        license: "https://fred.stlouisfed.org/legal/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Bureau of Labor Statistics Consumer Price Index",
+        description:
+          "Consumer Price Index for All Urban Consumers used for inflation-adjusted home price and income comparisons, enabling real purchasing power analysis across decades.",
+        url: "https://www.bls.gov/cpi/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Bureau of Labor Statistics",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -141,6 +257,8 @@ export default function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <MortgageCalculatorPage />
