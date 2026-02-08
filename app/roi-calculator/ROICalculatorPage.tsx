@@ -699,71 +699,87 @@ export default function ROICalculatorPage() {
               Understanding ROI: The Complete Guide
             </CardTitle>
           </CardHeader>
-          <CardContent className="prose max-w-none">
+          <CardContent className="space-y-6">
             {essayContent ? (
               <MarkdownRenderer content={essayContent} />
             ) : (
-              <>
-                <h3>What Makes Our ROI Calculator Unique</h3>
-                <p>
-                  Most ROI calculators only show basic percentage returns. Our advanced calculator reveals what your
-                  investment REALLY earned by accounting for:
-                </p>
-                <ul>
-                  <li>
-                    <strong>Inflation erosion</strong> - See your real purchasing power gains across 8 currencies
-                  </li>
-                  <li>
-                    <strong>Tax impact</strong> - Calculate after-tax returns with customizable tax rates
-                  </li>
-                  <li>
-                    <strong>Opportunity cost</strong> - Compare against risk-free Treasury rates to see if your risk was
-                    rewarded
-                  </li>
-                  <li>
-                    <strong>Multi-measure analysis</strong> - Use consensus inflation data for the most accurate real
-                    returns
-                  </li>
-                </ul>
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-gray-900">What Makes Our ROI Calculator Unique</h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    Most ROI calculators only show basic percentage returns. Our advanced calculator reveals what your
+                    investment REALLY earned by accounting for:
+                  </p>
+                  <ul className="space-y-3 ml-6 list-disc text-gray-700 leading-relaxed">
+                    <li>
+                      <strong>Inflation erosion</strong> - See your real purchasing power gains across 8 currencies
+                    </li>
+                    <li>
+                      <strong>Tax impact</strong> - Calculate after-tax returns with customizable tax rates
+                    </li>
+                    <li>
+                      <strong>Opportunity cost</strong> - Compare against risk-free Treasury rates to see if your risk
+                      was rewarded
+                    </li>
+                    <li>
+                      <strong>Multi-measure analysis</strong> - Use consensus inflation data for the most accurate real
+                      returns
+                    </li>
+                  </ul>
+                </div>
 
-                <h3>Why Inflation-Adjusted ROI Matters</h3>
-                <p>
-                  A 50% return over 5 years sounds impressive, but if inflation averaged 3% annually during that period,
-                  your real purchasing power only increased by about 35%. This is the difference between nominal returns
-                  (what you see in your account) and real returns (what you can actually buy).
-                </p>
-                <p>Our calculator shows both, giving you a complete picture of your investment performance.</p>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-gray-900">Why Inflation-Adjusted ROI Matters</h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    A 50% return over 5 years sounds impressive, but if inflation averaged 3% annually during that
+                    period, your real purchasing power only increased by about 35%. This is the difference between
+                    nominal returns (what you see in your account) and real returns (what you can actually buy).
+                  </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    Our calculator shows both, giving you a complete picture of your investment performance.
+                  </p>
+                </div>
 
-                <h3>The Treasury Benchmark: Did You Beat the Risk-Free Rate?</h3>
-                <p>
-                  Every investment carries risk. The question is: were you properly compensated for that risk? By
-                  comparing your return to Treasury rates (the "risk-free" rate), you can see whether your investment
-                  justified its risk.
-                </p>
-                <p>
-                  If you earned 8% while 10-year Treasuries paid 4.5%, you earned a 3.5% "risk premium" - your reward
-                  for taking on investment risk. If you earned less than Treasuries, you took risk without being
-                  rewarded.
-                </p>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-gray-900">
+                    The Treasury Benchmark: Did You Beat the Risk-Free Rate?
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    Every investment carries risk. The question is: were you properly compensated for that risk? By
+                    comparing your return to Treasury rates (the "risk-free" rate), you can see whether your investment
+                    justified its risk.
+                  </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    If you earned 8% while 10-year Treasuries paid 4.5%, you earned a 3.5% "risk premium" - your reward
+                    for taking on investment risk. If you earned less than Treasuries, you took risk without being
+                    rewarded.
+                  </p>
+                </div>
 
-                <h3>Multi-Currency Inflation Analysis</h3>
-                <p>
-                  For international investors or expats, understanding returns in multiple currencies is crucial. A US
-                  stock that gained 40% over 5 years might show different real returns when adjusted for inflation in
-                  GBP, EUR, or JPY. Our calculator supports 8 major currencies with real inflation data.
-                </p>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-gray-900">Multi-Currency Inflation Analysis</h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    For international investors or expats, understanding returns in multiple currencies is crucial. A US
+                    stock that gained 40% over 5 years might show different real returns when adjusted for inflation in
+                    GBP, EUR, or JPY. Our calculator supports 8 major currencies with real inflation data.
+                  </p>
+                </div>
 
-                <h3>Tax Considerations</h3>
-                <p>Investment gains are taxed, and those taxes significantly impact your true return. In the US:</p>
-                <ul>
-                  <li>Long-term capital gains (held over 1 year): 0%, 15%, or 20% depending on income</li>
-                  <li>Short-term capital gains (held less than 1 year): Taxed as ordinary income (up to 37%)</li>
-                </ul>
-                <p>
-                  Our calculator lets you input your expected tax rate to see after-tax, inflation-adjusted returns -
-                  the number that matters most.
-                </p>
-              </>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-gray-900">Tax Considerations</h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    Investment gains are taxed, and those taxes significantly impact your true return. In the US:
+                  </p>
+                  <ul className="space-y-2 ml-6 list-disc text-gray-700 leading-relaxed">
+                    <li>Long-term capital gains (held over 1 year): 0%, 15%, or 20% depending on income</li>
+                    <li>Short-term capital gains (held less than 1 year): Taxed as ordinary income (up to 37%)</li>
+                  </ul>
+                  <p className="text-gray-700 leading-relaxed">
+                    Our calculator lets you input your expected tax rate to see after-tax, inflation-adjusted returns -
+                    the number that matters most.
+                  </p>
+                </div>
+              </div>
             )}
           </CardContent>
         </Card>
