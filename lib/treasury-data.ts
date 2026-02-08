@@ -1,8 +1,20 @@
 // This replaces the JSON file import which doesn't work in this environment
 
 export const treasuryData = {
-  latest_year: 2025,
+  latest_year: 2026,
   data: {
+    2026: {
+      treasury_bills_3m: 3.67,
+      treasury_bills_6m: 3.58,
+      treasury_bills_1y: 3.44,
+      treasury_notes_2y: 3.47,
+      treasury_notes_3y: 3.55,
+      treasury_notes_5y: 3.74,
+      treasury_notes_7y: 3.97,
+      treasury_notes_10y: 4.21,
+      treasury_bonds_20y: 4.79,
+      treasury_bonds_30y: 4.85,
+    },
     2025: {
       treasury_bills_3m: 3.62,
       treasury_bills_6m: 3.59,
@@ -43,6 +55,11 @@ export const treasuryData = {
   savings_bonds: {
     series_i: {
       data: {
+        2026: {
+          composite_rate: 4.03,
+          fixed_rate: 0.9,
+          inflation_rate: 3.13,
+        },
         2025: {
           composite_rate: 4.28,
           fixed_rate: 1.2,
@@ -62,6 +79,9 @@ export const treasuryData = {
     },
     series_ee: {
       data: {
+        2026: {
+          fixed_rate: 2.9,
+        },
         2025: {
           fixed_rate: 2.8,
         },

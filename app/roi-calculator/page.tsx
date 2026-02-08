@@ -68,6 +68,122 @@ export default function Page() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "ROI Calculator - Inflation-Adjusted Investment Return Analysis",
+    description:
+      "Comprehensive guide to calculating investment returns (ROI) with inflation adjustment across 8 currencies. Compare your real returns against risk-free Treasury rates from 2023-2026.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/favicon-96x96.png`,
+      },
+    },
+    datePublished: "2024-02-01",
+    dateModified: "2026-02-07",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/roi-calculator`,
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Treasury Rates and Investment Return Dataset",
+    description:
+      "Comprehensive dataset of U.S. Treasury yields (3-month bills to 30-year bonds) and Series I/EE Savings Bond rates from 2023-2026, enabling accurate ROI benchmarking against risk-free rates.",
+    url: `${siteUrl}/roi-calculator`,
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "2023/2026",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "United States",
+    },
+    variableMeasured: [
+      "Treasury Bill Yield (3-month, 6-month, 1-year)",
+      "Treasury Note Yield (2-year, 3-year, 5-year, 7-year, 10-year)",
+      "Treasury Bond Yield (20-year, 30-year)",
+      "Series I Savings Bond Composite Rate",
+      "Series I Savings Bond Fixed Rate",
+      "Series EE Savings Bond Fixed Rate",
+      "Risk-Free Rate of Return",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "U.S. Treasury Daily Par Yield Curve Rates",
+        description:
+          "Official daily Treasury constant maturity rates from February 2026, including 3-month bills at 3.67%, 10-year notes at 4.21%, and 30-year bonds at 4.85%. These rates represent risk-free benchmark returns for investment comparison.",
+        url: "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Department of the Treasury",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Federal Reserve Economic Data - Treasury Yields",
+        description:
+          "Time series data for Treasury constant maturity rates from 2023-2026, providing historical context for comparing investment returns against risk-free alternatives.",
+        url: "https://fred.stlouisfed.org/categories/115",
+        creator: {
+          "@type": "Organization",
+          name: "Federal Reserve Bank of St. Louis",
+        },
+        license: "https://fred.stlouisfed.org/legal/",
+      },
+      {
+        "@type": "Dataset",
+        name: "TreasuryDirect Series I Savings Bond Rates",
+        description:
+          "Series I Savings Bond rates with a composite rate of 4.03% (November 2025 - April 2026), consisting of a 0.90% fixed rate and 3.13% inflation adjustment, providing inflation-protected returns.",
+        url: "https://www.treasurydirect.gov/savings-bonds/i-bonds/i-bonds-interest-rates/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Department of the Treasury - TreasuryDirect",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "TreasuryDirect Series EE Savings Bond Rates",
+        description:
+          "Series EE Savings Bond fixed rates from 2023-2026, currently at 2.9% for bonds issued November 2025 - April 2026, with a guarantee to double in value after 20 years.",
+        url: "https://www.treasurydirect.gov/savings-bonds/ee-bonds/ee-bonds-interest-rates/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Department of the Treasury - TreasuryDirect",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Multi-Currency Inflation Rate Dataset",
+        description:
+          "Historical CPI and inflation rates for USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD from official national statistical agencies, used for calculating real (inflation-adjusted) investment returns.",
+        url: `${siteUrl}/`,
+        creator: {
+          "@type": "Organization",
+          name: "Global Inflation Calculator",
+        },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+    ],
+  }
+
   const breadcrumbStructuredData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -133,6 +249,8 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <ROICalculatorPage />
     </>
