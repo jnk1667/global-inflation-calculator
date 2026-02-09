@@ -96,11 +96,11 @@ const EmergencyFundCalculatorPage: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    const essayText = `## Why Emergency Funds Are Critical in 2025
+    const essayText = `## Why Emergency Funds Are Critical in 2026
 
 In today's economic climate, building an emergency fund is more important than ever. With recession concerns, rising inflation, and economic uncertainty, having 3-6 months of expenses saved can be the difference between financial stability and crisis.
 
-### The 2025 Economic Landscape
+### The 2026 Economic Landscape
 
 Recent data shows that less than 50% of Americans have enough emergency savings to cover three months of expenses. Even more concerning, 33% of U.S. adults have more credit card debt than emergency savings. This leaves millions of families vulnerable to financial shocks.
 
@@ -591,7 +591,7 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                   <BookOpen className="h-5 w-5 text-blue-600" />
                   Understanding Emergency Funds
                 </CardTitle>
-                <CardDescription>Why emergency funds matter in 2025 and how to build yours effectively</CardDescription>
+                <CardDescription>Why emergency funds matter in 2026 and how to build yours effectively</CardDescription>
               </CardHeader>
               <CardContent className="prose prose-gray dark:prose-invert max-w-none">
                 <MarkdownRenderer content={essayContent} />
@@ -646,8 +646,8 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                       <div className="flex items-start gap-2">
                         <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                         <div>
-                          <strong>Economic Indicators:</strong> Current 2025 recession preparation data from Federal
-                          Reserve and BLS
+                <strong>Economic Indicators:</strong> Current 2026 recession preparation data from Federal
+                Reserve and BLS
                         </div>
                       </div>
                       <div className="flex items-start gap-2">
@@ -698,7 +698,7 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
                 </div>
 
                 <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                  <strong>Last Updated:</strong> December 2025 | <strong>Update Frequency:</strong> Monthly
+                  <strong>Last Updated:</strong> February 2026 | <strong>Update Frequency:</strong> Monthly
                 </div>
               </CardContent>
             </Card>

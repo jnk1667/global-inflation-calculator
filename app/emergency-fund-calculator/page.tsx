@@ -104,6 +104,122 @@ export default function EmergencyFundCalculatorRoute() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Emergency Fund Calculator - Build Financial Security with 3-6 Month Savings",
+    description:
+      "Comprehensive guide to calculating emergency fund needs with inflation adjustment. Plan for recession using real BLS salary data and Treasury interest rates for optimal savings strategies.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/favicon-96x96.png`,
+      },
+    },
+    datePublished: "2024-02-10",
+    dateModified: "2026-02-09",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/emergency-fund-calculator`,
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Emergency Fund Planning and Savings Rate Dataset",
+    description:
+      "Comprehensive dataset combining BLS occupational salary data, U.S. Treasury savings rates (3-month bills at 3.67%, I-Bonds at 4.03%), Federal Reserve economic indicators, and inflation data for emergency fund planning in 2026.",
+    url: `${siteUrl}/emergency-fund-calculator`,
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "2023/2026",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "United States",
+    },
+    variableMeasured: [
+      "Monthly Essential Expenses",
+      "Emergency Fund Target (3-6-12 months)",
+      "High-Yield Savings Account Rate",
+      "Treasury I-Bond Rate",
+      "Inflation-Adjusted Emergency Fund",
+      "Savings Timeline",
+      "Recession Risk Indicators",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "U.S. Treasury Savings Rates - February 2026",
+        description:
+          "Current Treasury rates including 3-month bills at 3.67%, 6-month bills at 3.58%, and 1-year bills at 3.44%. High-yield savings accounts typically track the 3-month Treasury rate, while Series I Savings Bonds offer 4.03% with inflation protection (0.9% fixed rate + 3.13% inflation rate).",
+        url: "https://home.treasury.gov/resource-center/data-chart-center/interest-rates",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Department of the Treasury",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Bureau of Labor Statistics Occupational Salary Data",
+        description:
+          "2024 Occupational Employment and Wage Statistics (OEWS) survey data providing mean annual wages and hourly wages for over 800 detailed occupations, used for calculating personalized emergency fund targets based on actual income.",
+        url: "https://www.bls.gov/oes/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Bureau of Labor Statistics",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Federal Reserve Economic Data - Savings Indicators",
+        description:
+          "Personal saving rate, household debt-to-income ratios, and economic indicators from FRED used to contextualize emergency fund planning in the current economic environment.",
+        url: "https://fred.stlouisfed.org/categories/32991",
+        creator: {
+          "@type": "Organization",
+          name: "Federal Reserve Bank of St. Louis",
+        },
+        license: "https://fred.stlouisfed.org/legal/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Consumer Price Index for Inflation Adjustment",
+        description:
+          "U.S. Bureau of Labor Statistics Consumer Price Index (CPI-U) data through February 2026, used to calculate inflation-adjusted emergency fund targets and maintain real purchasing power over time.",
+        url: "https://www.bls.gov/cpi/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Bureau of Labor Statistics",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "FDIC National Rates and Rate Caps",
+        description:
+          "Federal Deposit Insurance Corporation data on average interest rates for savings accounts and money market deposit accounts, used to benchmark high-yield savings account performance for emergency fund storage.",
+        url: "https://www.fdic.gov/resources/bankers/national-rates/",
+        creator: {
+          "@type": "Organization",
+          name: "Federal Deposit Insurance Corporation",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -166,6 +282,8 @@ export default function EmergencyFundCalculatorRoute() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <EmergencyFundCalculatorPage />
 
