@@ -705,7 +705,7 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
           </div>
 
           <div className="mb-12">
-            <FAQ category="emergency-fund" />
+            <FAQ category="emergency-fund-calculator" />
           </div>
 
           <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm mb-12">
