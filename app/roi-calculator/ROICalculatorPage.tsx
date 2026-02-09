@@ -793,7 +793,7 @@ export default function ROICalculatorPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <FAQ faqs={faqs} category="roi" />
+            <FAQ category="roi-calculator" />
           </CardContent>
         </Card>
 
