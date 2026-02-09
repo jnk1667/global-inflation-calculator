@@ -232,7 +232,7 @@ Remember: Some emergency fund is always better than no emergency fund. Start whe
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 dark:from-gray-900 dark:via-blue-950 dark:to-gray-900" style={{ contain: "layout style" }}>
-        <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="container mx-auto px-4 pt-32 pb-8 max-w-7xl">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 px-4 py-2 rounded-full mb-4">
               <Shield className="h-4 w-4" />
