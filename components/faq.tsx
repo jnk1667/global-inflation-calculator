@@ -198,7 +198,7 @@ export default function FAQ({ category, limit }: FAQProps) {
           <AccordionItem key={faq.id} value={faq.id}>
             <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
             <AccordionContent>
-              <p className="text-sm text-gray-700 dark:text-gray-300">{faq.answer}</p>
+              <p className="text-sm text-gray-100 dark:text-gray-300">{faq.answer}</p>
             </AccordionContent>
           </AccordionItem>
         ))}
