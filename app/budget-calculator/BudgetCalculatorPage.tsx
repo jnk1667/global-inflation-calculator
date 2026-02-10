@@ -307,8 +307,8 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                   aria-label="Toggle advanced mode"
                 >
                   <span
-                    className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow-md transition-transform duration-200 ${
-                      advancedMode ? "translate-x-5" : "translate-x-0.5"
+                    className={`absolute top-0.5 left-0 h-6 w-6 rounded-full bg-white shadow-md transition-transform duration-200 ${
+                      advancedMode ? "translate-x-5" : "translate-x-0"
                     }`}
                   />
                 </button>
