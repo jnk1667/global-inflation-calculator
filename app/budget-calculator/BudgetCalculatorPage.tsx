@@ -36,7 +36,7 @@ export default function BudgetCalculatorPage() {
   const [calculated, setCalculated] = useState(false)
   const [essayContent, setEssayContent] = useState<string>("")
   const [advancedMode, setAdvancedMode] = useState(false)
-  const [inflationRate, setInflationRate] = useState(3.0) // Default to current 2025 rate
+  const [inflationRate, setInflationRate] = useState(2.8) // Default to current Feb 2026 rate
   const [yearsAhead, setYearsAhead] = useState(5)
   const [currentTreasuryRates, setCurrentTreasuryRates] = useState<any>(null)
   const [mounted, setMounted] = useState(false)
@@ -130,7 +130,7 @@ export default function BudgetCalculatorPage() {
         if (error) {
           console.error("Error loading essay content:", error)
           setEssayContent(`
-# Mastering the 50/30/20 Budget Rule in 2025
+# Mastering the 50/30/20 Budget Rule in 2026
 
 The 50/30/20 budget rule has become one of the most popular and effective budgeting methods for managing personal finances. In an era of economic uncertainty and rising costs, this simple framework provides a clear roadmap for allocating your income between essential needs, personal wants, and future financial security.
 
@@ -153,7 +153,7 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
           setEssayContent(data.content)
         } else {
           setEssayContent(`
-# Mastering the 50/30/20 Budget Rule in 2025
+# Mastering the 50/30/20 Budget Rule in 2026
 
 The 50/30/20 budget rule has become one of the most popular and effective budgeting methods for managing personal finances. In an era of economic uncertainty and rising costs, this simple framework provides a clear roadmap for allocating your income between essential needs, personal wants, and future financial security.
 
@@ -173,7 +173,7 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
       } catch (err) {
         console.error("Error loading essay content:", err)
         setEssayContent(`
-# Mastering the 50/30/20 Budget Rule in 2025
+# Mastering the 50/30/20 Budget Rule in 2026
 
 The 50/30/20 budget rule has become one of the most popular and effective budgeting methods for managing personal finances. In an era of economic uncertainty and rising costs, this simple framework provides a clear roadmap for allocating your income between essential needs, personal wants, and future financial security.
 
@@ -338,7 +338,7 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                         className="w-full rounded-lg border border-slate-600 bg-slate-700 px-4 py-3 text-white placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         placeholder="3.0"
                       />
-                      <p className="mt-1 text-xs text-slate-400">Current US inflation: 3.0% (Sept 2025)</p>
+                      <p className="mt-1 text-xs text-slate-400">Current US inflation: 2.8% (Feb 2026)</p>
                     </div>
 
                     <div>
@@ -897,7 +897,7 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
             </div>
           </div>
           <div className="mt-8 border-t border-white/10 pt-8 text-center text-sm text-slate-400">
-            <p>© 2025 Global Inflation Calculator. Educational purposes only.</p>
+              <p>© 2026 Global Inflation Calculator. Educational purposes only.</p>
           </div>
         </div>
       </footer>

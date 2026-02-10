@@ -68,6 +68,122 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "50/30/20 Budget Calculator - Master the Simple Budgeting Rule",
+    description:
+      "Comprehensive guide to the 50/30/20 budget rule with inflation-adjusted planning. Split your income into 50% needs, 30% wants, and 20% savings using official BLS and Federal Reserve data.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://globalinflationcalculator.com/favicon-96x96.png",
+      },
+    },
+    datePublished: "2024-02-15",
+    dateModified: "2026-02-09",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": "https://globalinflationcalculator.com/budget-calculator",
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Personal Budget Planning and Inflation Dataset",
+    description:
+      "Comprehensive dataset combining U.S. inflation rates (2.8% as of February 2026), Treasury savings rates, median household income data, and consumer spending patterns from BLS and Federal Reserve for effective 50/30/20 budget planning.",
+    url: "https://globalinflationcalculator.com/budget-calculator",
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "2023/2026",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "United States",
+    },
+    variableMeasured: [
+      "Monthly Income Allocation (50/30/20 Split)",
+      "Consumer Price Index (CPI)",
+      "Inflation-Adjusted Budget Projections",
+      "Savings Rate Benchmarks",
+      "Treasury Savings Account Rates",
+      "Consumer Spending Categories",
+      "Long-term Budget Growth with Inflation",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "Bureau of Labor Statistics Consumer Price Index",
+        description:
+          "Official U.S. inflation data showing 2.8% annual rate as of February 2026, used to calculate inflation-adjusted budget projections and ensure purchasing power maintenance across spending categories over time.",
+        url: "https://www.bls.gov/cpi/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Bureau of Labor Statistics",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "BLS Consumer Expenditure Survey",
+        description:
+          "Annual survey data on household spending patterns across housing, transportation, food, healthcare, and entertainment categories, providing real-world benchmarks for validating 50/30/20 budget allocations against average American spending.",
+        url: "https://www.bls.gov/cex/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Bureau of Labor Statistics",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "U.S. Census Bureau Median Household Income",
+        description:
+          "Current median household income statistics ($83,730 for 2024) used as baseline for budget calculations, enabling personalized budget plans based on real income distributions across U.S. households.",
+        url: "https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-households.html",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Census Bureau",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Federal Reserve Economic Data - Personal Saving Rate",
+        description:
+          "Historical personal saving rate data from FRED showing how American households allocate income to savings versus consumption, validating the 20% savings target in the 50/30/20 rule.",
+        url: "https://fred.stlouisfed.org/series/PSAVERT",
+        creator: {
+          "@type": "Organization",
+          name: "Federal Reserve Bank of St. Louis",
+        },
+        license: "https://fred.stlouisfed.org/legal/",
+      },
+      {
+        "@type": "Dataset",
+        name: "U.S. Treasury Savings Rates - February 2026",
+        description:
+          "Current savings account rates (3.67% for high-yield savings tracking 3-month Treasury bills, 4.03% for I-Bonds) used to calculate growth potential of the 20% savings allocation over time with compound interest.",
+        url: "https://home.treasury.gov/resource-center/data-chart-center/interest-rates",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Department of the Treasury",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -169,6 +285,8 @@ export default function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       {/* */}
       <BudgetCalculatorPage />
