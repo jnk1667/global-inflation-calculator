@@ -20,6 +20,7 @@ import FAQ from "@/components/faq"
 import MarkdownRenderer from "@/components/markdown-renderer"
 import { getSupabaseClient } from "@/lib/supabase"
 import { treasuryData } from "@/lib/treasury-data"
+import { loadInflationMeasure, getLatestAvailableYear } from "@/lib/inflation-measures"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -36,7 +37,7 @@ export default function BudgetCalculatorPage() {
   const [calculated, setCalculated] = useState(false)
   const [essayContent, setEssayContent] = useState<string>("")
   const [advancedMode, setAdvancedMode] = useState(false)
-  const [inflationRate, setInflationRate] = useState(2.8) // Default to current Feb 2026 rate
+  const [inflationRate, setInflationRate] = useState(2.8) // Will be updated with real CPI data
   const [yearsAhead, setYearsAhead] = useState(5)
   const [currentTreasuryRates, setCurrentTreasuryRates] = useState<any>(null)
   const [mounted, setMounted] = useState(false)
@@ -115,6 +116,29 @@ export default function BudgetCalculatorPage() {
     } catch (error) {
       console.error("Error loading Treasury rates:", error)
     }
+  }, [])
+
+  // Load real CPI inflation data from comprehensive data files
+  useEffect(() => {
+    const loadInflationData = async () => {
+      try {
+        const cpiData = await loadInflationMeasure("USD", "cpi")
+        if (cpiData) {
+          const currentYear = new Date().getFullYear()
+          const latestYear = getLatestAvailableYear(cpiData, currentYear)
+          const latestData = cpiData.data[latestYear.toString()]
+          
+          if (latestData?.year_over_year_change !== null && latestData?.year_over_year_change !== undefined) {
+            setInflationRate(latestData.year_over_year_change)
+          }
+        }
+      } catch (error) {
+        console.error("Error loading CPI inflation data:", error)
+        // Keep default value if loading fails
+      }
+    }
+    
+    loadInflationData()
   }, [])
 
   useEffect(() => {
@@ -338,7 +362,9 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                         className="w-full rounded-lg border border-slate-600 bg-slate-700 px-4 py-3 text-white placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         placeholder="3.0"
                       />
-                      <p className="mt-1 text-xs text-slate-400">Current US inflation: 2.8% (Feb 2026)</p>
+                      <p className="mt-1 text-xs text-slate-400">
+                        Current US inflation: {inflationRate.toFixed(1)}% (BLS CPI-U data)
+                      </p>
                     </div>
 
                     <div>
