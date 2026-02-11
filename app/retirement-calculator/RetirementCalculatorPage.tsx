@@ -975,8 +975,8 @@ Successful retirement planning requires a multi-faceted approach that considers 
       <div className="container mx-auto max-w-7xl px-4 pt-32 pb-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Global Retirement Calculator</h1>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Global Retirement Calculator</h1>
+          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
             Plan your retirement with comprehensive analysis across 8 major currencies: USD, GBP, EUR, CAD, AUD, CHF,
             JPY, and NZD. Get insights on lifestyle maintenance, crisis assessment, generational comparisons, and
             healthcare costs.
@@ -989,7 +989,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-4 bg-white border border-slate-200">
+          <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
             <TabsTrigger value="traditional">Traditional Retirement</TabsTrigger>
             <TabsTrigger value="healthcare">Healthcare</TabsTrigger>
             <TabsTrigger value="crisis">Crisis Assessment</TabsTrigger>
@@ -998,13 +998,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
 
           {/* Traditional Retirement Tab */}
           <TabsContent value="traditional" className="space-y-6">
-            <Card className="border-slate-200 bg-white">
+            <Card className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-slate-900">
-                  <Calculator className="h-6 w-6 text-blue-600" />
+                <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
+                  <Calculator className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   Your Information
                 </CardTitle>
-                <CardDescription className="text-slate-600">
+                <CardDescription className="text-slate-600 dark:text-slate-300">
                   Enter your current financial situation and retirement goals
                 </CardDescription>
               </CardHeader>
@@ -1014,10 +1014,10 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     Currency
                   </Label>
                   <Select value={data.currency} onValueChange={(value: any) => setData({ ...data, currency: value })}>
-                    <SelectTrigger className="bg-white border-slate-300 text-slate-900">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border-slate-200">
+                <SelectTrigger className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white">
+                  <SelectValue placeholder="Select currency" />
+                </SelectTrigger>
+                <SelectContent className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                       <SelectItem value="USD">🇺🇸 USD - US Dollar</SelectItem>
                       <SelectItem value="GBP">🇬🇧 GBP - British Pound</SelectItem>
                       <SelectItem value="EUR">🇪🇺 EUR - Euro</SelectItem>
@@ -1040,7 +1040,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       type="number"
                       value={data.currentAge}
                       onChange={(e) => setData({ ...data, currentAge: Number.parseInt(e.target.value) || 0 })}
-                      className="bg-white border-slate-300 text-slate-900"
+                      className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
                     />
                   </div>
                   <div>
@@ -1052,7 +1052,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       type="number"
                       value={data.retirementAge}
                       onChange={(e) => setData({ ...data, retirementAge: Number.parseInt(e.target.value) || 0 })}
-                      className="bg-white border-slate-300 text-slate-900"
+                      className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
                     />
                   </div>
                 </div>
@@ -1066,7 +1066,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     type="number"
                     value={data.currentSalary}
                     onChange={(e) => setData({ ...data, currentSalary: Number.parseInt(e.target.value) || 0 })}
-                    className="bg-white border-slate-300 text-slate-900"
+                    className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
                   />
                 </div>
 
@@ -1079,7 +1079,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     type="number"
                     value={data.currentSavings}
                     onChange={(e) => setData({ ...data, currentSavings: Number.parseInt(e.target.value) || 0 })}
-                    className="bg-white border-slate-300 text-slate-900"
+                    className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
                   />
                 </div>
 
@@ -1092,7 +1092,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     type="number"
                     value={data.monthlyContribution}
                     onChange={(e) => setData({ ...data, monthlyContribution: Number.parseInt(e.target.value) || 0 })}
-                    className="bg-white border-slate-300 text-slate-900"
+                    className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
                   />
                 </div>
 
@@ -1105,7 +1105,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                     type="number"
                     value={data.employerMatch}
                     onChange={(e) => setData({ ...data, employerMatch: Number.parseFloat(e.target.value) || 0 })}
-                    className="bg-white border-slate-300 text-slate-900"
+                    className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
                   />
                 </div>
 
@@ -1120,7 +1120,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       step="0.1"
                       value={data.inflationRate}
                       onChange={(e) => setData({ ...data, inflationRate: Number.parseFloat(e.target.value) || 0 })}
-                      className="bg-white border-slate-300 text-slate-900"
+                      className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
                     />
                   </div>
                   <div>
@@ -1132,7 +1132,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       type="number"
                       value={data.desiredIncome}
                       onChange={(e) => setData({ ...data, desiredIncome: Number.parseInt(e.target.value) || 0 })}
-                      className="bg-white border-slate-300 text-slate-900"
+                      className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
                     />
                   </div>
                 </div>
@@ -1187,7 +1187,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       type="number"
                       value={data.expectedReturn}
                       onChange={(e) => setData({ ...data, expectedReturn: Number.parseFloat(e.target.value) || 0 })}
-                      className="bg-white border-slate-300 text-slate-900"
+                      className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
                       step="0.1"
                     />
                     <button
@@ -1210,44 +1210,44 @@ Successful retirement planning requires a multi-faceted approach that considers 
                           Current Treasury Rates ({currentTreasuryRates.year})
                         </h4>
                       </div>
-                      <p className="text-xs text-slate-600 mb-3">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
                         Use these government-backed rates for conservative retirement projections
                       </p>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                         <button
                           type="button"
                           onClick={() => setData({ ...data, expectedReturn: currentTreasuryRates.bonds })}
-                          className="p-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-left transition-colors"
+                          className="p-3 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 rounded-lg text-left transition-colors"
                         >
-                          <div className="text-xs text-slate-600 mb-1">Bond Ladder (5-10yr)</div>
-                          <div className="text-lg font-bold text-blue-600">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">Bond Ladder (5-10yr)</div>
+                          <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
                             {currentTreasuryRates.bonds.toFixed(2)}%
                           </div>
-                          <div className="text-xs text-slate-500">Moderate-Conservative</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">Moderate-Conservative</div>
                         </button>
                         <button
                           type="button"
                           onClick={() =>
                             setData({ ...data, expectedReturn: currentTreasuryRates.moderateConservative })
                           }
-                          className="p-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-left transition-colors"
+                          className="p-3 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 rounded-lg text-left transition-colors"
                         >
-                          <div className="text-xs text-slate-600 mb-1">10-Year Treasury</div>
-                          <div className="text-lg font-bold text-blue-600">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">10-Year Treasury</div>
+                          <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
                             {currentTreasuryRates.moderateConservative.toFixed(2)}%
                           </div>
-                          <div className="text-xs text-slate-500">Conservative</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">Conservative</div>
                         </button>
                         <button
                           type="button"
                           onClick={() => setData({ ...data, expectedReturn: currentTreasuryRates.conservative })}
-                          className="p-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-left transition-colors"
+                          className="p-3 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 rounded-lg text-left transition-colors"
                         >
-                          <div className="text-xs text-slate-600 mb-1">30-Year Treasury</div>
-                          <div className="text-lg font-bold text-blue-600">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">30-Year Treasury</div>
+                          <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
                             {currentTreasuryRates.conservative.toFixed(2)}%
                           </div>
-                          <div className="text-xs text-slate-500">Ultra-Conservative</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">Ultra-Conservative</div>
                         </button>
                       </div>
                     </div>
@@ -1257,13 +1257,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
             </Card>
 
             {/* Results Panel */}
-            <Card className="border-slate-200 bg-white">
+            <Card className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-slate-900">
+                <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
                   <PiggyBank className="h-6 w-6 text-blue-600" />
                   Retirement Projection ({currentCurrency.flag} {data.currency})
                 </CardTitle>
-                <CardDescription className="text-slate-600">Key metrics for your retirement readiness</CardDescription>
+                <CardDescription className="text-slate-600 dark:text-slate-300">Key metrics for your retirement readiness</CardDescription>
               </CardHeader>
               <CardContent>
                 {results && (
@@ -1312,13 +1312,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
 
           {/* Healthcare Tab */}
           <TabsContent value="healthcare" className="space-y-6">
-            <Card className="border-slate-200 bg-white">
+            <Card className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-slate-900">
+                <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
                   <Heart className="h-6 w-6 text-red-600" />
                   Healthcare Retirement Costs
                 </CardTitle>
-                <CardDescription className="text-slate-600">
+                <CardDescription className="text-slate-600 dark:text-slate-300">
                   Factor in healthcare costs that grow faster than general inflation
                 </CardDescription>
               </CardHeader>
@@ -1415,13 +1415,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
 
           {/* Crisis Assessment Tab */}
           <TabsContent value="crisis" className="space-y-6">
-            <Card className="border-slate-200 bg-white">
+            <Card className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-slate-900">
+                <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
                   <AlertTriangle className="h-6 w-6 text-red-600" />
                   Retirement Crisis Assessment
                 </CardTitle>
-                <CardDescription className="text-slate-600">
+                <CardDescription className="text-slate-600 dark:text-slate-300">
                   Analyze your retirement readiness and identify potential crisis points
                 </CardDescription>
               </CardHeader>
@@ -1442,15 +1442,15 @@ Successful retirement planning requires a multi-faceted approach that considers 
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-4">
-                      <div className="p-4 bg-slate-100 rounded-lg border border-slate-200">
-                        <h3 className="font-semibold text-slate-900">Current Savings Rate</h3>
-                        <p className="text-2xl font-bold text-slate-900">
+                      <div className="p-4 bg-slate-100 dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600">
+                        <h3 className="font-semibold text-slate-900 dark:text-white">Current Savings Rate</h3>
+                        <p className="text-2xl font-bold text-slate-900 dark:text-white">
                           {(((data.monthlyContribution * 12) / data.currentSalary) * 100).toFixed(1)}%
                         </p>
                       </div>
-                      <div className="p-4 bg-slate-100 rounded-lg border border-slate-200">
-                        <h3 className="font-semibold text-slate-900">Years to Retirement</h3>
-                        <p className="text-2xl font-bold text-slate-900">
+                      <div className="p-4 bg-slate-100 dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600">
+                        <h3 className="font-semibold text-slate-900 dark:text-white">Years to Retirement</h3>
+                        <p className="text-2xl font-bold text-slate-900 dark:text-white">
                           {data.retirementAge - data.currentAge} years
                         </p>
                       </div>
@@ -1504,13 +1504,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
 
           {/* Generational Analysis Tab */}
           <TabsContent value="generation" className="space-y-6">
-            <Card className="border-slate-200 bg-white">
+            <Card className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-slate-900">
+                <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
                   <Users className="h-6 w-6 text-blue-600" />
                   Generational Retirement Gap ({currentCurrency.flag} {data.currency})
                 </CardTitle>
-                <CardDescription className="text-slate-600">
+                <CardDescription className="text-slate-600 dark:text-slate-300">
                   Compare retirement challenges across different generations
                 </CardDescription>
               </CardHeader>
@@ -1518,10 +1518,10 @@ Successful retirement planning requires a multi-faceted approach that considers 
                 {results && currentCurrency && (
                   <div className="space-y-6">
                     <div className="text-center">
-                      <h3 className="text-lg font-semibold mb-2 text-slate-900">
+                      <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">
                         You are: {getGenerationName(data.generation)}
                       </h3>
-                      <p className="text-slate-600">
+                      <p className="text-slate-600 dark:text-slate-300">
                         Born: {currentCurrency.generationData[data.generation]?.birthYears}
                       </p>
                     </div>
@@ -1531,10 +1531,10 @@ Successful retirement planning requires a multi-faceted approach that considers 
                         <div
                           key={gen}
                           className={`p-4 rounded-lg border-2 ${
-                            gen === data.generation ? "border-blue-500 bg-blue-50" : "border-slate-200 bg-white"
+                            gen === data.generation ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30" : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
                           }`}
                         >
-                          <h4 className="font-semibold text-sm text-slate-900">{getGenerationName(gen)}</h4>
+                          <h4 className="font-semibold text-sm text-slate-900 dark:text-white">{getGenerationName(gen)}</h4>
                           <div className="mt-2 space-y-1 text-xs text-slate-600">
                             <p>Avg Contribution: {genData.averageContribution}%</p>
                             <p>Median Savings: {formatCurrency(genData.medianSavings)}</p>
@@ -1577,13 +1577,13 @@ Successful retirement planning requires a multi-faceted approach that considers 
         {/* Essay Section */}
         {essayContent && (
           <div className="mb-12">
-            <Card className="border-slate-200 bg-white">
+            <Card className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-slate-900">
+                <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
                   <BookOpen className="h-6 w-6 text-blue-600" />
                   Understanding Retirement Planning
                 </CardTitle>
-                <CardDescription className="text-slate-600">
+                <CardDescription className="text-slate-600 dark:text-slate-300">
                   Essential insights for building a secure retirement strategy
                 </CardDescription>
               </CardHeader>
