@@ -77,6 +77,133 @@ export default function Page() {
     ],
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Retirement Calculator - Complete Financial Planning Tool",
+    description:
+      "Comprehensive retirement planning with lifestyle maintenance, crisis analysis, healthcare cost projections, and generational comparisons. Calculate retirement needs with inflation-adjusted projections.",
+    author: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://globalinflationcalculator.com/favicon-96x96.png",
+      },
+    },
+    datePublished: "2024-03-15",
+    dateModified: "2026-02-11",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": "https://globalinflationcalculator.com/retirement-calculator",
+    },
+  }
+
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Retirement Planning and Healthcare Cost Dataset",
+    description:
+      "Comprehensive dataset combining U.S. inflation rates (2.8% as of February 2026), healthcare cost inflation (81% higher than general inflation at 5.1%), Social Security projections, life expectancy data, and Treasury savings rates (3.67% HYSA, 4.03% I-Bonds) for complete retirement planning analysis.",
+    url: "https://globalinflationcalculator.com/retirement-calculator",
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+    },
+    temporalCoverage: "2023/2066",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "United States",
+    },
+    variableMeasured: [
+      "Inflation-Adjusted Retirement Savings",
+      "Healthcare Cost Inflation Impact",
+      "Social Security Benefit Projections",
+      "Life Expectancy and Longevity Risk",
+      "401(k) and IRA Growth Projections",
+      "Safe Withdrawal Rates",
+      "Generational Retirement Readiness",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "Bureau of Labor Statistics Consumer Price Index",
+        description:
+          "Official U.S. inflation data showing 2.8% annual rate as of February 2026, used to calculate inflation-adjusted retirement income needs, ensuring purchasing power is maintained across 25-30 year retirement periods.",
+        url: "https://www.bls.gov/cpi/",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Bureau of Labor Statistics",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Healthcare Cost Inflation Data",
+        description:
+          "Healthcare inflation consistently runs 81% higher than general inflation (approximately 5.1% vs 2.8% for USD), representing the largest retirement expense risk. Couples can expect $300,000+ in healthcare costs over retirement, growing faster than other expenses.",
+        url: "https://www.bls.gov/cpi/factsheets/medical-care.htm",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Bureau of Labor Statistics",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Social Security Administration Life Expectancy Tables",
+        description:
+          "Actuarial data showing increasing life expectancy requiring retirement planning for 25-30 years. Used to calculate longevity risk, safe withdrawal rates, and ensure retirement savings last throughout retirement.",
+        url: "https://www.ssa.gov/oact/STATS/table4c6.html",
+        creator: {
+          "@type": "Organization",
+          name: "Social Security Administration",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Social Security Benefit Projections",
+        description:
+          "Official Social Security benefit estimates and future solvency projections showing potential 77% benefit levels if trust fund depletes by 2033. Critical for planning retirement income sources beyond personal savings.",
+        url: "https://www.ssa.gov/policy/trust-funds-summary.html",
+        creator: {
+          "@type": "Organization",
+          name: "Social Security Administration",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "U.S. Treasury Savings Rates - February 2026",
+        description:
+          "Current Treasury rates providing safe investment return benchmarks for retirement planning: 3.67% for high-yield savings accounts (tracking 3-month Treasury bills), 4.03% for I-Bonds with inflation protection. Used to model conservative retirement portfolio returns.",
+        url: "https://home.treasury.gov/resource-center/data-chart-center/interest-rates",
+        creator: {
+          "@type": "Organization",
+          name: "U.S. Department of the Treasury",
+        },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "Historical Stock Market Returns",
+        description:
+          "Long-term S&P 500 returns (10% average annual) and bond market returns (5% average) used to project retirement savings growth for different portfolio allocations from conservative to aggressive investment strategies over 30-40 year careers.",
+        url: "https://www.investopedia.com/ask/answers/042415/what-average-annual-return-sp-500.asp",
+        creator: {
+          "@type": "Organization",
+          name: "S&P 500 Historical Data",
+        },
+      },
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -139,6 +266,8 @@ export default function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <RetirementCalculatorPage />
 

@@ -26,6 +26,7 @@ import Link from "next/link"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import FAQ from "@/components/faq" // Assuming FAQ component is available
 import { treasuryData } from "@/lib/treasury-data"
+import { loadInflationMeasure, getLatestAvailableYear } from "@/lib/inflation-measures"
 
 interface RetirementData {
   currentAge: number
@@ -399,7 +400,7 @@ export default function RetirementCalculatorPage() {
     monthlyContribution: 500,
     employerMatch: 3,
     expectedReturn: 7,
-    inflationRate: 3,
+    inflationRate: 2.8, // Will be updated with real CPI data
     retirementDuration: 25,
     desiredIncome: 80,
     gender: "male",
@@ -537,6 +538,32 @@ Successful retirement planning requires a multi-faceted approach that considers 
     } catch (error) {
       console.error("Error loading Treasury rates:", error)
     }
+  }, [])
+
+  // Load real CPI inflation data from comprehensive data files
+  useEffect(() => {
+    const loadInflationData = async () => {
+      try {
+        const cpiData = await loadInflationMeasure("USD", "cpi")
+        if (cpiData) {
+          const currentYear = new Date().getFullYear()
+          const latestYear = getLatestAvailableYear(cpiData, currentYear)
+          const latestData = cpiData.data[latestYear.toString()]
+
+          if (latestData?.year_over_year_change !== null && latestData?.year_over_year_change !== undefined) {
+            setData((prev) => ({
+              ...prev,
+              inflationRate: latestData.year_over_year_change,
+            }))
+          }
+        }
+      } catch (error) {
+        console.error("Error loading CPI inflation data:", error)
+        // Keep default value if loading fails
+      }
+    }
+
+    loadInflationData()
   }, [])
 
   // Calculate retirement projections - runs automatically when data changes
