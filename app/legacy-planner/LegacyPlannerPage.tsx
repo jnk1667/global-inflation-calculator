@@ -6,10 +6,6 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { loadInflationMeasure, getLatestAvailableYear } from "@/lib/inflation-measures"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
@@ -142,27 +138,42 @@ export default function LegacyPlannerPage() {
   const generationGapYears = 25
   const healthcareMultiplier = 1.81 // Healthcare inflation is 81% higher than general inflation
 
-  // Load real inflation data from comprehensive data files (USD only - other currencies use defaults)
+  // Load real inflation data from aggregated files for all currencies
   useEffect(() => {
     const loadInflationData = async () => {
       try {
         const updatedRates = { ...defaultInflationRates }
-        const currentYear = new Date().getFullYear()
 
-        // Only load USD data (other currencies don't have data files)
-        const cpiData = await loadInflationMeasure("USD", "cpi")
-        if (cpiData) {
-          const latestYear = getLatestAvailableYear(cpiData, currentYear)
-          const latestData = cpiData.data[latestYear.toString()]
+        // Load inflation data for each currency
+        const currencies = ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY", "NZD"]
 
-          if (latestData?.year_over_year_change !== null && latestData?.year_over_year_change !== undefined) {
-            updatedRates.USD = latestData.year_over_year_change / 100
-          }
-        }
+        await Promise.all(
+          currencies.map(async (code) => {
+            try {
+              const response = await fetch(`/data/${code.toLowerCase()}-inflation.json`, {
+                headers: { Accept: "application/json" },
+              })
+
+              if (response.ok) {
+                const data = await response.json()
+                // Get the latest year's inflation rate
+                const years = Object.keys(data).sort().reverse()
+                const latestYear = years[0]
+
+                if (data[latestYear]?.inflation) {
+                  updatedRates[code as keyof typeof defaultInflationRates] = data[latestYear].inflation / 100
+                }
+              }
+            } catch (err) {
+              console.error(`Error loading ${code} inflation data:`, err)
+              // Keep default value for this currency
+            }
+          })
+        )
 
         setInflationRates(updatedRates)
       } catch (error) {
-        console.error("Error loading USD inflation data:", error)
+        console.error("Error loading inflation data:", error)
         // Keep default values if loading fails
       }
     }
