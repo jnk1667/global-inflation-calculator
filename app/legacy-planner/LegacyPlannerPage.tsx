@@ -1,8 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
+import { loadInflationMeasure, getLatestAvailableYear } from "@/lib/inflation-measures"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -69,9 +73,9 @@ const portfolioReturns = {
   NZD: { stocks: 0.09, bonds: 0.045, mixed: 0.07 },
 }
 
-// Average inflation rates by currency
-const inflationRates = {
-  USD: 0.032,
+// Average inflation rates by currency - will be loaded from real data
+const defaultInflationRates = {
+  USD: 0.028,
   GBP: 0.035,
   EUR: 0.025,
   CAD: 0.03,
@@ -133,9 +137,56 @@ export default function LegacyPlannerPage() {
     updated_at: "",
   })
   const [blogLoading, setBlogLoading] = useState(true)
+  const [inflationRates, setInflationRates] = useState(defaultInflationRates)
 
   const generationGapYears = 25
   const healthcareMultiplier = 1.81 // Healthcare inflation is 81% higher than general inflation
+
+  // Load real inflation data from comprehensive data files
+  useEffect(() => {
+    const loadInflationData = async () => {
+      try {
+        const currencyMap = {
+          USD: "USD",
+          GBP: "GBP",
+          EUR: "EUR",
+          CAD: "CAD",
+          AUD: "AUD",
+          CHF: "CHF",
+          JPY: "JPY",
+          NZD: "NZD",
+        }
+
+        const updatedRates = { ...defaultInflationRates }
+        const currentYear = new Date().getFullYear()
+
+        // Load CPI data for each currency
+        for (const [curr, code] of Object.entries(currencyMap)) {
+          try {
+            const cpiData = await loadInflationMeasure(code as any, "cpi")
+            if (cpiData) {
+              const latestYear = getLatestAvailableYear(cpiData, currentYear)
+              const latestData = cpiData.data[latestYear.toString()]
+
+              if (latestData?.year_over_year_change !== null && latestData?.year_over_year_change !== undefined) {
+                updatedRates[curr as keyof typeof defaultInflationRates] = latestData.year_over_year_change / 100
+              }
+            }
+          } catch (err) {
+            console.error(`Error loading ${curr} inflation data:`, err)
+            // Keep default value for this currency
+          }
+        }
+
+        setInflationRates(updatedRates)
+      } catch (error) {
+        console.error("Error loading inflation data:", error)
+        // Keep default values if loading fails
+      }
+    }
+
+    loadInflationData()
+  }, [])
 
   const calculateLegacyProjection = () => {
     const wealth = Number.parseFloat(initialWealth)
