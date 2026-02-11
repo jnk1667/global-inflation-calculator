@@ -142,45 +142,27 @@ export default function LegacyPlannerPage() {
   const generationGapYears = 25
   const healthcareMultiplier = 1.81 // Healthcare inflation is 81% higher than general inflation
 
-  // Load real inflation data from comprehensive data files
+  // Load real inflation data from comprehensive data files (USD only - other currencies use defaults)
   useEffect(() => {
     const loadInflationData = async () => {
       try {
-        const currencyMap = {
-          USD: "USD",
-          GBP: "GBP",
-          EUR: "EUR",
-          CAD: "CAD",
-          AUD: "AUD",
-          CHF: "CHF",
-          JPY: "JPY",
-          NZD: "NZD",
-        }
-
         const updatedRates = { ...defaultInflationRates }
         const currentYear = new Date().getFullYear()
 
-        // Load CPI data for each currency
-        for (const [curr, code] of Object.entries(currencyMap)) {
-          try {
-            const cpiData = await loadInflationMeasure(code as any, "cpi")
-            if (cpiData) {
-              const latestYear = getLatestAvailableYear(cpiData, currentYear)
-              const latestData = cpiData.data[latestYear.toString()]
+        // Only load USD data (other currencies don't have data files)
+        const cpiData = await loadInflationMeasure("USD", "cpi")
+        if (cpiData) {
+          const latestYear = getLatestAvailableYear(cpiData, currentYear)
+          const latestData = cpiData.data[latestYear.toString()]
 
-              if (latestData?.year_over_year_change !== null && latestData?.year_over_year_change !== undefined) {
-                updatedRates[curr as keyof typeof defaultInflationRates] = latestData.year_over_year_change / 100
-              }
-            }
-          } catch (err) {
-            console.error(`Error loading ${curr} inflation data:`, err)
-            // Keep default value for this currency
+          if (latestData?.year_over_year_change !== null && latestData?.year_over_year_change !== undefined) {
+            updatedRates.USD = latestData.year_over_year_change / 100
           }
         }
 
         setInflationRates(updatedRates)
       } catch (error) {
-        console.error("Error loading inflation data:", error)
+        console.error("Error loading USD inflation data:", error)
         // Keep default values if loading fails
       }
     }
