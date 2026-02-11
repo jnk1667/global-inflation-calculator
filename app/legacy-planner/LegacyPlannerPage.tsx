@@ -675,7 +675,7 @@ export default function LegacyPlannerPage() {
 
               {/* FAQ Section */}
               <div className="mb-8">
-                <FAQ category="legacy" />
+                <FAQ category="legacy-planner" />
               </div>
 
               {/* Related Tools */}
