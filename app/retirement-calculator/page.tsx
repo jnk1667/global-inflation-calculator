@@ -200,6 +200,7 @@ export default function Page() {
           "@type": "Organization",
           name: "S&P 500 Historical Data",
         },
+        license: "https://www.investopedia.com/legal-4768893#toc-license-to-use-website",
       },
     ],
   }
