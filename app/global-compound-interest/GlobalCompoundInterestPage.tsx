@@ -218,26 +218,6 @@ export default function GlobalCompoundInterestPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold hover:text-primary transition-colors">
-            Global Inflation Calculator
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link href="/" className="text-sm hover:text-primary transition-colors">
-              Home
-            </Link>
-            <Link href="/deflation-calculator" className="text-sm hover:text-primary transition-colors">
-              Deflation Calculator
-            </Link>
-            <Link href="/charts" className="text-sm hover:text-primary transition-colors">
-              Charts
-            </Link>
-          </div>
-        </div>
-      </nav>
-
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-12">
