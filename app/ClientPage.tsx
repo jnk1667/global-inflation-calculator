@@ -535,21 +535,21 @@ export default function ClientPage() {
   const generateYearMarkers = () => {
     const markers = []
     if (selectedCurrency === "USD") {
-      markers.push(1920, 1940, 1960, 1980, 2000, 2020, 2025)
+      markers.push(1920, 1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "CAD") {
-      markers.push(1920, 1940, 1960, 1980, 2000, 2020, 2025)
+      markers.push(1920, 1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "GBP") {
-      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020, 2025)
+      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
     } else if (selectedCurrency === "AUD") {
-      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020, 2025)
+      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
     } else if (selectedCurrency === "EUR") {
-      markers.push(2000, 2010, 2020, 2025)
+      markers.push(2000, 2010, 2020)
     } else if (selectedCurrency === "CHF") {
-      markers.push(1920, 1940, 1960, 1980, 2000, 2020, 2025)
+      markers.push(1920, 1940, 1960, 1980, 2000, 2020)
     } else if (selectedCurrency === "JPY") {
-      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020, 2025)
+      markers.push(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)
     } else if (selectedCurrency === "NZD") {
-      markers.push(1970, 1980, 1990, 2000, 2010, 2020, 2025)
+      markers.push(1970, 1980, 1990, 2000, 2010, 2020)
     }
     return markers.filter((year) => year > minYear && year < maxYear)
   }
