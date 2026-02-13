@@ -4,7 +4,7 @@ import GlobalCompoundInterestPage from "./GlobalCompoundInterestPage"
 export const metadata: Metadata = {
   title: "Global Compound Interest Calculator | 8 Currencies",
   description:
-    "Free compound interest calculator with inflation adjustment. Calculate real returns across 8 currencies (USD, EUR, GBP, CAD, AUD, CHF, JPY, NZD) using official BLS data.",
+    "Free compound interest calculator with inflation adjustment. Calculate returns across 8 currencies (USD, EUR, GBP, CAD, AUD, CHF, JPY, NZD) via official data.",
   keywords: [
     "compound interest calculator with inflation",
     "inflation adjusted compound interest calculator",
