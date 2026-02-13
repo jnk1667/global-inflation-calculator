@@ -7,10 +7,16 @@ export async function GET() {
       .from("seo_content")
       .select("content")
       .eq("id", "compound_interest_essay")
-      .single()
+      .maybeSingle()
 
-    if (error || !data) {
-      console.error("Error fetching blog content:", error)
+    // If data exists in Supabase, return it
+    if (data?.content) {
+      return NextResponse.json({ content: data.content })
+    }
+
+    // Otherwise, return default content
+    if (error) {
+      console.log("[v0] No blog content found in Supabase, using default content")
       return NextResponse.json(
         {
           content: `Understanding the true power of compound interest requires looking beyond nominal returns. Most investment calculators show you impressive numbers - your $10,000 growing to $200,000 over 30 years. But there's a hidden force that quietly erodes these gains: inflation.

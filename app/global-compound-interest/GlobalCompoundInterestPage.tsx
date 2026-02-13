@@ -159,30 +159,16 @@ export default function GlobalCompoundInterestPage() {
   useEffect(() => {
     const loadBlogContent = async () => {
       try {
-        const { data, error } = await supabase
-          .from("seo_content")
-          .select("content")
-          .eq("id", "compound_interest_essay")
-          .single()
-
-        if (error || !data?.content) {
-          // Use default content from API if Supabase fails
-          const response = await fetch("/api/compound-interest-blog")
+        // Try fetching from API (which checks Supabase internally)
+        const response = await fetch("/api/compound-interest-blog")
+        if (response.ok) {
           const apiData = await response.json()
           setBlogContent(apiData.content)
         } else {
-          setBlogContent(data.content)
+          console.error("[v0] Failed to load blog content")
         }
       } catch (error) {
-        console.error("Error loading blog content:", error)
-        // Fallback to API
-        try {
-          const response = await fetch("/api/compound-interest-blog")
-          const apiData = await response.json()
-          setBlogContent(apiData.content)
-        } catch (apiError) {
-          console.error("Error fetching from API:", apiError)
-        }
+        console.error("[v0] Error loading blog content:", error)
       } finally {
         setBlogLoading(false)
       }
