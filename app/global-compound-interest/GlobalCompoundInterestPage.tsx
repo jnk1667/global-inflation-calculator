@@ -71,7 +71,7 @@ export default function GlobalCompoundInterestPage() {
     annualReturn: 7.0,
     years: 20,
     currency: "USD",
-    investmentStrategy: "balanced",
+    investmentStrategy: "custom",
     inflationRate: 2.8,
   })
 
@@ -310,7 +310,7 @@ export default function GlobalCompoundInterestPage() {
 
               {/* Annual Return */}
               <div className="space-y-2">
-                <Label htmlFor="annualReturn">Annual Return Rate (%)</Label>
+                <Label htmlFor="annualReturn">Annual Return Rate (Interest Rate %)</Label>
                 <Input
                   id="annualReturn"
                   type="number"
@@ -318,6 +318,7 @@ export default function GlobalCompoundInterestPage() {
                   value={data.annualReturn}
                   onChange={(e) => setData({ ...data, annualReturn: Number(e.target.value), investmentStrategy: "custom" })}
                   disabled={data.investmentStrategy !== "custom"}
+                  className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
                 />
               </div>
 
