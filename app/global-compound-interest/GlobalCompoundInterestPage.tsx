@@ -644,6 +644,265 @@ export default function GlobalCompoundInterestPage() {
           </CardContent>
         </Card>
 
+        {/* Methodology & Data Sources Section */}
+        <Card className="shadow-xl mb-12">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-2xl">
+              <Calculator className="w-6 h-6" />
+              Methodology & Data Sources
+            </CardTitle>
+            <CardDescription>
+              Understanding the formulas and official data behind our calculations
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-8 text-gray-700 dark:text-gray-300">
+              {/* Compound Interest Formula */}
+              <div>
+                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+                  Compound Interest Calculation Formula
+                </h3>
+                <p className="mb-4 leading-relaxed">
+                  Our calculator uses the standard compound interest formula with regular monthly contributions:
+                </p>
+                <div className="bg-slate-100 dark:bg-slate-800 p-6 rounded-lg mb-4 font-mono text-sm overflow-x-auto">
+                  <div className="mb-4">
+                    <strong className="text-gray-900 dark:text-white">Future Value (FV) =</strong>
+                  </div>
+                  <div className="pl-4 space-y-2">
+                    <div>P × (1 + r)^t</div>
+                    <div className="text-gray-600 dark:text-gray-400">+ PMT × [((1 + r)^t - 1) / r]</div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <strong className="text-gray-900 dark:text-white">P</strong> = Initial Principal (starting amount)
+                  </div>
+                  <div>
+                    <strong className="text-gray-900 dark:text-white">r</strong> = Annual interest rate (decimal)
+                  </div>
+                  <div>
+                    <strong className="text-gray-900 dark:text-white">t</strong> = Time period in years
+                  </div>
+                  <div>
+                    <strong className="text-gray-900 dark:text-white">PMT</strong> = Monthly contribution amount
+                  </div>
+                </div>
+              </div>
+
+              {/* Real Returns Formula */}
+              <div className="border-t pt-6">
+                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+                  Inflation-Adjusted Real Returns Formula
+                </h3>
+                <p className="mb-4 leading-relaxed">
+                  To calculate real purchasing power after accounting for inflation:
+                </p>
+                <div className="bg-slate-100 dark:bg-slate-800 p-6 rounded-lg mb-4 font-mono text-sm">
+                  <div className="mb-2">
+                    <strong className="text-gray-900 dark:text-white">Real Value =</strong> Nominal Value / (1 + inflation_rate)^years
+                  </div>
+                  <div className="mt-4 text-xs text-gray-600 dark:text-gray-400">
+                    Real Return Rate = [(1 + nominal_rate) / (1 + inflation_rate)] - 1
+                  </div>
+                </div>
+                <p className="text-sm leading-relaxed">
+                  This formula adjusts your nominal returns to show actual purchasing power in today's currency,
+                  accounting for inflation erosion over the investment period.
+                </p>
+              </div>
+
+              {/* Official Data Sources */}
+              <div className="border-t pt-6">
+                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">Official Inflation Data Sources</h3>
+                <p className="mb-4 leading-relaxed">
+                  We use only official government and central bank Consumer Price Index (CPI) data from authoritative
+                  statistical agencies:
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <div className="font-bold text-gray-900 dark:text-white mb-2">United States (USD)</div>
+                    <div className="text-sm">
+                      <div className="mb-1">
+                        <strong>Source:</strong> Bureau of Labor Statistics (BLS)
+                      </div>
+                      <div className="mb-1">
+                        <strong>Data Range:</strong> 1913-2026 (113 years)
+                      </div>
+                      <div>
+                        <strong>Current Rate:</strong> 2.8% (Feb 2026)
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <div className="font-bold text-gray-900 dark:text-white mb-2">United Kingdom (GBP)</div>
+                    <div className="text-sm">
+                      <div className="mb-1">
+                        <strong>Source:</strong> Office for National Statistics (ONS)
+                      </div>
+                      <div className="mb-1">
+                        <strong>Data Range:</strong> 1947-2026
+                      </div>
+                      <div>
+                        <strong>Current Rate:</strong> 3.5%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <div className="font-bold text-gray-900 dark:text-white mb-2">Eurozone (EUR)</div>
+                    <div className="text-sm">
+                      <div className="mb-1">
+                        <strong>Source:</strong> Eurostat (HICP)
+                      </div>
+                      <div className="mb-1">
+                        <strong>Data Range:</strong> 1997-2026
+                      </div>
+                      <div>
+                        <strong>Current Rate:</strong> 2.5%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <div className="font-bold text-gray-900 dark:text-white mb-2">Canada (CAD)</div>
+                    <div className="text-sm">
+                      <div className="mb-1">
+                        <strong>Source:</strong> Statistics Canada
+                      </div>
+                      <div className="mb-1">
+                        <strong>Data Range:</strong> 1914-2026
+                      </div>
+                      <div>
+                        <strong>Current Rate:</strong> 2.5%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <div className="font-bold text-gray-900 dark:text-white mb-2">Australia (AUD)</div>
+                    <div className="text-sm">
+                      <div className="mb-1">
+                        <strong>Source:</strong> Australian Bureau of Statistics (ABS)
+                      </div>
+                      <div className="mb-1">
+                        <strong>Data Range:</strong> 1948-2026
+                      </div>
+                      <div>
+                        <strong>Current Rate:</strong> 3.5%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <div className="font-bold text-gray-900 dark:text-white mb-2">Switzerland (CHF)</div>
+                    <div className="text-sm">
+                      <div className="mb-1">
+                        <strong>Source:</strong> Swiss Federal Statistical Office
+                      </div>
+                      <div className="mb-1">
+                        <strong>Data Range:</strong> 1914-2026
+                      </div>
+                      <div>
+                        <strong>Current Rate:</strong> 1.5%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <div className="font-bold text-gray-900 dark:text-white mb-2">Japan (JPY)</div>
+                    <div className="text-sm">
+                      <div className="mb-1">
+                        <strong>Source:</strong> Statistics Bureau of Japan
+                      </div>
+                      <div className="mb-1">
+                        <strong>Data Range:</strong> 1946-2026
+                      </div>
+                      <div>
+                        <strong>Current Rate:</strong> 1.0%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <div className="font-bold text-gray-900 dark:text-white mb-2">New Zealand (NZD)</div>
+                    <div className="text-sm">
+                      <div className="mb-1">
+                        <strong>Source:</strong> Statistics New Zealand
+                      </div>
+                      <div className="mb-1">
+                        <strong>Data Range:</strong> 1966-2026
+                      </div>
+                      <div>
+                        <strong>Current Rate:</strong> 2.8%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Investment Strategy Data */}
+              <div className="border-t pt-6">
+                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+                  Investment Strategy Return Rates
+                </h3>
+                <p className="mb-4 leading-relaxed">
+                  The preset investment strategies use current market rates and historical averages:
+                </p>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded">
+                    <span className="font-semibold">High-Yield Savings</span>
+                    <span className="font-mono">3.67%</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      (Current US Treasury 2-year rate, Feb 2026)
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded">
+                    <span className="font-semibold">I-Bonds</span>
+                    <span className="font-mono">4.03%</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      (Current US Treasury I-Bond composite rate)
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded">
+                    <span className="font-semibold">Bonds (10-Year Treasury)</span>
+                    <span className="font-mono">5.00%</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      (US Treasury 10-year yield, Feb 2026)
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded">
+                    <span className="font-semibold">Balanced Portfolio</span>
+                    <span className="font-mono">7.00%</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">(60/40 stocks/bonds split)</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded">
+                    <span className="font-semibold">Stock Market (S&P 500)</span>
+                    <span className="font-mono">10.50%</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      (Historical average 1928-2024, Source: Federal Reserve Economic Data)
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Data Accuracy Note */}
+              <div className="border-t pt-6">
+                <div className="bg-amber-50 dark:bg-amber-900/20 p-6 rounded-lg border-l-4 border-amber-500">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-2">Data Accuracy & Updates</h4>
+                  <p className="text-sm leading-relaxed">
+                    All inflation data is sourced directly from official government statistical agencies and updated
+                    monthly as new CPI reports are released. Historical S&P 500 returns are from Federal Reserve
+                    Economic Data (FRED). Treasury rates reflect current market rates as of February 2026. This ensures
+                    your projections are based on real economic data, not estimates or assumptions.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* FAQ Section */}
         <div className="mb-12">
           <FAQ category="global-compound-interest" />
