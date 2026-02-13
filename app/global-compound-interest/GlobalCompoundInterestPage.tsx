@@ -243,7 +243,7 @@ export default function GlobalCompoundInterestPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/30 via-white to-blue-50/20 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <div className="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-8 md:mb-12 mt-16 md:mt-24">
