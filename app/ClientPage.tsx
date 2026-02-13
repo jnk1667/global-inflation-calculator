@@ -1837,6 +1837,14 @@ export default function ClientPage() {
                   </li>
                   <li>
                     <Link
+                      href="/global-compound-interest"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Compound Interest Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/ppp-calculator"
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >
