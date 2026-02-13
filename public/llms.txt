@@ -53,6 +53,10 @@ Compare purchasing power parity across economies.
 URL: https://globalinflationcalculator.com/insurance-inflation-calculator
 Calculate health insurance premium increases over time with medical inflation. Project 5, 10, or 20-year costs based on age, family size, region, plan type, and smoking status across 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD). Features regional premium variations, medical inflation rates 3-6% annually, and comprehensive cost forecasting.
 
+### Global Compound Interest Calculator
+URL: https://globalinflationcalculator.com/global-compound-interest
+Calculate compound interest with inflation adjustment across 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD). Shows real vs nominal returns using official Bureau of Labor Statistics inflation data from 1913-2026. Features monthly contribution calculations, investment strategy comparison (High-Yield Savings 3.67%, I-Bonds 4.03%, Bonds 5%, Balanced 7%, S&P 500 10.5%), purchasing power analysis, and currency-specific inflation rates. Includes detailed formulas, data source methodology, and interactive visualizations showing nominal value vs inflation-adjusted real purchasing power over time.
+
 ### Legacy Planner
 URL: https://globalinflationcalculator.com/legacy-planner
 Project multi-generational wealth transfer with inflation.

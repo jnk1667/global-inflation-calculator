@@ -438,6 +438,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/global-compound-interest" className="text-blue-600 hover:underline">
+                      Global Compound Interest Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate compound interest with inflation adjustment across 8 currencies. See real vs nominal returns using official BLS data from 1913-2026
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/about" className="text-blue-600 hover:underline">
                       About Us
                     </Link>
