@@ -545,6 +545,136 @@ export default function GlobalCompoundInterestPage() {
         <div className="mb-12">
           <FAQ category="global-compound-interest" />
         </div>
+
+        {/* Footer */}
+        <footer className="mt-24 border-t bg-slate-900 dark:bg-slate-950 text-white py-12">
+          <div className="container mx-auto px-4 max-w-7xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+              {/* About Section */}
+              <div>
+                <h3 className="text-xl font-bold mb-4">Global Compound Interest Calculator</h3>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  Calculate compound interest with inflation adjustment across 8 major currencies. See real returns vs
+                  nominal returns using official data from 1913 to 2026.
+                </p>
+              </div>
+
+              {/* Data Sources */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Data Sources</h3>
+                <ul className="space-y-2 text-sm text-slate-300">
+                  <li>• US Bureau of Labor Statistics</li>
+                  <li>• UK Office for National Statistics</li>
+                  <li>• Eurostat</li>
+                  <li>• Statistics Canada</li>
+                  <li>• Australian Bureau of Statistics</li>
+                  <li>• Swiss Federal Statistical Office</li>
+                  <li>• Statistics Bureau of Japan</li>
+                  <li>• Statistics New Zealand</li>
+                  <li>• US Treasury Department</li>
+                  <li>• Federal Reserve Economic Data</li>
+                </ul>
+              </div>
+
+              {/* Quick Links */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul className="space-y-2 text-sm text-slate-300">
+                  <li>
+                    <Link href="/" className="hover:text-white transition-colors">
+                      Home - Inflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/deflation-calculator" className="hover:text-white transition-colors">
+                      Deflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/charts" className="hover:text-white transition-colors">
+                      Charts & Analytics
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/ppp-calculator" className="hover:text-white transition-colors">
+                      PPP Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/auto-loan-calculator" className="hover:text-white transition-colors">
+                      Auto Loan Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/salary-calculator" className="hover:text-white transition-colors">
+                      Salary Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/retirement-calculator" className="hover:text-white transition-colors">
+                      Retirement Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/student-loan-calculator" className="hover:text-white transition-colors">
+                      Student Loan Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/mortgage-calculator" className="hover:text-white transition-colors">
+                      Mortgage Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/budget-calculator" className="hover:text-white transition-colors">
+                      Budget Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/emergency-fund-calculator" className="hover:text-white transition-colors">
+                      Emergency Fund Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/roi-calculator" className="hover:text-white transition-colors">
+                      ROI Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/insurance-inflation-calculator" className="hover:text-white transition-colors">
+                      Insurance Inflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/legacy-planner" className="hover:text-white transition-colors">
+                      Legacy Planner
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about" className="hover:text-white transition-colors">
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy-policy" className="hover:text-white transition-colors">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/terms-of-service" className="hover:text-white transition-colors">
+                      Terms of Service
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Copyright */}
+            <div className="border-t border-slate-800 pt-6 text-center text-sm text-slate-400">
+              © 2026 Global Inflation Calculator. Educational purposes only.
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   )
