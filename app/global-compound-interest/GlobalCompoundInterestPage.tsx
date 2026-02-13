@@ -726,11 +726,8 @@ export default function GlobalCompoundInterestPage() {
                       <div className="mb-1">
                         <strong>Source:</strong> Bureau of Labor Statistics (BLS)
                       </div>
-                      <div className="mb-1">
-                        <strong>Data Range:</strong> 1913-2026 (113 years)
-                      </div>
                       <div>
-                        <strong>Current Rate:</strong> 2.8% (Feb 2026)
+                        <strong>Data Range:</strong> 1913-2026 (113 years)
                       </div>
                     </div>
                   </div>
@@ -741,11 +738,8 @@ export default function GlobalCompoundInterestPage() {
                       <div className="mb-1">
                         <strong>Source:</strong> Office for National Statistics (ONS)
                       </div>
-                      <div className="mb-1">
-                        <strong>Data Range:</strong> 1947-2026
-                      </div>
                       <div>
-                        <strong>Current Rate:</strong> 3.5%
+                        <strong>Data Range:</strong> 1947-2026
                       </div>
                     </div>
                   </div>
@@ -756,11 +750,8 @@ export default function GlobalCompoundInterestPage() {
                       <div className="mb-1">
                         <strong>Source:</strong> Eurostat (HICP)
                       </div>
-                      <div className="mb-1">
-                        <strong>Data Range:</strong> 1997-2026
-                      </div>
                       <div>
-                        <strong>Current Rate:</strong> 2.5%
+                        <strong>Data Range:</strong> 1997-2026
                       </div>
                     </div>
                   </div>
@@ -771,11 +762,8 @@ export default function GlobalCompoundInterestPage() {
                       <div className="mb-1">
                         <strong>Source:</strong> Statistics Canada
                       </div>
-                      <div className="mb-1">
-                        <strong>Data Range:</strong> 1914-2026
-                      </div>
                       <div>
-                        <strong>Current Rate:</strong> 2.5%
+                        <strong>Data Range:</strong> 1914-2026
                       </div>
                     </div>
                   </div>
@@ -786,11 +774,8 @@ export default function GlobalCompoundInterestPage() {
                       <div className="mb-1">
                         <strong>Source:</strong> Australian Bureau of Statistics (ABS)
                       </div>
-                      <div className="mb-1">
-                        <strong>Data Range:</strong> 1948-2026
-                      </div>
                       <div>
-                        <strong>Current Rate:</strong> 3.5%
+                        <strong>Data Range:</strong> 1948-2026
                       </div>
                     </div>
                   </div>
@@ -801,11 +786,8 @@ export default function GlobalCompoundInterestPage() {
                       <div className="mb-1">
                         <strong>Source:</strong> Swiss Federal Statistical Office
                       </div>
-                      <div className="mb-1">
-                        <strong>Data Range:</strong> 1914-2026
-                      </div>
                       <div>
-                        <strong>Current Rate:</strong> 1.5%
+                        <strong>Data Range:</strong> 1914-2026
                       </div>
                     </div>
                   </div>
@@ -816,11 +798,8 @@ export default function GlobalCompoundInterestPage() {
                       <div className="mb-1">
                         <strong>Source:</strong> Statistics Bureau of Japan
                       </div>
-                      <div className="mb-1">
-                        <strong>Data Range:</strong> 1946-2026
-                      </div>
                       <div>
-                        <strong>Current Rate:</strong> 1.0%
+                        <strong>Data Range:</strong> 1946-2026
                       </div>
                     </div>
                   </div>
@@ -831,11 +810,8 @@ export default function GlobalCompoundInterestPage() {
                       <div className="mb-1">
                         <strong>Source:</strong> Statistics New Zealand
                       </div>
-                      <div className="mb-1">
-                        <strong>Data Range:</strong> 1966-2026
-                      </div>
                       <div>
-                        <strong>Current Rate:</strong> 2.8%
+                        <strong>Data Range:</strong> 1966-2026
                       </div>
                     </div>
                   </div>
@@ -848,41 +824,38 @@ export default function GlobalCompoundInterestPage() {
                   Investment Strategy Return Rates
                 </h3>
                 <p className="mb-4 leading-relaxed">
-                  The preset investment strategies use current market rates and historical averages:
+                  The preset investment strategies use current market rates and historical averages from authoritative sources:
                 </p>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded">
-                    <span className="font-semibold">High-Yield Savings</span>
-                    <span className="font-mono">3.67%</span>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                      (Current US Treasury 2-year rate, Feb 2026)
-                    </span>
+                  <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded">
+                    <div className="font-semibold mb-1">High-Yield Savings</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      Based on US Treasury 2-year rate
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded">
-                    <span className="font-semibold">I-Bonds</span>
-                    <span className="font-mono">4.03%</span>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                      (Current US Treasury I-Bond composite rate)
-                    </span>
+                  <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded">
+                    <div className="font-semibold mb-1">I-Bonds</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      Based on US Treasury I-Bond composite rate
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded">
-                    <span className="font-semibold">Bonds (10-Year Treasury)</span>
-                    <span className="font-mono">5.00%</span>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                      (US Treasury 10-year yield, Feb 2026)
-                    </span>
+                  <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded">
+                    <div className="font-semibold mb-1">Bonds (10-Year Treasury)</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      Based on US Treasury 10-year yield
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded">
-                    <span className="font-semibold">Balanced Portfolio</span>
-                    <span className="font-mono">7.00%</span>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">(60/40 stocks/bonds split)</span>
+                  <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded">
+                    <div className="font-semibold mb-1">Balanced Portfolio</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      Traditional 60/40 stocks/bonds split
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded">
-                    <span className="font-semibold">Stock Market (S&P 500)</span>
-                    <span className="font-mono">10.50%</span>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                      (Historical average 1928-2024, Source: Federal Reserve Economic Data)
-                    </span>
+                  <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded">
+                    <div className="font-semibold mb-1">Stock Market (S&P 500)</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      Historical average from Federal Reserve Economic Data (FRED)
+                    </div>
                   </div>
                 </div>
               </div>
