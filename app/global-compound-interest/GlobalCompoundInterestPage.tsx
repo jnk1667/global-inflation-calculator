@@ -7,10 +7,11 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from "recharts"
-import { TrendingUp, DollarSign, Calculator, AlertCircle, Info } from "lucide-react"
+import { TrendingUp, DollarSign, Calculator, AlertCircle, Info, BookOpen } from "lucide-react"
 import FAQ from "@/components/faq"
 import { treasuryData } from "@/lib/treasury-data"
 import Link from "next/link"
+import { supabase } from "@/lib/supabase"
 
 // Currency symbols and names
 const currencies = {
@@ -74,6 +75,9 @@ export default function GlobalCompoundInterestPage() {
     investmentStrategy: "custom",
     inflationRate: 2.8,
   })
+
+  const [blogContent, setBlogContent] = useState("")
+  const [blogLoading, setBlogLoading] = useState(true)
 
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
   const [results, setResults] = useState({
@@ -150,6 +154,42 @@ export default function GlobalCompoundInterestPage() {
       annualReturn: strategy !== "custom" ? investmentStrategies[strategy].rate : data.annualReturn,
     })
   }
+
+  // Fetch blog content
+  useEffect(() => {
+    const loadBlogContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("seo_content")
+          .select("content")
+          .eq("id", "compound_interest_essay")
+          .single()
+
+        if (error || !data?.content) {
+          // Use default content from API if Supabase fails
+          const response = await fetch("/api/compound-interest-blog")
+          const apiData = await response.json()
+          setBlogContent(apiData.content)
+        } else {
+          setBlogContent(data.content)
+        }
+      } catch (error) {
+        console.error("Error loading blog content:", error)
+        // Fallback to API
+        try {
+          const response = await fetch("/api/compound-interest-blog")
+          const apiData = await response.json()
+          setBlogContent(apiData.content)
+        } catch (apiError) {
+          console.error("Error fetching from API:", apiError)
+        }
+      } finally {
+        setBlogLoading(false)
+      }
+    }
+
+    loadBlogContent()
+  }, [])
 
   // Calculate compound interest with monthly contributions
   useEffect(() => {
@@ -542,6 +582,81 @@ export default function GlobalCompoundInterestPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Blog Section */}
+        <Card className="shadow-xl mb-12">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-2xl">
+              <BookOpen className="w-6 h-6" />
+              Understanding Real Returns and Inflation-Adjusted Compound Interest
+            </CardTitle>
+            <CardDescription>
+              Learn how inflation affects your investment returns across different currencies
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="prose prose-gray dark:prose-invert max-w-none mb-8">
+              {blogLoading ? (
+                <div className="space-y-4">
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                </div>
+              ) : (
+                <div className="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {blogContent.split("\n").map((line, index) => {
+                    const trimmedLine = line.trim()
+
+                    // Skip empty lines
+                    if (!trimmedLine) return null
+
+                    // Detect markdown headings
+                    if (trimmedLine.startsWith("## ")) {
+                      return (
+                        <h2 key={index} className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
+                          {trimmedLine.substring(3)}
+                        </h2>
+                      )
+                    }
+
+                    // Detect bold text with **
+                    const boldPattern = /\*\*(.+?)\*\*/g
+                    const parts: (string | JSX.Element)[] = []
+                    let lastIndex = 0
+                    let match
+
+                    while ((match = boldPattern.exec(trimmedLine)) !== null) {
+                      // Add text before bold
+                      if (match.index > lastIndex) {
+                        parts.push(trimmedLine.substring(lastIndex, match.index))
+                      }
+                      // Add bold text
+                      parts.push(
+                        <strong key={`bold-${index}-${match.index}`} className="font-bold text-gray-900 dark:text-white">
+                          {match[1]}
+                        </strong>
+                      )
+                      lastIndex = boldPattern.lastIndex
+                    }
+
+                    // Add remaining text
+                    if (lastIndex < trimmedLine.length) {
+                      parts.push(trimmedLine.substring(lastIndex))
+                    }
+
+                    // Regular paragraphs
+                    return (
+                      <p key={index} className="mb-4">
+                        {parts.length > 0 ? parts : trimmedLine}
+                      </p>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* FAQ Section */}
         <div className="mb-12">
