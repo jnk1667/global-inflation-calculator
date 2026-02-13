@@ -218,11 +218,11 @@ export default function GlobalCompoundInterestPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
+      <div className="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-12 mt-24">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Global Compound Interest Calculator</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+        <div className="text-center mb-8 md:mb-12 mt-16 md:mt-24">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Global Compound Interest Calculator</h1>
+          <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
             Calculate compound interest with inflation adjustment across 8 currencies. See real returns vs nominal
             returns using official Bureau of Labor Statistics data from 1913-2026.
           </p>
@@ -452,14 +452,15 @@ export default function GlobalCompoundInterestPage() {
                   Blue line shows nominal value, green shows inflation-adjusted purchasing power
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="overflow-x-auto">
                 <ResponsiveContainer width="100%" height={400}>
-                  <AreaChart data={chartData}>
+                  <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 20, bottom: 20 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" label={{ value: "Years", position: "insideBottom", offset: -5 }} />
                     <YAxis
                       label={{ value: "Value", angle: -90, position: "insideLeft" }}
                       tickFormatter={(value) => formatCurrency(value)}
+                      width={80}
                     />
                     <Tooltip
                       formatter={(value: number) => formatCurrency(value)}
