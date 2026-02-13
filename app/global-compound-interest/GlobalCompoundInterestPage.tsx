@@ -295,7 +295,7 @@ export default function GlobalCompoundInterestPage() {
                     type="number"
                     value={data.principal}
                     onChange={(e) => setData({ ...data, principal: Number(e.target.value) })}
-                    className="pl-8"
+                    className="pl-12"
                   />
                 </div>
               </div>
@@ -312,7 +312,7 @@ export default function GlobalCompoundInterestPage() {
                     type="number"
                     value={data.monthlyContribution}
                     onChange={(e) => setData({ ...data, monthlyContribution: Number(e.target.value) })}
-                    className="pl-8"
+                    className="pl-12"
                   />
                 </div>
               </div>
