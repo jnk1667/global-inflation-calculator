@@ -58,7 +58,7 @@ export default function PPPCalculatorRoute() {
     },
     featureList: [
       "PPP calculations for major economies",
-      "Historical PPP trends (1990-2023)",
+      "Historical PPP trends (1990-2025)",
       "Sector-specific comparisons",
       "Multi-country comparison matrix",
       "Salary purchasing power analysis",
@@ -85,7 +85,7 @@ export default function PPPCalculatorRoute() {
       },
     },
     datePublished: "2024-01-10",
-    dateModified: "2026-02-03",
+    dateModified: "2026-02-13",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://globalinflationcalculator.com/ppp-calculator",
@@ -97,13 +97,13 @@ export default function PPPCalculatorRoute() {
     "@type": "Dataset",
     name: "Purchasing Power Parity (PPP) Conversion Factors Dataset",
     description:
-      "Comprehensive purchasing power parity conversion factors for 200+ countries from 1990-2023, including sector-specific PPP data for 38 OECD member countries covering housing, healthcare, education, food, and transportation.",
+      "Comprehensive purchasing power parity conversion factors for 200+ countries from 1990-2025, including sector-specific PPP data for 38 OECD member countries covering housing, healthcare, education, food, and transportation.",
     url: "https://globalinflationcalculator.com/ppp-calculator",
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
     },
-    temporalCoverage: "1990/2023",
+    temporalCoverage: "1990/2025",
     spatialCoverage: {
       "@type": "Place",
       name: "Global - 200+ Countries",
@@ -208,7 +208,7 @@ export default function PPPCalculatorRoute() {
         name: "What countries does this PPP calculator cover?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Our calculator covers 200+ countries using official World Bank PPP conversion factors. We provide data from 1990 to 2023, allowing historical comparisons. For 38 OECD countries, we also offer detailed sector-specific PPP breakdowns for housing, healthcare, education, and other categories.",
+          text: "Our calculator covers 200+ countries using official World Bank PPP conversion factors. We provide data from 1990 to 2025, allowing historical comparisons. For 38 OECD countries, we also offer detailed sector-specific PPP breakdowns for housing, healthcare, education, and other categories.",
         },
       },
     ],

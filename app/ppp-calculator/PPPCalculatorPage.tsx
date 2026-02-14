@@ -42,13 +42,13 @@ export default function PPPCalculatorPage() {
   const [amount, setAmount] = useState<string>("100000")
   const [fromCountry, setFromCountry] = useState<string>("USA")
   const [toCountry, setToCountry] = useState<string>("GBR")
-  const [year, setYear] = useState<number>(2023)
+  const [year, setYear] = useState<number>(2025)
   const [advancedMode, setAdvancedMode] = useState(false)
   const [calculatedValue, setCalculatedValue] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
 
   const [startYear, setStartYear] = useState<number>(1990)
-  const [endYear, setEndYear] = useState<number>(2023)
+  const [endYear, setEndYear] = useState<number>(2025)
   const [selectedSector, setSelectedSector] = useState<string>("housing")
 
   // Mock PPP data (replace with World Bank API in production)
@@ -112,32 +112,32 @@ While PPP is powerful, it has limitations:
 - Can vary significantly based on which basket of goods is used for comparison
 - Regional differences within countries aren't captured
 
-Last Updated: December 2025
+Last Updated: February 2026
   `
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-32" style={{ contain: "layout style" }}>
-        <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-24 sm:pt-32" style={{ contain: "layout style" }}>
+        <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 max-w-7xl">
           <main>
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white text-balance">
+            <div className="text-center mb-8 sm:mb-12">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white text-balance px-2">
                 Purchasing Power Parity Calculator
               </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-balance">
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-balance px-4">
                 Compare the real purchasing power of money across major economies using official World Bank PPP data
               </p>
             </div>
 
             <Card className="shadow-2xl border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm mb-8">
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
-                    <CardTitle className="flex items-center gap-2 text-2xl">
-                      <Calculator className="h-6 w-6 text-blue-600" />
+                    <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl">
+                      <Calculator className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                       PPP Calculator
                     </CardTitle>
-                    <CardDescription>Calculate purchasing power equivalents between any two countries</CardDescription>
+                    <CardDescription className="mt-1">Calculate purchasing power equivalents between any two countries</CardDescription>
                   </div>
                   <div className="flex items-center gap-2">
                     <Sparkles className={`h-5 w-5 ${advancedMode ? "text-purple-600" : "text-gray-400"}`} />
@@ -221,7 +221,7 @@ Last Updated: December 2025
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              {[1990, 1995, 2000, 2005, 2010, 2015, 2020, 2023].map((y) => (
+                              {[1990, 1995, 2000, 2005, 2010, 2015, 2020, 2023, 2024, 2025].map((y) => (
                                 <SelectItem key={y} value={y.toString()}>
                                   {y}
                                 </SelectItem>
@@ -236,7 +236,7 @@ Last Updated: December 2025
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              {[1990, 1995, 2000, 2005, 2010, 2015, 2020, 2023].map((y) => (
+                              {[1990, 1995, 2000, 2005, 2010, 2015, 2020, 2023, 2024, 2025].map((y) => (
                                 <SelectItem key={y} value={y.toString()}>
                                   {y}
                                 </SelectItem>
@@ -264,11 +264,11 @@ Last Updated: December 2025
                         See how purchasing power varies by spending category
                       </p>
                       <Tabs value={selectedSector} onValueChange={setSelectedSector} className="w-full">
-                        <TabsList className="grid w-full grid-cols-4">
-                          <TabsTrigger value="housing">Housing</TabsTrigger>
-                          <TabsTrigger value="food">Food</TabsTrigger>
-                          <TabsTrigger value="healthcare">Healthcare</TabsTrigger>
-                          <TabsTrigger value="education">Education</TabsTrigger>
+                        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1">
+                          <TabsTrigger value="housing" className="text-xs sm:text-sm">Housing</TabsTrigger>
+                          <TabsTrigger value="food" className="text-xs sm:text-sm">Food</TabsTrigger>
+                          <TabsTrigger value="healthcare" className="text-xs sm:text-sm">Healthcare</TabsTrigger>
+                          <TabsTrigger value="education" className="text-xs sm:text-sm">Education</TabsTrigger>
                         </TabsList>
                         <TabsContent value="housing" className="space-y-4">
                           <div className="grid grid-cols-2 gap-4">
