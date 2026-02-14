@@ -513,7 +513,7 @@ Last Updated: February 2026
 
             {/* FAQ Section */}
             <div className="mt-16 mb-8">
-              <FAQ category="ppp" />
+              <FAQ category={"ppp-calculator"} />
             </div>
 
             {/* Footer */}
