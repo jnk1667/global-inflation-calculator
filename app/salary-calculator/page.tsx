@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 export const metadata: Metadata = {
   title: "Salary Calculator | Inflation Adjustment Calculator",
   description:
-    "Calculate how inflation affects your salary over time. Compare purchasing power and real wages from 1913-2025 with official CPI data.",
+    "Calculate how inflation affects your salary over time. Compare purchasing power and real wages from 1913-2026 with official CPI data.",
   keywords: "salary calculator, inflation adjustment, real wages, purchasing power, salary inflation, wage calculator",
   openGraph: {
     title: "Salary Calculator - Adjust for Inflation",
@@ -86,7 +86,7 @@ export default function SalaryCalculatorPageRoute() {
       },
     },
     datePublished: "2024-01-20",
-    dateModified: "2026-02-06",
+    dateModified: "2026-02-13",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://globalinflationcalculator.com/salary-calculator",

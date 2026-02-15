@@ -55,6 +55,7 @@ const fallbackInflationData = {
     2010: 218.1,
     2020: 258.8,
     2025: 310.3,
+    2026: 318.9,
   },
   GBP: {
     1950: 3.4,
@@ -66,6 +67,7 @@ const fallbackInflationData = {
     2010: 79.2,
     2020: 89.1,
     2025: 105.8,
+    2026: 108.5,
   },
   EUR: {
     1999: 87.4,
@@ -73,6 +75,7 @@ const fallbackInflationData = {
     2010: 100.0,
     2020: 102.8,
     2025: 115.2,
+    2026: 118.3,
   },
   NZD: {
     1970: 109.8,
@@ -82,6 +85,7 @@ const fallbackInflationData = {
     2010: 1201.5,
     2020: 1382.4,
     2025: 1723.8,
+    2026: 1771.5,
   },
 }
 
@@ -1224,16 +1228,16 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" style={{ contain: "layout style" }}>
-        <div className="max-w-5xl mx-auto px-4 py-8 pt-32">
+        <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8 pt-24 sm:pt-32">
           {/* Header */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Calculator className="h-8 w-8 text-blue-600" />
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <Calculator className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 Salary Inflation Calculator
               </h1>
             </div>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
               Calculate what your historical salary should be worth today. Compare wage growth vs inflation using
               official government data from 1913-2026.
             </p>
@@ -1248,22 +1252,23 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
             <span className="text-gray-900 dark:text-gray-100">Salary Calculator</span>
           </nav>
 
-          <main className="space-y-8">
-            <div className="grid lg:grid-cols-3 gap-8">
+          <main className="space-y-6 sm:space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
               {/* Calculator */}
               <div className="lg:col-span-2">
                 <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
                   <CardHeader>
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                       <div className="flex items-center gap-2">
                         <DollarSign className="h-5 w-5 text-green-600" />
-                        <CardTitle>Salary Adjustment Calculator</CardTitle>
+                        <CardTitle className="text-lg sm:text-xl">Salary Adjustment Calculator</CardTitle>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 w-full sm:w-auto">
                         <Button
                           variant={calculatorMode === "basic" ? "default" : "outline"}
                           size="sm"
                           onClick={() => setCalculatorMode("basic")}
+                          className="flex-1 sm:flex-none text-xs sm:text-sm"
                         >
                           Basic Mode
                         </Button>
@@ -1271,6 +1276,7 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                           variant={calculatorMode === "advanced" ? "default" : "outline"}
                           size="sm"
                           onClick={() => setCalculatorMode("advanced")}
+                          className="flex-1 sm:flex-none text-xs sm:text-sm"
                         >
                           Advanced Mode
                         </Button>
@@ -1323,7 +1329,7 @@ By calculating the inflation-adjusted value of historical salaries, you can bett
                           onChange={(e) => setFromYear(e.target.value)}
                           min={currency === "NZD" ? "1967" : currency === "EUR" ? "1999" : "1913"}
                           // Updated max year for input
-                          max="2025"
+                          max="2026"
                         />
                       </div>
                       <div className="space-y-2">
