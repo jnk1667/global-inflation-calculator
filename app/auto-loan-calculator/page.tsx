@@ -12,7 +12,7 @@ const siteUrl = (() => {
 export const metadata: Metadata = {
   title: "Auto Loan Calculator | Inflation-Adjusted Car Costs",
   description:
-    "Calculate monthly car payments with inflation analysis. See how car prices and gas costs have changed over time using real government data from 1985-2025.",
+    "Calculate monthly car payments with inflation analysis. See how car prices and gas costs have changed over time using real government data from 1985-2026.",
   keywords: [
     "auto loan calculator",
     "car loan calculator",
@@ -78,7 +78,7 @@ export default function Page() {
     name: "Auto Loan Calculator",
     applicationCategory: "FinanceApplication",
     description:
-      "Calculate monthly auto loan payments with advanced inflation analysis. See car price inflation trends, gas price impact, and true ownership costs using government data from 1985-2025.",
+      "Calculate monthly auto loan payments with advanced inflation analysis. See car price inflation trends, gas price impact, and true ownership costs using government data from 1985-2026.",
     url: `${siteUrl}/auto-loan-calculator`,
     aggregateRating: {
       "@type": "AggregateRating",
@@ -96,7 +96,7 @@ export default function Page() {
       "Monthly payment calculator",
       "Total interest calculation",
       "Loan amortization schedule",
-      "Car price inflation chart (1985-2025)",
+      "Car price inflation chart (1985-2026)",
       "Gas price impact analysis with EIA data",
       "Inflation-adjusted payment analysis",
       "Total ownership cost calculator",
@@ -110,7 +110,7 @@ export default function Page() {
     "@type": "Article",
     headline: "Auto Loan Calculator - Car Payment & Inflation-Adjusted Ownership Costs",
     description:
-      "Comprehensive guide to calculating auto loan payments with inflation analysis. Understand how car price inflation and gas costs have changed from 1985-2025 using Federal Reserve and EIA data.",
+      "Comprehensive guide to calculating auto loan payments with inflation analysis. Understand how car price inflation and gas costs have changed from 1985-2026 using Federal Reserve and EIA data.",
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
@@ -124,7 +124,7 @@ export default function Page() {
       },
     },
     datePublished: "2024-01-12",
-    dateModified: "2026-02-03",
+    dateModified: "2026-02-13",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/auto-loan-calculator`,
@@ -136,13 +136,13 @@ export default function Page() {
     "@type": "Dataset",
     name: "Auto Loan and Vehicle Price Inflation Dataset",
     description:
-      "Historical vehicle price inflation data and gasoline cost trends from 1985-2025, including Consumer Price Index for new vehicles, used cars, and automotive fuel prices.",
+      "Historical vehicle price inflation data and gasoline cost trends from 1985-2026, including Consumer Price Index for new vehicles, used cars, and automotive fuel prices.",
     url: `${siteUrl}/auto-loan-calculator`,
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
     },
-    temporalCoverage: "1985/2025",
+    temporalCoverage: "1985/2026",
     spatialCoverage: {
       "@type": "Place",
       name: "United States",

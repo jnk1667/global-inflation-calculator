@@ -74,7 +74,7 @@ export default function AutoLoanCalculatorPage() {
     downPayment: 7000,
     tradeInValue: 0,
     amountOwed: 0,
-    interestRate: 6.5,
+    interestRate: 4.9,
     loanTerm: 60,
     salesTax: 7,
     otherFees: 1500,
@@ -87,7 +87,7 @@ export default function AutoLoanCalculatorPage() {
   // Advanced mode inputs
   const [milesPerYear, setMilesPerYear] = useState(12000)
   const [mpg, setMpg] = useState(25)
-  const [currentGasPrice, setCurrentGasPrice] = useState(3.5)
+  const [currentGasPrice, setCurrentGasPrice] = useState(2.81)
   const [inflationRate, setInflationRate] = useState(3.0)
 
   // Dynamic essay content loaded from database
@@ -106,7 +106,7 @@ export default function AutoLoanCalculatorPage() {
           console.error("Error loading auto loan essay content:", error)
           // Set default content if database fetch fails
           setEssayContent(`
-# Understanding Auto Loans and Vehicle Affordability in 2025
+# Understanding Auto Loans and Vehicle Affordability in 2026
 
 Auto loans are one of the most common forms of consumer debt in America, with millions of people financing their vehicle purchases each year. Understanding how auto loans work and how inflation affects both car prices and ownership costs is crucial for making informed financial decisions.
 
@@ -130,7 +130,7 @@ The key to affordable auto financing is finding the right balance between loan t
         } else {
           // Set default content if no content found
           setEssayContent(`
-# Understanding Auto Loans and Vehicle Affordability in 2025
+# Understanding Auto Loans and Vehicle Affordability in 2026
 
 Auto loans are one of the most common forms of consumer debt in America, with millions of people financing their vehicle purchases each year. Understanding how auto loans work and how inflation affects both car prices and ownership costs is crucial for making informed financial decisions.
 
@@ -151,7 +151,7 @@ The key to affordable auto financing is finding the right balance between loan t
         console.error("Error loading auto loan essay content:", err)
         // Set default content on error
         setEssayContent(`
-# Understanding Auto Loans and Vehicle Affordability in 2025
+# Understanding Auto Loans and Vehicle Affordability in 2026
 
 Auto loans are one of the most common forms of consumer debt in America, with millions of people financing their vehicle purchases each year. Understanding how auto loans work and how inflation affects both car prices and ownership costs is crucial for making informed financial decisions.
 
@@ -285,15 +285,15 @@ The key to affordable auto financing is finding the right balance between loan t
   }, [data, advancedMode, milesPerYear, mpg, currentGasPrice, inflationRate])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 pt-32 pb-16" style={{ contain: "layout style" }}>
-      <div className="container mx-auto px-4 max-w-7xl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 pt-24 sm:pt-32 pb-12 sm:pb-16" style={{ contain: "layout style" }}>
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-0 max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <Car className="h-12 w-12 text-blue-600 dark:text-blue-400" />
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">Auto Loan Calculator</h1>
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4">
+            <Car className="h-10 w-10 sm:h-12 sm:w-12 text-blue-600 dark:text-blue-400" />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">Auto Loan Calculator</h1>
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
             Calculate your monthly car payment and discover the true cost of ownership with inflation-adjusted analysis
           </p>
         </div>
@@ -308,23 +308,23 @@ The key to affordable auto financing is finding the right balance between loan t
         </nav>
 
         {/* Mode Toggle */}
-        <Card className="mb-8 border-l-4 border-l-blue-600 shadow-lg">
+        <Card className="mb-6 sm:mb-8 border-l-4 border-l-blue-600 shadow-lg">
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <TrendingUp className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-start gap-3 flex-1">
+                <TrendingUp className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
                 <div>
-                  <Label htmlFor="advanced-mode" className="text-base font-semibold cursor-pointer">
+                  <Label htmlFor="advanced-mode" className="text-sm sm:text-base font-semibold cursor-pointer block">
                     {advancedMode ? "Advanced Mode: Inflation Analysis Active" : "Basic Mode: Standard Loan Calculator"}
                   </Label>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {advancedMode
                       ? "See car price inflation, gas costs, and true ownership costs"
                       : "Switch to advanced mode for comprehensive cost analysis"}
                   </p>
                 </div>
               </div>
-              <Switch id="advanced-mode" checked={advancedMode} onCheckedChange={setAdvancedMode} className="ml-4" />
+              <Switch id="advanced-mode" checked={advancedMode} onCheckedChange={setAdvancedMode} className="self-end sm:self-auto" />
             </div>
           </CardContent>
         </Card>
