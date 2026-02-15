@@ -45,7 +45,7 @@ interface BlogContent {
 
 export default function StudentLoanCalculatorPage() {
   const [loanAmount, setLoanAmount] = useState("30000")
-  const [interestRate, setInterestRate] = useState("5.5")
+  const [interestRate, setInterestRate] = useState("6.39")
   const [loanTerm, setLoanTerm] = useState("10")
   const [monthlyPayment, setMonthlyPayment] = useState<number | null>(null)
   const [totalInterest, setTotalInterest] = useState<number | null>(null)
@@ -167,7 +167,7 @@ export default function StudentLoanCalculatorPage() {
   const calculateInflationAdjusted = (currentValue: number, yearsAgo: number) => {
     if (!inflationData) return null
 
-    const currentYear = 2024 // BLS data is from 2024
+    const currentYear = 2026 // BLS data is from 2026
     const pastYear = currentYear - yearsAgo
     const currentInflation = inflationData[currentYear.toString()]
     const pastInflation = inflationData[pastYear.toString()]
@@ -182,7 +182,7 @@ export default function StudentLoanCalculatorPage() {
   const calculateRealWageGrowth = (currentValue: number, yearsAgo: number) => {
     if (!inflationData) return null
 
-    const currentYear = 2024
+    const currentYear = 2026
     const pastYear = currentYear - yearsAgo
     const currentInflation = inflationData[currentYear.toString()]
     const pastInflation = inflationData[pastYear.toString()]
@@ -202,25 +202,25 @@ export default function StudentLoanCalculatorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800 pt-32 pb-16" style={{ contain: "layout style" }}>
-      <div className="container mx-auto px-4 max-w-6xl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800 pt-24 sm:pt-32 pb-12 sm:pb-16" style={{ contain: "layout style" }}>
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-0 max-w-6xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Student Loan Calculator</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Student Loan Calculator</h1>
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
             Calculate your monthly payments, total interest costs, and compare repayment options with real salary data
           </p>
         </div>
 
-        <Tabs defaultValue="calculator" className="space-y-8">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
-            <TabsTrigger value="calculator">Calculator</TabsTrigger>
-            <TabsTrigger value="salaries">Salaries</TabsTrigger>
-            <TabsTrigger value="majors">By Major</TabsTrigger>
+        <Tabs defaultValue="calculator" className="space-y-6 sm:space-y-8">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 h-auto">
+            <TabsTrigger value="calculator" className="text-xs sm:text-sm py-2">Calculator</TabsTrigger>
+            <TabsTrigger value="salaries" className="text-xs sm:text-sm py-2">Salaries</TabsTrigger>
+            <TabsTrigger value="majors" className="text-xs sm:text-sm py-2">By Major</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="calculator" className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
+          <TabsContent value="calculator" className="space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {/* Input Card */}
               <Card className="shadow-lg">
                 <CardHeader>
@@ -413,7 +413,7 @@ export default function StudentLoanCalculatorPage() {
             )}
 
             {/* Info Cards */}
-            <div className="grid md:grid-cols-3 gap-6 mt-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8">
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">Federal Loans</CardTitle>

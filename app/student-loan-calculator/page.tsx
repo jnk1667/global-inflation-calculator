@@ -125,7 +125,7 @@ export default function StudentLoanCalculator() {
       },
     },
     datePublished: "2024-01-18",
-    dateModified: "2026-02-03",
+    dateModified: "2026-02-13",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/student-loan-calculator`,
@@ -137,13 +137,13 @@ export default function StudentLoanCalculator() {
     "@type": "Dataset",
     name: "Student Loan Repayment and Salary Dataset",
     description:
-      "Comprehensive dataset combining federal student loan interest rates (2013-2025), BLS occupational salary data, College Scorecard earnings by major, and HHS poverty guidelines for income-driven repayment calculations.",
+      "Comprehensive dataset combining federal student loan interest rates (2013-2026), BLS occupational salary data, College Scorecard earnings by major, and HHS poverty guidelines for income-driven repayment calculations.",
     url: `${siteUrl}/student-loan-calculator`,
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
     },
-    temporalCoverage: "2013/2025",
+    temporalCoverage: "2013/2026",
     spatialCoverage: {
       "@type": "Place",
       name: "United States",
@@ -321,7 +321,7 @@ export default function StudentLoanCalculator() {
                     <div>
                       <h4 className="font-medium">Bureau of Labor Statistics (BLS)</h4>
                       <p className="text-sm text-gray-600">
-                        Real salary data by occupation from the 2023 Occupational Employment and Wage Statistics (OEWS)
+                        Real salary data by occupation from the 2025 Occupational Employment and Wage Statistics (OEWS)
                         survey.
                       </p>
                     </div>
