@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { HelpCircle } from "lucide-react"
+import { getCachedContent } from "@/lib/cached-content"
 
 interface FAQItem {
   id: string
@@ -64,6 +65,18 @@ export default function FAQ({ category, limit }: FAQProps) {
   const [faqs, setFaqs] = useState<FAQItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  
+  // Stabilize category and limit to prevent unnecessary refetches
+  const stableCategory = useRef(category)
+  const stableLimit = useRef(limit)
+  
+  // Only update refs if values actually changed
+  if (stableCategory.current !== category) {
+    stableCategory.current = category
+  }
+  if (stableLimit.current !== limit) {
+    stableLimit.current = limit
+  }
 
   useEffect(() => {
     const loadFAQs = async () => {
@@ -71,49 +84,36 @@ export default function FAQ({ category, limit }: FAQProps) {
         setLoading(true)
         setError(null)
 
-        console.log("[v0] FAQ Component: Requesting category:", category || "all")
+        // Create cache key based on category
+        const cacheKey = `faq_${category || "all"}_${limit || "all"}`
 
-        // Try to fetch from API first
-        try {
+        // Use cached content with 24-hour expiry to reduce edge requests
+        const data = await getCachedContent(cacheKey, async () => {
+          // Try to fetch from API first
           const url = category ? `/api/faqs?category=${encodeURIComponent(category)}` : "/api/faqs"
-          console.log("[v0] FAQ Component: Fetching from URL:", url)
-
+          
           const response = await fetch(url)
-
-          console.log("[v0] FAQ Component: Response status:", response.status)
-
+          
           if (response.ok) {
-            const data = await response.json()
-            console.log("[v0] FAQ Component: Received data:", data.length, "FAQs")
-            console.log("[v0] FAQ Component: FAQ categories:", data.map((f: FAQItem) => f.category).join(", "))
-
-            if (Array.isArray(data)) {
-              const limitedData = typeof limit === "number" && limit > 0 ? data.slice(0, limit) : data
-              console.log("[v0] FAQ Component: Setting", limitedData.length, "FAQs after limit")
-              setFaqs(limitedData)
-              return
+            const apiData = await response.json()
+            if (Array.isArray(apiData)) {
+              return apiData
             }
           }
-        } catch (apiError) {
-          // Silently fall back to default data - this is expected in some environments
-          console.log("[v0] FAQ Component: API unavailable, using default data:", apiError)
-        }
+          
+          // Fallback to default data if API fails
+          let filteredFAQs = defaultFAQs
+          
+          if (category && typeof category === "string") {
+            filteredFAQs = filteredFAQs.filter((faq) => faq.category === category)
+          }
+          
+          return filteredFAQs
+        })
 
-        // Fallback to default data
-        let filteredFAQs = defaultFAQs
-
-        // Filter by category if specified
-        if (category && typeof category === "string") {
-          filteredFAQs = filteredFAQs.filter((faq) => faq.category === category)
-          console.log("[v0] FAQ Component: Filtered to", filteredFAQs.length, "default FAQs for category:", category)
-        }
-
-        // Limit results if specified
-        if (typeof limit === "number" && limit > 0) {
-          filteredFAQs = filteredFAQs.slice(0, limit)
-        }
-
-        setFaqs(filteredFAQs)
+        // Apply limit after caching
+        const limitedData = typeof limit === "number" && limit > 0 ? data.slice(0, limit) : data
+        setFaqs(limitedData)
       } catch (err) {
         console.error("Error loading FAQs:", err)
         setError("Failed to load FAQ data")
@@ -124,7 +124,8 @@ export default function FAQ({ category, limit }: FAQProps) {
     }
 
     loadFAQs()
-  }, [category, limit])
+    // Only refetch if stabilized values actually changed
+  }, [stableCategory.current, stableLimit.current])
 
   if (loading) {
     return (
