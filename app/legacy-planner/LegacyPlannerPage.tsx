@@ -138,48 +138,35 @@ export default function LegacyPlannerPage() {
   const generationGapYears = 25
   const healthcareMultiplier = 1.81 // Healthcare inflation is 81% higher than general inflation
 
-  // Load real inflation data from aggregated files for all currencies
+  // Load real inflation data only for the selected currency to reduce edge requests
   useEffect(() => {
     const loadInflationData = async () => {
       try {
-        const updatedRates = { ...defaultInflationRates }
+        const response = await fetch(`/data/${currency.toLowerCase()}-inflation.json`, {
+          headers: { Accept: "application/json" },
+        })
 
-        // Load inflation data for each currency
-        const currencies = ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY", "NZD"]
+        if (response.ok) {
+          const data = await response.json()
+          // Get the latest year's inflation rate
+          const years = Object.keys(data).sort().reverse()
+          const latestYear = years[0]
 
-        await Promise.all(
-          currencies.map(async (code) => {
-            try {
-              const response = await fetch(`/data/${code.toLowerCase()}-inflation.json`, {
-                headers: { Accept: "application/json" },
-              })
-
-              if (response.ok) {
-                const data = await response.json()
-                // Get the latest year's inflation rate
-                const years = Object.keys(data).sort().reverse()
-                const latestYear = years[0]
-
-                if (data[latestYear]?.inflation) {
-                  updatedRates[code as keyof typeof defaultInflationRates] = data[latestYear].inflation / 100
-                }
-              }
-            } catch (err) {
-              console.error(`Error loading ${code} inflation data:`, err)
-              // Keep default value for this currency
-            }
-          })
-        )
-
-        setInflationRates(updatedRates)
+          if (data[latestYear]?.inflation) {
+            setInflationRates((prev) => ({
+              ...prev,
+              [currency]: data[latestYear].inflation / 100,
+            }))
+          }
+        }
       } catch (error) {
-        console.error("Error loading inflation data:", error)
-        // Keep default values if loading fails
+        console.error(`Error loading ${currency} inflation data:`, error)
+        // Keep default value if loading fails
       }
     }
 
     loadInflationData()
-  }, [])
+  }, [currency])
 
   const calculateLegacyProjection = () => {
     const wealth = Number.parseFloat(initialWealth)
@@ -250,9 +237,14 @@ export default function LegacyPlannerPage() {
     }
   }
 
+  // Load blog content only once on mount
+  useEffect(() => {
+    loadBlogContent()
+  }, [])
+
+  // Recalculate projections when inputs change (no API calls)
   useEffect(() => {
     calculateLegacyProjection()
-    loadBlogContent()
   }, [initialWealth, generations, currency, portfolioType])
 
   const getCurrencyDisplay = (value: number) => {
