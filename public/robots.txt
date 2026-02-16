@@ -17,33 +17,26 @@ User-agent: DuckDuckBot
 Allow: /
 Crawl-delay: 10
 
-# Allow AI/LLM crawlers to access llms.txt only
+# Block AI/LLM crawlers completely
 User-agent: GPTBot
-Allow: /llms.txt
 Disallow: /
 
 User-agent: ChatGPT-User
-Allow: /llms.txt
 Disallow: /
 
 User-agent: Claude-Web
-Allow: /llms.txt
 Disallow: /
 
 User-agent: anthropic-ai
-Allow: /llms.txt
 Disallow: /
 
 User-agent: Applebot-Extended
-Allow: /llms.txt
 Disallow: /
 
 User-agent: PerplexityBot
-Allow: /llms.txt
 Disallow: /
 
 User-agent: Bytespider
-Allow: /llms.txt
 Disallow: /
 
 # Block known aggressive crawlers and scrapers
