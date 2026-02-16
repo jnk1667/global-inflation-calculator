@@ -91,52 +91,40 @@ export default function GlobalCompoundInterestPage() {
 
   const [inflationRates, setInflationRates] = useState(defaultInflationRates)
 
-  // Load real inflation data from aggregated files for all currencies
+  // Load real inflation data only for selected currency to reduce edge requests
   useEffect(() => {
     const loadInflationData = async () => {
       try {
-        const updatedRates = { ...defaultInflationRates }
+        const response = await fetch(`/data/${data.currency.toLowerCase()}-inflation.json`, {
+          headers: { Accept: "application/json" },
+        })
 
-        // Load inflation data for each currency
-        const currencies = ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY", "NZD"]
+        if (response.ok) {
+          const inflationData = await response.json()
+          // Get the latest year's inflation rate
+          const years = Object.keys(inflationData).sort().reverse()
+          const latestYear = years[0]
 
-        await Promise.all(
-          currencies.map(async (code) => {
-            try {
-              const response = await fetch(`/data/${code.toLowerCase()}-inflation.json`, {
-                headers: { Accept: "application/json" },
-              })
-
-              if (response.ok) {
-                const inflationData = await response.json()
-                // Get the latest year's inflation rate
-                const years = Object.keys(inflationData).sort().reverse()
-                const latestYear = years[0]
-
-                if (inflationData[latestYear]?.inflation) {
-                  updatedRates[code as keyof typeof defaultInflationRates] = inflationData[latestYear].inflation / 100
-                }
-              }
-            } catch (err) {
-              console.error(`Error loading ${code} inflation data:`, err)
-              // Keep default value for this currency
-            }
-          })
-        )
-
-        setInflationRates(updatedRates)
-        setData((prev) => ({
-          ...prev,
-          inflationRate: updatedRates[prev.currency],
-        }))
+          if (inflationData[latestYear]?.inflation) {
+            const newRate = inflationData[latestYear].inflation / 100
+            setInflationRates((prev) => ({
+              ...prev,
+              [data.currency]: newRate,
+            }))
+            setData((prev) => ({
+              ...prev,
+              inflationRate: newRate,
+            }))
+          }
+        }
       } catch (error) {
-        console.error("Error loading inflation data:", error)
-        // Keep default values if loading fails
+        console.error(`Error loading ${data.currency} inflation data:`, error)
+        // Keep default value if loading fails
       }
     }
 
     loadInflationData()
-  }, [])
+  }, [data.currency])
 
   // Update inflation rate when currency changes
   useEffect(() => {
