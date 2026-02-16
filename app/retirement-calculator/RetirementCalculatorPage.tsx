@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import AdBanner from "@/components/ad-banner"
 import { supabase } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 import {
   Calculator,
   TrendingUp,
@@ -446,19 +447,19 @@ export default function RetirementCalculatorPage() {
     }
   }, [data.currency])
 
-  // Load essay content
+  // Load essay content - Cached for 24 hours to reduce edge requests
   useEffect(() => {
     const loadEssayContent = async () => {
       try {
-        const { data, error } = await supabase
-          .from("seo_content")
-          .select("content")
-          .eq("id", "retirement_essay")
-          .single()
-
-        if (error) {
-          console.error("Error loading essay content:", error)
-          setEssayContent(`
+        const content = await getCachedContent("retirement_essay_content", async () => {
+          const { data, error } = await supabase
+            .from("seo_content")
+            .select("content")
+            .eq("id", "retirement_essay")
+            .single()
+          
+          if (error || !data?.content) {
+            return `
 # Mastering Retirement Planning in the Modern Era
 
 Retirement planning has become increasingly complex in today's economic environment. With traditional pension plans disappearing and Social Security benefits facing uncertainty, individuals must take greater responsibility for their financial future. Understanding the key components of retirement planning is essential for building a secure and comfortable retirement.
@@ -474,50 +475,15 @@ Different generations face unique retirement planning challenges. Baby Boomers b
 ## Building a Comprehensive Strategy
 
 Successful retirement planning requires a multi-faceted approach that considers inflation, healthcare costs, longevity risk, and lifestyle goals. Our retirement calculator helps you understand these complex interactions and develop a realistic savings strategy that accounts for your generation's unique challenges and opportunities.
-          `)
-          return
-        }
-
-        if (data?.content) {
-          setEssayContent(data.content)
-        } else {
-          setEssayContent(`
-# Mastering Retirement Planning in the Modern Era
-
-Retirement planning has become increasingly complex in today's economic environment. With traditional pension plans disappearing and Social Security benefits facing uncertainty, individuals must take greater responsibility for their financial future. Understanding the key components of retirement planning is essential for building a secure and comfortable retirement.
-
-## The Retirement Crisis Reality
-
-Many Americans face a retirement savings crisis, with studies showing that a significant portion of the population has inadequate savings for retirement. The shift from defined benefit pension plans to defined contribution plans like 401(k)s has placed the burden of investment decisions and longevity risk on individuals. This makes comprehensive retirement planning more critical than ever.
-
-## Generational Challenges and Opportunities
-
-Different generations face unique retirement planning challenges. Baby Boomers benefited from stronger pension systems but face healthcare cost inflation. Generation X is caught between supporting aging parents and children while having limited time for savings growth. Millennials and Generation Z face student loan debt, housing affordability issues, and the prospect of reduced Social Security benefits, requiring them to save more aggressively.
-
-## Building a Comprehensive Strategy
-
-Successful retirement planning requires a multi-faceted approach that considers inflation, healthcare costs, longevity risk, and lifestyle goals. Our retirement calculator helps you understand these complex interactions and develop a realistic savings strategy that accounts for your generation's unique challenges and opportunities.
-          `)
-        }
+            `
+          }
+          return data.content
+        })
+        
+        setEssayContent(content)
       } catch (err) {
-        console.error("Error loading essay content:", err)
-        setEssayContent(`
-# Mastering Retirement Planning in the Modern Era
-
-Retirement planning has become increasingly complex in today's economic environment. With traditional pension plans disappearing and Social Security benefits facing uncertainty, individuals must take greater responsibility for their financial future. Understanding the key components of retirement planning is essential for building a secure and comfortable retirement.
-
-## The Retirement Crisis Reality
-
-Many Americans face a retirement savings crisis, with studies showing that a significant portion of the population has inadequate savings for retirement. The shift from defined benefit pension plans to defined contribution plans like 401(k)s has placed the burden of investment decisions and longevity risk on individuals. This makes comprehensive retirement planning more critical than ever.
-
-## Generational Challenges and Opportunities
-
-Different generations face unique retirement planning challenges. Baby Boomers benefited from stronger pension systems but face healthcare cost inflation. Generation X is caught between supporting aging parents and children while having limited time for savings growth. Millennials and Generation Z face student loan debt, housing affordability issues, and the prospect of reduced Social Security benefits, requiring them to save more aggressively.
-
-## Building a Comprehensive Strategy
-
-Successful retirement planning requires a multi-faceted approach that considers inflation, healthcare costs, longevity risk, and lifestyle goals. Our retirement calculator helps you understand these complex interactions and develop a realistic savings strategy that accounts for your generation's unique challenges and opportunities.
-        `)
+        console.error("Error loading essay content (using fallback):", err)
+        // Fallback content is already in the cache function
       }
     }
 

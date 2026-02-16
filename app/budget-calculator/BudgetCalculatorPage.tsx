@@ -19,6 +19,7 @@ import AdBanner from "@/components/ad-banner"
 import FAQ from "@/components/faq"
 import MarkdownRenderer from "@/components/markdown-renderer"
 import { getSupabaseClient } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 import { treasuryData } from "@/lib/treasury-data"
 import { loadInflationMeasure, getLatestAvailableYear } from "@/lib/inflation-measures"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -141,19 +142,20 @@ export default function BudgetCalculatorPage() {
     loadInflationData()
   }, [])
 
+  // Load essay content - Cached for 24 hours to reduce edge requests
   useEffect(() => {
     const loadEssayContent = async () => {
       try {
-        const supabase = getSupabaseClient()
-        const { data, error } = await supabase
-          .from("seo_content")
-          .select("content")
-          .eq("id", "budget_essay")
-          .maybeSingle()
+        const content = await getCachedContent("budget_essay_content", async () => {
+          const supabase = getSupabaseClient()
+          const { data, error } = await supabase
+            .from("seo_content")
+            .select("content")
+            .eq("id", "budget_essay")
+            .maybeSingle()
 
-        if (error) {
-          console.error("Error loading essay content:", error)
-          setEssayContent(`
+          if (error || !data?.content) {
+            return `
 # Mastering the 50/30/20 Budget Rule in 2026
 
 The 50/30/20 budget rule has become one of the most popular and effective budgeting methods for managing personal finances. In an era of economic uncertainty and rising costs, this simple framework provides a clear roadmap for allocating your income between essential needs, personal wants, and future financial security.
@@ -169,50 +171,14 @@ While the traditional 50/30/20 split works well for many households, those livin
 ## Building Long-Term Financial Security
 
 The 20% savings portion of the budget is your ticket to financial freedom. This category should include emergency fund contributions, retirement savings, extra debt payments beyond minimums, and investments. By consistently allocating 20% of your income to these goals, you build a foundation for long-term financial security and wealth accumulation that compounds over time.
-          `)
-          return
-        }
-
-        if (data?.content) {
-          setEssayContent(data.content)
-        } else {
-          setEssayContent(`
-# Mastering the 50/30/20 Budget Rule in 2026
-
-The 50/30/20 budget rule has become one of the most popular and effective budgeting methods for managing personal finances. In an era of economic uncertainty and rising costs, this simple framework provides a clear roadmap for allocating your income between essential needs, personal wants, and future financial security.
-
-## Why the 50/30/20 Rule Works
-
-The beauty of the 50/30/20 rule lies in its simplicity and flexibility. By dividing your after-tax income into three broad categories—50% for needs, 30% for wants, and 20% for savings—you create a balanced approach that covers all aspects of financial life without requiring complex spreadsheets or constant tracking of every penny.
-
-## Adapting to High Cost-of-Living Areas
-
-While the traditional 50/30/20 split works well for many households, those living in high cost-of-living areas may need to adjust their percentages. If your essential expenses exceed 50% of your income, consider a 60/20/20 or even 70/20/10 split. The key principle remains: always allocate something to savings, even if it's less than the ideal 20%.
-
-## Building Long-Term Financial Security
-
-The 20% savings portion of the budget is your ticket to financial freedom. This category should include emergency fund contributions, retirement savings, extra debt payments beyond minimums, and investments. By consistently allocating 20% of your income to these goals, you build a foundation for long-term financial security and wealth accumulation that compounds over time.
-          `)
-        }
+            `
+          }
+          return data.content
+        })
+        
+        setEssayContent(content)
       } catch (err) {
-        console.error("Error loading essay content:", err)
-        setEssayContent(`
-# Mastering the 50/30/20 Budget Rule in 2026
-
-The 50/30/20 budget rule has become one of the most popular and effective budgeting methods for managing personal finances. In an era of economic uncertainty and rising costs, this simple framework provides a clear roadmap for allocating your income between essential needs, personal wants, and future financial security.
-
-## Why the 50/30/20 Rule Works
-
-The beauty of the 50/30/20 rule lies in its simplicity and flexibility. By dividing your after-tax income into three broad categories—50% for needs, 30% for wants, and 20% for savings—you create a balanced approach that covers all aspects of financial life without requiring complex spreadsheets or constant tracking of every penny.
-
-## Adapting to High Cost-of-Living Areas
-
-While the traditional 50/30/20 split works well for many households, those living in high cost-of-living areas may need to adjust their percentages. If your essential expenses exceed 50% of your income, consider a 60/20/20 or even 70/20/10 split. The key principle remains: always allocate something to savings, even if it's less than the ideal 20%.
-
-## Building Long-Term Financial Security
-
-The 20% savings portion of the budget is your ticket to financial freedom. This category should include emergency fund contributions, retirement savings, extra debt payments beyond minimums, and investments. By consistently allocating 20% of your income to these goals, you build a foundation for long-term financial security and wealth accumulation that compounds over time.
-        `)
+        console.error("Error loading essay content (using fallback):", err)
       }
     }
 

@@ -11,6 +11,7 @@ import { ErrorBoundary } from "@/components/error-boundary"
 import LoadingSpinner from "@/components/loading-spinner"
 import { Globe, RefreshCw } from "lucide-react"
 import { supabase } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 import { trackPageView } from "@/lib/analytics"
 import Script from "next/script"
 import Link from "next/link"
@@ -255,17 +256,15 @@ export default function ClientPage() {
     trackPageView("/")
   }, [])
 
-  // Load site settings including logo - Fixed to handle errors properly
+  // Load site settings including logo - Cached for 24 hours to reduce edge requests
   useEffect(() => {
     const loadSiteSettings = async () => {
       try {
-        const { data, error } = await supabase.from("site_settings").select("logo_url").eq("id", "main").single()
-
-        if (error) {
-          console.log("No site settings found, using default logo")
-          setLogoUrl("")
-          return
-        }
+        const data = await getCachedContent("site_settings_logo", async () => {
+          const { data, error } = await supabase.from("site_settings").select("logo_url").eq("id", "main").single()
+          if (error) throw error
+          return data
+        })
 
         if (data?.logo_url && typeof data.logo_url === "string") {
           // Validate that the logo_url is a proper URL
@@ -287,23 +286,24 @@ export default function ClientPage() {
     loadSiteSettings()
   }, [])
 
-  // Load SEO essay content
+  // Load SEO essay content - Cached for 24 hours to reduce edge requests
   useEffect(() => {
     const loadSEOEssay = async () => {
       try {
-        const { data, error } = await supabase
-          .from("seo_content")
-          .select("content")
-          .eq("id", "main_essay")
-          .maybeSingle()
+        const content = await getCachedContent("main_essay_content", async () => {
+          const { data, error } = await supabase
+            .from("seo_content")
+            .select("content")
+            .eq("id", "main_essay")
+            .maybeSingle()
+          
+          if (error || !data?.content) {
+            return defaultSEOEssay
+          }
+          return data.content
+        })
 
-        if (error || !data?.content) {
-          console.log("Using default SEO essay content")
-          setSeoEssay(defaultSEOEssay)
-          return
-        }
-
-        setSeoEssay(data.content)
+        setSeoEssay(content)
       } catch (err) {
         console.log("Error loading SEO essay:", err)
         setSeoEssay(defaultSEOEssay)
