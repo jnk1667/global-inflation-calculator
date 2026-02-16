@@ -188,80 +188,24 @@ export default function RegionalCostOfLivingPage() {
 
   useEffect(() => {
     const loadBlogContent = async () => {
+      const defaultContent = `## Understanding Cost of Living Comparisons
+
+Making informed decisions about where to live requires comprehensive understanding of cost differences across cities. Our Regional Cost of Living Comparison tool provides the data you need to make smart relocation decisions.`
+
       try {
-        console.log("[v0] Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL)
-        console.log("[v0] Fetching regional_cost_of_living_essay from seo_content table")
+        const content = await getCachedContent("regional_col_essay_content", async () => {
+          const { data, error } = await supabase
+            .from("seo_content")
+            .select("content")
+            .eq("id", "regional_cost_of_living_essay")
+            .single()
 
-        const { data, error } = await supabase
-          .from("seo_content")
-          .select("content")
-          .eq("id", "regional_cost_of_living_essay")
-          .single()
-
-        if (error) {
-          console.log("[v0] Error fetching blog content:", error.message)
-          const defaultContent = `
-## Understanding Cost of Living Comparisons
-
-Making informed decisions about where to live requires comprehensive understanding of cost differences across cities. This Regional Cost of Living Comparison tool provides detailed insights into housing, utilities, food, transportation, and overall living costs across 80+ cities worldwide.
-
-### Why Cost of Living Matters
-
-Whether you're considering a job relocation, planning a move for retirement, or evaluating international opportunities, understanding cost of living differences helps you:
-
-- **Make Informed Financial Decisions** - Know exactly how your salary translates across different cities
-- **Plan Your Budget Accurately** - Understand specific cost categories before you move
-- **Compare Multiple Locations** - Evaluate several cities simultaneously with our advanced mode
-- **Project Future Costs** - See 5-year cost projections based on historical inflation data
-
-### Our Data Sources
-
-All cost of living data is sourced from official government statistical agencies including the US Bureau of Labor Statistics, UK Office for National Statistics, Eurostat, Statistics Canada, Australian Bureau of Statistics, Swiss Federal Statistical Office, Statistics Bureau of Japan, and Stats NZ. This ensures maximum accuracy and reliability for your financial planning decisions.
-
-### Cross-Currency Comparisons
-
-Our tool supports 8 major currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD) with real-time conversion rates, allowing you to compare costs between any two cities regardless of their native currency.
-`
-          setBlogEssay(defaultContent)
-          return
-        }
-
-        if (data && data.content) {
-          console.log("[v0] Successfully loaded blog content")
-          setBlogEssay(data.content)
-        } else {
-          console.log("[v0] No content found, using default")
-          const defaultContent = `
-## Understanding Cost of Living Comparisons
-
-Making informed decisions about where to live requires comprehensive understanding of cost differences across cities. This Regional Cost of Living Comparison tool provides detailed insights into housing, utilities, food, transportation, and overall living costs across 80+ cities worldwide.
-
-### Why Cost of Living Matters
-
-Whether you're considering a job relocation, planning a move for retirement, or evaluating international opportunities, understanding cost of living differences helps you:
-
-- **Make Informed Financial Decisions** - Know exactly how your salary translates across different cities
-- **Plan Your Budget Accurately** - Understand specific cost categories before you move
-- **Compare Multiple Locations** - Evaluate several cities simultaneously with our advanced mode
-- **Project Future Costs** - See 5-year cost projections based on historical inflation data
-
-### Our Data Sources
-
-All cost of living data is sourced from official government statistical agencies including the US Bureau of Labor Statistics, UK Office for National Statistics, Eurostat, Statistics Canada, Australian Bureau of Statistics, Swiss Federal Statistical Office, Statistics Bureau of Japan, and Stats NZ. This ensures maximum accuracy and reliability for your financial planning decisions.
-
-### Cross-Currency Comparisons
-
-Our tool supports 8 major currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD) with real-time conversion rates, allowing you to compare costs between any two cities regardless of their native currency.
-`
-          setBlogEssay(defaultContent)
-        }
+          if (error || !data?.content) return defaultContent
+          return data.content
+        })
+        setBlogEssay(content)
       } catch (err) {
-        console.error("[v0] Error loading blog content:", err)
-        const defaultContent = `
-## Understanding Cost of Living Comparisons
-
-Making informed decisions about where to live requires comprehensive understanding of cost differences across cities. Our Regional Cost of Living Comparison tool provides the data you need to make smart relocation decisions.
-`
+        console.error("Error loading blog content:", err)
         setBlogEssay(defaultContent)
       }
     }

@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import GlobalCompoundInterestPage from "./GlobalCompoundInterestPage"
 
+export const revalidate = 86400
+
 export const metadata: Metadata = {
   title: "Global Compound Interest Calculator | 8 Currencies",
   description:

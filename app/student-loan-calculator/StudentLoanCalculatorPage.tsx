@@ -15,6 +15,7 @@ import { loadCurrencyMeasuresWithFallback } from "@/lib/data-loader"
 import { calculateConsensusInflation } from "@/lib/inflation-measures"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import FAQ from "@/components/faq"
+import { getCachedContent } from "@/lib/cached-content"
 
 interface SalaryData {
   [key: string]: {
@@ -62,29 +63,33 @@ export default function StudentLoanCalculatorPage() {
   const [blogContent, setBlogContent] = useState<BlogContent | null>(null)
   const [loadingBlog, setLoadingBlog] = useState(true)
 
-  // Load data on mount
+  // Load data on mount - blog content cached for 24 hours
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [salariesRes, earningsRes, inflationRes, blogRes] = await Promise.all([
+        // Fetch static JSON data (these are just files, not API calls to Supabase)
+        const [salariesRes, earningsRes, inflationRes] = await Promise.all([
           fetch("/data/student-loans/salaries-by-occupation.json"),
           fetch("/data/student-loans/earnings-by-major.json"),
           fetch("/data/usd-inflation.json"),
-          fetch("/api/student-loan-blog"),
         ])
 
         const salaries = await salariesRes.json()
         const earnings = await earningsRes.json()
         const inflation = await inflationRes.json()
-        const blog = await blogRes.json()
 
         setSalaryData(salaries)
         setEarningsData(earnings)
         setInflationData(inflation.data)
 
-        if (blog.success && blog.data) {
-          setBlogContent(blog.data)
-        }
+        // Blog content cached for 24 hours to reduce edge requests
+        const blog = await getCachedContent("student_loan_blog", async () => {
+          const blogRes = await fetch("/api/student-loan-blog")
+          const blogData = await blogRes.json()
+          if (blogData.success && blogData.data) return blogData.data
+          return null
+        })
+        if (blog) setBlogContent(blog)
       } catch (error) {
         console.error("Error loading student loan data:", error)
       } finally {

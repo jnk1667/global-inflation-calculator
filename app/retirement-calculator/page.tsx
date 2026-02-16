@@ -3,6 +3,8 @@ import RetirementCalculatorPage from "./RetirementCalculatorPage"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+export const revalidate = 86400
+
 export const metadata: Metadata = {
   title: "Retirement Calculator | Complete Financial Planning",
   description:

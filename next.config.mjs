@@ -44,12 +44,12 @@ const nextConfig = {
   headers: async () => {
     return [
       {
-        // JSON data files should revalidate more frequently
+        // JSON data files - cache for 24 hours on CDN and 1 hour in browser
         source: '/data/:path*.json',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=3600, stale-while-revalidate=86400',
+            value: 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
           },
           {
             key: 'X-Content-Type-Options',

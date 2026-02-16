@@ -229,17 +229,19 @@ export default function ChartsPage() {
         // </CHANGE>
 
         try {
-          const { createClientFunction } = await import("@/lib/supabase")
-          const supabase = createClientFunction()
-          const { data: essayData, error: essayError } = await supabase
-            .from("seo_content")
-            .select("content")
-            .eq("id", "charts_essay")
-            .single()
-
-          if (!essayError && essayData) {
-            setChartsEssay(essayData.content)
-          }
+          const { getCachedContent } = await import("@/lib/cached-content")
+          const content = await getCachedContent("charts_essay_content", async () => {
+            const { createClientFunction } = await import("@/lib/supabase")
+            const supabase = createClientFunction()
+            const { data: essayData, error: essayError } = await supabase
+              .from("seo_content")
+              .select("content")
+              .eq("id", "charts_essay")
+              .single()
+            if (essayError || !essayData) return null
+            return essayData.content
+          })
+          if (content) setChartsEssay(content)
         } catch (err) {
           console.log("Charts essay not found, continuing without it")
         }

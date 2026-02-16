@@ -3,6 +3,8 @@ import dynamic from "next/dynamic"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+export const revalidate = 86400
+
 const BudgetCalculatorPage = dynamic(() => import("./BudgetCalculatorPage"), {
   loading: () => (
     <div className="container mx-auto px-4 py-12 max-w-4xl">

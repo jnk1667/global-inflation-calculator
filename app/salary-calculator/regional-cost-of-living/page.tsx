@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 import RegionalCostOfLivingPage from "./RegionalCostOfLivingPage"
 import Link from "next/link"
 
+export const revalidate = 86400
+
 export const metadata: Metadata = {
   title: "Cost of Living Comparison Tool | 80+ Global Cities",
   description:

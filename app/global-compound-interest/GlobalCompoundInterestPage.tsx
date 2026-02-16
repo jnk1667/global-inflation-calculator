@@ -12,6 +12,7 @@ import FAQ from "@/components/faq"
 import { treasuryData } from "@/lib/treasury-data"
 import Link from "next/link"
 import { supabase } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 
 // Currency symbols and names
 const currencies = {
@@ -143,18 +144,19 @@ export default function GlobalCompoundInterestPage() {
     })
   }
 
-  // Fetch blog content
+  // Fetch blog content - cached for 24 hours to reduce edge requests
   useEffect(() => {
     const loadBlogContent = async () => {
       try {
-        // Try fetching from API (which checks Supabase internally)
-        const response = await fetch("/api/compound-interest-blog")
-        if (response.ok) {
-          const apiData = await response.json()
-          setBlogContent(apiData.content)
-        } else {
-          console.error("[v0] Failed to load blog content")
-        }
+        const content = await getCachedContent("compound_interest_blog", async () => {
+          const response = await fetch("/api/compound-interest-blog")
+          if (response.ok) {
+            const apiData = await response.json()
+            return apiData.content
+          }
+          return null
+        })
+        if (content) setBlogContent(content)
       } catch (error) {
         console.error("[v0] Error loading blog content:", error)
       } finally {

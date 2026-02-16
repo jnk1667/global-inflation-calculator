@@ -112,27 +112,9 @@ Auto loans are one of the most common forms of consumer debt in America, with mi
           return data.content
         })
         setEssayContent(content)
-        }
       } catch (err) {
         console.error("Error loading auto loan essay content:", err)
-        // Set default content on error
-        setEssayContent(`
-# Understanding Auto Loans and Vehicle Affordability in 2026
-
-Auto loans are one of the most common forms of consumer debt in America, with millions of people financing their vehicle purchases each year. Understanding how auto loans work and how inflation affects both car prices and ownership costs is crucial for making informed financial decisions.
-
-## The True Cost of Vehicle Ownership
-
-When calculating whether you can afford a car, the monthly payment is just the beginning. The true cost of ownership includes insurance, maintenance, fuel, registration, and depreciation. Our advanced calculator helps you understand these comprehensive costs, adjusted for inflation's impact over the life of your loan.
-
-## How Inflation Impacts Auto Financing
-
-Inflation affects auto loans in several ways. First, vehicle prices themselves have increased significantly due to inflation - new cars today cost 50%+ more than they did just five years ago. Second, fuel costs are highly volatile and tend to rise with inflation. Third, maintenance and insurance costs also increase over time.
-
-## Making Smart Auto Loan Decisions
-
-The key to affordable auto financing is finding the right balance between loan term, interest rate, and down payment. While longer loan terms reduce monthly payments, they result in paying significantly more interest over time. Similarly, a larger down payment reduces both your monthly payment and total interest costs.
-        `)
+        setEssayContent(defaultContent)
       }
     }
 

@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import InsuranceInflationCalculatorPage from "./InsuranceInflationCalculatorPage"
 
+export const revalidate = 86400
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"
 
 export const metadata: Metadata = {

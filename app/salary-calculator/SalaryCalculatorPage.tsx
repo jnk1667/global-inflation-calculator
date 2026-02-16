@@ -940,30 +940,9 @@ In today's economic landscape, understanding how inflation affects your salary i
           return data.content
         })
         setEssayContent(content)
-
-By calculating the inflation-adjusted value of historical salaries, you can better understand your career trajectory and make more informed decisions about job changes, retirement planning, and long-term financial goals. This knowledge empowers you to negotiate more effectively and plan for a financially secure future.
-          `)
-        }
       } catch (err) {
         console.error("Error loading essay content:", err)
-        // Set default content on error
-        setEssayContent(`
-# Understanding Salary Inflation and Wage Growth
-
-In today's economic landscape, understanding how inflation affects your salary is crucial for making informed career and financial decisions. The relationship between wage growth and inflation determines your real purchasing power over time, making it essential to evaluate whether your salary increases are keeping pace with rising costs.
-
-## The Reality of Wage Stagnation
-
-Many workers experience what economists call "wage stagnation" – a phenomenon where nominal salary increases fail to match inflation rates. This means that even with annual raises, your actual purchasing power may be declining. Our salary inflation calculator helps you quantify this impact by comparing your historical salary to what it should be worth today after adjusting for inflation.
-
-## Strategic Career Planning
-
-Understanding salary inflation is vital for strategic career planning. When evaluating job offers, promotions, or negotiating raises, you need to consider not just the nominal increase but the real value after accounting for inflation. A 3% raise during a period of 4% inflation actually represents a decrease in purchasing power.
-
-## Making Informed Financial Decisions
-
-By calculating the inflation-adjusted value of historical salaries, you can better understand your career trajectory and make more informed decisions about job changes, retirement planning, and long-term financial goals. This knowledge empowers you to negotiate more effectively and plan for a financially secure future.
-        `)
+        setEssayContent(defaultContent)
       }
     }
 

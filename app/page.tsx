@@ -2,6 +2,9 @@ import dynamic from "next/dynamic"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 
+// Serve from edge cache for 24 hours, regenerate in background
+export const revalidate = 86400
+
 const webAppSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
