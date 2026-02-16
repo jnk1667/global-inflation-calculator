@@ -44,8 +44,8 @@ export default function UsageStats() {
 
     fetchStats()
 
-    // Update stats every 30 seconds
-    const interval = setInterval(fetchStats, 30000)
+    // Update stats every 5 minutes to reduce edge requests
+    const interval = setInterval(fetchStats, 300000)
 
     return () => clearInterval(interval)
   }, [])

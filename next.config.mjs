@@ -68,7 +68,7 @@ const nextConfig = {
         ],
       },
       {
-        // Default headers for other routes
+        // Default headers for other routes with better caching
         source: '/((?!data|_next/static).*)',
         headers: [
           {
@@ -85,7 +85,7 @@ const nextConfig = {
           },
           {
             key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate',
+            value: 'public, max-age=60, stale-while-revalidate=600',
           },
         ],
       },

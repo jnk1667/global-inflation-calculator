@@ -46,7 +46,7 @@ interface ComparisonResult {
 }
 
 export default function MortgageCalculatorPage() {
-  const [currentYear, setCurrentYear] = useState("2025")
+  const [currentYear, setCurrentYear] = useState("2026")
   const [compareYear, setCompareYear] = useState("2006")
   const [result, setResult] = useState<ComparisonResult | null>(null)
   const [loading, setLoading] = useState(false)
@@ -75,9 +75,9 @@ The mid-2000s saw an unprecedented mortgage bubble, with price-to-income ratios 
 
 ### 2012: Post-Crash Recovery
 Following the housing crash, mortgage affordability improved significantly. By 2012, ratios had fallen back to more sustainable levels around 4.8x, creating opportunities for buyers who had been priced out during the bubble.
-### 2020-2025: The New Mortgage Crisis
+### 2020-2026: The New Mortgage Crisis
 
-The COVID-19 pandemic triggered another mortgage boom, driven by low interest rates, remote work, and limited supply. By 2022, price-to-income ratios had surged to 5.75x, exceeding even the 2006 bubble peak. By 2025, ratios reached 6.84x, making housing the least affordable in modern history.
+The COVID-19 pandemic triggered another mortgage boom, driven by low interest rates, remote work, and limited supply. By 2022, price-to-income ratios had surged to 5.75x, exceeding even the 2006 bubble peak. By 2026, ratios continue to remain elevated, making housing among the least affordable in modern history.
 
 ## Why This Matters
 
@@ -249,16 +249,16 @@ This calculator uses official data from:
       : "1987"
 
   const data2006 = historicalData["2006"]
-  const data2024 = historicalData["2024"]
+  const data2025 = historicalData["2025"]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-32 pb-16" style={{ contain: "layout style" }}>
-      <div className="container mx-auto px-4 max-w-6xl">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-24 sm:pt-32 pb-12 sm:pb-16" style={{ contain: "layout style" }}>
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-0 max-w-6xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex flex-col items-center gap-4">
-            <HomeIcon className="h-12 w-12 text-blue-600 dark:text-blue-400" />
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Mortgage Calculator</h1>
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="flex flex-col items-center gap-3 sm:gap-4">
+            <HomeIcon className="h-10 w-10 sm:h-12 sm:w-12 text-blue-600 dark:text-blue-400" />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Mortgage Calculator</h1>
           </div>
         </div>
 
@@ -272,15 +272,15 @@ This calculator uses official data from:
         </nav>
 
         {/* Inflation adjustment toggle */}
-        <div className="flex items-center justify-center gap-3 mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-          <Label htmlFor="inflation-toggle" className="text-base font-semibold cursor-pointer">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+          <Label htmlFor="inflation-toggle" className="text-sm sm:text-base font-semibold cursor-pointer text-center">
             Show Nominal Values
           </Label>
           <Switch id="inflation-toggle" checked={inflationAdjusted} onCheckedChange={setInflationAdjusted} />
-          <Label htmlFor="inflation-toggle" className="text-base font-semibold cursor-pointer">
+          <Label htmlFor="inflation-toggle" className="text-sm sm:text-base font-semibold cursor-pointer text-center">
             Show Inflation-Adjusted Values
           </Label>
-          <InfoIcon className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+          <InfoIcon className="h-4 w-4 text-gray-500 dark:text-gray-400 flex-shrink-0" />
         </div>
 
         {/* Explanation alert for inflation adjustment - uses opacity to prevent CLS */}
@@ -296,7 +296,7 @@ This calculator uses official data from:
         </div>
 
         {/* Main Calculator */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {/* Input Card */}
           <Card className="shadow-xl border-0">
             <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
@@ -397,9 +397,9 @@ This calculator uses official data from:
               </div>
 
               <div className="p-4 bg-white dark:bg-gray-800 rounded-lg">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Current (2024)</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Current (2025)</p>
                 <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                  {data2024 ? data2024.priceToIncomeRatio.toFixed(2) : "6.80"}x
+                  {data2025 ? data2025.priceToIncomeRatio.toFixed(2) : "6.80"}x
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Worst affordability on record</p>
               </div>

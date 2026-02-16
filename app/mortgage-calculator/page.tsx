@@ -84,7 +84,7 @@ export default function Page() {
     "@type": "Article",
     headline: "Mortgage Calculator - Historical Home Affordability & Price-to-Income Analysis",
     description:
-      "Comprehensive guide to calculating mortgage affordability using Case-Shiller Home Price Index and median income data from 1987-2025. Analyze how home affordability has changed over nearly 40 years.",
+      "Comprehensive guide to calculating mortgage affordability using Case-Shiller Home Price Index and median income data from 1987-2026. Analyze how home affordability has changed over nearly 40 years.",
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
@@ -98,7 +98,7 @@ export default function Page() {
       },
     },
     datePublished: "2024-01-25",
-    dateModified: "2026-02-06",
+    dateModified: "2026-02-13",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/mortgage-calculator`,
@@ -110,13 +110,13 @@ export default function Page() {
     "@type": "Dataset",
     name: "Historical Home Affordability and Mortgage Dataset",
     description:
-      "Comprehensive dataset combining S&P CoreLogic Case-Shiller Home Price Index with U.S. Census Bureau median household income data from 1987-2025, enabling detailed analysis of home affordability trends and price-to-income ratios across 39 years.",
+      "Comprehensive dataset combining S&P CoreLogic Case-Shiller Home Price Index with U.S. Census Bureau median household income data from 1987-2026, enabling detailed analysis of home affordability trends and price-to-income ratios across 40 years.",
     url: `${siteUrl}/mortgage-calculator`,
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
     },
-    temporalCoverage: "1987/2025",
+    temporalCoverage: "1987/2026",
     spatialCoverage: {
       "@type": "Place",
       name: "United States",
@@ -136,7 +136,7 @@ export default function Page() {
         "@type": "Dataset",
         name: "S&P CoreLogic Case-Shiller U.S. National Home Price Index",
         description:
-          "The leading measure of U.S. single-family home prices from 1987 to 2025, tracking the value of residential real estate across major metropolitan areas. The index reached 331.69 in 2025, showing significant appreciation over the 39-year period.",
+          "The leading measure of U.S. single-family home prices from 1987 to 2026, tracking the value of residential real estate across major metropolitan areas, showing significant appreciation over the 40-year period.",
         url: "https://www.spglobal.com/spdji/en/indices/indicators/sp-corelogic-case-shiller-us-national-home-price-nsa-index/",
         creator: {
           "@type": "Organization",
@@ -160,7 +160,7 @@ export default function Page() {
         "@type": "Dataset",
         name: "U.S. Census Bureau Median Household Income",
         description:
-          "Annual median household income statistics for the United States from 1987 to 2025, measuring the income at which half of households earn more and half earn less. Latest data shows median income at $83,730 (2024), used for affordability ratio calculations.",
+          "Annual median household income statistics for the United States from 1987 to 2026, measuring the income at which half of households earn more and half earn less, used for affordability ratio calculations.",
         url: "https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-households.html",
         creator: {
           "@type": "Organization",
