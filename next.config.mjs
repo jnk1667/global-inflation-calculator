@@ -44,6 +44,16 @@ const nextConfig = {
   headers: async () => {
     return [
       {
+        // robots.txt - short cache so bots get updates quickly
+        source: '/robots.txt',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, s-maxage=3600',
+          },
+        ],
+      },
+      {
         // JSON data files - cache for 24 hours on CDN and 1 hour in browser
         source: '/data/:path*.json',
         headers: [
