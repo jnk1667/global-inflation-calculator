@@ -16,7 +16,11 @@ export async function GET(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ success: false, error: "Content not found" }, { status: 404 })
     }
 
-    return NextResponse.json({ success: true, data })
+    return NextResponse.json({ success: true, data }, {
+      headers: {
+        "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
+      },
+    })
   } catch (error) {
     console.error("[v0] Error in seo_content GET:", error)
     return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 })

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server"
 import { supabase } from "@/lib/supabase"
 
+// Cache for 24 hours on Vercel CDN, serve stale for 7 days
+export const revalidate = 86400
+
 export async function GET() {
   try {
     const { data, error } = await supabase
@@ -9,9 +12,13 @@ export async function GET() {
       .eq("id", "compound_interest_essay")
       .maybeSingle()
 
+    const cacheHeaders = {
+      "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
+    }
+
     // If data exists in Supabase, return it
     if (data?.content) {
-      return NextResponse.json({ content: data.content })
+      return NextResponse.json({ content: data.content }, { headers: cacheHeaders })
     }
 
     // Otherwise, return default content

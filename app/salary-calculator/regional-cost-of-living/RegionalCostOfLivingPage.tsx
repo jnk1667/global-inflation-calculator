@@ -20,6 +20,7 @@ import { MapPin, DollarSign, Info, ArrowRight, Home, Zap, ShoppingCart, Car, Bui
 import Link from "next/link"
 import AdBanner from "@/components/ad-banner"
 import { supabase } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 import type { JSX } from "react/jsx-runtime"
 
 const FAQ = lazy(() => import("@/components/faq"))

@@ -18,6 +18,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import FAQ from "@/components/faq"
 import { supabase } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 
 interface CalculationResult {
   currentPremium: number
@@ -382,17 +383,21 @@ export default function InsuranceInflationCalculatorPage() {
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const blogResponse = await fetch("/api/insurance-inflation-blog")
-        const blogData = await blogResponse.json()
-        if (blogData.success && blogData.data) {
-          setBlogContent(blogData.data.essay || "")
-        }
+        const blogEssay = await getCachedContent("insurance_inflation_blog", async () => {
+          const blogResponse = await fetch("/api/insurance-inflation-blog")
+          const blogData = await blogResponse.json()
+          if (blogData.success && blogData.data) {
+            return blogData.data.essay || ""
+          }
+          return ""
+        })
+        setBlogContent(blogEssay)
 
-        const { data: faqData } = await supabase.from("faqs").select("*").eq("category", "insurance")
-
-        if (faqData) {
-          setFaqItems(faqData)
-        }
+        const faqData = await getCachedContent("insurance_faqs", async () => {
+          const { data } = await supabase.from("faqs").select("*").eq("category", "insurance")
+          return data || []
+        })
+        setFaqItems(faqData)
 
         setContentLoaded(true)
       } catch (error) {

@@ -40,6 +40,7 @@ import FAQ from "@/components/faq"
 import { treasuryData } from "@/lib/treasury-data"
 import { trackEvent } from "@/lib/analytics"
 import { supabase } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 
 interface ROIResult {
@@ -120,14 +121,12 @@ export default function ROICalculatorPage() {
   useEffect(() => {
     const loadEssayContent = async () => {
       try {
-        const { data, error } = await supabase.from("seo_content").select("content").eq("id", "roi_essay").single()
-
-        if (error || !data?.content) {
-          console.log("Using default ROI essay content")
-          return
-        }
-
-        setEssayContent(data.content)
+        const content = await getCachedContent("roi_essay_content", async () => {
+          const { data, error } = await supabase.from("seo_content").select("content").eq("id", "roi_essay").single()
+          if (error || !data?.content) return null
+          return data.content
+        })
+        if (content) setEssayContent(content)
       } catch (err) {
         console.log("Error loading ROI essay:", err)
       }

@@ -1,5 +1,8 @@
 import { supabase } from "@/lib/supabase"
 
+// Cache for 24 hours on Vercel CDN, serve stale for 7 days
+export const revalidate = 86400
+
 export async function GET() {
   try {
     // Fetch insurance inflation blog content from seo_content table
@@ -22,6 +25,10 @@ export async function GET() {
       data: {
         essay: data?.content || "",
         methodology: "", // Methodology is hardcoded on the page
+      },
+    }, {
+      headers: {
+        "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
       },
     })
   } catch (error) {

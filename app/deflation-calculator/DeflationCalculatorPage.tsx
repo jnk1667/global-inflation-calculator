@@ -23,6 +23,7 @@ import {
   RefreshCw,
 } from "lucide-react"
 import { supabase } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 import Link from "next/link"
 import FAQ from "@/components/faq"
 import { getCryptoHistoricalPrices } from "@/lib/api/coingecko-api"
@@ -292,17 +293,7 @@ export default function DeflationCalculatorPage() {
 
   useEffect(() => {
     const loadBlogContent = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("seo_content")
-          .select("content")
-          .eq("id", "deflation_essay")
-          .single()
-
-        if (error || !data?.content) {
-          console.log("Using default blog content")
-          setBlogContent(
-            `Understanding deflationary assets is crucial for modern wealth preservation. Unlike traditional fiat currencies that lose purchasing power over time due to inflation, deflationary assets are designed to maintain or increase their value through scarcity mechanisms.
+      const defaultContent = `Understanding deflationary assets is crucial for modern wealth preservation. Unlike traditional fiat currencies that lose purchasing power over time due to inflation, deflationary assets are designed to maintain or increase their value through scarcity mechanisms.
 
 Bitcoin, often called "digital gold," has a fixed supply of 21 million coins. This hard cap, combined with halving events that reduce new supply every four years, creates a deflationary monetary system. As adoption grows and supply remains constrained, the purchasing power of Bitcoin has historically increased dramatically.
 
@@ -310,38 +301,23 @@ Ethereum introduced a revolutionary fee-burning mechanism through EIP-1559. When
 
 Traditional precious metals like gold and silver have served as stores of value for millennia. Their scarcity comes from geological limits - there's only so much gold in the Earth's crust, and extraction becomes increasingly difficult and expensive. Industrial demand for silver often exceeds new supply, creating additional scarcity pressure.
 
-The key to understanding deflationary assets is recognizing the inverse relationship between supply constraints and purchasing power. While fiat currencies can be printed infinitely, leading to devaluation, deflationary assets have built-in mechanisms that prevent oversupply. This fundamental difference makes them powerful tools for wealth preservation.
+The key to understanding deflationary assets is recognizing the inverse relationship between supply constraints and purchasing power. While fiat currencies can be printed infinitely, leading to devaluation, deflationary assets have built-in mechanisms that prevent oversupply. This fundamental difference makes them powerful tools for wealth preservation.`
 
-When comparing deflationary assets to cash, the contrast is stark. A dollar today buys less than it did a decade ago due to inflation. Meanwhile, deflationary assets have generally appreciated, not just maintaining but growing purchasing power. This makes them essential components of a diversified portfolio designed to preserve wealth across generations.
+      try {
+        const content = await getCachedContent("deflation_essay_content", async () => {
+          const { data, error } = await supabase
+            .from("seo_content")
+            .select("content")
+            .eq("id", "deflation_essay")
+            .single()
 
-However, it's important to note that deflationary assets can be volatile in the short term. Their long-term value proposition comes from scarcity and growing adoption, but prices can fluctuate significantly. Investors should consider their time horizon and risk tolerance when allocating to these assets.
-
-The rise of digital deflationary assets represents a paradigm shift in how we think about money and value storage. For the first time in history, we have programmable scarcity - assets whose supply constraints are enforced by mathematics and code rather than physical limitations or central authority promises.`,
-          )
-          setBlogLoading(false)
-          return
-        }
-
-        setBlogContent(data.content)
+          if (error || !data?.content) return defaultContent
+          return data.content
+        })
+        setBlogContent(content)
       } catch (err) {
         console.log("Error loading blog content:", err)
-        setBlogContent(
-          `Understanding deflationary assets is crucial for modern wealth preservation. Unlike traditional fiat currencies that lose purchasing power over time due to inflation, deflationary assets are designed to maintain or increase their value through scarcity mechanisms.
-
-Bitcoin, often called "digital gold," has a fixed supply of 21 million coins. This hard cap, combined with halving events that reduce new supply every four years, creates a deflationary monetary system. As adoption grows and supply remains constrained, the purchasing power of Bitcoin has historically increased dramatically.
-
-Ethereum introduced a revolutionary fee-burning mechanism through EIP-1559. When network activity is high, more ETH is burned than created, making it deflationary. This ties the asset's scarcity directly to its utility and adoption.
-
-Traditional precious metals like gold and silver have served as stores of value for millennia. Their scarcity comes from geological limits - there's only so much gold in the Earth's crust, and extraction becomes increasingly difficult and expensive. Industrial demand for silver often exceeds new supply, creating additional scarcity pressure.
-
-The key to understanding deflationary assets is recognizing the inverse relationship between supply constraints and purchasing power. While fiat currencies can be printed infinitely, leading to devaluation, deflationary assets have built-in mechanisms that prevent oversupply. This fundamental difference makes them powerful tools for wealth preservation.
-
-When comparing deflationary assets to cash, the contrast is stark. A dollar today buys less than it did a decade ago due to inflation. Meanwhile, deflationary assets have generally appreciated, not just maintaining but growing purchasing power. This makes them essential components of a diversified portfolio designed to preserve wealth across generations.
-
-However, it's important to note that deflationary assets can be volatile in the short term. Their long-term value proposition comes from scarcity and growing adoption, but prices can fluctuate significantly. Investors should consider their time horizon and risk tolerance when allocating to these assets.
-
-The rise of digital deflationary assets represents a paradigm shift in how we think about money and value storage. For the first time in history, we have programmable scarcity - assets whose supply constraints are enforced by mathematics and code rather than physical limitations or central authority promises.`,
-        )
+        setBlogContent(defaultContent)
       } finally {
         setBlogLoading(false)
       }

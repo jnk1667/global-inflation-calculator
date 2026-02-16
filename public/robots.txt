@@ -1,35 +1,104 @@
 # Global Inflation Calculator - Robots.txt
 
-User-agent: *
+# Allow major search engines
+User-agent: Googlebot
 Allow: /
+Crawl-delay: 10
 
-# llms.txt is now indexable by all search engines to help AI bots discover it
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 10
 
-# Allow AI/LLM crawlers to access llms.txt
+User-agent: Yandex
+Allow: /
+Crawl-delay: 30
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 10
+
+# Allow AI/LLM crawlers to access llms.txt only
 User-agent: GPTBot
 Allow: /llms.txt
+Disallow: /
 
 User-agent: ChatGPT-User
 Allow: /llms.txt
+Disallow: /
 
 User-agent: Claude-Web
 Allow: /llms.txt
+Disallow: /
 
 User-agent: anthropic-ai
 Allow: /llms.txt
+Disallow: /
 
 User-agent: Applebot-Extended
 Allow: /llms.txt
+Disallow: /
 
 User-agent: PerplexityBot
 Allow: /llms.txt
+Disallow: /
 
 User-agent: Bytespider
 Allow: /llms.txt
+Disallow: /
+
+# Block known aggressive crawlers and scrapers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: Sogou
+Disallow: /
+
+User-agent: MegaIndex
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Seekport
+Disallow: /
+
+User-agent: ZoominfoBot
+Disallow: /
+
+User-agent: BaiduSpider
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: FacebookExternalHit
+Disallow: /api/
+
+# Block all other bots from API routes
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin-blog/
+Disallow: /admin-manage-content/
+Crawl-delay: 30
 
 # Sitemap
 Sitemap: https://www.globalinflationcalculator.com/sitemap.xml
-
-# LLM-friendly documentation
-# AI crawlers and LLMs can find structured information about this site at:
-# https://www.globalinflationcalculator.com/llms.txt

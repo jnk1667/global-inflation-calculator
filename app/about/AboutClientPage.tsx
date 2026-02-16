@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { supabase, type AboutContent } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 import {
   Building2,
   User,
@@ -44,9 +45,13 @@ export default function AboutClientPage() {
 
   const loadAboutContent = async () => {
     try {
-      const { data, error } = await supabase.from("about_content").select("*").order("section", { ascending: true })
+      const data = await getCachedContent("about_content", async () => {
+        const { data, error } = await supabase.from("about_content").select("*").order("section", { ascending: true })
+        if (error) throw error
+        return data
+      })
 
-      if (data && !error) {
+      if (data) {
         setAboutContent(data)
       }
     } catch (error) {
