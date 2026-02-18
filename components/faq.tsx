@@ -84,8 +84,6 @@ export default function FAQ({ category, limit }: FAQProps) {
         setLoading(true)
         setError(null)
 
-        console.log("[v0] FAQ: Loading FAQs for category:", category)
-
         // Create cache key based on category
         const cacheKey = `faq_${category || "all"}_${limit || "all"}`
 
@@ -94,20 +92,16 @@ export default function FAQ({ category, limit }: FAQProps) {
           // Try to fetch from API first
           const url = category ? `/api/faqs?category=${encodeURIComponent(category)}` : "/api/faqs"
           
-          console.log("[v0] FAQ: Fetching from URL:", url)
           const response = await fetch(url)
-          console.log("[v0] FAQ: Response status:", response.status, response.ok)
           
           if (response.ok) {
             const apiData = await response.json()
-            console.log("[v0] FAQ: API returned data:", apiData?.length, "items")
             if (Array.isArray(apiData)) {
               return apiData
             }
           }
           
           // Fallback to default data if API fails
-          console.log("[v0] FAQ: Using default FAQs (API failed)")
           let filteredFAQs = defaultFAQs
           
           if (category && typeof category === "string") {
@@ -119,10 +113,9 @@ export default function FAQ({ category, limit }: FAQProps) {
 
         // Apply limit after caching
         const limitedData = typeof limit === "number" && limit > 0 ? data.slice(0, limit) : data
-        console.log("[v0] FAQ: Setting", limitedData.length, "FAQs")
         setFaqs(limitedData)
       } catch (err) {
-        console.error("[v0] FAQ: Error loading FAQs:", err)
+        console.error("Error loading FAQs:", err)
         setError("Failed to load FAQ data")
         setFaqs([])
       } finally {

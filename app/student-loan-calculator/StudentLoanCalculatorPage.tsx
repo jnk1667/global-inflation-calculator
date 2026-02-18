@@ -704,7 +704,7 @@ export default function StudentLoanCalculatorPage() {
 
         {/* FAQ Section */}
         <div className="mt-16 mb-8">
-          <FAQ category="student-loan" />
+          <FAQ category="general" />
         </div>
 
         <footer className="bg-gray-900 text-white py-12 mt-16">
