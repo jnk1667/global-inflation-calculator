@@ -348,7 +348,7 @@ This calculator uses official data from:
               <Alert className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
                 <InfoIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 <AlertDescription className="text-blue-900 dark:text-blue-100">
-                  <strong>Key Periods:</strong> Compare 2024 to 2006 (bubble peak), 2012 (post-crash), or 1987
+                  <strong>Key Periods:</strong> Compare 2026 to 2006 (bubble peak), 2012 (post-crash), or 1987
                   (affordable era)
                 </AlertDescription>
               </Alert>
@@ -397,18 +397,17 @@ This calculator uses official data from:
               </div>
 
               <div className="p-4 bg-white dark:bg-gray-800 rounded-lg">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Current (2025)</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Current (2026)</p>
                 <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                  {data2025 ? data2025.priceToIncomeRatio.toFixed(2) : "6.80"}x
+                  {historicalData["2026"] ? historicalData["2026"].priceToIncomeRatio.toFixed(2) : "6.69"}x
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Worst affordability on record</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Near-record unaffordability</p>
               </div>
 
               <Alert className="bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800">
                 <AlertTriangleIcon className="h-4 w-4 text-amber-600 dark:text-amber-400" />
                 <AlertDescription className="text-amber-900 dark:text-amber-100 text-sm">
-                  Mortgage is currently at the worst affordability level in recorded history, exceeding even the 2006
-                  bubble
+                  Mortgage affordability remains near historic lows in 2026, with price-to-income ratios still significantly exceeding the 2006 bubble peak
                 </AlertDescription>
               </Alert>
             </CardContent>

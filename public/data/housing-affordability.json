@@ -271,5 +271,12 @@
     "medianIncome": 83730,
     "approximateHomePrice": 570800,
     "priceToIncomeRatio": 6.82
+  },
+  {
+    "year": "2026",
+    "caseShillerIndex": 335.2,
+    "medianIncome": 86450,
+    "approximateHomePrice": 578500,
+    "priceToIncomeRatio": 6.69
   }
 ]
