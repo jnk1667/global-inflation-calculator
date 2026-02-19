@@ -2217,7 +2217,7 @@ In today's economic landscape, understanding how inflation affects your salary i
                 </div>
 
                 <div className="mt-16 mb-8">
-                  <FAQ category="general" />
+                  <FAQ category="salary" />
                 </div>
 
                 {/* Footer with Internal Links */}

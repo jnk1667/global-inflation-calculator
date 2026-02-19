@@ -1740,7 +1740,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
         </Card>
 
         <section className="mb-12">
-          <FAQ category="general" />
+          <FAQ category="retirement" />
         </section>
 
         {/* Ad Banner - Bottom */}
