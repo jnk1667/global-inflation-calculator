@@ -46,7 +46,7 @@ interface WagesVsInflationData {
 interface OccupationData {
   name: string
   wage2000: number
-  wage2025: number
+  wage2026: number
   nominalGrowth: number
   realGrowth: number
 }
@@ -94,7 +94,7 @@ interface HealthcareDeepDiveData {
 export default function ChartsPage() {
   const [screenshotting, setScreenshotting] = useState<string | null>(null)
   const [startDate, setStartDate] = useState<string>("2000")
-  const [endDate, setEndDate] = useState<string>("2025")
+  const [endDate, setEndDate] = useState<string>("2026")
   const [usdData, setUsdData] = useState<any>(null)
   const [eurData, setEurData] = useState<any>(null)
   const [gbpData, setGbpData] = useState<any>(null)
@@ -364,23 +364,23 @@ export default function ChartsPage() {
       { code: "NZD", name: "New Zealand Dollar", flag: "🇳🇿", startYear: 1950, data: nzdData },
     ]
 
-    const stabilityScores = [
-      { currency: "CHF", name: "Swiss Franc", flag: "🇨🇭", stability: 96.8, volatility: 2.1, period: "1914-2025" },
-      { currency: "USD", name: "US Dollar", flag: "🇺🇸", stability: 94.2, volatility: 3.8, period: "1913-2025" },
-      { currency: "EUR", name: "Euro", flag: "🇪🇺", stability: 93.5, volatility: 4.2, period: "1996-2025" },
-      { currency: "GBP", name: "British Pound", flag: "🇬🇧", stability: 91.7, volatility: 5.1, period: "1947-2025" },
-      { currency: "CAD", name: "Canadian Dollar", flag: "🇨🇦", stability: 90.3, volatility: 5.8, period: "1950-2025" },
-      { currency: "AUD", name: "Australian Dollar", flag: "🇦🇺", stability: 89.1, volatility: 6.4, period: "1950-2025" },
-      { currency: "JPY", name: "Japanese Yen", flag: "🇯🇵", stability: 87.9, volatility: 7.2, period: "1950-2025" },
-      {
-        currency: "NZD",
-        name: "New Zealand Dollar",
-        flag: "🇳🇿",
-        stability: 86.4,
-        volatility: 7.9,
-        period: "1950-2025",
-      },
-    ]
+  const stabilityScores = [
+  { currency: "CHF", name: "Swiss Franc", flag: "🇨🇭", stability: 96.8, volatility: 2.1, period: "1914-2026" },
+  { currency: "USD", name: "US Dollar", flag: "🇺🇸", stability: 94.2, volatility: 3.8, period: "1913-2026" },
+  { currency: "EUR", name: "Euro", flag: "🇪🇺", stability: 93.5, volatility: 4.2, period: "1996-2026" },
+  { currency: "GBP", name: "British Pound", flag: "🇬🇧", stability: 91.7, volatility: 5.1, period: "1947-2026" },
+  { currency: "CAD", name: "Canadian Dollar", flag: "🇨🇦", stability: 90.3, volatility: 5.8, period: "1950-2026" },
+  { currency: "AUD", name: "Australian Dollar", flag: "🇦🇺", stability: 89.1, volatility: 6.4, period: "1950-2026" },
+  { currency: "JPY", name: "Japanese Yen", flag: "🇯🇵", stability: 87.9, volatility: 7.2, period: "1950-2026" },
+  {
+  currency: "NZD",
+  name: "New Zealand Dollar",
+  flag: "🇳🇿",
+  stability: 86.4,
+  volatility: 7.9,
+  period: "1950-2026",
+  },
+  ]
 
     console.log("[v0] Currency stability data:", stabilityScores)
     return stabilityScores.sort((a, b) => b.stability - a.stability)
@@ -391,7 +391,7 @@ export default function ChartsPage() {
 
   // Multi-currency comparison (overlapping years)
   const multiCurrencyData = []
-  for (let year = 1996; year <= 2025; year++) {
+  for (let year = 1996; year <= 2026; year++) {
     const dataPoint: any = { year }
 
     if (usdData.data[year.toString()]) {
@@ -424,7 +424,7 @@ export default function ChartsPage() {
 
   // Purchasing power erosion data
   const purchasingPowerData = Object.entries(usdData.data)
-    .filter(([year]) => Number.parseInt(year) >= 1950 && Number.parseInt(year) <= 2025)
+  .filter(([year]) => Number.parseInt(year) >= 1950 && Number.parseInt(year) <= 2026)
     .map(([year, factor]) => ({
       year: Number.parseInt(year),
       purchasingPower: (1 / (factor as number)) * 100,
@@ -598,9 +598,9 @@ export default function ChartsPage() {
       },
     ]
 
-    // Calculate regional averages for overlapping years (1996-2025)
-    const regionalData = []
-    for (let year = 1996; year <= 2025; year++) {
+  // Calculate regional averages for overlapping years (1996-2026)
+  const regionalData = []
+  for (let year = 1996; year <= 2026; year++) {
       const dataPoint: any = { year }
 
       regions.forEach((region) => {
@@ -766,38 +766,38 @@ export default function ChartsPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Inflation Charts & Analytics
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Comprehensive visualizations of inflation trends, purchasing power erosion, and currency stability across
-            multiple currencies from 1913-2025
-          </p>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Comprehensive visualizations of inflation trends, purchasing power erosion, and currency stability across
+              multiple currencies from 1913-2026
+            </p>
         </div>
 
         <div className="mb-12 bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Customize Date Range</h2>
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="flex gap-4 items-center">
-              <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Year</label>
-                <Input
-                  type="number"
-                  min="1913"
-                  max="2025"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className="w-24"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Year</label>
-                <Input
-                  type="number"
-                  min="1913"
-                  max="2025"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  className="w-24"
-                />
-              </div>
+  <div className="flex flex-col">
+  <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Year</label>
+  <Input
+  type="number"
+  min="1913"
+  max="2026"
+  value={startDate}
+  onChange={(e) => setStartDate(e.target.value)}
+  className="w-24"
+  />
+  </div>
+  <div className="flex flex-col">
+  <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Year</label>
+  <Input
+  type="number"
+  min="1913"
+  max="2026"
+  value={endDate}
+  onChange={(e) => setEndDate(e.target.value)}
+  className="w-24"
+  />
+  </div>
             </div>
             <div className="flex gap-2 flex-wrap">
               <Button variant="outline" size="sm" onClick={() => setPresetRange("10years")}>
@@ -1222,9 +1222,9 @@ export default function ChartsPage() {
         <div className="mb-12">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h2 className="text-2xl font-bold">Inflation Rate Distribution (1913-2025)</h2>
-              <p className="text-lg text-muted-foreground mt-2">
-                Frequency of different inflation rates over 112 years of US history
+                <h2 className="text-2xl font-bold">Inflation Rate Distribution (1913-2026)</h2>
+                <p className="text-lg text-muted-foreground mt-2">
+                  Frequency of different inflation rates over 113 years of US history
               </p>
             </div>
             <Button
@@ -1395,7 +1395,7 @@ export default function ChartsPage() {
         <div className="mb-12">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h2 className="text-2xl font-bold">Regional Inflation Comparison (1996-2025)</h2>
+                <h2 className="text-2xl font-bold">Regional Inflation Comparison (1996-2026)</h2>
               <p className="text-lg text-muted-foreground mt-2">
                 How different economic regions have experienced inflation trends
               </p>
@@ -1663,7 +1663,7 @@ export default function ChartsPage() {
                 <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
                   <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                    Despite nominal wages rising from $6.33/hour in 1979 to over $31/hour in 2025 (
+                    Despite nominal wages rising from $6.33/hour in 1979 to over $31/hour in 2026 (
                     {wagesData.statistics?.avgNominalGrowth || "392%"} increase), real purchasing power has actually
                     declined by approximately {wagesData.statistics?.avgRealGrowthLoss || "4.2%"}. The red line shows
                     what workers can actually buy with their wages—and it's been essentially flat for 45+ years. Peak
@@ -1843,7 +1843,7 @@ export default function ChartsPage() {
                     tuition increased {educationData.statistics?.privateTuitionIncrease || "1107%"} (from $3,617 to
                     $43,650). General CPI only increased {educationData.statistics?.generalCPIIncrease || "282%"} over
                     the same period. Average student debt now stands at $
-                    {educationData.statistics?.avgStudentDebt2025?.toLocaleString() || "37,850"}.
+                    {educationData.statistics?.avgStudentDebt2026?.toLocaleString() || "37,850"}.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm mb-4">
                     <div className="bg-white dark:bg-gray-700 p-3 rounded">
@@ -1868,11 +1868,11 @@ export default function ChartsPage() {
                       <div className="text-xs text-gray-500">Since 1980</div>
                     </div>
                     <div className="bg-white dark:bg-gray-700 p-3 rounded">
-                      <div className="font-semibold text-orange-600">Avg Student Debt</div>
-                      <div className="text-2xl font-bold">
-                        ${(educationData.statistics?.avgStudentDebt2025 / 1000).toFixed(1) || "37.9"}K
-                      </div>
-                      <div className="text-xs text-gray-500">Class of 2025</div>
+                  <div className="font-semibold text-orange-600">Avg Student Debt</div>
+                  <div className="text-2xl font-bold">
+                    ${(educationData.statistics?.avgStudentDebt2026 / 1000).toFixed(1) || "37.9"}K
+                  </div>
+                  <div className="text-xs text-gray-500">Class of 2026</div>
                     </div>
                   </div>
                   <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded">
