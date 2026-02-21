@@ -884,15 +884,15 @@ export default function ClientPage() {
         />
 
         {/* Usage Stats - Top Right Corner */}
-        <div className="fixed top-10 right-4 z-40 w-[180px]">
-          <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-3 shadow-lg border border-gray-200 dark:border-gray-700 min-h-[64px] flex items-center">
+        <div className="fixed top-4 right-4 z-40 w-[180px]">
+          <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-3 shadow-lg border border-gray-200 dark:border-gray-700 min-h-[64px] flex items-center justify-center">
             {/* UsageStats temporarily disabled to reduce edge requests */}
-            <div className="text-xs text-gray-600 dark:text-gray-300 space-y-1 min-w-[140px]">
+            <div className="text-xs text-gray-600 dark:text-gray-300 space-y-1 w-full">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                 <span>Live usage tracking</span>
               </div>
-              <div className="text-gray-500 dark:text-gray-400">Serving global users</div>
+              <div className="text-gray-500 dark:text-gray-400 ml-4">Serving global users</div>
             </div>
           </div>
         </div>
