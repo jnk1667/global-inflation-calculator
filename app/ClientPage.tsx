@@ -897,9 +897,9 @@ export default function ClientPage() {
           </div>
         </div>
 
-        <main className="container mx-auto px-4 py-6 max-w-3xl" style={{ contain: "layout" }}>
+        <main className="container mx-auto px-8 py-12 max-w-2xl" style={{ contain: "layout" }}>
           {/* Header */}
-          <div className="text-center mb-6 mt-2">
+          <div className="text-center mb-6 mt-0">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="flex-shrink-0" style={{ width: "48px", height: "48px", minWidth: "48px", minHeight: "48px" }}>
                 {logoUrl ? (
