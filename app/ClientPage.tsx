@@ -897,31 +897,31 @@ export default function ClientPage() {
           </div>
         </div>
 
-        <main className="container mx-auto px-16 py-12 max-w-4xl" style={{ contain: "layout" }}>
+        <main className="container mx-auto px-20 pt-24 pb-4 max-w-5xl min-h-screen flex flex-col" style={{ contain: "layout" }}>
           {/* Header */}
-          <div className="text-center mb-6 mt-0">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="flex-shrink-0" style={{ width: "48px", height: "48px", minWidth: "48px", minHeight: "48px" }}>
+          <div className="text-center mb-4 mt-0">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <div className="flex-shrink-0" style={{ width: "36px", height: "36px", minWidth: "36px", minHeight: "36px" }}>
                 {logoUrl ? (
                   <img
                     src={logoUrl || "/placeholder.svg"}
                     alt="Global Inflation Calculator Globe Icon"
-                    width={48}
-                    height={48}
-                    className="w-12 h-12 rounded-full shadow-lg"
+                    width={36}
+                    height={36}
+                    className="w-9 h-9 rounded-full shadow-lg"
                     loading="eager"
-                    style={{ width: "48px", height: "48px" }}
+                    style={{ width: "36px", height: "36px" }}
                     onError={() => setLogoUrl("")}
                   />
                 ) : (
-                  <Globe className="w-12 h-12 text-blue-600 dark:text-blue-400" style={{ width: "48px", height: "48px" }} />
+                  <Globe className="w-9 h-9 text-blue-600 dark:text-blue-400" style={{ width: "36px", height: "36px" }} />
                 )}
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
                 Global Inflation Calculator
               </h1>
             </div>
-            <p className="text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-sm text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Calculate how inflation affects your money over time across different currencies. See real purchasing
               power changes from 1913 to {currentYear}.
             </p>
@@ -959,15 +959,15 @@ export default function ClientPage() {
               {Object.keys(inflationData).length > 0 && (
                 <>
                   {/* Main Calculator Card */}
-                  <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-6">
-                    <CardContent className="p-5 space-y-5">
+                  <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-4">
+                    <CardContent className="p-4 space-y-3">
                       {/* Amount Input */}
-                      <div className="space-y-3">
-                        <label htmlFor="amount-input" className="text-sm text-gray-600 dark:text-gray-300 font-medium">
+                      <div className="space-y-2">
+                        <label htmlFor="amount-input" className="text-xs text-gray-600 dark:text-gray-300 font-medium">
                           Enter Amount ($0.0 - $1,000,000,000,000)
                         </label>
                         <div className="relative">
-                          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 text-lg">
+                          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 text-base">
                             {currentCurrencyData?.symbol
                               ? currentCurrencyData.symbol.length > 1 || currentCurrencyData.symbol === "Fr"
                                 ? `${currentCurrencyData.symbol} `
@@ -979,7 +979,7 @@ export default function ClientPage() {
                             type="number"
                             value={amount}
                             onChange={handleAmountChange}
-                            className={`text-lg h-14 border-gray-300 dark:border-gray-700 ${
+                            className={`text-base h-11 border-gray-300 dark:border-gray-700 ${
                               currentCurrencyData?.symbol &&
                               (currentCurrencyData.symbol.length > 1 || currentCurrencyData.symbol === "Fr")
                                 ? "pl-16"
@@ -992,10 +992,10 @@ export default function ClientPage() {
                       </div>
 
                       {/* Currency Selection */}
-                      <div className="space-y-4">
-                        <label className="text-sm text-gray-600 dark:text-gray-300 font-medium">Select Currency</label>
+                      <div className="space-y-2">
+                        <label className="text-xs text-gray-600 dark:text-gray-300 font-medium">Select Currency</label>
                         <div
-                          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3"
+                          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2"
                           role="radiogroup"
                           aria-label="Currency selection"
                         >
@@ -1023,10 +1023,10 @@ export default function ClientPage() {
                                   }
                                 }}
                               >
-                                <CardContent className="p-4 text-center">
-                                  <div className="text-lg font-bold text-gray-900 dark:text-white">{info.flag}</div>
+                                <CardContent className="p-3 text-center">
+                                  <div className="text-base font-bold text-gray-900 dark:text-white">{info.flag}</div>
                                   <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">{code}</div>
-                                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{info.name}</div>
+                                  <div className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">{info.name}</div>
                                 </CardContent>
                               </Card>
                             )
@@ -1035,19 +1035,19 @@ export default function ClientPage() {
                       </div>
 
                       {/* Year Selection */}
-                      <div className="space-y-3">
-                        <label className="text-sm text-gray-600 dark:text-gray-300 font-medium">From Year</label>
+                      <div className="space-y-2">
+                        <label className="text-xs text-gray-600 dark:text-gray-300 font-medium">From Year</label>
 
                         {/* Large Year Display */}
                         <div className="text-center">
-                          <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                          <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-0.5">
                             {actualFromYear || fromYear}
                           </div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">{yearsAgo} years ago</div>
+                          <div className="text-[10px] text-gray-500 dark:text-gray-400">{yearsAgo} years ago</div>
                         </div>
 
                         {/* Year Slider */}
-                        <div className="px-4">
+                        <div className="px-2">
                           <Slider
                             value={[actualFromYear || fromYear]}
                             onValueChange={handleYearChange}
@@ -1059,7 +1059,7 @@ export default function ClientPage() {
                           />
 
                           {/* Year markers */}
-                          <div className="relative mt-3 px-2 pb-3">
+                          <div className="relative mt-2 px-2 pb-2">
                             {yearMarkers.map((year) => {
                               const position = ((year - minYear) / (maxYear - minYear)) * 100
                               return (
@@ -1081,7 +1081,7 @@ export default function ClientPage() {
                         </div>
 
                         {/* Info text */}
-                        <div className="text-center text-xs text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-gray-800 p-2 rounded mt-3">
+                        <div className="text-center text-[10px] text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-gray-800 p-1.5 rounded mt-2">
                           💡 Drag the slider or tap the year buttons above • Data available from {minYear} to{" "}
                           {currentYear} • Updated February 2026
                         </div>
