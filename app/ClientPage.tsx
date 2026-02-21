@@ -897,9 +897,9 @@ export default function ClientPage() {
           </div>
         </div>
 
-        <main className="container mx-auto px-4 py-24 max-w-4xl" style={{ contain: "layout" }}>
+        <main className="container mx-auto px-4 py-8 max-w-4xl" style={{ contain: "layout" }}>
           {/* Header */}
-          <div className="text-center mb-16 mt-12">
+          <div className="text-center mb-8 mt-4">
             <div className="flex items-center justify-center gap-4 mb-6">
               <div className="flex-shrink-0" style={{ width: "64px", height: "64px", minWidth: "64px", minHeight: "64px" }}>
                 {logoUrl ? (
@@ -960,7 +960,7 @@ export default function ClientPage() {
                 <>
                   {/* Main Calculator Card */}
                   <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 mb-8">
-                    <CardContent className="p-8 space-y-8">
+                    <CardContent className="p-6 space-y-6">
                       {/* Amount Input */}
                       <div className="space-y-3">
                         <label htmlFor="amount-input" className="text-sm text-gray-600 dark:text-gray-300 font-medium">
@@ -1035,15 +1035,15 @@ export default function ClientPage() {
                       </div>
 
                       {/* Year Selection */}
-                      <div className="space-y-6">
+                      <div className="space-y-4">
                         <label className="text-sm text-gray-600 dark:text-gray-300 font-medium">From Year</label>
 
                         {/* Large Year Display */}
                         <div className="text-center">
-                          <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                          <div className="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-1">
                             {actualFromYear || fromYear}
                           </div>
-                          <div className="text-base text-gray-500 dark:text-gray-400">{yearsAgo} years ago</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">{yearsAgo} years ago</div>
                         </div>
 
                         {/* Year Slider */}
@@ -1059,7 +1059,7 @@ export default function ClientPage() {
                           />
 
                           {/* Year markers */}
-                          <div className="relative mt-8 px-2 pb-8">
+                          <div className="relative mt-4 px-2 pb-4">
                             {yearMarkers.map((year) => {
                               const position = ((year - minYear) / (maxYear - minYear)) * 100
                               return (
@@ -1081,7 +1081,7 @@ export default function ClientPage() {
                         </div>
 
                         {/* Info text */}
-                        <div className="text-center text-sm text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-gray-800 p-4 rounded mt-8">
+                        <div className="text-center text-sm text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-gray-800 p-3 rounded mt-4">
                           💡 Drag the slider or tap the year buttons above • Data available from {minYear} to{" "}
                           {currentYear} • Updated February 2026
                         </div>
