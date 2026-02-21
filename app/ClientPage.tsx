@@ -897,7 +897,7 @@ export default function ClientPage() {
           </div>
         </div>
 
-        <main className="container mx-auto px-8 py-12 max-w-2xl" style={{ contain: "layout" }}>
+        <main className="container mx-auto px-16 py-12 max-w-4xl" style={{ contain: "layout" }}>
           {/* Header */}
           <div className="text-center mb-6 mt-0">
             <div className="flex items-center justify-center gap-3 mb-4">
