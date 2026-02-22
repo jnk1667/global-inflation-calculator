@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect } from "react"
+
 interface AdBannerProps {
   size?: "small" | "medium" | "large"
   position?: "top" | "bottom" | "sidebar"
@@ -8,7 +10,7 @@ interface AdBannerProps {
   format?: "horizontal" | "square" | "vertical"
 }
 
-export default function AdBanner({ size = "medium", position = "top", className = "" }: AdBannerProps) {
+export default function AdBanner({ size = "medium", position = "top", className = "", slot = "5048747585" }: AdBannerProps) {
   // Fixed dimensions to prevent CLS - using explicit pixel heights
   const getSizeStyles = () => {
     switch (size) {
@@ -34,23 +36,39 @@ export default function AdBanner({ size = "medium", position = "top", className 
 
   const sizeStyles = getSizeStyles()
 
+  useEffect(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
+      }
+    } catch (err) {
+      console.error('AdSense error:', err)
+    }
+  }, [])
+
   return (
     <div 
       className={`${getPositionClasses()} ${className} w-full mx-auto`}
       style={{ 
         minHeight: sizeStyles.minHeight,
-        height: sizeStyles.height,
         maxWidth: sizeStyles.maxWidth,
         containIntrinsicSize: `${sizeStyles.maxWidth} ${sizeStyles.height}`,
         contentVisibility: "auto"
       }}
     >
       <div 
-        className="h-full w-full bg-gray-50/50 dark:bg-gray-800/30 border border-gray-200/50 dark:border-gray-700/50 rounded-lg flex items-center justify-center"
+        className="h-full w-full flex items-center justify-center"
         style={{ minHeight: sizeStyles.minHeight }}
       >
-        {/* Google Ads will be injected here */}
-        <div className="text-xs text-gray-400 dark:text-gray-500 opacity-50">Advertisement</div>
+        {/* Google AdSense Ad Unit */}
+        <ins 
+          className="adsbygoogle"
+          style={{ display: 'block' }}
+          data-ad-client="ca-pub-9295410934525516"
+          data-ad-slot={slot}
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
       </div>
     </div>
   )
