@@ -39,7 +39,11 @@ export default function AdBanner({ size = "medium", position = "top", className 
   useEffect(() => {
     try {
       if (typeof window !== 'undefined') {
-        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
+        // Wait for container to be properly sized before pushing ad
+        const timer = setTimeout(() => {
+          ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
+        }, 100)
+        return () => clearTimeout(timer)
       }
     } catch (err) {
       console.error('AdSense error:', err)
@@ -52,18 +56,17 @@ export default function AdBanner({ size = "medium", position = "top", className 
       style={{ 
         minHeight: sizeStyles.minHeight,
         maxWidth: sizeStyles.maxWidth,
-        containIntrinsicSize: `${sizeStyles.maxWidth} ${sizeStyles.height}`,
-        contentVisibility: "auto"
+        width: '100%'
       }}
     >
       <div 
-        className="h-full w-full flex items-center justify-center"
-        style={{ minHeight: sizeStyles.minHeight }}
+        className="w-full flex items-center justify-center"
+        style={{ minHeight: sizeStyles.minHeight, width: '100%' }}
       >
         {/* Google AdSense Ad Unit */}
         <ins 
           className="adsbygoogle"
-          style={{ display: 'block' }}
+          style={{ display: 'block', width: '100%', minHeight: sizeStyles.minHeight }}
           data-ad-client="ca-pub-9295410934525516"
           data-ad-slot={slot}
           data-ad-format="auto"
