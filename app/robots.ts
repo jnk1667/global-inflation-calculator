@@ -4,11 +4,13 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
-        userAgent: "*",
+        // Major search engines - full access, no delays
+        userAgent: ["Googlebot", "Bingbot", "Slurp", "DuckDuckBot", "Baiduspider", "YandexBot", "Brave-Search"],
         allow: "/",
         disallow: ["/admin-manage-content/", "/api/"],
       },
       {
+        // Block AI/LLM crawlers
         userAgent: [
           "GPTBot",
           "ChatGPT-User",
@@ -17,13 +19,36 @@ export default function robots(): MetadataRoute.Robots {
           "Applebot-Extended",
           "PerplexityBot",
           "Bytespider",
-          "FacebookBot",
+          "CCBot",
+          "cohere-ai",
           "Diffbot",
           "ImagesiftBot",
+          "omgili",
         ],
         disallow: ["/"],
       },
+      {
+        // Block aggressive SEO crawlers
+        userAgent: [
+          "AhrefsBot",
+          "SemrushBot",
+          "MJ12bot",
+          "DotBot",
+          "BLEXBot",
+          "DataForSeoBot",
+          "PetalBot",
+          "Seekport",
+          "ZoominfoBot",
+        ],
+        disallow: ["/"],
+      },
+      {
+        // All other bots
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/admin-manage-content/", "/api/"],
+      },
     ],
-    sitemap: "https://globalinflationcalculator.com/sitemap.xml",
+    sitemap: "https://www.globalinflationcalculator.com/sitemap.xml",
   }
 }

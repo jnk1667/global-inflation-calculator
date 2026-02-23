@@ -78,12 +78,12 @@ const nextConfig = {
         ],
       },
       {
-        // API routes - cache for 24 hours on CDN, serve stale for 7 days
+        // API routes - short cache for fresh data
         source: '/api/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, s-maxage=86400, stale-while-revalidate=604800',
+            value: 'public, max-age=300, s-maxage=600',
           },
           {
             key: 'X-Content-Type-Options',
@@ -92,7 +92,7 @@ const nextConfig = {
         ],
       },
       {
-        // Default headers for all other routes - cache for 1 hour, stale for 24 hours
+        // Default headers for all other routes - minimal caching for fresh content
         source: '/((?!data|_next/static|api).*)',
         headers: [
           {
@@ -109,7 +109,7 @@ const nextConfig = {
           },
           {
             key: 'Cache-Control',
-            value: 'public, s-maxage=3600, stale-while-revalidate=86400',
+            value: 'public, max-age=0, must-revalidate',
           },
         ],
       },
