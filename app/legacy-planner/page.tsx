@@ -1,8 +1,6 @@
 import type { Metadata } from "next"
 import LegacyPlannerPage from "./LegacyPlannerPage"
 
-export const revalidate = 86400
-
 export const metadata: Metadata = {
   title: "Legacy Planner | Multi-Generation Wealth Tool",
   description:

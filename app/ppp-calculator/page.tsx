@@ -1,8 +1,6 @@
 import type { Metadata } from "next"
 import PPPCalculatorPage from "./PPPCalculatorPage"
 
-export const revalidate = 86400
-
 export const metadata: Metadata = {
   title: "PPP Calculator | Compare Purchasing Power Globally",
   description:

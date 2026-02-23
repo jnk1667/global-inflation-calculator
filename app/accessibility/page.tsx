@@ -2,8 +2,6 @@ import type { Metadata } from "next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 
-export const revalidate = 86400
-
 export const metadata: Metadata = {
   title: "Accessibility Statement | Global Inflation Calculator",
   description:

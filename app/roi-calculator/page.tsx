@@ -1,8 +1,6 @@
 import type { Metadata } from "next"
 import ROICalculatorPage from "./ROICalculatorPage"
 
-export const revalidate = 86400
-
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
 
 export const metadata: Metadata = {

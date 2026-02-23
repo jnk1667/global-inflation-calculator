@@ -1,8 +1,6 @@
 import type { Metadata } from "next"
 import AutoLoanCalculatorPage from "./AutoLoanCalculatorPage"
 
-export const revalidate = 86400
-
 const siteUrl = (() => {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim()
   if (envUrl && (envUrl.startsWith("http://") || envUrl.startsWith("https://"))) {
