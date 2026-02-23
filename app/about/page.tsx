@@ -2,8 +2,6 @@ import type { Metadata } from "next"
 import AboutClientPage from "./AboutClientPage"
 import Link from "next/link"
 
-export const revalidate = 86400
-
 const siteUrl = "https://www.globalinflationcalculator.com"
 
 export const metadata: Metadata = {

@@ -3,8 +3,6 @@ import ChartsPage from "./ChartsPage"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-export const revalidate = 86400
-
 export const metadata: Metadata = {
   title: "Inflation Charts & Analytics | Global Calculator",
   description:

@@ -3,8 +3,6 @@ import DeflationCalculatorPage from "./DeflationCalculatorPage"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-export const revalidate = 86400
-
 const siteUrl = (() => {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim()
   if (envUrl && (envUrl.startsWith("http://") || envUrl.startsWith("https://"))) {
