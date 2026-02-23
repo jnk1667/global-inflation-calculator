@@ -4,26 +4,34 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
-        // Major search engines - full access, no delays
-        userAgent: ["Googlebot", "Bingbot", "Slurp", "DuckDuckBot", "Baiduspider", "YandexBot", "Brave-Search"],
+        // Major search engines + AI search (users discover your site through these)
+        userAgent: [
+          "Googlebot", 
+          "Bingbot", 
+          "Slurp", 
+          "DuckDuckBot", 
+          "Baiduspider", 
+          "YandexBot", 
+          "Brave-Search",
+          "PerplexityBot",      // Perplexity AI search - users search here
+          "Applebot-Extended",  // Apple Intelligence/Siri - users ask questions
+        ],
         allow: "/",
         disallow: ["/admin-manage-content/", "/api/"],
       },
       {
-        // Block AI/LLM crawlers
+        // Block AI training/scraping crawlers (no user benefit, just consume resources)
         userAgent: [
-          "GPTBot",
-          "ChatGPT-User",
-          "Claude-Web",
-          "anthropic-ai",
-          "Applebot-Extended",
-          "PerplexityBot",
-          "Bytespider",
-          "CCBot",
-          "cohere-ai",
-          "Diffbot",
-          "ImagesiftBot",
-          "omgili",
+          "GPTBot",           // OpenAI training
+          "ChatGPT-User",     // ChatGPT browsing
+          "Claude-Web",       // Anthropic training
+          "anthropic-ai",     // Anthropic training
+          "Bytespider",       // ByteDance (TikTok) - very aggressive
+          "CCBot",            // Common Crawl - training data
+          "cohere-ai",        // Cohere training
+          "Diffbot",          // Data extraction
+          "ImagesiftBot",     // Image scraping
+          "omgili",           // Content aggregation
         ],
         disallow: ["/"],
       },
