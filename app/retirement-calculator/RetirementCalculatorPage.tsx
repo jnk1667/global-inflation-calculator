@@ -937,7 +937,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
   const currentCurrency = currencyData[data.currency]
 
   return (
-    <div className="min-h-screen bg-slate-50" style={{ contain: "layout style" }}>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900" style={{ contain: "layout style" }}>
       <div className="container mx-auto max-w-7xl px-4 pt-32 pb-12">
         {/* Header */}
         <div className="text-center mb-12">
@@ -1112,12 +1112,12 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       value={data.gender}
                       onValueChange={(value: "male" | "female") => setData({ ...data, gender: value })}
                     >
-                      <SelectTrigger className="bg-white border-slate-300 text-slate-900">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white border-slate-200">
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
+  <SelectTrigger className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white">
+  <SelectValue />
+  </SelectTrigger>
+> <SelectContent className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+  <SelectItem value="male">Male</SelectItem>
+  <SelectItem value="female">Female</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -1129,11 +1129,11 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       value={data.generation}
                       onValueChange={(value: any) => setData({ ...data, generation: value })}
                     >
-                      <SelectTrigger className="bg-white border-slate-300 text-slate-900">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white border-slate-200">
-                        <SelectItem value="babyBoomers">Baby Boomers</SelectItem>
+  <SelectTrigger className="bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white">
+  <SelectValue />
+  </SelectTrigger>
+> <SelectContent className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+  <SelectItem value="babyBoomers">Baby Boomers</SelectItem>
                         <SelectItem value="genX">Generation X</SelectItem>
                         <SelectItem value="millennials">Millennials</SelectItem>
                         <SelectItem value="genZ">Generation Z</SelectItem>
