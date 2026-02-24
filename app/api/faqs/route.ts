@@ -71,7 +71,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(transformedFaqs, {
       headers: {
-        "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
+        "Cache-Control": "public, max-age=0, must-revalidate",
       },
     })
   } catch (error) {
