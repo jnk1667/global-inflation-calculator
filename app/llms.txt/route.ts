@@ -706,14 +706,14 @@ Maintained by: Global Inflation Calculator Team`
     return new NextResponse(htmlContent, {
       headers: {
         "Content-Type": "text/html; charset=utf-8",
-        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Cache-Control": "public, max-age=0, must-revalidate",
       },
     })
   } else {
     return new NextResponse(plainTextContent, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
-        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Cache-Control": "public, max-age=0, must-revalidate",
       },
     })
   }

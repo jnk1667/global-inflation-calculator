@@ -44,22 +44,22 @@ const nextConfig = {
   headers: async () => {
     return [
       {
-        // robots.txt - short cache so bots get updates quickly
+        // robots.txt - no cache so bots always get the latest rules
         source: '/robots.txt',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=3600, s-maxage=3600',
+            value: 'public, max-age=0, must-revalidate',
           },
         ],
       },
       {
-        // JSON data files - cache for 24 hours on CDN and 1 hour in browser
+        // JSON data files - short cache, always fresh
         source: '/data/:path*.json',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+            value: 'public, max-age=0, must-revalidate',
           },
           {
             key: 'X-Content-Type-Options',
@@ -68,7 +68,7 @@ const nextConfig = {
         ],
       },
       {
-        // Static assets can be cached longer
+        // Static assets - these are content-hashed so long cache is safe
         source: '/_next/static/:path*',
         headers: [
           {
@@ -78,12 +78,12 @@ const nextConfig = {
         ],
       },
       {
-        // API routes - short cache for fresh data
+        // API routes - always fresh
         source: '/api/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=300, s-maxage=600',
+            value: 'public, max-age=0, must-revalidate',
           },
           {
             key: 'X-Content-Type-Options',

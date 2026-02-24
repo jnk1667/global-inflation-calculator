@@ -18,7 +18,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
     return NextResponse.json({ success: true, data }, {
       headers: {
-        "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
+        "Cache-Control": "public, max-age=0, must-revalidate",
       },
     })
   } catch (error) {

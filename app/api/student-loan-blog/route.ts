@@ -3,9 +3,6 @@ import { createClient } from "@supabase/supabase-js"
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 
-// Cache for 24 hours on Vercel CDN, serve stale for 7 days
-export const revalidate = 86400
-
 export async function GET() {
   try {
     const { data, error } = await supabase.from("student_loan_blog").select("*").eq("id", "main").single()
@@ -14,7 +11,7 @@ export async function GET() {
 
     return NextResponse.json({ success: true, data }, {
       headers: {
-        "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
+        "Cache-Control": "public, max-age=0, must-revalidate",
       },
     })
   } catch (error) {

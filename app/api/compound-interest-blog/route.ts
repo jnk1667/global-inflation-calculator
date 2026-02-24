@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server"
 import { supabase } from "@/lib/supabase"
 
-// Cache for 24 hours on Vercel CDN, serve stale for 7 days
-export const revalidate = 86400
-
 export async function GET() {
   try {
     const { data, error } = await supabase
@@ -13,7 +10,7 @@ export async function GET() {
       .maybeSingle()
 
     const cacheHeaders = {
-      "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
+      "Cache-Control": "public, max-age=0, must-revalidate",
     }
 
     // If data exists in Supabase, return it
