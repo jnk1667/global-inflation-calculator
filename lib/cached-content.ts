@@ -2,7 +2,7 @@
 // Content is cached in localStorage for 24 hours to dramatically reduce edge requests
 
 const CACHE_DURATION = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
-const CACHE_VERSION = "v3" // Increment to invalidate all caches
+const CACHE_VERSION = "v4" // Increment to invalidate all caches
 
 interface CachedData<T> {
   data: T
@@ -49,9 +49,9 @@ export async function getCachedContent<T>(
   const data = await fetcher()
 
   // Only cache if we got meaningful content (not empty/default)
-  const isDefaultContent =
-    typeof data === "string" &&
-    (data as string).trim().length < 200
+  const isEmptyString = typeof data === "string" && (data as string).trim().length < 500
+  const isEmptyArray = Array.isArray(data) && (data as unknown[]).length === 0
+  const isDefaultContent = isEmptyString || isEmptyArray
 
   if (typeof window !== "undefined" && !isDefaultContent) {
     try {
