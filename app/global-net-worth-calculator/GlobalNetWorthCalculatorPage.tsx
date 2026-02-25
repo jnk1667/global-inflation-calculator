@@ -55,15 +55,15 @@ interface LiabilityItem {
 }
 
 // --- Currency Data ---
-const currencies: Record<Currency, { symbol: string; name: string; inflationRate: number; flag: string }> = {
-  USD: { symbol: "$", name: "US Dollar", inflationRate: 2.8, flag: "🇺🇸" },
-  GBP: { symbol: "£", name: "British Pound", inflationRate: 3.2, flag: "🇬🇧" },
-  EUR: { symbol: "€", name: "Euro", inflationRate: 2.4, flag: "🇪🇺" },
-  CAD: { symbol: "CA$", name: "Canadian Dollar", inflationRate: 2.6, flag: "🇨🇦" },
-  AUD: { symbol: "A$", name: "Australian Dollar", inflationRate: 3.4, flag: "🇦🇺" },
-  CHF: { symbol: "Fr", name: "Swiss Franc", inflationRate: 1.1, flag: "🇨🇭" },
-  JPY: { symbol: "¥", name: "Japanese Yen", inflationRate: 3.6, flag: "🇯🇵" },
-  NZD: { symbol: "NZ$", name: "New Zealand Dollar", inflationRate: 2.9, flag: "🇳🇿" },
+const currencies: Record<Currency, { symbol: string; name: string; inflationRate: number; flag: string; source: string }> = {
+  USD: { symbol: "$", name: "US Dollar", inflationRate: 2.8, flag: "🇺🇸", source: "Bureau of Labor Statistics (BLS)" },
+  GBP: { symbol: "£", name: "British Pound", inflationRate: 3.2, flag: "🇬🇧", source: "Office for National Statistics (ONS)" },
+  EUR: { symbol: "€", name: "Euro", inflationRate: 2.4, flag: "🇪🇺", source: "Eurostat" },
+  CAD: { symbol: "CA$", name: "Canadian Dollar", inflationRate: 2.6, flag: "🇨🇦", source: "Statistics Canada" },
+  AUD: { symbol: "A$", name: "Australian Dollar", inflationRate: 3.4, flag: "🇦🇺", source: "Australian Bureau of Statistics (ABS)" },
+  CHF: { symbol: "Fr", name: "Swiss Franc", inflationRate: 1.1, flag: "🇨🇭", source: "Swiss Federal Statistical Office (FSO)" },
+  JPY: { symbol: "¥", name: "Japanese Yen", inflationRate: 3.6, flag: "🇯🇵", source: "Statistics Bureau of Japan" },
+  NZD: { symbol: "NZ$", name: "New Zealand Dollar", inflationRate: 2.9, flag: "🇳🇿", source: "Stats NZ" },
 }
 
 const assetCategories: Record<AssetCategory, { label: string; icon: React.ReactNode; color: string }> = {
@@ -861,22 +861,13 @@ Your net worth is the foundation of your financial picture — the difference be
                     Each currency&apos;s inflation rate is sourced directly from its respective national statistical agency. These rates are used in the Inflation Impact tab to calculate real purchasing power erosion over time.
                   </p>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {[
-                      { currency: "USD", country: "United States", rate: "2.8%", source: "Bureau of Labor Statistics (BLS)" },
-                      { currency: "GBP", country: "United Kingdom", rate: "3.2%", source: "Office for National Statistics (ONS)" },
-                      { currency: "EUR", country: "European Union", rate: "2.4%", source: "Eurostat" },
-                      { currency: "CAD", country: "Canada", rate: "2.6%", source: "Statistics Canada" },
-                      { currency: "AUD", country: "Australia", rate: "3.4%", source: "Australian Bureau of Statistics (ABS)" },
-                      { currency: "CHF", country: "Switzerland", rate: "1.1%", source: "Swiss Federal Statistical Office (FSO)" },
-                      { currency: "JPY", country: "Japan", rate: "3.6%", source: "Statistics Bureau of Japan" },
-                      { currency: "NZD", country: "New Zealand", rate: "2.9%", source: "Stats NZ" },
-                    ].map((item) => (
-                      <div key={item.currency} className="bg-slate-50 dark:bg-slate-700 rounded-lg p-3 text-sm">
+                    {(Object.entries(currencies) as [Currency, typeof currencies[Currency]][]).map(([code, data]) => (
+                      <div key={code} className="bg-slate-50 dark:bg-slate-700 rounded-lg p-3 text-sm">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="font-bold text-slate-900 dark:text-white">{item.currency}</span>
-                          <span className="text-primary font-semibold">{item.rate}</span>
+                          <span className="font-bold text-slate-900 dark:text-white">{code}</span>
+                          <span className="text-primary font-semibold">{data.inflationRate}%</span>
                         </div>
-                        <div className="text-xs text-slate-500 dark:text-slate-400">{item.source}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">{data.source}</div>
                       </div>
                     ))}
                   </div>
