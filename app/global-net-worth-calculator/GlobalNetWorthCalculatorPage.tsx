@@ -832,6 +832,102 @@ Your net worth is the foundation of your financial picture — the difference be
             <AdBanner slot="net-worth-mid" format="horizontal" />
           </div>
 
+          {/* Methodology & Data Sources */}
+          <section className="container mx-auto px-4 pb-4">
+            <Card className="bg-white dark:bg-gray-800 shadow-lg border-0">
+              <CardHeader>
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <Info className="h-5 w-5 text-primary" />
+                  Methodology & Data Sources
+                </CardTitle>
+                <CardDescription>
+                  How the Global Net Worth Calculator works and where the data comes from
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+
+                {/* How it works */}
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-white mb-2">How the Calculator Works</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    The Global Net Worth Calculator uses a three-tab system to give you a complete picture of your financial position. The <strong>Net Worth tab</strong> builds your personal balance sheet by summing all assets across six categories (Real Estate, Investments, Savings, Vehicles, Business, Other) and subtracting all liabilities across six categories (Mortgage, Auto Loan, Student Loan, Credit Cards, Personal Loans, Other). The <strong>Inflation Impact tab</strong> applies each currency&apos;s official annual inflation rate to your current net worth to show its real purchasing power in 10, 20, and 30 years. The <strong>Projection tab</strong> compounds your net worth at a user-selected growth rate and benchmarks it against savings accounts, bonds, balanced portfolios, and long-run equity returns.
+                  </p>
+                </div>
+
+                {/* Inflation rates */}
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Official Inflation Rates Used</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
+                    Each currency&apos;s inflation rate is sourced directly from its respective national statistical agency. These rates are used in the Inflation Impact tab to calculate real purchasing power erosion over time.
+                  </p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {[
+                      { currency: "USD", country: "United States", rate: "2.8%", source: "Bureau of Labor Statistics (BLS)" },
+                      { currency: "GBP", country: "United Kingdom", rate: "3.2%", source: "Office for National Statistics (ONS)" },
+                      { currency: "EUR", country: "European Union", rate: "2.4%", source: "Eurostat" },
+                      { currency: "CAD", country: "Canada", rate: "2.6%", source: "Statistics Canada" },
+                      { currency: "AUD", country: "Australia", rate: "3.4%", source: "Australian Bureau of Statistics (ABS)" },
+                      { currency: "CHF", country: "Switzerland", rate: "1.1%", source: "Swiss Federal Statistical Office (FSO)" },
+                      { currency: "JPY", country: "Japan", rate: "3.6%", source: "Statistics Bureau of Japan" },
+                      { currency: "NZD", country: "New Zealand", rate: "2.9%", source: "Stats NZ" },
+                    ].map((item) => (
+                      <div key={item.currency} className="bg-slate-50 dark:bg-slate-700 rounded-lg p-3 text-sm">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="font-bold text-slate-900 dark:text-white">{item.currency}</span>
+                          <span className="text-primary font-semibold">{item.rate}</span>
+                        </div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">{item.source}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Asset valuation */}
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Asset Valuation Methodology</h3>
+                  <div className="grid md:grid-cols-2 gap-3 text-sm text-slate-600 dark:text-slate-300">
+                    <div className="flex gap-2">
+                      <Home className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+                      <div><strong className="text-slate-900 dark:text-white">Real Estate:</strong> Enter current market value (not purchase price). Mortgage balance is entered separately under liabilities. Only equity contributes to net worth.</div>
+                    </div>
+                    <div className="flex gap-2">
+                      <BarChart3 className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+                      <div><strong className="text-slate-900 dark:text-white">Investments:</strong> Use current market value from your brokerage or retirement account statement — not projected future values.</div>
+                    </div>
+                    <div className="flex gap-2">
+                      <PiggyBank className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+                      <div><strong className="text-slate-900 dark:text-white">Savings & Cash:</strong> Sum all account balances including checking, savings, money market, and physical cash.</div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Car className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+                      <div><strong className="text-slate-900 dark:text-white">Vehicles:</strong> Use current resale value (e.g. Kelley Blue Book or equivalent). Vehicles depreciate — use today&apos;s value, not purchase price.</div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Briefcase className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+                      <div><strong className="text-slate-900 dark:text-white">Business:</strong> Use a conservative estimate based on revenue multiples (1–3×) or EBITDA multiples (4–8×). Business valuations are inherently uncertain.</div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Building className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+                      <div><strong className="text-slate-900 dark:text-white">Other Assets:</strong> Include jewellery, collectibles, art, intellectual property, or any other item with verifiable resale value.</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Percentile */}
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Wealth Percentile Benchmarks</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    The wealth percentile estimate is calculated by converting your net worth to USD equivalent using standard exchange rates and comparing against global household wealth distribution benchmarks derived from Credit Suisse Global Wealth Report data and World Bank household surveys. The thresholds are: <strong>Bottom 20%</strong> (below $10,000), <strong>Lower Middle</strong> ($10,000–$50,000), <strong>Middle</strong> ($50,000–$150,000), <strong>Upper Middle</strong> ($150,000–$500,000), <strong>Top 10%</strong> ($500,000–$1,000,000), and <strong>Top 1%</strong> (above $1,000,000). These are global benchmarks — not country-specific — and reflect net worth, not income.
+                  </p>
+                </div>
+
+                <p className="text-xs text-slate-400 dark:text-slate-500 border-t border-slate-100 dark:border-slate-700 pt-4">
+                  Last updated: January 2026 &nbsp;|&nbsp; Inflation rates are reviewed and updated as new official government data is released. This tool is for educational purposes only and does not constitute financial advice.
+                </p>
+              </CardContent>
+            </Card>
+          </section>
+
           {/* Blog Section */}
           {blogEssay && (
             <section className="container mx-auto px-4 pb-4">
