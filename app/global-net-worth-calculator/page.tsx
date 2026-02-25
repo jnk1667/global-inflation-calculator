@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 export const metadata: Metadata = {
   title: "Global Net Worth Calculator | Inflation-Adjusted Wealth Tracker",
   description:
-    "Calculate your real net worth across 8 major currencies with inflation-adjusted purchasing power analysis. Track assets and liabilities, project future wealth, and see what your net worth is truly worth after inflation.",
+    "Calculate real net worth across 8 currencies with inflation-adjusted purchasing power. Track assets and liabilities, project future wealth, and compare global percentiles.",
   keywords: [
     "global net worth calculator",
     "net worth calculator",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
       "Calculate your inflation-adjusted net worth across 8 major currencies. Track assets, liabilities, and project future purchasing power.",
   },
   alternates: {
-    canonical: "/global-net-worth-calculator",
+    canonical: "https://globalinflationcalculator.com/global-net-worth-calculator",
   },
 }
 

@@ -53,6 +53,10 @@ Compare purchasing power parity across economies.
 URL: https://globalinflationcalculator.com/insurance-inflation-calculator
 Calculate health insurance premium increases over time with medical inflation. Project 5, 10, or 20-year costs based on age, family size, region, plan type, and smoking status across 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD). Features regional premium variations, medical inflation rates 3-6% annually, and comprehensive cost forecasting.
 
+### Global Net Worth Calculator
+URL: https://globalinflationcalculator.com/global-net-worth-calculator
+Calculate real net worth across 8 major currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD) with inflation-adjusted purchasing power analysis. Track assets (real estate, investments, savings, vehicles, business, other) and liabilities (mortgage, auto loan, student loan, credit cards, personal loans, other). Features include debt-to-asset ratio health indicator, global wealth percentile ranking, 10/20/30-year inflation erosion projections using official government inflation rates, and future net worth projection with growth rate benchmarks (savings account, bonds, balanced portfolio, S&P 500). Data sourced from BLS, ONS, Eurostat, Statistics Canada, ABS, Swiss FSO, Statistics Bureau of Japan, and Stats NZ.
+
 ### Global Compound Interest Calculator
 URL: https://globalinflationcalculator.com/global-compound-interest
 Calculate compound interest with inflation adjustment across 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD). Shows real vs nominal returns using official Bureau of Labor Statistics inflation data from 1913-2026. Features monthly contribution calculations, investment strategy comparison (High-Yield Savings 3.67%, I-Bonds 4.03%, Bonds 5%, Balanced 7%, S&P 500 10.5%), purchasing power analysis, and currency-specific inflation rates. Includes detailed formulas, data source methodology, and interactive visualizations showing nominal value vs inflation-adjusted real purchasing power over time.
@@ -103,4 +107,4 @@ Interactive inflation trends and economic data visualizations.
 ## Accessibility
 WCAG 2.1 Level AA compliant, full keyboard navigation, screen reader support, high contrast modes.
 
-Last Updated: January 2026
+Last Updated: February 2026

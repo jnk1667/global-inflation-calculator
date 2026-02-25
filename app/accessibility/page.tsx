@@ -446,6 +446,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/global-net-worth-calculator" className="text-blue-600 hover:underline">
+                      Global Net Worth Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate your real net worth across 8 currencies with inflation-adjusted purchasing power analysis. Track assets and liabilities, view debt-to-asset ratio, and project future wealth
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/about" className="text-blue-600 hover:underline">
                       About Us
                     </Link>
