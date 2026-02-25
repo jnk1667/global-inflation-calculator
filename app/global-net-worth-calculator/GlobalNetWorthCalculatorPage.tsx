@@ -32,13 +32,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import AdBanner from "@/components/ad-banner"
 import FAQ from "@/components/faq"
 import Link from "next/link"
-import { createClient } from "@supabase/supabase-js"
+import { supabase } from "@/lib/supabase"
 import { getCachedContent } from "@/lib/cached-content"
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
 
 // --- Types ---
 type AssetCategory = "real_estate" | "vehicles" | "investments" | "savings" | "business" | "other_assets"
