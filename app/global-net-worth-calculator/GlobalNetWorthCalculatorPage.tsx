@@ -856,16 +856,16 @@ Your net worth is the foundation of your financial picture — the difference be
 
                 {/* Inflation rates */}
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Official Inflation Rates Used</h3>
+                  <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Inflation Data Sources</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
-                    Each currency&apos;s inflation rate is sourced directly from its respective national statistical agency. These rates are used in the Inflation Impact tab to calculate real purchasing power erosion over time.
+                    Each currency&apos;s inflation rate is sourced directly from its respective national statistical agency and kept up to date as new official data is published. These rates power the Inflation Impact tab to show the real purchasing power erosion of your net worth over time.
                   </p>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {(Object.entries(currencies) as [Currency, typeof currencies[Currency]][]).map(([code, data]) => (
                       <div key={code} className="bg-slate-50 dark:bg-slate-700 rounded-lg p-3 text-sm">
-                        <div className="flex items-center justify-between mb-1">
+                        <div className="mb-1">
                           <span className="font-bold text-slate-900 dark:text-white">{code}</span>
-                          <span className="text-primary font-semibold">{data.inflationRate}%</span>
+                          <span className="text-slate-500 dark:text-slate-400 ml-2 text-xs">{data.name}</span>
                         </div>
                         <div className="text-xs text-slate-500 dark:text-slate-400">{data.source}</div>
                       </div>
