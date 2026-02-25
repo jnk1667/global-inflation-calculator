@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useMemo } from "react"
+import { useState, useCallback, useMemo, useEffect } from "react"
 import {
   PlusCircle,
   Trash2,
@@ -32,6 +32,13 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import AdBanner from "@/components/ad-banner"
 import FAQ from "@/components/faq"
 import Link from "next/link"
+import { createClient } from "@supabase/supabase-js"
+import { getCachedContent } from "@/lib/cached-content"
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 // --- Types ---
 type AssetCategory = "real_estate" | "vehicles" | "investments" | "savings" | "business" | "other_assets"
@@ -254,6 +261,31 @@ export default function GlobalNetWorthCalculatorPage() {
   const [activeTab, setActiveTab] = useState("calculator")
   const [showAssetBreakdown, setShowAssetBreakdown] = useState(true)
   const [showLiabilityBreakdown, setShowLiabilityBreakdown] = useState(true)
+  const [blogEssay, setBlogEssay] = useState("")
+
+  useEffect(() => {
+    const loadBlogContent = async () => {
+      const defaultContent = `## Understanding Your Global Net Worth
+
+Your net worth is the foundation of your financial picture — the difference between everything you own and everything you owe. Our Global Net Worth Calculator helps you track this number across 8 major currencies with inflation-adjusted purchasing power analysis.`
+
+      try {
+        const content = await getCachedContent("global_net_worth_essay_content", async () => {
+          const { data, error } = await supabase
+            .from("seo_content")
+            .select("content")
+            .eq("id", "global_net_worth_essay")
+            .single()
+          if (error || !data?.content) return defaultContent
+          return data.content
+        })
+        setBlogEssay(content)
+      } catch {
+        setBlogEssay(defaultContent)
+      }
+    }
+    loadBlogContent()
+  }, [])
 
   // --- Calculations ---
   const totalAssets = useMemo(() => assets.reduce((sum, a) => sum + a.value, 0), [assets])
@@ -273,6 +305,35 @@ export default function GlobalNetWorthCalculatorPage() {
   const inflationImpact = projectedNominal - projectedReal
 
   const percentile = getNetWorthPercentile(netWorth, currency)
+
+  const renderBlogContent = (content: string) => {
+    const parseInlineMarkdown = (text: string) => {
+      const parts: (string | JSX.Element)[] = []
+      const boldRegex = /\*\*(.+?)\*\*/g
+      let lastIndex = 0
+      let key = 0
+      let match
+      while ((match = boldRegex.exec(text)) !== null) {
+        if (match.index > lastIndex) parts.push(text.substring(lastIndex, match.index))
+        parts.push(<strong key={`bold-${key++}`} className="font-semibold text-gray-900 dark:text-white">{match[1]}</strong>)
+        lastIndex = match.index + match[0].length
+      }
+      if (lastIndex < text.length) parts.push(text.substring(lastIndex))
+      return parts.length > 0 ? parts : text
+    }
+
+    return content.split("\n").map((line, index) => {
+      if (line.startsWith("## "))
+        return <h3 key={index} className="text-xl font-semibold text-gray-800 dark:text-gray-100 mt-6 mb-3">{line.substring(3)}</h3>
+      if (line.startsWith("### "))
+        return <h4 key={index} className="text-lg font-medium text-gray-800 dark:text-gray-100 mt-4 mb-2">{line.substring(4)}</h4>
+      if (line.trim().startsWith("- "))
+        return <li key={index} className="text-gray-700 dark:text-gray-200 leading-relaxed ml-6 mb-2">{parseInlineMarkdown(line.trim().substring(2))}</li>
+      if (line.trim() === "")
+        return <br key={index} />
+      return <p key={index} className="text-gray-700 dark:text-gray-200 leading-relaxed mb-4">{parseInlineMarkdown(line)}</p>
+    })
+  }
 
   const assetsByCategory = useMemo(() => {
     const grouped: Partial<Record<AssetCategory, number>> = {}
@@ -775,6 +836,25 @@ export default function GlobalNetWorthCalculatorPage() {
           <div className="flex justify-center py-8">
             <AdBanner slot="net-worth-mid" format="horizontal" />
           </div>
+
+          {/* Blog Section */}
+          {blogEssay && (
+            <section className="container mx-auto px-4 pb-4">
+              <Card className="bg-white dark:bg-gray-800 shadow-lg border-0">
+                <CardHeader>
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <BookOpen className="h-5 w-5 text-primary" />
+                    Understanding Global Net Worth
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="prose prose-gray max-w-none">
+                  <div className="text-gray-700 dark:text-gray-200 leading-relaxed">
+                    {renderBlogContent(blogEssay)}
+                  </div>
+                </CardContent>
+              </Card>
+            </section>
+          )}
 
           {/* FAQ Section */}
           <section className="container mx-auto px-4 py-12">
