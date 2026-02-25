@@ -782,45 +782,127 @@ export default function GlobalNetWorthCalculatorPage() {
           </section>
 
           {/* Footer */}
-          <footer className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/80 py-12 mt-8 rounded-xl">
+          <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 mt-16">
             <div className="container mx-auto px-4">
-              <div className="grid gap-8 md:grid-cols-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                  <h3 className="mb-4 text-xl font-bold text-slate-900 dark:text-white">Global Net Worth Calculator</h3>
-                  <p className="mb-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Calculate your real net worth across 8 currencies with inflation-adjusted purchasing power analysis.
-                    Understand what your wealth is truly worth today and into the future.
+                  <h3 className="text-xl font-semibold mb-4">Global Net Worth Calculator</h3>
+                  <p className="text-gray-300 dark:text-gray-50 mb-6">
+                    Calculate your real net worth across 8 currencies with inflation-adjusted purchasing power analysis. Understand what your wealth is truly worth today and into the future.
                   </p>
                 </div>
                 <div>
-                  <h3 className="mb-4 font-semibold text-slate-900 dark:text-white">Data Sources</h3>
-                  <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
-                    <li>Bureau of Labor Statistics (USD inflation)</li>
-                    <li>UK Office for National Statistics (GBP)</li>
-                    <li>Eurostat (EUR inflation)</li>
-                    <li>Statistics Canada, ABS, FSO, Stats NZ</li>
-                    <li>Statistics Bureau of Japan</li>
+                  <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
+                  <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                    <li>• US Bureau of Labor Statistics</li>
+                    <li>• UK Office for National Statistics</li>
+                    <li>• Eurostat</li>
+                    <li>• Statistics Canada</li>
+                    <li>• Australian Bureau of Statistics</li>
+                    <li>• Swiss Federal Statistical Office</li>
+                    <li>• Statistics Bureau of Japan</li>
+                    <li>• Statistics New Zealand</li>
                   </ul>
                 </div>
                 <div>
-                  <h3 className="mb-4 font-semibold text-slate-900 dark:text-white">Quick Links</h3>
-                  <ul className="space-y-2 text-sm">
-                    {[
-                      { href: "/", label: "Inflation Calculator" },
-                      { href: "/retirement-calculator", label: "Retirement Calculator" },
-                      { href: "/salary-calculator", label: "Salary Calculator" },
-                      { href: "/ppp-calculator", label: "PPP Calculator" },
-                      { href: "/budget-calculator", label: "Budget Calculator" },
-                      { href: "/legacy-planner", label: "Legacy Planner" },
-                    ].map((link) => (
-                      <li key={link.href}>
-                        <Link href={link.href} className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
+                  <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+                  <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                    <li>
+                      <Link href="/" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Home - Inflation Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/deflation-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Deflation Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/charts" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Charts & Analytics
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/global-compound-interest" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Compound Interest Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/ppp-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        PPP Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/auto-loan-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Auto Loan Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/salary-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Salary Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/retirement-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Retirement Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/student-loan-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Student Loan Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/mortgage-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Mortgage Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/budget-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Budget Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/emergency-fund-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Emergency Fund Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/roi-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        ROI Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/insurance-inflation-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Insurance Inflation Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/legacy-planner" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Legacy Planner
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/about" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        About Us
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/privacy" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Privacy Policy
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/terms" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                        Terms of Service
+                      </Link>
+                    </li>
                   </ul>
+                  <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">Last Updated: February 2026</p>
                 </div>
+              </div>
+              <div className="border-t border-gray-700 dark:border-gray-600 mt-8 pt-8 text-center text-gray-400 dark:text-gray-500">
+                <p>&copy; 2026 Global Inflation Calculator. Educational purposes only.</p>
               </div>
             </div>
           </footer>
