@@ -173,11 +173,121 @@ export default function Page() {
     ],
   }
 
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Global Inflation Data for Net Worth Analysis — 8 Currency Database",
+    description:
+      "Official government inflation rate data for 8 major currencies used to calculate real purchasing power erosion of household net worth. Covers USD (1913–2026), GBP (1947–2026), EUR (1996–2026), CAD (1913–2026), AUD (1948–2026), CHF (1913–2026), JPY (1946–2026), and NZD (1960–2026).",
+    url: "https://globalinflationcalculator.com/global-net-worth-calculator",
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      url: "https://globalinflationcalculator.com",
+    },
+    includedInDataCatalog: {
+      "@type": "DataCatalog",
+      name: "Global Inflation Calculator Data Repository",
+    },
+    temporalCoverage: "1913/2026",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "Global — United States, United Kingdom, European Union, Canada, Australia, Switzerland, Japan, New Zealand",
+    },
+    variableMeasured: [
+      "Annual Inflation Rate",
+      "Consumer Price Index (CPI)",
+      "Household Net Worth",
+      "Total Assets",
+      "Total Liabilities",
+      "Debt-to-Asset Ratio",
+      "Real Purchasing Power",
+      "Inflation-Adjusted Net Worth",
+      "Net Worth Percentile",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "US Bureau of Labor Statistics — Consumer Price Index",
+        description:
+          "Official CPI-U data series covering US inflation from 1913 to present, used to calculate inflation-adjusted USD net worth.",
+        url: "https://www.bls.gov/cpi/",
+        creator: { "@type": "Organization", name: "U.S. Bureau of Labor Statistics" },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "UK Office for National Statistics — Consumer Prices Index",
+        description:
+          "Official UK CPI and RPI data from 1947 to present, used to calculate inflation-adjusted GBP net worth.",
+        url: "https://www.ons.gov.uk/economy/inflationandpriceindices",
+        creator: { "@type": "Organization", name: "UK Office for National Statistics" },
+        license: "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Eurostat — Harmonised Index of Consumer Prices",
+        description:
+          "HICP data for the European Union from 1996 to present, used to calculate inflation-adjusted EUR net worth.",
+        url: "https://ec.europa.eu/eurostat/web/hicp",
+        creator: { "@type": "Organization", name: "Eurostat — European Commission" },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Statistics Canada — Consumer Price Index",
+        description:
+          "Official CPI data for Canada from 1913 to present, used to calculate inflation-adjusted CAD net worth.",
+        url: "https://www.statcan.gc.ca/en/subjects-start/prices_and_price_indexes/consumer_price_indexes",
+        creator: { "@type": "Organization", name: "Statistics Canada" },
+        license: "https://www.statcan.gc.ca/en/reference/licence",
+      },
+      {
+        "@type": "Dataset",
+        name: "Australian Bureau of Statistics — Consumer Price Index",
+        description:
+          "Official ABS CPI data for Australia from 1948 to present, used to calculate inflation-adjusted AUD net worth.",
+        url: "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia",
+        creator: { "@type": "Organization", name: "Australian Bureau of Statistics" },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Swiss Federal Statistical Office — Consumer Price Index",
+        description:
+          "Official FSO CPI data for Switzerland from 1913 to present, used to calculate inflation-adjusted CHF net worth.",
+        url: "https://www.bfs.admin.ch/bfs/en/home/statistics/prices/consumer-price-index.html",
+        creator: { "@type": "Organization", name: "Swiss Federal Statistical Office" },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Statistics Bureau of Japan — Consumer Price Index",
+        description:
+          "Official Japanese CPI data from 1946 to present, used to calculate inflation-adjusted JPY net worth.",
+        url: "https://www.stat.go.jp/english/data/cpi/",
+        creator: { "@type": "Organization", name: "Statistics Bureau of Japan" },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Stats NZ — Consumer Price Index",
+        description:
+          "Official New Zealand CPI data from 1960 to present, used to calculate inflation-adjusted NZD net worth.",
+        url: "https://www.stats.govt.nz/topics/consumers-price-index",
+        creator: { "@type": "Organization", name: "Stats NZ — Statistics New Zealand" },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <GlobalNetWorthCalculatorPage />
 

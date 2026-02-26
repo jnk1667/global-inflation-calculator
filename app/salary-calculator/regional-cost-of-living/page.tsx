@@ -132,10 +132,118 @@ export default function RegionalCostOfLivingRoute() {
     ],
   }
 
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Regional Cost of Living Dataset — 80+ Cities Across 8 Currencies",
+    description:
+      "Comprehensive cost of living data for 80+ cities worldwide covering housing, utilities, food, and transportation costs. Sourced from official government statistical agencies across the United States, United Kingdom, European Union, Canada, Australia, Switzerland, Japan, and New Zealand.",
+    url: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      url: "https://globalinflationcalculator.com",
+    },
+    includedInDataCatalog: {
+      "@type": "DataCatalog",
+      name: "Global Inflation Calculator Data Repository",
+    },
+    spatialCoverage: {
+      "@type": "Place",
+      name: "Global — 80+ cities across United States, United Kingdom, European Union, Canada, Australia, Switzerland, Japan, New Zealand",
+    },
+    variableMeasured: [
+      "Monthly Housing Rent",
+      "Housing Cost as Percentage of Income",
+      "Monthly Utilities Cost",
+      "Monthly Food and Grocery Cost",
+      "Monthly Transportation Cost",
+      "Overall Cost of Living Index",
+      "Cross-Currency Equivalent Salary",
+      "Affordability Ratio",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "US Bureau of Labor Statistics — Consumer Expenditure Survey",
+        description:
+          "Official US household expenditure data covering housing, food, utilities, and transportation costs for major metropolitan areas.",
+        url: "https://www.bls.gov/cex/",
+        creator: { "@type": "Organization", name: "U.S. Bureau of Labor Statistics" },
+        license: "https://www.usa.gov/government-works",
+      },
+      {
+        "@type": "Dataset",
+        name: "UK Office for National Statistics — Family Spending",
+        description:
+          "Official UK household spending data including regional cost breakdowns for housing, utilities, food, and transport across UK cities.",
+        url: "https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/expenditure",
+        creator: { "@type": "Organization", name: "UK Office for National Statistics" },
+        license: "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Eurostat — Household Budget Survey",
+        description:
+          "EU-wide household expenditure data covering cost of living in European cities including housing, food, utilities, and transportation.",
+        url: "https://ec.europa.eu/eurostat/web/household-budget-surveys",
+        creator: { "@type": "Organization", name: "Eurostat — European Commission" },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Statistics Canada — Survey of Household Spending",
+        description:
+          "Official Canadian household spending data across major cities, covering housing, food, utilities, and transportation costs.",
+        url: "https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=3508",
+        creator: { "@type": "Organization", name: "Statistics Canada" },
+        license: "https://www.statcan.gc.ca/en/reference/licence",
+      },
+      {
+        "@type": "Dataset",
+        name: "Australian Bureau of Statistics — Household Expenditure Survey",
+        description:
+          "Official ABS data on household spending patterns and cost of living across Australian cities.",
+        url: "https://www.abs.gov.au/statistics/economy/finance/household-expenditure-survey-australia",
+        creator: { "@type": "Organization", name: "Australian Bureau of Statistics" },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Swiss Federal Statistical Office — Household Budget Survey",
+        description:
+          "Official Swiss cost of living and household expenditure data for Swiss cities including housing, food, and utilities.",
+        url: "https://www.bfs.admin.ch/bfs/en/home/statistics/economic-social-situation-population/income-consumption-wealth/household-budget.html",
+        creator: { "@type": "Organization", name: "Swiss Federal Statistical Office" },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Statistics Bureau of Japan — Family Income and Expenditure Survey",
+        description:
+          "Official Japanese household expenditure data covering cost of living across Japanese cities.",
+        url: "https://www.stat.go.jp/english/data/kakei/",
+        creator: { "@type": "Organization", name: "Statistics Bureau of Japan" },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+      {
+        "@type": "Dataset",
+        name: "Stats NZ — Household Economic Survey",
+        description:
+          "Official New Zealand household expenditure and cost of living data across New Zealand cities.",
+        url: "https://www.stats.govt.nz/topics/household-economic-survey",
+        creator: { "@type": "Organization", name: "Stats NZ — Statistics New Zealand" },
+        license: "https://creativecommons.org/licenses/by/4.0/",
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <RegionalCostOfLivingPage />
 
