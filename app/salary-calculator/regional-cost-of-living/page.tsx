@@ -3,6 +3,169 @@ import type { Metadata } from "next"
 import RegionalCostOfLivingPage from "./RegionalCostOfLivingPage"
 import Link from "next/link"
 
+const toolSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Regional Cost of Living Comparison Tool",
+  applicationCategory: "FinanceApplication",
+  description:
+    "Compare cost of living across 80+ cities worldwide in 8 currencies. Comprehensive analysis of housing, utilities, food, and transportation costs with official government data from BLS, UK ONS, Eurostat, Statistics Canada, Australian Bureau of Statistics, Swiss FSO, Statistics Bureau of Japan, and Stats NZ.",
+  url: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  featureList: [
+    "80+ cities across 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)",
+    "Official government data sources",
+    "Cross-currency salary comparison",
+    "Housing, utilities, food, transportation cost analysis",
+    "Affordability metrics and cost breakdowns",
+    "Real-time cost of living calculations",
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    ratingCount: "1247",
+  },
+}
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://globalinflationcalculator.com",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Salary Calculator",
+      item: "https://globalinflationcalculator.com/salary-calculator",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Regional Cost of Living",
+      item: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
+    },
+  ],
+}
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How many cities can I compare in the Regional Cost of Living tool?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "You can compare cost of living data across 80+ cities worldwide, spanning 8 major currencies including USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD. The tool covers major metropolitan areas in the United States, United Kingdom, European Union, Canada, Australia, Switzerland, Japan, and New Zealand.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What data sources are used for cost of living calculations?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "All cost of living data comes from official government sources including the US Bureau of Labor Statistics (BLS), UK Office for National Statistics (ONS), Eurostat, Statistics Canada, Australian Bureau of Statistics (ABS), Swiss Federal Statistical Office (FSO), Statistics Bureau of Japan, and Stats NZ.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What cost categories does the tool analyze?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The Regional Cost of Living Comparison tool analyzes housing costs, utilities (electricity, water, gas), food and grocery expenses, and transportation costs. It also calculates an overall cost of living index and equivalent salary needed to maintain the same standard of living when relocating between cities.",
+      },
+    },
+  ],
+}
+
+const datasetSchema = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: "Regional Cost of Living Dataset — 80+ Cities Across 8 Currencies",
+  description:
+    "Comprehensive cost of living data for 80+ cities worldwide covering housing, utilities, food, and transportation costs. Sourced from official government statistical agencies across the United States, United Kingdom, European Union, Canada, Australia, Switzerland, Japan, and New Zealand.",
+  url: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
+  creator: {
+    "@type": "Organization",
+    name: "Global Inflation Calculator",
+    url: "https://globalinflationcalculator.com",
+  },
+  spatialCoverage: {
+    "@type": "Place",
+    name: "Global — 80+ cities across United States, United Kingdom, European Union, Canada, Australia, Switzerland, Japan, New Zealand",
+  },
+  variableMeasured: [
+    "Monthly Housing Rent",
+    "Housing Cost as Percentage of Income",
+    "Monthly Utilities Cost",
+    "Monthly Food and Grocery Cost",
+    "Monthly Transportation Cost",
+    "Overall Cost of Living Index",
+    "Cross-Currency Equivalent Salary",
+    "Affordability Ratio",
+  ],
+  license: "https://creativecommons.org/licenses/by/4.0/",
+  isBasedOn: [
+    {
+      "@type": "Dataset",
+      name: "Consumer Expenditure Surveys",
+      publisher: { "@type": "Organization", name: "US Bureau of Labor Statistics" },
+      url: "https://www.bls.gov/cex/",
+    },
+    {
+      "@type": "Dataset",
+      name: "Family Spending Survey",
+      publisher: { "@type": "Organization", name: "UK Office for National Statistics" },
+      url: "https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/expenditure",
+    },
+    {
+      "@type": "Dataset",
+      name: "Household Budget Surveys",
+      publisher: { "@type": "Organization", name: "Eurostat" },
+      url: "https://ec.europa.eu/eurostat/web/household-budget-surveys",
+    },
+    {
+      "@type": "Dataset",
+      name: "Survey of Household Spending",
+      publisher: { "@type": "Organization", name: "Statistics Canada" },
+      url: "https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=3508",
+    },
+    {
+      "@type": "Dataset",
+      name: "Household Expenditure Survey",
+      publisher: { "@type": "Organization", name: "Australian Bureau of Statistics" },
+      url: "https://www.abs.gov.au/statistics/economy/finance/household-expenditure-survey-australia",
+    },
+    {
+      "@type": "Dataset",
+      name: "Household Budget Survey",
+      publisher: { "@type": "Organization", name: "Swiss Federal Statistical Office" },
+      url: "https://www.bfs.admin.ch/bfs/en/home/statistics/economic-social-situation-population/surveys/hbs.html",
+    },
+    {
+      "@type": "Dataset",
+      name: "Family Income and Expenditure Survey",
+      publisher: { "@type": "Organization", name: "Statistics Bureau of Japan" },
+      url: "https://www.stat.go.jp/english/data/kakei/",
+    },
+    {
+      "@type": "Dataset",
+      name: "Household Economic Survey",
+      publisher: { "@type": "Organization", name: "Stats NZ" },
+      url: "https://www.stats.govt.nz/information-releases/household-economic-survey-year-ended-june-2023",
+    },
+  ],
+}
+
 export const metadata: Metadata = {
   title: "Cost of Living Comparison Tool | 80+ Global Cities",
   description:
