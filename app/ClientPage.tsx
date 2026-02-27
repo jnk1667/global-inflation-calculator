@@ -14,6 +14,7 @@ import { supabase } from "@/lib/supabase"
 import { getCachedContent } from "@/lib/cached-content"
 import { trackPageView } from "@/lib/analytics"
 import Script from "next/script"
+import { JsonLd } from "@/components/json-ld"
 import Link from "next/link"
 import { loadCurrencyMeasuresWithFallback } from "@/lib/data-loader"
 import {
@@ -811,75 +812,66 @@ export default function ClientPage() {
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         {/* Calculator Schema Markup */}
-        <Script
+        <JsonLd
           id="calculator-schema"
-          type="application/ld+json"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebApplication",
+          data={{
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Global Inflation Calculator",
+            description:
+              "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present",
+            url: siteUrl,
+            applicationCategory: "FinanceApplication",
+            operatingSystem: "Web Browser",
+            browserRequirements: "Requires JavaScript. Requires HTML5.",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+            },
+            featureList: [
+              "Historical inflation calculation from 1913-2025",
+              "Multi-currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)",
+              "Purchasing power comparison",
+              "Interactive charts and visualizations",
+              "Historical context and events",
+              "Real-time calculations",
+            ],
+            creator: {
+              "@type": "Organization",
               name: "Global Inflation Calculator",
-              description:
-                "Calculate historical inflation and purchasing power across multiple currencies from 1913 to present",
               url: siteUrl,
-              applicationCategory: "FinanceApplication",
-              operatingSystem: "Web Browser",
-              browserRequirements: "Requires JavaScript. Requires HTML5.",
-              offers: {
-                "@type": "Offer",
-                price: "0",
-                priceCurrency: "USD",
-                availability: "https://schema.org/InStock",
-              },
-              featureList: [
-                "Historical inflation calculation from 1913-2025",
-                "Multi-currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)",
-                "Purchasing power comparison",
-                "Interactive charts and visualizations",
-                "Historical context and events",
-                "Real-time calculations",
-                "Real-time calculations",
-              ],
-              creator: {
-                "@type": "Organization",
-                name: "Global Inflation Calculator",
-                url: siteUrl,
-              },
-              datePublished: "2024-01-01",
-              dateModified: new Date().toISOString(),
-              inLanguage: "en-US",
-              isAccessibleForFree: true,
-              keywords:
-                "inflation calculator, purchasing power, historical inflation, currency calculator, CPI, economic data",
-            }),
+            },
+            datePublished: "2024-01-01",
+            dateModified: new Date().toISOString(),
+            inLanguage: "en-US",
+            isAccessibleForFree: true,
+            keywords:
+              "inflation calculator, purchasing power, historical inflation, currency calculator, CPI, economic data",
           }}
         />
 
         {/* Breadcrumb Schema */}
-        <Script
+        <JsonLd
           id="breadcrumb-schema"
-          type="application/ld+json"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                {
-                  "@type": "ListItem",
-                  position: 1,
-                  name: "Home",
-                  item: siteUrl,
-                },
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  name: "Inflation Calculator",
-                  item: siteUrl,
-                },
-              ],
-            }),
+          data={{
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: siteUrl,
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Inflation Calculator",
+                item: siteUrl,
+              },
+            ],
           }}
         />
 
