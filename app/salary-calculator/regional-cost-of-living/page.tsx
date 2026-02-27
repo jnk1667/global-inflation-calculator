@@ -1,5 +1,5 @@
-import Script from "next/script"
-
+import { JsonLd } from "@/components/json-ld"
+import type { Metadata } from "next"
 import RegionalCostOfLivingPage from "./RegionalCostOfLivingPage"
 import Link from "next/link"
 
@@ -51,18 +51,10 @@ export const metadata: Metadata = {
 export default function RegionalCostOfLivingRoute() {
   return (
     <>
-      <Script id="schema-tool" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify(toolSchema)}
-      </Script>
-      <Script id="schema-breadcrumb" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify(breadcrumbSchema)}
-      </Script>
-      <Script id="schema-faq" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify(faqSchema)}
-      </Script>
-      <Script id="schema-dataset" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify(datasetSchema)}
-      </Script>
+      <JsonLd id="schema-tool" data={toolSchema} />
+      <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
+      <JsonLd id="schema-faq" data={faqSchema} />
+      <JsonLd id="schema-dataset" data={datasetSchema} />
       <RegionalCostOfLivingPage />
 
       <noscript>
