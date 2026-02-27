@@ -193,6 +193,7 @@ export const metadata: Metadata = {
 }
 
 const ClientPage = dynamic(() => import("./ClientPage"), {
+  loading: () => (
     <div className="container mx-auto px-4 py-12 max-w-7xl">
       <div className="text-center mb-16 mt-12">
         <div className="flex items-center justify-center gap-4 mb-6">
