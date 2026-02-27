@@ -1,4 +1,5 @@
-import type { Metadata } from "next"
+import Script from "next/script"
+
 import GlobalNetWorthCalculatorPage from "./GlobalNetWorthCalculatorPage"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -279,17 +280,26 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://globalinflationcalculator.com/global-net-worth-calculator",
   },
-  other: {
-    "script:ld+json:calculator": JSON.stringify(calculatorSchema),
-    "script:ld+json:article": JSON.stringify(articleSchema),
-    "script:ld+json:breadcrumb": JSON.stringify(breadcrumbSchema),
-    "script:ld+json:faq": JSON.stringify(faqSchema),
-    "script:ld+json:dataset": JSON.stringify(datasetSchema),
-  },
 }
 
 export default function Page() {
   return (
+    <>
+      <Script id="schema-calculator" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify(calculatorSchema)}
+      </Script>
+      <Script id="schema-article" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify(articleSchema)}
+      </Script>
+      <Script id="schema-breadcrumb" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify(breadcrumbSchema)}
+      </Script>
+      <Script id="schema-faq" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify(faqSchema)}
+      </Script>
+      <Script id="schema-dataset" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify(datasetSchema)}
+      </Script>
       <GlobalNetWorthCalculatorPage />
 
       <noscript>

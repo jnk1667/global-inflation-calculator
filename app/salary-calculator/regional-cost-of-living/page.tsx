@@ -1,4 +1,5 @@
-import type { Metadata } from "next"
+import Script from "next/script"
+
 import RegionalCostOfLivingPage from "./RegionalCostOfLivingPage"
 import Link from "next/link"
 
@@ -45,16 +46,23 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  other: {
-    "script:ld+json:tool": JSON.stringify(toolSchema),
-    "script:ld+json:breadcrumb": JSON.stringify(breadcrumbSchema),
-    "script:ld+json:faq": JSON.stringify(faqSchema),
-    "script:ld+json:dataset": JSON.stringify(datasetSchema),
-  },
 }
 
 export default function RegionalCostOfLivingRoute() {
   return (
+    <>
+      <Script id="schema-tool" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify(toolSchema)}
+      </Script>
+      <Script id="schema-breadcrumb" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify(breadcrumbSchema)}
+      </Script>
+      <Script id="schema-faq" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify(faqSchema)}
+      </Script>
+      <Script id="schema-dataset" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify(datasetSchema)}
+      </Script>
       <RegionalCostOfLivingPage />
 
       <noscript>
