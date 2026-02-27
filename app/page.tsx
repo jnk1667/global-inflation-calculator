@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic"
+import type { Metadata } from "next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 
@@ -182,8 +183,16 @@ const faqSchema = {
   ],
 }
 
+export const metadata: Metadata = {
+  other: {
+    "script:ld+json:webapp": JSON.stringify(webAppSchema),
+    "script:ld+json:article": JSON.stringify(articleSchema),
+    "script:ld+json:dataset": JSON.stringify(datasetSchema),
+    "script:ld+json:faq": JSON.stringify(faqSchema),
+  },
+}
+
 const ClientPage = dynamic(() => import("./ClientPage"), {
-  loading: () => (
     <div className="container mx-auto px-4 py-12 max-w-7xl">
       <div className="text-center mb-16 mt-12">
         <div className="flex items-center justify-center gap-4 mb-6">
@@ -199,11 +208,6 @@ const ClientPage = dynamic(() => import("./ClientPage"), {
 export default function Home() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-
       {/* Interactive calculator - client component */}
       <ClientPage />
 
