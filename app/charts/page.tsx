@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { JsonLd } from "@/components/json-ld"
 import ChartsPage from "./ChartsPage"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -265,11 +266,11 @@ export default function Page() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <JsonLd id="schema-webapp" data={webAppSchema} />
+      <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
+      <JsonLd id="schema-article" data={articleSchema} />
+      <JsonLd id="schema-dataset" data={datasetSchema} />
+      <JsonLd id="schema-faq" data={faqSchema} />
       <ChartsPage />
 
       <noscript>

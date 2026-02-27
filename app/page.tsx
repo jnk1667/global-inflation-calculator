@@ -2,7 +2,7 @@ import dynamic from "next/dynamic"
 import type { Metadata } from "next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
-import Script from "next/script"
+import { JsonLd } from "@/components/json-ld"
 
 const webAppSchema = {
   "@context": "https://schema.org",
@@ -203,18 +203,10 @@ const ClientPage = dynamic(() => import("./ClientPage"), {
 export default function Home() {
   return (
     <>
-      <Script id="schema-webapp" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify(webAppSchema)}
-      </Script>
-      <Script id="schema-article" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify(articleSchema)}
-      </Script>
-      <Script id="schema-dataset" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify(datasetSchema)}
-      </Script>
-      <Script id="schema-faq" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify(faqSchema)}
-      </Script>
+      <JsonLd id="schema-webapp" data={webAppSchema} />
+      <JsonLd id="schema-article" data={articleSchema} />
+      <JsonLd id="schema-dataset" data={datasetSchema} />
+      <JsonLd id="schema-faq" data={faqSchema} />
       {/* Interactive calculator - client component */}
       <ClientPage />
 

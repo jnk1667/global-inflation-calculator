@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { JsonLd } from "@/components/json-ld"
 import GlobalCompoundInterestPage from "./GlobalCompoundInterestPage"
 
 export const metadata: Metadata = {
@@ -261,11 +262,11 @@ export default function Page() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <JsonLd id="schema-calculator" data={calculatorSchema} />
+      <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
+      <JsonLd id="schema-article" data={articleSchema} />
+      <JsonLd id="schema-dataset" data={datasetSchema} />
+      <JsonLd id="schema-faq" data={faqSchema} />
       <GlobalCompoundInterestPage />
     </>
   )

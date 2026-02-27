@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import { JsonLd } from "@/components/json-ld"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 
@@ -85,8 +85,8 @@ export default function AccessibilityPage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
+      <JsonLd id="schema-structured" data={structuredData} />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <main className="container mx-auto px-4 py-24 max-w-4xl">
           <header className="text-center mb-12">

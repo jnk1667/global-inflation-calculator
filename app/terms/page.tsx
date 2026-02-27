@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { JsonLd } from "@/components/json-ld"
 import Link from "next/link"
 
 const siteUrl = "https://www.globalinflationcalculator.com"
@@ -83,7 +84,7 @@ export default function TermsOfService() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
       <div className="min-h-screen bg-background pt-20 pb-12">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="bg-card rounded-lg shadow-lg p-8">

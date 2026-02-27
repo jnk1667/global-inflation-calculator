@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import { JsonLd } from "@/components/json-ld"
 import AboutClientPage from "./AboutClientPage"
 import Link from "next/link"
 
@@ -93,8 +93,8 @@ export default function AboutPage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <JsonLd id="schema-webpage" data={webPageSchema} />
+      <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
       <AboutClientPage />
 
       <footer className="mt-12 bg-slate-900 text-white rounded-lg overflow-hidden" role="contentinfo">

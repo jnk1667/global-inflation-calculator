@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { JsonLd } from "@/components/json-ld"
 import ROICalculatorPage from "./ROICalculatorPage"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
@@ -244,14 +245,11 @@ export default function Page() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
-      />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <JsonLd id="schema-structured" data={structuredData} />
+      <JsonLd id="schema-breadcrumb" data={breadcrumbStructuredData} />
+      <JsonLd id="schema-article" data={articleSchema} />
+      <JsonLd id="schema-dataset" data={datasetSchema} />
+      <JsonLd id="schema-faq" data={faqSchema} />
       <ROICalculatorPage />
     </>
   )

@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { Toaster } from "@/components/ui/toaster"
 import Link from "next/link"
 import Script from "next/script"
+import { JsonLd } from "@/components/json-ld"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"], display: "swap", preload: true })
@@ -182,11 +183,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly site information" />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(logoSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(searchBoxSchema) }} />
       </head>
       <body className={inter.className}>
+        <JsonLd id="schema-logo" data={logoSchema} />
+        <JsonLd id="schema-site-navigation" data={siteNavigationSchema} />
+        <JsonLd id="schema-search-box" data={searchBoxSchema} />
         {/* Google AdSense */}
         <Script
           async

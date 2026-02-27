@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { JsonLd } from "@/components/json-ld"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -257,7 +258,7 @@ export default function LegacyPlannerPage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <JsonLd id="schema-legacy-structured" data={structuredData} />
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" style={{ contain: "layout style" }}>
         {/* Header - Added more top padding */}
         <header className="pt-32 pb-8">
