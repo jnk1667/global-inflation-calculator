@@ -1804,11 +1804,16 @@ export default function ClientPage() {
               <div>
                 <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul className="text-gray-300 dark:text-gray-50 space-y-2">
-                  <li>
-                    <Link href="/" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
-                      Home - Inflation Calculator
-                    </Link>
-                  </li>
+                    <li>
+                      <Link href="/mortgage-calculator" className="text-blue-600 hover:underline">
+                        Mortgage Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/home-affordability-calculator/inflation-adjusted" className="text-blue-600 hover:underline">
+                        Home Affordability Calculator
+                      </Link>
+                    </li>
                   <li>
                     <Link
                       href="/deflation-calculator"
@@ -1884,6 +1889,14 @@ export default function ClientPage() {
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >
                       Mortgage Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/home-affordability-calculator/inflation-adjusted"
+                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
+                    >
+                      Home Affordability Calculator
                     </Link>
                   </li>
                   <li>

@@ -267,6 +267,11 @@ export default function Home() {
                       </Link>
                     </li>
                     <li>
+                      <Link href="/home-affordability-calculator/inflation-adjusted" className="text-blue-600 hover:underline">
+                        Home Affordability Calculator
+                      </Link>
+                    </li>
+                    <li>
                       <Link href="/budget-calculator" className="text-blue-600 hover:underline">
                         Budget Calculator
                       </Link>
