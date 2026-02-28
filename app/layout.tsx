@@ -6,8 +6,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Toaster } from "@/components/ui/toaster"
 import Link from "next/link"
-import Script from "next/script"
 import { JsonLd } from "@/components/json-ld"
+import { ExternalScripts } from "@/components/external-scripts"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"], display: "swap", preload: true })
@@ -188,31 +188,8 @@ export default function RootLayout({
         <JsonLd id="schema-logo" data={logoSchema} />
         <JsonLd id="schema-site-navigation" data={siteNavigationSchema} />
         <JsonLd id="schema-search-box" data={searchBoxSchema} />
-        {/* Google AdSense */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9295410934525516"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-
-        {/* Google Analytics */}
-        {process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`}
-              strategy="lazyOnload"
-            />
-            <Script id="google-analytics" strategy="lazyOnload">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}');
-              `}
-            </Script>
-          </>
-        )}
+        {/* External scripts loaded imperatively to avoid React 19 script-in-JSX warning */}
+        <ExternalScripts gaTrackingId={process.env.NEXT_PUBLIC_GA_TRACKING_ID} />
 
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {/* Theme Toggle - Top Left */}
