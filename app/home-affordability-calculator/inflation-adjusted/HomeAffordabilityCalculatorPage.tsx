@@ -778,6 +778,138 @@ export default function HomeAffordabilityCalculatorPage() {
         </Suspense>
 
       </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 mt-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Home Affordability Calculator</h3>
+              <p className="text-gray-300 dark:text-gray-50 mb-6">
+                Find your true maximum home purchase price across 8 currencies. Factor in income, down payment, debts, and country-specific lending rules — then see how inflation has eroded your buying power since 2000.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
+              <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                <li>• US Bureau of Labor Statistics</li>
+                <li>• UK Office for National Statistics</li>
+                <li>• Eurostat</li>
+                <li>• Statistics Canada</li>
+                <li>• Australian Bureau of Statistics</li>
+                <li>• Swiss Federal Statistical Office</li>
+                <li>• Statistics Bureau of Japan</li>
+                <li>• Statistics New Zealand</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                <li>
+                  <Link href="/" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Home - Inflation Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/deflation-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Deflation Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/charts" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Charts & Analytics
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/global-compound-interest" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Compound Interest Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/global-net-worth-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Global Net Worth Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/ppp-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    PPP Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/auto-loan-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Auto Loan Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/salary-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Salary Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/retirement-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Retirement Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/student-loan-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Student Loan Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/mortgage-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Mortgage Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/budget-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Budget Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/emergency-fund-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Emergency Fund Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/roi-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    ROI Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/insurance-inflation-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Insurance Inflation Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/legacy-planner" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Legacy Planner
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                    Terms of Service
+                  </Link>
+                </li>
+              </ul>
+              <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">Last Updated: February 2026</p>
+            </div>
+          </div>
+          <div className="border-t border-gray-700 dark:border-gray-600 mt-8 pt-8 text-center text-gray-400 dark:text-gray-500">
+            <p>&copy; 2026 Global Inflation Calculator. Educational purposes only.</p>
+          </div>
+        </div>
+      </footer>
+
     </div>
   )
 }
