@@ -873,7 +873,6 @@ export default function HomeAffordabilityCalculatorPage() {
           </Card>
         </div>
 
-        <Suspense fallback={null}>
         <Suspense fallback={<div className="h-32" />}>
           <AdBanner size="medium" position="bottom" slot="5048747585" />
         </Suspense>
