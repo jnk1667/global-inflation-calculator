@@ -210,19 +210,55 @@ export default function Page() {
       {
         "@type": "Dataset",
         name: "Consumer Price Index for All Urban Consumers (CPI-U)",
-        publisher: { "@type": "Organization", name: "US Bureau of Labor Statistics" },
+        description:
+          "Monthly Consumer Price Index for All Urban Consumers (CPI-U) covering all items, used as the primary US inflation benchmark. Series CPIAUCSL. Published by the US Bureau of Labor Statistics.",
+        creator: {
+          "@type": "Organization",
+          name: "US Bureau of Labor Statistics",
+          url: "https://www.bls.gov",
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "US Bureau of Labor Statistics",
+          url: "https://www.bls.gov",
+        },
+        license: "https://www.bls.gov/opub/copyright-information.htm",
         url: "https://www.bls.gov/cpi/",
       },
       {
         "@type": "Dataset",
         name: "UK Consumer Price Inflation",
-        publisher: { "@type": "Organization", name: "UK Office for National Statistics" },
+        description:
+          "Consumer Price Inflation (CPIH) data for the United Kingdom, covering all items. Published monthly by the UK Office for National Statistics (ONS). Used as the primary UK inflation benchmark.",
+        creator: {
+          "@type": "Organization",
+          name: "UK Office for National Statistics",
+          url: "https://www.ons.gov.uk",
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "UK Office for National Statistics",
+          url: "https://www.ons.gov.uk",
+        },
+        license: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
         url: "https://www.ons.gov.uk/economy/inflationandpriceindices",
       },
       {
         "@type": "Dataset",
         name: "Freddie Mac Primary Mortgage Market Survey",
-        publisher: { "@type": "Organization", name: "Freddie Mac" },
+        description:
+          "Weekly survey of US conventional 30-year fixed-rate mortgage rates from lenders nationwide, published by Freddie Mac. The PMMS is the standard benchmark for US historical and current mortgage rate data.",
+        creator: {
+          "@type": "Organization",
+          name: "Freddie Mac",
+          url: "https://www.freddiemac.com",
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Freddie Mac",
+          url: "https://www.freddiemac.com",
+        },
+        license: "https://www.freddiemac.com/terms/content-use",
         url: "https://www.freddiemac.com/pmms",
       },
     ],
