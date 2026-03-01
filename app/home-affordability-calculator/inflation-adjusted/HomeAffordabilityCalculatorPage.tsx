@@ -893,6 +893,60 @@ This calculator supports USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD — each wit
           </section>
         )}
 
+        {/* Methodology & Data Sources */}
+        <section className="container mx-auto px-4 pb-4">
+          <Card className="bg-white dark:bg-gray-800 shadow-lg border-0">
+            <CardHeader>
+              <CardTitle className="text-xl flex items-center gap-2">
+                <Info className="h-5 w-5 text-primary" />
+                Methodology & Data Sources
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6 text-gray-700 dark:text-gray-200">
+
+              <div>
+                <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-2">Consumer Price Index (CPI) — Inflation Adjustment</h3>
+                <p className="leading-relaxed">
+                  Inflation adjustment across all 8 currencies is calculated using official Consumer Price Index data sourced from government statistical agencies: the <strong className="font-semibold">US Bureau of Labor Statistics</strong> (CPIAUCSL series, All Urban Consumers) for USD, the <strong className="font-semibold">UK Office for National Statistics</strong> (CPIH index) for GBP, <strong className="font-semibold">Eurostat</strong> (Harmonised Index of Consumer Prices) for EUR, <strong className="font-semibold">Statistics Canada</strong> (Table 18-10-0004-01) for CAD, the <strong className="font-semibold">Australian Bureau of Statistics</strong> (CPI All Groups) for AUD, the <strong className="font-semibold">Swiss Federal Statistical Office</strong> (Landesindex der Konsumentenpreise) for CHF, the <strong className="font-semibold">Statistics Bureau of Japan</strong> (CPI All Items) for JPY, and <strong className="font-semibold">Stats NZ</strong> (Consumers Price Index) for NZD. CPI data is accessed via the Federal Reserve Economic Data (FRED) API maintained by the Federal Reserve Bank of St. Louis, which aggregates and standardizes data from these primary sources.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-2">Mortgage Rate Data</h3>
+                <p className="leading-relaxed">
+                  Historical and current mortgage rate benchmarks are sourced from central bank and government publications. US 30-year fixed mortgage rates are drawn from the <strong className="font-semibold">Freddie Mac Primary Mortgage Market Survey</strong> (PMMS), accessed via the FRED API (series MORTGAGE30US). UK rates reference the <strong className="font-semibold">Bank of England</strong> quoted household mortgage rate data. Canadian rates reference the <strong className="font-semibold">Bank of Canada</strong> chartered bank mortgage rate publications. Australian rates reference the <strong className="font-semibold">Reserve Bank of Australia</strong> (RBA) lending rate statistics. Swiss, Japanese, Eurozone, and New Zealand rates reference their respective central bank published benchmark lending rates.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-2">Lending Rules & Stress Tests</h3>
+                <p className="leading-relaxed">
+                  Country-specific affordability rules are based on official regulatory guidance. The US 28/36 debt-to-income rule follows <strong className="font-semibold">Fannie Mae and Freddie Mac</strong> conventional loan underwriting guidelines. The UK 4.5x income cap and stress test methodology follows <strong className="font-semibold">Financial Conduct Authority (FCA)</strong> Mortgage Conduct of Business (MCOB) rules and <strong className="font-semibold">Prudential Regulation Authority (PRA)</strong> supervisory guidance. Canada's stress test rate (contract rate plus 2%, minimum 5.25%) follows <strong className="font-semibold">Office of the Superintendent of Financial Institutions (OSFI)</strong> Guideline B-20. Australia's 3% serviceability buffer follows <strong className="font-semibold">APRA</strong> Prudential Practice Guide APG 223. Switzerland's imputed 5% stress rate follows <strong className="font-semibold">FINMA</strong> self-regulatory guidelines. Japan's DTI thresholds follow <strong className="font-semibold">Japan Housing Finance Agency (JHF)</strong> lending standards. New Zealand's 30/40 DTI limits follow <strong className="font-semibold">Reserve Bank of New Zealand</strong> debt-to-income restriction guidance.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-2">Median Income Benchmarks</h3>
+                <p className="leading-relaxed">
+                  Median household income figures used as contextual benchmarks are sourced from national statistical agencies: the <strong className="font-semibold">US Census Bureau</strong> (Current Population Survey) for USD, the <strong className="font-semibold">ONS Annual Survey of Hours and Earnings</strong> for GBP, <strong className="font-semibold">Eurostat EU-SILC</strong> survey data for EUR, <strong className="font-semibold">Statistics Canada</strong> for CAD, the <strong className="font-semibold">ABS Survey of Income and Housing</strong> for AUD, the <strong className="font-semibold">Swiss Federal Statistical Office</strong> (SAKE survey) for CHF, the <strong className="font-semibold">Statistics Bureau of Japan</strong> (National Survey of Family Income and Expenditure) for JPY, and <strong className="font-semibold">Stats NZ</strong> (Household Economic Survey) for NZD.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-2">Calculation Methodology</h3>
+                <p className="leading-relaxed">
+                  Maximum purchase price is derived from the standard mortgage affordability formula, constrained by the binding DTI limit for each country. Monthly payment capacity is first established from gross income using the applicable front-end ratio. This is then checked against the back-end DTI limit after subtracting existing monthly debt obligations. The lower of the two resulting loan amounts sets the maximum loan, to which the user's down payment is added to produce the maximum purchase price. The inflation comparison is calculated by deflating the nominal maximum purchase price using the cumulative CPI change between the base year (year 2000) and the current period, then recalculating the same buyer's affordability at the prevailing mortgage rate for that base year.
+                </p>
+              </div>
+
+              <p className="text-sm text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-700 pt-4">
+                This calculator is for informational and educational purposes only. Results are estimates based on standardized lending rules and do not constitute financial advice. Actual loan approval depends on individual credit history, lender policies, property type, and other factors not captured here.
+              </p>
+
+            </CardContent>
+          </Card>
+        </section>
+
         {/* FAQ */}
         <Suspense fallback={null}>
           <FAQ category="home-affordability" limit={6} />
