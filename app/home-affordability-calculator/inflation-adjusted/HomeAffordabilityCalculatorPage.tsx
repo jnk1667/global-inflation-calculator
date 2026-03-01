@@ -894,15 +894,15 @@ This calculator supports USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD — each wit
         )}
 
         {/* Methodology & Data Sources */}
-        <section className="container mx-auto px-4 pb-4">
+        <section className="container mx-auto px-4 py-8">
           <Card className="bg-white dark:bg-gray-800 shadow-lg border-0">
-            <CardHeader>
+            <CardHeader className="px-8 pt-8 pb-2">
               <CardTitle className="text-xl flex items-center gap-2">
                 <Info className="h-5 w-5 text-primary" />
                 Methodology & Data Sources
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6 text-gray-700 dark:text-gray-200">
+            <CardContent className="space-y-10 text-gray-700 dark:text-gray-200 px-8 pt-6 pb-10">
 
               <div>
                 <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-2">Consumer Price Index (CPI) — Inflation Adjustment</h3>
@@ -939,7 +939,7 @@ This calculator supports USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD — each wit
                 </p>
               </div>
 
-              <p className="text-sm text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-700 pt-4">
+              <p className="text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-6 mt-2">
                 This calculator is for informational and educational purposes only. Results are estimates based on standardized lending rules and do not constitute financial advice. Actual loan approval depends on individual credit history, lender policies, property type, and other factors not captured here.
               </p>
 
