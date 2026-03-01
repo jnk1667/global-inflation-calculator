@@ -29,6 +29,10 @@ Calculate student loan repayment with inflation adjustments.
 URL: https://globalinflationcalculator.com/mortgage-calculator
 Analyze home affordability and mortgage payments adjusted for inflation.
 
+### Inflation-Adjusted Home Affordability Calculator
+URL: https://globalinflationcalculator.com/home-affordability-calculator/inflation-adjusted
+Calculate maximum home purchase price based on income, down payment, monthly debts, and interest rate. Applies country-specific lending rules: US 28/36 DTI rule (Fannie Mae/Freddie Mac guidelines), UK 4.5x income cap with FCA/PRA stress test, Canada CMHC stress test (OSFI Guideline B-20), Australia APRA 3% serviceability buffer, Switzerland FINMA 33% housing cost ratio, Japan JHF DTI thresholds, New Zealand RBNZ debt-to-income restrictions. Shows inflation-adjusted buying power since 2000 using official CPI data. Supports USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD. Data sourced from BLS, ONS, Eurostat, Statistics Canada, ABS, Swiss FSO, Statistics Bureau of Japan, Stats NZ, Freddie Mac PMMS, and FRED API.
+
 ### Auto Loan Calculator
 URL: https://globalinflationcalculator.com/auto-loan-calculator
 Calculate auto loan payments with gas price and inflation analysis.

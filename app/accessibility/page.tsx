@@ -398,6 +398,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/home-affordability-calculator/inflation-adjusted" className="text-blue-600 hover:underline">
+                      Home Affordability Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate your maximum home purchase price with country-specific lending rules and inflation-adjusted buying power since 2000
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/budget-calculator" className="text-blue-600 hover:underline">
                       50/30/20 Budget Calculator
                     </Link>
@@ -564,6 +572,17 @@ export default function AccessibilityPage() {
                   <li>Inflation adjustment controls with descriptive help text</li>
                   <li>Results table with proper headers and screen reader support</li>
                   <li>Comparison charts with accessible alternatives</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Home Affordability Calculator</h3>
+                <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>Country/currency selector with descriptive label and keyboard navigation</li>
+                  <li>Income, down payment, debt, and interest rate inputs with clear labels and contextual help text</li>
+                  <li>Inline validation errors announced to screen readers via <code className="bg-gray-100 dark:bg-gray-700 px-1 rounded">role="alert"</code></li>
+                  <li>Maximum purchase price result with affordability rating announced on calculation</li>
+                  <li>DTI progress bars with accessible percentage labels and limit indicators</li>
+                  <li>Inflation comparison panel with structured data for screen reader context</li>
                 </ul>
               </div>
               <div>
