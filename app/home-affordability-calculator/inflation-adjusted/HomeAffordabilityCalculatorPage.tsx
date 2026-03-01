@@ -459,11 +459,12 @@ export default function HomeAffordabilityCalculatorPage() {
     critical: { bg: "bg-red-50 dark:bg-red-950", border: "border-red-200 dark:border-red-800", text: "text-red-700 dark:text-red-300", badge: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200" },
   }
 
-  const limitingFactorLabels: Record<AffordabilityResult["limitingFactor"], string> = {
-    "front-end-dti": `${cfg.country} housing expense limit (${(cfg.frontEndDTI * 100).toFixed(0)}% of gross income)`,
-    "back-end-dti": `${cfg.country} total debt limit (${(cfg.backEndDTI * 100).toFixed(0)}% of gross income)`,
-    "income-multiple": `${cfg.country} lender income multiple cap (${cfg.maxIncomeMultiple}x income)`,
-    "stress-test": `${cfg.country} stress test (+${cfg.stressTestRate}% qualifying rate)`,
+  type LimitingFactorLabels = { [K in AffordabilityResult["limitingFactor"]]: string }
+  const limitingFactorLabels: LimitingFactorLabels = {
+    "front-end-dti": cfg.country + " housing expense limit (" + (cfg.frontEndDTI * 100).toFixed(0) + "% of gross income)",
+    "back-end-dti": cfg.country + " total debt limit (" + (cfg.backEndDTI * 100).toFixed(0) + "% of gross income)",
+    "income-multiple": cfg.country + " lender income multiple cap (" + cfg.maxIncomeMultiple + "x income)",
+    "stress-test": cfg.country + " stress test (+" + cfg.stressTestRate + "% qualifying rate)",
   }
 
   return (
