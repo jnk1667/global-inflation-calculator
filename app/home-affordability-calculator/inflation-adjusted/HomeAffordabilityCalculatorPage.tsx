@@ -277,7 +277,7 @@ Understanding which rules apply to your country changes your maximum purchase pr
 
 ## Why Inflation Matters More Than You Think
 
-Between 2000 and 2024, cumulative inflation in the US was approximately 82%. That means a \\$400,000 budget today had the purchasing power of roughly \\$220,000 in 2000. At the same time, the average 30-year mortgage rate in 2000 was 8.5% — today it sits near 6.8%.
+Between 2000 and 2024, cumulative inflation in the US was approximately 82%. That means a $400,000 budget today had the purchasing power of roughly $220,000 in 2000. At the same time, the average 30-year mortgage rate in 2000 was 8.5% — today it sits near 6.8%.
 
 **The rate difference alone accounts for a large portion of the affordability gap.** A buyer in 2000 with your same income and down payment would have faced a higher rate but benefited from dramatically lower home prices and a stronger real-income position relative to housing costs.
 
