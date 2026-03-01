@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, lazy, Suspense } from "react"
+import React, { useState, useEffect, lazy, Suspense } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -326,7 +326,7 @@ This calculator supports USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD — each wit
 
   const renderBlogContent = (content: string) => {
     const parseInlineMarkdown = (text: string) => {
-      const parts: (string | JSX.Element)[] = []
+      const parts: (string | React.ReactNode)[] = []
       const boldRegex = /\*\*(.+?)\*\*/g
       let lastIndex = 0
       let key = 0
