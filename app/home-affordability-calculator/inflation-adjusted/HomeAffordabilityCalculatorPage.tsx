@@ -275,6 +275,8 @@ const DEFAULT_HOME_AFFORDABILITY_ESSAY = [
   "This calculator supports USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD — each with its own country-specific lending rules, stress test rates, and minimum down payment requirements sourced from official government and central bank data.",
 ].join("\n")
 
+type LimitingFactorLabels = { [K in AffordabilityResult["limitingFactor"]]: string }
+
 export default function HomeAffordabilityCalculatorPage() {
   const [currency, setCurrency] = useState("USD")
   const [annualIncome, setAnnualIncome] = useState("")
@@ -459,7 +461,6 @@ export default function HomeAffordabilityCalculatorPage() {
     critical: { bg: "bg-red-50 dark:bg-red-950", border: "border-red-200 dark:border-red-800", text: "text-red-700 dark:text-red-300", badge: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200" },
   }
 
-  type LimitingFactorLabels = { [K in AffordabilityResult["limitingFactor"]]: string }
   const limitingFactorLabels: LimitingFactorLabels = {
     "front-end-dti": cfg.country + " housing expense limit (" + (cfg.frontEndDTI * 100).toFixed(0) + "% of gross income)",
     "back-end-dti": cfg.country + " total debt limit (" + (cfg.backEndDTI * 100).toFixed(0) + "% of gross income)",
