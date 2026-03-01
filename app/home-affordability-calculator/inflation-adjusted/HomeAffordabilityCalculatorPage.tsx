@@ -226,6 +226,55 @@ function calcMaxLoanFromPayment(monthlyPayment: number, annualRatePct: number, t
   return (monthlyPayment * (Math.pow(1 + r, n) - 1)) / (r * Math.pow(1 + r, n))
 }
 
+const DEFAULT_HOME_AFFORDABILITY_ESSAY = [
+  "## What Is an Inflation-Adjusted Home Affordability Calculator?",
+  "",
+  "Most affordability calculators tell you the maximum home price you can afford **today** — but they ignore a critical variable: inflation. This calculator goes further by showing how your buying power has changed since 2000, factoring in rising prices, shifting interest rates, and country-specific lending rules.",
+  "",
+  "## How the 28/36 Rule Works (and Why It Varies by Country)",
+  "",
+  "In the United States, lenders use the **28/36 rule**: your monthly housing costs should not exceed 28% of gross income, and total debt payments should not exceed 36%. But this rule is not universal.",
+  "",
+  "- **UK lenders** cap mortgages at 4.5x annual income, with a stress test at the Bank of England base rate plus 3%",
+  "- **Canada** uses the CMHC stress test — you must qualify at your contract rate plus 2%, or 5.25%, whichever is higher",
+  "- **Australia** applies APRA's 3% serviceability buffer above the actual rate",
+  "- **Switzerland** uses a conservative 33% housing cost ratio with an imputed 5% rate for stress testing",
+  "- **Japan and New Zealand** apply their own regional DTI thresholds",
+  "",
+  "Understanding which rules apply to your country changes your maximum purchase price significantly.",
+  "",
+  "## Why Inflation Matters More Than You Think",
+  "",
+  "Between 2000 and 2024, cumulative inflation in the US was approximately 82%. That means a $400,000 budget today had the purchasing power of roughly $220,000 in 2000. At the same time, the average 30-year mortgage rate in 2000 was 8.5% — today it sits near 6.8%.",
+  "",
+  "**The rate difference alone accounts for a large portion of the affordability gap.** A buyer in 2000 with your same income and down payment would have faced a higher rate but benefited from dramatically lower home prices and a stronger real-income position relative to housing costs.",
+  "",
+  "## What Counts Toward Monthly Debt Payments?",
+  "",
+  "When calculating your back-end DTI (total debt-to-income ratio), lenders include:",
+  "",
+  "- Car loans and auto leases",
+  "- Student loan minimum payments",
+  "- Credit card minimum payments",
+  "- Personal loans",
+  "- Any other recurring debt obligations",
+  "",
+  "They do **not** count utility bills, insurance, groceries, or subscriptions. Leave this field blank if you have no recurring debt obligations.",
+  "",
+  "## How to Improve Your Affordability Score",
+  "",
+  "If your result shows a tight DTI or limited purchase price, consider:",
+  "",
+  "- **Increasing your down payment** — a larger down payment reduces the loan principal and monthly payment",
+  "- **Paying down existing debts** — reducing monthly obligations frees up DTI capacity",
+  "- **Choosing a longer mortgage term** — a 30-year term produces lower monthly payments than a 25-year term",
+  "- **Waiting for rate changes** — a 1% drop in mortgage rates can increase your maximum purchase price by 8-10%",
+  "",
+  "## Multi-Currency Support: 8 Countries, 8 Lending Frameworks",
+  "",
+  "This calculator supports USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD — each with its own country-specific lending rules, stress test rates, and minimum down payment requirements sourced from official government and central bank data.",
+].join("\n")
+
 export default function HomeAffordabilityCalculatorPage() {
   const [currency, setCurrency] = useState("USD")
   const [annualIncome, setAnnualIncome] = useState("")
@@ -259,53 +308,6 @@ export default function HomeAffordabilityCalculatorPage() {
   // Load blog essay from Supabase
   useEffect(() => {
     const loadBlogContent = async () => {
-      const defaultContent = `## What Is an Inflation-Adjusted Home Affordability Calculator?
-
-Most affordability calculators tell you the maximum home price you can afford **today** — but they ignore a critical variable: inflation. This calculator goes further by showing how your buying power has changed since 2000, factoring in rising prices, shifting interest rates, and country-specific lending rules.
-
-## How the 28/36 Rule Works (and Why It Varies by Country)
-
-In the United States, lenders use the **28/36 rule**: your monthly housing costs should not exceed 28% of gross income, and total debt payments should not exceed 36%. But this rule is not universal.
-
-- **UK lenders** cap mortgages at 4.5x annual income, with a stress test at the Bank of England base rate plus 3%
-- **Canada** uses the CMHC stress test — you must qualify at your contract rate plus 2%, or 5.25%, whichever is higher
-- **Australia** applies APRA's 3% serviceability buffer above the actual rate
-- **Switzerland** uses a conservative 33% housing cost ratio with an imputed 5% rate for stress testing
-- **Japan and New Zealand** apply their own regional DTI thresholds
-
-Understanding which rules apply to your country changes your maximum purchase price significantly.
-
-## Why Inflation Matters More Than You Think
-
-Between 2000 and 2024, cumulative inflation in the US was approximately 82%. That means a $400,000 budget today had the purchasing power of roughly $220,000 in 2000. At the same time, the average 30-year mortgage rate in 2000 was 8.5% — today it sits near 6.8%.
-
-**The rate difference alone accounts for a large portion of the affordability gap.** A buyer in 2000 with your same income and down payment would have faced a higher rate but benefited from dramatically lower home prices and a stronger real-income position relative to housing costs.
-
-## What Counts Toward Monthly Debt Payments?
-
-When calculating your back-end DTI (total debt-to-income ratio), lenders include:
-
-- Car loans and auto leases
-- Student loan minimum payments
-- Credit card minimum payments
-- Personal loans
-- Any other recurring debt obligations
-
-They do **not** count utility bills, insurance, groceries, or subscriptions. Leave this field blank if you have no recurring debt obligations.
-
-## How to Improve Your Affordability Score
-
-If your result shows a tight DTI or limited purchase price, consider:
-
-- **Increasing your down payment** — a larger down payment reduces the loan principal and monthly payment
-- **Paying down existing debts** — reducing monthly obligations frees up DTI capacity
-- **Choosing a longer mortgage term** — a 30-year term produces lower monthly payments than a 25-year term
-- **Waiting for rate changes** — a 1% drop in mortgage rates can increase your maximum purchase price by 8–10%
-
-## Multi-Currency Support: 8 Countries, 8 Lending Frameworks
-
-This calculator supports USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD — each with its own country-specific lending rules, stress test rates, and minimum down payment requirements sourced from official government and central bank data.`
-
       try {
         const content = await getCachedContent("home_affordability_essay_content", async () => {
           const { data, error } = await supabase
@@ -313,12 +315,12 @@ This calculator supports USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD — each wit
             .select("content")
             .eq("id", "home_affordability_essay")
             .single()
-          if (error || !data?.content) return defaultContent
+          if (error || !data?.content) return DEFAULT_HOME_AFFORDABILITY_ESSAY
           return data.content
         })
         setBlogEssay(content)
       } catch {
-        setBlogEssay(defaultContent)
+        setBlogEssay(DEFAULT_HOME_AFFORDABILITY_ESSAY)
       }
     }
     loadBlogContent()
