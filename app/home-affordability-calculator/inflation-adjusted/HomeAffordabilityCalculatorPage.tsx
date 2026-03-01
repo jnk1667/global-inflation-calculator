@@ -355,7 +355,7 @@ export default function HomeAffordabilityCalculatorPage() {
     })
   }
 
-  const validate = (): boolean => {
+  const validate: () => boolean = () => {
     const errors: Record<string, string> = {}
     const inc = parseFloat(annualIncome.replace(/,/g, ""))
     const dp = parseFloat(downPayment.replace(/,/g, ""))
