@@ -1174,8 +1174,8 @@ In today's economic landscape, understanding how inflation affects your salary i
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" style={{ contain: "layout style" }}>
-        <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8 pt-24 sm:pt-32">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <div className="container mx-auto px-3 sm:px-4 max-w-6xl py-6 sm:py-8 pt-24 sm:pt-32">
           {/* Header */}
           <div className="text-center mb-6 sm:mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
