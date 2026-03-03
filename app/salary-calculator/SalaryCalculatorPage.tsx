@@ -1200,9 +1200,9 @@ In today's economic landscape, understanding how inflation affects your salary i
           </nav>
 
           <main className="space-y-6 sm:space-y-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="flex flex-col gap-6 sm:gap-8">
               {/* Calculator */}
-              <div className="lg:col-span-2">
+              <div className="w-full">
                 <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
                   <CardHeader>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
