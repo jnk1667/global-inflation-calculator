@@ -1885,22 +1885,6 @@ export default function ClientPage() {
                   </li>
                   <li>
                     <Link
-                      href="/mortgage-calculator"
-                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
-                    >
-                      Mortgage Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/home-affordability-calculator/inflation-adjusted"
-                      className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
-                    >
-                      Home Affordability Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
                       href="/budget-calculator"
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
                     >
