@@ -40,6 +40,57 @@ const POPULAR_COUNTRIES = [
   { code: "BRA", name: "Brazil", flag: "🇧🇷" },
 ]
 
+const DEFAULT_PPP_ESSAY = `## What Is Purchasing Power Parity?
+
+Imagine you earn $100,000 a year in New York. Your friend earns the equivalent in London. Who is actually better off? The answer is not as straightforward as comparing the numbers — because the same amount of money buys very different things depending on where you live. That is the problem Purchasing Power Parity (PPP) was designed to solve.
+
+PPP is a way of comparing the real value of money across countries. Instead of just converting currencies using today's exchange rate, PPP asks: how much would you need to spend in each country to buy the exact same things? Once you know that, you can make a fair comparison.
+
+## Exchange Rates vs. Purchasing Power
+
+When you convert currencies using a market exchange rate, you are simply measuring what one currency trades for relative to another on financial markets. This rate is influenced by interest rates, investor sentiment, trade flows, and speculation — not by whether a coffee costs $3 in Chicago or £4 in London.
+
+PPP cuts through all of that noise. It focuses purely on the cost of goods and services in each country. If a basket of groceries that costs $100 in the United States costs £72 in the UK, then for the purposes of real purchasing power, £72 = $100 — regardless of what the exchange rate says.
+
+## How the Calculation Works
+
+PPP conversion is straightforward once you have the data. Each country is assigned a PPP factor — a number representing how many units of local currency buy the same amount as 1 US dollar does in the United States.
+
+**The formula is:**
+*Local equivalent = Your amount × (Target country PPP ÷ Source country PPP)*
+
+For example, converting $100,000 to UK purchasing power equivalent:
+- US PPP factor: 1.00
+- UK PPP factor: 0.72
+- Result: £72,000 buys the same things in the UK as $100,000 does in the US
+
+This does not mean the exchange rate is 0.72 — it means your real standard of living is equivalent at those amounts, based on what you can actually buy.
+
+## Why This Matters in Real Life
+
+**Relocating for work.** If you are offered a salary abroad, a PPP conversion tells you whether the offer actually maintains your standard of living — or quietly cuts it.
+
+**Remote work from a lower-cost country.** Earning a salary set by a high-cost economy while living somewhere with a lower PPP factor can significantly increase your real quality of life. Your money simply goes further.
+
+**Comparing salaries across cities.** Two job offers with different numbers can be meaningfully compared once you account for local purchasing power. A lower headline salary in a cheaper country can outperform a higher salary in an expensive city.
+
+**Understanding global economics.** When economists compare the size of different economies, they use PPP-adjusted figures rather than raw exchange rates. This gives a clearer picture of how much each economy actually produces and how wealthy its citizens really are.
+
+## What PPP Does Not Capture
+
+PPP is a useful lens, but it has limits worth knowing:
+
+- It uses national averages. London and rural Wales have very different costs of living, but both are covered by the same UK PPP factor.
+- It assumes goods are equivalent. A "standard car" or a "standard meal" may differ in quality or availability across countries.
+- It does not reflect access to public services. Countries with free healthcare or subsidised housing have real advantages that PPP does not fully capture.
+- It is updated periodically, not in real time. Rapid inflation or economic shifts may not be immediately reflected in the data.
+
+Despite these limitations, PPP remains the most practical tool available for comparing real purchasing power across borders — and for making financial decisions that involve more than one country.
+
+---
+
+*Last Updated: March 2026*`
+
 export default function PPPCalculatorPage() {
   const [amount, setAmount] = useState<string>("100000")
   const [fromCountry, setFromCountry] = useState<string>("USA")
@@ -106,57 +157,6 @@ export default function PPPCalculatorPage() {
       calculatePPP()
     }
   }, [amount, fromCountry, toCountry, year])
-
-const DEFAULT_PPP_ESSAY = `## What Is Purchasing Power Parity?
-
-Imagine you earn $100,000 a year in New York. Your friend earns the equivalent in London. Who is actually better off? The answer is not as straightforward as comparing the numbers — because the same amount of money buys very different things depending on where you live. That is the problem Purchasing Power Parity (PPP) was designed to solve.
-
-PPP is a way of comparing the real value of money across countries. Instead of just converting currencies using today's exchange rate, PPP asks: how much would you need to spend in each country to buy the exact same things? Once you know that, you can make a fair comparison.
-
-## Exchange Rates vs. Purchasing Power
-
-When you convert currencies using a market exchange rate, you are simply measuring what one currency trades for relative to another on financial markets. This rate is influenced by interest rates, investor sentiment, trade flows, and speculation — not by whether a coffee costs $3 in Chicago or £4 in London.
-
-PPP cuts through all of that noise. It focuses purely on the cost of goods and services in each country. If a basket of groceries that costs $100 in the United States costs £72 in the UK, then for the purposes of real purchasing power, £72 = $100 — regardless of what the exchange rate says.
-
-## How the Calculation Works
-
-PPP conversion is straightforward once you have the data. Each country is assigned a PPP factor — a number representing how many units of local currency buy the same amount as 1 US dollar does in the United States.
-
-**The formula is:**
-*Local equivalent = Your amount × (Target country PPP ÷ Source country PPP)*
-
-For example, converting $100,000 to UK purchasing power equivalent:
-- US PPP factor: 1.00
-- UK PPP factor: 0.72
-- Result: £72,000 buys the same things in the UK as $100,000 does in the US
-
-This does not mean the exchange rate is 0.72 — it means your real standard of living is equivalent at those amounts, based on what you can actually buy.
-
-## Why This Matters in Real Life
-
-**Relocating for work.** If you are offered a salary abroad, a PPP conversion tells you whether the offer actually maintains your standard of living — or quietly cuts it.
-
-**Remote work from a lower-cost country.** Earning a salary set by a high-cost economy while living somewhere with a lower PPP factor can significantly increase your real quality of life. Your money simply goes further.
-
-**Comparing salaries across cities.** Two job offers with different numbers can be meaningfully compared once you account for local purchasing power. A lower headline salary in a cheaper country can outperform a higher salary in an expensive city.
-
-**Understanding global economics.** When economists compare the size of different economies, they use PPP-adjusted figures rather than raw exchange rates. This gives a clearer picture of how much each economy actually produces and how wealthy its citizens really are.
-
-## What PPP Does Not Capture
-
-PPP is a useful lens, but it has limits worth knowing:
-
-- It uses national averages. London and rural Wales have very different costs of living, but both are covered by the same UK PPP factor.
-- It assumes goods are equivalent. A "standard car" or a "standard meal" may differ in quality or availability across countries.
-- It does not reflect access to public services. Countries with free healthcare or subsidised housing have real advantages that PPP does not fully capture.
-- It is updated periodically, not in real time. Rapid inflation or economic shifts may not be immediately reflected in the data.
-
-Despite these limitations, PPP remains the most practical tool available for comparing real purchasing power across borders — and for making financial decisions that involve more than one country.
-
----
-
-*Last Updated: March 2026*`
 
   return (
     <ErrorBoundary>
