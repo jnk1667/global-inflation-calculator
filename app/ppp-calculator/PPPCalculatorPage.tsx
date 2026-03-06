@@ -23,6 +23,8 @@ import Link from "next/link"
 import FAQ from "@/components/faq"
 import MarkdownRenderer from "@/components/markdown-renderer"
 import ErrorBoundary from "@/components/error-boundary"
+import { supabase } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 
 // Popular countries for quick access
 const POPULAR_COUNTRIES = [
@@ -50,6 +52,28 @@ export default function PPPCalculatorPage() {
   const [startYear, setStartYear] = useState<number>(1990)
   const [endYear, setEndYear] = useState<number>(2025)
   const [selectedSector, setSelectedSector] = useState<string>("housing")
+  const [blogEssay, setBlogEssay] = useState(DEFAULT_PPP_ESSAY)
+
+  // Load blog essay from Supabase
+  useEffect(() => {
+    const loadBlogContent = async () => {
+      try {
+        const content = await getCachedContent("ppp_calculator_essay_content", async () => {
+          const { data, error } = await supabase
+            .from("seo_content")
+            .select("content")
+            .eq("id", "ppp_calculator_essay")
+            .single()
+          if (error || !data?.content) return DEFAULT_PPP_ESSAY
+          return data.content
+        })
+        setBlogEssay(content)
+      } catch {
+        setBlogEssay(DEFAULT_PPP_ESSAY)
+      }
+    }
+    loadBlogContent()
+  }, [])
 
   // Mock PPP data (replace with World Bank API in production)
   const mockPPP: Record<string, number> = {
@@ -83,37 +107,56 @@ export default function PPPCalculatorPage() {
     }
   }, [amount, fromCountry, toCountry, year])
 
-  const essayContent = `
-## Understanding Purchasing Power Parity
+const DEFAULT_PPP_ESSAY = `## What Is Purchasing Power Parity?
 
-Purchasing Power Parity (PPP) is a crucial economic concept that helps compare the relative value of currencies by measuring what the same amount of money can buy in different countries. Unlike simple exchange rates, PPP accounts for the differences in price levels between countries.
+Imagine you earn $100,000 a year in New York. Your friend earns the equivalent in London. Who is actually better off? The answer is not as straightforward as comparing the numbers — because the same amount of money buys very different things depending on where you live. That is the problem Purchasing Power Parity (PPP) was designed to solve.
 
-### How PPP Works
+PPP is a way of comparing the real value of money across countries. Instead of just converting currencies using today's exchange rate, PPP asks: how much would you need to spend in each country to buy the exact same things? Once you know that, you can make a fair comparison.
 
-PPP conversion factors tell us how many units of a country's currency are needed to buy the same basket of goods and services that one US dollar would buy in the United States. For example, if the PPP conversion factor for India is 22.78, it means that 22.78 Indian Rupees have the same purchasing power in India as 1 US Dollar has in the United States.
+## Exchange Rates vs. Purchasing Power
 
-### Why PPP Matters
+When you convert currencies using a market exchange rate, you are simply measuring what one currency trades for relative to another on financial markets. This rate is influenced by interest rates, investor sentiment, trade flows, and speculation — not by whether a coffee costs $3 in Chicago or £4 in London.
 
-1. **Salary Comparisons**: A $100,000 salary in San Francisco doesn't have the same purchasing power as $100,000 in Mumbai. PPP helps make these comparisons meaningful.
+PPP cuts through all of that noise. It focuses purely on the cost of goods and services in each country. If a basket of groceries that costs $100 in the United States costs £72 in the UK, then for the purposes of real purchasing power, £72 = $100 — regardless of what the exchange rate says.
 
-2. **Cost of Living**: Understanding PPP helps you evaluate whether moving to another country would improve or decrease your standard of living.
+## How the Calculation Works
 
-3. **Economic Analysis**: Economists use PPP to compare GDP and economic output across countries more accurately than using market exchange rates alone.
+PPP conversion is straightforward once you have the data. Each country is assigned a PPP factor — a number representing how many units of local currency buy the same amount as 1 US dollar does in the United States.
 
-### Historical Context
+**The formula is:**
+*Local equivalent = Your amount × (Target country PPP ÷ Source country PPP)*
 
-The concept of PPP dates back to the 16th century but was formalized by Swedish economist Gustav Cassel in 1918. The World Bank has been collecting comprehensive PPP data since 1990, making it possible to track how purchasing power has evolved globally.
+For example, converting $100,000 to UK purchasing power equivalent:
+- US PPP factor: 1.00
+- UK PPP factor: 0.72
+- Result: £72,000 buys the same things in the UK as $100,000 does in the US
 
-### Limitations
+This does not mean the exchange rate is 0.72 — it means your real standard of living is equivalent at those amounts, based on what you can actually buy.
 
-While PPP is powerful, it has limitations:
-- Doesn't account for quality differences in goods
-- Ignores non-market factors like public services
-- Can vary significantly based on which basket of goods is used for comparison
-- Regional differences within countries aren't captured
+## Why This Matters in Real Life
 
-Last Updated: February 2026
-  `
+**Relocating for work.** If you are offered a salary abroad, a PPP conversion tells you whether the offer actually maintains your standard of living — or quietly cuts it.
+
+**Remote work from a lower-cost country.** Earning a salary set by a high-cost economy while living somewhere with a lower PPP factor can significantly increase your real quality of life. Your money simply goes further.
+
+**Comparing salaries across cities.** Two job offers with different numbers can be meaningfully compared once you account for local purchasing power. A lower headline salary in a cheaper country can outperform a higher salary in an expensive city.
+
+**Understanding global economics.** When economists compare the size of different economies, they use PPP-adjusted figures rather than raw exchange rates. This gives a clearer picture of how much each economy actually produces and how wealthy its citizens really are.
+
+## What PPP Does Not Capture
+
+PPP is a useful lens, but it has limits worth knowing:
+
+- It uses national averages. London and rural Wales have very different costs of living, but both are covered by the same UK PPP factor.
+- It assumes goods are equivalent. A "standard car" or a "standard meal" may differ in quality or availability across countries.
+- It does not reflect access to public services. Countries with free healthcare or subsidised housing have real advantages that PPP does not fully capture.
+- It is updated periodically, not in real time. Rapid inflation or economic shifts may not be immediately reflected in the data.
+
+Despite these limitations, PPP remains the most practical tool available for comparing real purchasing power across borders — and for making financial decisions that involve more than one country.
+
+---
+
+*Last Updated: March 2026*`
 
   return (
     <ErrorBoundary>
@@ -404,7 +447,7 @@ Last Updated: February 2026
                   <CardDescription>Learn how PPP helps compare true economic value across countries</CardDescription>
                 </CardHeader>
                 <CardContent className="prose prose-gray dark:prose-invert max-w-none">
-                  <MarkdownRenderer content={essayContent} />
+                  <MarkdownRenderer content={blogEssay} />
                 </CardContent>
               </Card>
             </div>
