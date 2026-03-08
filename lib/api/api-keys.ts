@@ -54,6 +54,17 @@ export function checkApiKeysStatus(): Record<string, ApiKeyStatus> {
         "Government debt (% of GDP)",
       ],
     },
+    bis: {
+      // BIS SDMX REST API is completely free with no API key required
+      isConfigured: true,
+      name: "BIS (Bank for International Settlements)",
+      requiredFor: [
+        "Residential property prices (nominal & real index)",
+        "Consumer price inflation (long series back to 1960)",
+        "Bilateral USD exchange rates (monthly)",
+        "Central bank policy rates (daily)",
+      ],
+    },
   }
 }
 
