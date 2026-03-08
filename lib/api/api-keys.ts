@@ -36,6 +36,12 @@ export function checkApiKeysStatus(): Record<string, ApiKeyStatus> {
       name: "EIA (Energy Information Administration)",
       requiredFor: ["Gasoline prices", "Crude oil", "Natural gas", "Electricity prices"],
     },
+    oecd: {
+      // OECD SDMX-JSON API is completely free with no API key required
+      isConfigured: true,
+      name: "OECD (Organisation for Economic Co-operation and Development)",
+      requiredFor: ["CPI / inflation", "PPP conversion rates", "Average wages", "Unemployment rates"],
+    },
   }
 }
 
