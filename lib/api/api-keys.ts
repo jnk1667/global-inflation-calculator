@@ -42,6 +42,18 @@ export function checkApiKeysStatus(): Record<string, ApiKeyStatus> {
       name: "OECD (Organisation for Economic Co-operation and Development)",
       requiredFor: ["CPI / inflation", "PPP conversion rates", "Average wages", "Unemployment rates"],
     },
+    imf: {
+      // IMF DataMapper API is completely free with no API key required
+      isConfigured: true,
+      name: "IMF (International Monetary Fund) World Economic Outlook",
+      requiredFor: [
+        "Inflation (avg consumer prices)",
+        "GDP growth & GDP per capita",
+        "PPP conversion rates",
+        "Unemployment rates",
+        "Government debt (% of GDP)",
+      ],
+    },
   }
 }
 
