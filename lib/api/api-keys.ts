@@ -65,6 +65,17 @@ export function checkApiKeysStatus(): Record<string, ApiKeyStatus> {
         "Central bank policy rates (daily)",
       ],
     },
+    faostat: {
+      // FAOSTAT v1 API is completely free with no API key required
+      isConfigured: true,
+      name: "FAOSTAT (FAO — Food and Agriculture Organization of the United Nations)",
+      requiredFor: [
+        "General consumer price index (2015=100, 207 countries)",
+        "Food consumer price index and food inflation rates",
+        "Agricultural producer prices (wheat, maize, rice, beef, milk)",
+        "Food supply per capita (kcal/day, protein g/day)",
+      ],
+    },
   }
 }
 
