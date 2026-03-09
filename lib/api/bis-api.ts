@@ -1,6 +1,6 @@
 // BIS (Bank for International Settlements) Data API client
-// Free, no API key required. Uses the BIS SDMX-JSON REST API.
-// Docs: https://stats.bis.org/api/v1/
+// Free, no API key required. Uses the BIS SDMX-JSON REST API v2.
+// Docs: https://stats.bis.org/api-doc/v2/
 // Portal: https://data.bis.org
 //
 // Datasets covered:
@@ -8,10 +8,14 @@
 //   WS_LONG_CPI — Consumer prices (long series, monthly + annual)
 //   WS_XRU      — US dollar exchange rates (bilateral, end-of-period)
 //   WS_CBPOL_D  — Central bank policy/target rates (daily)
+//
+// v2 API URL format:
+//   https://stats.bis.org/api/v2/data/dataflow/BIS/{DATASET}/1.0/{KEY}?startPeriod=...
+// JSON response requires Accept: application/vnd.sdmx.data+json;version=2.0.0
 
-const BIS_API_BASE = "https://stats.bis.org/api/v1"
+const BIS_API_BASE = "https://stats.bis.org/api/v2"
 
-// BIS SDMX-JSON filter dimensions for WS_SPP:
+// BIS SDMX-JSON v2 filter key dimensions for WS_SPP:
 // FREQ.REF_AREA.VALUE_MEASURE
 // Nominal: Q.{country}.N
 // Real:    Q.{country}.R
@@ -105,27 +109,34 @@ interface SDMXResponse {
 // ─── Core fetch helper ────────────────────────────────────────────────────────
 
 /**
- * Fetch data from the BIS SDMX REST API.
+ * Fetch data from the BIS SDMX REST API v2.
  *
- * @param dataset   BIS dataflow identifier e.g. "WS_SPP"
- * @param filter    SDMX dimension filter e.g. "Q.AU.628.Q"
+ * v2 URL format:
+ *   /data/dataflow/BIS/{dataset}/1.0/{key}?startPeriod=...
+ *
+ * @param dataset    BIS dataflow identifier e.g. "WS_SPP"
+ * @param key        SDMX dimension filter e.g. "Q.US+GB.N+R"
  * @param startPeriod  e.g. "2000-Q1" or "2000" or "2000-01"
  * @param revalidate   Next.js ISR revalidation in seconds (default 24h)
  */
 async function fetchBISRaw(
   dataset: string,
-  filter = "all",
+  key = "all",
   startPeriod?: string,
   revalidate = 86400,
 ): Promise<SDMXResponse> {
   const params = new URLSearchParams()
   if (startPeriod) params.set("startPeriod", startPeriod)
-  // BIS SDMX REST API only supports plain application/json — versioned SDMX media type returns 406
-  const url = `${BIS_API_BASE}/data/${dataset}/${filter}?${params.toString()}`
+  params.set("detail", "dataonly")
+
+  // v2 URL: /data/dataflow/BIS/{DATASET}/1.0/{KEY}
+  const url = `${BIS_API_BASE}/data/dataflow/BIS/${dataset}/1.0/${key}?${params.toString()}`
 
   const response = await fetch(url, {
     headers: {
-      Accept: "application/json",
+      // BIS SDMX v2 requires this exact Accept header to return JSON
+      // Without it the API returns XML by default
+      Accept: "application/vnd.sdmx.data+json;version=2.0.0",
     },
     next: { revalidate },
   })
@@ -133,11 +144,25 @@ async function fetchBISRaw(
   if (!response.ok) {
     const body = await response.text().catch(() => "")
     throw new Error(
-      `BIS API error ${response.status} for dataset "${dataset}" filter "${filter}": ${body.slice(0, 200)}`,
+      `BIS API error ${response.status} for dataset "${dataset}" key "${key}": ${body.slice(0, 300)}`,
     )
   }
 
-  return response.json()
+  const text = await response.text()
+
+  // Guard against XML being returned despite correct Accept header
+  if (text.trimStart().startsWith("<")) {
+    throw new Error(
+      `BIS API returned XML instead of JSON for dataset "${dataset}". ` +
+      `This usually means the key "${key}" is invalid or the dataset is unavailable.`
+    )
+  }
+
+  try {
+    return JSON.parse(text)
+  } catch {
+    throw new Error(`BIS API returned invalid JSON for dataset "${dataset}": ${text.slice(0, 200)}`)
+  }
 }
 
 // ─── SDMX-JSON Parser ─────────────────────────────────────────────────────────
@@ -257,15 +282,15 @@ const RATE_COUNTRY_MAP: Record<string, BISCountryCode> = {
  * @param startYear  First year to include (default: 2000)
  */
 export async function fetchBISPropertyPrices(startYear = 2000): Promise<BISDataResult> {
-  // WS_SPP filter: FREQ.REF_AREA.VALUE_MEASURE
+  // WS_SPP key: FREQ.REF_AREA.VALUE_MEASURE
   // N = nominal price index, R = real (inflation-adjusted) price index
   // Fetch nominal + real for all 8 countries in a single request
-  const countryFilter = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
-  const filter = `Q.${countryFilter}.N+R`
+  const countryKey = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
+  const key = `Q.${countryKey}.N+R`
 
   const raw = await fetchBISRaw(
     BIS_DATASETS.PROPERTY_PRICES,
-    filter,
+    key,
     `${startYear}-Q1`,
   )
 
@@ -287,13 +312,13 @@ export async function fetchBISPropertyPrices(startYear = 2000): Promise<BISDataR
  * @param startYear  First year to include (default: 2000)
  */
 export async function fetchBISPropertyPriceChanges(startYear = 2000): Promise<BISDataResult> {
-  const countryFilter = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
+  const countryKey = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
   // Annual % change: use A frequency with N (nominal) measure
-  const filter = `A.${countryFilter}.N`
+  const key = `A.${countryKey}.N`
 
   const raw = await fetchBISRaw(
     BIS_DATASETS.PROPERTY_PRICES,
-    filter,
+    key,
     String(startYear),
   )
 
@@ -316,13 +341,13 @@ export async function fetchBISPropertyPriceChanges(startYear = 2000): Promise<BI
  * @param startYear  First year to include (default: 1960)
  */
 export async function fetchBISCPI(startYear = 1960): Promise<BISDataResult> {
-  const countryFilter = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
-  // Annual % change CPI
-  const filter = `A.${countryFilter}.628`
+  const countryKey = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
+  // WS_LONG_CPI key: FREQ.REF_AREA.UNIT_MEASURE — annual % change
+  const key = `A.${countryKey}.628`
 
   const raw = await fetchBISRaw(
     BIS_DATASETS.CPI_LONG,
-    filter,
+    key,
     String(startYear),
   )
 
@@ -344,17 +369,17 @@ export async function fetchBISCPI(startYear = 1960): Promise<BISDataResult> {
  * @param startYear  First year to include (default: 1990)
  */
 export async function fetchBISExchangeRates(startYear = 1990): Promise<BISDataResult> {
-  // Exchange rate series: M.{currency}.USD  (monthly, vs USD)
-  const currencyFilter = Object.values(BIS_SUPPORTED_COUNTRIES)
+  // WS_XRU key: FREQ.CURRENCY.CURRENCY — monthly, vs USD
+  const currencyKey = Object.values(BIS_SUPPORTED_COUNTRIES)
     .map((c) => c.currency)
     .filter((v, i, arr) => arr.indexOf(v) === i) // deduplicate EUR
     .join("+")
 
-  const filter = `M.${currencyFilter}.USD`
+  const key = `M.${currencyKey}.USD`
 
   const raw = await fetchBISRaw(
     BIS_DATASETS.EXCHANGE_RATES,
-    filter,
+    key,
     `${startYear}-01`,
   )
 
@@ -376,13 +401,13 @@ export async function fetchBISExchangeRates(startYear = 1990): Promise<BISDataRe
  * @param startYear  First year to include (default: 1995)
  */
 export async function fetchBISPolicyRates(startYear = 1995): Promise<BISDataResult> {
-  const countryFilter = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
-  // Also include XM (Euro area) for EUR policy rate
-  const filter = `D.${countryFilter}+XM`
+  const countryKey = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
+  // WS_CBPOL_D key: FREQ.REF_AREA — daily, also include XM (Euro area)
+  const key = `D.${countryKey}+XM`
 
   const raw = await fetchBISRaw(
     BIS_DATASETS.POLICY_RATES,
-    filter,
+    key,
     `${startYear}-01-01`,
     43200, // Cache 12h — rates update more frequently
   )
