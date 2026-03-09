@@ -128,15 +128,16 @@ async function fetchBISRaw(
   const params = new URLSearchParams()
   if (startPeriod) params.set("startPeriod", startPeriod)
   params.set("detail", "dataonly")
+  // Some SDMX endpoints honour a format query param as an alternative to Accept header
+  params.set("format", "jsondata")
 
   // v2 URL: /data/dataflow/BIS/{DATASET}/1.0/{KEY}
   const url = `${BIS_API_BASE}/data/dataflow/BIS/${dataset}/1.0/${key}?${params.toString()}`
 
   const response = await fetch(url, {
     headers: {
-      // BIS SDMX v2 requires this exact Accept header to return JSON
-      // Without it the API returns XML by default
-      Accept: "application/vnd.sdmx.data+json;version=2.0.0",
+      // Use unversioned SDMX JSON media type — BIS rejects versioned variants (;version=1.0 and ;version=2.0.0 both return 406)
+      Accept: "application/vnd.sdmx.data+json",
     },
     next: { revalidate },
   })
@@ -144,7 +145,7 @@ async function fetchBISRaw(
   if (!response.ok) {
     const body = await response.text().catch(() => "")
     throw new Error(
-      `BIS API error ${response.status} for dataset "${dataset}" key "${key}": ${body.slice(0, 300)}`,
+      `BIS API ${response.status} — dataset="${dataset}" key="${key}" url="${url}" body="${body.slice(0, 400)}"`,
     )
   }
 
