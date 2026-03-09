@@ -20,6 +20,7 @@ import {
   ArrowRight,
   Percent,
   BookOpen,
+  RefreshCw,
 } from "lucide-react"
 import Link from "next/link"
 import { supabase } from "@/lib/supabase"
@@ -289,16 +290,80 @@ export default function HomeAffordabilityCalculatorPage() {
   const [inputErrors, setInputErrors] = useState<Record<string, string>>({})
   const [blogEssay, setBlogEssay] = useState("")
 
+  // BIS live policy rate state
+  const [bisRates, setBisRates] = useState<Record<string, { current: number | null; year2000: number | null; year2010: number | null }>>({})
+  const [bisRatesLoading, setBisRatesLoading] = useState(false)
+  const [bisRatesError, setBisRatesError] = useState(false)
+
   const cfg = CURRENCY_CONFIG[currency]
 
-  // Pre-fill rate when currency changes
+  // Map currency codes → BIS country codes
+  const CURRENCY_TO_BIS: Record<string, string> = {
+    USD: "US", GBP: "GB", EUR: "DE", CAD: "CA",
+    AUD: "AU", CHF: "CH", JPY: "JP", NZD: "NZ",
+  }
+
+  // Load BIS policy rates for all countries on mount
   useEffect(() => {
-    setInterestRate(cfg.avgRateNow.toString())
+    const loadBISRates = async () => {
+      setBisRatesLoading(true)
+      setBisRatesError(false)
+      try {
+        const res = await fetch("/api/bis?dataset=policy-rates&aggregate=annual&startYear=1999")
+        if (!res.ok) throw new Error("BIS fetch failed")
+        const json = await res.json()
+        const rateMap: Record<string, { current: number | null; year2000: number | null; year2010: number | null }> = {}
+
+        if (json.data?.series) {
+          for (const series of json.data.series) {
+            const country = series.country as string
+            const obs: Array<{ period: string; value: number | null }> = series.observations ?? []
+
+            const getYearAvg = (year: string): number | null => {
+              const matching = obs.filter((o) => o.value !== null && o.period?.startsWith(year))
+              if (!matching.length) return null
+              return matching.reduce((sum, o) => sum + (o.value ?? 0), 0) / matching.length
+            }
+
+            // Get the latest available value (most recent period with non-null)
+            let current: number | null = null
+            for (let i = obs.length - 1; i >= 0; i--) {
+              if (obs[i].value !== null) { current = obs[i].value; break }
+            }
+
+            rateMap[country] = {
+              current,
+              year2000: getYearAvg("2000"),
+              year2010: getYearAvg("2010"),
+            }
+          }
+        }
+        setBisRates(rateMap)
+      } catch {
+        setBisRatesError(true)
+      } finally {
+        setBisRatesLoading(false)
+      }
+    }
+    loadBISRates()
+  }, [])
+
+  // Derive the BIS rates for the currently selected country
+  const bisCountry = CURRENCY_TO_BIS[currency] ?? null
+  const bisCountryRates = bisCountry ? (bisRates[bisCountry] ?? null) : null
+
+  // Resolved rate values: prefer BIS live data, fall back to CURRENCY_CONFIG hardcoded values
+  const resolvedRate2000 = bisCountryRates?.year2000 ?? cfg.avgRate2000
+  const resolvedRate2010 = bisCountryRates?.year2010 ?? cfg.avgRate2010
+  const resolvedRateNow  = bisCountryRates?.current  ?? cfg.avgRateNow
+
+  // Pre-fill rate when currency changes (use BIS live rate when available)
+  useEffect(() => {
+    setInterestRate(resolvedRateNow.toFixed(2))
     setResult(null)
     setHasCalculated(false)
-  }, [currency])
-
-  // Load inflation data for selected currency
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currency, bisRates])
   useEffect(() => {
     const file = cfg.inflationFile
     fetch(`/data/${file}`)
@@ -421,7 +486,7 @@ export default function HomeAffordabilityCalculatorPage() {
 
     // What could they afford in 2000 at the 2000 rate with same income?
     const maxPaymentAt2000 = monthlyIncome * cfg.frontEndDTI
-    const maxLoanAt2000Rate = calcMaxLoanFromPayment(maxPaymentAt2000, cfg.avgRate2000, cfg.mortgageTerm)
+    const maxLoanAt2000Rate = calcMaxLoanFromPayment(maxPaymentAt2000, resolvedRate2000, cfg.mortgageTerm)
     const maxPurchasePriceAt2000Rate = maxLoanAt2000Rate + dp
 
     // Affordability status
@@ -442,7 +507,7 @@ export default function HomeAffordabilityCalculatorPage() {
       limitingFactor,
       equivalentPurchasePriceIn2000: equivalentIn2000,
       purchasingPowerLostPct,
-      rateIn2000: cfg.avgRate2000,
+      rateIn2000: resolvedRate2000,
       maxPurchasePriceAt2000Rate,
       affordabilityStatus,
     })
@@ -602,15 +667,29 @@ export default function HomeAffordabilityCalculatorPage() {
 
               {/* Interest rate */}
               <div className="space-y-2">
-                <Label htmlFor="rate" className="text-sm font-semibold">
-                  Mortgage Interest Rate (%)
-                </Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="rate" className="text-sm font-semibold">
+                    Mortgage Interest Rate (%)
+                  </Label>
+                  {bisRatesLoading && (
+                    <span className="flex items-center gap-1 text-xs text-gray-400">
+                      <RefreshCw className="h-3 w-3 animate-spin" />
+                      Loading live rate...
+                    </span>
+                  )}
+                  {!bisRatesLoading && bisCountryRates?.current != null && (
+                    <Badge variant="outline" className="text-xs border-blue-300 text-blue-700 dark:border-blue-600 dark:text-blue-300 gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
+                      BIS live: {bisCountryRates.current.toFixed(2)}%
+                    </Badge>
+                  )}
+                </div>
                 <div className="relative">
                   <Percent className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
                     id="rate"
                     className={`h-12 pl-9 ${inputErrors.interestRate ? "border-red-500" : ""}`}
-                    placeholder={cfg.avgRateNow.toString()}
+                    placeholder={resolvedRateNow.toFixed(2)}
                     value={interestRate}
                     onChange={(e) => setInterestRate(e.target.value)}
                   />
@@ -619,8 +698,23 @@ export default function HomeAffordabilityCalculatorPage() {
                   <p className="text-xs text-red-500">{inputErrors.interestRate}</p>
                 )}
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Current {cfg.country} avg: {cfg.avgRateNow}% · 2010 avg: {cfg.avgRate2010}% · 2000 avg: {cfg.avgRate2000}%
+                  {bisCountryRates?.current != null ? (
+                    <>
+                      Central bank rate (BIS): <strong>{bisCountryRates.current.toFixed(2)}%</strong>
+                      {bisCountryRates.year2010 != null && <> · 2010 avg: {bisCountryRates.year2010.toFixed(2)}%</>}
+                      {bisCountryRates.year2000 != null && <> · 2000 avg: {bisCountryRates.year2000.toFixed(2)}%</>}
+                    </>
+                  ) : (
+                    <>
+                      Current {cfg.country} avg: {cfg.avgRateNow}% · 2010 avg: {cfg.avgRate2010}% · 2000 avg: {cfg.avgRate2000}%
+                    </>
+                  )}
                 </p>
+                {bisCountryRates?.current != null && (
+                  <p className="text-xs text-blue-600 dark:text-blue-400">
+                    Pre-filled from BIS — central bank policy rate. Adjust for your actual mortgage offer.
+                  </p>
+                )}
               </div>
 
               <Alert className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
@@ -728,7 +822,9 @@ export default function HomeAffordabilityCalculatorPage() {
                         </p>
                       </div>
                       <div className="p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">At year-2000 rates ({cfg.avgRate2000}%) your budget would be</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                          At year-2000 rates ({resolvedRate2000.toFixed(2)}%{bisCountryRates?.year2000 != null ? " — BIS" : ""}) your budget would be
+                        </p>
                         <p className={`text-2xl font-bold ${result.maxPurchasePriceAt2000Rate > result.maxPurchasePrice ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
                           {formatCurrency(result.maxPurchasePriceAt2000Rate)}
                         </p>
@@ -743,7 +839,7 @@ export default function HomeAffordabilityCalculatorPage() {
                     <Alert className="bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800">
                       <Info className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                       <AlertDescription className="text-purple-900 dark:text-purple-100 text-sm">
-                        A buyer with identical income and down payment in 2000 faced a {cfg.avgRate2000}% rate vs your {interestRate}% today.
+                        A buyer with identical income and down payment in 2000 faced a {resolvedRate2000.toFixed(2)}%{bisCountryRates?.year2000 != null ? " (BIS)" : ""} rate vs your {interestRate}% today.
                         That rate difference alone accounts for a large portion of the affordability gap.
                       </AlertDescription>
                     </Alert>
@@ -970,6 +1066,7 @@ export default function HomeAffordabilityCalculatorPage() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
               <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                <li>• <strong>BIS (Bank for International Settlements)</strong> — Live central bank policy rates</li>
                 <li>• US Bureau of Labor Statistics</li>
                 <li>• UK Office for National Statistics</li>
                 <li>• Eurostat</li>

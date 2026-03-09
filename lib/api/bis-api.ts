@@ -11,6 +11,12 @@
 
 const BIS_API_BASE = "https://stats.bis.org/api/v1"
 
+// BIS SDMX-JSON filter dimensions for WS_SPP:
+// FREQ.REF_AREA.UNIT_MEASURE.UNIT_MULT
+// Nominal (N) selected series: Q.{country}.628.Q
+// Real (R) selected series:    Q.{country}.629.Q
+// All countries joined with "+" separator
+
 // ─── Country codes for the 8 currencies supported by this site ───────────────
 // BIS uses ISO 2-letter country codes in most datasets
 export const BIS_SUPPORTED_COUNTRIES = {
@@ -114,20 +120,20 @@ async function fetchBISRaw(
 ): Promise<SDMXResponse> {
   const params = new URLSearchParams()
   if (startPeriod) params.set("startPeriod", startPeriod)
-  params.set("format", "jsondata")
-
+  // BIS SDMX REST API only supports plain application/json — versioned SDMX media type returns 406
   const url = `${BIS_API_BASE}/data/${dataset}/${filter}?${params.toString()}`
 
   const response = await fetch(url, {
     headers: {
-      Accept: "application/vnd.sdmx.data+json;version=1.0, application/json",
+      Accept: "application/json",
     },
     next: { revalidate },
   })
 
   if (!response.ok) {
+    const body = await response.text().catch(() => "")
     throw new Error(
-      `BIS API error ${response.status} for dataset "${dataset}" filter "${filter}": ${response.statusText}`,
+      `BIS API error ${response.status} for dataset "${dataset}" filter "${filter}": ${body.slice(0, 200)}`,
     )
   }
 

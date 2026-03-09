@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import BISPropertyPriceChart from "@/components/bis-property-price-chart"
 import { Switch } from "@/components/ui/switch"
 import {
   HomeIcon,
@@ -414,6 +415,11 @@ This calculator uses official data from:
           </Card>
         </div>
 
+        {/* BIS International Property Price Index Chart */}
+        <div className="mb-6 sm:mb-8">
+          <BISPropertyPriceChart />
+        </div>
+
         {/* Mortgage Calculator Data Sources Info Card */}
         <Card className="shadow-xl border-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 border-l-4 border-l-blue-600">
           <CardContent className="pt-6">
@@ -428,6 +434,9 @@ This calculator uses official data from:
                 <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                   <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Data Sources:</p>
                   <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                    <li>
+                      • <span className="font-medium">BIS (Bank for International Settlements)</span> - Residential Property Price Statistics — 8 countries, quarterly, 2000–present
+                    </li>
                     <li>
                       • <span className="font-medium">Case-Shiller U.S. National Home Price Index</span> - The most
                       widely-followed measure of U.S. home prices
