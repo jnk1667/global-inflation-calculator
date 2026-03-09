@@ -7,7 +7,7 @@
 //   WS_SPP      — Residential property prices (selected/long series)
 //   WS_LONG_CPI — Consumer prices (long series, monthly + annual)
 //   WS_XRU      — US dollar exchange rates (bilateral, end-of-period)
-//   WS_CBPOL_D  — Central bank policy/target rates (daily)
+//   CBPOL       — Central bank policy/target rates (daily, 40+ economies)
 //
 // v2 API URL format:
 //   https://stats.bis.org/api/v2/data/dataflow/BIS/{DATASET}/1.0/{KEY}?startPeriod=...
@@ -45,7 +45,7 @@ export const BIS_DATASETS = {
   // Bilateral exchange rates vs. USD — monthly, end-of-period
   EXCHANGE_RATES: "WS_XRU",
   // Central bank policy rates — daily target/benchmark rates
-  POLICY_RATES: "WS_CBPOL_D",
+  POLICY_RATES: "CBPOL",
 } as const
 
 export type BISDataset = (typeof BIS_DATASETS)[keyof typeof BIS_DATASETS]
