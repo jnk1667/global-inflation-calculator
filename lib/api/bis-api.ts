@@ -402,9 +402,12 @@ export async function fetchBISExchangeRates(startYear = 1990): Promise<BISDataRe
  * @param startYear  First year to include (default: 1995)
  */
 export async function fetchBISPolicyRates(startYear = 1995): Promise<BISDataResult> {
-  const countryKey = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
-  // WS_CBPOL_D key: FREQ.REF_AREA — daily, also include XM (Euro area)
-  const key = `D.${countryKey}+XM`
+  // WS_CBPOL_D REF_AREA codes that actually have data:
+  // - DE and FR are excluded — both joined the euro area in 1999 and have no
+  //   individual series in WS_CBPOL_D. Use XM (Euro area / ECB) for EUR instead.
+  // - Sending any invalid REF_AREA code causes BIS to 404 the entire request.
+  const validPolicyRateCountries = ["US", "GB", "JP", "CA", "AU", "CH", "XM"]
+  const key = `D.${validPolicyRateCountries.join("+")}`
 
   const raw = await fetchBISRaw(
     BIS_DATASETS.POLICY_RATES,

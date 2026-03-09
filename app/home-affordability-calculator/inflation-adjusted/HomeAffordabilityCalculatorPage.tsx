@@ -297,9 +297,10 @@ export default function HomeAffordabilityCalculatorPage() {
 
   const cfg = CURRENCY_CONFIG[currency]
 
-  // Map currency codes → BIS country codes
+  // Map currency codes → BIS WS_CBPOL_D REF_AREA codes
+  // EUR maps to XM (Euro area / ECB) — DE and FR have no individual series in WS_CBPOL_D
   const CURRENCY_TO_BIS: Record<string, string> = {
-    USD: "US", GBP: "GB", EUR: "DE", CAD: "CA",
+    USD: "US", GBP: "GB", EUR: "XM", CAD: "CA",
     AUD: "AU", CHF: "CH", JPY: "JP", NZD: "NZ",
   }
 
