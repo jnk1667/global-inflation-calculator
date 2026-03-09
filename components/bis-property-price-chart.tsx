@@ -60,29 +60,33 @@ interface FallbackSeries {
 }
 
 interface FallbackData {
-  series: FallbackSeries[]
+  nominalSeries: FallbackSeries[]
+  realSeries: FallbackSeries[]
 }
 
-// Load static fallback data and transform it into the same shape as live API data
+// Load static fallback data — builds both nominal ({code}) and real ({code}_real) keys per year
 async function loadFallbackData(): Promise<PropertyDataPoint[]> {
   const res = await fetch("/data/bis-property-prices.json")
   if (!res.ok) throw new Error("Fallback data unavailable")
   const json: FallbackData = await res.json()
 
   const yearSet = new Set<string>()
-  for (const s of json.series) {
-    Object.keys(s.data).forEach((y) => yearSet.add(y))
-  }
+  for (const s of json.nominalSeries) Object.keys(s.data).forEach((y) => yearSet.add(y))
   const years = Array.from(yearSet).sort()
 
   const dataMap: Record<string, PropertyDataPoint> = {}
-  for (const year of years) {
-    dataMap[year] = { year }
-  }
-  for (const s of json.series) {
+  for (const year of years) dataMap[year] = { year }
+
+  for (const s of json.nominalSeries) {
     for (const [year, value] of Object.entries(s.data)) {
       if (!dataMap[year]) dataMap[year] = { year }
       dataMap[year][s.country] = value
+    }
+  }
+  for (const s of json.realSeries) {
+    for (const [year, value] of Object.entries(s.data)) {
+      if (!dataMap[year]) dataMap[year] = { year }
+      dataMap[year][`${s.country}_real`] = value
     }
   }
   return Object.values(dataMap).sort((a, b) => String(a.year).localeCompare(String(b.year)))
@@ -115,7 +119,6 @@ export default function BISPropertyPriceChart() {
         const series: BISSeries[] = json.data.series
         setLastUpdated(json.data.fetchedAt ?? null)
 
-        // Collect all unique years across all series
         const yearSet = new Set<string>()
         for (const s of series) {
           for (const obs of s.observations) {
@@ -126,12 +129,14 @@ export default function BISPropertyPriceChart() {
         const years = Array.from(yearSet).sort()
 
         const dataMap: Record<string, PropertyDataPoint> = {}
-        for (const year of years) {
-          dataMap[year] = { year }
-        }
+        for (const year of years) dataMap[year] = { year }
 
         for (const s of series) {
-          const country = s.country
+          // BIS returns nominal (N) and real (R) as separate series
+          // Real series have seriesKey containing "R" in the VALUE_MEASURE position
+          const isReal = s.seriesKey?.split(":")[2] === "1" // index 2 = VALUE_MEASURE, 1 = R
+          const key = isReal ? `${s.country}_real` : s.country
+
           const annualAgg: Record<string, number[]> = {}
           for (const obs of s.observations) {
             if (obs.value === null) continue
@@ -144,7 +149,7 @@ export default function BISPropertyPriceChart() {
           for (const [year, vals] of Object.entries(annualAgg)) {
             if (!dataMap[year]) dataMap[year] = { year }
             const avg = vals.reduce((a, b) => a + b, 0) / vals.length
-            dataMap[year][country] = Math.round(avg * 10) / 10
+            dataMap[year][key] = Math.round(avg * 10) / 10
           }
         }
 
@@ -349,7 +354,7 @@ export default function BISPropertyPriceChart() {
                   <Line
                     key={country.code}
                     type="monotone"
-                    dataKey={country.code}
+                    dataKey={showReal ? `${country.code}_real` : country.code}
                     name={country.code}
                     stroke={country.color}
                     strokeWidth={2}

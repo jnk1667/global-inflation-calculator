@@ -12,9 +12,9 @@
 const BIS_API_BASE = "https://stats.bis.org/api/v1"
 
 // BIS SDMX-JSON filter dimensions for WS_SPP:
-// FREQ.REF_AREA.UNIT_MEASURE.UNIT_MULT
-// Nominal (N) selected series: Q.{country}.628.Q
-// Real (R) selected series:    Q.{country}.629.Q
+// FREQ.REF_AREA.VALUE_MEASURE
+// Nominal: Q.{country}.N
+// Real:    Q.{country}.R
 // All countries joined with "+" separator
 
 // ─── Country codes for the 8 currencies supported by this site ───────────────
@@ -257,10 +257,11 @@ const RATE_COUNTRY_MAP: Record<string, BISCountryCode> = {
  * @param startYear  First year to include (default: 2000)
  */
 export async function fetchBISPropertyPrices(startYear = 2000): Promise<BISDataResult> {
-  // WS_SPP filter: Q.{country}.628.Q  (Q=quarterly, 628=selected series, Q=BIS)
-  // Fetch all countries in supported list together using "+" separator
+  // WS_SPP filter: FREQ.REF_AREA.VALUE_MEASURE
+  // N = nominal price index, R = real (inflation-adjusted) price index
+  // Fetch nominal + real for all 8 countries in a single request
   const countryFilter = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
-  const filter = `Q.${countryFilter}.628.Q`
+  const filter = `Q.${countryFilter}.N+R`
 
   const raw = await fetchBISRaw(
     BIS_DATASETS.PROPERTY_PRICES,
@@ -287,8 +288,8 @@ export async function fetchBISPropertyPrices(startYear = 2000): Promise<BISDataR
  */
 export async function fetchBISPropertyPriceChanges(startYear = 2000): Promise<BISDataResult> {
   const countryFilter = Object.keys(BIS_SUPPORTED_COUNTRIES).join("+")
-  // Annual % change variant of the selected property prices
-  const filter = `A.${countryFilter}.628.A`
+  // Annual % change: use A frequency with N (nominal) measure
+  const filter = `A.${countryFilter}.N`
 
   const raw = await fetchBISRaw(
     BIS_DATASETS.PROPERTY_PRICES,
