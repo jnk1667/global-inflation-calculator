@@ -5,7 +5,7 @@ import PPPCalculatorPage from "./PPPCalculatorPage"
 export const metadata: Metadata = {
   title: "PPP Calculator | Compare Purchasing Power Globally",
   description:
-    "Calculate purchasing power parity across major economies. Compare real value of money using World Bank data with historical trends and sector breakdowns.",
+    "Calculate purchasing power parity across major economies. Compare real value of money using live IMF World Economic Outlook data — including projections through 2029.",
   keywords:
     "PPP calculator, purchasing power parity, currency comparison, cost of living, salary comparison, World Bank PPP, international cost comparison",
   openGraph: {

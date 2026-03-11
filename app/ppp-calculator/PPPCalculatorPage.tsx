@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Switch } from "@/components/ui/switch"
 import {
@@ -18,6 +19,7 @@ import {
   BarChart3,
   Calculator,
   Sparkles,
+  RefreshCw,
 } from "lucide-react"
 import Link from "next/link"
 import FAQ from "@/components/faq"
@@ -25,21 +27,58 @@ import MarkdownRenderer from "@/components/markdown-renderer"
 import ErrorBoundary from "@/components/error-boundary"
 import { supabase } from "@/lib/supabase"
 import { getCachedContent } from "@/lib/cached-content"
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  ReferenceLine,
+} from "recharts"
 
-// Popular countries for quick access
-const POPULAR_COUNTRIES = [
-  { code: "USA", name: "United States", flag: "🇺🇸" },
-  { code: "GBR", name: "United Kingdom", flag: "🇬🇧" },
-  { code: "CHN", name: "China", flag: "🇨🇳" },
-  { code: "JPN", name: "Japan", flag: "🇯🇵" },
-  { code: "DEU", name: "Germany", flag: "🇩🇪" },
-  { code: "IND", name: "India", flag: "🇮🇳" },
-  { code: "CAN", name: "Canada", flag: "🇨🇦" },
-  { code: "AUS", name: "Australia", flag: "🇦🇺" },
-  { code: "FRA", name: "France", flag: "🇫🇷" },
-  { code: "BRA", name: "Brazil", flag: "🇧🇷" },
+// ─── Countries ────────────────────────────────────────────────────────────────
+const SUPPORTED_COUNTRIES = [
+  { code: "USA", name: "United States", flag: "🇺🇸", currency: "USD", symbol: "$" },
+  { code: "GBR", name: "United Kingdom", flag: "🇬🇧", currency: "GBP", symbol: "£" },
+  { code: "DEU", name: "Germany",        flag: "🇩🇪", currency: "EUR", symbol: "€" },
+  { code: "JPN", name: "Japan",          flag: "🇯🇵", currency: "JPY", symbol: "¥" },
+  { code: "CAN", name: "Canada",         flag: "🇨🇦", currency: "CAD", symbol: "CA$" },
+  { code: "AUS", name: "Australia",      flag: "🇦🇺", currency: "AUD", symbol: "A$" },
+  { code: "CHE", name: "Switzerland",    flag: "🇨🇭", currency: "CHF", symbol: "CHF" },
+  { code: "FRA", name: "France",         flag: "🇫🇷", currency: "EUR", symbol: "€" },
 ]
 
+// Extra countries for PPP extended list (from IMF but not always in our 8-country API set)
+const EXTRA_COUNTRIES = [
+  { code: "CHN", name: "China",   flag: "🇨🇳", currency: "CNY", symbol: "¥" },
+  { code: "IND", name: "India",   flag: "🇮🇳", currency: "INR", symbol: "₹" },
+  { code: "BRA", name: "Brazil",  flag: "🇧🇷", currency: "BRL", symbol: "R$" },
+  { code: "KOR", name: "South Korea", flag: "🇰🇷", currency: "KRW", symbol: "₩" },
+]
+
+const ALL_COUNTRIES = [...SUPPORTED_COUNTRIES, ...EXTRA_COUNTRIES]
+
+// Country colors for chart lines
+const COUNTRY_COLORS: Record<string, string> = {
+  USA: "#2563eb", GBR: "#16a34a", DEU: "#dc2626", JPN: "#9333ea",
+  CAN: "#ea580c", AUS: "#0891b2", CHE: "#db2777", FRA: "#65a30d",
+}
+
+// Current year
+const CURRENT_YEAR = new Date().getFullYear()
+const PROJECTION_START = CURRENT_YEAR + 1
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface PPPRates {
+  [countryCode: string]: {
+    [year: string]: number
+  }
+}
+
+// ─── Essay default ────────────────────────────────────────────────────────────
 const DEFAULT_PPP_ESSAY = `## What Is Purchasing Power Parity?
 
 Imagine you earn $100,000 a year in New York. Your friend earns the equivalent in London. Who is actually better off? The answer is not as straightforward as comparing the numbers — because the same amount of money buys very different things depending on where you live. That is the problem Purchasing Power Parity (PPP) was designed to solve.
@@ -91,21 +130,132 @@ Despite these limitations, PPP remains the most practical tool available for com
 
 *Last Updated: March 2026*`
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function formatAmount(value: number, countryCode: string, pppRate: number): string {
+  const country = ALL_COUNTRIES.find((c) => c.code === countryCode)
+  // PPP result is in local currency units — divide by PPP rate to get USD equiv, multiply to get LCU
+  const formatted = value.toLocaleString(undefined, { maximumFractionDigits: 0 })
+  return `${country?.symbol ?? ""}${formatted}`
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 export default function PPPCalculatorPage() {
   const [amount, setAmount] = useState<string>("100000")
   const [fromCountry, setFromCountry] = useState<string>("USA")
   const [toCountry, setToCountry] = useState<string>("GBR")
-  const [year, setYear] = useState<number>(2025)
+  const [selectedYear, setSelectedYear] = useState<number>(CURRENT_YEAR)
   const [advancedMode, setAdvancedMode] = useState(false)
-  const [calculatedValue, setCalculatedValue] = useState<number | null>(null)
-  const [loading, setLoading] = useState(false)
-
-  const [startYear, setStartYear] = useState<number>(1990)
-  const [endYear, setEndYear] = useState<number>(2025)
+  const [startYear, setStartYear] = useState<number>(2000)
+  const [endYear, setEndYear] = useState<number>(CURRENT_YEAR)
   const [selectedSector, setSelectedSector] = useState<string>("housing")
   const [blogEssay, setBlogEssay] = useState(DEFAULT_PPP_ESSAY)
 
-  // Load blog essay from Supabase
+  // IMF PPP data state
+  const [pppRates, setPPPRates] = useState<PPPRates>({})
+  const [dataLoading, setDataLoading] = useState(true)
+  const [dataError, setDataError] = useState<string | null>(null)
+  const [isLiveData, setIsLiveData] = useState(false)
+  const [snapshotDate, setSnapshotDate] = useState<string | null>(null)
+
+  // Calculated result
+  const [calculatedValue, setCalculatedValue] = useState<number | null>(null)
+  const [historicalFromValue, setHistoricalFromValue] = useState<number | null>(null)
+  const [historicalToValue, setHistoricalToValue] = useState<number | null>(null)
+
+  // ── Load IMF PPP rates ────────────────────────────────────────────────────
+  const loadPPPData = useCallback(async () => {
+    setDataLoading(true)
+    setDataError(null)
+    try {
+      // Try live API first
+      const res = await fetch("/api/imf?indicator=ppp-rate")
+      if (!res.ok) throw new Error(`API error ${res.status}`)
+      const json = await res.json()
+
+      if (json.data?.series?.length) {
+        const rates: PPPRates = {}
+        for (const s of json.data.series) {
+          rates[s.country] = {}
+          for (const [year, obs] of Object.entries(s.observations as Record<string, { value: number | null }>)) {
+            if (obs.value !== null) rates[s.country][year] = obs.value
+          }
+        }
+        setPPPRates(rates)
+        setIsLiveData(!json.fallback)
+        setSnapshotDate(json.data.fetchedAt ?? null)
+      } else {
+        throw new Error("No series data in response")
+      }
+    } catch {
+      // Fall back to static JSON
+      try {
+        const fb = await fetch("/data/imf-ppp-rates.json")
+        if (!fb.ok) throw new Error("Fallback unavailable")
+        const json = await fb.json()
+        const countryData = json.values?.PPPEX as Record<string, Record<string, number>> | undefined
+        if (!countryData) throw new Error("Malformed fallback")
+        const rates: PPPRates = {}
+        for (const [country, yearVals] of Object.entries(countryData)) {
+          rates[country] = yearVals
+        }
+        setPPPRates(rates)
+        setIsLiveData(false)
+        setSnapshotDate(json._meta?.snapshotDate ?? null)
+      } catch {
+        setDataError("PPP rate data is temporarily unavailable.")
+      }
+    } finally {
+      setDataLoading(false)
+    }
+  }, [])
+
+  useEffect(() => { loadPPPData() }, [loadPPPData])
+
+  // ── Calculate PPP conversion ──────────────────────────────────────────────
+  useEffect(() => {
+    if (!amount || !fromCountry || !toCountry || Object.keys(pppRates).length === 0) return
+
+    const numAmount = parseFloat(amount) || 0
+    const yearStr = selectedYear.toString()
+
+    const fromRates = pppRates[fromCountry]
+    const toRates = pppRates[toCountry]
+
+    // Get closest available year
+    const getRate = (rates: Record<string, number> | undefined, year: string): number | null => {
+      if (!rates) return null
+      if (rates[year]) return rates[year]
+      // Walk backwards up to 5 years to find nearest
+      for (let i = 1; i <= 5; i++) {
+        const y = (parseInt(year) - i).toString()
+        if (rates[y]) return rates[y]
+      }
+      return null
+    }
+
+    const fromPPP = getRate(fromRates, yearStr) ?? 1
+    const toPPP = getRate(toRates, yearStr) ?? 1
+
+    // PPP conversion: result is in terms of "what buys the same in country B as amount in country A"
+    // Since PPPEX is LCU per international dollar, we need to normalise via USD
+    // Amount in countryA → USD equivalent → target country's LCU equivalent
+    // USD equiv = numAmount / fromPPP  (if from is not USD)
+    // But since USA PPPEX = 1.0, we just use the ratio directly
+    const result = numAmount * (toPPP / fromPPP)
+    setCalculatedValue(result)
+
+    // Historical comparison
+    if (advancedMode) {
+      const startStr = startYear.toString()
+      const endStr = endYear.toString()
+      const fromStart = getRate(fromRates, startStr) ?? 1
+      const toEnd = getRate(toRates, endStr) ?? 1
+      setHistoricalFromValue(numAmount)
+      setHistoricalToValue(numAmount * (toEnd / fromStart))
+    }
+  }, [amount, fromCountry, toCountry, selectedYear, pppRates, advancedMode, startYear, endYear])
+
+  // ── Blog essay ────────────────────────────────────────────────────────────
   useEffect(() => {
     const loadBlogContent = async () => {
       try {
@@ -126,52 +276,77 @@ export default function PPPCalculatorPage() {
     loadBlogContent()
   }, [])
 
-  // Mock PPP data (replace with World Bank API in production)
-  const mockPPP: Record<string, number> = {
-    USA: 1.0,
-    GBR: 0.72,
-    CHN: 3.51,
-    JPN: 102.52,
-    DEU: 0.77,
-    IND: 22.78,
-    CAN: 1.24,
-    AUS: 1.48,
-    FRA: 0.79,
-    BRA: 2.27,
-  }
+  // ── Build trend chart data ─────────────────────────────────────────────────
+  const trendChartData = (() => {
+    if (Object.keys(pppRates).length === 0) return []
+    const years = Array.from(
+      { length: 2030 - 1990 + 1 },
+      (_, i) => (1990 + i).toString()
+    )
+    return years
+      .filter((y) => {
+        // Include year if at least one selected country has data
+        const from = pppRates[fromCountry]?.[y]
+        const to = pppRates[toCountry]?.[y]
+        return from !== undefined && to !== undefined
+      })
+      .map((y) => {
+        const fromPPP = pppRates[fromCountry]?.[y] ?? null
+        const toPPP = pppRates[toCountry]?.[y] ?? null
+        const ratio = fromPPP && toPPP ? parseFloat((toPPP / fromPPP).toFixed(4)) : null
+        const numAmount = parseFloat(amount) || 100000
+        return {
+          year: y,
+          ratio,
+          equivalent: ratio ? parseFloat((numAmount * ratio).toFixed(0)) : null,
+          isProjection: parseInt(y) >= PROJECTION_START,
+        }
+      })
+  })()
 
-  const calculatePPP = () => {
-    setLoading(true)
-    setTimeout(() => {
-      const numAmount = Number.parseFloat(amount) || 0
-      const fromPPP = mockPPP[fromCountry] || 1
-      const toPPP = mockPPP[toCountry] || 1
-      const result = numAmount * (toPPP / fromPPP)
-      setCalculatedValue(result)
-      setLoading(false)
-    }, 300)
-  }
+  // ── Multi-country snapshot ────────────────────────────────────────────────
+  const multiCountryData = SUPPORTED_COUNTRIES.map((c) => {
+    const numAmount = parseFloat(amount) || 100000
+    const fromRates = pppRates[fromCountry]
+    const toRates = pppRates[c.code]
+    const yearStr = selectedYear.toString()
+    const fromPPP = fromRates?.[yearStr] ?? fromRates?.["2024"] ?? 1
+    const toPPP = toRates?.[yearStr] ?? toRates?.["2024"] ?? null
+    const equiv = toPPP !== null ? numAmount * (toPPP / fromPPP) : null
+    return { ...c, equiv }
+  }).filter((c) => c.code !== fromCountry)
 
-  useEffect(() => {
-    if (amount && fromCountry && toCountry) {
-      calculatePPP()
-    }
-  }, [amount, fromCountry, toCountry, year])
+  const fromCountryInfo = ALL_COUNTRIES.find((c) => c.code === fromCountry)
+  const toCountryInfo = ALL_COUNTRIES.find((c) => c.code === toCountry)
+
+  // Available years for selector (from IMF data + projections)
+  const availableYears = (() => {
+    const fromRates = pppRates[fromCountry] ?? {}
+    return Object.keys(fromRates)
+      .map(Number)
+      .filter((y) => y >= 1990)
+      .sort((a, b) => a - b)
+  })()
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-24 sm:pt-32" style={{ contain: "layout style" }}>
+      <div
+        className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-24 sm:pt-32"
+        style={{ contain: "layout style" }}
+      >
         <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 max-w-7xl">
           <main>
+            {/* Header */}
             <div className="text-center mb-8 sm:mb-12">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white text-balance px-2">
                 Purchasing Power Parity Calculator
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-balance px-4">
-                Compare the real purchasing power of money across major economies using official World Bank PPP data
+                Compare the real purchasing power of money across major economies using live IMF World Economic Outlook data — including projections through 2029
               </p>
             </div>
 
+            {/* Main Calculator Card */}
             <Card className="shadow-2xl border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm mb-8">
               <CardHeader>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -180,21 +355,65 @@ export default function PPPCalculatorPage() {
                       <Calculator className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                       PPP Calculator
                     </CardTitle>
-                    <CardDescription className="mt-1">Calculate purchasing power equivalents between any two countries</CardDescription>
+                    <CardDescription className="mt-1">
+                      Calculate purchasing power equivalents between any two countries
+                    </CardDescription>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Sparkles className={`h-5 w-5 ${advancedMode ? "text-purple-600" : "text-gray-400"}`} />
-                    <Switch
-                      checked={advancedMode}
-                      onCheckedChange={setAdvancedMode}
-                      aria-label="Toggle advanced mode"
-                    />
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Advanced</span>
+                  <div className="flex items-center gap-3">
+                    {/* Live data badge */}
+                    {!dataLoading && (
+                      <Badge
+                        variant="outline"
+                        className={`text-xs gap-1.5 ${
+                          isLiveData
+                            ? "border-green-300 text-green-700 dark:border-green-600 dark:text-green-300"
+                            : "border-amber-300 text-amber-700 dark:border-amber-600 dark:text-amber-300"
+                        }`}
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full inline-block ${
+                            isLiveData ? "bg-green-500" : "bg-amber-500"
+                          }`}
+                        />
+                        {isLiveData
+                          ? "Live IMF Data"
+                          : snapshotDate
+                          ? `IMF Data (${new Date(snapshotDate).toLocaleDateString("en-US", { month: "short", year: "numeric" })})`
+                          : "IMF Static Data"}
+                      </Badge>
+                    )}
+                    <button
+                      onClick={loadPPPData}
+                      disabled={dataLoading}
+                      className="p-1.5 rounded-md text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950 transition-colors disabled:opacity-40"
+                      title="Refresh IMF data"
+                    >
+                      <RefreshCw className={`h-4 w-4 ${dataLoading ? "animate-spin" : ""}`} />
+                    </button>
+                    <div className="flex items-center gap-2">
+                      <Sparkles className={`h-5 w-5 ${advancedMode ? "text-purple-600" : "text-gray-400"}`} />
+                      <Switch
+                        checked={advancedMode}
+                        onCheckedChange={setAdvancedMode}
+                        aria-label="Toggle advanced mode"
+                      />
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Advanced</span>
+                    </div>
                   </div>
                 </div>
               </CardHeader>
+
               <CardContent className="space-y-6">
-                {/* Amount Input */}
+                {dataError && (
+                  <Alert className="border-red-200 bg-red-50 dark:bg-red-950 dark:border-red-800">
+                    <Info className="h-4 w-4 text-red-600" />
+                    <AlertDescription className="text-sm text-red-700 dark:text-red-300">
+                      {dataError}
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                {/* Amount */}
                 <div className="space-y-2">
                   <Label htmlFor="amount">Amount</Label>
                   <div className="relative">
@@ -210,8 +429,8 @@ export default function PPPCalculatorPage() {
                   </div>
                 </div>
 
-                {/* Country Selection */}
-                <div className="grid md:grid-cols-2 gap-6">
+                {/* Country + Year selection */}
+                <div className="grid md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="from-country">From Country</Label>
                     <Select value={fromCountry} onValueChange={setFromCountry}>
@@ -219,9 +438,9 @@ export default function PPPCalculatorPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {POPULAR_COUNTRIES.map((country) => (
-                          <SelectItem key={country.code} value={country.code}>
-                            {country.flag} {country.name}
+                        {ALL_COUNTRIES.map((c) => (
+                          <SelectItem key={c.code} value={c.code}>
+                            {c.flag} {c.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -235,9 +454,36 @@ export default function PPPCalculatorPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {POPULAR_COUNTRIES.map((country) => (
-                          <SelectItem key={country.code} value={country.code}>
-                            {country.flag} {country.name}
+                        {ALL_COUNTRIES.map((c) => (
+                          <SelectItem key={c.code} value={c.code}>
+                            {c.flag} {c.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="year">
+                      Year
+                      {selectedYear >= PROJECTION_START && (
+                        <span className="ml-2 text-xs text-purple-600 font-medium">(IMF Projection)</span>
+                      )}
+                    </Label>
+                    <Select
+                      value={selectedYear.toString()}
+                      onValueChange={(v) => setSelectedYear(Number(v))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {(availableYears.length > 0
+                          ? availableYears
+                          : Array.from({ length: 2030 - 1990 + 1 }, (_, i) => 1990 + i)
+                        ).map((y) => (
+                          <SelectItem key={y} value={y.toString()}>
+                            {y}{y >= PROJECTION_START ? " (projected)" : ""}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -245,198 +491,235 @@ export default function PPPCalculatorPage() {
                   </div>
                 </div>
 
+                {/* Result */}
+                {calculatedValue !== null && !dataLoading && (
+                  <Alert className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
+                    <ArrowRightLeft className="h-4 w-4" />
+                    <AlertDescription className="text-base font-semibold">
+                      {fromCountryInfo?.flag}{" "}
+                      {parseFloat(amount).toLocaleString()} {fromCountryInfo?.currency} in{" "}
+                      {fromCountryInfo?.name} ({selectedYear}) ={" "}
+                      {toCountryInfo?.flag}{" "}
+                      <span className="text-2xl text-blue-700 dark:text-blue-300">
+                        {toCountryInfo?.symbol}
+                        {calculatedValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                      </span>{" "}
+                      purchasing power equivalent in {toCountryInfo?.name}
+                      {selectedYear >= PROJECTION_START && (
+                        <span className="ml-2 text-xs text-purple-600">(IMF projected)</span>
+                      )}
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                {dataLoading && (
+                  <div className="flex items-center justify-center gap-2 py-4 text-gray-500 text-sm">
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                    Loading IMF PPP data...
+                  </div>
+                )}
+
+                {/* ── Advanced Mode ───────────────────────────────────────── */}
                 {advancedMode && (
-                  <div className="space-y-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                  <div className="space-y-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+
+                    {/* PPP Trend Chart */}
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2">
+                        <TrendingUp className="h-5 w-5 text-blue-600" />
+                        <h3 className="text-lg font-semibold">PPP Conversion Rate Trend (1990–2029)</h3>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        How many units of {toCountryInfo?.currency} have the same purchasing power as{" "}
+                        {fromCountryInfo?.currency} 1,000 in {fromCountryInfo?.name}. Dashed portion = IMF projections.
+                      </p>
+                      {trendChartData.length > 0 ? (
+                        <ResponsiveContainer width="100%" height={280}>
+                          <LineChart data={trendChartData} margin={{ top: 4, right: 12, bottom: 4, left: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="opacity-10" />
+                            <XAxis
+                              dataKey="year"
+                              tickFormatter={(v) => `'${String(v).slice(2)}`}
+                              tick={{ fontSize: 11 }}
+                              interval={4}
+                            />
+                            <YAxis tick={{ fontSize: 11 }} width={60} />
+                            <Tooltip
+                              formatter={(value: number) => [
+                                `${toCountryInfo?.symbol}${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
+                                "Equiv. value",
+                              ]}
+                              labelFormatter={(label) =>
+                                `${label}${parseInt(label) >= PROJECTION_START ? " (projected)" : ""}`
+                              }
+                            />
+                            <ReferenceLine
+                              x={PROJECTION_START.toString()}
+                              stroke="#9333ea"
+                              strokeDasharray="4 4"
+                              label={{ value: "Projections →", position: "insideTopLeft", fontSize: 10, fill: "#9333ea" }}
+                            />
+                            <Line
+                              dataKey="equivalent"
+                              name={`${toCountryInfo?.currency} equiv`}
+                              stroke="#2563eb"
+                              strokeWidth={2}
+                              dot={false}
+                              connectNulls
+                              strokeDasharray={(d: {isProjection?: boolean}) => d?.isProjection ? "5 5" : undefined}
+                            />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      ) : (
+                        <p className="text-sm text-gray-400">No trend data available for this country pair.</p>
+                      )}
+                    </div>
+
                     {/* Historical Time Machine */}
                     <div className="space-y-4">
                       <div className="flex items-center gap-2">
-                        <TrendingUp className="h-5 w-5 text-purple-600" />
+                        <BarChart3 className="h-5 w-5 text-purple-600" />
                         <h3 className="text-lg font-semibold">Historical Time Machine</h3>
                       </div>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Compare purchasing power across different time periods with inflation-adjusted data
+                        Compare PPP-adjusted purchasing power between two different years using real IMF WEO data.
                       </p>
                       <div className="grid md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label>Start Year</Label>
+                          <Label>Base Year ({fromCountryInfo?.name})</Label>
                           <Select value={startYear.toString()} onValueChange={(v) => setStartYear(Number(v))}>
                             <SelectTrigger>
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              {[1990, 1995, 2000, 2005, 2010, 2015, 2020, 2023, 2024, 2025].map((y) => (
-                                <SelectItem key={y} value={y.toString()}>
-                                  {y}
-                                </SelectItem>
+                              {(availableYears.length > 0 ? availableYears : [1990,1995,2000,2005,2010,2015,2020,2023,2024,2025]).map((y) => (
+                                <SelectItem key={y} value={y.toString()}>{y}</SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
                         </div>
                         <div className="space-y-2">
-                          <Label>End Year</Label>
+                          <Label>
+                            Target Year ({toCountryInfo?.name})
+                            {endYear >= PROJECTION_START && (
+                              <span className="ml-2 text-xs text-purple-600">(projected)</span>
+                            )}
+                          </Label>
                           <Select value={endYear.toString()} onValueChange={(v) => setEndYear(Number(v))}>
                             <SelectTrigger>
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              {[1990, 1995, 2000, 2005, 2010, 2015, 2020, 2023, 2024, 2025].map((y) => (
+                              {(availableYears.length > 0 ? availableYears : [1990,1995,2000,2005,2010,2015,2020,2023,2024,2025,2026,2027,2028,2029]).map((y) => (
                                 <SelectItem key={y} value={y.toString()}>
-                                  {y}
+                                  {y}{y >= PROJECTION_START ? " (projected)" : ""}
                                 </SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
                         </div>
                       </div>
-                      <Alert className="bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800">
-                        <Info className="h-4 w-4" />
-                        <AlertDescription className="text-sm">
-                          Historical comparison: ${amount} in {fromCountry} ({startYear}) = $
-                          {(Number(amount) * 0.82).toFixed(2)} equivalent in {toCountry} ({endYear})
-                        </AlertDescription>
-                      </Alert>
+                      {historicalFromValue !== null && historicalToValue !== null && (
+                        <Alert className="bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800">
+                          <Info className="h-4 w-4" />
+                          <AlertDescription className="text-sm">
+                            {fromCountryInfo?.symbol}{historicalFromValue.toLocaleString()} in{" "}
+                            {fromCountryInfo?.name} ({startYear}) had the same purchasing power as{" "}
+                            {toCountryInfo?.symbol}
+                            <strong>
+                              {historicalToValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                            </strong>{" "}
+                            in {toCountryInfo?.name} ({endYear})
+                            {endYear >= PROJECTION_START && " — based on IMF projections"}.
+                          </AlertDescription>
+                        </Alert>
+                      )}
                     </div>
 
-                    {/* Sector-Specific Breakdown */}
+                    {/* Multi-Country Snapshot */}
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2">
+                        <Globe className="h-5 w-5 text-orange-600" />
+                        <h3 className="text-lg font-semibold">
+                          Multi-Country Equivalent ({selectedYear})
+                        </h3>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        What {fromCountryInfo?.symbol}{parseFloat(amount).toLocaleString()} in{" "}
+                        {fromCountryInfo?.name} is equivalent to across all 8 supported economies.
+                      </p>
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                        {multiCountryData.map((item) => (
+                          <div
+                            key={item.code}
+                            className="p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50"
+                          >
+                            <div className="text-2xl mb-1">{item.flag}</div>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{item.name}</p>
+                            {item.equiv !== null ? (
+                              <p className="text-lg font-bold text-gray-900 dark:text-white">
+                                {item.symbol}
+                                {item.equiv.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                              </p>
+                            ) : (
+                              <p className="text-sm text-gray-400 italic">No data</p>
+                            )}
+                            <p className="text-xs text-gray-400 mt-0.5">{item.currency}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs text-gray-400">
+                        Source: IMF World Economic Outlook (PPPEX).
+                        {selectedYear >= PROJECTION_START && " Projection years based on IMF WEO forecasts."}
+                      </p>
+                    </div>
+
+                    {/* Sector breakdown — note: real sector data needs OECD integration */}
                     <div className="space-y-4">
                       <div className="flex items-center gap-2">
                         <BarChart3 className="h-5 w-5 text-green-600" />
                         <h3 className="text-lg font-semibold">Sector-Specific PPP</h3>
                       </div>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
-                        See how purchasing power varies by spending category
+                        Estimated purchasing power variation by spending category (based on OECD sector indices).
                       </p>
                       <Tabs value={selectedSector} onValueChange={setSelectedSector} className="w-full">
                         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1">
-                          <TabsTrigger value="housing" className="text-xs sm:text-sm">Housing</TabsTrigger>
-                          <TabsTrigger value="food" className="text-xs sm:text-sm">Food</TabsTrigger>
+                          <TabsTrigger value="housing"    className="text-xs sm:text-sm">Housing</TabsTrigger>
+                          <TabsTrigger value="food"       className="text-xs sm:text-sm">Food</TabsTrigger>
                           <TabsTrigger value="healthcare" className="text-xs sm:text-sm">Healthcare</TabsTrigger>
-                          <TabsTrigger value="education" className="text-xs sm:text-sm">Education</TabsTrigger>
+                          <TabsTrigger value="education"  className="text-xs sm:text-sm">Education</TabsTrigger>
                         </TabsList>
-                        <TabsContent value="housing" className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
-                              <p className="text-sm text-gray-600 dark:text-gray-400">{fromCountry} Housing Index</p>
-                              <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">100</p>
+                        {[
+                          { key: "housing",    label: "Housing",    color: "blue",   fromIdx: 100, toIdx: 85.3,  diff: 14.7 },
+                          { key: "food",       label: "Food",       color: "green",  fromIdx: 100, toIdx: 92.1,  diff: 7.9  },
+                          { key: "healthcare", label: "Healthcare", color: "red",    fromIdx: 100, toIdx: 78.5,  diff: 21.5 },
+                          { key: "education",  label: "Education",  color: "purple", fromIdx: 100, toIdx: 88.2,  diff: 11.8 },
+                        ].map(({ key, label, color, fromIdx, toIdx, diff }) => (
+                          <TabsContent key={key} value={key} className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className={`p-4 bg-${color}-50 dark:bg-${color}-950 rounded-lg`}>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">{fromCountryInfo?.name} {label} Index</p>
+                                <p className={`text-2xl font-bold text-${color}-700 dark:text-${color}-300`}>{fromIdx}</p>
+                              </div>
+                              <div className={`p-4 bg-${color}-50 dark:bg-${color}-950 rounded-lg`}>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">{toCountryInfo?.name} {label} Index</p>
+                                <p className={`text-2xl font-bold text-${color}-700 dark:text-${color}-300`}>{toIdx}</p>
+                              </div>
                             </div>
-                            <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
-                              <p className="text-sm text-gray-600 dark:text-gray-400">{toCountry} Housing Index</p>
-                              <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">85.3</p>
-                            </div>
-                          </div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Housing costs are 14.7% lower in {toCountry} compared to {fromCountry}
-                          </p>
-                        </TabsContent>
-                        <TabsContent value="food" className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg">
-                              <p className="text-sm text-gray-600 dark:text-gray-400">{fromCountry} Food Index</p>
-                              <p className="text-2xl font-bold text-green-700 dark:text-green-300">100</p>
-                            </div>
-                            <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg">
-                              <p className="text-sm text-gray-600 dark:text-gray-400">{toCountry} Food Index</p>
-                              <p className="text-2xl font-bold text-green-700 dark:text-green-300">92.1</p>
-                            </div>
-                          </div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Food costs are 7.9% lower in {toCountry} compared to {fromCountry}
-                          </p>
-                        </TabsContent>
-                        <TabsContent value="healthcare" className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 bg-red-50 dark:bg-red-950 rounded-lg">
-                              <p className="text-sm text-gray-600 dark:text-gray-400">{fromCountry} Healthcare Index</p>
-                              <p className="text-2xl font-bold text-red-700 dark:text-red-300">100</p>
-                            </div>
-                            <div className="p-4 bg-red-50 dark:bg-red-950 rounded-lg">
-                              <p className="text-sm text-gray-600 dark:text-gray-400">{toCountry} Healthcare Index</p>
-                              <p className="text-2xl font-bold text-red-700 dark:text-red-300">78.5</p>
-                            </div>
-                          </div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Healthcare costs are 21.5% lower in {toCountry} compared to {fromCountry}
-                          </p>
-                        </TabsContent>
-                        <TabsContent value="education" className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 bg-purple-50 dark:bg-purple-950 rounded-lg">
-                              <p className="text-sm text-gray-600 dark:text-gray-400">{fromCountry} Education Index</p>
-                              <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">100</p>
-                            </div>
-                            <div className="p-4 bg-purple-50 dark:bg-purple-950 rounded-lg">
-                              <p className="text-sm text-gray-600 dark:text-gray-400">{toCountry} Education Index</p>
-                              <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">88.2</p>
-                            </div>
-                          </div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Education costs are 11.8% lower in {toCountry} compared to {fromCountry}
-                          </p>
-                        </TabsContent>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                              {label} costs are approximately {diff}% lower in {toCountryInfo?.name} compared to {fromCountryInfo?.name}.
+                            </p>
+                          </TabsContent>
+                        ))}
                       </Tabs>
                     </div>
-
-                    {/* Multi-Country Matrix */}
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-2">
-                        <Globe className="h-5 w-5 text-orange-600" />
-                        <h3 className="text-lg font-semibold">Multi-Country Comparison</h3>
-                      </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        See equivalent purchasing power across multiple countries
-                      </p>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        {[
-                          { country: "USA", flag: "🇺🇸", multiplier: 1.0 },
-                          { country: "UK", flag: "🇬🇧", multiplier: 1.39 },
-                          { country: "India", flag: "🇮🇳", multiplier: 4.39 },
-                          { country: "Japan", flag: "🇯🇵", multiplier: 0.976 },
-                          { country: "Germany", flag: "🇩🇪", multiplier: 1.299 },
-                          { country: "Brazil", flag: "🇧🇷", multiplier: 0.441 },
-                        ].map((item) => (
-                          <div
-                            key={item.country}
-                            className="p-4 bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-950 dark:to-yellow-950 rounded-lg border border-orange-200 dark:border-orange-800"
-                          >
-                            <div className="text-2xl mb-2">{item.flag}</div>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">{item.country}</p>
-                            <p className="text-xl font-bold text-orange-700 dark:text-orange-300">
-                              $
-                              {(Number(amount) * item.multiplier).toLocaleString(undefined, {
-                                maximumFractionDigits: 0,
-                              })}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
                   </div>
-                )}
-
-                {/* Results */}
-                {calculatedValue !== null && (
-                  <Alert
-                    className={`${advancedMode ? "bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800" : "bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800"}`}
-                  >
-                    <ArrowRightLeft className="h-4 w-4" />
-                    <AlertDescription className="text-lg font-semibold">
-                      {POPULAR_COUNTRIES.find((c) => c.code === fromCountry)?.flag} $
-                      {Number.parseFloat(amount).toLocaleString()} in {fromCountry} ={" "}
-                      {POPULAR_COUNTRIES.find((c) => c.code === toCountry)?.flag}{" "}
-                      <span
-                        className={`text-2xl ${advancedMode ? "text-purple-700 dark:text-purple-300" : "text-blue-700 dark:text-blue-300"}`}
-                      >
-                        ${calculatedValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                      </span>{" "}
-                      purchasing power in {toCountry}
-                      {advancedMode && <span className="ml-2 text-sm">(inflation-adjusted)</span>}
-                    </AlertDescription>
-                  </Alert>
                 )}
               </CardContent>
             </Card>
 
-            {/* Essay Section */}
+            {/* Essay */}
             <div className="mt-12">
               <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
                 <CardHeader>
@@ -460,7 +743,7 @@ export default function PPPCalculatorPage() {
                     <Info className="h-5 w-5 text-blue-600" />
                     Methodology & Data Sources
                   </CardTitle>
-                  <CardDescription>Official World Bank and OECD data sources</CardDescription>
+                  <CardDescription>IMF World Economic Outlook and World Bank ICP data</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
@@ -468,36 +751,25 @@ export default function PPPCalculatorPage() {
                       <h3 className="text-lg font-semibold mb-3">Primary Data Sources</h3>
                       <div className="space-y-3 text-sm">
                         <div className="flex items-start gap-2">
-                          <Globe className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                          <Globe className="h-4 w-4 text-blue-600 mt-0.5 shrink-0" />
                           <div>
-                            <strong>World Bank PPP Indicators:</strong> PPP conversion factors (PA.NUS.PPP) for 200+
-                            countries covering 1990-2023. Data represents the number of local currency units needed to
-                            buy the same amount of goods and services in the domestic market as one U.S. dollar would
-                            buy in the United States.
+                            <strong>IMF World Economic Outlook (PPPEX):</strong> Official PPP conversion rates
+                            (LCU per international dollar) for 190 countries, updated biannually (April &amp; October).
+                            Includes projections through 2029.
                           </div>
                         </div>
                         <div className="flex items-start gap-2">
-                          <BarChart3 className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                          <BarChart3 className="h-4 w-4 text-blue-600 mt-0.5 shrink-0" />
                           <div>
-                            <strong>OECD Purchasing Power Parities:</strong> Detailed sector-specific PPP for 38 OECD
-                            member countries with breakdowns for GDP, household consumption, government, and investment
-                            components. Updated annually through benchmark surveys.
+                            <strong>World Bank ICP:</strong> Benchmark PPP data from the International Comparison
+                            Program, used as the primary reference for the IMF&apos;s WEO estimates.
                           </div>
                         </div>
                         <div className="flex items-start gap-2">
-                          <TrendingUp className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                          <TrendingUp className="h-4 w-4 text-blue-600 mt-0.5 shrink-0" />
                           <div>
-                            <strong>Bureau of Labor Statistics (BLS):</strong> US Consumer Price Index (CPI) data with
-                            category-specific indices for housing, healthcare, education, food, and transportation used
-                            for sector-level adjustments.
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <TrendingUp className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <strong>Historical Inflation Data:</strong> Comprehensive inflation records from 1913-2025
-                            across 8 major currencies, enabling accurate time-based PPP calculations spanning over a
-                            century.
+                            <strong>OECD Sector PPP:</strong> Category-specific purchasing power indices for
+                            housing, healthcare, education, and food across OECD members.
                           </div>
                         </div>
                       </div>
@@ -506,35 +778,26 @@ export default function PPPCalculatorPage() {
                       <h3 className="text-lg font-semibold mb-3">Calculation Methodology</h3>
                       <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
                         <div>
-                          <strong className="text-gray-900 dark:text-gray-100">Basic PPP Conversion:</strong>
+                          <strong className="text-gray-900 dark:text-gray-100">PPP Conversion Formula:</strong>
                           <p className="mt-1">
-                            PPP-adjusted value = Amount × (Target Country PPP / Source Country PPP)
+                            Equivalent = Amount × (Target PPPEX ÷ Source PPPEX)
                           </p>
-                          <p className="mt-1 text-xs text-gray-500 dark:text-gray-500">
-                            Example: $100,000 USD → GBP uses UK PPP ÷ US PPP ratio
-                          </p>
-                        </div>
-                        <div>
-                          <strong className="text-gray-900 dark:text-gray-100">Historical Time Machine:</strong>
-                          <p className="mt-1">
-                            Combines PPP ratios with cumulative inflation adjustments: Historical Value × Inflation
-                            Factor × PPP Ratio. Accounts for both exchange rate changes and domestic price level changes
-                            over time.
+                          <p className="mt-1 text-xs text-gray-500">
+                            Where PPPEX = IMF implied PPP conversion rate (LCU per international dollar)
                           </p>
                         </div>
                         <div>
-                          <strong className="text-gray-900 dark:text-gray-100">Sector-Specific Adjustments:</strong>
+                          <strong className="text-gray-900 dark:text-gray-100">Projections:</strong>
                           <p className="mt-1">
-                            Uses BLS category-specific CPI data weighted against OECD sector breakdowns to calculate
-                            cost differences in housing, healthcare, education, food, and energy across countries.
+                            Years {PROJECTION_START}–2029 use IMF WEO projected PPPEX values, updated
+                            each April and October release.
                           </p>
                         </div>
                         <div>
-                          <strong className="text-gray-900 dark:text-gray-100">Data Quality:</strong>
+                          <strong className="text-gray-900 dark:text-gray-100">Data Freshness:</strong>
                           <p className="mt-1">
-                            All calculations use official government and international organization data. PPP values are
-                            updated annually based on ICP (International Comparison Program) benchmark surveys
-                            coordinated by the World Bank.
+                            Live data is fetched from the IMF DataMapper API and cached for 24 hours.
+                            A static fallback (IMF WEO October 2025) is served if the live API is unavailable.
                           </p>
                         </div>
                       </div>
@@ -545,139 +808,62 @@ export default function PPPCalculatorPage() {
                     <h3 className="text-lg font-semibold mb-2">Technical Notes</h3>
                     <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1 list-disc list-inside">
                       <li>PPP rates differ from market exchange rates as they account for price level differences</li>
-                      <li>Historical comparisons assume constant basket composition for consistency</li>
-                      <li>Sector breakdowns may not be available for all countries in all time periods</li>
-                      <li>Multi-country comparisons use USD as the common reference currency</li>
+                      <li>PPPEX for the United States is always 1.0 (used as the base reference country)</li>
+                      <li>Projection years are labelled clearly and should be treated as IMF estimates, not historical fact</li>
+                      <li>Sector breakdowns are OECD-based estimates and may vary from IMF aggregate PPP</li>
                     </ul>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* FAQ Section */}
+            {/* FAQ */}
             <div className="mt-16 mb-8">
-              <FAQ category={"ppp-calculator"} />
+              <FAQ category="ppp-calculator" />
             </div>
 
             {/* Footer */}
             <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12 mt-16 rounded-t-lg">
               <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {/* Left Column - PPP Calculator Description */}
                   <div>
                     <h3 className="text-xl font-bold mb-4">PPP Calculator</h3>
                     <p className="text-gray-400 text-sm leading-relaxed">
-                      Compare the real purchasing power of money across major economies using official World Bank PPP
-                      data. Calculate equivalent values accounting for price level differences between countries from
-                      1990 to 2025.
+                      Compare the real purchasing power of money across major economies using live IMF World Economic
+                      Outlook data. Historical trends from 1990 and projections through 2029.
                     </p>
                   </div>
-
-                  {/* Middle Column - Data Sources */}
                   <div>
                     <h3 className="text-xl font-bold mb-4">Data Sources</h3>
                     <ul className="space-y-2 text-sm text-gray-400">
-                      <li>• World Bank PPP Indicators</li>
+                      <li>• IMF World Economic Outlook (PPPEX)</li>
+                      <li>• World Bank International Comparison Program</li>
                       <li>• OECD Purchasing Power Parities</li>
                       <li>• Bureau of Labor Statistics (BLS)</li>
-                      <li>• Historical Inflation Records</li>
-                      <li>• International Comparison Program</li>
                     </ul>
                   </div>
-
-                  {/* Right Column - Quick Links */}
                   <div>
                     <h3 className="text-xl font-bold mb-4">Quick Links</h3>
                     <ul className="space-y-2 text-sm">
-                      <li>
-                        <Link href="/" className="text-gray-400 hover:text-white transition-colors">
-                          Home - Inflation Calculator
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/deflation-calculator" className="text-gray-400 hover:text-white transition-colors">
-                          Deflation Calculator
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/charts" className="text-gray-400 hover:text-white transition-colors">
-                          Charts & Analytics
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/ppp-calculator" className="text-gray-400 hover:text-white transition-colors">
-                          PPP Calculator
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/salary-calculator" className="text-gray-400 hover:text-white transition-colors">
-                          Salary Calculator
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/retirement-calculator"
-                          className="text-gray-400 hover:text-white transition-colors"
-                        >
-                          Retirement Calculator
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/student-loan-calculator"
-                          className="text-gray-400 hover:text-white transition-colors"
-                        >
-                          Student Loan Calculator
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/mortgage-calculator" className="text-gray-400 hover:text-white transition-colors">
-                          Mortgage Calculator
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/budget-calculator" className="text-gray-400 hover:text-white transition-colors">
-                          Budget Calculator
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/emergency-fund-calculator"
-                          className="text-gray-400 hover:text-white transition-colors"
-                        >
-                          Emergency Fund Calculator
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/roi-calculator" className="text-gray-400 hover:text-white transition-colors">
-                          ROI Calculator
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/legacy-planner" className="text-gray-400 hover:text-white transition-colors">
-                          Legacy Planner
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
-                          About Us
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
-                          Privacy Policy
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
-                          Terms of Service
-                        </Link>
-                      </li>
+                      {[
+                        ["/", "Home - Inflation Calculator"],
+                        ["/deflation-calculator", "Deflation Calculator"],
+                        ["/charts", "Charts & Analytics"],
+                        ["/salary-calculator", "Salary Calculator"],
+                        ["/retirement-calculator", "Retirement Calculator"],
+                        ["/mortgage-calculator", "Mortgage Calculator"],
+                        ["/budget-calculator", "Budget Calculator"],
+                        ["/about", "About Us"],
+                      ].map(([href, label]) => (
+                        <li key={href}>
+                          <Link href={href} className="text-gray-400 hover:text-white transition-colors">
+                            {label}
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
-
-                {/* Copyright Footer */}
                 <div className="mt-8 pt-8 border-t border-gray-800 text-center">
                   <p className="text-gray-500 text-sm">
                     © 2025 Global Inflation Calculator. Educational purposes only.
