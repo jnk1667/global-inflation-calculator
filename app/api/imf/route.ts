@@ -12,6 +12,62 @@ import {
   type IMFCountryCode,
 } from "@/lib/api/imf-api"
 
+// ─── Static fallback file map ─────────────────────────────────────────────────
+// Real IMF WEO data snapshots stored in /public/data/ — used when the live API
+// is unavailable. Updated from actual API responses (October 2025 WEO).
+const FALLBACK_FILES: Partial<Record<string, string>> = {
+  inflation: "/data/imf-inflation.json",
+  "gdp-growth": "/data/imf-gdp-growth.json",
+  unemployment: "/data/imf-unemployment.json",
+  "ppp-rate": "/data/imf-ppp-rates.json",
+}
+
+/**
+ * Load a static fallback JSON file from /public/data/ and transform it
+ * into the same shape as the live IMF API response.
+ */
+async function loadIMFFallback(indicator: string, baseUrl: string) {
+  const filePath = FALLBACK_FILES[indicator]
+  if (!filePath) return null
+
+  try {
+    const res = await fetch(`${baseUrl}${filePath}`)
+    if (!res.ok) return null
+    const json = await res.json()
+    // Fallback files store { values: { [INDICATOR]: { [COUNTRY]: { [YEAR]: value } } } }
+    // Transform into the same IMFDataResult shape the live API returns
+    const indicatorKey = Object.keys(json.values ?? {})[0]
+    if (!indicatorKey) return null
+    const countryValues = json.values[indicatorKey] as Record<string, Record<string, number>>
+
+    const series = Object.entries(countryValues).map(([country, yearValues]) => {
+      const info = IMF_SUPPORTED_COUNTRIES[country as IMFCountryCode]
+      const observations: Record<string, { value: number | null }> = {}
+      for (const [year, value] of Object.entries(yearValues)) {
+        observations[year] = { value: typeof value === "number" ? value : null }
+      }
+      return {
+        country,
+        countryName: info?.name ?? country,
+        currency: info?.currency ?? "",
+        indicator: indicatorKey,
+        observations,
+      }
+    })
+
+    return {
+      indicator: indicatorKey,
+      indicatorLabel: json._meta?.label ?? indicatorKey,
+      countries: Object.keys(countryValues) as IMFCountryCode[],
+      series,
+      fetchedAt: json._meta?.snapshotDate ?? "static",
+      isStaticFallback: true,
+    }
+  } catch {
+    return null
+  }
+}
+
 /**
  * GET /api/imf
  *
@@ -19,14 +75,13 @@ import {
  *   indicator = inflation | gdp-growth | gdp-per-capita | gdp-per-capita-ppp |
  *               unemployment | govt-debt | ppp-rate | all  (default: all)
  *   countries = comma-separated IMF country codes, e.g. USA,GBR,JPN  (default: all 8)
- *   startYear = YYYY  (filter results client-side; IMF API returns full history)
- *   endYear   = YYYY  (filter results client-side)
+ *   startYear = YYYY  (filter results; IMF API returns full history)
+ *   endYear   = YYYY
  *
  * Examples:
  *   /api/imf
  *   /api/imf?indicator=inflation&countries=USA,GBR,DEU
- *   /api/imf?indicator=gdp-per-capita-ppp&startYear=2010&endYear=2023
- *   /api/imf?indicator=ppp-rate&countries=JPN,CHE
+ *   /api/imf?indicator=ppp-rate&startYear=2010&endYear=2030
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl
@@ -156,7 +211,28 @@ export async function GET(request: NextRequest) {
     )
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error"
-    console.error("[IMF API Route]", message)
+    console.error("[IMF API Route] Live API failed:", message)
+
+    // Try serving a static fallback before returning an error
+    if (indicator !== "all") {
+      try {
+        const origin = new URL(request.url).origin
+        const fallback = await loadIMFFallback(indicator, origin)
+        if (fallback) {
+          return NextResponse.json(
+            { success: true, data: fallback, fallback: true },
+            {
+              headers: {
+                "Cache-Control": "public, max-age=3600, stale-while-revalidate=600",
+              },
+            },
+          )
+        }
+      } catch (fbErr) {
+        console.error("[IMF API Route] Fallback also failed:", fbErr)
+      }
+    }
+
     return NextResponse.json(
       { error: `Failed to fetch IMF data: ${message}` },
       { status: 502 },

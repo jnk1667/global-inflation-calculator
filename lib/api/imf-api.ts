@@ -114,16 +114,24 @@ async function fetchIMFRaw(
     headers: {
       Accept: "application/json",
     },
-    next: { revalidate: 86400 }, // Cache 24 hours
+    next: { revalidate: 86400 }, // Cache 24 hours — WEO updates biannually
   })
 
   if (!response.ok) {
+    const body = await response.text().catch(() => "")
     throw new Error(
-      `IMF API error ${response.status} for indicator "${indicator}": ${response.statusText}`,
+      `IMF API ${response.status} for indicator "${indicator}": ${body.slice(0, 200)}`,
     )
   }
 
-  return response.json()
+  const text = await response.text()
+  try {
+    return JSON.parse(text)
+  } catch {
+    throw new Error(
+      `IMF API returned non-JSON for indicator "${indicator}": ${text.slice(0, 200)}`,
+    )
+  }
 }
 
 /**
