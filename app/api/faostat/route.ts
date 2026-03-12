@@ -1,179 +1,73 @@
-// FAOSTAT Data API Route Handler
 // GET /api/faostat
 //
-// Query parameters:
-//   dataset   — "consumer-prices" | "inflation" | "producer-prices" | "food-supply" | "all"
-//               Defaults to "all"
-//   startYear — e.g. "2000" (default: 2000)
-//   endYear   — e.g. "2023" (optional, filters the response)
-//   countries — comma-separated ISO3 codes e.g. "USA,GBR,DEU"
-//               Defaults to all 8 supported countries
+// Serves FAOSTAT food + general CPI data from the static JSON snapshot at
+// /public/data/faostat-food-cpi.json — refreshed by /scripts/fetch-faostat-data.js.
+// The fenixservices.fao.org API is unreachable from server environments.
+//
+// Query params:
+//   countries  — comma-separated ISO3 codes e.g. "USA,GBR,DEU"  (default: all 8)
+//   startYear  — YYYY  (default: 2000)
+//   endYear    — YYYY  (optional)
 //
 // Examples:
-//   /api/faostat                                     → all datasets, all countries
-//   /api/faostat?dataset=inflation&startYear=2010    → CPI % change from 2010 onwards
-//   /api/faostat?dataset=consumer-prices&countries=USA,GBR,DEU
-//   /api/faostat?dataset=producer-prices&startYear=2005&endYear=2023
+//   /api/faostat
+//   /api/faostat?countries=USA,GBR,DEU&startYear=2010
+//   /api/faostat?startYear=2015&endYear=2024
 
 import { NextResponse } from "next/server"
 import {
   fetchFAOSTATConsumerPrices,
-  fetchFAOSTATInflationRates,
-  fetchFAOSTATProducerPrices,
-  fetchFAOSTATFoodSupply,
-  fetchAllFAOSTATData,
-  filterFAOSTATByYearRange,
   FAOSTAT_SUPPORTED_COUNTRIES,
-  type FAOSTATDataResult,
   type FAOSTATCountryCode,
 } from "@/lib/api/faostat-api"
 
 export const dynamic = "force-dynamic"
 
-const SUPPORTED_CODES = Object.keys(
-  FAOSTAT_SUPPORTED_COUNTRIES,
-) as FAOSTATCountryCode[]
+const ALL_CODES = Object.keys(FAOSTAT_SUPPORTED_COUNTRIES) as FAOSTATCountryCode[]
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
+  const { searchParams, origin } = new URL(request.url)
 
-  const dataset = searchParams.get("dataset") ?? "all"
-  const startYearParam = searchParams.get("startYear")
-  const endYearParam = searchParams.get("endYear")
   const countriesParam = searchParams.get("countries")
+  const startYear = parseInt(searchParams.get("startYear") ?? "2000", 10)
+  const endYear   = searchParams.get("endYear") ? parseInt(searchParams.get("endYear")!, 10) : undefined
 
-  const startYear = startYearParam ? parseInt(startYearParam, 10) : 2000
-  const endYear = endYearParam ? parseInt(endYearParam, 10) : null
-
-  // Validate and parse requested countries
-  const requestedCountries: FAOSTATCountryCode[] = countriesParam
+  const countries: FAOSTATCountryCode[] = countriesParam
     ? (countriesParam
         .split(",")
         .map((c) => c.trim().toUpperCase())
-        .filter((c) =>
-          SUPPORTED_CODES.includes(c as FAOSTATCountryCode),
-        ) as FAOSTATCountryCode[])
-    : SUPPORTED_CODES
+        .filter((c) => ALL_CODES.includes(c as FAOSTATCountryCode)) as FAOSTATCountryCode[])
+    : ALL_CODES
 
-  if (requestedCountries.length === 0) {
+  if (countries.length === 0) {
     return NextResponse.json(
-      {
-        ok: false,
-        error:
-          "No valid countries specified. Supported ISO3 codes: " +
-          SUPPORTED_CODES.join(", "),
-      },
+      { ok: false, error: `No valid countries. Supported: ${ALL_CODES.join(", ")}` },
       { status: 400 },
     )
   }
 
-  // Helper: apply endYear filter to a single result
-  function applyYearFilter(result: FAOSTATDataResult): FAOSTATDataResult {
-    if (!endYear) return result
-    return {
-      ...result,
-      series: result.series.map((s) =>
-        filterFAOSTATByYearRange(s, startYear, endYear),
-      ),
-    }
-  }
-
   try {
-    let responseData:
-      | FAOSTATDataResult
-      | Record<string, FAOSTATDataResult>
-      | null = null
-
-    switch (dataset) {
-      case "consumer-prices": {
-        const result = await fetchFAOSTATConsumerPrices(
-          startYear,
-          requestedCountries,
-        )
-        responseData = applyYearFilter(result)
-        break
-      }
-
-      case "inflation": {
-        const result = await fetchFAOSTATInflationRates(
-          startYear,
-          requestedCountries,
-        )
-        responseData = applyYearFilter(result)
-        break
-      }
-
-      case "producer-prices": {
-        const result = await fetchFAOSTATProducerPrices(
-          startYear,
-          requestedCountries,
-        )
-        responseData = applyYearFilter(result)
-        break
-      }
-
-      case "food-supply": {
-        const result = await fetchFAOSTATFoodSupply(
-          startYear,
-          requestedCountries,
-        )
-        responseData = applyYearFilter(result)
-        break
-      }
-
-      case "all": {
-        const all = await fetchAllFAOSTATData({
-          startYear,
-          countries: requestedCountries,
-        })
-        // Apply year filter to each dataset
-        responseData = {
-          consumerPrices: applyYearFilter(all.consumerPrices),
-          inflationRates: applyYearFilter(all.inflationRates),
-          producerPrices: applyYearFilter(all.producerPrices),
-          foodSupply: applyYearFilter(all.foodSupply),
-        }
-        break
-      }
-
-      default:
-        return NextResponse.json(
-          {
-            ok: false,
-            error: `Unknown dataset "${dataset}". Valid options: consumer-prices, inflation, producer-prices, food-supply, all`,
-          },
-          { status: 400 },
-        )
-    }
+    const data = await fetchFAOSTATConsumerPrices({
+      countries,
+      startYear,
+      endYear,
+      baseUrl: origin,
+    })
 
     return NextResponse.json(
+      { ok: true, data },
       {
-        ok: true,
-        dataset,
-        requestedCountries,
-        startYear,
-        endYear,
-        data: responseData,
-      },
-      {
-        status: 200,
         headers: {
-          // FAOSTAT CPI data updates quarterly; cache for 6 hours
-          "Cache-Control": "public, max-age=21600, stale-while-revalidate=86400",
+          // Static snapshot — cache aggressively, revalidated when script runs
+          "Cache-Control": "public, max-age=86400, stale-while-revalidate=3600",
         },
       },
     )
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error"
-    console.error("[FAOSTAT API route]", message)
-
+    console.error("[FAOSTAT route]", message)
     return NextResponse.json(
-      {
-        ok: false,
-        error: "Failed to fetch FAOSTAT data",
-        detail: message,
-        dataset,
-      },
+      { ok: false, error: "Failed to load FAOSTAT data", detail: message },
       { status: 502 },
     )
   }
