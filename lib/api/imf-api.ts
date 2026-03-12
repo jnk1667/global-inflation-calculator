@@ -113,6 +113,10 @@ async function fetchIMFRaw(
   const response = await fetch(url, {
     headers: {
       Accept: "application/json",
+      // IMF's Akamai CDN returns 403 for requests with no User-Agent (server-side Node.js).
+      // A browser User-Agent is required for the datamapper API to respond.
+      "User-Agent":
+        "Mozilla/5.0 (compatible; GlobalInflationCalculator/1.0; +https://www.globalinflationcalculator.com)",
     },
     next: { revalidate: 86400 }, // Cache 24 hours — WEO updates biannually
   })
@@ -141,7 +145,11 @@ async function fetchIMFIndicatorMeta(indicator: string): Promise<IMFIndicatorRes
   const url = `${IMF_API_BASE}/indicators/${indicator}`
 
   const response = await fetch(url, {
-    headers: { Accept: "application/json" },
+    headers: {
+      Accept: "application/json",
+      "User-Agent":
+        "Mozilla/5.0 (compatible; GlobalInflationCalculator/1.0; +https://www.globalinflationcalculator.com)",
+    },
     next: { revalidate: 604800 }, // Metadata: cache 7 days
   })
 

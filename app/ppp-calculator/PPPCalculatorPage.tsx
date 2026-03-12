@@ -166,46 +166,52 @@ export default function PPPCalculatorPage() {
   const loadPPPData = useCallback(async () => {
     setDataLoading(true)
     setDataError(null)
-    try {
-      // Try live API first
-      const res = await fetch("/api/imf?indicator=ppp-rate")
-      if (!res.ok) throw new Error(`API error ${res.status}`)
-      const json = await res.json()
 
-      if (json.data?.series?.length) {
-        const rates: PPPRates = {}
-        for (const s of json.data.series) {
-          rates[s.country] = {}
-          for (const [year, obs] of Object.entries(s.observations as Record<string, { value: number | null }>)) {
-            if (obs.value !== null) rates[s.country][year] = obs.value
-          }
-        }
-        setPPPRates(rates)
-        setIsLiveData(!json.fallback)
-        setSnapshotDate(json.data.fetchedAt ?? null)
-      } else {
-        throw new Error("No series data in response")
-      }
-    } catch {
-      // Fall back to static JSON
-      try {
-        const fb = await fetch("/data/imf-ppp-rates.json")
-        if (!fb.ok) throw new Error("Fallback unavailable")
+    // Step 1: Load static fallback immediately so the page is never empty
+    try {
+      const fb = await fetch("/data/imf-ppp-rates.json")
+      if (fb.ok) {
         const json = await fb.json()
         const countryData = json.values?.PPPEX as Record<string, Record<string, number>> | undefined
-        if (!countryData) throw new Error("Malformed fallback")
-        const rates: PPPRates = {}
-        for (const [country, yearVals] of Object.entries(countryData)) {
-          rates[country] = yearVals
+        if (countryData) {
+          const rates: PPPRates = {}
+          for (const [country, yearVals] of Object.entries(countryData)) {
+            rates[country] = yearVals
+          }
+          setPPPRates(rates)
+          setIsLiveData(false)
+          setSnapshotDate(json._meta?.snapshotDate ?? null)
         }
-        setPPPRates(rates)
-        setIsLiveData(false)
-        setSnapshotDate(json._meta?.snapshotDate ?? null)
-      } catch {
-        setDataError("PPP rate data is temporarily unavailable.")
       }
+    } catch {
+      // Fallback failed — will try live API below
     } finally {
       setDataLoading(false)
+    }
+
+    // Step 2: Try the live IMF API directly from the browser (not via server route)
+    // The IMF blocks server/datacenter IPs (403) but allows browser requests
+    try {
+      const countries = ["USA", "GBR", "DEU", "JPN", "CAN", "AUS", "CHE", "FRA"]
+      const liveUrl = `https://www.imf.org/external/datamapper/api/v1/PPPEX/${countries.join("/")}`
+      const res = await fetch(liveUrl, { headers: { Accept: "application/json" } })
+      if (!res.ok) throw new Error(`IMF API ${res.status}`)
+      const json = await res.json()
+      const countryData = json.values?.PPPEX as Record<string, Record<string, number>> | undefined
+      if (!countryData) throw new Error("No PPPEX values in response")
+
+      const rates: PPPRates = {}
+      for (const [country, yearVals] of Object.entries(countryData)) {
+        rates[country] = {}
+        for (const [year, value] of Object.entries(yearVals)) {
+          if (value !== null && value !== undefined) rates[country][year] = Number(value)
+        }
+      }
+      setPPPRates(rates)
+      setIsLiveData(true)
+      setSnapshotDate(new Date().toISOString().split("T")[0])
+    } catch {
+      // Live API unavailable from browser — static fallback already loaded above, no action needed
     }
   }, [])
 
