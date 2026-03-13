@@ -29,6 +29,20 @@ import FAQ from "@/components/faq" // Assuming FAQ component is available
 import { treasuryData } from "@/lib/treasury-data"
 import { loadInflationMeasure, getLatestAvailableYear } from "@/lib/inflation-measures"
 
+// Map RetirementData.currency → FAOSTAT ISO3 code
+// NZD not in FAOSTAT; fall back to AUS as nearest comparable
+const CURRENCY_TO_FAOSTAT: Record<string, string> = {
+  USD: "USA", GBP: "GBR", EUR: "DEU", CAD: "CAN",
+  AUD: "AUS", CHF: "CHE", JPY: "JPN", NZD: "AUS",
+}
+
+interface FoodCPIData {
+  foodInflationRate: number | null
+  generalInflationRate: number | null
+  year: number | null
+  snapshotDate: string
+}
+
 interface RetirementData {
   currentAge: number
   retirementAge: number
@@ -413,6 +427,7 @@ export default function RetirementCalculatorPage() {
   const [essayContent, setEssayContent] = useState<string>("")
   const [showTreasuryPresets, setShowTreasuryPresets] = useState(false)
   const [currentTreasuryRates, setCurrentTreasuryRates] = useState<any>(null)
+  const [foodCPIData, setFoodCPIData] = useState<FoodCPIData | null>(null)
 
   // Auto-calculate generation based on current age
   const calculateGenerationFromAge = (age: number): "babyBoomers" | "genX" | "millennials" | "genZ" => {
@@ -531,6 +546,27 @@ Successful retirement planning requires a multi-faceted approach that considers 
 
     loadInflationData()
   }, [])
+
+  // Load FAOSTAT food-specific CPI for the selected currency's country
+  // Food inflation is especially relevant for retirees on fixed incomes
+  useEffect(() => {
+    const iso3 = CURRENCY_TO_FAOSTAT[data.currency]
+    if (!iso3) return
+
+    const loadFoodCPI = async () => {
+      try {
+        const res = await fetch(`/api/faostat?country=${iso3}&metric=food-inflation`)
+        if (!res.ok) return
+        const json = await res.json()
+        if (json?.ok && json?.data) {
+          setFoodCPIData(json.data as FoodCPIData)
+        }
+      } catch {
+        // Silently ignore — doesn't affect core calculations
+      }
+    }
+    loadFoodCPI()
+  }, [data.currency])
 
   // Calculate retirement projections - runs automatically when data changes
   useEffect(() => {
@@ -1311,6 +1347,70 @@ Successful retirement planning requires a multi-faceted approach that considers 
                       </div>
                     </div>
 
+                    {/* FAOSTAT food inflation panel — food is a major fixed cost in retirement */}
+                    {foodCPIData && foodCPIData.foodInflationRate !== null && (
+                      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+                        <div className="mb-3 flex items-center gap-2">
+                          <TrendingUp className="h-4 w-4 text-amber-600" />
+                          <h3 className="font-semibold text-amber-900">
+                            Food Inflation in Retirement ({foodCPIData.year})
+                          </h3>
+                          <span className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
+                            FAOSTAT
+                          </span>
+                        </div>
+                        <p className="mb-3 text-sm text-amber-700">
+                          Food costs are a non-discretionary expense that grows faster than general inflation — particularly
+                          important for retirees who can't reduce food spending.
+                        </p>
+                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                          <div className="rounded bg-white p-3 text-center shadow-sm">
+                            <div className="text-xs text-slate-500">Food CPI</div>
+                            <div className="text-xl font-bold text-orange-600">
+                              {foodCPIData.foodInflationRate.toFixed(1)}%
+                            </div>
+                            <div className="text-xs text-slate-400">annual</div>
+                          </div>
+                          <div className="rounded bg-white p-3 text-center shadow-sm">
+                            <div className="text-xs text-slate-500">General CPI</div>
+                            <div className="text-xl font-bold text-blue-600">
+                              {foodCPIData.generalInflationRate !== null
+                                ? `${foodCPIData.generalInflationRate.toFixed(1)}%`
+                                : `${data.inflationRate.toFixed(1)}%`}
+                            </div>
+                            <div className="text-xs text-slate-400">annual</div>
+                          </div>
+                          <div className="rounded bg-white p-3 text-center shadow-sm">
+                            <div className="text-xs text-slate-500">Food in 20yr</div>
+                            <div className="text-xl font-bold text-red-600">
+                              {formatCurrency(
+                                (data.currentSalary * 0.15 / 12) *
+                                  Math.pow(1 + foodCPIData.foodInflationRate / 100, 20)
+                              )}
+                            </div>
+                            <div className="text-xs text-slate-400">monthly est.</div>
+                          </div>
+                          <div className="rounded bg-white p-3 text-center shadow-sm">
+                            <div className="text-xs text-slate-500">Gap vs CPI</div>
+                            <div className={`text-xl font-bold ${
+                              foodCPIData.foodInflationRate > (foodCPIData.generalInflationRate ?? data.inflationRate)
+                                ? "text-red-600"
+                                : "text-green-600"
+                            }`}>
+                              {foodCPIData.foodInflationRate > (foodCPIData.generalInflationRate ?? data.inflationRate)
+                                ? "+"
+                                : ""}
+                              {(foodCPIData.foodInflationRate - (foodCPIData.generalInflationRate ?? data.inflationRate)).toFixed(1)}%
+                            </div>
+                            <div className="text-xs text-slate-400">food vs general</div>
+                          </div>
+                        </div>
+                        <p className="mt-2 text-xs text-amber-600/70">
+                          Source: FAO Consumer Price Indices (FAOSTAT, 2015=100). Snapshot: {foodCPIData.snapshotDate}.
+                        </p>
+                      </div>
+                    )}
+
                     <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
                       <h3 className="font-semibold text-yellow-900 mb-2">Healthcare Cost Reality</h3>
                       <p className="text-sm text-yellow-700 mb-2">
@@ -1767,6 +1867,7 @@ Successful retirement planning requires a multi-faceted approach that considers 
                   <li className="text-slate-300 dark:text-slate-400">• Federal Reserve Economic Data</li>
                   <li className="text-slate-300 dark:text-slate-400">• IRS Retirement Guidelines</li>
                   <li className="text-slate-300 dark:text-slate-400">• Historical Market Returns</li>
+                  <li className="text-slate-300 dark:text-slate-400">• FAOSTAT Consumer Price Indices (FAO)</li>
                 </ul>
               </div>
 
