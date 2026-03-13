@@ -26,6 +26,13 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 
+interface FoodCPIData {
+  foodInflationRate: number   // latest food-specific annual % change
+  generalInflationRate: number
+  year: number
+  snapshotDate: string
+}
+
 const COLORS = {
   needs: "#3b82f6", // blue
   wants: "#8b5cf6", // purple
@@ -42,6 +49,7 @@ export default function BudgetCalculatorPage() {
   const [yearsAhead, setYearsAhead] = useState(5)
   const [currentTreasuryRates, setCurrentTreasuryRates] = useState<any>(null)
   const [mounted, setMounted] = useState(false)
+  const [foodCPIData, setFoodCPIData] = useState<FoodCPIData | null>(null)
 
   const income = Number.parseFloat(monthlyIncome) || 0
   const monthlyAmount =
@@ -183,6 +191,23 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
     }
 
     loadEssayContent()
+  }, [])
+
+  // Load FAOSTAT food-specific CPI data (food inflates faster than general CPI)
+  useEffect(() => {
+    const loadFoodCPI = async () => {
+      try {
+        const res = await fetch("/api/faostat?country=USA&metric=food-inflation")
+        if (!res.ok) return
+        const json = await res.json()
+        if (json?.data) {
+          setFoodCPIData(json.data as FoodCPIData)
+        }
+      } catch {
+        // Silently ignore — the general CPI fallback is already set
+      }
+    }
+    loadFoodCPI()
   }, [])
 
   useEffect(() => {
@@ -331,6 +356,40 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                       <p className="mt-1 text-xs text-slate-400">
                         Current US inflation: {inflationRate.toFixed(1)}% (BLS CPI-U data)
                       </p>
+
+                      {/* FAOSTAT food vs general CPI comparison */}
+                      {foodCPIData && (
+                        <div className="mt-3 rounded-lg border border-orange-500/20 bg-orange-500/5 p-3">
+                          <p className="mb-2 text-xs font-semibold text-orange-300">
+                            Food Inflation vs General Inflation (FAOSTAT, {foodCPIData.year})
+                          </p>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="rounded bg-slate-700/50 p-2 text-center">
+                              <div className="text-xs text-slate-400">Food CPI</div>
+                              <div className="text-lg font-bold text-orange-400">
+                                {foodCPIData.foodInflationRate.toFixed(1)}%
+                              </div>
+                              <div className="text-xs text-slate-500">groceries &amp; food</div>
+                            </div>
+                            <div className="rounded bg-slate-700/50 p-2 text-center">
+                              <div className="text-xs text-slate-400">General CPI</div>
+                              <div className="text-lg font-bold text-blue-400">
+                                {foodCPIData.generalInflationRate.toFixed(1)}%
+                              </div>
+                              <div className="text-xs text-slate-500">all items</div>
+                            </div>
+                          </div>
+                          {foodCPIData.foodInflationRate > foodCPIData.generalInflationRate && (
+                            <p className="mt-2 text-xs text-orange-300/80">
+                              Food is inflating {(foodCPIData.foodInflationRate - foodCPIData.generalInflationRate).toFixed(1)}% faster
+                              than the general basket — your 50% "Needs" allocation may need to be higher.
+                            </p>
+                          )}
+                          <p className="mt-1 text-xs text-slate-500">
+                            Source: FAO Consumer Price Indices (FAOSTAT, 2015=100)
+                          </p>
+                        </div>
+                      )}
                     </div>
 
                     <div>
@@ -550,27 +609,32 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                     <div className="mb-4 flex items-start gap-2 text-sm text-slate-300">
                       <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-400" />
                       <p>
-                        With {inflationRate}% annual inflation, you'll need{" "}
+                        With {inflationRate.toFixed(1)}% annual inflation
+                        {foodCPIData && foodCPIData.foodInflationRate !== inflationRate && (
+                          <span> (food at {foodCPIData.foodInflationRate.toFixed(1)}%)</span>
+                        )}
+                        , you'll need{" "}
                         <strong className="text-white">
                           {formatCurrency(Math.round(annualIncome * Math.pow(1 + inflationRate / 100, yearsAhead)))}
                         </strong>{" "}
-                        in {yearsAhead} {yearsAhead === 1 ? "year" : "years"} to maintain the same purchasing power as $
+                        in {yearsAhead} {yearsAhead === 1 ? "year" : "years"} to maintain the same purchasing power as{" "}
                         {formatCurrency(annualIncome)} today.
                       </p>
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-3">
                       <div className="rounded-lg border border-slate-600 bg-slate-700/50 p-4">
-                        <div className="mb-2 text-sm text-slate-400">Future Needs</div>
+                        <div className="mb-1 text-sm text-slate-400">Future Needs</div>
+                        {foodCPIData && (
+                          <div className="mb-1 text-xs text-orange-400/70">
+                            food rate: {foodCPIData.foodInflationRate.toFixed(1)}%
+                          </div>
+                        )}
                         <div className="text-xl font-bold text-blue-400">
-                          {formatCurrency(Math.round(annualNeeds * Math.pow(1 + inflationRate / 100, yearsAhead)))}
+                          {formatCurrency(Math.round(annualNeeds * Math.pow(1 + (foodCPIData?.foodInflationRate ?? inflationRate) / 100, yearsAhead)))}
                         </div>
                         <div className="mt-1 text-xs text-slate-400">
-                          +
-                          {formatCurrency(
-                            Math.round(annualNeeds * (Math.pow(1 + inflationRate / 100, yearsAhead) - 1)),
-                          )}{" "}
-                          vs today
+                          +{formatCurrency(Math.round(annualNeeds * (Math.pow(1 + (foodCPIData?.foodInflationRate ?? inflationRate) / 100, yearsAhead) - 1)))} vs today
                         </div>
                       </div>
 
@@ -580,11 +644,7 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                           {formatCurrency(Math.round(annualWants * Math.pow(1 + inflationRate / 100, yearsAhead)))}
                         </div>
                         <div className="mt-1 text-xs text-slate-400">
-                          +
-                          {formatCurrency(
-                            Math.round(annualWants * (Math.pow(1 + inflationRate / 100, yearsAhead) - 1)),
-                          )}{" "}
-                          vs today
+                          +{formatCurrency(Math.round(annualWants * (Math.pow(1 + inflationRate / 100, yearsAhead) - 1)))} vs today
                         </div>
                       </div>
 
@@ -594,11 +654,7 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
                           {formatCurrency(Math.round(annualSavings * Math.pow(1 + inflationRate / 100, yearsAhead)))}
                         </div>
                         <div className="mt-1 text-xs text-slate-400">
-                          +
-                          {formatCurrency(
-                            Math.round(annualSavings * (Math.pow(1 + inflationRate / 100, yearsAhead) - 1)),
-                          )}{" "}
-                          vs today
+                          +{formatCurrency(Math.round(annualSavings * (Math.pow(1 + inflationRate / 100, yearsAhead) - 1)))} vs today
                         </div>
                       </div>
                     </div>
@@ -800,6 +856,7 @@ The 20% savings portion of the budget is your ticket to financial freedom. This 
               <h3 className="mb-4 font-semibold text-white">Data Sources</h3>
               <ul className="space-y-2 text-sm text-slate-400">
                 <li>• Bureau of Labor Statistics (BLS)</li>
+                <li>• FAOSTAT Consumer Price Indices (FAO)</li>
                 <li>• Consumer Expenditure Survey</li>
                 <li>• Federal Reserve Economic Data</li>
                 <li>• U.S. Census Bureau</li>

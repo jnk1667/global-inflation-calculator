@@ -48,14 +48,24 @@ export interface FAOSTATResult {
 }
 
 // Raw shape of /public/data/faostat-food-cpi.json
+// The bulk CSV script writes { _meta, data: { [ISO3]: { foodCpiIndex, ... } } }
 interface FAOSTATRawJSON {
   _meta: {
     source:       string
     sourceUrl:    string
     basePeriod:   string
     snapshotDate: string
+    countries?:   { iso3: string; name: string; currency: string }[]
   }
-  countries: {
+  // data is keyed by ISO3 code
+  data?: Record<string, {
+    foodCpiIndex:     Record<string, number>
+    generalCpiIndex:  Record<string, number>
+    foodInflation:    Record<string, number>
+    generalInflation: Record<string, number>
+  }>
+  // fallback: some versions may write countries[] array at top level
+  countries?: {
     iso3:     string
     name:     string
     currency: string
@@ -87,7 +97,23 @@ export async function loadFAOSTATData(baseUrl?: string): Promise<FAOSTATRawJSON>
   const res = await fetch(url, { next: { revalidate: 86400 } })
   if (!res.ok) throw new Error(`FAOSTAT static data unavailable: ${res.status} ${url}`)
 
-  _cachedData = await res.json() as FAOSTATRawJSON
+  const raw = await res.json() as FAOSTATRawJSON
+
+  // Normalise: the bulk-CSV script writes { data: { ISO3: {...} } }
+  // but older versions write { countries: [...] }
+  if (!raw.countries && raw.data) {
+    const countryMeta = raw._meta.countries ?? Object.keys(raw.data).map((iso3) => ({
+      iso3,
+      name: FAOSTAT_SUPPORTED_COUNTRIES[iso3 as FAOSTATCountryCode]?.name ?? iso3,
+      currency: FAOSTAT_SUPPORTED_COUNTRIES[iso3 as FAOSTATCountryCode]?.currency ?? "",
+    }))
+    raw.countries = countryMeta.map((cm) => ({
+      ...cm,
+      ...(raw.data![cm.iso3] ?? { foodCpiIndex: {}, generalCpiIndex: {}, foodInflation: {}, generalInflation: {} }),
+    }))
+  }
+
+  _cachedData = raw
   return _cachedData
 }
 
