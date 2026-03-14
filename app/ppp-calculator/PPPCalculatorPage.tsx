@@ -78,6 +78,15 @@ interface PPPRates {
   }
 }
 
+interface OECDCountryPPP {
+  countryName: string
+  currency: string
+  latestPPP: number | null
+  latestYear: number | null
+  timeSeries: Record<string, number>
+}
+type OECDPPPData = Record<string, OECDCountryPPP>
+
 // ─── Essay default ────────────────────────────────────────────────────────────
 const DEFAULT_PPP_ESSAY = `## What Is Purchasing Power Parity?
 
@@ -157,6 +166,9 @@ export default function PPPCalculatorPage() {
   const [isLiveData, setIsLiveData] = useState(false)
   const [snapshotDate, setSnapshotDate] = useState<string | null>(null)
 
+  // OECD PPP data state
+  const [oecdPPP, setOecdPPP] = useState<OECDPPPData | null>(null)
+
   // Calculated result
   const [calculatedValue, setCalculatedValue] = useState<number | null>(null)
   const [historicalFromValue, setHistoricalFromValue] = useState<number | null>(null)
@@ -216,6 +228,23 @@ export default function PPPCalculatorPage() {
   }, [])
 
   useEffect(() => { loadPPPData() }, [loadPPPData])
+
+  // ── Load OECD PPP rates for cross-reference ───────────────────────────────
+  useEffect(() => {
+    const loadOECD = async () => {
+      try {
+        const res = await fetch("/api/oecd?metric=ppp")
+        if (!res.ok) return
+        const json = await res.json()
+        if (json?.ok && json?.data) {
+          setOecdPPP(json.data as OECDPPPData)
+        }
+      } catch {
+        // Silently ignore — IMF data is the primary source
+      }
+    }
+    loadOECD()
+  }, [])
 
   // ── Calculate PPP conversion ──────────────────────────────────────────────
   useEffect(() => {
@@ -680,7 +709,88 @@ export default function PPPCalculatorPage() {
                       </p>
                     </div>
 
-                    {/* Sector breakdown — note: real sector data needs OECD integration */}
+                    {/* OECD vs IMF Cross-Reference Panel */}
+                    {oecdPPP && (
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <Globe className="h-5 w-5 text-teal-600" />
+                          <h3 className="text-lg font-semibold">OECD vs IMF PPP Cross-Reference</h3>
+                          <span className="ml-auto text-xs bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 px-2 py-0.5 rounded-full font-medium">
+                            OECD Live
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          The OECD and IMF both publish PPP rates but use different methodologies. The OECD/Eurostat 
+                          PPP Programme uses detailed price surveys across member countries, while the IMF WEO derives 
+                          rates from its macroeconomic models. Divergence between the two signals where the real exchange 
+                          rate may be moving away from purchasing power fundamentals.
+                        </p>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm border-collapse">
+                            <thead>
+                              <tr className="bg-gray-100 dark:bg-gray-800">
+                                <th className="text-left p-3 font-semibold rounded-tl-lg">Country</th>
+                                <th className="text-right p-3 font-semibold">OECD PPP ({oecdPPP[fromCountry]?.latestYear ?? "latest"})</th>
+                                <th className="text-right p-3 font-semibold">IMF PPPEX ({selectedYear})</th>
+                                <th className="text-right p-3 font-semibold rounded-tr-lg">Divergence</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {["USA","GBR","DEU","JPN","CAN","AUS","CHE","FRA"].map((iso3, idx) => {
+                                const oecdVal = oecdPPP[iso3]?.latestPPP
+                                const oecdYr  = oecdPPP[iso3]?.latestYear?.toString() ?? selectedYear.toString()
+                                const imfVal  = pppRates[iso3]?.[selectedYear.toString()]
+                                  ?? pppRates[iso3]?.[oecdYr]
+                                const diverge = (oecdVal != null && imfVal != null)
+                                  ? ((oecdVal - imfVal) / imfVal * 100)
+                                  : null
+                                const isFrom = iso3 === fromCountry
+                                const isTo   = iso3 === toCountry
+                                return (
+                                  <tr
+                                    key={iso3}
+                                    className={`border-t border-gray-200 dark:border-gray-700 ${
+                                      isFrom ? "bg-blue-50 dark:bg-blue-950/30" :
+                                      isTo   ? "bg-purple-50 dark:bg-purple-950/30" :
+                                      idx % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800/50"
+                                    }`}
+                                  >
+                                    <td className="p-3 font-medium">
+                                      {COUNTRIES.find(c => c.code === iso3)?.flag} {COUNTRIES.find(c => c.code === iso3)?.name ?? iso3}
+                                      {isFrom && <span className="ml-2 text-xs text-blue-600 font-normal">(from)</span>}
+                                      {isTo   && <span className="ml-2 text-xs text-purple-600 font-normal">(to)</span>}
+                                    </td>
+                                    <td className="p-3 text-right font-mono">
+                                      {oecdVal != null ? oecdVal.toFixed(3) : <span className="text-gray-400">—</span>}
+                                    </td>
+                                    <td className="p-3 text-right font-mono">
+                                      {imfVal != null ? imfVal.toFixed(3) : <span className="text-gray-400">—</span>}
+                                    </td>
+                                    <td className={`p-3 text-right font-semibold ${
+                                      diverge == null ? "text-gray-400" :
+                                      Math.abs(diverge) < 1 ? "text-green-600 dark:text-green-400" :
+                                      Math.abs(diverge) < 3 ? "text-amber-600 dark:text-amber-400" :
+                                      "text-red-600 dark:text-red-400"
+                                    }`}>
+                                      {diverge != null
+                                        ? `${diverge > 0 ? "+" : ""}${diverge.toFixed(1)}%`
+                                        : "—"}
+                                    </td>
+                                  </tr>
+                                )
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                        <p className="text-xs text-gray-400">
+                          OECD: Purchasing Power Parities for GDP (national currency per 1 USD at PPP), OECD/Eurostat Programme.
+                          IMF: Implied PPP conversion rate (LCU per international dollar), WEO {selectedYear >= PROJECTION_START ? "projected" : "actual"}.
+                          Divergence {">"} 3% may indicate exchange rate misalignment.
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Sector breakdown */}
                     <div className="space-y-4">
                       <div className="flex items-center gap-2">
                         <BarChart3 className="h-5 w-5 text-green-600" />
@@ -774,8 +884,9 @@ export default function PPPCalculatorPage() {
                         <div className="flex items-start gap-2">
                           <TrendingUp className="h-4 w-4 text-blue-600 mt-0.5 shrink-0" />
                           <div>
-                            <strong>OECD Sector PPP:</strong> Category-specific purchasing power indices for
-                            housing, healthcare, education, and food across OECD members.
+                            <strong>OECD/Eurostat PPP Programme:</strong> Annual PPP conversion rates
+                            (national currency per 1 USD) for 38 OECD member countries, derived from detailed
+                            price surveys. Used here to cross-reference IMF PPPEX values.
                           </div>
                         </div>
                       </div>
@@ -802,8 +913,10 @@ export default function PPPCalculatorPage() {
                         <div>
                           <strong className="text-gray-900 dark:text-gray-100">Data Freshness:</strong>
                           <p className="mt-1">
-                            Live data is fetched from the IMF DataMapper API and cached for 24 hours.
-                            A static fallback (IMF WEO October 2025) is served if the live API is unavailable.
+                            IMF data is fetched live from the IMF DataMapper API and cached for 24 hours.
+                            OECD PPP rates are served from the OECD Data Explorer API (sdmx.oecd.org) with 
+                            a 24-hour cache and static fallback. Both sources fall back to verified static 
+                            snapshots if their APIs are unavailable.
                           </p>
                         </div>
                       </div>
