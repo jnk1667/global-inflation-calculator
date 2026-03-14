@@ -36,18 +36,27 @@ export type OECDCountryCode = keyof typeof OECD_SUPPORTED_COUNTRIES
 // ─── Dataset identifiers (new OECD Data Explorer format) ─────────────────────
 /**
  * Format: "{agency},{DSD}@{dataflow},{version}"
- * These replace the legacy OECD.Stat single-word identifiers.
+ * Correct IDs confirmed via OECD Data Explorer Developer API button.
+ *
+ * NOTE: The live OECD API (sdmx.oecd.org) is unreachable from server-side
+ * environments (same pattern as FAOSTAT and IMF). The live-fetch attempt is
+ * intentionally skipped — we serve the static fallback immediately to avoid
+ * 404 errors in logs. The fetch script /scripts/fetch-oecd-data.js can be
+ * run locally or in CI to refresh the static JSON files.
  */
 export const OECD_DATASETS = {
-  /** PPP conversion rates: national currency per USD (annual) */
-  PPP_GDP:    "OECD.SDD.TPS,DSD_PRICES@DF_PRICES_PPPCO,1.0",
-  /** Average annual wages in constant 2022 USD PPP */
-  WAGES:      "OECD.ELS.SAE,DSD_EARNINGS@DF_EARNINGS_AVERAGES,1.0",
-  /** Consumer Price Index (total, annual index) */
-  CPI:        "OECD.SDD.TPS,DSD_PRICES@DF_PRICES_CPI,1.0",
-  /** Unemployment rate (harmonised, annual) */
-  UNEMPLOYMENT: "OECD.SDD.STES,DSD_STES@DF_STES,4.0",
+  /** PPP conversion rates: national currency per USD (annual) — legacy: PPPGDP */
+  PPP_GDP: "OECD.SDD.NAD,DSD_NAMAIN10@DF_TABLE4,1.0",
+  /** Average annual wages in constant 2022 USD PPP — legacy: AV_AN_WAGE */
+  WAGES:   "OECD.ELS.SAE,DSD_EARNINGS@DF_EARNINGS_AVERAGES,1.0",
+  /** Consumer Price Index (total, annual) — legacy: CPI */
+  CPI:     "OECD.SDD.TPS,DSD_PRICES@DF_PRICES_CPI,1.0",
 } as const
+
+// ─── Live API: disabled for server environments ───────────────────────────────
+// sdmx.oecd.org blocks non-browser User-Agents in server environments.
+// Skip the live attempt and go straight to static fallback.
+const SKIP_LIVE_API = true
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -205,6 +214,9 @@ async function fetchSDMXLive(
   keyFilter: string,
   params: { startPeriod?: string; endPeriod?: string } = {},
 ): Promise<SDMXv2Response | null> {
+  // Skip live API — sdmx.oecd.org is unreachable from server environments
+  // and returns 404 for unresolved dataset IDs in this runtime.
+  if (SKIP_LIVE_API) return null
   const query = new URLSearchParams({
     format: "jsondata",
     dimensionAtObservation: "TIME_PERIOD",
