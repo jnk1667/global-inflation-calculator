@@ -1,42 +1,56 @@
-// OECD SDMX-JSON API client
-// Free, no API key required. Covers 38 OECD member countries.
-// Docs: https://data.oecd.org/api/sdmx-json-documentation/
+/**
+ * OECD Data Explorer API client
+ * ─────────────────────────────
+ * Free, no API key required. Covers 38 OECD member countries.
+ *
+ * IMPORTANT: The legacy stats.oecd.org API was taken offline July 1, 2024.
+ * The new base URL is: https://sdmx.oecd.org/public/rest/
+ * Docs: https://www.oecd.org/en/data/insights/data-explainers/2024/09/api.html
+ *
+ * Because the OECD API blocks non-browser server requests (same pattern as
+ * FAOSTAT and IMF), this module:
+ *   1. Tries the live API first (works client-side or in environments where
+ *      the OECD endpoint is reachable)
+ *   2. Falls back to static JSON files in /public/data/oecd-*.json which are
+ *      seeded with verified OECD data and served by Next.js as public assets.
+ */
 
-const OECD_API_BASE = "https://stats.oecd.org/SDMX-JSON/data"
+// ─── Base URLs ─────────────────────────────────────────────────────────────────
+/** New OECD Data Explorer SDMX REST API (post July 2024) */
+export const OECD_API_BASE = "https://sdmx.oecd.org/public/rest"
 
 // ─── Country codes for the 8 currencies supported by this site ───────────────
 export const OECD_SUPPORTED_COUNTRIES = {
-  USA: { name: "United States", currency: "USD", flag: "🇺🇸" },
-  GBR: { name: "United Kingdom", currency: "GBP", flag: "🇬🇧" },
-  DEU: { name: "Germany", currency: "EUR", flag: "🇩🇪" },
-  JPN: { name: "Japan", currency: "JPY", flag: "🇯🇵" },
-  CAN: { name: "Canada", currency: "CAD", flag: "🇨🇦" },
-  AUS: { name: "Australia", currency: "AUD", flag: "🇦🇺" },
-  CHE: { name: "Switzerland", currency: "CHF", flag: "🇨🇭" },
-  FRA: { name: "France", currency: "EUR", flag: "🇫🇷" },
+  USA: { name: "United States", currency: "USD" },
+  GBR: { name: "United Kingdom", currency: "GBP" },
+  DEU: { name: "Germany",        currency: "EUR" },
+  JPN: { name: "Japan",          currency: "JPY" },
+  CAN: { name: "Canada",         currency: "CAD" },
+  AUS: { name: "Australia",      currency: "AUD" },
+  CHE: { name: "Switzerland",    currency: "CHF" },
+  FRA: { name: "France",         currency: "EUR" },
 } as const
 
 export type OECDCountryCode = keyof typeof OECD_SUPPORTED_COUNTRIES
 
-// ─── OECD Dataset identifiers relevant to this site ──────────────────────────
+// ─── Dataset identifiers (new OECD Data Explorer format) ─────────────────────
+/**
+ * Format: "{agency},{DSD}@{dataflow},{version}"
+ * These replace the legacy OECD.Stat single-word identifiers.
+ */
 export const OECD_DATASETS = {
-  // Consumer Price Index — main inflation measure
-  CPI: "CPI",
-  // PPP (Purchasing Power Parities) for GDP
-  PPP_GDP: "PPPGDP",
-  // PPP conversion rates for private consumption
-  PPP_CONSUMPTION: "CPL",
-  // Real GDP growth
-  GDP_GROWTH: "QNA",
-  // Unemployment rate
-  UNEMPLOYMENT: "MEI_LABOUR",
-  // Long-term interest rates (10-year government bonds)
-  INTEREST_RATES: "MEI_FIN",
-  // Wages and salaries — labour compensation
-  WAGES: "AV_AN_WAGE",
+  /** PPP conversion rates: national currency per USD (annual) */
+  PPP_GDP:    "OECD.SDD.TPS,DSD_PRICES@DF_PRICES_PPPCO,1.0",
+  /** Average annual wages in constant 2022 USD PPP */
+  WAGES:      "OECD.ELS.SAE,DSD_EARNINGS@DF_EARNINGS_AVERAGES,1.0",
+  /** Consumer Price Index (total, annual index) */
+  CPI:        "OECD.SDD.TPS,DSD_PRICES@DF_PRICES_CPI,1.0",
+  /** Unemployment rate (harmonised, annual) */
+  UNEMPLOYMENT: "OECD.SDD.STES,DSD_STES@DF_STES,4.0",
 } as const
 
 // ─── Types ────────────────────────────────────────────────────────────────────
+
 export interface OECDObservation {
   value: number | null
   status?: string
@@ -46,7 +60,7 @@ export interface OECDSeriesData {
   country: string
   countryName: string
   currency: string
-  observations: Record<string, OECDObservation> // key = year/period string
+  observations: Record<string, OECDObservation>
 }
 
 export interface OECDDataResult {
@@ -56,134 +70,119 @@ export interface OECDDataResult {
   endPeriod: string
   series: OECDSeriesData[]
   fetchedAt: string
+  /** true if data came from the live API; false if from static fallback */
+  isLive: boolean
 }
 
-// ─── Raw SDMX-JSON response types ─────────────────────────────────────────────
-interface SDMXDimensionValue {
-  id: string
+// ─── PPP-specific output type ──────────────────────────────────────────────────
+
+export interface OECDPPPData {
+  country: OECDCountryCode
+  countryName: string
+  currency: string
+  /** Latest PPP rate: units of national currency per 1 USD */
+  latestPPP: number | null
+  latestYear: string | null
+  /** Full time series: year → PPP rate */
+  timeSeries: Record<string, number>
+  snapshotDate: string
+  isLive: boolean
+}
+
+// ─── Static fallback data types ───────────────────────────────────────────────
+
+interface StaticPPPEntry {
   name: string
+  currency: string
+  pppRates: Record<string, number>
 }
 
-interface SDMXDimension {
-  id: string
+interface StaticWagesEntry {
   name: string
-  values: SDMXDimensionValue[]
-  keyPosition?: number
+  currency: string
+  wages: Record<string, number>
 }
 
+interface StaticPPPFile {
+  _meta: { source: string; snapshotDate: string; measure: string }
+  data: Record<string, StaticPPPEntry>
+}
+
+interface StaticWagesFile {
+  _meta: { source: string; snapshotDate: string; measure: string }
+  data: Record<string, StaticWagesEntry>
+}
+
+// ─── SDMX-JSON v2 parser ─────────────────────────────────────────────────────
+
+interface SDMXDimensionValue { id: string; name: string }
+interface SDMXDimension { id: string; name: string; values: SDMXDimensionValue[]; keyPosition?: number }
 interface SDMXStructure {
   dimensions: {
-    observation?: SDMXDimension[]
     series?: SDMXDimension[]
-    dataset?: SDMXDimension[]
+    observation?: SDMXDimension[]
   }
 }
-
-interface SDMXSeries {
-  attributes: number[]
-  observations: Record<string, (number | null)[]>
-}
-
-interface SDMXDataSet {
-  action?: string
-  series?: Record<string, SDMXSeries>
+interface SDMXSeriesEntry {
+  attributes?: number[]
   observations?: Record<string, (number | null)[]>
 }
-
-interface SDMXResponse {
-  header?: { id: string; prepared: string }
-  structure?: SDMXStructure
-  dataSets?: SDMXDataSet[]
-}
-
-// ─── Core fetch helper ────────────────────────────────────────────────────────
-
-/**
- * Low-level OECD SDMX-JSON fetch.
- * Caches for 24 hours (OECD data updates annually for most indicators).
- */
-async function fetchOECDRaw(
-  dataset: string,
-  filterExpression: string,
-  options: {
-    startTime?: string
-    endTime?: string
-    detail?: "full" | "dataonly" | "serieskeysonly" | "nodata"
-  } = {},
-): Promise<SDMXResponse> {
-  const { startTime, endTime, detail = "dataonly" } = options
-
-  const params = new URLSearchParams({ detail })
-  if (startTime) params.set("startTime", startTime)
-  if (endTime) params.set("endTime", endTime)
-
-  const url = `${OECD_API_BASE}/${dataset}/${filterExpression}/all?${params.toString()}`
-
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.sdmx.data+json, application/json",
-    },
-    next: { revalidate: 86400 }, // Cache 24 hours
-  })
-
-  if (!response.ok) {
-    throw new Error(
-      `OECD API error ${response.status} for dataset "${dataset}": ${response.statusText}`,
-    )
+interface SDMXDataSet { series?: Record<string, SDMXSeriesEntry> }
+interface SDMXv2Response {
+  data?: {
+    dataSets?: SDMXDataSet[]
+    structure?: SDMXStructure
   }
-
-  return response.json()
+  dataSets?: SDMXDataSet[]
+  structure?: SDMXStructure
 }
 
-// ─── SDMX-JSON parser ─────────────────────────────────────────────────────────
-
-/**
- * Parses SDMX-JSON response into a usable flat structure.
- * Extracts country codes and time-keyed observation values.
- */
-function parseSDMXResponse(
-  raw: SDMXResponse,
-  dataset: string,
+function parseSDMXv2(
+  raw: SDMXv2Response,
   requestedCountries: OECDCountryCode[],
 ): OECDSeriesData[] {
   const results: OECDSeriesData[] = []
 
-  if (!raw.dataSets?.length || !raw.structure) return results
+  // Support both wrapped (.data.dataSets) and unwrapped (.dataSets)
+  const dataSets = raw?.data?.dataSets ?? raw?.dataSets ?? []
+  const structure = raw?.data?.structure ?? raw?.structure
 
-  const dataSet = raw.dataSets[0]
-  const seriesDimensions = raw.structure.dimensions?.series ?? []
-  const obsDimensions = raw.structure.dimensions?.observation ?? []
+  if (!dataSets.length || !structure) return results
 
-  // Find the Location dimension to map index → country code
-  const locationDim = seriesDimensions.find(
-    (d) => d.id === "LOCATION" || d.id === "COU" || d.id === "COUNTRY",
+  const seriesDims = structure.dimensions?.series ?? []
+  const obsDims    = structure.dimensions?.observation ?? []
+
+  const refAreaDim = seriesDims.find(d =>
+    ["REF_AREA", "LOCATION", "COU", "COUNTRY"].includes(d.id)
   )
-  // Find the Time dimension for observation keys
-  const timeDim = obsDimensions.find(
-    (d) => d.id === "TIME_PERIOD" || d.id === "TIME" || d.id === "Year",
+  const timeDim = obsDims.find(d =>
+    ["TIME_PERIOD", "TIME", "Year"].includes(d.id)
   )
 
-  if (!locationDim || !dataSet.series) return results
+  if (!refAreaDim || !timeDim) return results
 
-  for (const [seriesKey, seriesData] of Object.entries(dataSet.series)) {
-    // Series key format: "0:0:0:0" — each segment is index into dimension values
-    const keyParts = seriesKey.split(":")
-    const locationIndex = locationDim.keyPosition ?? 0
-    const countryCode = locationDim.values[Number(keyParts[locationIndex])]?.id as OECDCountryCode
+  const refAreaPos = refAreaDim.keyPosition ?? seriesDims.indexOf(refAreaDim)
+  const series = dataSets[0]?.series ?? {}
+
+  for (const [seriesKey, seriesData] of Object.entries(series)) {
+    const keyParts = seriesKey.split(":").map(Number)
+    const countryIdx = keyParts[refAreaPos]
+    const countryCode = refAreaDim.values?.[countryIdx]?.id as OECDCountryCode
 
     if (!countryCode || !OECD_SUPPORTED_COUNTRIES[countryCode]) continue
+    if (requestedCountries.length && !requestedCountries.includes(countryCode)) continue
 
     const countryInfo = OECD_SUPPORTED_COUNTRIES[countryCode]
     const observations: Record<string, OECDObservation> = {}
 
-    // Map observation index → time period label → value
-    if (seriesData.observations && timeDim) {
-      for (const [obsKey, obsValues] of Object.entries(seriesData.observations)) {
-        const timeIndex = Number(obsKey)
-        const timePeriod = timeDim.values[timeIndex]?.id ?? obsKey
-        observations[timePeriod] = {
-          value: obsValues[0] ?? null,
-          status: obsValues[1] != null ? String(obsValues[1]) : undefined,
+    for (const [obsKey, obsArr] of Object.entries(seriesData.observations ?? {})) {
+      const timeIdx = Number(obsKey)
+      const timePeriod = timeDim.values?.[timeIdx]?.id ?? obsKey
+      // Only keep annual (4-digit year) data
+      if (/^\d{4}$/.test(String(timePeriod).slice(0, 4))) {
+        observations[String(timePeriod).slice(0, 4)] = {
+          value: obsArr?.[0] ?? null,
+          status: obsArr?.[1] != null ? String(obsArr[1]) : undefined,
         }
       }
     }
@@ -199,50 +198,48 @@ function parseSDMXResponse(
   return results
 }
 
-// ─── Public API functions ──────────────────────────────────────────────────────
+// ─── Live API fetch ───────────────────────────────────────────────────────────
 
-/**
- * Fetch Consumer Price Index (CPI / inflation) data from OECD.
- * Returns annual CPI index values for supported countries.
- *
- * @param countries   Array of OECD country codes (defaults to all 8 supported)
- * @param startYear   First year of data (default: 2000)
- * @param endYear     Last year of data (default: current year)
- */
-export async function fetchOECDInflation(
-  countries: OECDCountryCode[] = Object.keys(OECD_SUPPORTED_COUNTRIES) as OECDCountryCode[],
-  startYear = 2000,
-  endYear: number = new Date().getFullYear(),
-): Promise<OECDDataResult> {
-  const countryFilter = countries.join("+")
-  // CPI01 = Food, CPI02 = All items (total CPI). We use CPI_TOT for headline.
-  // Dataset: CPI, Subject: CPI_TOT (total), Measure: IXOB (index), Frequency: A (annual)
-  const filter = `${countryFilter}.CPI_TOT.IXOB.A`
-
-  const raw = await fetchOECDRaw(OECD_DATASETS.CPI, filter, {
-    startTime: String(startYear),
-    endTime: String(endYear),
+async function fetchSDMXLive(
+  datasetId: string,
+  keyFilter: string,
+  params: { startPeriod?: string; endPeriod?: string } = {},
+): Promise<SDMXv2Response | null> {
+  const query = new URLSearchParams({
+    format: "jsondata",
+    dimensionAtObservation: "TIME_PERIOD",
+    ...(params.startPeriod ? { startPeriod: params.startPeriod } : {}),
+    ...(params.endPeriod   ? { endPeriod:   params.endPeriod   } : {}),
   })
 
-  const series = parseSDMXResponse(raw, OECD_DATASETS.CPI, countries)
+  const url = `${OECD_API_BASE}/data/${datasetId}/${keyFilter}?${query.toString()}`
 
-  return {
-    dataset: OECD_DATASETS.CPI,
-    countries,
-    startPeriod: String(startYear),
-    endPeriod: String(endYear),
-    series,
-    fetchedAt: new Date().toISOString(),
+  try {
+    const res = await fetch(url, {
+      headers: {
+        Accept: "application/vnd.sdmx.data+json;version=2.0, application/json",
+        "User-Agent": "GlobalInflationCalculator/1.0",
+      },
+      next: { revalidate: 86400 }, // Cache 24 hours
+    })
+    if (!res.ok) return null
+    return res.json()
+  } catch {
+    return null
   }
 }
 
+// ─── Public API: PPP ──────────────────────────────────────────────────────────
+
 /**
- * Fetch PPP (Purchasing Power Parities) conversion rates from OECD.
- * Returns annual PPP values relative to USD.
+ * Fetch OECD PPP conversion rates (national currency per USD).
  *
- * @param countries   Array of OECD country codes (defaults to all 8 supported)
- * @param startYear   First year of data (default: 2000)
- * @param endYear     Last year of data (default: current year)
+ * Falls back to static /public/data/oecd-ppp.json if the live API is
+ * unreachable (which it is from server environments without browser headers).
+ *
+ * @param countries  ISO3 codes to return (default: all 8 supported)
+ * @param startYear  First year (default 2000)
+ * @param endYear    Last year (default current year)
  */
 export async function fetchOECDPPP(
   countries: OECDCountryCode[] = Object.keys(OECD_SUPPORTED_COUNTRIES) as OECDCountryCode[],
@@ -250,33 +247,110 @@ export async function fetchOECDPPP(
   endYear: number = new Date().getFullYear(),
 ): Promise<OECDDataResult> {
   const countryFilter = countries.join("+")
-  // PPPGDP dataset: PP1 = PPP for GDP, A = Annual
-  const filter = `${countryFilter}.PP1.A`
 
-  const raw = await fetchOECDRaw(OECD_DATASETS.PPP_GDP, filter, {
-    startTime: String(startYear),
-    endTime: String(endYear),
-  })
+  // Try live API first
+  const raw = await fetchSDMXLive(
+    OECD_DATASETS.PPP_GDP,
+    `A.${countryFilter}.PPP.NATUSD`,
+    { startPeriod: String(startYear), endPeriod: String(endYear) },
+  )
 
-  const series = parseSDMXResponse(raw, OECD_DATASETS.PPP_GDP, countries)
+  if (raw) {
+    const series = parseSDMXv2(raw, countries)
+    if (series.length > 0) {
+      return {
+        dataset: OECD_DATASETS.PPP_GDP,
+        countries,
+        startPeriod: String(startYear),
+        endPeriod: String(endYear),
+        series,
+        fetchedAt: new Date().toISOString(),
+        isLive: true,
+      }
+    }
+  }
 
-  return {
-    dataset: OECD_DATASETS.PPP_GDP,
-    countries,
-    startPeriod: String(startYear),
-    endPeriod: String(endYear),
-    series,
-    fetchedAt: new Date().toISOString(),
+  // Static fallback
+  try {
+    const res = await fetch("/data/oecd-ppp.json", { next: { revalidate: 86400 } })
+    const staticData: StaticPPPFile = await res.json()
+
+    const series: OECDSeriesData[] = countries
+      .filter(c => staticData.data[c])
+      .map(c => {
+        const entry = staticData.data[c]
+        const observations: Record<string, OECDObservation> = {}
+        for (const [yr, val] of Object.entries(entry.pppRates)) {
+          if (Number(yr) >= startYear && Number(yr) <= endYear) {
+            observations[yr] = { value: val }
+          }
+        }
+        return {
+          country: c,
+          countryName: entry.name,
+          currency: entry.currency,
+          observations,
+        }
+      })
+
+    return {
+      dataset: OECD_DATASETS.PPP_GDP,
+      countries,
+      startPeriod: String(startYear),
+      endPeriod: String(endYear),
+      series,
+      fetchedAt: staticData._meta.snapshotDate,
+      isLive: false,
+    }
+  } catch {
+    return {
+      dataset: OECD_DATASETS.PPP_GDP,
+      countries,
+      startPeriod: String(startYear),
+      endPeriod: String(endYear),
+      series: [],
+      fetchedAt: new Date().toISOString(),
+      isLive: false,
+    }
   }
 }
 
 /**
- * Fetch average annual wages from OECD.
- * Returns wage data in USD (constant prices for cross-country comparison).
- *
- * @param countries   Array of OECD country codes (defaults to all 8 supported)
- * @param startYear   First year of data (default: 2000)
- * @param endYear     Last year of data (default: current year)
+ * Fetch OECD PPP data for a single country and return a flat summary.
+ */
+export async function fetchOECDPPPForCountry(
+  country: OECDCountryCode,
+  startYear = 2000,
+): Promise<OECDPPPData | null> {
+  const result = await fetchOECDPPP([country], startYear)
+  const series = result.series.find(s => s.country === country)
+  if (!series) return null
+
+  const years = Object.keys(series.observations).sort()
+  const latestYear = years[years.length - 1] ?? null
+  const latestPPP = latestYear ? series.observations[latestYear].value : null
+
+  const timeSeries: Record<string, number> = {}
+  for (const [yr, obs] of Object.entries(series.observations)) {
+    if (obs.value !== null) timeSeries[yr] = obs.value
+  }
+
+  return {
+    country,
+    countryName: series.countryName,
+    currency: series.currency,
+    latestPPP,
+    latestYear,
+    timeSeries,
+    snapshotDate: result.fetchedAt,
+    isLive: result.isLive,
+  }
+}
+
+// ─── Public API: Wages ────────────────────────────────────────────────────────
+
+/**
+ * Fetch average annual wages (constant 2022 USD PPP) from OECD.
  */
 export async function fetchOECDWages(
   countries: OECDCountryCode[] = Object.keys(OECD_SUPPORTED_COUNTRIES) as OECDCountryCode[],
@@ -284,105 +358,115 @@ export async function fetchOECDWages(
   endYear: number = new Date().getFullYear(),
 ): Promise<OECDDataResult> {
   const countryFilter = countries.join("+")
-  // AV_AN_WAGE: Average annual wages, USD constant prices, AVUSDPPP = USD PPP adjusted
-  const filter = `${countryFilter}.AVUSDPPP`
 
-  const raw = await fetchOECDRaw(OECD_DATASETS.WAGES, filter, {
-    startTime: String(startYear),
-    endTime: String(endYear),
-  })
+  const raw = await fetchSDMXLive(
+    OECD_DATASETS.WAGES,
+    `A.${countryFilter}.AVUSDPPP`,
+    { startPeriod: String(startYear), endPeriod: String(endYear) },
+  )
 
-  const series = parseSDMXResponse(raw, OECD_DATASETS.WAGES, countries)
+  if (raw) {
+    const series = parseSDMXv2(raw, countries)
+    if (series.length > 0) {
+      return {
+        dataset: OECD_DATASETS.WAGES,
+        countries,
+        startPeriod: String(startYear),
+        endPeriod: String(endYear),
+        series,
+        fetchedAt: new Date().toISOString(),
+        isLive: true,
+      }
+    }
+  }
 
-  return {
-    dataset: OECD_DATASETS.WAGES,
-    countries,
-    startPeriod: String(startYear),
-    endPeriod: String(endYear),
-    series,
-    fetchedAt: new Date().toISOString(),
+  // Static fallback
+  try {
+    const res = await fetch("/data/oecd-wages.json", { next: { revalidate: 86400 } })
+    const staticData: StaticWagesFile = await res.json()
+
+    const series: OECDSeriesData[] = countries
+      .filter(c => staticData.data[c])
+      .map(c => {
+        const entry = staticData.data[c]
+        const observations: Record<string, OECDObservation> = {}
+        for (const [yr, val] of Object.entries(entry.wages)) {
+          if (Number(yr) >= startYear && Number(yr) <= endYear) {
+            observations[yr] = { value: val }
+          }
+        }
+        return {
+          country: c,
+          countryName: entry.name,
+          currency: entry.currency,
+          observations,
+        }
+      })
+
+    return {
+      dataset: OECD_DATASETS.WAGES,
+      countries,
+      startPeriod: String(startYear),
+      endPeriod: String(endYear),
+      series,
+      fetchedAt: staticData._meta.snapshotDate,
+      isLive: false,
+    }
+  } catch {
+    return {
+      dataset: OECD_DATASETS.WAGES,
+      countries,
+      startPeriod: String(startYear),
+      endPeriod: String(endYear),
+      series: [],
+      fetchedAt: new Date().toISOString(),
+      isLive: false,
+    }
   }
 }
 
-/**
- * Fetch unemployment rates from OECD.
- *
- * @param countries   Array of OECD country codes (defaults to all 8 supported)
- * @param startYear   First year of data (default: 2000)
- * @param endYear     Last year of data (default: current year)
- */
-export async function fetchOECDUnemployment(
-  countries: OECDCountryCode[] = Object.keys(OECD_SUPPORTED_COUNTRIES) as OECDCountryCode[],
-  startYear = 2000,
-  endYear: number = new Date().getFullYear(),
-): Promise<OECDDataResult> {
-  const countryFilter = countries.join("+")
-  // LRHUTTTT: Harmonised unemployment rate, total, annual
-  const filter = `${countryFilter}.LRHUTTTT.ST.A`
+// ─── Convenience helpers ───────────────────────────────────────────────────────
 
-  const raw = await fetchOECDRaw(OECD_DATASETS.UNEMPLOYMENT, filter, {
-    startTime: String(startYear),
-    endTime: String(endYear),
-  })
-
-  const series = parseSDMXResponse(raw, OECD_DATASETS.UNEMPLOYMENT, countries)
-
-  return {
-    dataset: OECD_DATASETS.UNEMPLOYMENT,
-    countries,
-    startPeriod: String(startYear),
-    endPeriod: String(endYear),
-    series,
-    fetchedAt: new Date().toISOString(),
-  }
-}
-
-/**
- * Convenience: fetch all four key datasets in one call.
- * Returns CPI, PPP, Wages, and Unemployment for all 8 supported countries.
- * Useful for dashboard-level data population.
- */
-export async function fetchAllOECDIndicators(
-  countries: OECDCountryCode[] = Object.keys(OECD_SUPPORTED_COUNTRIES) as OECDCountryCode[],
-  startYear = 2010,
-  endYear: number = new Date().getFullYear(),
-): Promise<{
-  cpi: OECDDataResult
-  ppp: OECDDataResult
-  wages: OECDDataResult
-  unemployment: OECDDataResult
-}> {
-  const [cpi, ppp, wages, unemployment] = await Promise.all([
-    fetchOECDInflation(countries, startYear, endYear),
-    fetchOECDPPP(countries, startYear, endYear),
-    fetchOECDWages(countries, startYear, endYear),
-    fetchOECDUnemployment(countries, startYear, endYear),
-  ])
-
-  return { cpi, ppp, wages, unemployment }
-}
-
-/**
- * Extract a simple year → value map from an OECDSeriesData observation set.
- * Useful for charting or direct lookup.
- */
+/** Extract a flat year → value map from an OECDSeriesData. */
 export function extractTimeSeries(series: OECDSeriesData): Record<string, number | null> {
-  const result: Record<string, number | null> = {}
-  for (const [period, obs] of Object.entries(series.observations)) {
-    result[period] = obs.value
+  return Object.fromEntries(
+    Object.entries(series.observations).map(([yr, obs]) => [yr, obs.value])
+  )
+}
+
+/** Get the most recent non-null value from a series. */
+export function getLatestValue(series: OECDSeriesData): { period: string; value: number } | null {
+  const periods = Object.keys(series.observations).sort().reverse()
+  for (const p of periods) {
+    const v = series.observations[p].value
+    if (v !== null && v !== undefined) return { period: p, value: v }
   }
-  return result
+  return null
 }
 
 /**
- * Get the most recent value for a given series.
+ * Convert a nominal amount from one currency to another using OECD PPP rates.
+ *
+ * @param amount      The nominal value to convert
+ * @param fromISO3    Source country (e.g. "GBR")
+ * @param toISO3      Target country (e.g. "USA")
+ * @param pppRates    Map of { countryISO3: latestPPP } where PPP = nat.currency/USD
+ *
+ * Example: convert £50,000 GBP to USD PPP equivalent:
+ *   convertPPP(50000, "GBR", "USA", { GBR: 0.729, USA: 1.0 })
+ *   → 50000 / 0.729 * 1.0 = $68,587 USD PPP
  */
-export function getLatestValue(series: OECDSeriesData): {
-  period: string
-  value: number | null
-} | null {
-  const periods = Object.keys(series.observations).sort()
-  if (!periods.length) return null
-  const latest = periods[periods.length - 1]
-  return { period: latest, value: series.observations[latest].value }
+export function convertPPP(
+  amount: number,
+  fromISO3: OECDCountryCode,
+  toISO3: OECDCountryCode,
+  pppRates: Partial<Record<OECDCountryCode, number>>,
+): number | null {
+  const fromPPP = pppRates[fromISO3]
+  const toPPP   = pppRates[toISO3]
+  if (!fromPPP || !toPPP) return null
+  // Convert: amount (in from-currency) → USD → target currency
+  // amount / fromPPP = USD equivalent
+  // * toPPP = target currency equivalent
+  return (amount / fromPPP) * toPPP
 }
