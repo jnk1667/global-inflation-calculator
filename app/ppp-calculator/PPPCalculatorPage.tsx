@@ -756,7 +756,7 @@ export default function PPPCalculatorPage() {
                                     }`}
                                   >
                                     <td className="p-3 font-medium">
-                                      {COUNTRIES.find(c => c.code === iso3)?.flag} {COUNTRIES.find(c => c.code === iso3)?.name ?? iso3}
+                                      {ALL_COUNTRIES.find(c => c.code === iso3)?.flag} {ALL_COUNTRIES.find(c => c.code === iso3)?.name ?? iso3}
                                       {isFrom && <span className="ml-2 text-xs text-blue-600 font-normal">(from)</span>}
                                       {isTo   && <span className="ml-2 text-xs text-purple-600 font-normal">(to)</span>}
                                     </td>
