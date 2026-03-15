@@ -987,7 +987,7 @@ export default function ClientPage() {
                       <div className="space-y-2">
                         <label className="text-xs text-gray-600 dark:text-gray-300 font-medium">Select Currency</label>
                         <div
-                          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2"
+                          className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-2"
                           role="radiogroup"
                           aria-label="Currency selection"
                         >
@@ -998,7 +998,7 @@ export default function ClientPage() {
                             return (
                               <Card
                                 key={code}
-                                className={`cursor-pointer transition-all hover:shadow-md ${
+                                className={`cursor-pointer transition-all hover:shadow-md w-full ${
                                   selectedCurrency === code
                                     ? "border-blue-500 border-2 bg-blue-50 dark:bg-blue-900"
                                     : isAvailable
@@ -1015,10 +1015,10 @@ export default function ClientPage() {
                                   }
                                 }}
                               >
-                                <CardContent className="p-3 text-center">
-                                  <div className="text-base font-bold text-gray-900 dark:text-white">{info.flag}</div>
-                                  <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">{code}</div>
-                                  <div className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">{info.name}</div>
+                                <CardContent className="p-2 sm:p-3 text-center">
+                                  <div className="text-sm sm:text-base font-bold text-gray-900 dark:text-white">{info.flag}</div>
+                                  <div className="text-[10px] sm:text-xs text-blue-600 dark:text-blue-400 font-medium">{code}</div>
+                                  <div className="hidden sm:block text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">{info.name}</div>
                                 </CardContent>
                               </Card>
                             )
