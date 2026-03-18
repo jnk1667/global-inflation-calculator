@@ -889,7 +889,7 @@ export default function ClientPage() {
           </div>
         </div>
 
-        <main className="container mx-auto px-4 sm:px-20 pt-[136px] sm:pt-24 pb-4 max-w-5xl min-h-screen flex flex-col" style={{ contain: "layout" }}>
+        <main className="container mx-auto px-4 sm:px-20 pt-[152px] sm:pt-24 pb-4 max-w-5xl min-h-screen flex flex-col" style={{ contain: "layout" }}>
           {/* Header */}
           <div className="text-center mb-4 mt-0">
             <div className="flex items-center justify-center gap-2 mb-2">

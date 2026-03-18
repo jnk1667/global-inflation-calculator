@@ -197,10 +197,13 @@ export default function RootLayout({
             <ThemeToggle />
           </div>
 
-          {/* Navigation - Center Top */}
-          <nav className="fixed top-[72px] sm:top-10 left-1/2 transform -translate-x-1/2 z-40 min-h-[48px]">
-            <div className="bg-white/90 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 shadow-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800/90">
-              <div className="flex items-center space-x-3 sm:space-x-6">
+          {/* Navigation - stacks below top bar on mobile, centered pill on desktop */}
+          <nav className="fixed z-40
+            top-[80px] left-4 right-4
+            sm:top-10 sm:left-1/2 sm:right-auto sm:w-auto sm:-translate-x-1/2
+            min-h-[48px]">
+            <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 sm:px-6 py-2 shadow-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800/90 w-full sm:w-auto flex">
+              <div className="flex items-center justify-between sm:justify-start gap-1 sm:gap-6 w-full sm:w-auto">
                 <Link
                   href="/"
                   className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
@@ -211,7 +214,8 @@ export default function RootLayout({
                   href="/deflation-calculator"
                   className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
                 >
-                  Deflation Calculator
+                  <span className="sm:hidden">Deflation</span>
+                  <span className="hidden sm:inline">Deflation Calculator</span>
                 </Link>
                 <Link
                   href="/charts"
