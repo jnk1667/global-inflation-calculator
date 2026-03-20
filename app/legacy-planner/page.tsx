@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Legacy Planner | Multi-Generation Wealth Tool",
   description:
     "Calculate inflation effects on inheritance and estate planning. Free multi-generation wealth transfer calculator with healthcare cost projections.",
-  metadataBase: new URL("https://globalinflationcalculator.com"),
+  metadataBase: new URL("https://www.globalinflationcalculator.com"),
   keywords: [
     "legacy planner",
     "estate planning calculator",
@@ -33,12 +33,12 @@ export const metadata: Metadata = {
     title: "Legacy Planner: Multi-Generation Wealth Planning Calculator",
     description:
       "Plan your family's financial legacy across generations. Calculate how inflation affects inheritance and estate planning with our free legacy planning tool.",
-    url: "https://globalinflationcalculator.com/legacy-planner",
+    url: "https://www.globalinflationcalculator.com/legacy-planner",
     type: "website",
     siteName: "Global Inflation Calculator",
     images: [
       {
-        url: "https://globalinflationcalculator.com/placeholder.svg?height=630&width=1200&text=Legacy+Planner",
+        url: "https://www.globalinflationcalculator.com/placeholder.svg?height=630&width=1200&text=Legacy+Planner",
         width: 1200,
         height: 630,
         alt: "Legacy Planner - Multi-Generation Wealth Planning Calculator",
@@ -51,10 +51,10 @@ export const metadata: Metadata = {
     title: "Legacy Planner: Multi-Generation Wealth Planning Calculator",
     description:
       "Plan your family's financial legacy across generations. Calculate how inflation affects inheritance and estate planning.",
-    images: ["https://globalinflationcalculator.com/placeholder.svg?height=630&width=1200&text=Legacy+Planner"],
+    images: ["https://www.globalinflationcalculator.com/placeholder.svg?height=630&width=1200&text=Legacy+Planner"],
   },
   alternates: {
-    canonical: "https://globalinflationcalculator.com/legacy-planner",
+    canonical: "https://www.globalinflationcalculator.com/legacy-planner",
   },
   robots: {
     index: true,
@@ -83,7 +83,7 @@ export default function LegacyPlannerPageWrapper() {
     applicationCategory: "FinanceApplication",
     description:
       "Multi-generation wealth planning tool to calculate inflation effects on inheritance and estate planning across generations.",
-    url: "https://globalinflationcalculator.com/legacy-planner",
+    url: "https://www.globalinflationcalculator.com/legacy-planner",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.7",
@@ -122,14 +122,14 @@ export default function LegacyPlannerPageWrapper() {
       name: "Global Inflation Calculator",
       logo: {
         "@type": "ImageObject",
-        url: "https://globalinflationcalculator.com/favicon-96x96.png",
+        url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
       },
     },
     datePublished: "2024-03-01",
     dateModified: "2026-02-10",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://globalinflationcalculator.com/legacy-planner",
+      "@id": "https://www.globalinflationcalculator.com/legacy-planner",
     },
   }
 
@@ -139,7 +139,7 @@ export default function LegacyPlannerPageWrapper() {
     name: "Multi-Generation Legacy Planning and Wealth Transfer Dataset",
     description:
       "Comprehensive dataset combining U.S. inflation rates, healthcare cost inflation (81% higher than general inflation), estate tax exemption levels ($13.99M individual/$27.98M couple for 2026), and multi-generational wealth erosion analysis for legacy planning across 100+ years.",
-    url: "https://globalinflationcalculator.com/legacy-planner",
+    url: "https://www.globalinflationcalculator.com/legacy-planner",
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
@@ -231,13 +231,13 @@ export default function LegacyPlannerPageWrapper() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://globalinflationcalculator.com",
+        item: "https://www.globalinflationcalculator.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Legacy Planner",
-        item: "https://globalinflationcalculator.com/legacy-planner",
+        item: "https://www.globalinflationcalculator.com/legacy-planner",
       },
     ],
   }

@@ -40,11 +40,11 @@ export const metadata: Metadata = {
     description:
       "Split your income the smart way: 50% needs, 30% wants, 20% savings. Free budget calculator with inflation adjustment.",
     type: "website",
-    url: "https://globalinflationcalculator.com/budget-calculator",
+    url: "https://www.globalinflationcalculator.com/budget-calculator",
     siteName: "Global Inflation Calculator",
     images: [
       {
-        url: "https://globalinflationcalculator.com/og-budget-calculator.jpg",
+        url: "https://www.globalinflationcalculator.com/og-budget-calculator.jpg",
         width: 1200,
         height: 630,
         alt: "50/30/20 Budget Calculator - Global Inflation Calculator",
@@ -57,10 +57,10 @@ export const metadata: Metadata = {
     title: "50/30/20 Budget Calculator - Simple Budgeting Tool",
     description:
       "Split your income: 50% needs, 30% wants, 20% savings. Free budget calculator with inflation adjustment.",
-    images: ["https://globalinflationcalculator.com/og-budget-calculator.jpg"],
+    images: ["https://www.globalinflationcalculator.com/og-budget-calculator.jpg"],
   },
   alternates: {
-    canonical: "https://globalinflationcalculator.com/budget-calculator",
+    canonical: "https://www.globalinflationcalculator.com/budget-calculator",
   },
   robots: {
     index: true,
@@ -84,14 +84,14 @@ export default function Page() {
       name: "Global Inflation Calculator",
       logo: {
         "@type": "ImageObject",
-        url: "https://globalinflationcalculator.com/favicon-96x96.png",
+        url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
       },
     },
     datePublished: "2024-02-15",
     dateModified: "2026-02-09",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://globalinflationcalculator.com/budget-calculator",
+      "@id": "https://www.globalinflationcalculator.com/budget-calculator",
     },
   }
 
@@ -101,7 +101,7 @@ export default function Page() {
     name: "Personal Budget Planning and Inflation Dataset",
     description:
       "Comprehensive dataset combining U.S. inflation rates (2.8% as of February 2026), Treasury savings rates, median household income data, and consumer spending patterns from BLS and Federal Reserve for effective 50/30/20 budget planning.",
-    url: "https://globalinflationcalculator.com/budget-calculator",
+    url: "https://www.globalinflationcalculator.com/budget-calculator",
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
@@ -193,13 +193,13 @@ export default function Page() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://globalinflationcalculator.com",
+        item: "https://www.globalinflationcalculator.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "50/30/20 Budget Calculator",
-        item: "https://globalinflationcalculator.com/budget-calculator",
+        item: "https://www.globalinflationcalculator.com/budget-calculator",
       },
     ],
   }
@@ -210,7 +210,7 @@ export default function Page() {
     name: "50/30/20 Budget Calculator",
     description:
       "Free budget calculator that splits your income into needs (50%), wants (30%), and savings (20%) with inflation adjustment.",
-    url: "https://globalinflationcalculator.com/budget-calculator",
+    url: "https://www.globalinflationcalculator.com/budget-calculator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     aggregateRating: {

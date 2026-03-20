@@ -50,14 +50,14 @@ const articleSchema = {
     name: "Global Inflation Calculator",
     logo: {
       "@type": "ImageObject",
-      url: "https://globalinflationcalculator.com/favicon-96x96.png",
+      url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
     },
   },
   datePublished: "2026-02-25",
   dateModified: "2026-02-25",
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://globalinflationcalculator.com/global-net-worth-calculator",
+    "@id": "https://www.globalinflationcalculator.com/global-net-worth-calculator",
   },
 }
 
@@ -133,11 +133,11 @@ const datasetSchema = {
   name: "Global Inflation Data for Net Worth Analysis — 8 Currency Database",
     description:
       "Official government inflation rate data for 8 major currencies used to calculate real purchasing power erosion of household net worth. Covers USD (1913–2026), GBP (1947–2026), EUR (1996–2026), CAD (1913–2026), AUD (1948–2026), CHF (1913–2026), JPY (1946–2026), and NZD (1960–2026).",
-    url: "https://globalinflationcalculator.com/global-net-worth-calculator",
+    url: "https://www.globalinflationcalculator.com/global-net-worth-calculator",
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
-      url: "https://globalinflationcalculator.com",
+      url: "https://www.globalinflationcalculator.com",
     },
     includedInDataCatalog: {
       "@type": "DataCatalog",
@@ -278,7 +278,7 @@ export const metadata: Metadata = {
       "Calculate your inflation-adjusted net worth across 8 major currencies. Track assets, liabilities, and project future purchasing power.",
   },
   alternates: {
-    canonical: "https://globalinflationcalculator.com/global-net-worth-calculator",
+    canonical: "https://www.globalinflationcalculator.com/global-net-worth-calculator",
   },
 }
 

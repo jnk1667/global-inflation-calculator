@@ -12,11 +12,11 @@ export const metadata: Metadata = {
     title: "PPP Calculator - Purchasing Power Parity Comparison",
     description:
       "Compare the real purchasing power of money across major economies using official World Bank PPP data. Historical trends, sector breakdowns, and unique insights.",
-    url: "https://globalinflationcalculator.com/ppp-calculator",
+    url: "https://www.globalinflationcalculator.com/ppp-calculator",
     siteName: "Global Inflation Calculator",
     images: [
       {
-        url: "https://globalinflationcalculator.com/og-ppp-calculator.jpg",
+        url: "https://www.globalinflationcalculator.com/og-ppp-calculator.jpg",
         width: 1200,
         height: 630,
         alt: "PPP Calculator - Global Inflation Calculator",
@@ -29,10 +29,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "PPP Calculator - Purchasing Power Parity Comparison",
     description: "Compare purchasing power across major economies with official World Bank PPP data.",
-    images: ["https://globalinflationcalculator.com/og-ppp-calculator.jpg"],
+    images: ["https://www.globalinflationcalculator.com/og-ppp-calculator.jpg"],
   },
   alternates: {
-    canonical: "https://globalinflationcalculator.com/ppp-calculator",
+    canonical: "https://www.globalinflationcalculator.com/ppp-calculator",
   },
 }
 
@@ -44,7 +44,7 @@ export default function PPPCalculatorRoute() {
     applicationCategory: "FinanceApplication",
     description:
       "Calculate purchasing power parity across major global economies using World Bank data. Compare real value of money with historical trends and sector-specific breakdowns.",
-    url: "https://globalinflationcalculator.com/ppp-calculator",
+    url: "https://www.globalinflationcalculator.com/ppp-calculator",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.6",
@@ -82,14 +82,14 @@ export default function PPPCalculatorRoute() {
       name: "Global Inflation Calculator",
       logo: {
         "@type": "ImageObject",
-        url: "https://globalinflationcalculator.com/favicon-96x96.png",
+        url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
       },
     },
     datePublished: "2024-01-10",
     dateModified: "2026-02-13",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://globalinflationcalculator.com/ppp-calculator",
+      "@id": "https://www.globalinflationcalculator.com/ppp-calculator",
     },
   }
 
@@ -99,7 +99,7 @@ export default function PPPCalculatorRoute() {
     name: "Purchasing Power Parity (PPP) Conversion Factors Dataset",
     description:
       "Comprehensive purchasing power parity conversion factors for 200+ countries from 1990-2025, including sector-specific PPP data for 38 OECD member countries covering housing, healthcare, education, food, and transportation.",
-    url: "https://globalinflationcalculator.com/ppp-calculator",
+    url: "https://www.globalinflationcalculator.com/ppp-calculator",
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
@@ -165,13 +165,13 @@ export default function PPPCalculatorRoute() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://globalinflationcalculator.com",
+        item: "https://www.globalinflationcalculator.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "PPP Calculator",
-        item: "https://globalinflationcalculator.com/ppp-calculator",
+        item: "https://www.globalinflationcalculator.com/ppp-calculator",
       },
     ],
   }

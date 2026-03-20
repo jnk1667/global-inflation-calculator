@@ -10,7 +10,7 @@ const toolSchema = {
   applicationCategory: "FinanceApplication",
   description:
     "Compare cost of living across 80+ cities worldwide in 8 currencies. Comprehensive analysis of housing, utilities, food, and transportation costs with official government data from BLS, UK ONS, Eurostat, Statistics Canada, Australian Bureau of Statistics, Swiss FSO, Statistics Bureau of Japan, and Stats NZ.",
-  url: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
+  url: "https://www.globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
   offers: {
     "@type": "Offer",
     price: "0",
@@ -39,19 +39,19 @@ const breadcrumbSchema = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://globalinflationcalculator.com",
+      item: "https://www.globalinflationcalculator.com",
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Salary Calculator",
-      item: "https://globalinflationcalculator.com/salary-calculator",
+      item: "https://www.globalinflationcalculator.com/salary-calculator",
     },
     {
       "@type": "ListItem",
       position: 3,
       name: "Regional Cost of Living",
-      item: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
+      item: "https://www.globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
     },
   ],
 }
@@ -93,11 +93,11 @@ const datasetSchema = {
   name: "Regional Cost of Living Dataset — 80+ Cities Across 8 Currencies",
   description:
     "Comprehensive cost of living data for 80+ cities worldwide covering housing, utilities, food, and transportation costs. Sourced from official government statistical agencies across the United States, United Kingdom, European Union, Canada, Australia, Switzerland, Japan, and New Zealand.",
-  url: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
+  url: "https://www.globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
   creator: {
     "@type": "Organization",
     name: "Global Inflation Calculator",
-    url: "https://globalinflationcalculator.com",
+    url: "https://www.globalinflationcalculator.com",
   },
   spatialCoverage: {
     "@type": "Place",
@@ -192,11 +192,11 @@ export const metadata: Metadata = {
     title: "Regional Cost of Living Comparison | 80+ Global Cities",
     description:
       "Compare cost of living across 80+ cities worldwide with comprehensive data from official government sources including BLS, UK ONS, Eurostat, and more.",
-    url: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
+    url: "https://www.globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
     siteName: "Global Inflation Calculator",
     images: [
       {
-        url: "https://globalinflationcalculator.com/og-regional-comparison.jpg",
+        url: "https://www.globalinflationcalculator.com/og-regional-comparison.jpg",
         width: 1200,
         height: 630,
         alt: "Regional Cost of Living Comparison Tool - Compare 80+ Cities",
@@ -209,10 +209,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Cost of Living Comparison | 80+ Global Cities",
     description: "Compare cost of living across 80+ cities worldwide with comprehensive government data.",
-    images: ["https://globalinflationcalculator.com/og-regional-comparison.jpg"],
+    images: ["https://www.globalinflationcalculator.com/og-regional-comparison.jpg"],
   },
   alternates: {
-    canonical: "https://globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
+    canonical: "https://www.globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
   },
   robots: {
     index: true,

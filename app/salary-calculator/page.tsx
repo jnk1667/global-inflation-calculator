@@ -13,11 +13,11 @@ export const metadata: Metadata = {
     title: "Salary Calculator - Adjust for Inflation",
     description:
       "Calculate how inflation affects your salary over time. Compare purchasing power and real wages across different years.",
-    url: "https://globalinflationcalculator.com/salary-calculator",
+    url: "https://www.globalinflationcalculator.com/salary-calculator",
     siteName: "Global Inflation Calculator",
     images: [
       {
-        url: "https://globalinflationcalculator.com/og-salary-calculator.jpg",
+        url: "https://www.globalinflationcalculator.com/og-salary-calculator.jpg",
         width: 1200,
         height: 630,
         alt: "Salary Calculator - Global Inflation Calculator",
@@ -30,10 +30,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Salary Calculator - Adjust for Inflation",
     description: "Calculate how inflation affects your salary over time. Compare purchasing power and real wages.",
-    images: ["https://globalinflationcalculator.com/og-salary-calculator.jpg"],
+    images: ["https://www.globalinflationcalculator.com/og-salary-calculator.jpg"],
   },
   alternates: {
-    canonical: "https://globalinflationcalculator.com/salary-calculator",
+    canonical: "https://www.globalinflationcalculator.com/salary-calculator",
   },
 }
 
@@ -45,7 +45,7 @@ export default function SalaryCalculatorPageRoute() {
     applicationCategory: "FinanceApplication",
     description:
       "Calculate inflation-adjusted salary and purchasing power changes from 1913-2025 across multiple currencies.",
-    url: "https://globalinflationcalculator.com/salary-calculator",
+    url: "https://www.globalinflationcalculator.com/salary-calculator",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
@@ -83,14 +83,14 @@ export default function SalaryCalculatorPageRoute() {
       name: "Global Inflation Calculator",
       logo: {
         "@type": "ImageObject",
-        url: "https://globalinflationcalculator.com/favicon-96x96.png",
+        url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
       },
     },
     datePublished: "2024-01-20",
     dateModified: "2026-02-13",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://globalinflationcalculator.com/salary-calculator",
+      "@id": "https://www.globalinflationcalculator.com/salary-calculator",
     },
   }
 
@@ -100,7 +100,7 @@ export default function SalaryCalculatorPageRoute() {
     name: "Inflation-Adjusted Salary and Wage Dataset",
     description:
       "Historical Consumer Price Index (CPI) data for 8 currencies from 1913-2026, enabling accurate inflation-adjusted salary calculations and real wage comparisons across 113 years of economic data.",
-    url: "https://globalinflationcalculator.com/salary-calculator",
+    url: "https://www.globalinflationcalculator.com/salary-calculator",
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
@@ -258,13 +258,13 @@ export default function SalaryCalculatorPageRoute() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://globalinflationcalculator.com",
+        item: "https://www.globalinflationcalculator.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Salary Calculator",
-        item: "https://globalinflationcalculator.com/salary-calculator",
+        item: "https://www.globalinflationcalculator.com/salary-calculator",
       },
     ],
   }

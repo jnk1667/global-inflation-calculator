@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     title: "Global Compound Interest Calculator | Inflation-Adjusted",
     description:
       "Calculate compound interest with real inflation adjustment across 8 currencies. See real vs nominal returns using official BLS inflation data.",
-    url: "https://globalinflationcalculator.com/global-compound-interest",
+    url: "https://www.globalinflationcalculator.com/global-compound-interest",
     type: "website",
     siteName: "Global Inflation Calculator",
     images: [
       {
-        url: "https://globalinflationcalculator.com/og-compound-interest.jpg",
+        url: "https://www.globalinflationcalculator.com/og-compound-interest.jpg",
         width: 1200,
         height: 630,
         alt: "Global Compound Interest Calculator with Inflation Adjustment",
@@ -40,10 +40,10 @@ export const metadata: Metadata = {
     title: "Global Compound Interest Calculator with Inflation",
     description:
       "Calculate real returns with inflation adjustment across 8 currencies using official BLS data. Free calculator with monthly contributions.",
-    images: ["https://globalinflationcalculator.com/og-compound-interest.jpg"],
+    images: ["https://www.globalinflationcalculator.com/og-compound-interest.jpg"],
   },
   alternates: {
-    canonical: "https://globalinflationcalculator.com/global-compound-interest",
+    canonical: "https://www.globalinflationcalculator.com/global-compound-interest",
   },
   robots: {
     index: true,
@@ -59,7 +59,7 @@ export default function Page() {
     applicationCategory: "FinanceApplication",
     description:
       "Calculate compound interest with inflation adjustment across 8 major currencies using official Bureau of Labor Statistics inflation data. Shows real vs nominal returns.",
-    url: "https://globalinflationcalculator.com/global-compound-interest",
+    url: "https://www.globalinflationcalculator.com/global-compound-interest",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
@@ -98,14 +98,14 @@ export default function Page() {
       name: "Global Inflation Calculator",
       logo: {
         "@type": "ImageObject",
-        url: "https://globalinflationcalculator.com/favicon-96x96.png",
+        url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
       },
     },
     datePublished: "2024-03-20",
     dateModified: "2026-02-11",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://globalinflationcalculator.com/global-compound-interest",
+      "@id": "https://www.globalinflationcalculator.com/global-compound-interest",
     },
   }
 
@@ -115,7 +115,7 @@ export default function Page() {
     name: "Multi-Currency Compound Interest and Inflation Dataset",
     description:
       "Comprehensive dataset combining compound interest calculations with official inflation rates across 8 major currencies (USD, EUR, GBP, CAD, AUD, CHF, JPY, NZD). Historical inflation data from 1913-2026, investment return benchmarks, and purchasing power analysis.",
-    url: "https://globalinflationcalculator.com/global-compound-interest",
+    url: "https://www.globalinflationcalculator.com/global-compound-interest",
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
@@ -194,13 +194,13 @@ export default function Page() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://globalinflationcalculator.com",
+        item: "https://www.globalinflationcalculator.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Global Compound Interest Calculator",
-        item: "https://globalinflationcalculator.com/global-compound-interest",
+        item: "https://www.globalinflationcalculator.com/global-compound-interest",
       },
     ],
   }

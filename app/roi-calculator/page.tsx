@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
 import ROICalculatorPage from "./ROICalculatorPage"
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"
 
 export const metadata: Metadata = {
   title: "ROI Calculator - Investment Return Analysis Tool",
