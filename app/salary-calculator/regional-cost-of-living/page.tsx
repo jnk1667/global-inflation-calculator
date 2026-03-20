@@ -118,48 +118,64 @@ const datasetSchema = {
     {
       "@type": "Dataset",
       name: "Consumer Expenditure Surveys",
+      description:
+        "Annual survey of US household spending patterns covering expenditures on housing, food, transportation, healthcare, and entertainment, published by the US Bureau of Labor Statistics.",
       publisher: { "@type": "Organization", name: "US Bureau of Labor Statistics" },
       url: "https://www.bls.gov/cex/",
     },
     {
       "@type": "Dataset",
       name: "Family Spending Survey",
+      description:
+        "UK household expenditure survey tracking how families allocate their budgets across categories including housing costs, food, clothing, and leisure, published by the UK Office for National Statistics.",
       publisher: { "@type": "Organization", name: "UK Office for National Statistics" },
       url: "https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/expenditure",
     },
     {
       "@type": "Dataset",
       name: "Household Budget Surveys",
+      description:
+        "European Union harmonised surveys measuring household income and expenditure across EU member states, covering housing, food, transport, and other consumption categories, published by Eurostat.",
       publisher: { "@type": "Organization", name: "Eurostat" },
       url: "https://ec.europa.eu/eurostat/web/household-budget-surveys",
     },
     {
       "@type": "Dataset",
       name: "Survey of Household Spending",
+      description:
+        "Canadian household expenditure survey collecting detailed data on the spending habits of Canadian families and individuals across all major expense categories, published by Statistics Canada.",
       publisher: { "@type": "Organization", name: "Statistics Canada" },
       url: "https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=3508",
     },
     {
       "@type": "Dataset",
       name: "Household Expenditure Survey",
+      description:
+        "Australian survey measuring household income and expenditure patterns, providing data on spending across housing, food, transport, recreation, and other goods and services, published by the Australian Bureau of Statistics.",
       publisher: { "@type": "Organization", name: "Australian Bureau of Statistics" },
       url: "https://www.abs.gov.au/statistics/economy/finance/household-expenditure-survey-australia",
     },
     {
       "@type": "Dataset",
       name: "Household Budget Survey",
+      description:
+        "Swiss household budget survey recording income and expenditure of private households in Switzerland, covering housing, food, transport, education, and leisure costs, published by the Swiss Federal Statistical Office.",
       publisher: { "@type": "Organization", name: "Swiss Federal Statistical Office" },
       url: "https://www.bfs.admin.ch/bfs/en/home/statistics/economic-social-situation-population/surveys/hbs.html",
     },
     {
       "@type": "Dataset",
       name: "Family Income and Expenditure Survey",
+      description:
+        "Japanese household survey measuring the income, expenditure, and savings of two-or-more-person households across all prefectures, providing detailed cost-of-living data, published by the Statistics Bureau of Japan.",
       publisher: { "@type": "Organization", name: "Statistics Bureau of Japan" },
       url: "https://www.stat.go.jp/english/data/kakei/",
     },
     {
       "@type": "Dataset",
       name: "Household Economic Survey",
+      description:
+        "New Zealand survey measuring household income, expenditure, and assets to understand the economic wellbeing of New Zealand households across housing, food, transport, and other major spending categories, published by Stats NZ.",
       publisher: { "@type": "Organization", name: "Stats NZ" },
       url: "https://www.stats.govt.nz/information-releases/household-economic-survey-year-ended-june-2023",
     },
