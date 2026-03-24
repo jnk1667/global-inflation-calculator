@@ -695,6 +695,141 @@ export default function ShrinkflationCalculatorPage() {
           ))}
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="mt-8 bg-gray-900 text-white rounded-lg overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+
+          {/* Col 1 — Branding, social, related tools */}
+          <div>
+            <h3 className="text-xl font-bold mb-3">Shrinkflation Calculator</h3>
+            <p className="text-gray-300 text-sm leading-relaxed mb-6">
+              Reveal the true inflation hidden in shrinking grocery packages. Compare price-per-unit across any two years for 8 major currencies using official food CPI benchmarks.
+            </p>
+            <div className="flex gap-4 mb-8">
+              <a
+                href="https://www.youtube.com/@GlobalInflationCalculator"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-red-500 transition-colors"
+                aria-label="Visit our YouTube channel"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.pinterest.com/globalinflationcalculator/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-red-600 transition-colors"
+                aria-label="Follow us on Pinterest"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z" />
+                </svg>
+              </a>
+              <a
+                href="https://x.com/GInflationCalc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-blue-400 transition-colors"
+                aria-label="Follow us on X (Twitter)"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.244H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+            </div>
+            <div>
+              <h4 className="text-base font-semibold mb-3">Related Tools</h4>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li>
+                  <Link href="/" className="hover:text-blue-400 transition-colors">
+                    Global Inflation Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/salary-calculator" className="hover:text-blue-400 transition-colors">
+                    Salary &amp; Real Wages Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/budget-calculator" className="hover:text-blue-400 transition-colors">
+                    50/30/20 Budget Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/ppp-calculator" className="hover:text-blue-400 transition-colors">
+                    Purchasing Power Parity Calculator
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/salary-calculator/regional-cost-of-living" className="hover:text-blue-400 transition-colors">
+                    Regional Cost of Living
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Col 2 — Data Sources */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
+            <ul className="space-y-2 text-sm text-gray-300">
+              <li>• FAO Food Price Index (FAOSTAT)</li>
+              <li>• US Bureau of Labor Statistics (BLS)</li>
+              <li>• UK Office for National Statistics</li>
+              <li>• Eurostat</li>
+              <li>• Statistics Canada</li>
+              <li>• Australian Bureau of Statistics</li>
+              <li>• Swiss Federal Statistical Office</li>
+              <li>• Statistics Bureau of Japan</li>
+              <li>• Stats NZ (New Zealand)</li>
+            </ul>
+          </div>
+
+          {/* Col 3 — Quick Links */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2 text-sm">
+              {[
+                { href: "/mortgage-calculator",                              label: "Mortgage Calculator"              },
+                { href: "/home-affordability-calculator/inflation-adjusted", label: "Home Affordability Calculator"    },
+                { href: "/deflation-calculator",                             label: "Deflation Calculator"             },
+                { href: "/charts",                                           label: "Charts & Analytics"               },
+                { href: "/global-compound-interest",                         label: "Compound Interest Calculator"     },
+                { href: "/global-net-worth-calculator",                      label: "Global Net Worth Calculator"      },
+                { href: "/ppp-calculator",                                   label: "PPP Calculator"                   },
+                { href: "/auto-loan-calculator",                             label: "Auto Loan Calculator"             },
+                { href: "/salary-calculator",                                label: "Salary Calculator"                },
+                { href: "/retirement-calculator",                            label: "Retirement Calculator"            },
+                { href: "/student-loan-calculator",                          label: "Student Loan Calculator"          },
+                { href: "/budget-calculator",                                label: "Budget Calculator"                },
+                { href: "/emergency-fund-calculator",                        label: "Emergency Fund Calculator"        },
+                { href: "/roi-calculator",                                   label: "ROI Calculator"                   },
+                { href: "/insurance-inflation-calculator",                   label: "Insurance Inflation Calculator"   },
+                { href: "/legacy-planner",                                   label: "Legacy Planner"                   },
+                { href: "/about",                                            label: "About Us"                         },
+                { href: "/privacy",                                          label: "Privacy Policy"                   },
+                { href: "/terms",                                            label: "Terms of Service"                 },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="text-gray-300 hover:text-blue-400 transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p className="text-sm text-gray-500 mt-4">Last Updated: March 2026</p>
+          </div>
+
+        </div>
+        <div className="border-t border-gray-700 px-8 py-6 text-center">
+          <p className="text-sm text-gray-400">&copy; 2026 Global Inflation Calculator. Educational purposes only.</p>
+        </div>
+      </footer>
+
     </main>
   )
 }
