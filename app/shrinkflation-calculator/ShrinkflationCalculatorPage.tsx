@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Cell } from "recharts"
 import Link from "next/link"
 import { AlertTriangle, TrendingUp, Package, DollarSign, Info, ChevronDown, ChevronUp } from "lucide-react"
+import FAQ from "@/components/faq"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -59,7 +60,7 @@ export default function ShrinkflationCalculatorPage() {
   const [oldYear, setOldYear]       = useState(String(MAX_YEAR - 5))
   const [newYear, setNewYear]       = useState(String(MAX_YEAR))
   const [purchasesPerYear, setPurchasesPerYear] = useState("12")
-  const [openFaq, setOpenFaq]       = useState<number | null>(null)
+  const [openFaq, setOpenFaq]       = useState<number | null>(null) // kept for legacy, unused after FAQ component migration
   const [faoData, setFaoData]       = useState<FaostatData | null>(null)
   const [dataLoaded, setDataLoaded] = useState(false)
 
@@ -189,32 +190,6 @@ export default function ShrinkflationCalculatorPage() {
     return               { label: "Low",       color: "text-green-600 dark:text-green-400",  bg: "bg-green-50 dark:bg-green-900/20",  border: "border-green-200 dark:border-green-800" }
   }
 
-  const faqs = [
-    {
-      q: "What is shrinkflation?",
-      a: "Shrinkflation is when manufacturers reduce the size, weight, or quantity of a product while keeping the price the same or raising it slightly. You pay the same (or more) for less. A classic example: a bag of chips that was 200g for $2.49 and is now 165g for $2.99 — the sticker price changed by 20%, but the real cost per gram shot up by 45%.",
-    },
-    {
-      q: "How is effective shrinkflation calculated?",
-      a: "The formula is: Effective Inflation = ((New Price ÷ New Weight) ÷ (Old Price ÷ Old Weight) − 1) × 100. This gives the true change in price-per-unit, capturing both the price hike and the size reduction in a single number. Our calculator uses this formula, then benchmarks the result against official food CPI data from FAOSTAT and Stats NZ.",
-    },
-    {
-      q: "Why is my shrinkflation rate higher than official CPI?",
-      a: "Official CPI tracks fixed basket quantities — it doesn't automatically adjust when a product's package size shrinks. Manufacturers often reduce sizes precisely because it's less noticeable than a price hike, meaning shrinkflation can be systematically invisible to standard inflation measures. Your personal inflation rate is almost always higher than the headline CPI figure.",
-    },
-    {
-      q: "Which products are most affected?",
-      a: "Snacks (crisps, chocolate bars), cereals, coffee, ice cream, juice, toilet paper, and canned goods are the most frequent targets. A 2026 Capgemini report found 61–71% of consumers noticed shrinkflation and considered switching brands, with snack and confectionery categories leading the incidence.",
-    },
-    {
-      q: "Is shrinkflation legal?",
-      a: "Yes, as long as the new weight is clearly labelled. France has led regulatory pushback, requiring supermarkets to flag shrinkflated products on shelf. The EU has strengthened unit-price labelling rules. Your best defence is always buying by unit price (price per 100g or per oz) rather than by pack price.",
-    },
-    {
-      q: "Which currencies does this calculator support?",
-      a: "All 8 major currencies on this site: USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD. Each is paired with official food CPI benchmark data (2000–2025) from FAOSTAT (7 countries) and Stats NZ (New Zealand) so your product's shrinkflation rate is compared against the correct country's food price history.",
-    },
-  ]
 
   const yearOptions    = Array.from({ length: MAX_YEAR - 1999 }, (_, i) => MAX_YEAR - i)
   const newYearOptions = Array.from({ length: MAX_YEAR - 2000 }, (_, i) => MAX_YEAR - i).filter(y => y > parseInt(oldYear, 10))
@@ -646,30 +621,9 @@ export default function ShrinkflationCalculatorPage() {
         </div>
       </div>
 
-      {/* FAQ */}
+      {/* FAQ — loaded from Supabase via shared FAQ component */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Frequently Asked Questions</h2>
-        <div className="space-y-2">
-          {faqs.map((faq, i) => (
-            <div key={i} className="border border-gray-100 dark:border-gray-700 rounded-xl overflow-hidden">
-              <button
-                onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                className="w-full flex items-center justify-between px-4 py-3.5 text-left text-sm font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-              >
-                <span>{faq.q}</span>
-                {openFaq === i
-                  ? <ChevronUp className="w-4 h-4 text-gray-400 shrink-0" />
-                  : <ChevronDown className="w-4 h-4 text-gray-400 shrink-0" />
-                }
-              </button>
-              {openFaq === i && (
-                <div className="px-4 pb-4 text-sm text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-gray-700 pt-3">
-                  {faq.a}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+        <FAQ category="shrinkflation" />
       </div>
 
       {/* Internal links */}
