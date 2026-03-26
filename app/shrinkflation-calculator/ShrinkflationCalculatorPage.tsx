@@ -1,10 +1,12 @@
 "use client"
 
-import { useState, useCallback, useMemo } from "react"
+import { useState, useCallback, useMemo, useEffect } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Cell } from "recharts"
 import Link from "next/link"
-import { AlertTriangle, TrendingUp, Package, DollarSign, Info, ChevronDown, ChevronUp } from "lucide-react"
+import { AlertTriangle, TrendingUp, Package, DollarSign, Info, ChevronDown, ChevronUp, BookOpen } from "lucide-react"
 import FAQ from "@/components/faq"
+import { supabase } from "@/lib/supabase"
+import { getCachedContent } from "@/lib/cached-content"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -61,6 +63,32 @@ export default function ShrinkflationCalculatorPage() {
   const [newYear, setNewYear]       = useState(String(MAX_YEAR))
   const [purchasesPerYear, setPurchasesPerYear] = useState("12")
   const [openFaq, setOpenFaq]       = useState<number | null>(null) // kept for legacy, unused after FAQ component migration
+  const [blogContent, setBlogContent] = useState("")
+  const [blogLoading, setBlogLoading] = useState(true)
+
+  // ─── Load blog essay from Supabase (seo_content table) ──────────────────────
+  useEffect(() => {
+    const loadBlogContent = async () => {
+      const defaultContent = `## Shrinkflation: The Hidden Tax on Your Grocery Basket\n\nShrinkflation is when manufacturers reduce the size or weight of a product while keeping the price the same or raising it slightly. This calculator reveals the true cost increase per unit.`
+      try {
+        const content = await getCachedContent("shrinkflation_essay_content", async () => {
+          const { data, error } = await supabase
+            .from("seo_content")
+            .select("content")
+            .eq("id", "shrinkflation_essay")
+            .single()
+          if (error || !data?.content) return defaultContent
+          return data.content
+        })
+        setBlogContent(content)
+      } catch {
+        setBlogContent(defaultContent)
+      } finally {
+        setBlogLoading(false)
+      }
+    }
+    loadBlogContent()
+  }, [])
   const [faoData, setFaoData]       = useState<FaostatData | null>(null)
   const [dataLoaded, setDataLoaded] = useState(false)
 
@@ -619,6 +647,69 @@ export default function ShrinkflationCalculatorPage() {
         <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 text-sm text-blue-800 dark:text-blue-300 border border-blue-100 dark:border-blue-800/40">
           <span className="font-semibold">2026 stat:</span> A Capgemini consumer research report found 61–71% of shoppers across major markets have noticed shrinkflation, and a significant proportion responded by switching brands or shopping at discount retailers.
         </div>
+      </div>
+
+      {/* Blog / Essay Section — loaded from Supabase */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 mb-4">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1 flex items-center gap-2">
+          <BookOpen className="w-5 h-5 text-blue-500" />
+          Understanding Shrinkflation
+        </h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">How package downsizing quietly inflates your true cost of living</p>
+        {blogLoading ? (
+          <div className="space-y-4">
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-3/4"></div>
+          </div>
+        ) : (
+          <div className="space-y-5 text-gray-700 dark:text-gray-300 leading-relaxed">
+            {blogContent.split("\n").map((line, index) => {
+              const trimmedLine = line.trim()
+              if (!trimmedLine) return null
+
+              // Detect markdown headings
+              if (trimmedLine.startsWith("## ")) {
+                return (
+                  <h3 key={index} className="text-xl font-bold text-gray-900 dark:text-white mt-6 mb-3">
+                    {trimmedLine.substring(3)}
+                  </h3>
+                )
+              }
+              if (trimmedLine.startsWith("### ")) {
+                return (
+                  <h4 key={index} className="text-lg font-semibold text-gray-800 dark:text-gray-100 mt-5 mb-2">
+                    {trimmedLine.substring(4)}
+                  </h4>
+                )
+              }
+
+              // Bold inline markdown
+              const parseBold = (text: string) => {
+                const parts: (string | JSX.Element)[] = []
+                const boldRegex = /\*\*(.+?)\*\*/g
+                let lastIndex = 0
+                let match
+                let key = 0
+                while ((match = boldRegex.exec(text)) !== null) {
+                  if (match.index > lastIndex) parts.push(text.substring(lastIndex, match.index))
+                  parts.push(<strong key={`bold-${key++}`} className="font-semibold text-gray-900 dark:text-white">{match[1]}</strong>)
+                  lastIndex = match.index + match[0].length
+                }
+                if (lastIndex < text.length) parts.push(text.substring(lastIndex))
+                return parts.length > 0 ? parts : text
+              }
+
+              // Regular paragraphs
+              return (
+                <p key={index} className="text-base leading-7">
+                  {parseBold(trimmedLine)}
+                </p>
+              )
+            })}
+          </div>
+        )}
       </div>
 
       {/* FAQ — loaded from Supabase via shared FAQ component */}
