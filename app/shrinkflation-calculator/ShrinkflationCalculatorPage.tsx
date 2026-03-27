@@ -712,6 +712,108 @@ export default function ShrinkflationCalculatorPage() {
         )}
       </div>
 
+      {/* Methodology & Data Sources */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 mb-4">
+        <div className="flex items-center gap-2 mb-1">
+          <Info className="w-5 h-5 text-blue-500 shrink-0" />
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Methodology &amp; Data Sources</h2>
+        </div>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+          How this calculator measures shrinkflation and where the benchmark data comes from
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-8">
+
+          {/* Left — Data Sources */}
+          <div>
+            <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-4">Primary Data Sources</h3>
+            <div className="space-y-4 text-sm">
+              <div className="flex items-start gap-2.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                <div>
+                  <strong className="text-gray-900 dark:text-gray-100">FAO Food Price Index (FAOSTAT)</strong>
+                  <p className="text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">
+                    Official food CPI index values for the United States (BLS), United Kingdom (ONS), Eurozone (Eurostat),
+                    Canada (Statistics Canada), Australia (ABS), Switzerland (SFSO), and Japan (Statistics Bureau of Japan).
+                    Data covers 2000–2025 and is used to benchmark your product&apos;s effective inflation against the country&apos;s
+                    actual food price history.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                <div>
+                  <strong className="text-gray-900 dark:text-gray-100">Stats NZ (New Zealand)</strong>
+                  <p className="text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">
+                    Food CPI data for New Zealand (NZD) sourced from Statistics New Zealand, covering annual
+                    food price changes from 2000 to 2025.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                <div>
+                  <strong className="text-gray-900 dark:text-gray-100">User-entered product data</strong>
+                  <p className="text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">
+                    The old and new package weights and prices you enter are not stored or transmitted.
+                    All calculations run entirely in your browser.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right — Calculation Methodology */}
+          <div>
+            <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-4">Calculation Methodology</h3>
+            <div className="space-y-4 text-sm text-gray-600 dark:text-gray-400">
+              <div>
+                <strong className="text-gray-900 dark:text-gray-100">Effective Shrinkflation (cumulative):</strong>
+                <div className="mt-1.5 bg-gray-50 dark:bg-gray-700/60 rounded-lg px-3 py-2 font-mono text-xs text-gray-700 dark:text-gray-300">
+                  ((New Price ÷ New Weight) ÷ (Old Price ÷ Old Weight) − 1) × 100
+                </div>
+                <p className="mt-1.5 leading-relaxed">
+                  Captures the true cost-per-unit change — combining both the price increase and the package
+                  size reduction into a single comparable figure.
+                </p>
+              </div>
+              <div>
+                <strong className="text-gray-900 dark:text-gray-100">Annualised Rate (CAGR):</strong>
+                <div className="mt-1.5 bg-gray-50 dark:bg-gray-700/60 rounded-lg px-3 py-2 font-mono text-xs text-gray-700 dark:text-gray-300">
+                  (New Price-per-unit ÷ Old Price-per-unit) ^ (1 ÷ Years) − 1
+                </div>
+                <p className="mt-1.5 leading-relaxed">
+                  Normalises the total shrinkflation rate across the year span you selected, so results are
+                  directly comparable across different time periods.
+                </p>
+              </div>
+              <div>
+                <strong className="text-gray-900 dark:text-gray-100">CPI Benchmark Comparison:</strong>
+                <p className="mt-1 leading-relaxed">
+                  The food CPI index value for your selected start year and end year are retrieved from the FAOSTAT
+                  dataset for your chosen currency&apos;s country. The cumulative food CPI change over the same period
+                  is subtracted from your effective shrinkflation rate to compute the excess — the inflation your
+                  product experienced above and beyond what official food statistics recorded.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Technical Notes */}
+        <div className="mt-6 pt-5 border-t border-gray-100 dark:border-gray-700">
+          <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-3">Technical Notes</h3>
+          <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-500 dark:text-gray-400 list-disc list-inside">
+            <li>Price-per-unit is calculated in whichever unit you enter (g, oz, ml, sheets, etc.) — consistency between old and new is all that matters</li>
+            <li>The year range affects the CAGR headline figure but not the cumulative total — changing years with the same weights and prices will change the annualised rate</li>
+            <li>CPI benchmarks cover calendar years 2000–2025 only; inputs outside this range will not display a benchmark comparison</li>
+            <li>All 8 supported currencies use their respective national food CPI, not a global food price index</li>
+            <li>Annual extra cost is calculated as: (New Price − Fair Price at Old Rate) × Purchases per Year</li>
+            <li>This calculator is for educational purposes only and does not constitute financial or consumer advice</li>
+          </ul>
+        </div>
+      </div>
+
       {/* FAQ — loaded from Supabase via shared FAQ component */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 mb-6">
         <FAQ category="shrinkflation" />
