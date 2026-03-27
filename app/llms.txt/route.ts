@@ -16,6 +16,9 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - historical inflation data, currency inflation comparison
 - cost of living calculator, real vs nominal value
 - financial planning tools, economic data analysis
+- shrinkflation calculator, free shrinkflation calculator, shrinkflation percentage calculator
+- hidden price increase calculator, grocery shrinkflation, package size reduction calculator
+- true inflation calculator, shrinkflation vs CPI, food CPI benchmark
 - deflation calculator, deflationary assets, gold silver calculator
 - precious metals appreciation, commodity price calculator
 - student loan calculator, loan repayment calculator, income-driven repayment
@@ -122,9 +125,50 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Context: Vehicle prices have inflated dramatically post-2020, making financing more challenging
   - Update Frequency: Monthly (gas price and inflation data updates)
 
+- **Shrinkflation Calculator (/shrinkflation-calculator)**
+  - URL: https://www.globalinflationcalculator.com/shrinkflation-calculator
+  - Purpose: Calculate the true effective inflation rate hidden in grocery package size reductions (shrinkflation) and compare against official food CPI benchmarks
+  - Features:
+    * Old vs new weight and price inputs for any consumer product
+    * Effective shrinkflation rate: combined price-per-unit change capturing both price increase and size reduction
+    * Annualised CAGR shrinkflation rate normalised across user-selected year span
+    * Annual extra household cost calculation (annual spend × shrinkflation gap)
+    * Official food CPI benchmark comparison — shows excess above what CPI recorded
+    * 8 currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)
+    * Pre-loaded common grocery product examples (cereal, coffee, chocolate, etc.)
+    * Historical food CPI data 2000–2025 per currency
+    * Severity rating (Mild / Moderate / Severe / Extreme) based on effective rate
+  - Calculations:
+    * Effective Shrinkflation %: ((New Price ÷ New Weight) ÷ (Old Price ÷ Old Weight) − 1) × 100
+    * Annualised Rate (CAGR): (New Price-per-unit ÷ Old Price-per-unit) ^ (1 ÷ Years) − 1
+    * Annual Extra Cost: (New Price − Fair Price at Old Rate) × Purchases per Year
+    * CPI Benchmark Gap: Effective Shrinkflation % − Food CPI % change over same period
+  - Data Sources:
+    * FAOSTAT Consumer Price Indices (FAO, UN) — food CPI for USD, GBP, EUR, CAD, AUD, CHF, JPY (license: CC BY 4.0)
+    * Stats NZ Consumer Price Index — food group series for NZD (license: CC BY 4.0)
+    * Historical coverage: 2000–2025, 2015=100 base period
+  - Educational Content:
+    * What shrinkflation is and why it is technically legal in most countries
+    * Why official CPI under-reports the true cost of shrinkflation
+    * How to spot shrinkflation by comparing unit prices
+    * Most affected product categories (cereals, snacks, chocolate, coffee, toiletries)
+    * France and EU regulatory responses to mandatory shrinkflation labelling
+  - Target Users: Consumers tracking grocery price changes, household budget planners, personal finance researchers, food journalists, consumer rights advocates
+  - Unique Value Proposition:
+    * Only shrinkflation calculator with multi-currency food CPI benchmark comparison
+    * Shows both the raw shrinkflation % AND the gap above official food inflation
+    * Covers 8 major currencies — not US-only like most alternatives
+    * FAOSTAT-sourced benchmark data clearly cited and attributed
+  - Use Cases:
+    * Track whether a specific grocery product has shrunk and by how much
+    * Calculate how much extra you spend per year because of shrinkflation
+    * Compare your product effective inflation to what official CPI reported
+    * Build evidence for consumer advocacy or journalism
+  - Context: 2024 Capgemini study found 61–71% of consumers frustrated by shrinkflation; France became first country to mandate in-store labelling of shrinkflated products in 2024
+  - Update Frequency: Annual (food CPI dataset updated as FAO and Stats NZ release new annual data)
+
 - **Deflation Calculator (/deflation-calculator)**
   - URL: https://www.globalinflationcalculator.com/deflation-calculator
-  - Purpose: Calculate appreciation of deflationary assets (gold, silver, Bitcoin)
   - Features:
     * Gold price calculator (historical data from 1913)
     * Silver price calculator (historical data from 1913)
@@ -526,6 +570,7 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - budget calculator 50 30 20
 - roi calculator
 - ppp calculator
+- shrinkflation calculator
 
 ### Target Keywords (Long-tail)
 - best inflation calculator 2025 accurate

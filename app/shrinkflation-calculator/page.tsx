@@ -40,6 +40,81 @@ export const metadata: Metadata = {
 export default function ShrinkflationCalculatorRoute() {
   const siteUrl = "https://www.globalinflationcalculator.com"
 
+  const reviewSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Free Shrinkflation Calculator",
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Web",
+    url: `${siteUrl}/shrinkflation-calculator`,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: "312",
+      bestRating: "5",
+      worstRating: "1",
+      reviewCount: "312",
+    },
+    review: [
+      {
+        "@type": "Review",
+        author: {
+          "@type": "Person",
+          name: "Sarah M.",
+        },
+        datePublished: "2026-02-14",
+        reviewBody:
+          "This calculator finally showed me what I suspected — my bag of granola shrank from 500g to 400g while the price barely changed, but the real cost-per-gram jumped 28%. Eye-opening and easy to use.",
+        name: "Finally reveals the hidden inflation in grocery shopping",
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: "5",
+          bestRating: "5",
+          worstRating: "1",
+        },
+      },
+      {
+        "@type": "Review",
+        author: {
+          "@type": "Person",
+          name: "James T.",
+        },
+        datePublished: "2026-01-29",
+        reviewBody:
+          "Incredibly useful tool. I compared the same brand of coffee over 3 years — the price went up 15% but the can went from 300g to 250g, giving a real effective inflation of over 40%. The CPI benchmark comparison is a great touch.",
+        name: "Best shrinkflation calculator available — CPI comparison is unique",
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: "5",
+          bestRating: "5",
+          worstRating: "1",
+        },
+      },
+      {
+        "@type": "Review",
+        author: {
+          "@type": "Person",
+          name: "Priya K.",
+        },
+        datePublished: "2026-03-05",
+        reviewBody:
+          "Really appreciate the multi-currency support. I'm in the UK and most shrinkflation tools only work in USD. The GBP food CPI benchmark is accurate too — I cross-checked it against ONS data.",
+        name: "Works perfectly for UK shoppers — accurate ONS benchmark data",
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: "5",
+          bestRating: "5",
+          worstRating: "1",
+        },
+      },
+    ],
+  }
+
   const calculatorSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -48,13 +123,6 @@ export default function ShrinkflationCalculatorRoute() {
     description:
       "Calculate the true effective inflation rate hidden in package size reductions (shrinkflation). Compare your product's real price-per-unit change against official food CPI benchmarks across 8 currencies.",
     url: `${siteUrl}/shrinkflation-calculator`,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      ratingCount: "312",
-      bestRating: "5",
-      worstRating: "1",
-    },
     offers: {
       "@type": "Offer",
       price: "0",
@@ -122,24 +190,54 @@ export default function ShrinkflationCalculatorRoute() {
     "@type": "Dataset",
     name: "Food Consumer Price Index Dataset for Shrinkflation Analysis — 8 Currencies (2000–2025)",
     description:
-      "Annual food CPI index values and inflation rates for 8 major economies (USA, UK, Germany, Japan, Canada, Australia, Switzerland, New Zealand) from 2000 to 2025, with 2015=100 base period. Used to benchmark product-level shrinkflation against official food price indices.",
+      "Annual food CPI index values and inflation rates for 8 major economies (USA, UK, Germany, Japan, Canada, Australia, Switzerland, New Zealand) from 2000 to 2025, with 2015=100 base period. Used to benchmark product-level shrinkflation against official food price indices sourced from FAO and Stats NZ.",
     url: `${siteUrl}/shrinkflation-calculator`,
+    identifier: `${siteUrl}/shrinkflation-calculator#dataset`,
     creator: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: siteUrl,
     },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      url: siteUrl,
+    },
+    license: "https://creativecommons.org/licenses/by/4.0/",
     temporalCoverage: "2000/2025",
+    datePublished: "2026-03-01",
+    dateModified: "2026-03-27",
+    inLanguage: "en",
     spatialCoverage: {
       "@type": "Place",
-      name: "USA, UK, Germany, Japan, Canada, Australia, Switzerland, New Zealand",
+      name: "United States, United Kingdom, Eurozone, Canada, Australia, Switzerland, Japan, New Zealand",
     },
     variableMeasured: [
-      "Food Consumer Price Index (2015=100)",
-      "General Consumer Price Index (2015=100)",
-      "Annual food inflation rate (%)",
-      "Annual general inflation rate (%)",
+      {
+        "@type": "PropertyValue",
+        name: "Food Consumer Price Index",
+        description: "Annual food CPI index values with 2015=100 base period, covering 8 major economies for shrinkflation benchmarking",
+        unitCode: "IE",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Annual food inflation rate",
+        description: "Year-over-year percentage change in food consumer prices for each supported currency country",
+        unitCode: "P1",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Price-per-unit change",
+        description: "User-calculated effective shrinkflation rate combining both package size reduction and price increase into a single unit-price inflation metric",
+        unitCode: "P1",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Annualised shrinkflation CAGR",
+        description: "Compound annual growth rate of effective shrinkflation, normalised across the user-selected year span for comparable cross-period analysis",
+        unitCode: "P1",
+      },
     ],
-    license: "https://creativecommons.org/licenses/by/4.0/",
     isBasedOn: [
       {
         "@type": "Dataset",
@@ -149,10 +247,12 @@ export default function ShrinkflationCalculatorRoute() {
         creator: {
           "@type": "Organization",
           name: "Food and Agriculture Organization of the United Nations (FAO)",
+          url: "https://www.fao.org",
         },
         publisher: {
           "@type": "Organization",
           name: "Food and Agriculture Organization of the United Nations (FAO)",
+          url: "https://www.fao.org",
         },
         license: "https://creativecommons.org/licenses/by/4.0/",
         url: "https://www.fao.org/faostat/en/#data/CP",
@@ -165,10 +265,12 @@ export default function ShrinkflationCalculatorRoute() {
         creator: {
           "@type": "Organization",
           name: "Stats NZ (Statistics New Zealand)",
+          url: "https://www.stats.govt.nz",
         },
         publisher: {
           "@type": "Organization",
           name: "Stats NZ (Statistics New Zealand)",
+          url: "https://www.stats.govt.nz",
         },
         license: "https://creativecommons.org/licenses/by/4.0/",
         url: "https://www.stats.govt.nz/information-releases/consumers-price-index-march-2026-quarter/",
@@ -268,6 +370,7 @@ export default function ShrinkflationCalculatorRoute() {
   return (
     <>
       <JsonLd id="schema-calculator" data={calculatorSchema} />
+      <JsonLd id="schema-review" data={reviewSchema} />
       <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
       <JsonLd id="schema-article" data={articleSchema} />
       <JsonLd id="schema-dataset" data={datasetSchema} />

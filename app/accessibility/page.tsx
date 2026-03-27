@@ -336,6 +336,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/shrinkflation-calculator" className="text-blue-600 hover:underline">
+                      Shrinkflation Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate the true inflation hidden in shrinking grocery packages — compare old vs new weight and price to reveal the real cost-per-unit increase against official food CPI benchmarks across 8 currencies
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/charts" className="text-blue-600 hover:underline">
                       Charts & Analytics
                     </Link>
@@ -606,6 +614,18 @@ export default function AccessibilityPage() {
                   <li>Results presented in accessible format with context</li>
                   <li>Progressive disclosure for advanced options</li>
                   <li>Clear instructions for each calculation step</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Shrinkflation Calculator</h3>
+                <ul className="space-y-1 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>Currency selector and all form inputs carry descriptive <code className="bg-gray-100 dark:bg-gray-700 px-1 rounded">aria-label</code> attributes</li>
+                  <li>Year dropdowns are standard <code className="bg-gray-100 dark:bg-gray-700 px-1 rounded">{"<select>"}</code> elements with visible labels, fully keyboard navigable</li>
+                  <li>Calculator results are rendered in semantic markup and announced to screen readers on update</li>
+                  <li>Severity badge (Mild / Moderate / Severe / Extreme) includes both colour and text label for colour-blind users</li>
+                  <li>Bar chart CPI benchmark comparison includes accessible tooltips and descriptive axis labels</li>
+                  <li>FAQ accordion items use proper button roles with <code className="bg-gray-100 dark:bg-gray-700 px-1 rounded">aria-expanded</code> state management</li>
+                  <li>All section headings follow a logical H2 → H3 → H4 hierarchy for screen reader document navigation</li>
                 </ul>
               </div>
               <div>
