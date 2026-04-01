@@ -344,6 +344,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/investment-race-calculator" className="text-blue-600 hover:underline">
+                      Investment Race Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Compare real, inflation-adjusted returns of S&P 500, gold, Bitcoin, housing, bonds, and savings across any year range since 2000 — with 8 currency support and official CPI data
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/charts" className="text-blue-600 hover:underline">
                       Charts & Analytics
                     </Link>

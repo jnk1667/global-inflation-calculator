@@ -21,6 +21,9 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - true inflation calculator, shrinkflation vs CPI, food CPI benchmark
 - deflation calculator, deflationary assets, gold silver calculator
 - precious metals appreciation, commodity price calculator
+- investment race calculator, which investment beat inflation, inflation adjusted returns
+- S&P 500 vs gold vs bitcoin, real returns calculator, investment comparison calculator
+- best investment against inflation, gold vs stocks inflation, bitcoin vs inflation calculator
 - student loan calculator, loan repayment calculator, income-driven repayment
 - mortgage calculator, home loan calculator, mortgage payment calculator
 - emergency fund calculator, emergency savings calculator, recession preparation
@@ -166,6 +169,35 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
     * Build evidence for consumer advocacy or journalism
   - Context: 2024 Capgemini study found 61–71% of consumers frustrated by shrinkflation; France became first country to mandate in-store labelling of shrinkflated products in 2024
   - Update Frequency: Annual (food CPI dataset updated as FAO and Stats NZ release new annual data)
+
+- **Investment Race Calculator (/investment-race-calculator)**
+  - URL: https://www.globalinflationcalculator.com/investment-race-calculator
+  - Purpose: Compare real, inflation-adjusted returns of six major asset classes — S&P 500, gold, Bitcoin, housing, government bonds, and savings accounts — across any year range since 2000
+  - Features:
+    * Side-by-side multi-asset comparison: S&P 500 (2000–2025), gold (2000–2025), Bitcoin (2013–2025), housing (2000–2025), 10-year government bonds (2000–2025), savings account (2000–2025)
+    * Inflation-adjusted (real) returns using official CPI data for 8 currencies
+    * Nominal vs real return toggle (Fisher equation)
+    * 8 currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)
+    * Interactive line chart showing investment growth year by year
+    * CAGR leaderboard ranking all assets from best to worst
+    * Asset toggle to include or exclude specific investments
+    * Cumulative CPI shown over the selected period for context
+  - Calculations:
+    * Nominal growth: Value(year) = Value(year−1) × (1 + nominal_return%)
+    * Real return: ((1 + nominal) ÷ (1 + CPI)) − 1 (Fisher equation)
+    * CAGR: (FinalValue ÷ InitialValue) ^ (1 ÷ Years) − 1
+    * CPI data: annual headline CPI per currency from FAOSTAT and national agencies, 2000–2025
+  - Data Sources:
+    * Robert Shiller / Yale Economics (S&P 500 total returns)
+    * LBMA / ICE Benchmark Administration (gold spot price)
+    * CoinGecko / CoinMarketCap (Bitcoin annual close price)
+    * BIS Residential Property Price Statistics (housing)
+    * FRED / World Bank (government bonds, savings rates)
+    * FAOSTAT / BLS / ONS / Eurostat / Statistics Canada / ABS / SFSO / Statistics Bureau of Japan / Stats NZ (CPI)
+  - Target Users: Investors comparing asset classes, inflation hedgers, personal finance researchers, long-term savers, financial educators
+  - Unique Value Proposition: Only free calculator that shows all six major asset classes with real inflation-adjusted returns side-by-side across 8 currencies using official CPI benchmarks
+  - Use Cases: Understand which assets preserved purchasing power over any decade; compare Bitcoin vs gold vs stocks in real terms; research inflation hedging strategies; educational demonstrations of compound growth and inflation erosion
+  - Update Frequency: Annual (return data and CPI updated as new year data becomes available)
 
 - **Deflation Calculator (/deflation-calculator)**
   - URL: https://www.globalinflationcalculator.com/deflation-calculator
