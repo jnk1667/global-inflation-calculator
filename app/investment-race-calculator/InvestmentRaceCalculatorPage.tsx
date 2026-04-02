@@ -386,22 +386,6 @@ export default function InvestmentRaceCalculatorPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans">
 
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-3xl mx-auto px-4 h-12 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 text-sm font-medium text-gray-600 dark:text-gray-300 overflow-x-auto no-scrollbar">
-            <Link href="/" className="hover:text-gray-900 dark:hover:text-white whitespace-nowrap transition-colors">Home</Link>
-            <span className="text-gray-300 dark:text-gray-600">/</span>
-            <span className="text-gray-900 dark:text-white whitespace-nowrap font-semibold">Investment Race</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link href="/deflation-calculator" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white whitespace-nowrap transition-colors">Deflation</Link>
-            <span className="text-gray-300 dark:text-gray-600 text-xs">·</span>
-            <Link href="/charts" className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white whitespace-nowrap transition-colors">Charts</Link>
-          </div>
-        </div>
-      </nav>
-
       <main className="max-w-3xl mx-auto px-4 py-6 space-y-4">
 
         {/* Header */}
