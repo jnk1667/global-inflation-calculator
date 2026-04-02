@@ -845,11 +845,25 @@ export default function InvestmentRaceCalculatorPage() {
             <div>
               <h4 className="text-lg font-semibold mb-4">More Tools</h4>
               <ul className="space-y-2 text-sm text-gray-300">
-                <li><Link href="/" className="hover:text-white transition-colors">Global Inflation Calculator</Link></li>
+                <li><Link href="/mortgage-calculator" className="hover:text-white transition-colors">Mortgage Calculator</Link></li>
+                <li><Link href="/home-affordability-calculator/inflation-adjusted" className="hover:text-white transition-colors">Home Affordability Calculator</Link></li>
                 <li><Link href="/deflation-calculator" className="hover:text-white transition-colors">Deflation Calculator</Link></li>
-                <li><Link href="/global-compound-interest" className="hover:text-white transition-colors">Compound Interest</Link></li>
+                <li><Link href="/charts" className="hover:text-white transition-colors">Charts &amp; Analytics</Link></li>
+                <li><Link href="/global-compound-interest" className="hover:text-white transition-colors">Compound Interest Calculator</Link></li>
+                <li><Link href="/global-net-worth-calculator" className="hover:text-white transition-colors">Global Net Worth Calculator</Link></li>
+                <li><Link href="/ppp-calculator" className="hover:text-white transition-colors">PPP Calculator</Link></li>
+                <li><Link href="/auto-loan-calculator" className="hover:text-white transition-colors">Auto Loan Calculator</Link></li>
+                <li><Link href="/salary-calculator" className="hover:text-white transition-colors">Salary Calculator</Link></li>
                 <li><Link href="/retirement-calculator" className="hover:text-white transition-colors">Retirement Calculator</Link></li>
+                <li><Link href="/student-loan-calculator" className="hover:text-white transition-colors">Student Loan Calculator</Link></li>
+                <li><Link href="/budget-calculator" className="hover:text-white transition-colors">Budget Calculator</Link></li>
+                <li><Link href="/emergency-fund-calculator" className="hover:text-white transition-colors">Emergency Fund Calculator</Link></li>
                 <li><Link href="/roi-calculator" className="hover:text-white transition-colors">ROI Calculator</Link></li>
+                <li><Link href="/insurance-inflation-calculator" className="hover:text-white transition-colors">Insurance Inflation Calculator</Link></li>
+                <li><Link href="/legacy-planner" className="hover:text-white transition-colors">Legacy Planner</Link></li>
+                <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
+                <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
