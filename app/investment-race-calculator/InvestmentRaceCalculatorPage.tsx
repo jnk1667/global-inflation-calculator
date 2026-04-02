@@ -500,37 +500,37 @@ export default function InvestmentRaceCalculatorPage() {
         {/* Results summary strip */}
         {winner && (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-              <div className="flex items-center gap-1.5 mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4">
+              <div className="flex items-center gap-1.5 mb-1">
                 <Trophy className="w-3.5 h-3.5 text-yellow-500" />
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Best performer</span>
               </div>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">{winner.label}</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{sym}{winner.finalVal.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+              <p className="text-base font-bold text-gray-900 dark:text-white truncate">{winner.label}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{sym}{winner.finalVal.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-              <div className="flex items-center gap-1.5 mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4">
+              <div className="flex items-center gap-1.5 mb-1">
                 <TrendingUp className="w-3.5 h-3.5 text-green-500" />
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Winner total return</span>
               </div>
-              <p className="text-xl font-bold text-green-600 dark:text-green-400">+{winner.totalReturn.toFixed(1)}%</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{winner.cagr.toFixed(1)}% / yr CAGR</p>
+              <p className="text-base font-bold text-green-600 dark:text-green-400">+{winner.totalReturn.toFixed(1)}%</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{winner.cagr.toFixed(1)}% / yr CAGR</p>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-              <div className="flex items-center gap-1.5 mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4">
+              <div className="flex items-center gap-1.5 mb-1">
                 <TrendingDown className="w-3.5 h-3.5 text-red-400" />
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Worst performer</span>
               </div>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">{loser.label}</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{loser.totalReturn >= 0 ? "+" : ""}{loser.totalReturn.toFixed(1)}%</p>
+              <p className="text-base font-bold text-gray-900 dark:text-white truncate">{loser.label}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{loser.totalReturn >= 0 ? "+" : ""}{loser.totalReturn.toFixed(1)}%</p>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-              <div className="flex items-center gap-1.5 mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4">
+              <div className="flex items-center gap-1.5 mb-1">
                 <DollarSign className="w-3.5 h-3.5 text-orange-400" />
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Cumulative CPI</span>
               </div>
-              <p className="text-xl font-bold text-orange-500">+{totalCpiPct.toFixed(1)}%</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{startYear}–{endYear} inflation</p>
+              <p className="text-base font-bold text-orange-500">+{totalCpiPct.toFixed(1)}%</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{startYear}–{endYear} inflation</p>
             </div>
           </div>
         )}
