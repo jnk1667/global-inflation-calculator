@@ -152,6 +152,11 @@ export default function RootLayout({
       },
       {
         "@type": "WebPage",
+        name: "Investment Race Calculator",
+        url: `${siteUrl}/investment-race-calculator`,
+      },
+      {
+        "@type": "WebPage",
         name: "PPP Calculator",
         url: `${siteUrl}/ppp-calculator`,
       },
@@ -227,6 +232,13 @@ export default function RootLayout({
                   className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
                 >
                   Charts
+                </Link>
+                <Link
+                  href="/investment-race-calculator"
+                  className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
+                >
+                  <span className="sm:hidden">Inv. Race</span>
+                  <span className="hidden sm:inline">Investment Race</span>
                 </Link>
 
                 {/* Black Circle Dropdown */}

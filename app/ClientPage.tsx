@@ -1828,6 +1828,11 @@ export default function ClientPage() {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/investment-race-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                      Investment Race Calculator
+                    </Link>
+                  </li>
+                  <li>
                     <Link
                       href="/global-compound-interest"
                       className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors"
