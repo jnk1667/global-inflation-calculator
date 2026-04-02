@@ -402,10 +402,10 @@ export default function InvestmentRaceCalculatorPage() {
         </div>
 
         {/* Controls */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-4">Calculator Settings</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8">
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-5">Calculator Settings</h2>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
             {/* Initial Investment */}
             <div className="col-span-2 sm:col-span-1">
               <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Initial investment</label>
@@ -415,7 +415,7 @@ export default function InvestmentRaceCalculatorPage() {
                   type="number"
                   value={initialAmount}
                   onChange={(e) => setInitialAmount(e.target.value)}
-                  className="w-full pl-7 pr-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-7 pr-3 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -426,7 +426,7 @@ export default function InvestmentRaceCalculatorPage() {
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 {Object.entries(CURRENCIES).map(([code, c]) => (
                   <option key={code} value={code}>{c.flag} {code}</option>
@@ -440,7 +440,7 @@ export default function InvestmentRaceCalculatorPage() {
               <select
                 value={startYear}
                 onChange={(e) => { const v = parseInt(e.target.value); setStartYear(v); if (v >= endYear) setEndYear(Math.min(v + 1, MAX_YEAR)) }}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 {yearOptions.filter(y => y < MAX_YEAR).map(y => <option key={y} value={y}>{y}</option>)}
               </select>
@@ -452,7 +452,7 @@ export default function InvestmentRaceCalculatorPage() {
               <select
                 value={endYear}
                 onChange={(e) => setEndYear(parseInt(e.target.value))}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 {yearOptions.filter(y => y > startYear).map(y => <option key={y} value={y}>{y}</option>)}
               </select>
@@ -460,7 +460,7 @@ export default function InvestmentRaceCalculatorPage() {
           </div>
 
           {/* Real vs nominal toggle */}
-          <div className="flex items-center justify-between py-3 border-t border-gray-100 dark:border-gray-700">
+          <div className="flex items-center justify-between py-4 border-t border-gray-100 dark:border-gray-700">
             <div>
               <p className="text-sm font-medium text-gray-700 dark:text-gray-200">Inflation-adjusted (real returns)</p>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Uses {CURRENCIES[currency].name} CPI data — shows what each asset truly gained in purchasing power</p>
@@ -475,7 +475,7 @@ export default function InvestmentRaceCalculatorPage() {
           </div>
 
           {/* Asset toggles */}
-          <div className="flex flex-wrap gap-2 pt-3 border-t border-gray-100 dark:border-gray-700">
+          <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-100 dark:border-gray-700">
             <span className="text-xs font-medium text-gray-500 dark:text-gray-400 self-center mr-1">Assets:</span>
             {ASSETS.map((asset) => {
               const isActive = activeAssets.has(asset.key)
@@ -500,37 +500,37 @@ export default function InvestmentRaceCalculatorPage() {
         {/* Results summary strip */}
         {winner && (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4">
-              <div className="flex items-center gap-1.5 mb-1">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
+              <div className="flex items-center gap-1.5 mb-2">
                 <Trophy className="w-3.5 h-3.5 text-yellow-500" />
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Best performer</span>
               </div>
-              <p className="text-lg font-bold text-gray-900 dark:text-white">{winner.label}</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{sym}{winner.finalVal.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{winner.label}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{sym}{winner.finalVal.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4">
-              <div className="flex items-center gap-1.5 mb-1">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
+              <div className="flex items-center gap-1.5 mb-2">
                 <TrendingUp className="w-3.5 h-3.5 text-green-500" />
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Winner total return</span>
               </div>
-              <p className="text-lg font-bold text-green-600 dark:text-green-400">+{winner.totalReturn.toFixed(1)}%</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{winner.cagr.toFixed(1)}% / yr CAGR</p>
+              <p className="text-xl font-bold text-green-600 dark:text-green-400">+{winner.totalReturn.toFixed(1)}%</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{winner.cagr.toFixed(1)}% / yr CAGR</p>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4">
-              <div className="flex items-center gap-1.5 mb-1">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
+              <div className="flex items-center gap-1.5 mb-2">
                 <TrendingDown className="w-3.5 h-3.5 text-red-400" />
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Worst performer</span>
               </div>
-              <p className="text-lg font-bold text-gray-900 dark:text-white">{loser.label}</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{loser.totalReturn >= 0 ? "+" : ""}{loser.totalReturn.toFixed(1)}%</p>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{loser.label}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{loser.totalReturn >= 0 ? "+" : ""}{loser.totalReturn.toFixed(1)}%</p>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4">
-              <div className="flex items-center gap-1.5 mb-1">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
+              <div className="flex items-center gap-1.5 mb-2">
                 <DollarSign className="w-3.5 h-3.5 text-orange-400" />
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Cumulative CPI</span>
               </div>
-              <p className="text-lg font-bold text-orange-500">+{totalCpiPct.toFixed(1)}%</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{startYear}–{endYear} inflation</p>
+              <p className="text-xl font-bold text-orange-500">+{totalCpiPct.toFixed(1)}%</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{startYear}–{endYear} inflation</p>
             </div>
           </div>
         )}
