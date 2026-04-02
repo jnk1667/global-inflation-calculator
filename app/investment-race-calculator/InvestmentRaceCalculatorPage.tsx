@@ -386,23 +386,19 @@ export default function InvestmentRaceCalculatorPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans">
 
-      <main className="max-w-3xl mx-auto px-4 py-6 space-y-4">
+      <main className="max-w-3xl mx-auto px-4 pt-8 pb-6 space-y-4">
 
-        {/* Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
-          <div className="flex items-start gap-3">
-            <div className="p-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/30 shrink-0">
-              <Trophy className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
-                Investment Race Calculator
-              </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
-                Which asset actually beat inflation? Compare real returns of S&P 500, gold, Bitcoin, housing, bonds, and savings across any year range since 2000.
-              </p>
-            </div>
+        {/* Hero — no card box, mirrors homepage style */}
+        <div className="text-center mb-2">
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <Trophy className="w-9 h-9 text-blue-600 dark:text-blue-400 shrink-0" />
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white text-balance">
+              Investment Race Calculator
+            </h1>
           </div>
+          <p className="text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-pretty leading-relaxed">
+            Which asset actually beat inflation? Compare real returns of S&amp;P 500, gold, Bitcoin, housing, bonds, and savings across any year range since 2000.
+          </p>
         </div>
 
         {/* Controls */}
