@@ -300,6 +300,7 @@ export default function InvestmentRaceCalculatorPage() {
   const [endYear, setEndYear] = useState(2025)
   const [initialAmount, setInitialAmount] = useState("10000")
   const [inflationAdjusted, setInflationAdjusted] = useState(true)
+  const [logScale, setLogScale] = useState(false)
   const [activeAssets, setActiveAssets] = useState<Set<string>>(
     new Set(["sp500", "gold", "bitcoin", "housing", "bonds", "savings"])
   )
@@ -537,11 +538,22 @@ export default function InvestmentRaceCalculatorPage() {
 
         {/* Main chart */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
-          <div className="flex items-center justify-between mb-1">
+          <div className="flex items-start justify-between mb-1">
             <h2 className="text-base font-semibold text-gray-900 dark:text-white flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-blue-500" />
               {sym}{parseFloat(initialAmount || "10000").toLocaleString()} invested in {startYear} — value by year
             </h2>
+            <button
+              onClick={() => setLogScale((v) => !v)}
+              title={logScale ? "Switch to linear scale" : "Switch to log scale (better for comparing assets with very different returns)"}
+              className={`text-xs px-2.5 py-1 rounded-md border font-medium transition-colors shrink-0 ml-3 ${
+                logScale
+                  ? "bg-blue-600 text-white border-blue-600"
+                  : "text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-blue-400 hover:text-blue-500"
+              }`}
+            >
+              Log scale
+            </button>
           </div>
           <p className="text-xs text-gray-400 dark:text-gray-500 mb-5">
             {inflationAdjusted ? "Real (inflation-adjusted) returns" : "Nominal returns"} · {CURRENCIES[currency].name} · {endYear - startYear} year window
@@ -557,11 +569,18 @@ export default function InvestmentRaceCalculatorPage() {
                   axisLine={false}
                 />
                 <YAxis
-                  tickFormatter={(v) => `${sym}${v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}`}
+                  scale={logScale ? "log" : "auto"}
+                  domain={logScale ? ["auto", "auto"] : [0, "auto"]}
+                  allowDataOverflow={logScale}
+                  tickFormatter={(v) => {
+                    if (v >= 1_000_000) return `${sym}${(v / 1_000_000).toFixed(1)}M`
+                    if (v >= 1_000) return `${sym}${(v / 1_000).toFixed(0)}k`
+                    return `${sym}${v}`
+                  }}
                   tick={{ fontSize: 11, fill: "rgb(100 116 139)" }}
                   tickLine={false}
                   axisLine={false}
-                  width={56}
+                  width={64}
                 />
                 <Tooltip content={<CustomTooltip symbol={sym} />} />
                 <ReferenceLine
