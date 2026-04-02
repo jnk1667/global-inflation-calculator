@@ -386,7 +386,7 @@ export default function InvestmentRaceCalculatorPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans">
 
-      <main className="max-w-3xl mx-auto px-4 pt-8 pb-6 space-y-4">
+      <main className="max-w-3xl mx-auto px-4 pt-[152px] sm:pt-24 pb-6 space-y-4">
 
         {/* Hero — no card box, mirrors homepage style */}
         <div className="text-center mb-2">
