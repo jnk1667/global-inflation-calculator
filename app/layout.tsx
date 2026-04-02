@@ -233,13 +233,6 @@ export default function RootLayout({
                 >
                   Charts
                 </Link>
-                <Link
-                  href="/investment-race-calculator"
-                  className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
-                >
-                  <span className="sm:hidden">Inv. Race</span>
-                  <span className="hidden sm:inline">Investment Race</span>
-                </Link>
 
                 {/* Black Circle Dropdown */}
                 <div className="relative group">
@@ -248,6 +241,12 @@ export default function RootLayout({
                   {/* Dropdown Menu */}
                   <div className="absolute top-8 right-0 w-48 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800/95 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out">
                     <div className="py-2">
+                      <Link
+                        href="/investment-race-calculator"
+                        className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        Investment Race Calculator
+                      </Link>
                       <Link
                         href="/shrinkflation-calculator"
                         className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
