@@ -300,7 +300,7 @@ export default function InvestmentRaceCalculatorPage() {
   const [endYear, setEndYear] = useState(2025)
   const [initialAmount, setInitialAmount] = useState("10000")
   const [inflationAdjusted, setInflationAdjusted] = useState(true)
-  const [logScale, setLogScale] = useState(false)
+  const [logScale, setLogScale] = useState(true)
   const [activeAssets, setActiveAssets] = useState<Set<string>>(
     new Set(["sp500", "gold", "bitcoin", "housing", "bonds", "savings"])
   )
