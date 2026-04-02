@@ -195,6 +195,7 @@ export default function InvestmentRaceCalculatorRoute() {
         description: "Official daily gold price fixings from the London Bullion Market Association, the global reference price for precious metals.",
         url: "https://www.lbma.org.uk/prices-and-data/precious-metal-prices",
         creator: { "@type": "Organization", name: "ICE Benchmark Administration" },
+        license: "https://www.lbma.org.uk/prices-and-data/precious-metal-prices",
       },
       {
         "@type": "Dataset",
@@ -202,6 +203,7 @@ export default function InvestmentRaceCalculatorRoute() {
         description: "National residential property price indices for major economies, published quarterly by the Bank for International Settlements.",
         url: "https://www.bis.org/statistics/pp_residential.htm",
         creator: { "@type": "Organization", name: "Bank for International Settlements" },
+        license: "https://www.bis.org/statistics/pp_residential.htm",
       },
       {
         "@type": "Dataset",

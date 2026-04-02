@@ -73,6 +73,10 @@ Project multi-generational wealth transfer with inflation.
 URL: https://globalinflationcalculator.com/deflation-calculator
 Analyze purchasing power growth of Bitcoin, Ethereum, Gold, Silver, Oil.
 
+### Investment Race Calculator
+URL: https://globalinflationcalculator.com/investment-race-calculator
+Compare real, inflation-adjusted returns of S&P 500, gold, Bitcoin, housing, 10-year government bonds, and savings accounts across any year range since 2000. Uses log-scale charting to display assets with vastly different return magnitudes on a single readable chart. Supports 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD) with country-specific CPI benchmarks. Data sourced from Robert Shiller / Yale Economics (S&P 500), LBMA / ICE Benchmark Administration (Gold), CoinGecko / CoinMarketCap (Bitcoin), BIS Residential Property Price Statistics (Housing), FRED / World Bank (Bonds and Savings), and FAOSTAT (CPI).
+
 ### Charts & Analytics
 URL: https://globalinflationcalculator.com/charts
 Interactive inflation trends and economic data visualizations.
