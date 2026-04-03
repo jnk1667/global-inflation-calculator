@@ -96,8 +96,9 @@
     { "year": 2021, "return": 28.71 },
     { "year": 2022, "return": -18.11 },
     { "year": 2023, "return": 26.29 },
-    { "year": 2024, "return": 25.02 }
+    { "year": 2024, "return": 25.02 },
+    { "year": 2025, "return": 1.2 }
   ],
   "averageReturn": 10.5,
-  "lastUpdated": "2024-12-31"
+  "lastUpdated": "2025-12-31"
 }

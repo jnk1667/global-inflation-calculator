@@ -1,7 +1,7 @@
 {
   "description": "Asset Price Inflation vs CPI (1970-2025)",
   "sources": ["S&P Global", "Federal Reserve (FRED)", "Case-Shiller", "Bureau of Labor Statistics"],
-  "lastUpdated": "2025-12-29",
+  "lastUpdated": "2025-12-31",
   "data": [
     {
       "year": 1970,
@@ -140,11 +140,11 @@
     },
     {
       "year": 2025,
-      "sp500Index": 6025.4,
+      "sp500Index": 5882.0,
       "housingIndex": 1752.8,
-      "bondYield": 4.35,
+      "bondYield": 4.57,
       "cpiIndex": 772.5,
-      "realSP500": 780.1,
+      "realSP500": 761.4,
       "realHousing": 226.9
     }
   ],
@@ -174,7 +174,7 @@
     { "year": 2022, "sp500Return": -18.11, "housingReturn": 10.6, "bondReturn": 3.01, "inflation": 8.0 },
     { "year": 2023, "sp500Return": 26.29, "housingReturn": 2.6, "bondReturn": 4.05, "inflation": 4.1 },
     { "year": 2024, "sp500Return": 25.02, "housingReturn": 5.5, "bondReturn": 4.25, "inflation": 2.9 },
-    { "year": 2025, "sp500Return": 2.45, "housingReturn": 2.8, "bondReturn": 4.35, "inflation": 2.6 }
+    { "year": 2025, "sp500Return": 1.2, "housingReturn": 2.8, "bondReturn": 4.57, "inflation": 2.9 }
   ],
   "statistics": {
     "sp500TotalReturn": "5925%",

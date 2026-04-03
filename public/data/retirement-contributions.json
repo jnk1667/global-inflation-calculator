@@ -3,30 +3,30 @@
     "babyBoomers": {
       "birthYears": "1946-1964",
       "averageContribution": 12.5,
-      "medianSavings": 289000,
+      "medianSavings": 295000,
       "retirementAge": 65,
-      "socialSecurityBenefit": 1827
+      "socialSecurityBenefit": 1907
     },
     "genX": {
       "birthYears": "1965-1980",
       "averageContribution": 10.8,
-      "medianSavings": 142000,
+      "medianSavings": 148000,
       "retirementAge": 67,
-      "socialSecurityBenefit": 1657
+      "socialSecurityBenefit": 1734
     },
     "millennials": {
       "birthYears": "1981-1996",
       "averageContribution": 8.3,
-      "medianSavings": 63000,
+      "medianSavings": 67000,
       "retirementAge": 67,
-      "socialSecurityBenefit": 1503
+      "socialSecurityBenefit": 1580
     },
     "genZ": {
       "birthYears": "1997-2012",
       "averageContribution": 6.2,
-      "medianSavings": 11000,
+      "medianSavings": 12000,
       "retirementAge": 67,
-      "socialSecurityBenefit": 1350
+      "socialSecurityBenefit": 1420
     }
   },
   "incomeData": {
@@ -36,5 +36,24 @@
     "100k-150k": { "averageContribution": 13.2 },
     "over150k": { "averageContribution": 16.8 }
   },
-  "lastUpdated": "2024-12-31"
+  "contributionLimits": {
+    "2025": {
+      "traditional401k": 23500,
+      "roth401k": 23500,
+      "traditionalIRA": 7000,
+      "rothIRA": 7000,
+      "catchUp50Plus401k": 7500,
+      "catchUp50PlusIRA": 1000,
+      "superCatchUp6064": 11250
+    },
+    "2024": {
+      "traditional401k": 23000,
+      "roth401k": 23000,
+      "traditionalIRA": 7000,
+      "rothIRA": 7000,
+      "catchUp50Plus401k": 7500,
+      "catchUp50PlusIRA": 1000
+    }
+  },
+  "lastUpdated": "2025-12-31"
 }

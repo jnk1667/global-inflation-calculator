@@ -1,77 +1,77 @@
 {
-  "lastUpdate": "2025-12-14T00:00:00.000Z",
+  "lastUpdate": "2026-04-03T00:00:00.000Z",
   "autoUpdateEnabled": true,
   "currencies": ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY", "NZD"],
-  "nextScheduledUpdate": "2026-01-15T12:00:00.000Z",
+  "nextScheduledUpdate": "2026-05-01T12:00:00.000Z",
   "updateFrequency": "monthly",
-  "currentMonth": "December",
-  "currentYear": 2025,
+  "currentMonth": "April",
+  "currentYear": 2026,
   "dataStatus": {
     "USD": {
       "source": "US Bureau of Labor Statistics",
-      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "lastFetch": "2026-04-03T00:00:00.000Z",
       "status": "active",
-      "latestPeriod": "September 2025",
-      "annualRate": "3.0%"
+      "latestPeriod": "February 2026",
+      "annualRate": "2.8%"
     },
     "GBP": {
       "source": "UK Office for National Statistics",
-      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "lastFetch": "2026-04-03T00:00:00.000Z",
       "status": "active",
-      "latestPeriod": "October 2025",
-      "annualRate": "3.6%"
+      "latestPeriod": "February 2026",
+      "annualRate": "2.8%"
     },
     "EUR": {
       "source": "Eurostat",
-      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "lastFetch": "2026-04-03T00:00:00.000Z",
       "status": "active",
-      "latestPeriod": "November 2025",
+      "latestPeriod": "March 2026",
       "annualRate": "2.2%"
     },
     "CAD": {
       "source": "Statistics Canada",
-      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "lastFetch": "2026-04-03T00:00:00.000Z",
       "status": "active",
-      "latestPeriod": "October 2025",
-      "annualRate": "2.2%"
+      "latestPeriod": "February 2026",
+      "annualRate": "2.6%"
     },
     "AUD": {
       "source": "Australian Bureau of Statistics",
-      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "lastFetch": "2026-04-03T00:00:00.000Z",
       "status": "active",
-      "latestPeriod": "October 2025",
-      "annualRate": "3.8%"
+      "latestPeriod": "Q4 2025",
+      "annualRate": "2.4%"
     },
     "CHF": {
       "source": "Swiss Federal Statistical Office",
-      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "lastFetch": "2026-04-03T00:00:00.000Z",
       "status": "active",
-      "latestPeriod": "November 2025",
-      "annualRate": "0.0%"
+      "latestPeriod": "March 2026",
+      "annualRate": "0.3%"
     },
     "JPY": {
       "source": "Statistics Bureau of Japan",
-      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "lastFetch": "2026-04-03T00:00:00.000Z",
       "status": "active",
-      "latestPeriod": "October 2025",
-      "annualRate": "3.0%"
+      "latestPeriod": "February 2026",
+      "annualRate": "3.7%"
     },
     "NZD": {
       "source": "Stats NZ",
-      "lastFetch": "2025-12-14T00:00:00.000Z",
+      "lastFetch": "2026-04-03T00:00:00.000Z",
       "status": "active",
-      "latestPeriod": "Q3 2025",
-      "annualRate": "3.0%"
+      "latestPeriod": "Q4 2025",
+      "annualRate": "2.2%"
     }
   },
   "treasuryRates": {
-    "lastFetch": "2025-12-14T00:00:00.000Z",
+    "lastFetch": "2026-04-03T00:00:00.000Z",
     "source": "U.S. Department of the Treasury",
-    "latestDate": "December 12, 2025",
+    "latestDate": "April 2, 2026",
     "key_rates": {
-      "treasury_10y": "4.18%",
-      "treasury_30y": "4.84%",
-      "treasury_2y": "3.53%"
+      "treasury_10y": "4.00%",
+      "treasury_30y": "4.40%",
+      "treasury_2y": "3.72%"
     }
   }
 }
