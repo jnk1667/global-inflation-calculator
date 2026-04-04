@@ -237,6 +237,11 @@ export default function Home() {
                       </Link>
                     </li>
                     <li>
+                      <Link href="/shrinkflation-calculator" className="text-blue-600 hover:underline">
+                        Shrinkflation Calculator
+                      </Link>
+                    </li>
+                    <li>
                       <Link href="/charts" className="text-blue-600 hover:underline">
                         Charts & Analytics
                       </Link>
