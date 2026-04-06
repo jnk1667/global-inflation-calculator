@@ -529,6 +529,8 @@ export default function InvestmentRaceCalculatorPage() {
     return (factor - 1) * 100
   }, [startYear, endYear, currency, cpiData])
 
+  const winner = finalValues[0] ?? null
+
   const toggleAsset = (key: string) => {
     setActiveAssets((prev) => {
       const next = new Set(prev)
