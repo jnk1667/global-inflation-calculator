@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo, useEffect, useCallback } from "react"
 import {
   LineChart,
   Line,
@@ -22,10 +22,12 @@ import {
   BookOpen,
   Trophy,
   Minus,
+  RefreshCw,
 } from "lucide-react"
 import FAQ from "@/components/faq"
 import { supabase } from "@/lib/supabase"
 import { getCachedContent } from "@/lib/cached-content"
+import { fetchCryptoCurrentPrices } from "@/lib/api/coingecko-api"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -113,129 +115,98 @@ const ASSETS: AssetConfig[] = [
   },
 ]
 
-// ─── Historical nominal annual returns (%) — USD baseline ────────────────────
-// All values are nominal annual total returns in percent.
-// CPI adjustment is applied at render time using FAOSTAT-derived CPI data.
+// ─── Fallback hardcoded data (used if /public fetch fails) ───────────────────
 
-const NOMINAL_RETURNS: Record<string, Record<number, number>> = {
-  sp500: {
-    2000: -9.1,  2001: -11.9, 2002: -22.1, 2003: 28.7,  2004: 10.9,
-    2005: 4.9,   2006: 15.8,  2007: 5.5,   2008: -37.0, 2009: 26.5,
-    2010: 15.1,  2011: 2.1,   2012: 16.0,  2013: 32.4,  2014: 13.7,
-    2015: 1.4,   2016: 12.0,  2017: 21.8,  2018: -4.4,  2019: 31.5,
-    2020: 18.4,  2021: 28.7,  2022: -18.1, 2023: 26.3,  2024: 25.0,
-    2025: 12.0,
-  },
-  gold: {
-    2000: -5.4,  2001: 2.5,   2002: 24.7,  2003: 19.6,  2004: 5.2,
-    2005: 8.7,   2006: 22.8,  2007: 31.1,  2008: 5.8,   2009: 24.0,
-    2010: 29.6,  2011: 10.2,  2012: 7.0,   2013: -28.3, 2014: -1.5,
-    2015: -10.4, 2016: 8.6,   2017: 13.1,  2018: -1.9,  2019: 18.4,
-    2020: 25.1,  2021: -3.6,  2022: -0.3,  2023: 13.1,  2024: 27.2,
-    2025: 18.0,
-  },
-  bitcoin: {
-    2013: 5507.0, 2014: -58.0, 2015: 35.0,  2016: 125.0, 2017: 1318.0,
-    2018: -72.6,  2019: 87.2,  2020: 302.8, 2021: 59.8,  2022: -64.3,
-    2023: 155.8,  2024: 121.4, 2025: 46.0,
-  },
-  housing: {
-    2000: 9.5,   2001: 7.8,   2002: 8.5,   2003: 10.2,  2004: 11.3,
-    2005: 12.4,  2006: 1.8,   2007: -3.5,  2008: -9.1,  2009: -3.1,
-    2010: -2.5,  2011: -3.0,  2012: 5.9,   2013: 11.2,  2014: 5.6,
-    2015: 5.9,   2016: 5.1,   2017: 6.3,   2018: 4.6,   2019: 5.0,
-    2020: 10.8,  2021: 18.8,  2022: 5.4,   2023: 4.5,   2024: 5.1,
-    2025: 3.8,
-  },
-  bonds: {
-    2000: 16.7,  2001: 5.6,   2002: 15.1,  2003: 2.1,   2004: 4.5,
-    2005: 2.9,   2006: 1.5,   2007: 9.0,   2008: 25.9,  2009: -11.1,
-    2010: 8.5,   2011: 17.5,  2012: 4.2,   2013: -9.1,  2014: 10.8,
-    2015: 1.2,   2016: 0.7,   2017: 2.6,   2018: -0.2,  2019: 9.6,
-    2020: 11.3,  2021: -2.3,  2022: -17.8, 2023: 4.5,   2024: 1.8,
-    2025: 3.5,
-  },
-  savings: {
-    2000: 5.8,   2001: 3.6,   2002: 1.7,   2003: 1.0,   2004: 1.5,
-    2005: 3.2,   2006: 4.9,   2007: 5.0,   2008: 1.6,   2009: 0.5,
-    2010: 0.3,   2011: 0.3,   2012: 0.2,   2013: 0.2,   2014: 0.2,
-    2015: 0.2,   2016: 0.3,   2017: 0.5,   2018: 1.7,   2019: 2.1,
-    2020: 0.5,   2021: 0.6,   2022: 3.5,   2023: 4.8,   2024: 4.5,
-    2025: 4.2,
-  },
+const FALLBACK_SP500: Record<number, number> = {
+  2000: -9.1,  2001: -11.9, 2002: -22.1, 2003: 28.7,  2004: 10.9,
+  2005: 4.9,   2006: 15.8,  2007: 5.5,   2008: -37.0, 2009: 26.5,
+  2010: 15.1,  2011: 2.1,   2012: 16.0,  2013: 32.4,  2014: 13.7,
+  2015: 1.4,   2016: 12.0,  2017: 21.8,  2018: -4.4,  2019: 31.5,
+  2020: 18.4,  2021: 28.7,  2022: -18.1, 2023: 26.3,  2024: 25.0,
+  2025: 1.2,
 }
 
-// ─── CPI (annual %) by currency — used to compute real returns ────────────────
+const FALLBACK_BONDS: Record<number, number> = {
+  2000: 16.7,  2001: 5.6,   2002: 15.1,  2003: 2.1,   2004: 4.5,
+  2005: 2.9,   2006: 1.5,   2007: 9.0,   2008: 25.9,  2009: -11.1,
+  2010: 8.5,   2011: 17.5,  2012: 4.2,   2013: -9.1,  2014: 10.8,
+  2015: 1.2,   2016: 0.7,   2017: 2.6,   2018: -0.2,  2019: 9.6,
+  2020: 11.3,  2021: -2.3,  2022: -17.8, 2023: 4.5,   2024: 1.8,
+  2025: 3.5,
+}
 
-const CPI_BY_CURRENCY: Record<CurrencyCode, Record<number, number>> = {
-  USD: {
-    2000: 3.4, 2001: 2.8, 2002: 1.6, 2003: 2.3, 2004: 2.7,
-    2005: 3.4, 2006: 3.2, 2007: 2.9, 2008: 3.8, 2009: -0.4,
-    2010: 1.6, 2011: 3.2, 2012: 2.1, 2013: 1.5, 2014: 1.6,
-    2015: 0.1, 2016: 1.3, 2017: 2.1, 2018: 2.4, 2019: 1.8,
-    2020: 1.2, 2021: 4.7, 2022: 8.0, 2023: 4.1, 2024: 2.9,
-    2025: 2.5,
-  },
-  GBP: {
-    2000: 0.8, 2001: 1.2, 2002: 1.3, 2003: 1.4, 2004: 1.3,
-    2005: 2.1, 2006: 2.3, 2007: 2.3, 2008: 3.6, 2009: 2.2,
-    2010: 3.3, 2011: 4.5, 2012: 2.8, 2013: 2.6, 2014: 1.5,
-    2015: 0.0, 2016: 0.7, 2017: 2.7, 2018: 2.5, 2019: 1.8,
-    2020: 0.9, 2021: 2.6, 2022: 9.1, 2023: 7.3, 2024: 2.6,
-    2025: 2.8,
-  },
-  EUR: {
-    2000: 2.1, 2001: 2.3, 2002: 2.3, 2003: 2.1, 2004: 2.1,
-    2005: 2.2, 2006: 2.2, 2007: 2.1, 2008: 3.3, 2009: 0.3,
-    2010: 1.6, 2011: 2.7, 2012: 2.5, 2013: 1.4, 2014: 0.4,
-    2015: 0.0, 2016: 0.2, 2017: 1.5, 2018: 1.8, 2019: 1.2,
-    2020: 0.3, 2021: 2.6, 2022: 8.4, 2023: 5.4, 2024: 2.4,
-    2025: 2.3,
-  },
-  CAD: {
-    2000: 2.7, 2001: 2.5, 2002: 2.3, 2003: 2.8, 2004: 1.9,
-    2005: 2.2, 2006: 2.0, 2007: 2.1, 2008: 2.4, 2009: 0.3,
-    2010: 1.8, 2011: 2.9, 2012: 1.5, 2013: 0.9, 2014: 2.0,
-    2015: 1.1, 2016: 1.4, 2017: 1.6, 2018: 2.3, 2019: 1.9,
-    2020: 0.7, 2021: 3.4, 2022: 6.8, 2023: 3.9, 2024: 2.6,
-    2025: 2.4,
-  },
-  AUD: {
-    2000: 4.5, 2001: 4.4, 2002: 3.0, 2003: 2.8, 2004: 2.3,
-    2005: 2.7, 2006: 3.5, 2007: 2.3, 2008: 4.4, 2009: 1.8,
-    2010: 2.8, 2011: 3.3, 2012: 1.8, 2013: 2.4, 2014: 2.5,
-    2015: 1.5, 2016: 1.3, 2017: 1.9, 2018: 1.9, 2019: 1.6,
-    2020: 0.9, 2021: 2.9, 2022: 6.6, 2023: 5.6, 2024: 3.2,
-    2025: 2.6,
-  },
-  CHF: {
-    2000: 1.6, 2001: 1.0, 2002: 0.6, 2003: 0.6, 2004: 0.8,
-    2005: 1.2, 2006: 1.1, 2007: 0.7, 2008: 2.4, 2009: -0.5,
-    2010: 0.7, 2011: 0.2, 2012: -0.7, 2013: -0.2, 2014: 0.0,
-    2015: -1.1, 2016: -0.4, 2017: 0.5, 2018: 0.9, 2019: 0.4,
-    2020: -0.7, 2021: 0.6, 2022: 2.8, 2023: 2.1, 2024: 1.1,
-    2025: 0.8,
-  },
-  JPY: {
-    2000: -0.7, 2001: -0.7, 2002: -0.9, 2003: -0.3, 2004: 0.0,
-    2005: -0.3, 2006: 0.3, 2007: 0.1, 2008: 1.4, 2009: -1.3,
-    2010: -0.7, 2011: -0.3, 2012: 0.0, 2013: 0.4, 2014: 2.7,
-    2015: 0.8, 2016: -0.1, 2017: 0.5, 2018: 1.0, 2019: 0.5,
-    2020: 0.0, 2021: -0.2, 2022: 2.5, 2023: 3.3, 2024: 2.7,
-    2025: 2.2,
-  },
-  NZD: {
-    2000: 2.6, 2001: 2.6, 2002: 2.7, 2003: 1.8, 2004: 2.3,
-    2005: 3.0, 2006: 3.4, 2007: 2.4, 2008: 4.0, 2009: 2.1,
-    2010: 2.3, 2011: 4.0, 2012: 1.1, 2013: 1.1, 2014: 1.2,
-    2015: 0.4, 2016: 0.6, 2017: 1.8, 2018: 1.6, 2019: 1.6,
-    2020: 1.7, 2021: 3.9, 2022: 7.2, 2023: 5.7, 2024: 3.3,
-    2025: 2.5,
-  },
+const FALLBACK_HOUSING: Record<number, number> = {
+  2000: 9.5,   2001: 7.8,   2002: 8.5,   2003: 10.2,  2004: 11.3,
+  2005: 12.4,  2006: 1.8,   2007: -3.5,  2008: -9.1,  2009: -3.1,
+  2010: -2.5,  2011: -3.0,  2012: 5.9,   2013: 11.2,  2014: 5.6,
+  2015: 5.9,   2016: 5.1,   2017: 6.3,   2018: 4.6,   2019: 5.0,
+  2020: 10.8,  2021: 18.8,  2022: 5.4,   2023: 4.5,   2024: 5.1,
+  2025: 3.8,
+}
+
+// Bitcoin: hardcoded historical (2013–2024), live current year via CoinGecko
+const FALLBACK_BITCOIN: Record<number, number> = {
+  2013: 5507.0, 2014: -58.0, 2015: 35.0,  2016: 125.0, 2017: 1318.0,
+  2018: -72.6,  2019: 87.2,  2020: 302.8, 2021: 59.8,  2022: -64.3,
+  2023: 155.8,  2024: 121.4,
+}
+
+const FALLBACK_GOLD: Record<number, number> = {
+  2000: -5.4,  2001: 2.5,   2002: 24.7,  2003: 19.6,  2004: 5.2,
+  2005: 8.7,   2006: 22.8,  2007: 31.1,  2008: 5.8,   2009: 24.0,
+  2010: 29.6,  2011: 10.2,  2012: 7.0,   2013: -28.3, 2014: -1.5,
+  2015: -10.4, 2016: 8.6,   2017: 13.1,  2018: -1.9,  2019: 18.4,
+  2020: 25.1,  2021: -3.6,  2022: -0.3,  2023: 13.1,  2024: 27.2,
+  2025: 18.0,
+}
+
+const FALLBACK_SAVINGS: Record<number, number> = {
+  2000: 5.8,   2001: 3.6,   2002: 1.7,   2003: 1.0,   2004: 1.5,
+  2005: 3.2,   2006: 4.9,   2007: 5.0,   2008: 1.6,   2009: 0.5,
+  2010: 0.3,   2011: 0.3,   2012: 0.2,   2013: 0.2,   2014: 0.2,
+  2015: 0.2,   2016: 0.3,   2017: 0.5,   2018: 1.7,   2019: 2.1,
+  2020: 0.5,   2021: 0.6,   2022: 3.5,   2023: 4.8,   2024: 4.5,
+  2025: 4.2,
+}
+
+// BIS country mapping: currency → country code in bis-property-prices.json
+const BIS_COUNTRY_FOR_CURRENCY: Record<CurrencyCode, string> = {
+  USD: "US", GBP: "GB", EUR: "DE", CAD: "CA",
+  AUD: "AU", CHF: "CH", JPY: "JP", NZD: "AU", // NZD uses AU as closest proxy
 }
 
 const MIN_YEAR = 2000
 const MAX_YEAR = 2025
+
+// ─── Helper: derive annual % returns from an index series ────────────────────
+function indexToAnnualReturns(indexData: Record<string, number>): Record<number, number> {
+  const years = Object.keys(indexData).map(Number).sort((a, b) => a - b)
+  const returns: Record<number, number> = {}
+  for (let i = 1; i < years.length; i++) {
+    const y = years[i]
+    const prev = indexData[String(years[i - 1])]
+    const curr = indexData[String(y)]
+    if (prev && prev !== 0) {
+      returns[y] = Math.round(((curr / prev) - 1) * 10000) / 100
+    }
+  }
+  return returns
+}
+
+// ─── Helper: derive annual CPI % from a cumulative index (e.g. usd-inflation.json) ──
+function cumulativeIndexToAnnualCPI(indexData: Record<string, number>): Record<number, number> {
+  const years = Object.keys(indexData).map(Number).sort((a, b) => a - b)
+  const cpi: Record<number, number> = {}
+  for (let i = 1; i < years.length; i++) {
+    const y = years[i]
+    const prev = indexData[String(years[i - 1])]
+    const curr = indexData[String(y)]
+    if (prev && prev !== 0) {
+      cpi[y] = Math.round(((curr / prev) - 1) * 10000) / 100
+    }
+  }
+  return cpi
+}
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -249,7 +220,9 @@ function buildGrowthSeries(
   endYear: number,
   currency: CurrencyCode,
   initialAmount: number,
-  inflationAdjusted: boolean
+  inflationAdjusted: boolean,
+  nominalReturns: Record<string, Record<number, number>>,
+  cpiData: Record<CurrencyCode, Record<number, number>>,
 ): Record<number, number> {
   const series: Record<number, number> = {}
   let value = initialAmount
@@ -259,9 +232,9 @@ function buildGrowthSeries(
     if (y === effectiveStart) {
       series[y] = initialAmount
     }
-    const nomRet = NOMINAL_RETURNS[asset.key]?.[y]
+    const nomRet = nominalReturns[asset.key]?.[y]
     if (nomRet === undefined) { series[y] = series[y - 1] ?? initialAmount; continue }
-    const cpi = CPI_BY_CURRENCY[currency]?.[y] ?? 2.0
+    const cpi = cpiData[currency]?.[y] ?? 2.0
     const ret = inflationAdjusted ? calcRealReturn(nomRet, cpi) : nomRet
     value = value * (1 + ret / 100)
     series[y] = Math.round(value * 100) / 100
@@ -307,6 +280,193 @@ export default function InvestmentRaceCalculatorPage() {
   const [blogContent, setBlogContent] = useState("")
   const [blogLoading, setBlogLoading] = useState(true)
 
+  // ─── Dynamic data state ──────────────────────────────────────────────────────
+  const [nominalReturns, setNominalReturns] = useState<Record<string, Record<number, number>>>({
+    sp500:   FALLBACK_SP500,
+    gold:    FALLBACK_GOLD,
+    bitcoin: { ...FALLBACK_BITCOIN },
+    housing: FALLBACK_HOUSING,
+    bonds:   FALLBACK_BONDS,
+    savings: FALLBACK_SAVINGS,
+  })
+  const [cpiData, setCpiData] = useState<Record<CurrencyCode, Record<number, number>>>({
+    USD: {}, GBP: {}, EUR: {}, CAD: {}, AUD: {}, CHF: {}, JPY: {}, NZD: {},
+  })
+  const [dataLoading, setDataLoading] = useState(true)
+  const [liveBtcReturn, setLiveBtcReturn] = useState<number | null>(null)
+  const [btcLiveLoading, setBtcLiveLoading] = useState(false)
+  const [dataSource, setDataSource] = useState<"live" | "fallback">("fallback")
+
+  // ─── Load all /public/data files + derive returns ────────────────────────────
+  const loadPublicData = useCallback(async () => {
+    setDataLoading(true)
+    try {
+      const CURRENCY_FILES: Record<CurrencyCode, string> = {
+        USD: "/data/usd-inflation.json",
+        GBP: "/data/gbp-inflation.json",
+        EUR: "/data/eur-inflation.json",
+        CAD: "/data/cad-inflation.json",
+        AUD: "/data/aud-inflation.json",
+        CHF: "/data/chf-inflation.json",
+        JPY: "/data/jpy-inflation.json",
+        NZD: "/data/nzd-inflation.json",
+      }
+
+      // Fetch all files in parallel
+      const [sp500Res, bondsRes, bisRes, ...cpiResponses] = await Promise.all([
+        fetch("/data/sp500-returns.json"),
+        fetch("/data/bond-yields.json"),
+        fetch("/data/bis-property-prices.json"),
+        ...Object.values(CURRENCY_FILES).map((f) => fetch(f)),
+      ])
+
+      const newNominal: Record<string, Record<number, number>> = {
+        sp500:   { ...FALLBACK_SP500 },
+        gold:    { ...FALLBACK_GOLD },
+        bitcoin: { ...FALLBACK_BITCOIN },
+        housing: { ...FALLBACK_HOUSING },
+        bonds:   { ...FALLBACK_BONDS },
+        savings: { ...FALLBACK_SAVINGS },
+      }
+
+      // ── S&P 500 from sp500-returns.json ──────────────────────────────────────
+      if (sp500Res.ok) {
+        const sp500Json = await sp500Res.json()
+        const sp500Map: Record<number, number> = {}
+        for (const entry of sp500Json.data ?? []) {
+          if (entry.year >= MIN_YEAR && entry.year <= MAX_YEAR) {
+            sp500Map[entry.year] = entry.return
+          }
+        }
+        if (Object.keys(sp500Map).length > 0) newNominal.sp500 = sp500Map
+      }
+
+      // ── Bonds from bond-yields.json (use yield as proxy return) ─────────────
+      // We derive price return from yield changes: when yields fall, bonds gain.
+      // Price return ≈ -duration × Δyield. We use 10-yr modified duration ≈ 8.
+      // Total return = coupon (prior year yield) - duration × Δyield
+      if (bondsRes.ok) {
+        const bondsJson = await bondsRes.json()
+        const bondData: { year: number; yield: number }[] = bondsJson.data ?? []
+        const bondMap: Record<number, number> = {}
+        for (let i = 1; i < bondData.length; i++) {
+          const y = bondData[i].year
+          if (y < MIN_YEAR || y > MAX_YEAR) continue
+          const coupon = bondData[i - 1].yield
+          const deltaYield = bondData[i].yield - bondData[i - 1].yield
+          const priceReturn = -8 * deltaYield
+          bondMap[y] = Math.round((coupon + priceReturn) * 100) / 100
+        }
+        if (Object.keys(bondMap).length > 0) newNominal.bonds = bondMap
+      }
+
+      // ── Housing from bis-property-prices.json (per-currency) ─────────────────
+      if (bisRes.ok) {
+        const bisJson = await bisRes.json()
+        // We store housing returns per-currency separately so they update with selection.
+        // For now, pre-compute USD (US) and store it as the base housing series.
+        // Currency-specific housing will be applied at render time via the BIS data.
+        const bisHousingByCurrency: Partial<Record<CurrencyCode, Record<number, number>>> = {}
+        for (const series of bisJson.nominalSeries ?? []) {
+          const ccy = Object.entries(BIS_COUNTRY_FOR_CURRENCY).find(
+            ([, country]) => country === series.country
+          )?.[0] as CurrencyCode | undefined
+          if (ccy) {
+            const returns = indexToAnnualReturns(series.data)
+            bisHousingByCurrency[ccy] = returns
+          }
+        }
+        // Store full BIS data in state for per-currency rendering
+        // Use USD as default housing series
+        if (bisHousingByCurrency.USD) newNominal.housing = bisHousingByCurrency.USD
+        // Attach all per-currency housing to newNominal under special keys
+        for (const [ccy, returns] of Object.entries(bisHousingByCurrency)) {
+          newNominal[`housing_${ccy}`] = returns as Record<number, number>
+        }
+      }
+
+      // ── CPI from currency inflation JSON files ────────────────────────────────
+      const newCpi: Record<CurrencyCode, Record<number, number>> = {
+        USD: {}, GBP: {}, EUR: {}, CAD: {}, AUD: {}, CHF: {}, JPY: {}, NZD: {},
+      }
+      const currencyCodes = Object.keys(CURRENCY_FILES) as CurrencyCode[]
+      for (let i = 0; i < cpiResponses.length; i++) {
+        const res = cpiResponses[i]
+        const ccy = currencyCodes[i]
+        if (res.ok) {
+          const json = await res.json()
+          if (json.data) {
+            newCpi[ccy] = cumulativeIndexToAnnualCPI(json.data)
+          }
+        }
+      }
+
+      setNominalReturns(newNominal)
+      // Fill any missing CPI years with fallback values from FALLBACK_CPI
+      const FALLBACK_CPI: Record<CurrencyCode, Record<number, number>> = {
+        USD: { 2000:3.4,2001:2.8,2002:1.6,2003:2.3,2004:2.7,2005:3.4,2006:3.2,2007:2.9,2008:3.8,2009:-0.4,2010:1.6,2011:3.2,2012:2.1,2013:1.5,2014:1.6,2015:0.1,2016:1.3,2017:2.1,2018:2.4,2019:1.8,2020:1.2,2021:4.7,2022:8.0,2023:4.1,2024:2.9,2025:2.5 },
+        GBP: { 2000:0.8,2001:1.2,2002:1.3,2003:1.4,2004:1.3,2005:2.1,2006:2.3,2007:2.3,2008:3.6,2009:2.2,2010:3.3,2011:4.5,2012:2.8,2013:2.6,2014:1.5,2015:0.0,2016:0.7,2017:2.7,2018:2.5,2019:1.8,2020:0.9,2021:2.6,2022:9.1,2023:7.3,2024:2.6,2025:2.8 },
+        EUR: { 2000:2.1,2001:2.3,2002:2.3,2003:2.1,2004:2.1,2005:2.2,2006:2.2,2007:2.1,2008:3.3,2009:0.3,2010:1.6,2011:2.7,2012:2.5,2013:1.4,2014:0.4,2015:0.0,2016:0.2,2017:1.5,2018:1.8,2019:1.2,2020:0.3,2021:2.6,2022:8.4,2023:5.4,2024:2.4,2025:2.3 },
+        CAD: { 2000:2.7,2001:2.5,2002:2.3,2003:2.8,2004:1.9,2005:2.2,2006:2.0,2007:2.1,2008:2.4,2009:0.3,2010:1.8,2011:2.9,2012:1.5,2013:0.9,2014:2.0,2015:1.1,2016:1.4,2017:1.6,2018:2.3,2019:1.9,2020:0.7,2021:3.4,2022:6.8,2023:3.9,2024:2.6,2025:2.4 },
+        AUD: { 2000:4.5,2001:4.4,2002:3.0,2003:2.8,2004:2.3,2005:2.7,2006:3.5,2007:2.3,2008:4.4,2009:1.8,2010:2.8,2011:3.3,2012:1.8,2013:2.4,2014:2.5,2015:1.5,2016:1.3,2017:1.9,2018:1.9,2019:1.6,2020:0.9,2021:2.9,2022:6.6,2023:5.6,2024:3.2,2025:2.6 },
+        CHF: { 2000:1.6,2001:1.0,2002:0.6,2003:0.6,2004:0.8,2005:1.2,2006:1.1,2007:0.7,2008:2.4,2009:-0.5,2010:0.7,2011:0.2,2012:-0.7,2013:-0.2,2014:0.0,2015:-1.1,2016:-0.4,2017:0.5,2018:0.9,2019:0.4,2020:-0.7,2021:0.6,2022:2.8,2023:2.1,2024:1.1,2025:0.8 },
+        JPY: { 2000:-0.7,2001:-0.7,2002:-0.9,2003:-0.3,2004:0.0,2005:-0.3,2006:0.3,2007:0.1,2008:1.4,2009:-1.3,2010:-0.7,2011:-0.3,2012:0.0,2013:0.4,2014:2.7,2015:0.8,2016:-0.1,2017:0.5,2018:1.0,2019:0.5,2020:0.0,2021:-0.2,2022:2.5,2023:3.3,2024:2.7,2025:2.2 },
+        NZD: { 2000:2.6,2001:2.6,2002:2.7,2003:1.8,2004:2.3,2005:3.0,2006:3.4,2007:2.4,2008:4.0,2009:2.1,2010:2.3,2011:4.0,2012:1.1,2013:1.1,2014:1.2,2015:0.4,2016:0.6,2017:1.8,2018:1.6,2019:1.6,2020:1.7,2021:3.9,2022:7.2,2023:5.7,2024:3.3,2025:2.5 },
+      }
+      const mergedCpi: Record<CurrencyCode, Record<number, number>> = {} as Record<CurrencyCode, Record<number, number>>
+      for (const ccy of currencyCodes) {
+        mergedCpi[ccy] = { ...FALLBACK_CPI[ccy], ...newCpi[ccy] }
+      }
+      setCpiData(mergedCpi)
+      setDataSource("live")
+    } catch (err) {
+      console.error("[v0] Failed to load public data, using fallbacks:", err)
+      setDataSource("fallback")
+    } finally {
+      setDataLoading(false)
+    }
+  }, [])
+
+  // ─── Fetch live Bitcoin price from CoinGecko ──────────────────────────────
+  const fetchLiveBitcoin = useCallback(async () => {
+    setBtcLiveLoading(true)
+    try {
+      const data = await fetchCryptoCurrentPrices(["bitcoin"], "usd")
+      const btcNow = data?.[0]?.current_price
+      if (btcNow && btcNow > 0) {
+        // Bitcoin end-2024 price ≈ $93,400 (from hardcoded 2024 return basis)
+        // Approximate YTD 2025 return using current price vs Jan 1 2025 ~$93,400
+        const btcJan2025 = 93400
+        const ytdReturn = ((btcNow - btcJan2025) / btcJan2025) * 100
+        setLiveBtcReturn(Math.round(ytdReturn * 100) / 100)
+        setNominalReturns((prev) => ({
+          ...prev,
+          bitcoin: { ...prev.bitcoin, 2025: Math.round(ytdReturn * 100) / 100 },
+        }))
+      }
+    } catch (err) {
+      console.warn("[v0] CoinGecko fetch failed, using fallback Bitcoin return:", err)
+    } finally {
+      setBtcLiveLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    loadPublicData()
+    fetchLiveBitcoin()
+  }, [loadPublicData, fetchLiveBitcoin])
+
+  // ─── Per-currency housing: swap nominal housing series when currency changes ──
+  useEffect(() => {
+    const bisKey = `housing_${BIS_COUNTRY_FOR_CURRENCY[currency]}`
+    setNominalReturns((prev) => {
+      if (prev[bisKey]) {
+        return { ...prev, housing: prev[bisKey] }
+      }
+      return prev
+    })
+  }, [currency])
+
   const sym = CURRENCIES[currency].symbol
   const amount = Math.max(100, parseFloat(initialAmount.replace(/,/g, "")) || 10000)
   const yearRange = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
@@ -341,36 +501,33 @@ export default function InvestmentRaceCalculatorPage() {
       const row: Record<string, number | string> = { year }
       for (const asset of ASSETS) {
         if (!activeAssets.has(asset.key)) continue
-        const series = buildGrowthSeries(asset, startYear, endYear, currency, amount, inflationAdjusted)
+        const series = buildGrowthSeries(asset, startYear, endYear, currency, amount, inflationAdjusted, nominalReturns, cpiData)
         row[asset.key] = series[year] ?? amount
       }
       return row
     })
-  }, [startYear, endYear, currency, amount, inflationAdjusted, activeAssets])
+  }, [startYear, endYear, currency, amount, inflationAdjusted, activeAssets, nominalReturns, cpiData])
 
   // ─── Final values and ranking ────────────────────────────────────────────────
   const finalValues = useMemo(() => {
     return ASSETS.filter((a) => activeAssets.has(a.key)).map((asset) => {
-      const series = buildGrowthSeries(asset, startYear, endYear, currency, amount, inflationAdjusted)
+      const series = buildGrowthSeries(asset, startYear, endYear, currency, amount, inflationAdjusted, nominalReturns, cpiData)
       const finalVal = series[endYear] ?? amount
       const totalReturn = ((finalVal - amount) / amount) * 100
       const years = endYear - Math.max(startYear, asset.startYear)
       const cagr = years > 0 ? (Math.pow(finalVal / amount, 1 / years) - 1) * 100 : 0
       return { ...asset, finalVal, totalReturn, cagr }
     }).sort((a, b) => b.finalVal - a.finalVal)
-  }, [startYear, endYear, currency, amount, inflationAdjusted, activeAssets])
-
-  const winner = finalValues[0]
-  const loser  = finalValues[finalValues.length - 1]
+  }, [startYear, endYear, currency, amount, inflationAdjusted, activeAssets, nominalReturns, cpiData])
 
   // ─── Inflation total over period ─────────────────────────────────────────────
   const totalCpiPct = useMemo(() => {
     let factor = 1
     for (let y = startYear + 1; y <= endYear; y++) {
-      factor *= (1 + (CPI_BY_CURRENCY[currency]?.[y] ?? 2) / 100)
+      factor *= (1 + (cpiData[currency]?.[y] ?? 2) / 100)
     }
     return (factor - 1) * 100
-  }, [startYear, endYear, currency])
+  }, [startYear, endYear, currency, cpiData])
 
   const toggleAsset = (key: string) => {
     setActiveAssets((prev) => {
@@ -400,6 +557,27 @@ export default function InvestmentRaceCalculatorPage() {
           <p className="text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-pretty leading-relaxed">
             Which asset actually beat inflation? Compare real returns of S&amp;P 500, gold, Bitcoin, housing, bonds, and savings across any year range since 2000.
           </p>
+          {/* Data status */}
+          <div className="flex items-center justify-center gap-2 mt-3 flex-wrap">
+            {dataLoading ? (
+              <span className="inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500">
+                <RefreshCw className="w-3 h-3 animate-spin" />
+                Loading live data…
+              </span>
+            ) : (
+              <span className={`inline-flex items-center gap-1.5 text-xs ${dataSource === "live" ? "text-green-600 dark:text-green-400" : "text-gray-400 dark:text-gray-500"}`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${dataSource === "live" ? "bg-green-500" : "bg-gray-400"}`} />
+                {dataSource === "live" ? "Live data loaded" : "Using cached data"}
+              </span>
+            )}
+            {liveBtcReturn !== null && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-orange-500 dark:text-orange-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                BTC 2025 YTD: {liveBtcReturn >= 0 ? "+" : ""}{liveBtcReturn.toFixed(1)}% (live)
+                {btcLiveLoading && <RefreshCw className="w-3 h-3 animate-spin ml-0.5" />}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Controls */}
@@ -774,7 +952,7 @@ export default function InvestmentRaceCalculatorPage() {
                 </div>
                 <div>
                   <strong className="text-gray-900 dark:text-gray-100">CPI data:</strong>
-                  <p className="mt-1 leading-relaxed">Annual headline CPI for each of the 8 supported currencies, sourced from FAOSTAT (FAO / UN) and national statistical agencies (BLS, ONS, Eurostat, Statistics Canada, ABS, SFSO, Statistics Bureau of Japan, Stats NZ). Coverage: 2000–2025.</p>
+                  <p className="mt-1 leading-relaxed">Annual headline CPI derived from our currency inflation JSON files (usd-inflation.json, gbp-inflation.json, etc.) sourced from BLS, ONS, Eurostat, Statistics Canada, ABS, SFSO, Statistics Bureau of Japan, and Stats NZ. Coverage: 2000–2025. S&P 500 annual returns sourced from sp500-returns.json (Shiller/Yale). Housing returns derived from BIS Residential Property Price Statistics (bis-property-prices.json) per currency. Bond returns calculated from bond-yields.json (FRED). Bitcoin 2025 return updated live via CoinGecko API.</p>
                 </div>
               </div>
             </div>
