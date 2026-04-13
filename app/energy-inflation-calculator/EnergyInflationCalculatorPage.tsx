@@ -420,7 +420,7 @@ export default function EnergyInflationCalculatorPage() {
         )}
 
         {/* ─── Outpacing banner ──────────────────────────────────────────────── */}
-        {summaryStats?.outpacing !== null && summaryStats?.gap !== null && (
+        {summaryStats !== null && summaryStats.outpacing !== null && summaryStats.gap !== null && (
           <div className={`rounded-xl p-4 flex items-start gap-3 ${
             summaryStats.outpacing
               ? "bg-orange-50 border border-orange-200 dark:bg-orange-950/30 dark:border-orange-800"
