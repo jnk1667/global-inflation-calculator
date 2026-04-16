@@ -210,6 +210,7 @@ export default function EnergyInflationCalculatorRoute() {
       {
         "@type": "Dataset",
         name: "EIA US Energy Prices & Consumer Price Index",
+        description: "US Energy Information Administration retail electricity prices (cents per kWh), residential natural gas prices (dollars per thousand cubic feet), retail gasoline prices (dollars per gallon), and BLS energy CPI sub-index from 1994 to 2025. Used to calculate USD energy inflation and Bill Time Machine adjustments.",
         creator: { "@type": "Organization", name: "US Energy Information Administration (EIA)", url: "https://www.eia.gov" },
         url: "https://www.eia.gov/energyexplained/prices/",
         license: "https://www.eia.gov/about/copyrights_reuse.php",
@@ -217,6 +218,7 @@ export default function EnergyInflationCalculatorRoute() {
       {
         "@type": "Dataset",
         name: "ONS CPIH Energy Sub-Index (D7BT Series) & BEIS Road Fuel Prices",
+        description: "UK Office for National Statistics CPIH energy sub-index series D7BT (2015=100) and BEIS road fuel survey pump prices in pence per litre from 2000 to 2025. Used to calculate GBP energy inflation and UK petrol price history.",
         creator: { "@type": "Organization", name: "Office for National Statistics (ONS)", url: "https://www.ons.gov.uk" },
         url: "https://www.ons.gov.uk/economy/inflationandpriceindices",
         license: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
@@ -224,6 +226,7 @@ export default function EnergyInflationCalculatorRoute() {
       {
         "@type": "Dataset",
         name: "Eurostat HICP Energy Sub-Index (CP04, CP072) & BDEW Electricity Prices",
+        description: "Eurostat Harmonised Index of Consumer Prices energy components CP04 (housing, water, electricity, gas) and CP072 (fuels and lubricants), combined with BDEW average residential electricity tariffs in EUR cents per kWh from 2000 to 2025. Used to calculate Eurozone EUR energy inflation.",
         creator: { "@type": "Organization", name: "Eurostat", url: "https://ec.europa.eu/eurostat" },
         url: "https://ec.europa.eu/eurostat/web/energy/data/database",
         license: "https://ec.europa.eu/eurostat/web/main/about-us/policies/copyright",
@@ -231,6 +234,7 @@ export default function EnergyInflationCalculatorRoute() {
       {
         "@type": "Dataset",
         name: "Statistics Canada CPI Table 18-10-0004-01 & NEB Electricity Prices",
+        description: "Statistics Canada Consumer Price Index table 18-10-0004-01 energy sub-components and National Energy Board average residential electricity prices in CAD cents per kWh from 2000 to 2025. Used to calculate Canadian CAD energy inflation and Bill Time Machine adjustments.",
         creator: { "@type": "Organization", name: "Statistics Canada", url: "https://www.statcan.gc.ca" },
         url: "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401",
         license: "https://www.statcan.gc.ca/en/reference/licence",
@@ -238,6 +242,7 @@ export default function EnergyInflationCalculatorRoute() {
       {
         "@type": "Dataset",
         name: "ABS CPI Energy Sub-Group 6401.0 & AER Annual Electricity Prices",
+        description: "Australian Bureau of Statistics Consumer Price Index catalogue 6401.0 energy sub-group and Australian Energy Regulator annual residential electricity prices in AUD cents per kWh from 2000 to 2025. Used to calculate Australian AUD energy inflation.",
         creator: { "@type": "Organization", name: "Australian Bureau of Statistics (ABS)", url: "https://www.abs.gov.au" },
         url: "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia",
         license: "https://www.abs.gov.au/copyright",
