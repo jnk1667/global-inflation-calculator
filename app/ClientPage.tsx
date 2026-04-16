@@ -1823,6 +1823,16 @@ export default function ClientPage() {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/shrinkflation-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                      Shrinkflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/energy-inflation-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                      Energy Inflation Calculator
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/charts" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
                       Charts & Analytics
                     </Link>

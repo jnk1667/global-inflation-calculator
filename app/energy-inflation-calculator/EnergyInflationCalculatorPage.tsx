@@ -713,6 +713,76 @@ export default function EnergyInflationCalculatorPage() {
           <FAQ category="energy" limit={6} />
         </div>
 
+        {/* ─── Footer ─────────────────────────────────────────────────────────── */}
+        <footer className="mt-8 bg-gray-900 text-white rounded-lg overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+
+            {/* Col 1 — Tool name + description */}
+            <div>
+              <h3 className="text-xl font-bold mb-3">Energy Inflation Calculator</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                Track how energy costs — electricity, gas, and fuel — have outpaced or lagged general inflation across 8 currencies since 2000. Powered by official CPI energy sub-indices and IEA/national energy price data.
+              </p>
+            </div>
+
+            {/* Col 2 — Data Sources */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li>• EIA Energy CPI &amp; Retail Prices (USD)</li>
+                <li>• ONS CPIH Energy Sub-index D7BT (GBP)</li>
+                <li>• Eurostat HICP CP04+CP072 (EUR)</li>
+                <li>• Statistics Canada CPI Table 18-10-0004 (CAD)</li>
+                <li>• ABS CPI Energy Sub-group 6401.0 (AUD)</li>
+                <li>• Swiss FSO Energy Sub-index (CHF)</li>
+                <li>• Statistics Bureau of Japan CPI (JPY)</li>
+                <li>• Stats NZ CPI Group 4 (NZD)</li>
+              </ul>
+            </div>
+
+            {/* Col 3 — Quick Links */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-sm">
+                {[
+                  { href: "/mortgage-calculator",                              label: "Mortgage Calculator"              },
+                  { href: "/home-affordability-calculator/inflation-adjusted", label: "Home Affordability Calculator"    },
+                  { href: "/deflation-calculator",                             label: "Deflation Calculator"             },
+                  { href: "/shrinkflation-calculator",                         label: "Shrinkflation Calculator"         },
+                  { href: "/charts",                                           label: "Charts & Analytics"               },
+                  { href: "/investment-race-calculator",                       label: "Investment Race Calculator"       },
+                  { href: "/global-compound-interest",                         label: "Compound Interest Calculator"     },
+                  { href: "/global-net-worth-calculator",                      label: "Global Net Worth Calculator"      },
+                  { href: "/ppp-calculator",                                   label: "PPP Calculator"                   },
+                  { href: "/auto-loan-calculator",                             label: "Auto Loan Calculator"             },
+                  { href: "/salary-calculator",                                label: "Salary Calculator"                },
+                  { href: "/retirement-calculator",                            label: "Retirement Calculator"            },
+                  { href: "/student-loan-calculator",                          label: "Student Loan Calculator"          },
+                  { href: "/budget-calculator",                                label: "Budget Calculator"                },
+                  { href: "/emergency-fund-calculator",                        label: "Emergency Fund Calculator"        },
+                  { href: "/roi-calculator",                                   label: "ROI Calculator"                   },
+                  { href: "/insurance-inflation-calculator",                   label: "Insurance Inflation Calculator"   },
+                  { href: "/legacy-planner",                                   label: "Legacy Planner"                   },
+                  { href: "/about",                                            label: "About Us"                         },
+                  { href: "/privacy",                                          label: "Privacy Policy"                   },
+                  { href: "/terms",                                            label: "Terms of Service"                 },
+                ].map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="text-gray-300 hover:text-blue-400 transition-colors">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-sm text-gray-500 mt-4">Last Updated: April 2026</p>
+            </div>
+
+          </div>
+          <div className="border-t border-gray-700 px-8 py-6 text-center">
+            <p className="text-sm text-gray-400">&copy; 2026 Global Inflation Calculator. Educational purposes only.</p>
+          </div>
+        </footer>
+
       </div>
     </main>
   )

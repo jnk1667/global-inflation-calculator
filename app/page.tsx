@@ -242,6 +242,11 @@ export default function Home() {
                       </Link>
                     </li>
                     <li>
+                      <Link href="/energy-inflation-calculator" className="text-blue-600 hover:underline">
+                        Energy Inflation Calculator
+                      </Link>
+                    </li>
+                    <li>
                       <Link href="/charts" className="text-blue-600 hover:underline">
                         Charts & Analytics
                       </Link>

@@ -265,6 +265,7 @@ export default function RootLayout({
                       <Link href="/emergency-fund-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Emergency Fund Calculator</Link>
                       <Link href="/budget-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">50/30/20 Budget Calculator</Link>
                       <Link href="/salary-calculator/regional-cost-of-living" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Regional Cost of Living</Link>
+                      <Link href="/energy-inflation-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Energy Inflation Calculator</Link>
                       <Link href="/about" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">About</Link>
                       <Link href="/privacy" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Privacy Policy</Link>
                       <Link href="/terms" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Terms of Service</Link>
