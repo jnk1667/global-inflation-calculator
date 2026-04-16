@@ -241,6 +241,25 @@ export default function EnergyInflationCalculatorPage() {
   const fmtCurrency = (n: number | null) =>
     n === null ? "N/A" : `${cfg.symbol}${Math.abs(n).toLocaleString("en", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
+  const parseBoldAndLinks = (text: string): React.ReactNode[] => {
+    const parts: React.ReactNode[] = []
+    const boldRegex = /\*\*(.+?)\*\*/g
+    let lastIndex = 0
+    let match
+    let key = 0
+    while ((match = boldRegex.exec(text)) !== null) {
+      if (match.index > lastIndex) parts.push(text.substring(lastIndex, match.index))
+      parts.push(
+        <strong key={`b-${key++}`} className="font-semibold text-foreground">
+          {match[1]}
+        </strong>
+      )
+      lastIndex = match.index + match[0].length
+    }
+    if (lastIndex < text.length) parts.push(text.substring(lastIndex))
+    return parts.length > 0 ? parts : [text]
+  }
+
   return (
     <main className="min-h-screen bg-background text-foreground">
 
@@ -660,11 +679,56 @@ export default function EnergyInflationCalculatorPage() {
                 {[1,2,3,4].map(i => <div key={i} className="h-3 bg-muted rounded" style={{ width: `${[92,85,76,60][i-1]}%` }} />)}
               </div>
             ) : (
-              <div className="prose prose-sm dark:prose-invert max-w-none leading-relaxed text-sm text-foreground/90">
-                {blogContent.split("\n\n").map((para, i) => {
-                  if (para.startsWith("## ")) return <h2 key={i} className="text-base font-semibold mt-4 mb-2">{para.slice(3)}</h2>
-                  if (para.startsWith("# "))  return <h1 key={i} className="text-lg font-bold mt-4 mb-2">{para.slice(2)}</h1>
-                  return <p key={i} className="mb-3">{para}</p>
+              <div className="space-y-5 text-foreground/90 leading-relaxed text-sm">
+                {blogContent.split("\n").map((line, index) => {
+                  const trimmedLine = line.trim()
+                  if (!trimmedLine) return null
+
+                  // Table rows — skip (render as plain text would be messy; the table is inline in a paragraph)
+                  if (trimmedLine.startsWith("|")) return null
+
+                  // H1
+                  if (trimmedLine.startsWith("# ") && !trimmedLine.startsWith("## ")) {
+                    return (
+                      <h2 key={index} className="text-xl font-bold text-foreground mt-6 mb-3">
+                        {trimmedLine.substring(2)}
+                      </h2>
+                    )
+                  }
+
+                  // H2
+                  if (trimmedLine.startsWith("## ") && !trimmedLine.startsWith("### ")) {
+                    return (
+                      <h3 key={index} className="text-lg font-bold text-foreground mt-6 mb-3">
+                        {trimmedLine.substring(3)}
+                      </h3>
+                    )
+                  }
+
+                  // H3
+                  if (trimmedLine.startsWith("### ")) {
+                    return (
+                      <h4 key={index} className="text-base font-semibold text-foreground mt-5 mb-2">
+                        {trimmedLine.substring(4)}
+                      </h4>
+                    )
+                  }
+
+                  // List items
+                  if (trimmedLine.startsWith("- ") || trimmedLine.startsWith("* ")) {
+                    return (
+                      <li key={index} className="ml-4 list-disc text-foreground/90">
+                        {parseBoldAndLinks(trimmedLine.substring(2))}
+                      </li>
+                    )
+                  }
+
+                  // Regular paragraphs
+                  return (
+                    <p key={index} className="text-sm leading-7">
+                      {parseBoldAndLinks(trimmedLine)}
+                    </p>
+                  )
                 })}
               </div>
             )}
