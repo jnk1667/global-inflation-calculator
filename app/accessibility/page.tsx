@@ -465,6 +465,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/energy-inflation-calculator" className="text-blue-600 hover:underline">
+                      Energy Inflation Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Track how electricity, petrol, and fuel prices have outpaced general CPI across 8 currencies since 2000. Includes Bill Time Machine and scenario presets.
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/global-compound-interest" className="text-blue-600 hover:underline">
                       Global Compound Interest Calculator
                     </Link>

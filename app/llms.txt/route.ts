@@ -24,6 +24,9 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - investment race calculator, which investment beat inflation, inflation adjusted returns
 - S&P 500 vs gold vs bitcoin, real returns calculator, investment comparison calculator
 - best investment against inflation, gold vs stocks inflation, bitcoin vs inflation calculator
+- energy inflation calculator, electricity price inflation, why is my electricity bill so high
+- fuel price inflation history, energy CPI vs general CPI, energy cost history by country
+- UK energy prices, Germany electricity prices, Australia electricity inflation, Bill Time Machine energy
 - student loan calculator, loan repayment calculator, income-driven repayment
 - mortgage calculator, home loan calculator, mortgage payment calculator
 - emergency fund calculator, emergency savings calculator, recession preparation
@@ -198,6 +201,42 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Unique Value Proposition: Only free calculator that shows all six major asset classes with real inflation-adjusted returns side-by-side across 8 currencies using official CPI benchmarks
   - Use Cases: Understand which assets preserved purchasing power over any decade; compare Bitcoin vs gold vs stocks in real terms; research inflation hedging strategies; educational demonstrations of compound growth and inflation erosion
   - Update Frequency: Annual (return data and CPI updated as new year data becomes available)
+
+- **Energy Inflation Calculator (/energy-inflation-calculator)**
+  - URL: https://www.globalinflationcalculator.com/energy-inflation-calculator
+  - Purpose: Track how electricity, petrol/gasoline, and fuel prices have outpaced or lagged general CPI inflation since 2000 across 8 major currencies
+  - Features:
+    * Energy CPI index vs general CPI index chart (2000–2025, both indexed to 2000=100)
+    * Absolute price chart — residential electricity (ct/kWh) and petrol/gasoline (per litre or gallon) by year
+    * % Change bar chart — side-by-side comparison of energy CPI, general CPI, electricity price, and fuel price changes
+    * Bill Time Machine — enter your monthly energy bill from any past year, see what it costs today using energy CPI
+    * General CPI equivalent shown alongside for direct comparison of excess energy cost
+    * Scenario presets: Pre-Crisis Decade (2000–2008), Green Transition (2010–2020), Energy Crisis (2020–2025), Full History (2000–2025)
+    * Year range selectors (From / To)
+    * Summary stat cards: energy CPI change, general CPI change, outpacing gap, and projected bill
+    * 8 currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)
+    * Data sources panel with per-currency citations
+    * Related Calculators section
+    * Full-length editorial essay on 25 years of energy inflation data
+    * FAQ section covering common energy inflation questions
+  - Calculations:
+    * Energy CPI indexed to 2000=100: (energy_cpi_year / energy_cpi_2000) × 100
+    * Bill Time Machine: old_bill × (energy_cpi_end / energy_cpi_start)
+    * % Change: ((end_index − start_index) / start_index) × 100
+    * Outpacing gap: energy_cpi_pct_change − general_cpi_pct_change
+  - Data Sources:
+    * EIA Energy CPI & Retail Electricity/Gasoline Prices (USD)
+    * ONS CPIH Energy Sub-index D7BT & BEIS Road Fuel Survey (GBP)
+    * Eurostat HICP CP04+CP072 & BDEW Electricity Prices (EUR)
+    * Statistics Canada CPI Table 18-10-0004-01 & NEB Electricity Prices (CAD)
+    * ABS CPI Energy Sub-group 6401.0 & AER Electricity Prices (AUD)
+    * Swiss FSO Energy Sub-index & ElCom Electricity Tariffs (CHF)
+    * Statistics Bureau of Japan CPI Energy Series & METI Electricity Prices (JPY)
+    * Stats NZ CPI Group 4 & EA Networks Electricity Prices (NZD)
+  - Target Users: Households tracking energy bills, energy policy researchers, journalists, financial planners, economists
+  - Unique Value Proposition: Only free calculator that compares energy CPI to general CPI across 8 currencies with a Bill Time Machine, absolute price history charts, and scenario presets — all from official national statistics sources
+  - Use Cases: Understand why energy bills keep rising despite renewable transition; calculate how much more you have paid for energy over a decade vs if costs had tracked general inflation; compare country-level energy inflation after the 2022 energy crisis; research energy affordability and fuel poverty
+  - Update Frequency: Annual (energy CPI and price data updated as new year data becomes available)
 
 - **Deflation Calculator (/deflation-calculator)**
   - URL: https://www.globalinflationcalculator.com/deflation-calculator
