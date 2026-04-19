@@ -265,7 +265,7 @@ export default function EnergyInflationCalculatorPage() {
 
       {/* ─── Hero ─────────────────────────────────────────────────────────────── */}
       <section className="bg-gradient-to-b from-orange-50 to-background dark:from-orange-950/20 dark:to-background border-b border-border">
-        <div className="max-w-5xl mx-auto px-4 pt-16 pb-10 text-center">
+        <div className="max-w-5xl mx-auto px-4 pt-32 pb-10 text-center">
           <div className="inline-flex items-center gap-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium px-3 py-1 rounded-full mb-4">
             <Zap className="w-3 h-3" />
             Live Energy Data 2000–2025
