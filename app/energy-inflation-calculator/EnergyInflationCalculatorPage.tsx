@@ -263,20 +263,9 @@ export default function EnergyInflationCalculatorPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
 
-      {/* ─── Breadcrumb ──────────────────────────────────────────────────────── */}
-      <nav aria-label="Breadcrumb" className="max-w-5xl mx-auto px-4 pt-4 pb-0">
-        <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-          <li>
-            <Link href="/" className="hover:text-orange-600 transition-colors">Home</Link>
-          </li>
-          <li aria-hidden="true" className="text-muted-foreground/50">/</li>
-          <li className="text-foreground font-medium">Energy Inflation Calculator</li>
-        </ol>
-      </nav>
-
       {/* ─── Hero ─────────────────────────────────────────────────────────────── */}
       <section className="bg-gradient-to-b from-orange-50 to-background dark:from-orange-950/20 dark:to-background border-b border-border">
-        <div className="max-w-5xl mx-auto px-4 py-10 text-center">
+        <div className="max-w-5xl mx-auto px-4 pt-16 pb-10 text-center">
           <div className="inline-flex items-center gap-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium px-3 py-1 rounded-full mb-4">
             <Zap className="w-3 h-3" />
             Live Energy Data 2000–2025
