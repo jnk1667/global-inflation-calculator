@@ -473,6 +473,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/skimpflation-calculator" className="text-blue-600 hover:underline">
+                      Skimpflation Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate the true hidden cost of quality degradation — when companies reduce quality while keeping or raising prices. Covers 8 currencies with severity rating and 5-year cost projection.
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/global-compound-interest" className="text-blue-600 hover:underline">
                       Global Compound Interest Calculator
                     </Link>

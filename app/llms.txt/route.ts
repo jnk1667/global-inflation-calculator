@@ -173,6 +173,44 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Context: 2024 Capgemini study found 61–71% of consumers frustrated by shrinkflation; France became first country to mandate in-store labelling of shrinkflated products in 2024
   - Update Frequency: Annual (food CPI dataset updated as FAO and Stats NZ release new annual data)
 
+- **Skimpflation Calculator (/skimpflation-calculator)**
+  - URL: https://www.globalinflationcalculator.com/skimpflation-calculator
+  - Purpose: Reveal the true hidden cost of quality degradation — when companies reduce service quality, ingredient strength, material thickness, or feature count while keeping the price the same or raising it
+  - Features:
+    * Quality score input (old vs new, rated 1–10) with optional description fields
+    * Old vs new price inputs per unit
+    * Effective quality-adjusted inflation rate: combines price change AND quality change into one real cost figure
+    * Annual extra cost: how much more you are paying per year for the same or worse quality
+    * Projected 5-year cumulative skimpflation cost
+    * Severity badge: Mild / Moderate / Severe / Extreme based on effective rate
+    * 8 currency support (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD)
+    * Pre-loaded real-world category examples: Food & Drink, Clothing & Textiles, Hotels, Airlines, Streaming, Banking
+    * Comparison to official CPI over a user-selected year span
+    * Full results breakdown card with share-ready summary
+    * Related Calculators section linking to Shrinkflation, Energy Inflation, and Insurance Inflation
+    * Full-length editorial essay on 25 years of skimpflation evidence
+    * FAQ section covering 7 common skimpflation questions
+  - Calculations:
+    * Quality-adjusted old price: old_price × (new_quality / old_quality)
+    * Effective skimpflation %: ((new_price / quality_adjusted_old_price) − 1) × 100
+    * Annual extra cost: (new_price − quality_adjusted_old_price) × purchases_per_year
+    * 5-year cumulative cost: annual_extra × 5 (simplified linear projection)
+    * CPI benchmark gap: effective_skimpflation % − official_CPI % over selected years
+  - Pre-loaded Examples:
+    * Supermarket ready meal (portion size and ingredient quality cuts)
+    * Hotel room (fewer toiletries, no daily housekeeping, smaller breakfast)
+    * Budget airline (no checked bag, no seat selection, reduced legroom)
+    * Streaming service (lower default stream quality, ad-supported tier)
+    * High street clothing (thinner fabric, fewer stitches per inch, polyester blend increase)
+    * Bank current account (eliminated free overdraft buffer, reduced cashback)
+  - Data Sources: Official CPI data from BLS (USD), ONS (GBP), Eurostat (EUR), Statistics Canada (CAD), ABS (AUD), Swiss FSO (CHF), Statistics Bureau Japan (JPY), Stats NZ (NZD) — same source chain as Shrinkflation Calculator
+  - Target Users: Consumers, household budget planners, personal finance researchers, journalists, consumer rights advocates, product quality researchers
+  - Unique Value Proposition: Only calculator that quantifies the hidden inflation from quality degradation (not just size reduction) across 8 currencies with a severity rating, 5-year projection, and official CPI comparison — distinct from shrinkflation which covers size/quantity changes only
+  - Use Cases: Identify how much worse value a product or service represents vs 3 years ago; calculate annual household cost of widespread quality cuts; compare across product categories; build evidence for consumer advocacy
+  - Context: Skimpflation accelerated during and after the 2021-2023 inflation surge as companies faced input cost increases and labour shortages. Unlike shrinkflation (measurable, physical), skimpflation is qualitative and deliberately harder to detect or prove — making a calculator that quantifies it uniquely valuable
+  - Update Frequency: Annual (CPI benchmark data updated as national statistics agencies release new annual data)
+  - SEO Sibling Pages: /shrinkflation-calculator (quantity reduction), /energy-inflation-calculator (sector-specific inflation), /insurance-inflation-calculator (service quality decline)
+
 - **Investment Race Calculator (/investment-race-calculator)**
   - URL: https://www.globalinflationcalculator.com/investment-race-calculator
   - Purpose: Compare real, inflation-adjusted returns of six major asset classes — S&P 500, gold, Bitcoin, housing, government bonds, and savings accounts — across any year range since 2000
