@@ -906,43 +906,32 @@ export default function SkimpflationCalculatorPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 mt-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Skimpflation Calculator</h3>
-              <p className="text-gray-300 dark:text-gray-50 mb-6">
-                Reveal the true inflation hidden in declining product and service quality. Compare price-per-quality-unit across any two years for 8 major currencies using official CPI benchmarks.
-              </p>
-              <div className="mt-4">
-                <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">Related Tools</h4>
-                <ul className="text-gray-300 dark:text-gray-50 space-y-2 text-sm">
-                  {[
-                    { href: "/shrinkflation-calculator",     label: "Shrinkflation Calculator"    },
-                    { href: "/energy-inflation-calculator",  label: "Energy Inflation Calculator"  },
-                    { href: "/insurance-inflation-calculator",label: "Insurance Inflation Calculator"},
-                    { href: "/",                             label: "Global Inflation Calculator"  },
-                  ].map((l) => (
-                    <li key={l.href}>
-                      <Link href={l.href} className="hover:text-amber-400 transition-colors">{l.label}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
-              <ul className="text-gray-300 dark:text-gray-50 space-y-2">
-                <li>• US Bureau of Labor Statistics</li>
-                <li>• UK Office for National Statistics</li>
-                <li>• Eurostat</li>
-                <li>• Statistics Canada</li>
-                <li>• Australian Bureau of Statistics</li>
-                <li>• Swiss Federal Statistical Office</li>
-                <li>• Statistics Bureau of Japan</li>
-                <li>• Statistics New Zealand</li>
-              </ul>
-            </div>
+      <footer className="mt-8 bg-gray-900 text-white rounded-lg overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+
+          {/* Col 1 — Tool name + description only */}
+          <div>
+            <h3 className="text-xl font-bold mb-3">Skimpflation Calculator</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              Reveal the true inflation hidden in declining product and service quality. Compare price-per-quality-unit across any two years for 8 major currencies using official CPI benchmarks.
+            </p>
+          </div>
+
+          {/* Col 2 — Data Sources (skimpflation-specific) */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
+            <ul className="space-y-2 text-sm text-gray-300">
+              <li>• FAO Food Price Index (FAOSTAT)</li>
+              <li>• US Bureau of Labor Statistics CPI (BLS)</li>
+              <li>• UK Office for National Statistics (ONS)</li>
+              <li>• Eurostat HICP Consumer Price Index</li>
+              <li>• Statistics Canada CPI Table 18-10-0004</li>
+              <li>• Australian Bureau of Statistics (ABS)</li>
+              <li>• Swiss Federal Statistical Office (SFSO)</li>
+              <li>• Statistics Bureau of Japan CPI</li>
+              <li>• Stats NZ Consumer Price Index (NZD)</li>
+            </ul>
+          </div>
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="text-gray-300 dark:text-gray-50 space-y-2">
@@ -978,12 +967,12 @@ export default function SkimpflationCalculatorPage() {
                   </li>
                 ))}
               </ul>
-              <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">Last Updated: April 2026</p>
+              <p className="text-sm text-gray-500 mt-4">Last Updated: April 2026</p>
             </div>
-          </div>
-          <div className="border-t border-gray-700 dark:border-gray-600 mt-8 pt-8 text-center text-gray-400 dark:text-gray-500">
-            <p>&copy; 2026 Global Inflation Calculator. Educational purposes only.</p>
-          </div>
+
+        </div>
+        <div className="border-t border-gray-700 px-8 py-6 text-center">
+          <p className="text-sm text-gray-400">&copy; 2026 Global Inflation Calculator. Educational purposes only.</p>
         </div>
       </footer>
     </main>
