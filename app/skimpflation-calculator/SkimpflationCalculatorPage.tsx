@@ -54,64 +54,87 @@ const QUALITY_UNIT_LABELS: Record<QualityUnit, string> = {
   custom:  "Custom unit",
 }
 
-// ─── Preset examples ──────────────────────────────────────────────────────────
+// ─── Preset examples (locale-aware per currency) ──────────────────────────────
 
-const PRESETS = [
-  {
-    label: "Hotel Star Rating",
-    productName: "City Centre Hotel",
-    oldQuality: 4.5, newQuality: 3.8,
-    oldPrice: 120, newPrice: 130,
-    oldYear: 2019, newYear: 2024,
-    qualityUnit: "stars" as QualityUnit,
-    purchasesPerYear: 4,
-  },
-  {
-    label: "Cotton T-Shirt",
-    productName: "Premium Cotton T-Shirt",
-    oldQuality: 100, newQuality: 60,
-    oldPrice: 29.99, newPrice: 32.99,
-    oldYear: 2020, newYear: 2025,
-    qualityUnit: "percent" as QualityUnit,
-    purchasesPerYear: 6,
-  },
-  {
-    label: "Ready Meal (Meat)",
-    productName: "Chicken Tikka Ready Meal",
-    oldQuality: 120, newQuality: 80,
-    oldPrice: 3.49, newPrice: 3.99,
-    oldYear: 2018, newYear: 2024,
-    qualityUnit: "grams" as QualityUnit,
-    purchasesPerYear: 24,
-  },
-  {
-    label: "Gym Membership",
-    productName: "Gym Class Duration",
-    oldQuality: 60, newQuality: 45,
-    oldPrice: 35, newPrice: 40,
-    oldYear: 2021, newYear: 2025,
-    qualityUnit: "minutes" as QualityUnit,
-    purchasesPerYear: 12,
-  },
-  {
-    label: "Thread Count Sheets",
-    productName: "Egyptian Cotton Bed Sheets",
-    oldQuality: 400, newQuality: 280,
-    oldPrice: 59.99, newPrice: 64.99,
-    oldYear: 2019, newYear: 2024,
-    qualityUnit: "count" as QualityUnit,
-    purchasesPerYear: 2,
-  },
-  {
-    label: "Fruit Juice",
-    productName: "Premium Orange Juice",
-    oldQuality: 100, newQuality: 40,
-    oldPrice: 2.49, newPrice: 2.79,
-    oldYear: 2020, newYear: 2025,
-    qualityUnit: "percent" as QualityUnit,
-    purchasesPerYear: 52,
-  },
-]
+type Preset = {
+  label: string
+  productName: string
+  oldQuality: number
+  newQuality: number
+  oldPrice: number
+  newPrice: number
+  oldYear: number
+  newYear: number
+  qualityUnit: QualityUnit
+  purchasesPerYear: number
+}
+
+const PRESETS_BY_CURRENCY: Record<CurrencyCode, Preset[]> = {
+  USD: [
+    { label: "Fast Food Portion",    productName: "McDonald's Large Fries",        oldQuality: 180, newQuality: 145, oldPrice: 3.29,  newPrice: 4.29,  oldYear: 2019, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 52 },
+    { label: "Grocery Chicken",      productName: "Store-Brand Rotisserie Chicken",oldQuality: 1400,newQuality: 1100,oldPrice: 4.99,  newPrice: 6.99,  oldYear: 2020, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 24 },
+    { label: "Hotel Room",           productName: "Mid-Range Hotel Night",          oldQuality: 4.2, newQuality: 3.5, oldPrice: 139,   newPrice: 169,   oldYear: 2019, newYear: 2024, qualityUnit: "stars",   purchasesPerYear: 4  },
+    { label: "Streaming Quality",    productName: "Cable Internet Service",         oldQuality: 100, newQuality: 65,  oldPrice: 59.99, newPrice: 79.99, oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 12 },
+    { label: "Cotton T-Shirt",       productName: "Department Store Cotton Tee",    oldQuality: 100, newQuality: 62,  oldPrice: 24.99, newPrice: 27.99, oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 6  },
+    { label: "Gym Membership",       productName: "National Chain Gym Session",     oldQuality: 60,  newQuality: 45,  oldPrice: 39.99, newPrice: 49.99, oldYear: 2021, newYear: 2025, qualityUnit: "minutes", purchasesPerYear: 12 },
+  ],
+  GBP: [
+    { label: "Ready Meal",           productName: "Supermarket Beef Ready Meal",    oldQuality: 115, newQuality: 75,  oldPrice: 3.50,  newPrice: 3.99,  oldYear: 2018, newYear: 2024, qualityUnit: "grams",   purchasesPerYear: 24 },
+    { label: "Hotel B&B",            productName: "Budget Hotel Breakfast",         oldQuality: 4.3, newQuality: 3.4, oldPrice: 89,    newPrice: 109,   oldYear: 2019, newYear: 2024, qualityUnit: "stars",   purchasesPerYear: 4  },
+    { label: "Bed Sheets",           productName: "High Street Cotton Bed Sheets",  oldQuality: 400, newQuality: 260, oldPrice: 45,    newPrice: 49,    oldYear: 2019, newYear: 2024, qualityUnit: "count",   purchasesPerYear: 2  },
+    { label: "Pub Meal Portion",     productName: "Pub Carvery Meat Serving",       oldQuality: 280, newQuality: 210, oldPrice: 12.50, newPrice: 15.99, oldYear: 2020, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 12 },
+    { label: "Train Seat Quality",   productName: "Standard Class Rail Journey",    oldQuality: 100, newQuality: 58,  oldPrice: 42,    newPrice: 59,    oldYear: 2019, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 12 },
+    { label: "Orange Juice",         productName: "Supermarket Fresh Orange Juice", oldQuality: 100, newQuality: 38,  oldPrice: 1.89,  newPrice: 2.15,  oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 52 },
+  ],
+  EUR: [
+    { label: "Supermarkt Wurst",     productName: "Supermarkt Fleischwurst",        oldQuality: 250, newQuality: 190, oldPrice: 2.99,  newPrice: 3.49,  oldYear: 2019, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 24 },
+    { label: "Brasserie Meal",       productName: "Brasserie Plat du Jour",         oldQuality: 100, newQuality: 62,  oldPrice: 13.50, newPrice: 17.50, oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 24 },
+    { label: "Hotel Rating",         productName: "City Centre Hotel Night",        oldQuality: 4.1, newQuality: 3.3, oldPrice: 110,   newPrice: 135,   oldYear: 2019, newYear: 2024, qualityUnit: "stars",   purchasesPerYear: 4  },
+    { label: "Baumwoll-T-Shirt",     productName: "Baumwoll-T-Shirt Mittelklasse",  oldQuality: 100, newQuality: 60,  oldPrice: 19.99, newPrice: 22.99, oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 6  },
+    { label: "Fitnessstudio",        productName: "Fitnessstudio Monatsbeitrag",    oldQuality: 60,  newQuality: 45,  oldPrice: 29.90, newPrice: 39.90, oldYear: 2021, newYear: 2025, qualityUnit: "minutes", purchasesPerYear: 12 },
+    { label: "Orangensaft",          productName: "Supermarkt Orangensaft frisch",  oldQuality: 100, newQuality: 42,  oldPrice: 1.79,  newPrice: 1.99,  oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 52 },
+  ],
+  CAD: [
+    { label: "Tim Hortons Coffee",   productName: "Tim Hortons Large Coffee",       oldQuality: 454, newQuality: 400, oldPrice: 2.29,  newPrice: 2.99,  oldYear: 2019, newYear: 2025, qualityUnit: "ml",      purchasesPerYear: 104},
+    { label: "Grocery Beef",         productName: "Superstore Ground Beef Pack",    oldQuality: 900, newQuality: 700, oldPrice: 8.99,  newPrice: 12.99, oldYear: 2020, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 24 },
+    { label: "Hotel Stay",           productName: "Downtown Hotel Night",           oldQuality: 4.2, newQuality: 3.4, oldPrice: 149,   newPrice: 179,   oldYear: 2019, newYear: 2024, qualityUnit: "stars",   purchasesPerYear: 4  },
+    { label: "Cotton T-Shirt",       productName: "Hudson&apos;s Bay Cotton Shirt", oldQuality: 100, newQuality: 65,  oldPrice: 34.99, newPrice: 39.99, oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 6  },
+    { label: "Gym Session",          productName: "GoodLife Fitness Class",         oldQuality: 60,  newQuality: 45,  oldPrice: 44.99, newPrice: 54.99, oldYear: 2021, newYear: 2025, qualityUnit: "minutes", purchasesPerYear: 12 },
+    { label: "Maple Syrup",          productName: "Store Brand Pure Maple Syrup",   oldQuality: 540, newQuality: 400, oldPrice: 8.49,  newPrice: 10.99, oldYear: 2020, newYear: 2025, qualityUnit: "ml",      purchasesPerYear: 12 },
+  ],
+  AUD: [
+    { label: "Meat Pie",             productName: "Supermarket Meat Pie",           oldQuality: 175, newQuality: 130, oldPrice: 3.50,  newPrice: 4.50,  oldYear: 2019, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 52 },
+    { label: "Woolworths Steak",     productName: "Woolworths Beef Scotch Fillet",  oldQuality: 400, newQuality: 300, oldPrice: 14.99, newPrice: 19.99, oldYear: 2020, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 24 },
+    { label: "Hotel Accommodation",  productName: "City Hotel Night",               oldQuality: 4.1, newQuality: 3.3, oldPrice: 169,   newPrice: 199,   oldYear: 2019, newYear: 2024, qualityUnit: "stars",   purchasesPerYear: 4  },
+    { label: "Cotton T-Shirt",       productName: "Kmart Basic Cotton Tee",         oldQuality: 100, newQuality: 58,  oldPrice: 15.00, newPrice: 17.00, oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 6  },
+    { label: "Gym Membership",       productName: "Fitness First Monthly Pass",     oldQuality: 60,  newQuality: 45,  oldPrice: 49.99, newPrice: 64.99, oldYear: 2021, newYear: 2025, qualityUnit: "minutes", purchasesPerYear: 12 },
+    { label: "Vegemite",             productName: "Vegemite Jar",                   oldQuality: 380, newQuality: 290, oldPrice: 5.50,  newPrice: 6.99,  oldYear: 2020, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 12 },
+  ],
+  CHF: [
+    { label: "Migros Cervelat",      productName: "Migros Cervelat Wurst",          oldQuality: 250, newQuality: 190, oldPrice: 3.20,  newPrice: 3.80,  oldYear: 2019, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 24 },
+    { label: "Hotelzimmer",          productName: "Stadthotel Übernachtung",        oldQuality: 4.3, newQuality: 3.6, oldPrice: 180,   newPrice: 215,   oldYear: 2019, newYear: 2024, qualityUnit: "stars",   purchasesPerYear: 4  },
+    { label: "Baumwoll-Shirt",       productName: "Manor Baumwoll T-Shirt",         oldQuality: 100, newQuality: 64,  oldPrice: 29.90, newPrice: 34.90, oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 6  },
+    { label: "Fitnesscenter",        productName: "Migros Fitnesscenter Abo",       oldQuality: 60,  newQuality: 48,  oldPrice: 75,    newPrice: 89,    oldYear: 2021, newYear: 2025, qualityUnit: "minutes", purchasesPerYear: 12 },
+    { label: "Orangensaft",          productName: "Denner Frischorangensaft",       oldQuality: 100, newQuality: 45,  oldPrice: 2.40,  newPrice: 2.80,  oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 52 },
+    { label: "Fondue-Käse",          productName: "Emmentaler Raclette Käse",       oldQuality: 400, newQuality: 310, oldPrice: 8.90,  newPrice: 11.50, oldYear: 2019, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 12 },
+  ],
+  JPY: [
+    { label: "コンビニ弁当",           productName: "セブンイレブン幕の内弁当",         oldQuality: 550, newQuality: 420, oldPrice: 498,   newPrice: 548,   oldYear: 2019, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 52 },
+    { label: "回転寿司",              productName: "回転寿司 1皿あたり",               oldQuality: 25,  newQuality: 17,  oldPrice: 110,   newPrice: 130,   oldYear: 2020, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 24 },
+    { label: "ビジネスホテル",          productName: "ビジネスホテル素泊まり",            oldQuality: 4.1, newQuality: 3.3, oldPrice: 7800,  newPrice: 10500, oldYear: 2019, newYear: 2024, qualityUnit: "stars",   purchasesPerYear: 4  },
+    { label: "Tシャツ",               productName: "ユニクロ 綿Tシャツ",               oldQuality: 100, newQuality: 68,  oldPrice: 1500,  newPrice: 1990,  oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 6  },
+    { label: "スポーツジム",            productName: "エニタイムフィットネス月会費",       oldQuality: 60,  newQuality: 48,  oldPrice: 7500,  newPrice: 9800,  oldYear: 2021, newYear: 2025, qualityUnit: "minutes", purchasesPerYear: 12 },
+    { label: "カップ麺",               productName: "日清カップヌードル",                oldQuality: 80,  newQuality: 65,  oldPrice: 220,   newPrice: 278,   oldYear: 2020, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 52 },
+  ],
+  NZD: [
+    { label: "Meat Pie",             productName: "Four'n Twenty Meat Pie",         oldQuality: 175, newQuality: 130, oldPrice: 3.99,  newPrice: 5.49,  oldYear: 2019, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 52 },
+    { label: "Countdown Beef",       productName: "Countdown Beef Mince 500g",      oldQuality: 500, newQuality: 390, oldPrice: 6.99,  newPrice: 9.99,  oldYear: 2020, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 24 },
+    { label: "Hotel Accommodation",  productName: "City Motel Night",               oldQuality: 4.0, newQuality: 3.2, oldPrice: 159,   newPrice: 189,   oldYear: 2019, newYear: 2024, qualityUnit: "stars",   purchasesPerYear: 4  },
+    { label: "Cotton T-Shirt",       productName: "Warehouse Basic Cotton Tee",     oldQuality: 100, newQuality: 60,  oldPrice: 19.99, newPrice: 22.99, oldYear: 2020, newYear: 2025, qualityUnit: "percent", purchasesPerYear: 6  },
+    { label: "Gym Membership",       productName: "Les Mills Class Pass",           oldQuality: 60,  newQuality: 45,  oldPrice: 34.99, newPrice: 44.99, oldYear: 2021, newYear: 2025, qualityUnit: "minutes", purchasesPerYear: 12 },
+    { label: "Manuka Honey",         productName: "Comvita Manuka Honey 250g",      oldQuality: 250, newQuality: 180, oldPrice: 22.99, newPrice: 29.99, oldYear: 2020, newYear: 2025, qualityUnit: "grams",   purchasesPerYear: 6  },
+  ],
+}
 
 const MAX_YEAR = 2025
 
@@ -181,7 +204,7 @@ export default function SkimpflationCalculatorPage() {
     }
   }, [dataLoaded])
 
-  const applyPreset = useCallback((preset: typeof PRESETS[number]) => {
+  const applyPreset = useCallback((preset: Preset) => {
     setProductName(preset.productName)
     setOldQuality(String(preset.oldQuality))
     setNewQuality(String(preset.newQuality))
@@ -332,7 +355,7 @@ export default function SkimpflationCalculatorPage() {
           Quick examples — click to load
         </p>
         <div className="flex flex-wrap gap-2 justify-center">
-          {PRESETS.map((p) => (
+          {(PRESETS_BY_CURRENCY[currency] ?? PRESETS_BY_CURRENCY.USD).map((p) => (
             <button
               key={p.label}
               onClick={() => applyPreset(p)}
@@ -883,47 +906,89 @@ export default function SkimpflationCalculatorPage() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-8 bg-gray-900 text-white rounded-lg overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
-          <div>
-            <h3 className="text-xl font-bold mb-3">Skimpflation Calculator</h3>
-            <p className="text-gray-300 text-sm leading-relaxed">
-              Reveal the true inflation hidden in declining product and service quality. Compare price-per-quality-unit across any two years for 8 major currencies using official CPI benchmarks.
-            </p>
+      <footer className="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-300 py-12 mt-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Global Inflation Calculator</h3>
+              <p className="text-gray-300 dark:text-gray-50 mb-6">
+                Track inflation across major world currencies with historical data from 1913 to 2026.
+              </p>
+              <div className="flex gap-4 mb-8">
+                <a href="https://www.youtube.com/@GlobalInflationCalculator" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-red-500 transition-colors" aria-label="Visit our YouTube channel">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                <a href="https://www.pinterest.com/globalinflationcalculator/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-red-600 transition-colors" aria-label="Follow us on Pinterest">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/></svg>
+                </a>
+                <a href="https://x.com/GInflationCalc" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-blue-400 transition-colors" aria-label="Follow us on X (Twitter)">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.244H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+              </div>
+              <div className="mt-6">
+                <h4 className="text-lg font-semibold mb-4">Related Tools</h4>
+                <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                  <li>
+                    <Link href="/salary-calculator/regional-cost-of-living" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                      Regional Cost of Living
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
+              <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                <li>• US Bureau of Labor Statistics</li>
+                <li>• UK Office for National Statistics</li>
+                <li>• Eurostat</li>
+                <li>• Statistics Canada</li>
+                <li>• Australian Bureau of Statistics</li>
+                <li>• Swiss Federal Statistical Office</li>
+                <li>• Statistics Bureau of Japan</li>
+                <li>• Statistics New Zealand</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <ul className="text-gray-300 dark:text-gray-50 space-y-2">
+                {[
+                  { href: "/mortgage-calculator",                              label: "Mortgage Calculator"            },
+                  { href: "/home-affordability-calculator/inflation-adjusted", label: "Home Affordability Calculator"  },
+                  { href: "/deflation-calculator",                             label: "Deflation Calculator"           },
+                  { href: "/shrinkflation-calculator",                         label: "Shrinkflation Calculator"       },
+                  { href: "/skimpflation-calculator",                          label: "Skimpflation Calculator"        },
+                  { href: "/energy-inflation-calculator",                      label: "Energy Inflation Calculator"    },
+                  { href: "/charts",                                           label: "Charts & Analytics"             },
+                  { href: "/investment-race-calculator",                       label: "Investment Race Calculator"     },
+                  { href: "/global-compound-interest",                         label: "Compound Interest Calculator"   },
+                  { href: "/global-net-worth-calculator",                      label: "Global Net Worth Calculator"    },
+                  { href: "/ppp-calculator",                                   label: "PPP Calculator"                 },
+                  { href: "/auto-loan-calculator",                             label: "Auto Loan Calculator"           },
+                  { href: "/salary-calculator",                                label: "Salary Calculator"              },
+                  { href: "/retirement-calculator",                            label: "Retirement Calculator"          },
+                  { href: "/student-loan-calculator",                         label: "Student Loan Calculator"        },
+                  { href: "/budget-calculator",                                label: "Budget Calculator"              },
+                  { href: "/emergency-fund-calculator",                        label: "Emergency Fund Calculator"      },
+                  { href: "/roi-calculator",                                   label: "ROI Calculator"                 },
+                  { href: "/insurance-inflation-calculator",                   label: "Insurance Inflation Calculator" },
+                  { href: "/legacy-planner",                                   label: "Legacy Planner"                 },
+                  { href: "/about",                                            label: "About Us"                       },
+                  { href: "/privacy",                                          label: "Privacy Policy"                 },
+                  { href: "/terms",                                            label: "Terms of Service"               },
+                ].map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">Last Updated: April 2026</p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">Data Sources</h3>
-            <ul className="space-y-2 text-sm text-gray-300">
-              <li>FAOSTAT — Food CPI (2000–2025)</li>
-              <li>BLS / ONS / Eurostat / Statistics Canada</li>
-              <li>ABS / SFSO / Statistics Bureau of Japan</li>
-              <li>Stats NZ (New Zealand)</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">Related Tools</h3>
-            <ul className="space-y-2 text-sm">
-              {[
-                { href: "/shrinkflation-calculator",   label: "Shrinkflation Calculator"  },
-                { href: "/energy-inflation-calculator", label: "Energy Inflation"           },
-                { href: "/budget-calculator",           label: "Budget Calculator"          },
-                { href: "/",                            label: "Global Inflation Calculator" },
-              ].map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-gray-300 hover:text-white transition-colors">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        <div className="border-t border-gray-800 px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-500">
-          <span>&copy; {new Date().getFullYear()} Global Inflation Calculator. All calculations are for educational purposes only.</span>
-          <div className="flex gap-4">
-            <Link href="/privacy" className="hover:text-gray-300 transition-colors">Privacy</Link>
-            <Link href="/terms"   className="hover:text-gray-300 transition-colors">Terms</Link>
-            <Link href="/about"   className="hover:text-gray-300 transition-colors">About</Link>
+          <div className="border-t border-gray-700 dark:border-gray-600 mt-8 pt-8 text-center text-gray-400 dark:text-gray-500">
+            <p>&copy; 2026 Global Inflation Calculator. Educational purposes only.</p>
           </div>
         </div>
       </footer>

@@ -1833,6 +1833,11 @@ export default function ClientPage() {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/skimpflation-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                      Skimpflation Calculator
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/charts" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
                       Charts & Analytics
                     </Link>
