@@ -955,6 +955,7 @@ export default function SkimpflationCalculatorPage() {
                   { href: "/emergency-fund-calculator",                        label: "Emergency Fund Calculator"      },
                   { href: "/roi-calculator",                                   label: "ROI Calculator"                 },
                   { href: "/insurance-inflation-calculator",                   label: "Insurance Inflation Calculator" },
+                  { href: "/sneakflation-calculator",                          label: "Sneakflation Calculator"        },
                   { href: "/legacy-planner",                                   label: "Legacy Planner"                 },
                   { href: "/about",                                            label: "About Us"                       },
                   { href: "/privacy",                                          label: "Privacy Policy"                 },

@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
     { loc: `${baseUrl}/investment-race-calculator`,                                    lastmod: now, changefreq: "weekly",  priority: "0.9" },
     { loc: `${baseUrl}/energy-inflation-calculator`,                                   lastmod: now, changefreq: "weekly",  priority: "0.9" },
     { loc: `${baseUrl}/skimpflation-calculator`,                                       lastmod: now, changefreq: "weekly",  priority: "0.9" },
+    { loc: `${baseUrl}/sneakflation-calculator`,                                       lastmod: now, changefreq: "weekly",  priority: "0.9" },
     { loc: `${baseUrl}/charts`,                                                        lastmod: now, changefreq: "weekly",  priority: "0.9" },
     { loc: `${baseUrl}/about`,                                                         lastmod: now, changefreq: "monthly", priority: "0.6" },
     { loc: `${baseUrl}/llms.txt`,                                                      lastmod: now, changefreq: "monthly", priority: "0.5" },

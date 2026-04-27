@@ -481,6 +481,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/sneakflation-calculator" className="text-blue-600 hover:underline">
+                      Sneakflation Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate the true annual cost of hidden fees, surcharges, and quietly removed perks. Add unlimited fee rows across airlines, banks, streaming, gyms, and more. Covers 8 currencies with locale-specific examples.
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/global-compound-interest" className="text-blue-600 hover:underline">
                       Global Compound Interest Calculator
                     </Link>

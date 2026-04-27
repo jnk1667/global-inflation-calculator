@@ -20,37 +20,41 @@ ON CONFLICT (id) DO UPDATE
 
 -- ── 2. FAQs ───────────────────────────────────────────────────────────────────
 
-INSERT INTO faqs (category, question, answer, display_order)
+INSERT INTO faqs (id, category, question, answer, order_index, is_active, created_at, updated_at)
 VALUES
 
-  ('sneakflation', 'What is sneakflation?',
+  ('sneakflation_faq_1', 'sneakflation', 'What is sneakflation?',
    'Sneakflation is the practice of quietly adding new fees, increasing existing charges, or removing previously included benefits while keeping the advertised headline price the same or raising it only slightly. Unlike shrinkflation (less quantity) or skimpflation (lower quality), sneakflation works by fragmenting costs — separating what was once included into separately charged line items. Common examples include airline baggage fees, hotel resort fees, streaming price hikes, bank account maintenance fees, and gym registration charges.',
-   1),
+   1, true, NOW(), NOW()),
 
-  ('sneakflation', 'What is the difference between sneakflation, shrinkflation, and skimpflation?',
+  ('sneakflation_faq_2', 'sneakflation', 'What is the difference between sneakflation, shrinkflation, and skimpflation?',
    'All three are forms of hidden inflation. Shrinkflation reduces the physical quantity of a product (e.g. a 200g pack becomes 165g at the same price). Skimpflation reduces the quality of a product or service (e.g. cotton content drops from 100% to 60%, or a hotel drops from 4.5 stars to 3.8 stars). Sneakflation adds new fees or removes previously included perks — the product or service nominally stays the same but you now pay extra for things that were once free (baggage, seat selection, parking, HD streaming, etc.). Together they form the hidden inflation trilogy.',
-   2),
+   2, true, NOW(), NOW()),
 
-  ('sneakflation', 'What are the most common examples of sneakflation?',
+  ('sneakflation_faq_3', 'sneakflation', 'What are the most common examples of sneakflation?',
    'The most widespread sneakflation examples include: airlines (checked bag fees, seat selection fees, change fees, priority boarding charges); hotels (resort fees, destination fees, parking, early check-in, Wi-Fi charges); streaming services (price hikes, removal of HD from base plans, password sharing fees); banks (account maintenance fees, overdraft fees, ATM fees, wire transfer fees); gyms (annual registration fees, locker fees, guest pass charges on top of monthly membership); and restaurants (service charges, credit card surcharges, eco/container fees). All were either zero or substantially lower 5–10 years ago.',
-   3),
+   3, true, NOW(), NOW()),
 
-  ('sneakflation', 'Are junk fees the same as sneakflation?',
+  ('sneakflation_faq_4', 'sneakflation', 'Are junk fees the same as sneakflation?',
    'Junk fees is the term used by regulators — particularly the US Federal Trade Commission (FTC) and Consumer Financial Protection Bureau (CFPB) — for hidden or deceptive fees that are obscured until checkout or billing. Sneakflation is the broader consumer term covering the same phenomenon: fees that inflate the true cost of a product or service above its advertised price. The Biden administration''s 2023 junk fee crackdown specifically targeted resort fees, ticketing fees, bank fees, and early termination charges — all classic sneakflation examples.',
-   4),
+   4, true, NOW(), NOW()),
 
-  ('sneakflation', 'How do I calculate how much sneakflation is costing me per year?',
+  ('sneakflation_faq_5', 'sneakflation', 'How do I calculate how much sneakflation is costing me per year?',
    'For each fee: (1) Identify the original amount (or 0 if it is a new fee) and the current amount. (2) Calculate the difference: current minus original. (3) Multiply by the annual frequency: weekly fees times 52, monthly times 12, quarterly times 4, annual times 1, one-off times 1. (4) Sum all fees for your total annual sneakflation burden. Our calculator automates all of this across unlimited fees with a breakdown table and bar chart.',
-   5),
+   5, true, NOW(), NOW()),
 
-  ('sneakflation', 'What currencies does the sneakflation calculator support?',
+  ('sneakflation_faq_6', 'sneakflation', 'What currencies does the sneakflation calculator support?',
    'Our sneakflation calculator supports 8 currencies: US Dollar (USD), British Pound (GBP), Euro (EUR), Canadian Dollar (CAD), Australian Dollar (AUD), Swiss Franc (CHF), Japanese Yen (JPY), and New Zealand Dollar (NZD). Each currency comes with locale-specific example presets covering airlines, streaming, banking, fitness, hotels, and restaurants — reflecting real-world documented fee changes in each country.',
-   6),
+   6, true, NOW(), NOW()),
 
-  ('sneakflation', 'How do I use the "perk removed" fee type?',
+  ('sneakflation_faq_7', 'sneakflation', 'How do I use the perk removed fee type?',
    'For a removed perk, enter the monetary value of the benefit you used to receive as the Original amount and 0 as the Current amount. For example, if a credit card removed a £200/year airport lounge membership that was previously included, enter Original: £200, Current: £0, Frequency: Annual. The calculator will count £200 as your annual loss. This lets you quantify not just direct fee increases but also the inflation caused by benefit erosion.',
-   7)
+   7, true, NOW(), NOW())
 
-ON CONFLICT (category, question) DO UPDATE
-  SET answer        = EXCLUDED.answer,
-      display_order = EXCLUDED.display_order;
+ON CONFLICT (id) DO UPDATE
+  SET category    = EXCLUDED.category,
+      question    = EXCLUDED.question,
+      answer      = EXCLUDED.answer,
+      order_index = EXCLUDED.order_index,
+      is_active   = EXCLUDED.is_active,
+      updated_at  = NOW();

@@ -211,6 +211,46 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Update Frequency: Annual (CPI benchmark data updated as national statistics agencies release new annual data)
   - SEO Sibling Pages: /shrinkflation-calculator (quantity reduction), /energy-inflation-calculator (sector-specific inflation), /insurance-inflation-calculator (service quality decline)
 
+- **Sneakflation Calculator (/sneakflation-calculator)**
+  - URL: https://www.globalinflationcalculator.com/sneakflation-calculator
+  - Purpose: Quantify the true annual cost of hidden fees, surcharges, and quietly removed perks — the third pillar of the hidden inflation trilogy alongside shrinkflation and skimpflation
+  - Features:
+    * Multi-row fee entry table — add unlimited individual fees
+    * Fee types: Increased Fee, New Fee, Removed Perk
+    * Frequency options: Weekly, Monthly, Quarterly, Annual, One-off
+    * Per-fee annual cost calculation with running totals
+    * Total annual sneakflation burden summary card
+    * 5-year cumulative cost projection
+    * Bar chart breakdown by fee category
+    * Severity badge: Low / Moderate / High / Severe based on annual total
+    * 8 currency support with locale-specific pre-loaded example sets
+    * Pre-loaded real-world category examples: Airlines, Streaming, Banking, Hotels, Gym, Restaurants
+    * Locale-specific presets: USD (US airlines/banks), GBP (UK banks/rail), EUR (European airlines/banks), CAD, AUD, CHF, JPY, NZD
+    * Full results breakdown with share-ready summary
+    * Related Calculators section linking to Shrinkflation, Skimpflation, Energy Inflation
+    * Full-length editorial essay on the hidden fee epidemic
+    * FAQ section covering 7 common sneakflation questions
+  - Calculations:
+    * Per-fee annual cost: (current_amount - original_amount) × annual_frequency
+    * Total annual burden: sum of all per-fee annual costs
+    * 5-year cumulative: total_annual × 5 (simplified linear projection)
+    * Severity thresholds: Low <£/$/€100, Moderate £100–299, High £300–599, Severe £600+
+  - Pre-loaded Example Sets by Currency:
+    * USD: Airline checked bag, Netflix password fee, Bank maintenance fee, Hotel resort fee, Gym annual fee, Restaurant service charge
+    * GBP: Rail booking fee, Sky TV price hike, Barclays account fee, Hotel parking, Gym registration, Card surcharge
+    * EUR: Ryanair seat fee, Spotify price hike, Deutsche Bank fee, Hotel city tax, Fitness First fee, Eco-surcharge
+    * CAD: Air Canada bag fee, Crave TV hike, TD account fee, Hotel destination fee, GoodLife annual fee, Delivery surcharge
+    * AUD: Qantas bag fee, Stan price hike, CommBank fee, Hotel parking, Fitness First fee, Card surcharge
+    * CHF: Swiss Air bag fee, Netflix CHF hike, UBS account fee, Hotel city tax, Migros Fitness fee, Recycling surcharge
+    * JPY: ANA bag fee, Netflix JPY hike, Mizuho account fee, Hotel facility fee, Konami Sports fee, Container charge
+    * NZD: Air NZ bag fee, Neon price hike, ANZ account fee, Hotel resort fee, Les Mills annual fee, Card surcharge
+  - Data Sources: No external CPI data required — all calculations are user-input based fee comparisons
+  - Target Users: Consumers tracking subscription creep, frequent travellers, personal finance researchers, journalists covering junk fees, consumer rights advocates
+  - Unique Value Proposition: Only calculator that quantifies the combined annual cost of all hidden fees and removed perks across unlimited services simultaneously — distinct from shrinkflation (size) and skimpflation (quality)
+  - Context: The 2021–2024 inflationary period triggered a systematic unbundling of previously free services. US airlines collected over $7 billion in bag fees in 2023 alone. Hotel resort fees became standard. Streaming services added ad tiers and password sharing fees. Banks eliminated free overdraft buffers. The cumulative annual household cost runs into hundreds of dollars/pounds/euros for most consumers.
+  - Update Frequency: Annual
+  - SEO Sibling Pages: /shrinkflation-calculator (quantity reduction), /skimpflation-calculator (quality degradation), /insurance-inflation-calculator (service cost inflation)
+
 - **Investment Race Calculator (/investment-race-calculator)**
   - URL: https://www.globalinflationcalculator.com/investment-race-calculator
   - Purpose: Compare real, inflation-adjusted returns of six major asset classes — S&P 500, gold, Bitcoin, housing, government bonds, and savings accounts — across any year range since 2000
