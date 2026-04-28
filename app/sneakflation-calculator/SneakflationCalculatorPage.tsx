@@ -697,7 +697,7 @@ export default function SneakflationCalculatorPage() {
   }
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-8 space-y-6">
+    <main className="max-w-3xl mx-auto px-4 pt-32 pb-12 space-y-6">
 
       {/* Hero */}
       <div className="text-center mb-2">
