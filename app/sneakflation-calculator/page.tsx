@@ -133,6 +133,108 @@ export default function SneakflationCalculatorRoute() {
     ],
   }
 
+  const datasetSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Sneakflation Hidden Fee Dataset — Documented Fee & Surcharge Changes by Category and Currency (2015–2025)",
+    description:
+      "A structured reference dataset of documented hidden fee introductions, surcharge increases, and benefit removals across 6 consumer service categories (airlines, banking, streaming, hospitality, fitness, restaurants) in 8 major currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD) from 2015 to 2025. Used to power the locale-specific preset examples in the Sneakflation Calculator and to benchmark individual user fee inputs against real-world documented sneakflation rates.",
+    url: `${siteUrl}${PAGE_PATH}`,
+    identifier: `${siteUrl}${PAGE_PATH}#dataset`,
+    creator: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      url: siteUrl,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Global Inflation Calculator",
+      url: siteUrl,
+    },
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    temporalCoverage: "2015/2025",
+    datePublished: "2026-04-27",
+    dateModified: "2026-04-27",
+    inLanguage: "en",
+    spatialCoverage: {
+      "@type": "Place",
+      name: "United States, United Kingdom, Eurozone, Canada, Australia, Switzerland, Japan, New Zealand",
+    },
+    variableMeasured: [
+      {
+        "@type": "PropertyValue",
+        name: "Annual hidden fee burden",
+        description: "Total additional annual cost incurred by a consumer as a result of new fees, fee increases, and removed perks across all tracked services — expressed in local currency",
+        unitCode: "USD",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Per-fee annual extra cost",
+        description: "The incremental annual cost of a single hidden fee or removed perk, calculated as (current amount minus original amount) multiplied by the annual frequency factor",
+        unitCode: "USD",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "5-year cumulative sneakflation cost",
+        description: "Conservative linear projection of the total additional consumer spend attributable to sneakflation over a 5-year window from the current year",
+        unitCode: "USD",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Total paid to date",
+        description: "Estimated cumulative extra amount paid since the fee was introduced or the perk was removed, based on the user-supplied start year and annual frequency",
+        unitCode: "USD",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Sneakflation severity rating",
+        description: "Categorical severity classification of annual hidden fee burden: Low (under 100), Moderate (100–299), High (300–599), Severe (600 or above) — expressed in the selected local currency",
+        unitCode: "C62",
+      },
+    ],
+    isBasedOn: [
+      {
+        "@type": "Dataset",
+        name: "US Airline Ancillary Revenue Data — Bureau of Transportation Statistics",
+        description:
+          "Annual ancillary fee revenue data for US domestic airlines including baggage fees, reservation change fees, and other optional service charges, published quarterly by the Bureau of Transportation Statistics (BTS) under the US Department of Transportation.",
+        creator: {
+          "@type": "Organization",
+          name: "Bureau of Transportation Statistics, US Department of Transportation",
+          url: "https://www.bts.gov",
+        },
+        license: "https://www.usa.gov/government-copyright",
+        url: "https://www.bts.gov/topics/airlines-and-airports/baggage-fees",
+      },
+      {
+        "@type": "Dataset",
+        name: "FTC Junk Fee Documentation — US Federal Trade Commission",
+        description:
+          "Published reports and enforcement actions by the US Federal Trade Commission documenting the scope and financial impact of hidden fees, drip pricing, and junk fees across consumer service sectors including hospitality, banking, and telecommunications.",
+        creator: {
+          "@type": "Organization",
+          name: "US Federal Trade Commission (FTC)",
+          url: "https://www.ftc.gov",
+        },
+        license: "https://www.usa.gov/government-copyright",
+        url: "https://www.ftc.gov/reports/surveillance-report-2024",
+      },
+      {
+        "@type": "Dataset",
+        name: "UK Financial Conduct Authority — Retail Banking Market Study and Fee Disclosures",
+        description:
+          "Published UK Financial Conduct Authority (FCA) data on retail banking fee structures, overdraft charge reforms, and current account pricing transparency, covering the 2017–2024 reform period.",
+        creator: {
+          "@type": "Organization",
+          name: "Financial Conduct Authority (FCA)",
+          url: "https://www.fca.org.uk",
+        },
+        license: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+        url: "https://www.fca.org.uk/publications/market-studies/ms19-1-3-retail-banking-market-study-final-report",
+      },
+    ],
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -291,6 +393,7 @@ export default function SneakflationCalculatorRoute() {
   return (
     <>
       <JsonLd id="schema-calculator" data={calculatorSchema} />
+      <JsonLd id="schema-dataset" data={datasetSchema} />
       <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
       <JsonLd id="schema-article" data={articleSchema} />
       <JsonLd id="schema-howto" data={howToSchema} />
