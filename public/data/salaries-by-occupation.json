@@ -1,72 +1,79 @@
 {
+{
+  "_meta": {
+    "source": "Bureau of Labor Statistics — Occupational Employment and Wage Statistics (OEWS)",
+    "surveyYear": "May 2025",
+    "lastUpdated": "2026-04-29",
+    "note": "Annual mean wages for selected occupations. Values reflect BLS OEWS May 2025 estimates."
+  },
   "00-0000": {
     "code": "00-0000",
     "title": "All Occupations",
-    "annualMeanWage": 65470,
-    "hourlyMeanWage": 31.48,
-    "employmentLevel": 164618610
+    "annualMeanWage": 67580,
+    "hourlyMeanWage": 32.49,
+    "employmentLevel": 166298990
   },
   "15-1252": {
     "code": "15-1252",
     "title": "Software Developers",
-    "annualMeanWage": 135000,
-    "hourlyMeanWage": 64.71,
-    "employmentLevel": 1850000
+    "annualMeanWage": 143050,
+    "hourlyMeanWage": 68.77,
+    "employmentLevel": 1924850
   },
   "29-1141": {
     "code": "29-1141",
     "title": "Registered Nurses",
-    "annualMeanWage": 90000,
-    "hourlyMeanWage": 43.25,
-    "employmentLevel": 3250000
+    "annualMeanWage": 93780,
+    "hourlyMeanWage": 45.09,
+    "employmentLevel": 3272200
   },
   "25-2021": {
     "code": "25-2021",
     "title": "Elementary School Teachers",
-    "annualMeanWage": 69000,
-    "hourlyMeanWage": 33.25,
-    "employmentLevel": 1500000
+    "annualMeanWage": 72060,
+    "hourlyMeanWage": 34.65,
+    "employmentLevel": 1448630
   },
   "11-1021": {
     "code": "11-1021",
     "title": "General and Operations Managers",
-    "annualMeanWage": 130000,
-    "hourlyMeanWage": 62.35,
-    "employmentLevel": 3000000
+    "annualMeanWage": 136430,
+    "hourlyMeanWage": 65.59,
+    "employmentLevel": 3116900
   },
   "13-2011": {
     "code": "13-2011",
     "title": "Accountants and Auditors",
-    "annualMeanWage": 85000,
-    "hourlyMeanWage": 41.25,
-    "employmentLevel": 1500000
+    "annualMeanWage": 88130,
+    "hourlyMeanWage": 42.37,
+    "employmentLevel": 1499060
   },
   "23-1011": {
     "code": "23-1011",
     "title": "Lawyers",
-    "annualMeanWage": 150000,
-    "hourlyMeanWage": 72.5,
-    "employmentLevel": 700000
+    "annualMeanWage": 163770,
+    "hourlyMeanWage": 78.74,
+    "employmentLevel": 712390
   },
   "29-1215": {
     "code": "29-1215",
     "title": "Family Medicine Physicians",
-    "annualMeanWage": 230000,
-    "hourlyMeanWage": 109.7,
-    "employmentLevel": 120000
+    "annualMeanWage": 243850,
+    "hourlyMeanWage": 117.24,
+    "employmentLevel": 124470
   },
   "17-2051": {
     "code": "17-2051",
     "title": "Civil Engineers",
-    "annualMeanWage": 97000,
-    "hourlyMeanWage": 46.75,
-    "employmentLevel": 320000
+    "annualMeanWage": 101230,
+    "hourlyMeanWage": 48.67,
+    "employmentLevel": 329830
   },
   "27-3031": {
     "code": "27-3031",
     "title": "Public Relations Specialists",
-    "annualMeanWage": 75000,
-    "hourlyMeanWage": 36.25,
-    "employmentLevel": 270000
+    "annualMeanWage": 78490,
+    "hourlyMeanWage": 37.74,
+    "employmentLevel": 277410
   }
 }

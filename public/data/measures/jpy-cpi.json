@@ -5,7 +5,7 @@
   "description": "The main measure of consumer price inflation used by the Bank of Japan for monetary policy",
   "source": "Statistics Bureau of Japan - Official data",
   "source_url": "https://www.stat.go.jp/english/data/cpi/",
-  "last_updated": "2025-01-15T00:00:00Z",
+  "last_updated": "2026-04-29T00:00:00Z",
   "earliest_year": 1996,
   "latest_year": 2025,
   "total_years": 30,
@@ -41,6 +41,6 @@
     "2022": { "index_value": 106.8, "inflation_factor": 1.068, "year_over_year_change": 3.5 },
     "2023": { "index_value": 110.2, "inflation_factor": 1.102, "year_over_year_change": 3.2 },
     "2024": { "index_value": 112.8, "inflation_factor": 1.128, "year_over_year_change": 2.4 },
-    "2025": { "index_value": 115.2, "inflation_factor": 1.152, "year_over_year_change": 2.1 }
+    "2025": { "index_value": 116.4, "inflation_factor": 1.164, "year_over_year_change": 3.2, "notes": "Full-year 2025 annual average. Source: Statistics Bureau of Japan." }
   }
 }

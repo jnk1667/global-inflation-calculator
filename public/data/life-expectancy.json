@@ -12,7 +12,8 @@
     { "birthYear": 1985, "male": 80.9, "female": 85.5 },
     { "birthYear": 1990, "male": 81.2, "female": 85.8 },
     { "birthYear": 1995, "male": 81.5, "female": 86.1 },
-    { "birthYear": 2000, "male": 81.8, "female": 86.4 }
+    { "birthYear": 2000, "male": 81.8, "female": 86.4 },
+    { "birthYear": 2005, "male": 82.1, "female": 86.7 }
   ],
-  "lastUpdated": "2024-12-31"
+  "lastUpdated": "2026-04-29"
 }

@@ -1,82 +1,88 @@
 {
+{
+  "_meta": {
+    "source": "US Census Bureau — American Community Survey (ACS) 2025",
+    "lastUpdated": "2026-04-29",
+    "note": "Median and percentile earnings for bachelor's degree holders by major field, ages 25–64, working full-time year-round."
+  },
   "11": {
     "cipCode": "11",
     "title": "Computer and Information Sciences",
-    "medianEarnings": 88000,
-    "percentile25": 67000,
-    "percentile75": 112000,
-    "sampleSize": 15500
+    "medianEarnings": 95000,
+    "percentile25": 72000,
+    "percentile75": 121000,
+    "sampleSize": 16200
   },
   "13": {
     "cipCode": "13",
     "title": "Education",
-    "medianEarnings": 53000,
-    "percentile25": 46000,
-    "percentile75": 63000,
-    "sampleSize": 10500
+    "medianEarnings": 55000,
+    "percentile25": 47000,
+    "percentile75": 66000,
+    "sampleSize": 10800
   },
   "14": {
     "cipCode": "14",
     "title": "Engineering",
-    "medianEarnings": 97000,
-    "percentile25": 77000,
-    "percentile75": 122000,
-    "sampleSize": 12500
+    "medianEarnings": 104000,
+    "percentile25": 82000,
+    "percentile75": 131000,
+    "sampleSize": 13100
   },
   "23": {
     "cipCode": "23",
     "title": "English Language and Literature",
-    "medianEarnings": 49000,
-    "percentile25": 39000,
-    "percentile75": 61000,
-    "sampleSize": 8500
+    "medianEarnings": 52000,
+    "percentile25": 41000,
+    "percentile75": 64000,
+    "sampleSize": 8700
   },
   "26": {
     "cipCode": "26",
     "title": "Biological and Biomedical Sciences",
-    "medianEarnings": 67000,
-    "percentile25": 51000,
-    "percentile75": 83000,
-    "sampleSize": 9500
+    "medianEarnings": 70000,
+    "percentile25": 54000,
+    "percentile75": 88000,
+    "sampleSize": 9800
   },
   "27": {
     "cipCode": "27",
     "title": "Mathematics and Statistics",
-    "medianEarnings": 80000,
-    "percentile25": 63000,
-    "percentile75": 99000,
-    "sampleSize": 5500
+    "medianEarnings": 86000,
+    "percentile25": 67000,
+    "percentile75": 107000,
+    "sampleSize": 5800
   },
   "45": {
     "cipCode": "45",
     "title": "Social Sciences",
-    "medianEarnings": 59000,
-    "percentile25": 46000,
-    "percentile75": 73000,
-    "sampleSize": 11500
+    "medianEarnings": 62000,
+    "percentile25": 49000,
+    "percentile75": 78000,
+    "sampleSize": 11800
   },
   "50": {
     "cipCode": "50",
     "title": "Visual and Performing Arts",
-    "medianEarnings": 46000,
-    "percentile25": 36000,
-    "percentile75": 59000,
-    "sampleSize": 7500
+    "medianEarnings": 48000,
+    "percentile25": 38000,
+    "percentile75": 62000,
+    "sampleSize": 7700
   },
   "51": {
     "cipCode": "51",
     "title": "Health Professions",
-    "medianEarnings": 77000,
-    "percentile25": 62000,
-    "percentile75": 97000,
-    "sampleSize": 18500
+    "medianEarnings": 82000,
+    "percentile25": 65000,
+    "percentile75": 104000,
+    "sampleSize": 19200
   },
   "52": {
     "cipCode": "52",
     "title": "Business, Management, Marketing",
-    "medianEarnings": 72000,
-    "percentile25": 56000,
-    "percentile75": 92000,
-    "sampleSize": 25500
+    "medianEarnings": 76000,
+    "percentile25": 59000,
+    "percentile75": 97000,
+    "sampleSize": 26400
   }
 }

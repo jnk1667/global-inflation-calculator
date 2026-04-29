@@ -5,7 +5,7 @@
   "description": "The main measure of consumer price inflation used by the Bank of England for monetary policy",
   "source": "ONS (Office for National Statistics)",
   "source_url": "https://www.ons.gov.uk/economy/inflationandpriceindices",
-  "last_updated": "2025-11-14T00:00:00Z",
+  "last_updated": "2026-04-29T00:00:00Z",
   "earliest_year": 1996,
   "latest_year": 2025,
   "total_years": 30,
@@ -42,10 +42,10 @@
     "2023": { "index_value": 152.8, "inflation_factor": 1.528, "year_over_year_change": 7.3 },
     "2024": { "index_value": 156.2, "inflation_factor": 1.562, "year_over_year_change": 2.2 },
     "2025": { 
-      "index_value": 162.1, 
-      "inflation_factor": 1.621, 
-      "year_over_year_change": 3.8,
-      "notes": "September 2025: CPI rose 3.8% annually, unchanged from August. October data releases November 19, 2025."
+      "index_value": 160.4, 
+      "inflation_factor": 1.604, 
+      "year_over_year_change": 2.7,
+      "notes": "Full-year 2025 annual average. Source: ONS annual CPI series."
     }
   }
 }

@@ -2,7 +2,7 @@
   "currency": "USD",
   "measure": "cpi",
   "source": "US Bureau of Labor Statistics",
-  "last_updated": "2026-01-04T10:00:00Z",
+  "last_updated": "2026-04-29T00:00:00Z",
   "earliest_year": "1913",
   "latest_year": "2026",
   "total_years": 114,
