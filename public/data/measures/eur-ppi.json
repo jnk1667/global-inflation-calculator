@@ -5,7 +5,7 @@
   "description": "Measures price changes from the perspective of the seller, indicating wholesale inflation pressures",
   "source": "Eurostat",
   "source_url": "https://ec.europa.eu/eurostat/web/products-datasets/product?code=sts_inpp_m",
-  "last_updated": "2025-01-15T00:00:00Z",
+  "last_updated": "2026-04-29T00:00:00Z",
   "earliest_year": 2000,
   "latest_year": 2025,
   "total_years": 26,

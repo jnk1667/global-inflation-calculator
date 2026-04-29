@@ -2,7 +2,7 @@
   "currency": "GBP",
   "measure": "cpih",
   "source": "UK Office for National Statistics (ONS) - Consumer Prices Index including owner occupiers' housing costs",
-  "last_updated": "2025-09-23T16:00:00Z",
+  "last_updated": "2026-04-29T00:00:00Z",
   "data": {
     "1996": { "index_value": 75.8, "inflation_factor": 0.6583, "year_over_year_change": null },
     "1997": { "index_value": 78.4, "inflation_factor": 0.6809, "year_over_year_change": 3.4 },

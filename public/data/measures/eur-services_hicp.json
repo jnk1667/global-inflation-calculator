@@ -2,7 +2,7 @@
   "currency": "EUR",
   "measure": "services_hicp",
   "source": "Eurostat - Harmonized Index of Consumer Prices: Services",
-  "last_updated": "2025-09-23T16:00:00Z",
+  "last_updated": "2026-04-29T00:00:00Z",
   "data": {
     "1996": { "index_value": 83.2, "inflation_factor": 0.64, "year_over_year_change": null },
     "1997": { "index_value": 85.1, "inflation_factor": 0.6546, "year_over_year_change": 2.3 },

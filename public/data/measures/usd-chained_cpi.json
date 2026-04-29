@@ -2,7 +2,7 @@
   "currency": "USD",
   "measure": "chained_cpi",
   "source": "U.S. Bureau of Labor Statistics (BLS) - Chained Consumer Price Index for All Urban Consumers",
-  "last_updated": "2025-09-23T16:00:00Z",
+  "last_updated": "2026-04-29T00:00:00Z",
   "data": {
     "1996": { "index_value": 156.9, "inflation_factor": 0.6276, "year_over_year_change": null },
     "1997": { "index_value": 160.5, "inflation_factor": 0.642, "year_over_year_change": 2.3 },

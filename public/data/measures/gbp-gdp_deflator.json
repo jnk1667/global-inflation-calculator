@@ -5,7 +5,7 @@
   "description": "Broad measure of inflation across the entire UK economy, including government spending and investment",
   "source": "ONS (Office for National Statistics)",
   "source_url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp",
-  "last_updated": "2025-01-15T00:00:00Z",
+  "last_updated": "2026-04-29T00:00:00Z",
   "earliest_year": 1996,
   "latest_year": 2025,
   "total_years": 30,

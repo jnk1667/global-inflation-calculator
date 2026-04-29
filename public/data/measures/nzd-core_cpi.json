@@ -5,7 +5,7 @@
   "description": "CPI excluding volatile items like food and energy - measures underlying inflation trends",
   "source": "Stats NZ",
   "source_url": "https://www.stats.govt.nz/information-releases/consumers-price-index",
-  "last_updated": "2025-01-15T00:00:00Z",
+  "last_updated": "2026-04-29T00:00:00Z",
   "earliest_year": 1996,
   "latest_year": 2025,
   "total_years": 30,
