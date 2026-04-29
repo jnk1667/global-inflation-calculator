@@ -49,7 +49,7 @@
     { "year": 2022, "nominalWage": 27.47, "realWage": 21.49, "cpi": 292.6, "purchasingPower": 93.0 },
     { "year": 2023, "nominalWage": 28.82, "realWage": 21.68, "cpi": 304.7, "purchasingPower": 93.8 },
     { "year": 2024, "nominalWage": 30.05, "realWage": 21.93, "cpi": 313.5, "purchasingPower": 94.8 },
-    { "year": 2025, "nominalWage": 31.15, "realWage": 22.15, "cpi": 321.2, "purchasingPower": 95.8 }
+    { "year": 2025, "nominalWage": 35.84, "realWage": 22.58, "cpi": 321.2, "purchasingPower": 97.6 }
   ],
   "occupations": [
     { "name": "Software Developers", "wage2000": 28.25, "wage2025": 62.5, "nominalGrowth": 121, "realGrowth": 18.5 },

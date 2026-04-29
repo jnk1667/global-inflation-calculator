@@ -1,7 +1,7 @@
 {
   "description": "Energy Price Inflation Data (1994-2025)",
   "sources": ["EIA (Energy Information Administration)", "Bureau of Labor Statistics"],
-  "lastUpdated": "2025-12-29",
+  "lastUpdated": "2026-04-29",
   "data": [
     { "year": 1994, "gasoline": 1.11, "electricity": 8.38, "naturalGas": 6.12, "energyCPI": 100, "generalCPI": 100 },
     { "year": 1995, "gasoline": 1.15, "electricity": 8.4, "naturalGas": 5.8, "energyCPI": 101.8, "generalCPI": 102.8 },
@@ -225,19 +225,19 @@
     },
     {
       "year": 2025,
-      "gasoline": 3.18,
-      "electricity": 17.05,
-      "naturalGas": 13.2,
-      "energyCPI": 252.3,
-      "generalCPI": 214.5
+      "gasoline": 3.10,
+      "electricity": 17.20,
+      "naturalGas": 12.98,
+      "energyCPI": 249.8,
+      "generalCPI": 215.8
     }
   ],
   "statistics": {
-    "gasolineChange": "186%",
-    "electricityChange": "103%",
-    "naturalGasChange": "116%",
-    "energyCPIChange": "152%",
-    "generalCPIChange": "114%",
-    "energyOutpacesGeneral": "33%"
+    "gasolineChange": "179%",
+    "electricityChange": "105%",
+    "naturalGasChange": "112%",
+    "energyCPIChange": "150%",
+    "generalCPIChange": "116%",
+    "energyOutpacesGeneral": "29%"
   }
 }

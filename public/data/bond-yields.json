@@ -100,7 +100,7 @@
     { "year": 2022, "yield": 3.01 },
     { "year": 2023, "yield": 4.05 },
     { "year": 2024, "yield": 4.25 },
-    { "year": 2025, "yield": 4.57 }
+    { "year": 2025, "yield": 4.29 }
   ],
   "averageYield": 4.8,
   "methodology": "Annual average of daily 10-year Treasury constant maturity rates"

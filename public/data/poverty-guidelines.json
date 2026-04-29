@@ -1,5 +1,18 @@
 [
   {
+    "year": 2026,
+    "contiguous48": [
+      { "householdSize": 1, "amount": 15960 },
+      { "householdSize": 2, "amount": 21640 },
+      { "householdSize": 3, "amount": 27320 },
+      { "householdSize": 4, "amount": 33000 },
+      { "householdSize": 5, "amount": 38680 },
+      { "householdSize": 6, "amount": 44360 },
+      { "householdSize": 7, "amount": 50040 },
+      { "householdSize": 8, "amount": 55720 }
+    ]
+  },
+  {
     "year": 2025,
     "contiguous48": [
       { "householdSize": 1, "amount": 15650 },
