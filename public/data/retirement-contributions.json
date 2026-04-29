@@ -37,6 +37,20 @@
     "over150k": { "averageContribution": 16.8 }
   },
   "contributionLimits": {
+    "2026": {
+      "traditional401k": 23500,
+      "roth401k": 23500,
+      "traditionalIRA": 7000,
+      "rothIRA": 7000,
+      "catchUp50Plus401k": 7500,
+      "catchUp50PlusIRA": 1000,
+      "superCatchUp6064": 11250,
+      "sepLimit": 70000,
+      "simpleLimit": 16500,
+      "hsaIndividual": 4400,
+      "hsaFamily": 8750,
+      "totalEmployerEmployee401k": 70000
+    },
     "2025": {
       "traditional401k": 23500,
       "roth401k": 23500,
@@ -44,7 +58,12 @@
       "rothIRA": 7000,
       "catchUp50Plus401k": 7500,
       "catchUp50PlusIRA": 1000,
-      "superCatchUp6064": 11250
+      "superCatchUp6064": 11250,
+      "sepLimit": 69000,
+      "simpleLimit": 16500,
+      "hsaIndividual": 4300,
+      "hsaFamily": 8550,
+      "totalEmployerEmployee401k": 69000
     },
     "2024": {
       "traditional401k": 23000,
@@ -52,8 +71,13 @@
       "traditionalIRA": 7000,
       "rothIRA": 7000,
       "catchUp50Plus401k": 7500,
-      "catchUp50PlusIRA": 1000
+      "catchUp50PlusIRA": 1000,
+      "sepLimit": 66000,
+      "simpleLimit": 16000,
+      "hsaIndividual": 4150,
+      "hsaFamily": 8300,
+      "totalEmployerEmployee401k": 66000
     }
   },
-  "lastUpdated": "2025-12-31"
+  "lastUpdated": "2026-04-29"
 }

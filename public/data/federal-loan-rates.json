@@ -1,6 +1,10 @@
 {
   "subsidized": [
     {
+      "year": 2025,
+      "rate": 6.39
+    },
+    {
       "year": 2024,
       "rate": 5.5
     },
@@ -51,6 +55,10 @@
   ],
   "unsubsidized": [
     {
+      "year": 2025,
+      "rate": 6.39
+    },
+    {
       "year": 2024,
       "rate": 5.5
     },
@@ -100,6 +108,10 @@
     }
   ],
   "gradPlus": [
+    {
+      "year": 2025,
+      "rate": 8.94
+    },
     {
       "year": 2024,
       "rate": 8.05
