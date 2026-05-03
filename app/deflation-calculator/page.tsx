@@ -85,6 +85,8 @@ export default function DeflationCalculator() {
     description:
       "Calculate purchasing power growth with deflationary assets like Gold, Silver, Crude Oil, Bitcoin, and Ethereum from 1985-2025.",
     url: `${siteUrl}/deflation-calculator`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.7",
@@ -134,9 +136,16 @@ export default function DeflationCalculator() {
     headline: "Deflation Calculator - Track Purchasing Power Growth with Scarce Assets",
     description:
       "Learn how deflationary assets like Gold, Silver, Crude Oil, Bitcoin, and Ethereum help preserve and grow purchasing power over time through scarcity mechanisms.",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-image.png`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -146,8 +155,8 @@ export default function DeflationCalculator() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2024-01-15",
-    dateModified: "2026-02-02",
+    datePublished: "2024-01-15T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/deflation-calculator`,

@@ -12,6 +12,8 @@ const calculatorSchema = {
   description:
     "Calculate real net worth across 8 major currencies with inflation-adjusted purchasing power. Track assets and liabilities, view debt-to-asset ratio, and project future wealth.",
   url: "https://www.globalinflationcalculator.com/global-net-worth-calculator",
+  operatingSystem: "Web Browser",
+  browserRequirements: "Requires JavaScript. Requires HTML5.",
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "4.9",
@@ -41,9 +43,16 @@ const articleSchema = {
   headline: "Global Net Worth Calculator — Inflation-Adjusted Wealth Tracker",
   description:
     "Calculate your real net worth with inflation adjustment across 8 major global currencies. Track assets and liabilities, see purchasing power erosion over time, and project future wealth.",
+  image: {
+    "@type": "ImageObject",
+    url: "https://www.globalinflationcalculator.com/og-image.png",
+    width: 1200,
+    height: 630,
+  },
   author: {
     "@type": "Organization",
     name: "Global Inflation Calculator",
+    url: "https://www.globalinflationcalculator.com",
   },
   publisher: {
     "@type": "Organization",
@@ -53,8 +62,8 @@ const articleSchema = {
       url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
     },
   },
-  datePublished: "2026-02-25",
-  dateModified: "2026-02-25",
+  datePublished: "2026-02-25T00:00:00Z",
+  dateModified: "2026-04-29T00:00:00Z",
   mainEntityOfPage: {
     "@type": "WebPage",
     "@id": "https://www.globalinflationcalculator.com/global-net-worth-calculator",

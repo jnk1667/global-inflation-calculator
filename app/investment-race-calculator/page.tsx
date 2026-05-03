@@ -88,6 +88,8 @@ export default function InvestmentRaceCalculatorRoute() {
     description:
       "Compare real, inflation-adjusted historical returns of S&P 500, gold, Bitcoin, housing, government bonds, and savings accounts across any year range since 2000. Supports 8 currencies with official CPI benchmark data.",
     url: `${siteUrl}${PAGE_PATH}`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
@@ -138,9 +140,16 @@ export default function InvestmentRaceCalculatorRoute() {
       "Investment Race Calculator 2026 — Which Asset Beat Inflation? S&P 500, Gold, Bitcoin, Housing, Bonds Compared",
     description:
       "A comprehensive multi-asset investment comparison calculator showing real, inflation-adjusted returns of S&P 500, gold, Bitcoin, housing, government bonds, and savings accounts. Uses official CPI data for 8 currencies covering 2000–2025.",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-investment-race-calculator.jpg`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -150,8 +159,8 @@ export default function InvestmentRaceCalculatorRoute() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2026-04-01",
-    dateModified: "2026-04-01",
+    datePublished: "2026-04-01T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}${PAGE_PATH}`,

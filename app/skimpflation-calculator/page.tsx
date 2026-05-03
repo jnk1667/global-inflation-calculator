@@ -83,6 +83,8 @@ export default function SkimpflationCalculatorRoute() {
     description:
       "Calculate the effective inflation rate hidden in declining product or service quality (skimpflation). Enter old and new quality values alongside prices to reveal how much more you are paying per unit of real quality. Compare against official food CPI benchmarks across 8 currencies.",
     url: `${siteUrl}${PAGE_PATH}`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
@@ -151,11 +153,18 @@ export default function SkimpflationCalculatorRoute() {
     "@type": "Article",
     headline:
       "Free Skimpflation Calculator 2026 — Uncover the Hidden Inflation in Quality Cuts",
-    description:
-      "A comprehensive guide to understanding and calculating skimpflation — the hidden inflation caused by companies reducing the quality of products and services while keeping or raising prices. Includes a free interactive calculator with official food CPI benchmarking across 8 currencies.",
-    author: {
-      "@type": "Organization",
-      name: "Global Inflation Calculator",
+  description:
+  "A comprehensive guide to understanding and calculating skimpflation — the hidden inflation caused by companies reducing the quality of products and services while keeping or raising prices. Includes a free interactive calculator with official food CPI benchmarking across 8 currencies.",
+  image: {
+  "@type": "ImageObject",
+  url: `${siteUrl}/og-image.png`,
+  width: 1200,
+  height: 630,
+  },
+  author: {
+  "@type": "Organization",
+  name: "Global Inflation Calculator",
+  url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -165,9 +174,9 @@ export default function SkimpflationCalculatorRoute() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2026-04-20",
-    dateModified: "2026-04-20",
-    mainEntityOfPage: {
+  datePublished: "2026-04-20T00:00:00Z",
+  dateModified: "2026-04-29T00:00:00Z",
+  mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}${PAGE_PATH}`,
     },

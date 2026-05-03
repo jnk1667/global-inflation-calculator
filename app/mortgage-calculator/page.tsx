@@ -58,6 +58,8 @@ export default function Page() {
     description:
       "Calculate mortgage payments and home affordability using historical Case-Shiller Home Price Index and median household income data.",
     url: `${siteUrl}/mortgage-calculator`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.7",
@@ -86,9 +88,16 @@ export default function Page() {
     headline: "Mortgage Calculator - Historical Home Affordability & Price-to-Income Analysis",
     description:
       "Comprehensive guide to calculating mortgage affordability using Case-Shiller Home Price Index and median income data from 1987-2026. Analyze how home affordability has changed over nearly 40 years.",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-image.png`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -98,8 +107,8 @@ export default function Page() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2024-01-25",
-    dateModified: "2026-02-13",
+    datePublished: "2024-01-25T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/mortgage-calculator`,

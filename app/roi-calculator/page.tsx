@@ -46,7 +46,8 @@ export default function Page() {
       "Calculate return on investment with inflation adjustment across 8 currencies. Compare your ROI against Treasury rates with multi-measure analysis.",
     url: `${siteUrl}/roi-calculator`,
     applicationCategory: "FinanceApplication",
-    operatingSystem: "Any",
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
@@ -75,9 +76,16 @@ export default function Page() {
     headline: "ROI Calculator - Inflation-Adjusted Investment Return Analysis",
     description:
       "Comprehensive guide to calculating investment returns (ROI) with inflation adjustment across 8 currencies. Compare your real returns against risk-free Treasury rates from 2023-2026.",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-image.png`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -87,8 +95,8 @@ export default function Page() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2024-02-01",
-    dateModified: "2026-02-07",
+    datePublished: "2024-02-01T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/roi-calculator`,

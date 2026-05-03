@@ -75,9 +75,16 @@ export default function Page() {
     headline: "50/30/20 Budget Calculator - Master the Simple Budgeting Rule",
     description:
       "Comprehensive guide to the 50/30/20 budget rule with inflation-adjusted planning. Split your income into 50% needs, 30% wants, and 20% savings using official BLS and Federal Reserve data.",
+    image: {
+      "@type": "ImageObject",
+      url: "https://www.globalinflationcalculator.com/og-budget-calculator.jpg",
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: "https://www.globalinflationcalculator.com",
     },
     publisher: {
       "@type": "Organization",
@@ -87,8 +94,8 @@ export default function Page() {
         url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
       },
     },
-    datePublished: "2024-02-15",
-    dateModified: "2026-02-09",
+    datePublished: "2024-02-15T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://www.globalinflationcalculator.com/budget-calculator",

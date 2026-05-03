@@ -82,6 +82,8 @@ export default function EmergencyFundCalculatorRoute() {
     description:
       "Calculate 3-6 month emergency fund needs with inflation adjustment and real BLS salary data by occupation.",
     url: `${siteUrl}/emergency-fund-calculator`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.7",
@@ -111,9 +113,16 @@ export default function EmergencyFundCalculatorRoute() {
     headline: "Emergency Fund Calculator - Build Financial Security with 3-6 Month Savings",
     description:
       "Comprehensive guide to calculating emergency fund needs with inflation adjustment. Plan for recession using real BLS salary data and Treasury interest rates for optimal savings strategies.",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-image.png`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -123,8 +132,8 @@ export default function EmergencyFundCalculatorRoute() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2024-02-10",
-    dateModified: "2026-02-09",
+    datePublished: "2024-02-10T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/emergency-fund-calculator`,

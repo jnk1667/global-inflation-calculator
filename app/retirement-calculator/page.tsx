@@ -55,6 +55,8 @@ export default function Page() {
     description:
       "Comprehensive retirement planning calculator with lifestyle maintenance, crisis analysis, healthcare costs, and generational comparisons.",
     url: "https://www.globalinflationcalculator.com/retirement-calculator",
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
@@ -84,20 +86,27 @@ export default function Page() {
     headline: "Retirement Calculator - Complete Financial Planning Tool",
     description:
       "Comprehensive retirement planning with lifestyle maintenance, crisis analysis, healthcare cost projections, and generational comparisons. Calculate retirement needs with inflation-adjusted projections.",
+    image: {
+      "@type": "ImageObject",
+      url: "https://www.globalinflationcalculator.com/og-image.png",
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: "https://www.globalinflationcalculator.com",
     },
     publisher: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
       logo: {
         "@type": "ImageObject",
-        url: "https://globalinflationcalculator.com/favicon-96x96.png",
+        url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
       },
     },
-    datePublished: "2024-03-15",
-    dateModified: "2026-02-11",
+    datePublished: "2024-03-15T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://globalinflationcalculator.com/retirement-calculator",

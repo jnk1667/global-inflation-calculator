@@ -58,6 +58,8 @@ export default function Page() {
     description:
       "Calculate how health insurance premiums will increase over time with medical inflation projections. Forecast costs by age, family size, location, and plan type.",
     url: `${siteUrl}/insurance-inflation-calculator`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.7",
@@ -88,9 +90,16 @@ export default function Page() {
     headline: "Insurance Inflation Calculator - Health Insurance Premium Cost Forecasting",
     description:
       "Calculate how health insurance premiums will increase over time with medical inflation. Project 5, 10, or 20-year costs based on age, family size, region, and plan type across 8 currencies.",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-image.png`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -100,8 +109,8 @@ export default function Page() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2024-02-01",
-    dateModified: "2026-02-02",
+    datePublished: "2024-02-01T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/insurance-inflation-calculator`,

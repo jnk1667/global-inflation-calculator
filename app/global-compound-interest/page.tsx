@@ -60,6 +60,8 @@ export default function Page() {
     description:
       "Calculate compound interest with inflation adjustment across 8 major currencies using official Bureau of Labor Statistics inflation data. Shows real vs nominal returns.",
     url: "https://www.globalinflationcalculator.com/global-compound-interest",
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
@@ -89,9 +91,16 @@ export default function Page() {
     headline: "Global Compound Interest Calculator - See Real Returns After Inflation",
     description:
       "Comprehensive compound interest calculator showing how inflation erodes investment returns across 8 currencies. Calculate real purchasing power using official BLS inflation data from 1913-2026.",
+    image: {
+      "@type": "ImageObject",
+      url: "https://www.globalinflationcalculator.com/og-compound-interest.jpg",
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: "https://www.globalinflationcalculator.com",
     },
     publisher: {
       "@type": "Organization",
@@ -101,8 +110,8 @@ export default function Page() {
         url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
       },
     },
-    datePublished: "2024-03-20",
-    dateModified: "2026-02-11",
+    datePublished: "2024-03-20T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://www.globalinflationcalculator.com/global-compound-interest",

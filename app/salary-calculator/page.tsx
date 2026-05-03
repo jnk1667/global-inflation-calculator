@@ -46,6 +46,8 @@ export default function SalaryCalculatorPageRoute() {
     description:
       "Calculate inflation-adjusted salary and purchasing power changes from 1913-2025 across multiple currencies.",
     url: "https://www.globalinflationcalculator.com/salary-calculator",
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
@@ -74,9 +76,16 @@ export default function SalaryCalculatorPageRoute() {
     headline: "Salary Calculator - Inflation-Adjusted Wage & Real Purchasing Power Analysis",
     description:
       "Comprehensive guide to calculating inflation-adjusted salaries and real wages from 1913-2026. Compare nominal vs real purchasing power using official BLS Consumer Price Index data.",
+    image: {
+      "@type": "ImageObject",
+      url: "https://www.globalinflationcalculator.com/og-salary-calculator.jpg",
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: "https://www.globalinflationcalculator.com",
     },
     publisher: {
       "@type": "Organization",
@@ -86,8 +95,8 @@ export default function SalaryCalculatorPageRoute() {
         url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
       },
     },
-    datePublished: "2024-01-20",
-    dateModified: "2026-02-13",
+    datePublished: "2024-01-20T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://www.globalinflationcalculator.com/salary-calculator",

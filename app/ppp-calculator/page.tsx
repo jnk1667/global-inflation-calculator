@@ -45,6 +45,8 @@ export default function PPPCalculatorRoute() {
     description:
       "Calculate purchasing power parity across major global economies using World Bank data. Compare real value of money with historical trends and sector-specific breakdowns.",
     url: "https://www.globalinflationcalculator.com/ppp-calculator",
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.6",
@@ -73,9 +75,16 @@ export default function PPPCalculatorRoute() {
     headline: "PPP Calculator - Compare Purchasing Power Parity Across Global Economies",
     description:
       "Comprehensive guide to calculating and comparing purchasing power parity across 200+ countries using World Bank and OECD data from 1990-2023 with sector-specific breakdowns.",
+    image: {
+      "@type": "ImageObject",
+      url: "https://www.globalinflationcalculator.com/og-ppp-calculator.jpg",
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: "https://www.globalinflationcalculator.com",
     },
     publisher: {
       "@type": "Organization",
@@ -85,8 +94,8 @@ export default function PPPCalculatorRoute() {
         url: "https://www.globalinflationcalculator.com/favicon-96x96.png",
       },
     },
-    datePublished: "2024-01-10",
-    dateModified: "2026-02-13",
+    datePublished: "2024-01-10T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://www.globalinflationcalculator.com/ppp-calculator",

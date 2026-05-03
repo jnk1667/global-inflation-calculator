@@ -84,6 +84,8 @@ export default function StudentLoanCalculator() {
     description:
       "Calculate student loan payments, compare repayment plans, and estimate total costs with real salary data by occupation and major.",
     url: `${siteUrl}/student-loan-calculator`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.6",
@@ -113,9 +115,16 @@ export default function StudentLoanCalculator() {
     headline: "Student Loan Calculator - Compare Repayment Plans & Income-Driven Options",
     description:
       "Comprehensive guide to calculating student loan payments with real BLS salary data by occupation and College Scorecard earnings by major. Compare federal and private loan repayment plans.",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-image.png`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -125,8 +134,8 @@ export default function StudentLoanCalculator() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2024-01-18",
-    dateModified: "2026-02-13",
+    datePublished: "2024-01-18T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/student-loan-calculator`,

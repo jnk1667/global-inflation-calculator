@@ -86,6 +86,8 @@ export default function SneakflationCalculatorRoute() {
     description:
       "Calculate the true annual cost of sneakflation — hidden fees, surcharges, and quietly removed perks that inflate your real cost of living without changing the advertised headline price. Track multiple fees across airlines, banks, streaming services, gyms, hotels, and restaurants across 8 major currencies.",
     url: `${siteUrl}${PAGE_PATH}`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
@@ -259,11 +261,18 @@ export default function SneakflationCalculatorRoute() {
     "@type": "Article",
     headline:
       "Free Sneakflation Calculator 2026 — Expose Every Hidden Fee, Surcharge, and Removed Perk",
-    description:
-      "A comprehensive guide to understanding and calculating sneakflation — the hidden inflation caused by companies adding new fees, raising existing ones, or quietly removing previously included benefits while keeping the headline price unchanged. Includes a free interactive multi-row fee tracker for 8 currencies with annual totals, historical estimates, and 5-year projections.",
-    author: {
-      "@type": "Organization",
-      name: "Global Inflation Calculator",
+  description:
+  "A comprehensive guide to understanding and calculating sneakflation — the hidden inflation caused by companies adding new fees, raising existing ones, or quietly removing previously included benefits while keeping the headline price unchanged. Includes a free interactive multi-row fee tracker for 8 currencies with annual totals, historical estimates, and 5-year projections.",
+  image: {
+  "@type": "ImageObject",
+  url: `${siteUrl}/og-image.png`,
+  width: 1200,
+  height: 630,
+  },
+  author: {
+  "@type": "Organization",
+  name: "Global Inflation Calculator",
+  url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -273,9 +282,9 @@ export default function SneakflationCalculatorRoute() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2026-04-27",
-    dateModified: "2026-04-27",
-    mainEntityOfPage: {
+  datePublished: "2026-04-27T00:00:00Z",
+  dateModified: "2026-04-29T00:00:00Z",
+  mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}${PAGE_PATH}`,
     },

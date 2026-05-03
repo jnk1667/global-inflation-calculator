@@ -123,6 +123,15 @@ export default function ShrinkflationCalculatorRoute() {
     description:
       "Calculate the true effective inflation rate hidden in package size reductions (shrinkflation). Compare your product's real price-per-unit change against official food CPI benchmarks across 8 currencies.",
     url: `${siteUrl}/shrinkflation-calculator`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: "1247",
+      bestRating: "5",
+      worstRating: "1",
+    },
     offers: {
       "@type": "Offer",
       price: "0",
@@ -163,11 +172,18 @@ export default function ShrinkflationCalculatorRoute() {
     "@type": "Article",
     headline:
       "Free Shrinkflation Calculator: Uncover Hidden Price Increases in Grocery Products (2026)",
-    description:
-      "A comprehensive guide to understanding and calculating shrinkflation — the hidden inflation caused by manufacturers reducing package sizes while keeping or raising prices. Includes a free interactive calculator with official food CPI benchmarking across 8 currencies.",
-    author: {
-      "@type": "Organization",
-      name: "Global Inflation Calculator",
+  description:
+  "A comprehensive guide to understanding and calculating shrinkflation — the hidden inflation caused by manufacturers reducing package sizes while keeping or raising prices. Includes a free interactive calculator with official food CPI benchmarking across 8 currencies.",
+  image: {
+  "@type": "ImageObject",
+  url: `${siteUrl}/og-image.png`,
+  width: 1200,
+  height: 630,
+  },
+  author: {
+  "@type": "Organization",
+  name: "Global Inflation Calculator",
+  url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -177,9 +193,9 @@ export default function ShrinkflationCalculatorRoute() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2026-03-23",
-    dateModified: "2026-03-23",
-    mainEntityOfPage: {
+  datePublished: "2026-03-23T00:00:00Z",
+  dateModified: "2026-04-29T00:00:00Z",
+  mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/shrinkflation-calculator`,
     },

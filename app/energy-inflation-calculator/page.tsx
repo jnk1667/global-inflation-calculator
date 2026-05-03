@@ -83,6 +83,8 @@ export default function EnergyInflationCalculatorRoute() {
     description:
       "Calculate how electricity, petrol, and fuel prices have inflated since 2000. Compare energy CPI to general CPI across 8 currencies. Includes a Bill Time Machine to show how much more your energy bill costs today.",
     url: `${siteUrl}${PAGE_PATH}`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
@@ -133,9 +135,16 @@ export default function EnergyInflationCalculatorRoute() {
       "Energy Inflation Calculator 2026 — Electricity, Petrol & Fuel Price Rise Since 2000",
     description:
       "A comprehensive energy price inflation calculator showing how electricity, petrol, and fuel prices have risen compared to general CPI across 8 currencies from 2000 to 2025. Uses official data from EIA, ONS, Eurostat, METI, ABS, and other national statistics agencies.",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-energy-inflation-calculator.jpg`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -145,8 +154,8 @@ export default function EnergyInflationCalculatorRoute() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2026-04-13",
-    dateModified: "2026-04-13",
+    datePublished: "2026-04-13T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}${PAGE_PATH}`,

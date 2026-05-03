@@ -81,6 +81,8 @@ export default function Page() {
     description:
       "Calculate monthly auto loan payments with advanced inflation analysis. See car price inflation trends, gas price impact, and true ownership costs using government data from 1985-2026.",
     url: `${siteUrl}/auto-loan-calculator`,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.7",
@@ -112,9 +114,16 @@ export default function Page() {
     headline: "Auto Loan Calculator - Car Payment & Inflation-Adjusted Ownership Costs",
     description:
       "Comprehensive guide to calculating auto loan payments with inflation analysis. Understand how car price inflation and gas costs have changed from 1985-2026 using Federal Reserve and EIA data.",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-image.png`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
+      url: siteUrl,
     },
     publisher: {
       "@type": "Organization",
@@ -124,8 +133,8 @@ export default function Page() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2024-01-12",
-    dateModified: "2026-02-13",
+    datePublished: "2024-01-12T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/auto-loan-calculator`,

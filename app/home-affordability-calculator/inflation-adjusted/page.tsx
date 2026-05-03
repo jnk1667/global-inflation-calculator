@@ -60,6 +60,8 @@ export default function Page() {
     description:
       "Calculate your maximum home purchase price based on income, down payment, debts, and interest rate. See how inflation since 2000 has eroded your buying power. Supports USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD with country-specific lending rules.",
     url: pageUrl,
+    operatingSystem: "Web Browser",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
     offers: {
       "@type": "Offer",
       price: "0",
@@ -86,6 +88,12 @@ export default function Page() {
     headline: "Inflation-Adjusted Home Affordability Calculator — How Much House Can You Really Afford?",
     description:
       "Calculate your true maximum home purchase price factoring in income, debts, rates, and inflation since 2000. Includes country-specific lending rules for US, UK, Canada, Australia, Eurozone, Switzerland, Japan, and New Zealand.",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-image.png`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Global Inflation Calculator",
@@ -99,8 +107,8 @@ export default function Page() {
         url: `${siteUrl}/favicon-96x96.png`,
       },
     },
-    datePublished: "2026-02-28",
-    dateModified: "2026-02-28",
+    datePublished: "2026-02-28T00:00:00Z",
+    dateModified: "2026-04-29T00:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": pageUrl,
