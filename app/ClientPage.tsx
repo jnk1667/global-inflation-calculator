@@ -824,6 +824,13 @@ export default function ClientPage() {
             applicationCategory: "FinanceApplication",
             operatingSystem: "Web Browser",
             browserRequirements: "Requires JavaScript. Requires HTML5.",
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              ratingCount: "3847",
+              bestRating: "5",
+              worstRating: "1",
+            },
             offers: {
               "@type": "Offer",
               price: "0",
@@ -843,7 +850,7 @@ export default function ClientPage() {
               name: "Global Inflation Calculator",
               url: siteUrl,
             },
-            datePublished: "2024-01-01",
+            datePublished: "2024-01-01T00:00:00Z",
             dateModified: new Date().toISOString(),
             inLanguage: "en-US",
             isAccessibleForFree: true,

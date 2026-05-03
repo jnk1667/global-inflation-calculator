@@ -9,6 +9,8 @@ const webAppSchema = {
   "@type": "WebApplication",
   name: "Global Inflation Calculator",
   applicationCategory: "FinanceApplication",
+  operatingSystem: "Web Browser",
+  browserRequirements: "Requires JavaScript. Requires HTML5.",
   description:
     "Calculate historical inflation and purchasing power changes across 8 major currencies from 1913-2026 using official government data.",
   url: "https://globalinflationcalculator.com",
@@ -32,9 +34,16 @@ const articleSchema = {
   headline: "Global Inflation Calculator - Understanding Inflation and Purchasing Power",
   description:
     "Comprehensive guide to calculating historical inflation and purchasing power across 8 major currencies from 1913-2026 using official government data.",
+  image: {
+    "@type": "ImageObject",
+    url: "https://globalinflationcalculator.com/og-image.png",
+    width: 1200,
+    height: 630,
+  },
   author: {
     "@type": "Organization",
     name: "Global Inflation Calculator",
+    url: "https://globalinflationcalculator.com",
   },
   publisher: {
     "@type": "Organization",
@@ -44,8 +53,8 @@ const articleSchema = {
       url: "https://globalinflationcalculator.com/favicon-96x96.png",
     },
   },
-  datePublished: "2024-01-01",
-  dateModified: "2026-02-02",
+  datePublished: "2024-01-01T00:00:00Z",
+  dateModified: "2026-04-29T00:00:00Z",
   mainEntityOfPage: {
     "@type": "WebPage",
     "@id": "https://globalinflationcalculator.com/",
