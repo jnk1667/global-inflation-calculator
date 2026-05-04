@@ -1,6 +1,4 @@
-"use client"
-
-import { useEffect } from "react"
+import Script from "next/script"
 
 interface JsonLdProps {
   id: string
@@ -8,21 +6,12 @@ interface JsonLdProps {
 }
 
 export function JsonLd({ id, data }: JsonLdProps) {
-  useEffect(() => {
-    const existing = document.getElementById(id)
-    if (existing) existing.remove()
-
-    const script = document.createElement("script")
-    script.id = id
-    script.type = "application/ld+json"
-    script.text = JSON.stringify(data)
-    document.head.appendChild(script)
-
-    return () => {
-      const el = document.getElementById(id)
-      if (el) el.remove()
-    }
-  }, [id, data])
-
-  return null
+  return (
+    <Script
+      id={id}
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  )
 }
