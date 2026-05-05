@@ -7,16 +7,18 @@ const siteUrl = "https://www.globalinflationcalculator.com"
 export const metadata: Metadata = {
   title: "Terms of Service | Global Inflation Calculator",
   description:
-    "Read our terms of service covering usage rules, data accuracy disclaimers, and legal guidelines for our free inflation calculator.",
+    "Read the Terms of Service for Global Inflation Calculator — covering usage rights, data accuracy disclaimers, AI access policy, third-party data sources, and legal guidelines for all 20+ free financial calculators.",
   keywords: [
     "terms of service",
     "terms and conditions",
     "usage agreement",
     "legal terms",
     "service agreement",
-    "best inflation calculator online",
-    "best inflation calculator 2025 accurate",
+    "inflation calculator terms",
+    "financial calculator terms of use",
     "user agreement",
+    "data accuracy disclaimer",
+    "AI access policy",
   ],
   authors: [{ name: "Global Inflation Calculator" }],
   creator: "Global Inflation Calculator",
@@ -28,12 +30,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Terms of Service | Global Inflation Calculator",
     description:
-      "Read our terms of service covering usage rules, data accuracy disclaimers, and legal guidelines for our free inflation calculator.",
+      "Read the Terms of Service for Global Inflation Calculator — covering usage rights, data accuracy disclaimers, AI access policy, third-party data sources, and legal guidelines for all 20+ free financial calculators.",
     url: `${siteUrl}/terms`,
     siteName: "Global Inflation Calculator",
     images: [
       {
-        url: "/images/globe-icon.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Global Inflation Calculator Terms of Service",
@@ -46,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Terms of Service | Global Inflation Calculator",
     description:
-      "Read our terms of service covering usage rules, data accuracy disclaimers, and legal guidelines for our free inflation calculator.",
+      "Read the Terms of Service for Global Inflation Calculator — covering usage rights, data accuracy disclaimers, AI access policy, third-party data sources, and legal guidelines for all 20+ free financial calculators.",
     images: ["/images/globe-icon.png"],
   },
   robots: {
@@ -92,111 +94,207 @@ export default function TermsOfService() {
 
             <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
               <p className="text-lg">
-                <strong>Last updated:</strong> {new Date().toLocaleDateString()}
+                <strong>Last updated:</strong> May 5, 2026
+              </p>
+              <p>
+                Please read these Terms of Service carefully before using Global Inflation Calculator. These terms apply
+                to all visitors, users, and anyone who accesses or uses our platform.
               </p>
 
               <section>
                 <h2 className="text-2xl font-semibold text-foreground mb-4">1. Acceptance of Terms</h2>
                 <p>
-                  By accessing and using the Global Inflation Calculator website and services, you accept and agree to
-                  be bound by the terms and provision of this agreement. If you do not agree to abide by the above,
-                  please do not use this service.
+                  By accessing and using the Global Inflation Calculator website and services at{" "}
+                  <strong>globalinflationcalculator.com</strong>, you accept and agree to be bound by these Terms of
+                  Service and all applicable laws and regulations. If you do not agree with any of these terms, you are
+                  prohibited from using or accessing this site.
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-semibold text-foreground mb-4">2. Description of Service</h2>
                 <p>
-                  Global Inflation Calculator provides a free online tool for calculating historical inflation rates and
-                  purchasing power across multiple currencies. Our service includes:
+                  Global Inflation Calculator is a free online financial education platform offering more than 20
+                  inflation-related calculators and analytical tools across 8 major global currencies (USD, GBP, EUR,
+                  CAD, AUD, CHF, JPY, and NZD). Our platform covers data from 1913 to the present using official
+                  government and institutional sources. Current tools and features include:
                 </p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>Historical inflation calculations</li>
-                  <li>Purchasing power comparisons</li>
-                  <li>Currency conversion tools</li>
-                  <li>Economic data visualization</li>
+                <ul className="list-disc pl-6 space-y-2 mt-3">
+                  <li>Inflation Calculator — historical CPI-based purchasing power calculations</li>
+                  <li>Salary &amp; Wage Inflation Calculator — real wage comparisons over time</li>
+                  <li>Retirement Calculator — inflation-adjusted retirement projections</li>
+                  <li>Purchasing Power Parity (PPP) Calculator — cross-country cost comparisons across 200+ countries</li>
+                  <li>Shrinkflation Calculator — hidden inflation from package size reductions</li>
+                  <li>Skimpflation Calculator — hidden inflation from quality reductions</li>
+                  <li>Sneakflation Calculator — hidden inflation from fee additions and benefit removals</li>
+                  <li>Deflation Calculator — purchasing power analysis of deflationary assets</li>
+                  <li>Energy Inflation Calculator — electricity, gas, and fuel cost projections</li>
+                  <li>Investment Race Calculator — real inflation-adjusted multi-asset return comparisons</li>
+                  <li>Compound Interest Calculator — inflation-adjusted compounding analysis</li>
+                  <li>ROI Calculator — real return on investment with inflation adjustment</li>
+                  <li>Mortgage Calculator — affordability analysis using Case-Shiller and income data</li>
+                  <li>Home Affordability Calculator — inflation-adjusted maximum purchase price</li>
+                  <li>Budget Calculator — 50/30/20 rule with inflation-adjusted planning</li>
+                  <li>Emergency Fund Calculator — recession-ready savings planning</li>
+                  <li>Insurance Inflation Calculator — healthcare premium cost projections</li>
+                  <li>Auto Loan Calculator — car price inflation and financing analysis</li>
+                  <li>Student Loan Calculator — repayment planning with real salary benchmarks</li>
+                  <li>Legacy Planner — multi-generational wealth transfer and inheritance planning</li>
+                  <li>Global Net Worth Calculator — inflation-adjusted asset and liability tracking</li>
+                  <li>Inflation Charts &amp; Analytics — interactive visualizations across all currencies</li>
+                  <li>Regional Cost of Living Calculator — salary comparisons by location and occupation</li>
+                </ul>
+                <p className="mt-3">
+                  All tools are provided free of charge for personal, educational, and research purposes. No account or
+                  registration is required.
+                </p>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">3. Third-Party Data Sources</h2>
+                <p>
+                  Our calculators and analytical tools draw from a range of official government and institutional data
+                  sources, including but not limited to:
+                </p>
+                <ul className="list-disc pl-6 space-y-2 mt-3">
+                  <li>U.S. Bureau of Labor Statistics (BLS) — Consumer Price Index (CPI) data</li>
+                  <li>U.S. Federal Reserve (FRED) — interest rates, housing data, and economic indicators</li>
+                  <li>U.S. Energy Information Administration (EIA) — energy price data</li>
+                  <li>U.S. Department of Education College Scorecard — graduate earnings by major</li>
+                  <li>S&amp;P/Case-Shiller Home Price Index — residential real estate price history</li>
+                  <li>World Bank and OECD — purchasing power parity data across 200+ countries</li>
+                  <li>Official national statistics agencies for the UK (ONS), Eurozone (Eurostat), Canada (Statistics Canada), Australia (ABS), Switzerland (FSO), Japan (Statistics Bureau), and New Zealand (Stats NZ)</li>
+                </ul>
+                <p className="mt-3">
+                  While we make every effort to ensure our data is accurate and up to date, Global Inflation Calculator
+                  is not responsible for errors, omissions, or changes in data published by these third-party sources.
+                  All data is used for informational and educational purposes only.
+                </p>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">4. Use License</h2>
+                <p>
+                  Permission is granted to access and use our website for personal, non-commercial, and educational
+                  purposes only. This is the grant of a license, not a transfer of title. Under this license you may
+                  not:
+                </p>
+                <ul className="list-disc pl-6 space-y-2 mt-3">
+                  <li>Modify, copy, or reproduce our materials for redistribution</li>
+                  <li>Use our calculators, content, or data for commercial purposes or public commercial display without prior written consent</li>
+                  <li>Attempt to reverse engineer, decompile, or disassemble any software or algorithms on our platform</li>
+                  <li>Remove or alter any copyright, trademark, or proprietary notices from our materials</li>
+                  <li>Mirror or republish our tools or content on another website or application</li>
+                </ul>
+                <p className="mt-3">
+                  This license will automatically terminate if you violate any of these restrictions. Upon termination,
+                  you must destroy any downloaded or cached materials in your possession.
+                </p>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">5. Data Accuracy and Financial Disclaimer</h2>
+                <p>
+                  All results produced by our calculators are for <strong>informational and educational purposes
+                  only</strong> and do not constitute financial, investment, tax, legal, or professional advice. While
+                  we use official government and institutional data sources, we make no warranties — express or implied
+                  — regarding the completeness, accuracy, reliability, or suitability of any calculation or result.
+                </p>
+                <p className="mt-3">
+                  Inflation data, interest rates, asset prices, and economic conditions change continuously. Past
+                  inflation trends are not indicative of future results. Any financial decisions you make based on
+                  information from this platform are solely your responsibility. We strongly recommend consulting a
+                  qualified financial professional before making significant financial decisions.
+                </p>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">6. AI and Automated Access Policy</h2>
+                <p>
+                  Global Inflation Calculator publishes a machine-readable site guide at{" "}
+                  <Link href="/llms.txt" className="text-primary hover:underline">
+                    globalinflationcalculator.com/llms.txt
+                  </Link>{" "}
+                  intended for AI assistants, language models, and automated research tools. You may access and
+                  reference this document for the purpose of understanding our platform. However:
+                </p>
+                <ul className="list-disc pl-6 space-y-2 mt-3">
+                  <li>Automated scraping or bulk downloading of our calculator outputs, data, or content for the purpose of training AI or machine learning models is prohibited without prior written consent</li>
+                  <li>AI-generated summaries or reproductions of our content must attribute Global Inflation Calculator as the source</li>
+                  <li>We reserve the right to block or rate-limit automated access that places undue load on our servers</li>
+                  <li>Use of our content by AI systems for commercial derivative works is not permitted without a separate licensing agreement</li>
                 </ul>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">3. Use License</h2>
-                <p>
-                  Permission is granted to temporarily use our website for personal, non-commercial transitory viewing
-                  only. This is the grant of a license, not a transfer of title, and under this license you may not:
-                </p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>Modify or copy the materials</li>
-                  <li>Use the materials for commercial purposes or public display</li>
-                  <li>Attempt to reverse engineer any software contained on our website</li>
-                  <li>Remove any copyright or proprietary notations from the materials</li>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">7. Prohibited Uses</h2>
+                <p>You may not use our service for any of the following:</p>
+                <ul className="list-disc pl-6 space-y-2 mt-3">
+                  <li>Any unlawful purpose or to solicit others to perform unlawful acts</li>
+                  <li>Violating any international, federal, provincial, state, or local laws or regulations</li>
+                  <li>Infringing upon our intellectual property rights or those of any third party</li>
+                  <li>Harassing, abusing, defaming, or discriminating against any individual or group</li>
+                  <li>Submitting false, misleading, or deceptive information through any contact or feedback form</li>
+                  <li>Introducing viruses, malware, or any other malicious or disruptive code</li>
+                  <li>Attempting to gain unauthorized access to any part of our platform or its underlying infrastructure</li>
+                  <li>Collecting user data from our platform in violation of applicable privacy laws</li>
                 </ul>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">4. Data Accuracy Disclaimer</h2>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">8. Limitation of Liability</h2>
                 <p>
-                  While we strive to provide accurate historical inflation data sourced from official government
-                  statistics, we make no warranties about the completeness, reliability, and accuracy of this
-                  information. Any action you take upon the information on our website is strictly at your own risk.
+                  To the fullest extent permitted by applicable law, Global Inflation Calculator and its operators,
+                  contributors, and affiliates shall not be liable for any direct, indirect, incidental, special,
+                  consequential, or punitive damages — including but not limited to loss of profits, data, goodwill, or
+                  other intangible losses — arising out of or in connection with your use of, or inability to use, our
+                  platform or any content, tools, or results obtained from it.
+                </p>
+                <p className="mt-3">
+                  This limitation applies regardless of whether the damages arise from contract, tort (including
+                  negligence), strict liability, or any other legal theory, even if we have been advised of the
+                  possibility of such damages.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">5. Prohibited Uses</h2>
-                <p>You may not use our service:</p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>For any unlawful purpose or to solicit others to perform unlawful acts</li>
-                  <li>
-                    To violate any international, federal, provincial, or state regulations, rules, laws, or local
-                    ordinances
-                  </li>
-                  <li>
-                    To infringe upon or violate our intellectual property rights or the intellectual property rights of
-                    others
-                  </li>
-                  <li>To harass, abuse, insult, harm, defame, slander, disparage, intimidate, or discriminate</li>
-                  <li>To submit false or misleading information</li>
-                </ul>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">6. Limitation of Liability</h2>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">9. Privacy Policy</h2>
                 <p>
-                  In no event shall Global Inflation Calculator or its suppliers be liable for any damages (including,
-                  without limitation, damages for loss of data or profit, or due to business interruption) arising out
-                  of the use or inability to use our service.
+                  Your privacy is important to us. Our{" "}
+                  <Link href="/privacy" className="text-primary hover:underline">
+                    Privacy Policy
+                  </Link>{" "}
+                  governs how we collect, use, and protect any information in connection with your use of this platform.
+                  By using our service, you also agree to the terms set out in our Privacy Policy, which is incorporated
+                  by reference into these Terms of Service.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">7. Privacy Policy</h2>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">10. Modifications to Terms</h2>
                 <p>
-                  Your privacy is important to us. Please review our Privacy Policy, which also governs your use of the
-                  service, to understand our practices.
+                  We reserve the right to revise these Terms of Service at any time. When we make changes, we will
+                  update the "Last updated" date at the top of this page. Your continued use of the platform after any
+                  changes constitutes your acceptance of the revised terms. We encourage you to review this page
+                  periodically to stay informed of any updates.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">8. Modifications</h2>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">11. Governing Law</h2>
                 <p>
-                  We may revise these terms of service at any time without notice. By using this website, you are
-                  agreeing to be bound by the then current version of these terms of service.
+                  These Terms of Service are governed by and construed in accordance with the laws of the jurisdiction
+                  in which Global Inflation Calculator is registered. You irrevocably submit to the exclusive
+                  jurisdiction of the courts in that jurisdiction for the resolution of any disputes arising out of or
+                  in connection with these terms or your use of the platform.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">9. Governing Law</h2>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">12. Contact Information</h2>
                 <p>
-                  These terms and conditions are governed by and construed in accordance with the laws of the
-                  jurisdiction in which our company is registered, and you irrevocably submit to the exclusive
-                  jurisdiction of the courts in that state or location.
-                </p>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">10. Contact Information</h2>
-                <p>
-                  If you have any questions about these Terms of Service, please contact us at:{" "}
+                  If you have any questions, concerns, or requests regarding these Terms of Service, please contact us
+                  at:{" "}
                   <a href="mailto:admin@globalinflationcalculator.com" className="text-primary hover:underline">
                     admin@globalinflationcalculator.com
                   </a>
@@ -329,6 +427,54 @@ export default function TermsOfService() {
                         </Link>
                       </li>
                       <li>
+                        <Link
+                          href="/shrinkflation-calculator"
+                          className="text-slate-300 hover:text-white transition-colors text-sm"
+                        >
+                          Shrinkflation Calculator
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/skimpflation-calculator"
+                          className="text-slate-300 hover:text-white transition-colors text-sm"
+                        >
+                          Skimpflation Calculator
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/sneakflation-calculator"
+                          className="text-slate-300 hover:text-white transition-colors text-sm"
+                        >
+                          Sneakflation Calculator
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/energy-inflation-calculator"
+                          className="text-slate-300 hover:text-white transition-colors text-sm"
+                        >
+                          Energy Inflation Calculator
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/investment-race-calculator"
+                          className="text-slate-300 hover:text-white transition-colors text-sm"
+                        >
+                          Investment Race Calculator
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/global-net-worth-calculator"
+                          className="text-slate-300 hover:text-white transition-colors text-sm"
+                        >
+                          Net Worth Calculator
+                        </Link>
+                      </li>
+                      <li>
                         <Link href="/about" className="text-slate-300 hover:text-white transition-colors text-sm">
                           About Us
                         </Link>
@@ -349,7 +495,7 @@ export default function TermsOfService() {
 
                 <div className="mt-8 pt-6 border-t border-slate-700 text-center">
                   <p className="text-slate-400 text-sm">
-                    &copy; 2025 Global Inflation Calculator. Educational purposes only.
+                    &copy; 2026 Global Inflation Calculator. Educational purposes only.
                   </p>
                 </div>
               </div>
