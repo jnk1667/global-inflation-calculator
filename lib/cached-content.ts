@@ -2,7 +2,7 @@
 // Content is cached in localStorage for 4 hours to reduce edge requests while staying reasonably fresh
 
 const CACHE_DURATION = 4 * 60 * 60 * 1000 // 4 hours in milliseconds
-const CACHE_VERSION = "v5" // Increment to invalidate all caches
+const CACHE_VERSION = "v6" // Increment to invalidate all caches
 
 interface CachedData<T> {
   data: T

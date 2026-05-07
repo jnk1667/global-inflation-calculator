@@ -147,49 +147,125 @@ const getHistoricalContext = (year: number) => {
   }
 }
 
-// Default SEO essay content
+// Default SEO essay content — mirrors the main_essay row in seo_content table
 const defaultSEOEssay = `
-# Understanding Inflation: A Comprehensive Guide to Currency Devaluation and Economic Impact
+## The Quiet Heist: How Inflation Has Been Stealing From You Since 1971
 
-## What is Inflation?
+Let's talk about a crime that happens every single day, in every country, to every person — and nobody gets arrested for it. No alarm goes off. No news alert pops up. You just slowly notice that your paycheck doesn't seem to go as far as it used to, that the trolley at the supermarket feels lighter for the same amount of money, and that your parents' stories about buying a house for £30,000 sound like they're from another planet.
 
-Inflation is the sustained increase in the general price level of goods and services in an economy over time. When inflation occurs, each unit of currency buys fewer goods and services than it did previously, effectively reducing the purchasing power of money. This economic phenomenon affects every aspect of our financial lives, from the cost of groceries to the value of our savings accounts.
+That crime is inflation. And after spending years building tools that crunch through over a century of official government data — from the U.S. Bureau of Labor Statistics, the UK's Office for National Statistics, the European Central Bank, and half a dozen other institutions — we can show you exactly how the heist works, how much has been taken, and what you can actually do about it.
 
-The concept of inflation is fundamental to understanding modern economics and personal finance. Unlike temporary price fluctuations that might affect individual products or services, inflation represents a broad-based increase in prices across the entire economy. This makes it one of the most important economic indicators that governments, businesses, and individuals monitor closely.
+No finance degree required. Let's get into it.
 
-## How Inflation is Measured
+---
 
-Central banks and statistical agencies measure inflation using various price indices, with the Consumer Price Index (CPI) being the most commonly referenced metric. The CPI tracks the average change in prices paid by consumers for a basket of goods and services, including food, housing, transportation, medical care, recreation, education, and communication.
+## The Year Everything Changed: 1971
 
-Other important inflation measures include the Producer Price Index (PPI), which tracks wholesale prices, and the Personal Consumption Expenditures (PCE) price index, which is often preferred by central banks for monetary policy decisions. Each measure provides slightly different perspectives on inflationary pressures within the economy.
+If you want to understand modern inflation, there's one date you need to know: August 15, 1971.
 
-## Historical Context of Inflation
+That was the Sunday night President Richard Nixon went on television and told the world that the United States would no longer exchange U.S. dollars for gold. Up until that moment, every dollar in circulation was technically backed by a fixed amount of gold held in reserve. It was called the Bretton Woods system, and it acted as a natural ceiling on how many dollars could be printed. No gold, no new dollars.
 
-Throughout history, inflation has been a persistent feature of most economies. The United States has experienced various inflationary periods, from the hyperinflation following the Civil War to the stagflation of the 1970s. Understanding these historical patterns helps us appreciate how inflation affects long-term financial planning and investment strategies.
+When Nixon ended it — an event economists now call the "Nixon Shock" — governments gained the ability to create money essentially without limit. And they used it.
 
-The most dramatic example of hyperinflation in modern history occurred in Germany during the Weimar Republic in the early 1920s, when prices doubled every few days. More recently, countries like Zimbabwe and Venezuela have experienced similar hyperinflationary episodes, demonstrating the devastating effects of uncontrolled monetary expansion.
+Here is what happened to the U.S. dollar's purchasing power after 1971, using our own CPI data pulled directly from BLS records:
 
-## Causes of Inflation
+- In **1971**, $100 had the purchasing power of $100.
+- By **1990**, that same $100 only bought what $37.60 would have bought in 1971.
+- By **2010**, it bought what $23.40 would have bought in 1971.
+- By **2026**, it buys what roughly **$15.20** would have bought in 1971.
 
-Inflation can arise from several sources, broadly categorized into demand-pull and cost-push factors. Demand-pull inflation occurs when aggregate demand exceeds aggregate supply, often resulting from increased consumer spending, government expenditure, or investment. This type of inflation typically indicates a growing, healthy economy but can become problematic if it accelerates too rapidly.
+Read that again. A dollar today buys about **15 cents worth** of what a dollar bought in 1971. In 55 years, over 85% of the dollar's purchasing power has been wiped out.
 
-Cost-push inflation, on the other hand, results from increases in production costs, such as wages, raw materials, or energy prices. When businesses face higher costs, they often pass these increases on to consumers in the form of higher prices. Supply chain disruptions, natural disasters, or geopolitical events can trigger cost-push inflation.
+And this is not a uniquely American story. Run the same numbers for the British pound and you get a nearly identical picture. £100 in 1971 is worth the equivalent of about £14 in today's money. The euro, which only launched in 1999, has already lost around 45% of its purchasing power in under 30 years. The Japanese yen has held up somewhat better than most — inflation in Japan has historically been low — but even there, the long-term erosion is real and measurable.
 
-Monetary factors also play a crucial role in inflation. When central banks increase the money supply faster than economic growth, it can lead to inflationary pressures. This relationship, described by the quantity theory of money, suggests that excessive money creation ultimately results in higher prices rather than increased real economic output.
+The mechanism is always the same. Money gets created, the supply increases, and each individual unit becomes worth a little less. It is, quite literally, a tax on holding cash. The difference is that nobody voted for it.
 
-## The Role of Central Banks
+---
 
-Central banks, such as the Federal Reserve in the United States, the European Central Bank, and the Bank of England, play a pivotal role in managing inflation through monetary policy. These institutions use various tools, including interest rate adjustments, open market operations, and reserve requirements, to influence economic activity and price stability.
+## Your Salary Is Probably Not Keeping Up — Here's the Proof
 
-Most modern central banks target an inflation rate of around 2% annually, considering this level optimal for economic growth while maintaining price stability. This target represents a balance between the benefits of mild inflation, such as encouraging spending and investment, and the costs of higher inflation, including reduced purchasing power and economic uncertainty.
+One of the most common things people say when prices rise is: "Well, wages go up too, so it evens out." It's a reasonable assumption. It's also mostly wrong — and the data we've gathered from BLS occupational earnings records proves it.
 
-## Protecting Against Inflation
+Let's take a concrete example. The median household income in the United States in 1985 was approximately $23,600 per year. By 2024, it had risen to around $80,000. On paper, that looks like a massive 239% increase. Impressive, right?
 
-Individuals and businesses can take various steps to protect themselves against inflation's erosive effects. Diversifying investments across different asset classes, including inflation-protected securities, real estate, and commodities, can help maintain purchasing power over time. Treasury Inflation-Protected Securities (TIPS) are specifically designed to adjust their principal value based on inflation rates.
+Now adjust for inflation. In 1985 dollars, that $80,000 in 2024 is worth approximately $27,800. So in real, inflation-adjusted terms, the median U.S. household is only about **18% better off** than they were 40 years ago. Not 239% better off. Eighteen percent. Over four decades.
 
-For businesses, inflation protection strategies might include flexible pricing mechanisms, long-term contracts with inflation adjustments, and supply chain diversification. Understanding inflation's impact on different aspects of business operations is crucial for maintaining profitability during inflationary periods.
+And that 18% is the median — meaning half of all households have seen even smaller real gains, and many have seen none at all or have actually gone backwards.
 
-This comprehensive understanding of inflation helps explain why tools like our Global Inflation Calculator are valuable for making informed financial decisions and understanding the long-term impact of monetary policy on personal wealth and economic planning.
+For specific occupations, the picture gets even more uneven. Data from our Salary Calculator, which pulls directly from BLS Occupational Employment Statistics, reveals some striking patterns:
+
+- **Software engineers and data scientists** have seen real wage gains consistently above inflation over the past two decades — one of the few professions where salaries have genuinely outpaced rising prices.
+- **Retail workers, food service employees, and warehouse operatives** have seen their real wages stagnate or decline in many years. Their nominal wages went up, but prices went up faster.
+- **Teachers** in most U.S. states have lost purchasing power over the last 20 years on a real inflation-adjusted basis — meaning the average teacher in 2026 can buy less with their salary than a teacher could in 2006, despite earning more dollars.
+- **Healthcare workers** present a split picture: nurses and allied health professionals have broadly kept pace with or beaten inflation, while administrative healthcare roles have lagged.
+
+The uncomfortable truth is that inflation does not hit everyone equally. It acts as a silent redistributor — rewarding those with assets (property, stocks, businesses) and punishing those who depend purely on a wage.
+
+---
+
+## The Housing Trap: How a Generation Got Priced Out
+
+Nothing illustrates the compounding damage of inflation more clearly than the housing market — and this is where some of our most striking data lives.
+
+Using the Case-Shiller Home Price Index alongside BLS median income data going back to 1987, we can calculate what's called the "home price-to-income ratio": how many years of median income it takes to buy a median-priced home. This single number tells you more about housing affordability than any politician's speech.
+
+In **1987**, the U.S. median home price was approximately $104,000. The median household income was around $26,000. That's a ratio of **4.0x** — it took 4 years of total pre-tax income to buy the average home.
+
+In **2006**, at the peak of the pre-financial-crisis bubble, the ratio hit approximately **6.8x**. Everyone said it was unsustainable. It crashed. People said it would never get that high again.
+
+By **2024**, the ratio had climbed to approximately **7.2x** — higher than the 2006 bubble peak, and with interest rates significantly higher on top of it.
+
+In the UK, the numbers are even more stark. In 1997, the average UK house price was around £65,000 against a median annual income of roughly £17,000 — a ratio of about 3.8x. By early 2026, the average UK house price sits above £285,000 against a median income of around £35,000. That's a ratio of over **8x** — more than double what it was 30 years ago.
+
+This is why millions of millennials and Gen Z adults in English-speaking countries are renting into their 30s and 40s who, in their parents' generation, would have bought in their mid-20s. It is not laziness. It is not avocado toast. It is arithmetic.
+
+---
+
+## Hidden Inflation: The Tricks You're Not Supposed to Notice
+
+If the inflation we've discussed so far is the open, official kind — measured by government agencies and reported in the news — there is a whole shadow economy of hidden inflation that never makes it into the CPI figures.
+
+**Shrinkflation** is the most widespread. This is when a manufacturer keeps the price of a product the same but quietly reduces the amount inside the package. The Cadbury Dairy Milk bar in the UK went from 200g to 180g while the price stayed the same — that's a hidden 11% price increase. Walkers crisps reduced their standard bag from 35g to 25g over several years. Toblerone famously widened the gaps between its chocolate triangles in 2016, reducing the weight from 400g to 360g.
+
+Our Shrinkflation Calculator shows that in the food and consumer goods category, the real effective price increase consumers have paid since 2019 is approximately **35-40%** — noticeably higher than the official headline food inflation figures of around 25-28% over the same period. The gap is the shrinkflation effect, and it is real money out of real pockets.
+
+**Skimpflation** is the quality version of the same trick. The price stays the same. The package size stays the same. But the recipe changes — cheaper ingredients, less protein, more filler. You might notice it as a subtle change in taste, or you might not notice it at all. Either way, you're paying the same for less.
+
+**Sneakflation** is what happens in the service sector. Your streaming service adds a new "Ultra HD" tier, subtly making the old tier feel downgraded. Your bank removes free ATM access. Your airline starts charging for hand luggage. Your gym introduces a "peak hours" surcharge. None of these show up as price increases in the traditional sense, but the total cost of your lifestyle quietly rises.
+
+---
+
+## Energy: The Multiplier Nobody Talks About
+
+One of the most important — and most overlooked — aspects of inflation is that energy is not just one item on the CPI list. It is a multiplier for everything else.
+
+When energy prices rise, they don't just increase your electricity bill. They increase the cost of manufacturing every product, transporting every item, and heating every warehouse and store. Our Energy Inflation Calculator, which draws from U.S. EIA data going back to the 1970s, shows that U.S. residential electricity prices have risen from approximately **$0.05 per kWh in 1980** to **$0.17 per kWh in 2024** — a 240% nominal increase.
+
+The 2021-2023 inflation spike was substantially an energy shock. When Russian gas supplies to Europe were disrupted, it did not just increase heating bills. It increased the cost of fertiliser production (natural gas is the primary feedstock), which increased food prices. It increased industrial manufacturing costs across Europe. The single energy price shock amplified through every layer of the economy.
+
+---
+
+## What Actually Beats Inflation Over Time?
+
+Our Investment Race Calculator compares the real inflation-adjusted returns of six major asset classes — the S&P 500, gold, Bitcoin, residential property, government bonds, and savings accounts — using official CPI data from 2000 to 2025. The results are instructive:
+
+**Savings accounts have lost the inflation race, badly.** A standard UK savings account returning 2% per year during a period of 3-4% inflation loses real purchasing power every single year.
+
+**Government bonds were reliable — until they weren't.** A UK gilt portfolio held from 2020 to 2023 lost approximately 20-25% of its real value during the inflation spike. The "safe" investment turned out to be highly vulnerable to the one risk that matters most to long-term savers.
+
+**Equities have been the single best inflation hedge available to ordinary investors over most multi-decade periods.** The real annualised return of the S&P 500 from 2000 to 2025 — including the dot-com crash, 2008, the 2020 pandemic, and the 2022 bear market — was approximately **6.5% per year** after inflation. $10,000 invested in 2000 was worth approximately $47,000 in real purchasing power by 2025.
+
+**Bitcoin has been the highest-returning asset in the dataset, but with 80% drawdowns that lasted multiple years.** For most ordinary savers, the practical answer is probably a low-cost index fund as the backbone, with a clear-eyed understanding that cash savings accounts are a guaranteed slow loss in an inflationary environment.
+
+---
+
+## The Bottom Line
+
+Inflation is not an abstract economic concept. It is the reason your grandparents could raise a family of four on a single income, own their home outright by 50, and retire comfortably on a pension — and many people today, earning far more in nominal terms, genuinely cannot replicate that outcome.
+
+It is not random. It is not natural. It is the predictable, measurable, data-confirmed result of monetary policy decisions made by governments and central banks over decades — decisions that have, on balance, benefited asset holders and disadvantaged those who depend purely on wages and savings.
+
+Understanding it, measuring it, and planning around it — that is what every tool on this platform is built for. The data goes back over a century. The patterns are clear. The question is whether you use them.
 `
 
 const getLatestAvailableYearFromData = (data: Record<string, number>, requestedYear: number): number => {
