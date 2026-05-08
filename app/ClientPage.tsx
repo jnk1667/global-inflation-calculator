@@ -62,6 +62,124 @@ const currencies = {
   NZD: { symbol: "NZ$", name: "New Zealand Dollar", flag: "🇳🇿", code: "NZ" },
 } as const
 
+// Year-by-year fun facts for the slider hover feature
+const yearFacts: Record<number, string> = {
+  1913: "The US Federal Reserve is established, creating America's central banking system.",
+  1914: "World War 1 begins — Britain, France and Russia face the Central Powers.",
+  1915: "The Gallipoli campaign: Australia and New Zealand troops land at ANZAC Cove.",
+  1916: "The Battle of the Somme — over 1 million casualties on the Western Front.",
+  1917: "The US enters World War 1, tipping the balance against the Central Powers.",
+  1918: "World War 1 ends on November 11th — the 'War to End All Wars' is over.",
+  1919: "The Treaty of Versailles imposes crippling reparations on Germany.",
+  1920: "The Roaring Twenties begin — US consumer spending and credit boom.",
+  1921: "The British pound returns to the gold standard, causing deflation and unemployment.",
+  1922: "Mussolini's March on Rome — fascism takes power in Italy.",
+  1923: "German hyperinflation peaks: a loaf of bread costs 200 billion marks.",
+  1924: "The Dawes Plan restructures German reparations and stabilises the mark.",
+  1925: "The UK returns to the gold standard at pre-war rates, deflationary for British workers.",
+  1926: "The UK General Strike: 1.7 million workers walk out for nine days.",
+  1927: "The Federal Reserve tightens credit, planting seeds of the coming Depression.",
+  1928: "Herbert Hoover wins the US presidency; stock markets hit record highs.",
+  1929: "Wall Street Crash — the Dow Jones falls 25% in two days. The Great Depression begins.",
+  1930: "The Smoot-Hawley Tariff triggers a global trade war, deepening the Depression.",
+  1931: "Britain abandons the gold standard; the pound devalues 30% overnight.",
+  1932: "US unemployment hits 25%. Canada's GDP falls 40% from its 1929 peak.",
+  1933: "FDR's New Deal launches. The US confiscates private gold under Executive Order 6102.",
+  1934: "The US devalues the dollar against gold from $20.67 to $35 per ounce.",
+  1935: "Australia's central bank, the Commonwealth Bank, begins acting as a true reserve bank.",
+  1936: "Keynes publishes The General Theory — reshaping economic policy for a generation.",
+  1937: "FDR cuts spending too early; the US falls back into recession within the Depression.",
+  1938: "Germany annexes Austria — European tensions reach a breaking point.",
+  1939: "World War 2 begins. Canada declares war one week after Britain.",
+  1940: "The Battle of Britain: the RAF defeats the Luftwaffe over English skies.",
+  1941: "The US enters World War 2 after Japan attacks Pearl Harbour.",
+  1942: "Australia faces direct threat of Japanese invasion; wartime rationing begins.",
+  1943: "The Allies turn the tide — victory at Stalingrad and North Africa.",
+  1944: "The Bretton Woods agreement: the US dollar becomes the world's reserve currency.",
+  1945: "World War 2 ends. The United Nations is founded. The postwar boom begins.",
+  1946: "Baby boom begins in the US, Canada, and Australia.",
+  1947: "The Marshall Plan is proposed — the US pledges $13 billion to rebuild Europe.",
+  1948: "The NHS is founded in the UK — universal healthcare becomes a British right.",
+  1949: "NATO is founded. China becomes a communist republic under Mao Zedong.",
+  1950: "The Korean War begins. US defence spending surges, fuelling inflation.",
+  1951: "Japan signs the San Francisco Peace Treaty, regaining sovereignty.",
+  1952: "New Zealand introduces compulsory military service in response to the Cold War.",
+  1953: "Korean War armistice. US consumer goods boom — TVs, cars, and appliances.",
+  1954: "Swiss banks introduce numbered accounts, cementing Switzerland's role as a financial haven.",
+  1955: "West Germany joins NATO. The German 'economic miracle' is in full swing.",
+  1956: "The Suez Crisis: Britain and France are humiliated, signalling the end of empire.",
+  1957: "The EEC (European Common Market) is founded by the Treaty of Rome.",
+  1958: "The French franc is devalued by 17.5% as de Gaulle returns to power.",
+  1959: "Australia's Reserve Bank Act separates the central bank from the Commonwealth Bank.",
+  1960: "The OPEC oil cartel is founded by Saudi Arabia, Iran, Iraq, Kuwait and Venezuela.",
+  1961: "The Berlin Wall is built, dividing Germany for 28 years.",
+  1962: "The Cuban Missile Crisis brings the world to the brink of nuclear war.",
+  1963: "President Kennedy is assassinated in Dallas. Johnson escalates Vietnam involvement.",
+  1964: "Japan hosts the Tokyo Olympics — marking its postwar economic recovery to the world.",
+  1965: "Canada adopts the Maple Leaf flag and introduces universal healthcare.",
+  1966: "Australia switches to decimal currency, replacing pounds, shillings and pence.",
+  1967: "The UK devalues the pound by 14.3%, from $2.80 to $2.40 against the dollar.",
+  1968: "Global unrest — student riots in Paris, Prague Spring crushed by Soviet tanks.",
+  1969: "Man lands on the Moon. US government spending on Vietnam and Apollo drives inflation.",
+  1970: "New Zealand introduces equal pay legislation for women.",
+  1971: "Nixon ends the gold standard — the dollar is untethered. The modern inflation era begins.",
+  1972: "Nixon visits China. The floating exchange rate era begins for most major currencies.",
+  1973: "The OPEC oil embargo quadruples crude prices. The energy crisis hits the West.",
+  1974: "UK inflation hits 25%. The miners' strike forces a three-day working week.",
+  1975: "Australia's Whitlam government is controversially dismissed during a constitutional crisis.",
+  1976: "The IMF bails out the UK — Britain borrows $3.9 billion in crisis conditions.",
+  1977: "Swiss inflation falls to 1.3% — the franc becomes the world's hardest currency.",
+  1978: "Japan's Nikkei index surpasses 6,000 for the first time.",
+  1979: "Volcker is appointed Fed Chair. UK elects Thatcher. Second oil shock hits.",
+  1980: "Volcker raises US interest rates to 20% to crush inflation. A severe recession follows.",
+  1981: "The Reagan tax cuts pass. Canada's Bank of Canada rate hits 20.03%.",
+  1982: "Mexico defaults on its debt — the Latin American debt crisis spreads globally.",
+  1983: "Australia floats the Australian dollar, ending the fixed exchange rate era.",
+  1984: "New Zealand elects a Labour government that radically deregulates the economy.",
+  1985: "The Plaza Accord: G5 nations agree to deliberately weaken the US dollar.",
+  1986: "Big Bang deregulation transforms the City of London into a global financial hub.",
+  1987: "Black Monday: global stock markets crash 22% in a single day.",
+  1988: "Japan's asset price bubble peaks — Tokyo land values exceed all of the United States.",
+  1989: "The Berlin Wall falls. Japan's bubble economy begins its catastrophic deflation.",
+  1990: "German reunification — West Germany absorbs East Germany at great economic cost.",
+  1991: "The Soviet Union collapses. US enters recession following the Gulf War.",
+  1992: "Black Wednesday: the UK is forced out of the European Exchange Rate Mechanism.",
+  1993: "The EU's Single Market launches, creating free movement of goods, services and people.",
+  1994: "The Tequila Crisis: Mexico devalues the peso, triggering an EM currency contagion.",
+  1995: "The Japanese yen hits a postwar record of 79 yen per dollar.",
+  1996: "New Zealand becomes the first country to formally adopt inflation targeting as policy.",
+  1997: "Asian financial crisis — Thailand, South Korea and Indonesia face currency collapses.",
+  1998: "Russia defaults on its debt. Long-Term Capital Management collapses.",
+  1999: "The euro is introduced as an accounting currency for 11 European nations.",
+  2000: "The dot-com bubble bursts — the Nasdaq falls 78% from peak to trough.",
+  2001: "9/11 attacks. The US economy enters recession. Afghanistan war begins.",
+  2002: "Euro notes and coins enter circulation, replacing legacy currencies across Europe.",
+  2003: "US invades Iraq. Global commodity prices begin a decade-long supercycle.",
+  2004: "Ten new countries join the EU — the largest expansion in the bloc's history.",
+  2005: "UK house prices double from 2000 levels. The housing bubble inflates globally.",
+  2006: "The US housing market peaks. Sub-prime mortgage defaults begin to rise.",
+  2007: "Northern Rock becomes the first British bank run in 150 years.",
+  2008: "Global financial crisis. Lehman Brothers collapses. Governments bail out major banks.",
+  2009: "The G20 coordinates the largest fiscal stimulus in history to prevent a depression.",
+  2010: "The Greek debt crisis erupts, threatening the survival of the euro.",
+  2011: "Japan's Fukushima disaster disrupts global supply chains. Switzerland caps the franc at 1.20.",
+  2012: "Draghi pledges to do 'whatever it takes' to save the euro — markets stabilise.",
+  2013: "The 'Taper Tantrum' — emerging market currencies crash as the Fed hints at tightening.",
+  2014: "Oil prices collapse 50% as Saudi Arabia defends market share against US shale.",
+  2015: "The Swiss National Bank shocks markets by removing the franc's cap — the franc soars 30%.",
+  2016: "Brexit referendum: the UK votes to leave the EU. The pound falls 10% overnight.",
+  2017: "Bitcoin surges from $1,000 to $20,000 in a single year.",
+  2018: "US-China trade war begins. The Fed raises rates four times.",
+  2019: "Covid-19 emerges in Wuhan. Australia's worst bushfire season on record.",
+  2020: "Global pandemic. Central banks and governments inject $20 trillion in stimulus.",
+  2021: "Supply chain chaos. Inflation hits 40-year highs across the US, UK, Canada and Australia.",
+  2022: "Russia invades Ukraine. European energy prices spike 10x. UK inflation hits 11.1%.",
+  2023: "Central banks raise rates aggressively. The fastest rate-hiking cycle in 40 years.",
+  2024: "Central banks begin cutting rates. US inflation returns to near the 2% target.",
+  2025: "AI investment boom. Global debt hits $320 trillion. Rate-cutting cycle continues.",
+  2026: "You are here.",
+}
+
 // Historical context data by decade
 const getHistoricalContext = (year: number) => {
   if (year >= 2025) {
@@ -319,6 +437,8 @@ export default function ClientPage() {
   const [realMeasuresData, setRealMeasuresData] = useState<Record<string, any>>({})
   const [dataQuality, setDataQuality] = useState<{ score: number; details: any } | null>(null)
   const [usingRealData, setUsingRealData] = useState(false)
+  const [showYearFact, setShowYearFact] = useState(false)
+  const yearFactTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Use refs to track component state and prevent race conditions
   const isMountedRef = useRef(true)
@@ -1121,13 +1241,39 @@ export default function ClientPage() {
                           <div className="text-[10px] text-gray-500 dark:text-gray-400">{yearsAgo} years ago</div>
                         </div>
 
+                        {/* Year Fact Tooltip */}
+                        <div
+                          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                            showYearFact ? "max-h-16 opacity-100" : "max-h-0 opacity-0"
+                          }`}
+                          aria-live="polite"
+                        >
+                          <div className="mx-2 px-3 py-2 rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 text-[11px] text-blue-800 dark:text-blue-200 leading-relaxed text-center">
+                            <span className="font-semibold">{actualFromYear || fromYear}</span>
+                            {" — "}
+                            {yearFacts[actualFromYear || fromYear] ?? "A year that shaped the global economy."}
+                          </div>
+                        </div>
+
                         {/* Year Slider */}
-                        <div className="px-2">
+                        <div
+                          className="px-2"
+                          onMouseEnter={() => setShowYearFact(true)}
+                          onMouseLeave={() => setShowYearFact(false)}
+                          onPointerDown={() => {
+                            if (yearFactTimerRef.current) clearTimeout(yearFactTimerRef.current)
+                            setShowYearFact(true)
+                          }}
+                          onPointerUp={() => {
+                            if (yearFactTimerRef.current) clearTimeout(yearFactTimerRef.current)
+                            yearFactTimerRef.current = setTimeout(() => setShowYearFact(false), 1800)
+                          }}
+                        >
                           <Slider
                             value={[actualFromYear || fromYear]}
                             onValueChange={handleYearChange}
                             min={minYear}
-                            max={maxYear} // Use updated maxYear for the slider
+                            max={maxYear}
                             step={1}
                             className="w-full"
                             aria-label={`Select year from ${minYear} to ${maxYear}`}
@@ -1143,6 +1289,9 @@ export default function ClientPage() {
                                   onClick={() => {
                                     setFromYear(year)
                                     setHasCalculated(false)
+                                    if (yearFactTimerRef.current) clearTimeout(yearFactTimerRef.current)
+                                    setShowYearFact(true)
+                                    yearFactTimerRef.current = setTimeout(() => setShowYearFact(false), 1800)
                                   }}
                                   className="absolute text-xs text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors transform -translate-x-1/2 font-medium"
                                   style={{ left: `${position}%` }}
