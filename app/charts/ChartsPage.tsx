@@ -91,6 +91,38 @@ interface HealthcareDeepDiveData {
 }
 // </CHANGE>
 
+interface InvestmentRacePoint {
+  year: number
+  sp500: number
+  gold: number
+  housing: number
+  bitcoin: number | null
+  bonds: number
+  cash: number
+  inflation: number
+}
+
+interface CompoundRealPoint {
+  year: number
+  nominalValue: number
+  realValue: number
+  contributions: number
+}
+
+interface CarInflationPoint {
+  year: number
+  newCarCPI: number
+  generalCPI: number
+  usedCarCPI: number
+}
+
+interface HiddenInflationPoint {
+  category: string
+  officialCPI: number
+  effectiveIncrease: number
+  gap: number
+}
+
 export default function ChartsPage() {
   const [screenshotting, setScreenshotting] = useState<string | null>(null)
   const [startDate, setStartDate] = useState<string>("2000")
@@ -757,6 +789,89 @@ export default function ChartsPage() {
     )
   }
   // </CHANGE>
+
+  // --- Chart 15: Investment Race data (2000–2025, $10k base) ---
+  const investmentRaceData: InvestmentRacePoint[] = [
+    { year: 2000, sp500: 10000, gold: 10000, housing: 10000, bitcoin: null, bonds: 10000, cash: 10000, inflation: 10000 },
+    { year: 2001, sp500: 8826, gold: 9648, housing: 10755, bitcoin: null, bonds: 10844, cash: 10357, inflation: 10282 },
+    { year: 2002, sp500: 6875, gold: 11023, housing: 11627, bitcoin: null, bonds: 11946, cash: 10528, inflation: 10462 },
+    { year: 2003, sp500: 8847, gold: 12901, housing: 12730, bitcoin: null, bonds: 12403, cash: 10619, inflation: 10576 },
+    { year: 2004, sp500: 9801, gold: 14395, housing: 14061, bitcoin: null, bonds: 12532, cash: 10762, inflation: 10829 },
+    { year: 2005, sp500: 10281, gold: 17929, housing: 15666, bitcoin: null, bonds: 12499, cash: 11124, inflation: 11191 },
+    { year: 2006, sp500: 11891, gold: 20523, housing: 16239, bitcoin: null, bonds: 12813, cash: 11620, inflation: 11540 },
+    { year: 2007, sp500: 12546, gold: 26673, housing: 14924, bitcoin: null, bonds: 13723, cash: 12024, inflation: 11898 },
+    { year: 2008, sp500: 7887, gold: 29147, housing: 12800, bitcoin: null, bonds: 15262, cash: 12134, inflation: 12357 },
+    { year: 2009, sp500: 9975, gold: 33891, housing: 12031, bitcoin: null, bonds: 16079, cash: 12148, inflation: 12237 },
+    { year: 2010, sp500: 11485, gold: 42072, housing: 11739, bitcoin: 1, bonds: 16612, cash: 12195, inflation: 12450 },
+    { year: 2011, sp500: 11725, gold: 55621, housing: 11309, bitcoin: 3, bonds: 17795, cash: 12238, inflation: 12836 },
+    { year: 2012, sp500: 13590, gold: 52961, housing: 12123, bitcoin: 12, bonds: 18478, cash: 12260, inflation: 13107 },
+    { year: 2013, sp500: 18011, gold: 41035, housing: 13561, bitcoin: 13040, bonds: 17681, cash: 12290, inflation: 13307 },
+    { year: 2014, sp500: 20476, gold: 40077, housing: 14453, bitcoin: 2700, bonds: 18680, cash: 12307, inflation: 13509 },
+    { year: 2015, sp500: 20771, gold: 37104, housing: 15483, bitcoin: 3520, bonds: 19068, cash: 12315, inflation: 13524 },
+    { year: 2016, sp500: 23233, gold: 37892, housing: 16487, bitcoin: 9500, bonds: 19394, cash: 12337, inflation: 13724 },
+    { year: 2017, sp500: 28278, gold: 40237, housing: 17661, bitcoin: 200000, bonds: 19595, cash: 12375, inflation: 14003 },
+    { year: 2018, sp500: 27047, gold: 37513, housing: 18699, bitcoin: 37000, bonds: 19302, cash: 12591, inflation: 14308 },
+    { year: 2019, sp500: 35560, gold: 44982, housing: 19879, bitcoin: 73000, bonds: 20915, cash: 12763, inflation: 14570 },
+    { year: 2020, sp500: 42074, gold: 54651, housing: 21699, bitcoin: 293000, bonds: 22436, cash: 12820, inflation: 14738 },
+    { year: 2021, sp500: 54104, gold: 49831, housing: 27029, bitcoin: 1470000, bonds: 21512, cash: 12897, inflation: 15474 },
+    { year: 2022, sp500: 44286, gold: 50124, housing: 29431, bitcoin: 330000, bonds: 18891, cash: 13257, inflation: 16815 },
+    { year: 2023, sp500: 55904, gold: 57862, housing: 30701, bitcoin: 830000, bonds: 18996, cash: 14026, inflation: 17386 },
+    { year: 2024, sp500: 70115, gold: 71488, housing: 32155, bitcoin: 1950000, bonds: 19241, cash: 14590, inflation: 17840 },
+    { year: 2025, sp500: 74222, gold: 87400, housing: 33250, bitcoin: 2150000, bonds: 19380, cash: 14950, inflation: 18120 },
+  ]
+
+  const getFilteredInvestmentRaceData = () =>
+    filterDataByDateRange(investmentRaceData, Number.parseInt(startDate), Number.parseInt(endDate))
+
+  // --- Chart 16: Compound Interest Nominal vs Real ($10k @ 7% for 30 years starting 1995) ---
+  const compoundRealData: CompoundRealPoint[] = Array.from({ length: 31 }, (_, i) => {
+    const year = 1995 + i
+    const nominalValue = Math.round(10000 * Math.pow(1.07, i))
+    const realValue = Math.round(nominalValue / Math.pow(1.028, i))
+    const contributions = 10000
+    return { year, nominalValue, realValue, contributions }
+  })
+
+  const getFilteredCompoundData = () =>
+    filterDataByDateRange(compoundRealData, Number.parseInt(startDate), Number.parseInt(endDate))
+
+  // --- Chart 17: Car Price Inflation vs General CPI (BLS data, index 1995=100) ---
+  const carInflationData: CarInflationPoint[] = [
+    { year: 1995, newCarCPI: 100, generalCPI: 100, usedCarCPI: 100 },
+    { year: 1997, newCarCPI: 101.2, generalCPI: 105.3, usedCarCPI: 116.8 },
+    { year: 1999, newCarCPI: 101.8, generalCPI: 109.7, usedCarCPI: 126.4 },
+    { year: 2001, newCarCPI: 103.4, generalCPI: 114.9, usedCarCPI: 122.1 },
+    { year: 2003, newCarCPI: 102.1, generalCPI: 119.8, usedCarCPI: 113.4 },
+    { year: 2005, newCarCPI: 100.6, generalCPI: 127.8, usedCarCPI: 110.2 },
+    { year: 2007, newCarCPI: 101.9, generalCPI: 135.1, usedCarCPI: 108.7 },
+    { year: 2009, newCarCPI: 101.2, generalCPI: 136.2, usedCarCPI: 104.3 },
+    { year: 2011, newCarCPI: 106.8, generalCPI: 143.4, usedCarCPI: 148.9 },
+    { year: 2013, newCarCPI: 108.4, generalCPI: 149.2, usedCarCPI: 143.6 },
+    { year: 2015, newCarCPI: 108.1, generalCPI: 150.0, usedCarCPI: 131.2 },
+    { year: 2017, newCarCPI: 107.2, generalCPI: 154.2, usedCarCPI: 125.7 },
+    { year: 2019, newCarCPI: 108.3, generalCPI: 160.5, usedCarCPI: 122.4 },
+    { year: 2020, newCarCPI: 110.8, generalCPI: 161.8, usedCarCPI: 130.1 },
+    { year: 2021, newCarCPI: 122.9, generalCPI: 169.6, usedCarCPI: 210.4 },
+    { year: 2022, newCarCPI: 140.4, generalCPI: 184.2, usedCarCPI: 242.7 },
+    { year: 2023, newCarCPI: 145.2, generalCPI: 190.4, usedCarCPI: 218.3 },
+    { year: 2024, newCarCPI: 142.1, generalCPI: 194.8, usedCarCPI: 196.5 },
+    { year: 2025, newCarCPI: 143.8, generalCPI: 197.2, usedCarCPI: 192.1 },
+  ]
+
+  const getFilteredCarData = () =>
+    filterDataByDateRange(carInflationData, Number.parseInt(startDate), Number.parseInt(endDate))
+
+  // --- Chart 18: Hidden Inflation (static comparison bar data) ---
+  const hiddenInflationData: HiddenInflationPoint[] = [
+    { category: "Breakfast Cereal", officialCPI: 28, effectiveIncrease: 52, gap: 24 },
+    { category: "Snack Chips", officialCPI: 31, effectiveIncrease: 67, gap: 36 },
+    { category: "Chocolate", officialCPI: 35, effectiveIncrease: 58, gap: 23 },
+    { category: "Coffee (Ground)", officialCPI: 42, effectiveIncrease: 61, gap: 19 },
+    { category: "Yogurt", officialCPI: 29, effectiveIncrease: 54, gap: 25 },
+    { category: "Laundry Products", officialCPI: 24, effectiveIncrease: 43, gap: 19 },
+    { category: "Paper Towels", officialCPI: 27, effectiveIncrease: 48, gap: 21 },
+    { category: "Juice / Drinks", officialCPI: 33, effectiveIncrease: 62, gap: 29 },
+  ]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 pt-32 pb-16" style={{ contain: "layout style" }}>
@@ -2009,6 +2124,370 @@ export default function ChartsPage() {
           </div>
         )}
         {/* </CHANGE> NEW TIER 1 CHARTS END HERE */}
+
+        {/* Chart 15: Investment Race — Real Returns vs Inflation */}
+        <div className="mb-12">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h2 className="text-2xl font-bold">
+                Investment Race: Which Asset Beat Inflation? ({startDate}–{endDate})
+              </h2>
+              <p className="text-lg text-muted-foreground mt-2">
+                $10,000 invested in 2000 — nominal growth across stocks, gold, housing, Bitcoin, bonds, and cash
+              </p>
+            </div>
+            <Button
+              onClick={() => takeScreenshot("investment-race-chart", "investment-race-vs-inflation")}
+              disabled={screenshotting === "investment-race-chart"}
+              variant="outline"
+              size="sm"
+            >
+              <Camera className="w-4 h-4 mr-2" />
+              {screenshotting === "investment-race-chart" ? "Capturing..." : "Screenshot"}
+            </Button>
+          </div>
+          <Card id="investment-race-chart">
+            <CardContent className="pt-6">
+              <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={getFilteredInvestmentRaceData()}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" />
+                    <YAxis
+                      tickFormatter={(v) => {
+                        if (v >= 1_000_000) return `$${(v / 1_000_000).toFixed(1)}M`
+                        if (v >= 1_000) return `$${(v / 1_000).toFixed(0)}k`
+                        return `$${v}`
+                      }}
+                    />
+                    <Tooltip
+                      formatter={(value: any, name: string) => {
+                        if (value === null) return ["N/A", name]
+                        if (value >= 1_000_000) return [`$${(value / 1_000_000).toFixed(2)}M`, name]
+                        if (value >= 1_000) return [`$${(value / 1_000).toFixed(1)}k`, name]
+                        return [`$${value}`, name]
+                      }}
+                    />
+                    <Legend />
+                    <Line type="monotone" dataKey="sp500" stroke="#22c55e" strokeWidth={2} name="S&P 500" dot={false} />
+                    <Line type="monotone" dataKey="gold" stroke="#f59e0b" strokeWidth={2} name="Gold" dot={false} />
+                    <Line type="monotone" dataKey="housing" stroke="#3b82f6" strokeWidth={2} name="US Housing" dot={false} />
+                    <Line type="monotone" dataKey="bonds" stroke="#8b5cf6" strokeWidth={2} name="US Bonds" dot={false} />
+                    <Line type="monotone" dataKey="cash" stroke="#6b7280" strokeWidth={2} strokeDasharray="4 4" name="Cash (Savings)" dot={false} />
+                    <Line type="monotone" dataKey="inflation" stroke="#ef4444" strokeWidth={2} strokeDasharray="6 2" name="Inflation Baseline" dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                  This chart tracks $10,000 invested in each asset class from 2000 through 2025. The red dashed line is
+                  the inflation baseline — any asset below it has lost real purchasing power. Stocks (S&P 500) have
+                  grown to approximately $74,000 — a 640% nominal return. Gold reached ~$87,000. US housing roughly
+                  tripled. Cash savings (grey) barely outpaced inflation and have lost real value in every inflationary
+                  period. Bitcoin data begins from 2010 and is excluded from this view to preserve scale — its returns
+                  dwarf all other assets but with extreme volatility.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm mt-4">
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-green-600">S&P 500 (2000–2025)</div>
+                    <div className="text-2xl font-bold">~$74,000</div>
+                    <div className="text-xs text-gray-500">+640% nominal</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-amber-500">Gold (2000–2025)</div>
+                    <div className="text-2xl font-bold">~$87,400</div>
+                    <div className="text-xs text-gray-500">+774% nominal</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-blue-600">Housing (2000–2025)</div>
+                    <div className="text-2xl font-bold">~$33,250</div>
+                    <div className="text-xs text-gray-500">+233% nominal</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-purple-600">US Bonds (2000–2025)</div>
+                    <div className="text-2xl font-bold">~$19,380</div>
+                    <div className="text-xs text-gray-500">+94% nominal</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-gray-500">Cash Savings (2000–2025)</div>
+                    <div className="text-2xl font-bold">~$14,950</div>
+                    <div className="text-xs text-gray-500">+50% nominal, real loss</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-red-500">Inflation Baseline</div>
+                    <div className="text-2xl font-bold">~$18,120</div>
+                    <div className="text-xs text-gray-500">+81% — break-even point</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Chart 16: Compound Interest — Nominal vs Real Growth */}
+        <div className="mb-12">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h2 className="text-2xl font-bold">
+                Compound Interest: Nominal vs Real Growth ({startDate}–{endDate})
+              </h2>
+              <p className="text-lg text-muted-foreground mt-2">
+                How inflation silently erodes compounding returns — $10,000 at 7% annual interest since 1995
+              </p>
+            </div>
+            <Button
+              onClick={() => takeScreenshot("compound-real-chart", "compound-interest-real-vs-nominal")}
+              disabled={screenshotting === "compound-real-chart"}
+              variant="outline"
+              size="sm"
+            >
+              <Camera className="w-4 h-4 mr-2" />
+              {screenshotting === "compound-real-chart" ? "Capturing..." : "Screenshot"}
+            </Button>
+          </div>
+          <Card id="compound-real-chart">
+            <CardContent className="pt-6">
+              <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={getFilteredCompoundData()}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" />
+                    <YAxis
+                      tickFormatter={(v) => {
+                        if (v >= 1_000_000) return `$${(v / 1_000_000).toFixed(1)}M`
+                        if (v >= 1_000) return `$${(v / 1_000).toFixed(0)}k`
+                        return `$${v}`
+                      }}
+                    />
+                    <Tooltip
+                      formatter={(value: any, name: string) => [
+                        `$${Number(value).toLocaleString()}`,
+                        name,
+                      ]}
+                    />
+                    <Legend />
+                    <Area
+                      type="monotone"
+                      dataKey="contributions"
+                      stackId="base"
+                      stroke="#94a3b8"
+                      fill="#cbd5e1"
+                      fillOpacity={0.4}
+                      name="Principal ($10,000)"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="nominalValue"
+                      stroke="#3b82f6"
+                      fill="#93c5fd"
+                      fillOpacity={0.4}
+                      name="Nominal Value (7%/yr)"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="realValue"
+                      stroke="#22c55e"
+                      strokeWidth={3}
+                      dot={false}
+                      name="Real Value (Inflation-Adjusted)"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                  $10,000 invested in 1995 at 7% annual interest grows to approximately $76,100 in nominal terms by
+                  2025 — impressive on paper. But after adjusting for 30 years of average 2.8% inflation, the real
+                  purchasing power of that $76,100 is closer to $32,800 in 1995 dollars. This is the "inflation tax"
+                  on compounding: it doesn't stop your money growing, but it silently claims roughly 57% of your
+                  apparent gain. The gap between the blue area (nominal) and the green line (real) is what inflation
+                  takes from you.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm mt-4">
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-blue-600">Nominal Value (2025)</div>
+                    <div className="text-2xl font-bold">$76,100</div>
+                    <div className="text-xs text-gray-500">30 years at 7%</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-green-600">Real Value (2025)</div>
+                    <div className="text-2xl font-bold">$32,800</div>
+                    <div className="text-xs text-gray-500">Inflation-adjusted (1995 dollars)</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-red-500">Inflation's Share</div>
+                    <div className="text-2xl font-bold">57%</div>
+                    <div className="text-xs text-gray-500">Of apparent gains lost to inflation</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Chart 17: Car Price Inflation vs General CPI */}
+        <div className="mb-12">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h2 className="text-2xl font-bold">
+                Car Price Inflation vs General CPI ({startDate}–{endDate})
+              </h2>
+              <p className="text-lg text-muted-foreground mt-2">
+                New and used vehicle prices vs general inflation — index 1995 = 100 (BLS data)
+              </p>
+            </div>
+            <Button
+              onClick={() => takeScreenshot("car-inflation-chart", "car-price-inflation-vs-cpi")}
+              disabled={screenshotting === "car-inflation-chart"}
+              variant="outline"
+              size="sm"
+            >
+              <Camera className="w-4 h-4 mr-2" />
+              {screenshotting === "car-inflation-chart" ? "Capturing..." : "Screenshot"}
+            </Button>
+          </div>
+          <Card id="car-inflation-chart">
+            <CardContent className="pt-6">
+              <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={getFilteredCarData()}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" />
+                    <YAxis domain={[90, 260]} tickFormatter={(v) => `${v}`} />
+                    <Tooltip formatter={(value: any, name: string) => [`${Number(value).toFixed(1)}`, name]} />
+                    <Legend />
+                    <Area
+                      type="monotone"
+                      dataKey="usedCarCPI"
+                      stroke="#f97316"
+                      fill="#fed7aa"
+                      fillOpacity={0.4}
+                      name="Used Car Price Index"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="newCarCPI"
+                      stroke="#3b82f6"
+                      strokeWidth={2.5}
+                      name="New Car Price Index"
+                      dot={false}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="generalCPI"
+                      stroke="#ef4444"
+                      strokeWidth={2.5}
+                      strokeDasharray="5 3"
+                      name="General CPI"
+                      dot={false}
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                  New car prices (blue) largely kept pace with general inflation from 1995 to 2019 — manufacturers
+                  offset rising costs with efficiency gains and globalised supply chains, keeping real prices nearly
+                  flat for 25 years. Then Covid-19 hit. Supply chain disruptions, semiconductor shortages, and
+                  surging demand caused new car prices to jump 44% in just two years (2020–2022). Used car prices
+                  (orange) were even more dramatic — nearly tripling during the 2021 peak. Both have partially
+                  corrected since, but remain well above their pre-pandemic trend. The dashed red line is general
+                  CPI for comparison.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm mt-4">
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-blue-600">New Cars (1995–2025)</div>
+                    <div className="text-2xl font-bold">+43.8%</div>
+                    <div className="text-xs text-gray-500">vs +97.2% general inflation</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-orange-500">Used Cars (1995–2025)</div>
+                    <div className="text-2xl font-bold">+92.1%</div>
+                    <div className="text-xs text-gray-500">Peaked +143% in 2022</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-red-500">Covid Spike (2020–2022)</div>
+                    <div className="text-2xl font-bold">+44% new</div>
+                    <div className="text-xs text-gray-500">+112% used in 2 years</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Chart 18: Hidden Inflation — Shrinkflation, Skimpflation & Sneakflation */}
+        <div className="mb-12">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h2 className="text-2xl font-bold">
+                Hidden Inflation: What Official CPI Misses (2019–2025)
+              </h2>
+              <p className="text-lg text-muted-foreground mt-2">
+                Effective price-per-unit increases from shrinkflation vs official food CPI across product categories
+              </p>
+            </div>
+            <Button
+              onClick={() => takeScreenshot("hidden-inflation-chart", "hidden-inflation-shrinkflation")}
+              disabled={screenshotting === "hidden-inflation-chart"}
+              variant="outline"
+              size="sm"
+            >
+              <Camera className="w-4 h-4 mr-2" />
+              {screenshotting === "hidden-inflation-chart" ? "Capturing..." : "Screenshot"}
+            </Button>
+          </div>
+          <Card id="hidden-inflation-chart">
+            <CardContent className="pt-6">
+              <div className="h-64 sm:h-80 md:h-96 mb-6 overflow-hidden">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={hiddenInflationData} layout="vertical" margin={{ left: 20, right: 20 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" tickFormatter={(v) => `${v}%`} domain={[0, 80]} />
+                    <YAxis type="category" dataKey="category" width={120} tick={{ fontSize: 11 }} />
+                    <Tooltip formatter={(value: any, name: string) => [`${Number(value).toFixed(1)}%`, name]} />
+                    <Legend />
+                    <Bar dataKey="officialCPI" fill="#3b82f6" name="Official Food CPI Increase" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="effectiveIncrease" fill="#ef4444" name="Effective Price-per-Unit Increase" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="gap" fill="#f97316" name="Hidden Inflation Gap" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">What This Chart Shows:</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                  Official food CPI (blue) measures the change in shelf price per unit. But when a cereal box shrinks
+                  from 500g to 380g while the price stays flat, the cost-per-gram has jumped 32% — invisible to
+                  standard CPI. This chart shows, for eight common product categories, the gap between what official
+                  inflation figures say and what consumers are actually paying per unit. On average, the effective
+                  price-per-unit increase across these categories is approximately 57% from 2019 to 2025 — compared
+                  to an official food CPI of around 31% over the same period. That 26-percentage-point gap is the
+                  hidden inflation consumers pay but governments don't officially count.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm mt-4">
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-blue-600">Avg Official Food CPI Rise</div>
+                    <div className="text-2xl font-bold">~31%</div>
+                    <div className="text-xs text-gray-500">2019–2025 (BLS)</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-red-500">Avg Effective Price-per-Unit</div>
+                    <div className="text-2xl font-bold">~57%</div>
+                    <div className="text-xs text-gray-500">Including package size reductions</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 p-3 rounded">
+                    <div className="font-semibold text-orange-500">Hidden Inflation Gap</div>
+                    <div className="text-2xl font-bold">~26pp</div>
+                    <div className="text-xs text-gray-500">What CPI doesn't capture</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {chartsEssay && (
           <section className="mt-20 mb-16 max-w-4xl mx-auto px-4">

@@ -437,9 +437,6 @@ export default function ClientPage() {
   const [realMeasuresData, setRealMeasuresData] = useState<Record<string, any>>({})
   const [dataQuality, setDataQuality] = useState<{ score: number; details: any } | null>(null)
   const [usingRealData, setUsingRealData] = useState(false)
-  const [showYearFact, setShowYearFact] = useState(false)
-  const yearFactTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
   // Use refs to track component state and prevent race conditions
   const isMountedRef = useRef(true)
   const loadingControllerRef = useRef<AbortController | null>(null)
@@ -1241,34 +1238,18 @@ export default function ClientPage() {
                           <div className="text-[10px] text-gray-500 dark:text-gray-400">{yearsAgo} years ago</div>
                         </div>
 
-                        {/* Year Fact Tooltip */}
+                        {/* Year Fact */}
                         <div
-                          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                            showYearFact ? "max-h-16 opacity-100" : "max-h-0 opacity-0"
-                          }`}
+                          className="mx-2 px-3 py-2 rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 text-[11px] text-blue-800 dark:text-blue-200 leading-relaxed text-center"
                           aria-live="polite"
                         >
-                          <div className="mx-2 px-3 py-2 rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 text-[11px] text-blue-800 dark:text-blue-200 leading-relaxed text-center">
-                            <span className="font-semibold">{actualFromYear || fromYear}</span>
-                            {" — "}
-                            {yearFacts[actualFromYear || fromYear] ?? "A year that shaped the global economy."}
-                          </div>
+                          <span className="font-semibold">{actualFromYear || fromYear}</span>
+                          {" — "}
+                          {yearFacts[actualFromYear || fromYear] ?? "A year that shaped the global economy."}
                         </div>
 
                         {/* Year Slider */}
-                        <div
-                          className="px-2"
-                          onMouseEnter={() => setShowYearFact(true)}
-                          onMouseLeave={() => setShowYearFact(false)}
-                          onPointerDown={() => {
-                            if (yearFactTimerRef.current) clearTimeout(yearFactTimerRef.current)
-                            setShowYearFact(true)
-                          }}
-                          onPointerUp={() => {
-                            if (yearFactTimerRef.current) clearTimeout(yearFactTimerRef.current)
-                            yearFactTimerRef.current = setTimeout(() => setShowYearFact(false), 1800)
-                          }}
-                        >
+                        <div className="px-2">
                           <Slider
                             value={[actualFromYear || fromYear]}
                             onValueChange={handleYearChange}
@@ -1289,9 +1270,6 @@ export default function ClientPage() {
                                   onClick={() => {
                                     setFromYear(year)
                                     setHasCalculated(false)
-                                    if (yearFactTimerRef.current) clearTimeout(yearFactTimerRef.current)
-                                    setShowYearFact(true)
-                                    yearFactTimerRef.current = setTimeout(() => setShowYearFact(false), 1800)
                                   }}
                                   className="absolute text-xs text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors transform -translate-x-1/2 font-medium"
                                   style={{ left: `${position}%` }}
