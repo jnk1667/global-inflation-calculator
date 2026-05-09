@@ -827,26 +827,23 @@
       ]
     }
   ],
-  "summaryStats": {
-    "description": "Calculated percentage increases from first available price to most recent (2025/2026) price for the most popular tier of each service.",
-    "data": [
-      { "service": "Netflix Standard",          "launchYear": 2011, "launchPrice": 7.99,  "currentPrice": 17.99, "pctIncrease": 125.2, "cpiIncreaseOverSamePeriod": 44.2, "vsInflationMultiple": 2.8 },
-      { "service": "Netflix Premium",           "launchYear": 2013, "launchPrice": 11.99, "currentPrice": 24.99, "pctIncrease": 108.4, "cpiIncreaseOverSamePeriod": 39.0, "vsInflationMultiple": 2.8 },
-      { "service": "Spotify Individual",        "launchYear": 2011, "launchPrice": 9.99,  "currentPrice": 12.99, "pctIncrease": 30.0,  "cpiIncreaseOverSamePeriod": 44.2, "vsInflationMultiple": 0.7 },
-      { "service": "Amazon Prime (Annual)",     "launchYear": 2005, "launchPrice": 6.58,  "currentPrice": 11.58, "pctIncrease": 76.0,  "cpiIncreaseOverSamePeriod": 88.5, "vsInflationMultiple": 0.9 },
-      { "service": "Disney+ Premium",           "launchYear": 2019, "launchPrice": 6.99,  "currentPrice": 18.99, "pctIncrease": 171.7, "cpiIncreaseOverSamePeriod": 20.4, "vsInflationMultiple": 8.4 },
-      { "service": "Apple TV+",                 "launchYear": 2019, "launchPrice": 4.99,  "currentPrice": 12.99, "pctIncrease": 160.3, "cpiIncreaseOverSamePeriod": 20.4, "vsInflationMultiple": 7.9 },
-      { "service": "YouTube Premium Individual","launchYear": 2015, "launchPrice": 9.99,  "currentPrice": 13.99, "pctIncrease": 40.0,  "cpiIncreaseOverSamePeriod": 36.7, "vsInflationMultiple": 1.1 },
-      { "service": "Apple Music Individual",    "launchYear": 2015, "launchPrice": 9.99,  "currentPrice": 10.99, "pctIncrease": 10.0,  "cpiIncreaseOverSamePeriod": 36.7, "vsInflationMultiple": 0.3 },
-      { "service": "Hulu With Ads",             "launchYear": 2010, "launchPrice": 7.99,  "currentPrice": 11.99, "pctIncrease": 50.1,  "cpiIncreaseOverSamePeriod": 48.6, "vsInflationMultiple": 1.0 },
-      { "service": "Max Standard",              "launchYear": 2020, "launchPrice": 14.99, "currentPrice": 18.49, "pctIncrease": 23.3,  "cpiIncreaseOverSamePeriod": 25.2, "vsInflationMultiple": 0.9 },
-      { "service": "Adobe CC All Apps (Annual)","launchYear": 2013, "launchPrice": 49.99, "currentPrice": 69.99, "pctIncrease": 40.0,  "cpiIncreaseOverSamePeriod": 39.0, "vsInflationMultiple": 1.0 },
-      { "service": "Microsoft 365 Personal",    "launchYear": 2011, "launchPrice": 6.25,  "currentPrice": 8.33,  "pctIncrease": 33.3,  "cpiIncreaseOverSamePeriod": 44.2, "vsInflationMultiple": 0.8 },
-      { "service": "Planet Fitness Classic",    "launchYear": 2010, "launchPrice": 10.00, "currentPrice": 15.00, "pctIncrease": 50.0,  "cpiIncreaseOverSamePeriod": 48.6, "vsInflationMultiple": 1.0 },
-      { "service": "Peloton All-Access",        "launchYear": 2019, "launchPrice": 39.00, "currentPrice": 49.99, "pctIncrease": 28.2,  "cpiIncreaseOverSamePeriod": 20.4, "vsInflationMultiple": 1.4 },
-      { "service": "Dropbox Plus",              "launchYear": 2012, "launchPrice": 9.99,  "currentPrice": 11.99, "pctIncrease": 20.0,  "cpiIncreaseOverSamePeriod": 41.0, "vsInflationMultiple": 0.5 },
-      { "service": "LinkedIn Premium Career",   "launchYear": 2013, "launchPrice": 29.99, "currentPrice": 39.99, "pctIncrease": 33.4,  "cpiIncreaseOverSamePeriod": 39.0, "vsInflationMultiple": 0.9 },
-      { "service": "iCloud+ 50GB",              "launchYear": 2015, "launchPrice": 0.99,  "currentPrice": 0.99,  "pctIncrease": 0.0,   "cpiIncreaseOverSamePeriod": 36.7, "vsInflationMultiple": 0.0 }
-    ]
-  }
+  "summaryStats": [
+    { "id": "netflix",    "name": "Netflix Standard",           "defaultTierId": "standard",    "launchYear": 2011, "launchPrice": 7.99,  "currentPrice": 17.99, "totalIncreasePct": 125.2, "cpiIncreasePct": 44.2, "vsInflationMultiple": 2.8,  "currentTierName": "Standard" },
+    { "id": "netflix",    "name": "Netflix Premium",            "defaultTierId": "premium",     "launchYear": 2013, "launchPrice": 11.99, "currentPrice": 24.99, "totalIncreasePct": 108.4, "cpiIncreasePct": 39.0, "vsInflationMultiple": 2.8,  "currentTierName": "Premium" },
+    { "id": "spotify",    "name": "Spotify Individual",         "defaultTierId": "individual",  "launchYear": 2011, "launchPrice": 9.99,  "currentPrice": 12.99, "totalIncreasePct": 30.0,  "cpiIncreasePct": 44.2, "vsInflationMultiple": 0.7,  "currentTierName": "Individual" },
+    { "id": "amazon",     "name": "Amazon Prime (Annual)",      "defaultTierId": "annual",      "launchYear": 2005, "launchPrice": 6.58,  "currentPrice": 11.58, "totalIncreasePct": 76.0,  "cpiIncreasePct": 88.5, "vsInflationMultiple": 0.9,  "currentTierName": "Annual" },
+    { "id": "disney_plus","name": "Disney+ Premium",            "defaultTierId": "premium",     "launchYear": 2019, "launchPrice": 6.99,  "currentPrice": 18.99, "totalIncreasePct": 171.7, "cpiIncreasePct": 20.4, "vsInflationMultiple": 8.4,  "currentTierName": "Premium" },
+    { "id": "apple_tv",   "name": "Apple TV+",                  "defaultTierId": "individual",  "launchYear": 2019, "launchPrice": 4.99,  "currentPrice": 12.99, "totalIncreasePct": 160.3, "cpiIncreasePct": 20.4, "vsInflationMultiple": 7.9,  "currentTierName": "Individual" },
+    { "id": "youtube",    "name": "YouTube Premium Individual", "defaultTierId": "individual",  "launchYear": 2015, "launchPrice": 9.99,  "currentPrice": 13.99, "totalIncreasePct": 40.0,  "cpiIncreasePct": 36.7, "vsInflationMultiple": 1.1,  "currentTierName": "Individual" },
+    { "id": "apple_music","name": "Apple Music Individual",     "defaultTierId": "individual",  "launchYear": 2015, "launchPrice": 9.99,  "currentPrice": 10.99, "totalIncreasePct": 10.0,  "cpiIncreasePct": 36.7, "vsInflationMultiple": 0.3,  "currentTierName": "Individual" },
+    { "id": "hulu",       "name": "Hulu With Ads",              "defaultTierId": "with_ads",    "launchYear": 2010, "launchPrice": 7.99,  "currentPrice": 11.99, "totalIncreasePct": 50.1,  "cpiIncreasePct": 48.6, "vsInflationMultiple": 1.0,  "currentTierName": "With Ads" },
+    { "id": "max",        "name": "Max Standard",               "defaultTierId": "standard",    "launchYear": 2020, "launchPrice": 14.99, "currentPrice": 18.49, "totalIncreasePct": 23.3,  "cpiIncreasePct": 25.2, "vsInflationMultiple": 0.9,  "currentTierName": "Standard" },
+    { "id": "adobe",      "name": "Adobe CC All Apps (Annual)", "defaultTierId": "annual",      "launchYear": 2013, "launchPrice": 49.99, "currentPrice": 69.99, "totalIncreasePct": 40.0,  "cpiIncreasePct": 39.0, "vsInflationMultiple": 1.0,  "currentTierName": "Annual" },
+    { "id": "microsoft",  "name": "Microsoft 365 Personal",    "defaultTierId": "personal",    "launchYear": 2011, "launchPrice": 6.25,  "currentPrice": 8.33,  "totalIncreasePct": 33.3,  "cpiIncreasePct": 44.2, "vsInflationMultiple": 0.8,  "currentTierName": "Personal" },
+    { "id": "planet_fitness","name": "Planet Fitness Classic",  "defaultTierId": "classic",     "launchYear": 2010, "launchPrice": 10.00, "currentPrice": 15.00, "totalIncreasePct": 50.0,  "cpiIncreasePct": 48.6, "vsInflationMultiple": 1.0,  "currentTierName": "Classic" },
+    { "id": "peloton",    "name": "Peloton All-Access",         "defaultTierId": "all_access",  "launchYear": 2019, "launchPrice": 39.00, "currentPrice": 49.99, "totalIncreasePct": 28.2,  "cpiIncreasePct": 20.4, "vsInflationMultiple": 1.4,  "currentTierName": "All-Access" },
+    { "id": "dropbox",    "name": "Dropbox Plus",               "defaultTierId": "plus",        "launchYear": 2012, "launchPrice": 9.99,  "currentPrice": 11.99, "totalIncreasePct": 20.0,  "cpiIncreasePct": 41.0, "vsInflationMultiple": 0.5,  "currentTierName": "Plus" },
+    { "id": "linkedin",   "name": "LinkedIn Premium Career",    "defaultTierId": "career",      "launchYear": 2013, "launchPrice": 29.99, "currentPrice": 39.99, "totalIncreasePct": 33.4,  "cpiIncreasePct": 39.0, "vsInflationMultiple": 0.9,  "currentTierName": "Career" },
+    { "id": "icloud",     "name": "iCloud+ 50GB",               "defaultTierId": "50gb",        "launchYear": 2015, "launchPrice": 0.99,  "currentPrice": 0.99,  "totalIncreasePct": 0.0,   "cpiIncreasePct": 36.7, "vsInflationMultiple": 0.0,  "currentTierName": "50GB" }
+  ]
 }
