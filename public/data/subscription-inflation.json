@@ -1,0 +1,852 @@
+{
+  "metadata": {
+    "lastUpdated": "2026-05",
+    "currency": "USD",
+    "sources": [
+      "PriceTimeline.com",
+      "9meters.com",
+      "GoCancelIt.com",
+      "BLS CPI data (general inflation baseline)",
+      "Official company announcements and press releases"
+    ],
+    "notes": "All prices are monthly USD unless stated otherwise. Annual plan monthly equivalents are noted separately. 'N/A' indicates the tier did not exist at that date. CPI baseline uses BLS US Urban CPI, index 2011=100 for comparability across services with different launch dates."
+  },
+  "cpiBaseline": {
+    "description": "US CPI (All Urban Consumers) annual average index values. Used to calculate what a subscription price would cost if it had risen only with general inflation.",
+    "index_base_year": 2000,
+    "data": [
+      { "year": 2000, "cpi": 172.2 },
+      { "year": 2001, "cpi": 177.1 },
+      { "year": 2002, "cpi": 179.9 },
+      { "year": 2003, "cpi": 184.0 },
+      { "year": 2004, "cpi": 188.9 },
+      { "year": 2005, "cpi": 195.3 },
+      { "year": 2006, "cpi": 201.6 },
+      { "year": 2007, "cpi": 207.3 },
+      { "year": 2008, "cpi": 215.3 },
+      { "year": 2009, "cpi": 214.5 },
+      { "year": 2010, "cpi": 218.1 },
+      { "year": 2011, "cpi": 224.9 },
+      { "year": 2012, "cpi": 229.6 },
+      { "year": 2013, "cpi": 233.0 },
+      { "year": 2014, "cpi": 236.7 },
+      { "year": 2015, "cpi": 237.0 },
+      { "year": 2016, "cpi": 240.0 },
+      { "year": 2017, "cpi": 245.1 },
+      { "year": 2018, "cpi": 251.1 },
+      { "year": 2019, "cpi": 255.7 },
+      { "year": 2020, "cpi": 258.8 },
+      { "year": 2021, "cpi": 271.0 },
+      { "year": 2022, "cpi": 292.7 },
+      { "year": 2023, "cpi": 304.7 },
+      { "year": 2024, "cpi": 314.2 },
+      { "year": 2025, "cpi": 320.5 },
+      { "year": 2026, "cpi": 324.1 }
+    ]
+  },
+  "services": [
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "category": "streaming_video",
+      "country": "US",
+      "launchYear": 2007,
+      "url": "https://netflix.com",
+      "description": "Video streaming service offering TV shows, films and documentaries.",
+      "tiers": [
+        {
+          "tierId": "standard",
+          "tierName": "Standard (formerly Basic/Single)",
+          "description": "HD streaming on 2 screens, the most popular mid-tier plan over Netflix's history.",
+          "priceHistory": [
+            { "year": 2007, "month": 1,  "price": 8.99,  "note": "Streaming launched bundled with DVD plan; standalone streaming equivalent" },
+            { "year": 2010, "month": 5,  "price": 8.99,  "note": "Streaming-only plan introduced" },
+            { "year": 2011, "month": 9,  "price": 7.99,  "note": "Price reduced as standalone streaming plan" },
+            { "year": 2013, "month": 1,  "price": 7.99,  "note": "Standard tier renamed, HD added" },
+            { "year": 2014, "month": 5,  "price": 8.99,  "note": "+$1.00 increase" },
+            { "year": 2015, "month": 10, "price": 9.99,  "note": "+$1.00 increase" },
+            { "year": 2017, "month": 10, "price": 10.99, "note": "+$1.00 increase" },
+            { "year": 2019, "month": 1,  "price": 12.99, "note": "+$2.00 increase" },
+            { "year": 2020, "month": 10, "price": 13.99, "note": "+$1.00 increase" },
+            { "year": 2022, "month": 1,  "price": 15.49, "note": "+$1.50 increase" },
+            { "year": 2023, "month": 2,  "price": 15.49, "note": "Basic phased out; Standard maintained" },
+            { "year": 2024, "month": 1,  "price": 15.49, "note": "Standard without ads maintained" },
+            { "year": 2025, "month": 1,  "price": 17.99, "note": "+$2.50 increase, January 2025 hike" }
+          ]
+        },
+        {
+          "tierId": "premium",
+          "tierName": "Premium (4K)",
+          "description": "4K Ultra HD streaming on up to 4 screens simultaneously.",
+          "priceHistory": [
+            { "year": 2013, "month": 1,  "price": 11.99, "note": "Premium tier introduced" },
+            { "year": 2014, "month": 5,  "price": 13.99, "note": "+$2.00 increase" },
+            { "year": 2015, "month": 10, "price": 14.99, "note": "+$1.00 increase" },
+            { "year": 2017, "month": 10, "price": 15.99, "note": "+$1.00 increase" },
+            { "year": 2019, "month": 1,  "price": 17.99, "note": "+$2.00 increase" },
+            { "year": 2020, "month": 10, "price": 17.99, "note": "Unchanged" },
+            { "year": 2021, "month": 2,  "price": 19.99, "note": "+$2.00 increase" },
+            { "year": 2022, "month": 1,  "price": 19.99, "note": "Unchanged" },
+            { "year": 2023, "month": 2,  "price": 22.99, "note": "+$3.00 increase" },
+            { "year": 2024, "month": 1,  "price": 22.99, "note": "Unchanged" },
+            { "year": 2025, "month": 1,  "price": 24.99, "note": "+$2.00 increase, January 2025 hike" }
+          ]
+        },
+        {
+          "tierId": "ads",
+          "tierName": "Standard with Ads",
+          "description": "Ad-supported HD plan introduced November 2022.",
+          "priceHistory": [
+            { "year": 2022, "month": 11, "price": 6.99,  "note": "Ad-supported tier launched" },
+            { "year": 2024, "month": 1,  "price": 6.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 1,  "price": 7.99,  "note": "+$1.00 increase" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spotify",
+      "name": "Spotify Premium",
+      "category": "music_audio",
+      "country": "US",
+      "launchYear": 2011,
+      "url": "https://spotify.com",
+      "description": "Music and podcast streaming service with over 100 million tracks.",
+      "tiers": [
+        {
+          "tierId": "individual",
+          "tierName": "Individual",
+          "description": "Single-user premium plan, ad-free with offline listening.",
+          "priceHistory": [
+            { "year": 2011, "month": 7,  "price": 9.99,  "note": "US launch price" },
+            { "year": 2012, "month": 7,  "price": 9.99,  "note": "Price held steady" },
+            { "year": 2014, "month": 8,  "price": 9.99,  "note": "Price held steady" },
+            { "year": 2016, "month": 5,  "price": 9.99,  "note": "Price held steady for 5 years" },
+            { "year": 2019, "month": 3,  "price": 9.99,  "note": "Still unchanged — 8 years at same price" },
+            { "year": 2020, "month": 2,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2023, "month": 5,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2023, "month": 8,  "price": 10.99, "note": "+$1.00 — first US price increase in 12 years" },
+            { "year": 2024, "month": 3,  "price": 10.99, "note": "Unchanged" },
+            { "year": 2025, "month": 5,  "price": 11.99, "note": "+$1.00 increase, May 2025" },
+            { "year": 2026, "month": 1,  "price": 12.99, "note": "+$1.00 increase, January 2026" }
+          ]
+        },
+        {
+          "tierId": "duo",
+          "tierName": "Duo",
+          "description": "Two-person plan for couples living at the same address.",
+          "priceHistory": [
+            { "year": 2019, "month": 3,  "price": 12.99, "note": "Duo plan launched" },
+            { "year": 2020, "month": 2,  "price": 12.99, "note": "Unchanged" },
+            { "year": 2023, "month": 5,  "price": 12.99, "note": "Unchanged" },
+            { "year": 2023, "month": 8,  "price": 13.99, "note": "+$1.00 increase" },
+            { "year": 2024, "month": 3,  "price": 14.99, "note": "+$1.00 increase" },
+            { "year": 2025, "month": 5,  "price": 16.99, "note": "+$2.00 increase" },
+            { "year": 2026, "month": 1,  "price": 18.99, "note": "+$2.00 increase" }
+          ]
+        },
+        {
+          "tierId": "family",
+          "tierName": "Family",
+          "description": "Up to 6 accounts for family members at the same address.",
+          "priceHistory": [
+            { "year": 2016, "month": 5,  "price": 14.99, "note": "Family plan launched" },
+            { "year": 2019, "month": 3,  "price": 14.99, "note": "Unchanged" },
+            { "year": 2020, "month": 2,  "price": 14.99, "note": "Unchanged" },
+            { "year": 2023, "month": 5,  "price": 14.99, "note": "Unchanged" },
+            { "year": 2023, "month": 8,  "price": 16.99, "note": "+$2.00 increase" },
+            { "year": 2024, "month": 3,  "price": 16.99, "note": "Unchanged" },
+            { "year": 2025, "month": 5,  "price": 19.99, "note": "+$3.00 increase" },
+            { "year": 2026, "month": 1,  "price": 21.99, "note": "+$2.00 increase" }
+          ]
+        },
+        {
+          "tierId": "student",
+          "tierName": "Student",
+          "description": "Discounted plan for verified students.",
+          "priceHistory": [
+            { "year": 2014, "month": 8,  "price": 4.99,  "note": "Student plan launched" },
+            { "year": 2020, "month": 2,  "price": 4.99,  "note": "Unchanged for 6 years" },
+            { "year": 2023, "month": 8,  "price": 5.99,  "note": "+$1.00 increase" },
+            { "year": 2024, "month": 3,  "price": 5.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 5,  "price": 5.99,  "note": "Unchanged" },
+            { "year": 2026, "month": 1,  "price": 6.99,  "note": "+$1.00 increase" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amazon_prime",
+      "name": "Amazon Prime",
+      "category": "retail_streaming",
+      "country": "US",
+      "launchYear": 2005,
+      "url": "https://amazon.com/prime",
+      "description": "Membership including free shipping, Prime Video, Prime Music, and more.",
+      "tiers": [
+        {
+          "tierId": "prime_annual",
+          "tierName": "Prime (Annual)",
+          "description": "Annual membership billed once per year — most popular option.",
+          "priceHistory": [
+            { "year": 2005, "month": 2,  "price": 6.58,  "note": "$79/year annual ($79/12 = $6.58/mo equivalent)" },
+            { "year": 2014, "month": 4,  "price": 8.25,  "note": "$99/year annual — +25.3% increase (+$20/yr)" },
+            { "year": 2018, "month": 5,  "price": 9.92,  "note": "$119/year annual — +20.2% increase (+$20/yr)" },
+            { "year": 2022, "month": 2,  "price": 11.58, "note": "$139/year annual — +16.8% increase (+$20/yr)" },
+            { "year": 2025, "month": 10, "price": 11.58, "note": "$139/year — unchanged" }
+          ]
+        },
+        {
+          "tierId": "prime_monthly",
+          "tierName": "Prime (Monthly)",
+          "description": "Month-to-month membership with no annual commitment.",
+          "priceHistory": [
+            { "year": 2016, "month": 1,  "price": 10.99, "note": "Monthly option introduced" },
+            { "year": 2017, "month": 1,  "price": 10.99, "note": "Unchanged" },
+            { "year": 2022, "month": 2,  "price": 14.99, "note": "+$4.00 increase (+36.4%)" },
+            { "year": 2025, "month": 10, "price": 14.99, "note": "Unchanged" }
+          ]
+        },
+        {
+          "tierId": "prime_video_only",
+          "tierName": "Prime Video Only",
+          "description": "Streaming-only access to Prime Video without other Prime benefits.",
+          "priceHistory": [
+            { "year": 2017, "month": 1,  "price": 8.99,  "note": "Prime Video standalone launched" },
+            { "year": 2022, "month": 2,  "price": 8.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 10, "price": 8.99,  "note": "Unchanged (but $2.99/mo surcharge added to remove ads in 2024)" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disney_plus",
+      "name": "Disney+",
+      "category": "streaming_video",
+      "country": "US",
+      "launchYear": 2019,
+      "url": "https://disneyplus.com",
+      "description": "Disney, Marvel, Star Wars, Pixar, and National Geographic streaming.",
+      "tiers": [
+        {
+          "tierId": "basic_ads",
+          "tierName": "Basic (With Ads)",
+          "description": "Ad-supported tier, HD streaming.",
+          "priceHistory": [
+            { "year": 2019, "month": 11, "price": 6.99,  "note": "Launch price (no ads at launch, this tier introduced Dec 2022)" },
+            { "year": 2022, "month": 12, "price": 7.99,  "note": "Ad-supported tier launched at $7.99; original ad-free tier stayed at $7.99 until renamed" },
+            { "year": 2023, "month": 10, "price": 7.99,  "note": "Unchanged" },
+            { "year": 2024, "month": 11, "price": 7.99,  "note": "Unchanged, now renamed Disney+ Basic" },
+            { "year": 2025, "month": 2,  "price": 9.99,  "note": "+$2.00 increase, February 2025" },
+            { "year": 2025, "month": 10, "price": 11.99, "note": "+$2.00 increase, October 2025" }
+          ]
+        },
+        {
+          "tierId": "premium_no_ads",
+          "tierName": "Premium (No Ads)",
+          "description": "Ad-free tier, 4K streaming on up to 4 screens.",
+          "priceHistory": [
+            { "year": 2019, "month": 11, "price": 6.99,  "note": "Launch — ad-free only option at launch" },
+            { "year": 2021, "month": 3,  "price": 7.99,  "note": "+$1.00 increase" },
+            { "year": 2022, "month": 8,  "price": 10.99, "note": "+$3.00 increase — largest single hike" },
+            { "year": 2023, "month": 10, "price": 13.99, "note": "+$3.00 increase" },
+            { "year": 2024, "month": 11, "price": 15.99, "note": "+$2.00 increase" },
+            { "year": 2025, "month": 2,  "price": 15.99, "note": "Unchanged" },
+            { "year": 2025, "month": 10, "price": 18.99, "note": "+$3.00 increase, October 2025" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "youtube_premium",
+      "name": "YouTube Premium",
+      "category": "video_music",
+      "country": "US",
+      "launchYear": 2015,
+      "url": "https://youtube.com/premium",
+      "description": "Ad-free YouTube, background play, YouTube Music included, YouTube Originals.",
+      "tiers": [
+        {
+          "tierId": "individual",
+          "tierName": "Individual",
+          "description": "Single-user ad-free YouTube and YouTube Music.",
+          "priceHistory": [
+            { "year": 2015, "month": 10, "price": 9.99,  "note": "Launched as YouTube Red at $9.99" },
+            { "year": 2017, "month": 4,  "price": 9.99,  "note": "Unchanged, still YouTube Red" },
+            { "year": 2018, "month": 5,  "price": 11.99, "note": "Rebranded to YouTube Premium, +$2.00" },
+            { "year": 2019, "month": 1,  "price": 11.99, "note": "Unchanged" },
+            { "year": 2022, "month": 1,  "price": 11.99, "note": "Unchanged" },
+            { "year": 2023, "month": 7,  "price": 13.99, "note": "+$2.00 increase — July 2023" },
+            { "year": 2025, "month": 5,  "price": 13.99, "note": "Unchanged" }
+          ]
+        },
+        {
+          "tierId": "family",
+          "tierName": "Family",
+          "description": "Up to 5 additional family members in the same household.",
+          "priceHistory": [
+            { "year": 2018, "month": 5,  "price": 17.99, "note": "Family plan launched at YouTube Premium rebrand" },
+            { "year": 2022, "month": 1,  "price": 17.99, "note": "Unchanged for 4 years" },
+            { "year": 2023, "month": 7,  "price": 22.99, "note": "+$5.00 increase — July 2023" },
+            { "year": 2025, "month": 5,  "price": 22.99, "note": "Unchanged" }
+          ]
+        },
+        {
+          "tierId": "student",
+          "tierName": "Student",
+          "description": "Discounted plan for verified university students.",
+          "priceHistory": [
+            { "year": 2018, "month": 11, "price": 6.99,  "note": "Student plan launched" },
+            { "year": 2022, "month": 1,  "price": 6.99,  "note": "Unchanged" },
+            { "year": 2023, "month": 7,  "price": 7.99,  "note": "+$1.00 increase" },
+            { "year": 2025, "month": 5,  "price": 7.99,  "note": "Unchanged" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apple_tv_plus",
+      "name": "Apple TV+",
+      "category": "streaming_video",
+      "country": "US",
+      "launchYear": 2019,
+      "url": "https://tv.apple.com",
+      "description": "Apple's original series, films and documentaries streaming service.",
+      "tiers": [
+        {
+          "tierId": "individual",
+          "tierName": "Individual / All Access",
+          "description": "Single subscription, up to 6 family members can share via Family Sharing.",
+          "priceHistory": [
+            { "year": 2019, "month": 11, "price": 4.99,  "note": "Launch price — cheapest major streamer at launch" },
+            { "year": 2022, "month": 10, "price": 6.99,  "note": "+$2.00 increase (+40%)" },
+            { "year": 2023, "month": 3,  "price": 9.99,  "note": "+$3.00 increase (+43%)" },
+            { "year": 2024, "month": 1,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 7,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 8,  "price": 12.99, "note": "+$3.00 increase, August 2025 — 160% total increase since launch" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apple_music",
+      "name": "Apple Music",
+      "category": "music_audio",
+      "country": "US",
+      "launchYear": 2015,
+      "url": "https://music.apple.com",
+      "description": "Music streaming service with over 100 million songs, lossless audio, and live radio.",
+      "tiers": [
+        {
+          "tierId": "individual",
+          "tierName": "Individual",
+          "description": "Single-user subscription with full library access.",
+          "priceHistory": [
+            { "year": 2015, "month": 6,  "price": 9.99,  "note": "US launch price" },
+            { "year": 2019, "month": 1,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2022, "month": 10, "price": 10.99, "note": "+$1.00 increase (+10%)" },
+            { "year": 2025, "month": 6,  "price": 10.99, "note": "Unchanged" }
+          ]
+        },
+        {
+          "tierId": "family",
+          "tierName": "Family",
+          "description": "Up to 6 family members via Family Sharing.",
+          "priceHistory": [
+            { "year": 2015, "month": 6,  "price": 14.99, "note": "Launch price" },
+            { "year": 2022, "month": 10, "price": 16.99, "note": "+$2.00 increase" },
+            { "year": 2025, "month": 6,  "price": 16.99, "note": "Unchanged" }
+          ]
+        },
+        {
+          "tierId": "student",
+          "tierName": "Student",
+          "description": "Verified student discounted plan.",
+          "priceHistory": [
+            { "year": 2016, "month": 9,  "price": 4.99,  "note": "Student plan launched" },
+            { "year": 2022, "month": 10, "price": 5.99,  "note": "+$1.00 increase" },
+            { "year": 2025, "month": 6,  "price": 5.99,  "note": "Unchanged" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hulu",
+      "name": "Hulu",
+      "category": "streaming_video",
+      "country": "US",
+      "launchYear": 2010,
+      "url": "https://hulu.com",
+      "description": "On-demand streaming with current TV episodes, originals, and optional live TV.",
+      "tiers": [
+        {
+          "tierId": "with_ads",
+          "tierName": "Hulu (With Ads)",
+          "description": "Ad-supported on-demand streaming.",
+          "priceHistory": [
+            { "year": 2010, "month": 6,  "price": 7.99,  "note": "Hulu Plus launched" },
+            { "year": 2014, "month": 1,  "price": 7.99,  "note": "Unchanged" },
+            { "year": 2017, "month": 2,  "price": 7.99,  "note": "Unchanged" },
+            { "year": 2019, "month": 2,  "price": 5.99,  "note": "Price CUT to $5.99 to compete with Netflix" },
+            { "year": 2021, "month": 10, "price": 6.99,  "note": "+$1.00 increase" },
+            { "year": 2022, "month": 10, "price": 7.99,  "note": "+$1.00 increase" },
+            { "year": 2023, "month": 10, "price": 7.99,  "note": "Unchanged" },
+            { "year": 2024, "month": 10, "price": 7.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 2,  "price": 9.99,  "note": "+$2.00 increase, February 2025" },
+            { "year": 2025, "month": 10, "price": 11.99, "note": "+$2.00 increase, October 2025" }
+          ]
+        },
+        {
+          "tierId": "no_ads",
+          "tierName": "Hulu (No Ads / Premium)",
+          "description": "Ad-free on-demand streaming.",
+          "priceHistory": [
+            { "year": 2015, "month": 9,  "price": 11.99, "note": "Ad-free tier launched" },
+            { "year": 2017, "month": 2,  "price": 11.99, "note": "Unchanged" },
+            { "year": 2019, "month": 2,  "price": 11.99, "note": "Unchanged" },
+            { "year": 2021, "month": 10, "price": 12.99, "note": "+$1.00 increase" },
+            { "year": 2022, "month": 10, "price": 14.99, "note": "+$2.00 increase" },
+            { "year": 2023, "month": 10, "price": 17.99, "note": "+$3.00 increase" },
+            { "year": 2025, "month": 2,  "price": 18.99, "note": "+$1.00 increase" },
+            { "year": 2025, "month": 10, "price": 18.99, "note": "Unchanged" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hbo_max",
+      "name": "Max (formerly HBO Max)",
+      "category": "streaming_video",
+      "country": "US",
+      "launchYear": 2020,
+      "url": "https://max.com",
+      "description": "HBO originals, Warner Bros. films, DC, and CNN content streaming service.",
+      "tiers": [
+        {
+          "tierId": "basic_ads",
+          "tierName": "Basic with Ads",
+          "description": "Ad-supported streaming of HBO and Max content.",
+          "priceHistory": [
+            { "year": 2020, "month": 5,  "price": 9.99,  "note": "HBO Max launched (ad-free only at launch)" },
+            { "year": 2021, "month": 6,  "price": 9.99,  "note": "Ad-supported tier launched at $9.99" },
+            { "year": 2023, "month": 5,  "price": 9.99,  "note": "Rebranded to 'Max', price unchanged" },
+            { "year": 2024, "month": 1,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 9,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 10, "price": 10.99, "note": "+$1.00 increase, October 2025" }
+          ]
+        },
+        {
+          "tierId": "standard",
+          "tierName": "Standard (No Ads)",
+          "description": "Ad-free HD streaming, 2 concurrent streams.",
+          "priceHistory": [
+            { "year": 2020, "month": 5,  "price": 14.99, "note": "HBO Max launch price (ad-free)" },
+            { "year": 2022, "month": 6,  "price": 14.99, "note": "Unchanged" },
+            { "year": 2023, "month": 5,  "price": 15.99, "note": "+$1.00 after rebrand to Max" },
+            { "year": 2024, "month": 1,  "price": 15.99, "note": "Unchanged" },
+            { "year": 2025, "month": 9,  "price": 16.99, "note": "+$1.00 increase" },
+            { "year": 2025, "month": 10, "price": 18.49, "note": "+$1.50 increase, October 2025" }
+          ]
+        },
+        {
+          "tierId": "premium",
+          "tierName": "Premium (4K)",
+          "description": "4K HDR streaming, up to 4 concurrent streams, 100 offline downloads.",
+          "priceHistory": [
+            { "year": 2020, "month": 5,  "price": 14.99, "note": "No premium tier at launch" },
+            { "year": 2022, "month": 6,  "price": 19.99, "note": "Premium 4K tier introduced" },
+            { "year": 2023, "month": 5,  "price": 19.99, "note": "Unchanged after rebrand" },
+            { "year": 2025, "month": 9,  "price": 20.99, "note": "+$1.00 increase" },
+            { "year": 2025, "month": 10, "price": 22.99, "note": "+$2.00 increase, October 2025" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "microsoft_365",
+      "name": "Microsoft 365 (formerly Office 365)",
+      "category": "productivity_software",
+      "country": "US",
+      "launchYear": 2011,
+      "url": "https://microsoft.com/microsoft-365",
+      "description": "Word, Excel, PowerPoint, Outlook, Teams, OneDrive — annual subscription.",
+      "tiers": [
+        {
+          "tierId": "personal_annual",
+          "tierName": "Personal (Annual)",
+          "description": "Single user subscription — billed annually.",
+          "priceHistory": [
+            { "year": 2011, "month": 10, "price": 6.25,  "note": "Office 365 Personal launched at $75/year ($6.25/mo)" },
+            { "year": 2013, "month": 1,  "price": 8.33,  "note": "Price raised to $99.99/year ($8.33/mo)" },
+            { "year": 2017, "month": 10, "price": 6.99,  "note": "Price reduced to $69.99/year ($5.83/mo) — competitive response" },
+            { "year": 2022, "month": 3,  "price": 6.99,  "note": "Price raised back to $69.99/year (held)" },
+            { "year": 2024, "month": 3,  "price": 5.83,  "note": "$69.99/year — unchanged" },
+            { "year": 2025, "month": 5,  "price": 8.33,  "note": "Raised to $99.99/year (+$30/yr, +43%) — includes Copilot AI" }
+          ]
+        },
+        {
+          "tierId": "family_annual",
+          "tierName": "Family (Annual, formerly Home Premium)",
+          "description": "Up to 6 users, 1TB OneDrive each — billed annually.",
+          "priceHistory": [
+            { "year": 2011, "month": 10, "price": 8.33,  "note": "Office 365 Home Premium at $99.99/year" },
+            { "year": 2014, "month": 3,  "price": 8.33,  "note": "Unchanged" },
+            { "year": 2020, "month": 1,  "price": 8.33,  "note": "Unchanged at $99.99/year" },
+            { "year": 2024, "month": 3,  "price": 8.33,  "note": "Unchanged at $99.99/year" },
+            { "year": 2025, "month": 5,  "price": 10.83, "note": "Raised to $129.99/year (+$30/yr, +30%)" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adobe_creative_cloud",
+      "name": "Adobe Creative Cloud",
+      "category": "creative_software",
+      "country": "US",
+      "launchYear": 2013,
+      "url": "https://adobe.com/creativecloud",
+      "description": "Photoshop, Illustrator, Premiere Pro, After Effects and 20+ creative apps.",
+      "tiers": [
+        {
+          "tierId": "all_apps_annual",
+          "tierName": "All Apps — Annual Plan (billed monthly)",
+          "description": "Access to all 20+ Creative Cloud apps, annual commitment billed monthly.",
+          "priceHistory": [
+            { "year": 2013, "month": 5,  "price": 49.99, "note": "Creative Cloud launched, replacing perpetual licenses" },
+            { "year": 2015, "month": 1,  "price": 49.99, "note": "Unchanged" },
+            { "year": 2017, "month": 10, "price": 52.99, "note": "+$3.00 increase (+6%)" },
+            { "year": 2019, "month": 10, "price": 52.99, "note": "Unchanged" },
+            { "year": 2022, "month": 3,  "price": 54.99, "note": "+$2.00 increase, cloud storage doubled to 100GB" },
+            { "year": 2024, "month": 3,  "price": 59.99, "note": "+$5.00 increase (+9%), Generative AI credits added" },
+            { "year": 2025, "month": 6,  "price": 59.99, "note": "Renamed to Creative Cloud Pro starting June 17, 2025" },
+            { "year": 2025, "month": 7,  "price": 69.99, "note": "+$10.00 increase, rebranded as Creative Cloud Pro (+17%)" }
+          ]
+        },
+        {
+          "tierId": "all_apps_monthly",
+          "tierName": "All Apps — Month-to-Month",
+          "description": "No annual commitment, significantly higher price.",
+          "priceHistory": [
+            { "year": 2013, "month": 5,  "price": 74.99, "note": "Launch price month-to-month" },
+            { "year": 2017, "month": 10, "price": 79.99, "note": "+$5.00 increase" },
+            { "year": 2022, "month": 3,  "price": 82.49, "note": "+$2.50 increase" },
+            { "year": 2024, "month": 3,  "price": 89.99, "note": "+$7.50 increase" },
+            { "year": 2025, "month": 7,  "price": 104.99,"note": "+$15.00 increase, Creative Cloud Pro monthly" }
+          ]
+        },
+        {
+          "tierId": "students_teachers",
+          "tierName": "Students and Teachers",
+          "description": "Verified student/educator discount for all apps.",
+          "priceHistory": [
+            { "year": 2013, "month": 5,  "price": 19.99, "note": "Student plan launch price" },
+            { "year": 2017, "month": 10, "price": 29.99, "note": "+$10.00 increase (+50%)" },
+            { "year": 2022, "month": 3,  "price": 34.99, "note": "+$5.00 increase" },
+            { "year": 2025, "month": 7,  "price": 39.99, "note": "+$5.00 increase" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dropbox",
+      "name": "Dropbox",
+      "category": "cloud_storage",
+      "country": "US",
+      "launchYear": 2008,
+      "url": "https://dropbox.com",
+      "description": "Cloud storage and file sharing service.",
+      "tiers": [
+        {
+          "tierId": "plus_annual",
+          "tierName": "Plus (Annual)",
+          "description": "2TB cloud storage for individuals, annual billing.",
+          "priceHistory": [
+            { "year": 2012, "month": 6,  "price": 9.99,  "note": "Dropbox Pro (now Plus) launched at $9.99/mo" },
+            { "year": 2014, "month": 8,  "price": 9.99,  "note": "Unchanged, storage bumped from 100GB to 1TB" },
+            { "year": 2017, "month": 3,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2019, "month": 6,  "price": 9.99,  "note": "Storage bumped to 2TB" },
+            { "year": 2021, "month": 4,  "price": 11.99, "note": "+$2.00 increase (+20%)" },
+            { "year": 2024, "month": 2,  "price": 11.99, "note": "Unchanged" },
+            { "year": 2026, "month": 3,  "price": 11.99, "note": "Unchanged" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nordvpn",
+      "name": "NordVPN",
+      "category": "security_vpn",
+      "country": "US",
+      "launchYear": 2012,
+      "url": "https://nordvpn.com",
+      "description": "Virtual Private Network service for online privacy and security.",
+      "tiers": [
+        {
+          "tierId": "basic_monthly",
+          "tierName": "Basic (Monthly)",
+          "description": "Month-to-month VPN subscription, no commitment.",
+          "priceHistory": [
+            { "year": 2012, "month": 1,  "price": 8.00,  "note": "Approximate early pricing" },
+            { "year": 2016, "month": 1,  "price": 11.95, "note": "Standard monthly rate" },
+            { "year": 2019, "month": 6,  "price": 11.95, "note": "Unchanged" },
+            { "year": 2022, "month": 1,  "price": 12.99, "note": "+$1.04 increase" },
+            { "year": 2023, "month": 1,  "price": 12.99, "note": "Unchanged" },
+            { "year": 2025, "month": 2,  "price": 12.99, "note": "Unchanged" }
+          ]
+        },
+        {
+          "tierId": "basic_annual",
+          "tierName": "Basic (Annual, per month equivalent)",
+          "description": "Annual plan — most common way subscribers pay.",
+          "priceHistory": [
+            { "year": 2016, "month": 1,  "price": 4.92,  "note": "$59/year equivalent" },
+            { "year": 2019, "month": 6,  "price": 4.92,  "note": "Unchanged" },
+            { "year": 2022, "month": 1,  "price": 4.99,  "note": "Slight increase" },
+            { "year": 2023, "month": 1,  "price": 4.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 2,  "price": 4.99,  "note": "Unchanged" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "linkedin_premium",
+      "name": "LinkedIn Premium",
+      "category": "professional_network",
+      "country": "US",
+      "launchYear": 2005,
+      "url": "https://linkedin.com/premium",
+      "description": "Professional networking tools, InMail credits, and career insights.",
+      "tiers": [
+        {
+          "tierId": "career",
+          "tierName": "Premium Career",
+          "description": "Job seeker tier — InMail, who viewed your profile, salary insights.",
+          "priceHistory": [
+            { "year": 2013, "month": 1,  "price": 29.99, "note": "Premium Career approximate early pricing" },
+            { "year": 2016, "month": 1,  "price": 29.99, "note": "Unchanged" },
+            { "year": 2019, "month": 6,  "price": 29.99, "note": "Unchanged" },
+            { "year": 2021, "month": 6,  "price": 29.99, "note": "Unchanged" },
+            { "year": 2023, "month": 1,  "price": 39.99, "note": "+$10.00 increase (+33%)" },
+            { "year": 2024, "month": 6,  "price": 39.99, "note": "Unchanged" },
+            { "year": 2025, "month": 1,  "price": 39.99, "note": "Unchanged" }
+          ]
+        },
+        {
+          "tierId": "business",
+          "tierName": "Premium Business",
+          "description": "Business networking tier with expanded InMail and analytics.",
+          "priceHistory": [
+            { "year": 2013, "month": 1,  "price": 47.99, "note": "Approximate early pricing" },
+            { "year": 2016, "month": 1,  "price": 47.99, "note": "Unchanged" },
+            { "year": 2019, "month": 6,  "price": 59.99, "note": "+$12.00 increase" },
+            { "year": 2023, "month": 1,  "price": 59.99, "note": "Unchanged" },
+            { "year": 2024, "month": 6,  "price": 69.99, "note": "+$10.00 increase" },
+            { "year": 2025, "month": 1,  "price": 69.99, "note": "Unchanged" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "planet_fitness",
+      "name": "Planet Fitness",
+      "category": "fitness_gym",
+      "country": "US",
+      "launchYear": 1992,
+      "url": "https://planetfitness.com",
+      "description": "Budget gym chain with locations across the US.",
+      "tiers": [
+        {
+          "tierId": "classic",
+          "tierName": "Classic Membership",
+          "description": "Access to one home club location.",
+          "priceHistory": [
+            { "year": 2010, "month": 1,  "price": 10.00, "note": "$10/month — the iconic '$10 gym' era begins" },
+            { "year": 2015, "month": 1,  "price": 10.00, "note": "Unchanged — held at $10 for over a decade" },
+            { "year": 2019, "month": 1,  "price": 10.00, "note": "Unchanged" },
+            { "year": 2022, "month": 1,  "price": 10.00, "note": "Unchanged" },
+            { "year": 2023, "month": 9,  "price": 10.00, "note": "Unchanged for new members" },
+            { "year": 2024, "month": 10, "price": 15.00, "note": "+$5.00 increase (+50%) for new members" },
+            { "year": 2025, "month": 2,  "price": 15.00, "note": "$15 now applies to all members" }
+          ]
+        },
+        {
+          "tierId": "black_card",
+          "tierName": "Black Card Membership",
+          "description": "All locations access, tanning, massage chairs, guest privileges.",
+          "priceHistory": [
+            { "year": 2010, "month": 1,  "price": 19.99, "note": "Approximate launch price" },
+            { "year": 2015, "month": 1,  "price": 21.99, "note": "Slight increase" },
+            { "year": 2019, "month": 1,  "price": 22.99, "note": "+$1.00 increase" },
+            { "year": 2022, "month": 6,  "price": 24.99, "note": "+$2.00 increase" },
+            { "year": 2025, "month": 2,  "price": 24.99, "note": "Unchanged" },
+            { "year": 2025, "month": 10, "price": 29.99, "note": "+$5.00 increase" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "peloton",
+      "name": "Peloton",
+      "category": "fitness_digital",
+      "country": "US",
+      "launchYear": 2014,
+      "url": "https://onepeloton.com",
+      "description": "Connected fitness app with live and on-demand cycling, running, and strength classes.",
+      "tiers": [
+        {
+          "tierId": "all_access",
+          "tierName": "All-Access Membership",
+          "description": "Unlimited classes for Peloton hardware owners (Bike, Tread, Row).",
+          "priceHistory": [
+            { "year": 2019, "month": 9,  "price": 39.00, "note": "All-Access launched at $39/month" },
+            { "year": 2020, "month": 3,  "price": 39.00, "note": "Unchanged, massive growth during pandemic lockdowns" },
+            { "year": 2022, "month": 6,  "price": 44.00, "note": "+$5.00 increase (+12.8%)" },
+            { "year": 2025, "month": 10, "price": 49.99, "note": "+$5.99 increase (+13.6%)" }
+          ]
+        },
+        {
+          "tierId": "app_plus",
+          "tierName": "App+ Membership",
+          "description": "Full class library via mobile app (no hardware required).",
+          "priceHistory": [
+            { "year": 2023, "month": 6,  "price": 24.00, "note": "App+ launched at $24/month" },
+            { "year": 2025, "month": 10, "price": 28.99, "note": "+$4.99 increase (+20.8%)" }
+          ]
+        },
+        {
+          "tierId": "app_one",
+          "tierName": "App One (Limited)",
+          "description": "Limited class access for casual users via mobile app.",
+          "priceHistory": [
+            { "year": 2023, "month": 6,  "price": 12.99, "note": "App One launched" },
+            { "year": 2025, "month": 10, "price": 15.99, "note": "+$3.00 increase (+23.1%)" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "duolingo_plus",
+      "name": "Duolingo Super (formerly Plus)",
+      "category": "education_learning",
+      "country": "US",
+      "launchYear": 2017,
+      "url": "https://duolingo.com",
+      "description": "Ad-free language learning with unlimited hearts and progress quizzes.",
+      "tiers": [
+        {
+          "tierId": "super_monthly",
+          "tierName": "Super / Plus (Monthly)",
+          "description": "Monthly subscription for ad-free premium features.",
+          "priceHistory": [
+            { "year": 2017, "month": 6,  "price": 9.99,  "note": "Duolingo Plus launched at $9.99/month" },
+            { "year": 2019, "month": 1,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2021, "month": 1,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2022, "month": 6,  "price": 9.99,  "note": "Rebranded to Duolingo Super" },
+            { "year": 2023, "month": 9,  "price": 12.99, "note": "+$3.00 increase (+30%)" },
+            { "year": 2025, "month": 1,  "price": 12.99, "note": "Unchanged" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nytimes",
+      "name": "New York Times Digital",
+      "category": "news_media",
+      "country": "US",
+      "launchYear": 2011,
+      "url": "https://nytimes.com",
+      "description": "Digital news subscription to The New York Times.",
+      "tiers": [
+        {
+          "tierId": "basic_digital",
+          "tierName": "Basic Digital Access",
+          "description": "Unlimited access to NYT news on all devices.",
+          "priceHistory": [
+            { "year": 2011, "month": 3,  "price": 3.75,  "note": "Metered paywall launched at $15/4 weeks ($3.75/wk)" },
+            { "year": 2013, "month": 6,  "price": 3.75,  "note": "Unchanged" },
+            { "year": 2016, "month": 1,  "price": 3.75,  "note": "Unchanged" },
+            { "year": 2018, "month": 1,  "price": 3.75,  "note": "Unchanged — heavy discounting for new subscribers" },
+            { "year": 2021, "month": 1,  "price": 4.25,  "note": "+$0.50/week increase" },
+            { "year": 2023, "month": 1,  "price": 4.25,  "note": "Unchanged" },
+            { "year": 2024, "month": 6,  "price": 4.25,  "note": "Unchanged (introductory offers vary widely)" }
+          ]
+        },
+        {
+          "tierId": "all_access",
+          "tierName": "All Access (News + Games + Cooking + Wirecutter + Audio)",
+          "description": "Full NYT bundle including all subsidiary products.",
+          "priceHistory": [
+            { "year": 2021, "month": 10, "price": 17.00, "note": "All Access bundle introduced at $17/month" },
+            { "year": 2023, "month": 6,  "price": 25.00, "note": "+$8.00 increase (+47%)" },
+            { "year": 2025, "month": 1,  "price": 25.00, "note": "Unchanged" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "icloud_plus",
+      "name": "iCloud+ (Apple iCloud Storage)",
+      "category": "cloud_storage",
+      "country": "US",
+      "launchYear": 2011,
+      "url": "https://apple.com/icloud",
+      "description": "Apple cloud storage for photos, backups, and files across Apple devices.",
+      "tiers": [
+        {
+          "tierId": "50gb",
+          "tierName": "50GB Plan",
+          "description": "Entry-level storage tier for individuals.",
+          "priceHistory": [
+            { "year": 2011, "month": 10, "price": 1.00,  "note": "iCloud launched at $1/month for 10GB" },
+            { "year": 2014, "month": 9,  "price": 0.99,  "note": "Prices cut — 5GB free, 20GB=$0.99, 200GB=$3.99" },
+            { "year": 2015, "month": 10, "price": 0.99,  "note": "Now $0.99 for 50GB (storage tier restructured)" },
+            { "year": 2021, "month": 6,  "price": 0.99,  "note": "Unchanged, rebranded as iCloud+" },
+            { "year": 2025, "month": 1,  "price": 0.99,  "note": "Unchanged — longest held price in this dataset" }
+          ]
+        },
+        {
+          "tierId": "200gb",
+          "tierName": "200GB Plan",
+          "description": "Mid-tier storage for heavy photo users and small families.",
+          "priceHistory": [
+            { "year": 2015, "month": 10, "price": 2.99,  "note": "200GB tier launched at $2.99/month" },
+            { "year": 2021, "month": 6,  "price": 2.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 1,  "price": 2.99,  "note": "Unchanged — 10 years at same price" }
+          ]
+        },
+        {
+          "tierId": "2tb",
+          "tierName": "2TB Plan",
+          "description": "Top-tier individual/family cloud storage.",
+          "priceHistory": [
+            { "year": 2015, "month": 10, "price": 9.99,  "note": "2TB tier launched at $9.99/month" },
+            { "year": 2021, "month": 6,  "price": 9.99,  "note": "Unchanged" },
+            { "year": 2025, "month": 1,  "price": 9.99,  "note": "Unchanged — 10 years at same price" }
+          ]
+        }
+      ]
+    }
+  ],
+  "summaryStats": {
+    "description": "Calculated percentage increases from first available price to most recent (2025/2026) price for the most popular tier of each service.",
+    "data": [
+      { "service": "Netflix Standard",          "launchYear": 2011, "launchPrice": 7.99,  "currentPrice": 17.99, "pctIncrease": 125.2, "cpiIncreaseOverSamePeriod": 44.2, "vsInflationMultiple": 2.8 },
+      { "service": "Netflix Premium",           "launchYear": 2013, "launchPrice": 11.99, "currentPrice": 24.99, "pctIncrease": 108.4, "cpiIncreaseOverSamePeriod": 39.0, "vsInflationMultiple": 2.8 },
+      { "service": "Spotify Individual",        "launchYear": 2011, "launchPrice": 9.99,  "currentPrice": 12.99, "pctIncrease": 30.0,  "cpiIncreaseOverSamePeriod": 44.2, "vsInflationMultiple": 0.7 },
+      { "service": "Amazon Prime (Annual)",     "launchYear": 2005, "launchPrice": 6.58,  "currentPrice": 11.58, "pctIncrease": 76.0,  "cpiIncreaseOverSamePeriod": 88.5, "vsInflationMultiple": 0.9 },
+      { "service": "Disney+ Premium",           "launchYear": 2019, "launchPrice": 6.99,  "currentPrice": 18.99, "pctIncrease": 171.7, "cpiIncreaseOverSamePeriod": 20.4, "vsInflationMultiple": 8.4 },
+      { "service": "Apple TV+",                 "launchYear": 2019, "launchPrice": 4.99,  "currentPrice": 12.99, "pctIncrease": 160.3, "cpiIncreaseOverSamePeriod": 20.4, "vsInflationMultiple": 7.9 },
+      { "service": "YouTube Premium Individual","launchYear": 2015, "launchPrice": 9.99,  "currentPrice": 13.99, "pctIncrease": 40.0,  "cpiIncreaseOverSamePeriod": 36.7, "vsInflationMultiple": 1.1 },
+      { "service": "Apple Music Individual",    "launchYear": 2015, "launchPrice": 9.99,  "currentPrice": 10.99, "pctIncrease": 10.0,  "cpiIncreaseOverSamePeriod": 36.7, "vsInflationMultiple": 0.3 },
+      { "service": "Hulu With Ads",             "launchYear": 2010, "launchPrice": 7.99,  "currentPrice": 11.99, "pctIncrease": 50.1,  "cpiIncreaseOverSamePeriod": 48.6, "vsInflationMultiple": 1.0 },
+      { "service": "Max Standard",              "launchYear": 2020, "launchPrice": 14.99, "currentPrice": 18.49, "pctIncrease": 23.3,  "cpiIncreaseOverSamePeriod": 25.2, "vsInflationMultiple": 0.9 },
+      { "service": "Adobe CC All Apps (Annual)","launchYear": 2013, "launchPrice": 49.99, "currentPrice": 69.99, "pctIncrease": 40.0,  "cpiIncreaseOverSamePeriod": 39.0, "vsInflationMultiple": 1.0 },
+      { "service": "Microsoft 365 Personal",    "launchYear": 2011, "launchPrice": 6.25,  "currentPrice": 8.33,  "pctIncrease": 33.3,  "cpiIncreaseOverSamePeriod": 44.2, "vsInflationMultiple": 0.8 },
+      { "service": "Planet Fitness Classic",    "launchYear": 2010, "launchPrice": 10.00, "currentPrice": 15.00, "pctIncrease": 50.0,  "cpiIncreaseOverSamePeriod": 48.6, "vsInflationMultiple": 1.0 },
+      { "service": "Peloton All-Access",        "launchYear": 2019, "launchPrice": 39.00, "currentPrice": 49.99, "pctIncrease": 28.2,  "cpiIncreaseOverSamePeriod": 20.4, "vsInflationMultiple": 1.4 },
+      { "service": "Dropbox Plus",              "launchYear": 2012, "launchPrice": 9.99,  "currentPrice": 11.99, "pctIncrease": 20.0,  "cpiIncreaseOverSamePeriod": 41.0, "vsInflationMultiple": 0.5 },
+      { "service": "LinkedIn Premium Career",   "launchYear": 2013, "launchPrice": 29.99, "currentPrice": 39.99, "pctIncrease": 33.4,  "cpiIncreaseOverSamePeriod": 39.0, "vsInflationMultiple": 0.9 },
+      { "service": "iCloud+ 50GB",              "launchYear": 2015, "launchPrice": 0.99,  "currentPrice": 0.99,  "pctIncrease": 0.0,   "cpiIncreaseOverSamePeriod": 36.7, "vsInflationMultiple": 0.0 }
+    ]
+  }
+}
