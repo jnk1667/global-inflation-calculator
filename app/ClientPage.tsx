@@ -2053,6 +2053,11 @@ export default function ClientPage() {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/subscription-inflation-calculator" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
+                      Subscription Inflation Calculator
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/charts" className="hover:text-blue-400 dark:hover:text-blue-600 transition-colors">
                       Charts & Analytics
                     </Link>

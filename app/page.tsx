@@ -245,11 +245,16 @@ export default function Home() {
                         Deflation Calculator
                       </Link>
                     </li>
-                    <li>
-                      <Link href="/shrinkflation-calculator" className="text-blue-600 hover:underline">
-                        Shrinkflation Calculator
-                      </Link>
-                    </li>
+                  <li>
+                    <Link href="/shrinkflation-calculator" className="text-blue-600 hover:underline">
+                      Shrinkflation Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/subscription-inflation-calculator" className="text-blue-600 hover:underline">
+                      Subscription Inflation Calculator
+                    </Link>
+                  </li>
                     <li>
                       <Link href="/energy-inflation-calculator" className="text-blue-600 hover:underline">
                         Energy Inflation Calculator
