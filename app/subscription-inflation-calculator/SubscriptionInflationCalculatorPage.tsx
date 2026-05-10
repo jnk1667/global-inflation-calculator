@@ -328,39 +328,6 @@ export default function SubscriptionInflationCalculatorPage() {
     [services]
   )
 
-  const faqs = [
-    {
-      question: "How does this calculator measure subscription inflation?",
-      answer:
-        "For each subscription you add, we plot its real price history from your chosen start year through to today. We then show the CPI-adjusted equivalent — what that starting price would cost if it had only risen with official US inflation. The gap between the two lines is the 'subscription inflation premium' you are paying above and beyond general price rises.",
-    },
-    {
-      question: "Why does Spotify show less inflation than Netflix?",
-      answer:
-        "Spotify held its Individual plan at $9.99 for 12 years (2011–2023) before raising it — one of the longest price freezes of any major subscription service. Netflix raised prices seven times over the same period. So even though Spotify has also started hiking, its cumulative increase is much smaller relative to how long it has existed.",
-    },
-    {
-      question: "What does 'if only CPI' mean in the results?",
-      answer:
-        "The 'If CPI Only' figure shows what your subscription would cost today if its price had grown at exactly the rate of general US inflation (measured by the Bureau of Labor Statistics CPI) from the year you started subscribing. The difference between this and the actual price is the amount the company has raised prices above and beyond what inflation alone would justify.",
-    },
-    {
-      question: "Why is Amazon Prime shown as a monthly equivalent?",
-      answer:
-        "Amazon Prime is billed annually. We convert it to a monthly equivalent (annual price ÷ 12) so it can be compared fairly with monthly-billed services. The actual charge to your account is annual.",
-    },
-    {
-      question: "Are UK, Australian, or Canadian prices included?",
-      answer:
-        "The price data in this calculator is US pricing (USD). Most services charge different prices in different countries — often adjusted for local market conditions, purchasing power, and competition. We plan to add multi-currency subscription data in a future update.",
-    },
-    {
-      question: "How often is this data updated?",
-      answer:
-        "We update the subscription price data whenever a major service announces a price change. The dataset was last updated in May 2026 and includes all confirmed price changes up to that date.",
-    },
-  ]
-
   if (loadingData) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
@@ -915,7 +882,7 @@ export default function SubscriptionInflationCalculatorPage() {
 
         {/* ── FAQ ── */}
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm p-6 sm:p-8">
-          <FAQ items={faqs} />
+          <FAQ category="subscription_inflation" />
         </div>
 
         {/* ── Related tools ── */}
