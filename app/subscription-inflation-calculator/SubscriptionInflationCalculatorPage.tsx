@@ -374,7 +374,7 @@ export default function SubscriptionInflationCalculatorPage() {
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
+      <div className="max-w-6xl mx-auto px-4 pt-28 sm:pt-36 pb-12 space-y-8">
 
         {/* ── Title ── */}
         <div className="text-center space-y-3">
