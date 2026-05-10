@@ -161,6 +161,20 @@ export default function SubscriptionInflationCalculatorPage() {
   const [addTierId, setAddTierId] = useState("")
   const [addStartYear, setAddStartYear] = useState(2015)
   const [showInflationLine, setShowInflationLine] = useState(true)
+
+  // ── Subscription Creep Calculator state ──────────────────────────────────────
+  const [calcCurrency, setCalcCurrency] = useState("USD")
+  const [calcServiceId, setCalcServiceId] = useState("")
+  const [calcTierId, setCalcTierId] = useState("")
+  const [calcStartYear, setCalcStartYear] = useState(2018)
+  // Custom mode (service not in dataset)
+  const [calcMode, setCalcMode] = useState<"tracked" | "custom">("tracked")
+  const [calcCustomName, setCalcCustomName] = useState("")
+  const [calcCustomStartPrice, setCalcCustomStartPrice] = useState("")
+  const [calcCustomCurrentPrice, setCalcCustomCurrentPrice] = useState("")
+  const [calcCustomStartYear, setCalcCustomStartYear] = useState(2018)
+  const [calcProjectYears, setCalcProjectYears] = useState(5)
+
   const [blogContent, setBlogContent] = useState("")
   const [blogLoading, setBlogLoading] = useState(true)
   const [expandedService, setExpandedService] = useState<string | null>(null)
@@ -208,6 +222,18 @@ export default function SubscriptionInflationCalculatorPage() {
     if (tiers.length) setAddTierId(tiers[0].tierId)
   }, [addServiceId, data])
 
+  // Set default tier + start year for the Creep Calculator when service/currency changes
+  useEffect(() => {
+    if (!data || !calcServiceId) { setCalcTierId(""); return }
+    const svc = data.services.find((s) => s.id === calcServiceId)
+    const countryData = svc?.countries?.[calcCurrency]
+    const tiers = countryData?.tiers ?? []
+    if (tiers.length) {
+      setCalcTierId(tiers[0].tierId)
+      setCalcStartYear(countryData?.launchYear ?? 2015)
+    }
+  }, [calcServiceId, calcCurrency, data])
+
   const services = useMemo(() => data?.services ?? [], [data])
   const cpiData = useMemo(() => data?.cpiBaselines?.["USD"]?.data ?? [], [data])
   const summaryStats = useMemo(() => data?.summaryStats ?? [], [data])
@@ -221,6 +247,123 @@ export default function SubscriptionInflationCalculatorPage() {
     if (selectedCategory === "all") return services
     return services.filter((s) => s.category === selectedCategory)
   }, [services, selectedCategory])
+
+  // ── Currency symbols ──────────────────────────────────────────────────────────
+  const CURRENCY_META: Record<string, { symbol: string; label: string }> = {
+    USD: { symbol: "$",  label: "US Dollar (USD)"         },
+    GBP: { symbol: "£",  label: "British Pound (GBP)"     },
+    EUR: { symbol: "€",  label: "Euro (EUR)"               },
+    CAD: { symbol: "CA$",label: "Canadian Dollar (CAD)"   },
+    AUD: { symbol: "A$", label: "Australian Dollar (AUD)" },
+    CHF: { symbol: "CHF",label: "Swiss Franc (CHF)"       },
+    JPY: { symbol: "¥",  label: "Japanese Yen (JPY)"      },
+    NZD: { symbol: "NZ$",label: "New Zealand Dollar (NZD)"},
+  }
+
+  // ── Subscription Creep Calculator results ─────────────────────────────────────
+  const calcResults = useMemo(() => {
+    if (!data) return null
+    const cpiSeries = data.cpiBaselines[calcCurrency]?.data ?? []
+
+    let startPrice: number | null = null
+    let currentPrice: number | null = null
+    let startYear: number = calcStartYear
+    let label = ""
+
+    if (calcMode === "tracked") {
+      const svc = services.find((s) => s.id === calcServiceId)
+      const countryData = svc?.countries?.[calcCurrency]
+      const tier = countryData?.tiers.find((t) => t.tierId === calcTierId)
+      if (!svc || !countryData || !tier) return null
+      label = `${svc.name} — ${tier.tierName}`
+      startYear = calcStartYear
+      startPrice = getPriceForYear(tier, startYear)
+      currentPrice = getPriceForYear(tier, 2026)
+    } else {
+      const sp = parseFloat(calcCustomStartPrice)
+      const cp = parseFloat(calcCustomCurrentPrice)
+      if (!calcCustomName.trim() || isNaN(sp) || isNaN(cp) || sp <= 0 || cp <= 0) return null
+      label = calcCustomName.trim()
+      startYear = calcCustomStartYear
+      startPrice = sp
+      currentPrice = cp
+    }
+
+    if (startPrice === null || currentPrice === null || startPrice <= 0) return null
+
+    const years = 2026 - startYear
+    if (years <= 0) return null
+
+    // CPI growth over the same period
+    const cpiStart = getCpiForYear(cpiSeries, startYear)
+    const cpiNow   = getCpiForYear(cpiSeries, 2026)
+    const cpiGrowthPct = ((cpiNow - cpiStart) / cpiStart) * 100
+
+    // Subscription growth
+    const subGrowthPct = ((currentPrice - startPrice) / startPrice) * 100
+
+    // Price if it had only risen with CPI
+    const priceIfCpiOnly = startPrice * (cpiNow / cpiStart)
+
+    // Excess above inflation
+    const excessMonthly = currentPrice - priceIfCpiOnly
+    const excessAnnual  = excessMonthly * 12
+    const excessPct     = subGrowthPct - cpiGrowthPct
+
+    // Annualised creep rate (CAGR)
+    const annualisedCreepRate = (Math.pow(currentPrice / startPrice, 1 / years) - 1) * 100
+
+    // Annualised CPI rate for same period
+    const annualisedCpiRate = (Math.pow(cpiNow / cpiStart, 1 / years) - 1) * 100
+
+    // Forward projection using subscription CAGR
+    const projectedPrice = currentPrice * Math.pow(1 + annualisedCreepRate / 100, calcProjectYears)
+    const projectedIfCpi = currentPrice * Math.pow(1 + annualisedCpiRate  / 100, calcProjectYears)
+
+    // Cumulative overpayment (sum of monthly excess for each year at that year's actual vs CPI price)
+    let cumulativeOverpaid = 0
+    for (let y = startYear; y <= 2026; y++) {
+      let actualY: number | null = null
+      if (calcMode === "tracked") {
+        const svc = services.find((s) => s.id === calcServiceId)
+        const tier = svc?.countries?.[calcCurrency]?.tiers.find((t) => t.tierId === calcTierId)
+        actualY = tier ? getPriceForYear(tier, y) : null
+      } else {
+        // Linear interpolation between start and current for custom
+        const t = years > 0 ? (y - startYear) / years : 0
+        actualY = startPrice! + (currentPrice - startPrice!) * t
+      }
+      if (actualY === null) continue
+      const cpiY = getCpiForYear(cpiSeries, y)
+      const cpiAdjustedY = startPrice! * (cpiY / cpiStart)
+      cumulativeOverpaid += Math.max(0, (actualY - cpiAdjustedY) * 12)
+    }
+
+    const sym = CURRENCY_META[calcCurrency]?.symbol ?? calcCurrency
+
+    return {
+      label,
+      startYear,
+      years,
+      startPrice,
+      currentPrice,
+      priceIfCpiOnly,
+      subGrowthPct,
+      cpiGrowthPct,
+      excessPct,
+      excessMonthly,
+      excessAnnual,
+      annualisedCreepRate,
+      annualisedCpiRate,
+      projectedPrice,
+      projectedIfCpi,
+      cumulativeOverpaid,
+      sym,
+      currency: calcCurrency,
+    }
+  }, [data, calcMode, calcCurrency, calcServiceId, calcTierId, calcStartYear,
+      calcCustomName, calcCustomStartPrice, calcCustomCurrentPrice, calcCustomStartYear,
+      calcProjectYears, services])
 
   // Year range covered by all selected subs
   const yearRange = useMemo(() => {
@@ -408,6 +551,260 @@ export default function SubscriptionInflationCalculatorPage() {
             ))}
           </div>
         )}
+
+        {/* ── Subscription Creep Calculator ── */}
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
+          <div className="p-5 border-b border-gray-100 dark:border-gray-800">
+            <div className="flex items-center gap-2 mb-1">
+              <DollarSign className="w-4 h-4 text-blue-500" />
+              <h2 className="font-semibold text-gray-900 dark:text-white">Subscription Creep Calculator</h2>
+            </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              How much of your subscription increase is above inflation? Enter any service — tracked or custom.
+            </p>
+          </div>
+
+          <div className="p-5 space-y-5">
+
+            {/* Mode toggle + currency selector row */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden text-sm font-medium">
+                <button
+                  onClick={() => setCalcMode("tracked")}
+                  className={`px-4 py-2 transition-colors ${calcMode === "tracked" ? "bg-blue-600 text-white" : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"}`}
+                >
+                  Tracked service
+                </button>
+                <button
+                  onClick={() => setCalcMode("custom")}
+                  className={`px-4 py-2 transition-colors ${calcMode === "custom" ? "bg-blue-600 text-white" : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"}`}
+                >
+                  Custom / unlisted
+                </button>
+              </div>
+
+              <div className="ml-auto flex items-center gap-2">
+                <label className="text-xs text-gray-500 dark:text-gray-400 font-medium">Currency</label>
+                <select
+                  value={calcCurrency}
+                  onChange={(e) => { setCalcCurrency(e.target.value); setCalcServiceId("") }}
+                  className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {Object.entries(CURRENCY_META).map(([code, meta]) => (
+                    <option key={code} value={code}>{meta.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Inputs */}
+            {calcMode === "tracked" ? (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">Service</label>
+                  <select
+                    value={calcServiceId}
+                    onChange={(e) => setCalcServiceId(e.target.value)}
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select service…</option>
+                    {services
+                      .filter((s) => !!s.countries?.[calcCurrency])
+                      .map((s) => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                      ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">Plan / Tier</label>
+                  <select
+                    value={calcTierId}
+                    onChange={(e) => setCalcTierId(e.target.value)}
+                    disabled={!calcServiceId}
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-40"
+                  >
+                    {(services.find((s) => s.id === calcServiceId)?.countries?.[calcCurrency]?.tiers ?? []).map((t) => (
+                      <option key={t.tierId} value={t.tierId}>{t.tierName}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">I started paying in</label>
+                  <select
+                    value={calcStartYear}
+                    onChange={(e) => setCalcStartYear(Number(e.target.value))}
+                    disabled={!calcServiceId}
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-40"
+                  >
+                    {Array.from({ length: 2025 - 2005 + 1 }, (_, i) => 2005 + i).map((y) => (
+                      <option key={y} value={y}>{y}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">Subscription name</label>
+                  <input
+                    type="text"
+                    value={calcCustomName}
+                    onChange={(e) => setCalcCustomName(e.target.value)}
+                    placeholder="e.g. My Gym"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">Starting price ({CURRENCY_META[calcCurrency]?.symbol})</label>
+                  <input
+                    type="number"
+                    value={calcCustomStartPrice}
+                    onChange={(e) => setCalcCustomStartPrice(e.target.value)}
+                    placeholder="e.g. 25.00"
+                    min={0}
+                    step={0.01}
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">Current price ({CURRENCY_META[calcCurrency]?.symbol})</label>
+                  <input
+                    type="number"
+                    value={calcCustomCurrentPrice}
+                    onChange={(e) => setCalcCustomCurrentPrice(e.target.value)}
+                    placeholder="e.g. 40.00"
+                    min={0}
+                    step={0.01}
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">Year I started paying</label>
+                  <select
+                    value={calcCustomStartYear}
+                    onChange={(e) => setCalcCustomStartYear(Number(e.target.value))}
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {Array.from({ length: 2025 - 2000 + 1 }, (_, i) => 2000 + i).map((y) => (
+                      <option key={y} value={y}>{y}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {/* Projection horizon */}
+            <div className="flex items-center gap-3">
+              <label className="text-xs font-medium text-gray-500 dark:text-gray-400 whitespace-nowrap">Project forward</label>
+              {[3, 5, 10].map((y) => (
+                <button
+                  key={y}
+                  onClick={() => setCalcProjectYears(y)}
+                  className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${calcProjectYears === y ? "bg-blue-600 text-white border-blue-600" : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-400"}`}
+                >
+                  {y} years
+                </button>
+              ))}
+            </div>
+
+            {/* Results */}
+            {calcResults ? (
+              <div className="space-y-4">
+
+                {/* Headline "Subscription Inflation Tax" */}
+                <div className="rounded-xl bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950 dark:to-orange-950 border border-red-100 dark:border-red-900 p-5">
+                  <div className="text-xs font-semibold text-red-500 uppercase tracking-wider mb-1">Subscription Inflation Tax</div>
+                  <div className="text-3xl font-bold text-red-600 dark:text-red-400">
+                    {calcResults.sym}{Math.abs(calcResults.excessMonthly).toFixed(2)}<span className="text-lg font-normal text-red-400">/mo</span>
+                  </div>
+                  <div className="text-sm text-red-700 dark:text-red-300 mt-1">
+                    {calcResults.excessMonthly >= 0
+                      ? `You pay ${calcResults.sym}${Math.abs(calcResults.excessAnnual).toFixed(2)}/yr more than inflation alone would justify`
+                      : `This service has risen slower than inflation — you are ${calcResults.sym}${Math.abs(calcResults.excessAnnual).toFixed(2)}/yr ahead`}
+                  </div>
+                  <div className="text-xs text-red-400 mt-0.5">{calcResults.label} · since {calcResults.startYear}</div>
+                </div>
+
+                {/* 4 stat grid */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                  {[
+                    {
+                      label: "Subscription increase",
+                      value: `+${calcResults.subGrowthPct.toFixed(1)}%`,
+                      sub: `${calcResults.sym}${calcResults.startPrice.toFixed(2)} → ${calcResults.sym}${calcResults.currentPrice.toFixed(2)}`,
+                      color: "text-orange-600 dark:text-orange-400",
+                      bg: "bg-orange-50 dark:bg-orange-950 border-orange-100 dark:border-orange-900",
+                    },
+                    {
+                      label: `${calcResults.currency} inflation (same period)`,
+                      value: `+${calcResults.cpiGrowthPct.toFixed(1)}%`,
+                      sub: `Price if CPI only: ${calcResults.sym}${calcResults.priceIfCpiOnly.toFixed(2)}/mo`,
+                      color: "text-blue-600 dark:text-blue-400",
+                      bg: "bg-blue-50 dark:bg-blue-950 border-blue-100 dark:border-blue-900",
+                    },
+                    {
+                      label: "Annualised creep rate",
+                      value: `${calcResults.annualisedCreepRate.toFixed(2)}%/yr`,
+                      sub: `vs ${calcResults.annualisedCpiRate.toFixed(2)}%/yr CPI`,
+                      color: calcResults.annualisedCreepRate > calcResults.annualisedCpiRate ? "text-red-600 dark:text-red-400" : "text-green-600 dark:text-green-400",
+                      bg: calcResults.annualisedCreepRate > calcResults.annualisedCpiRate ? "bg-red-50 dark:bg-red-950 border-red-100 dark:border-red-900" : "bg-green-50 dark:bg-green-950 border-green-100 dark:border-green-900",
+                    },
+                    {
+                      label: `Cumulative overpaid (${calcResults.startYear}–2026)`,
+                      value: `${calcResults.sym}${calcResults.cumulativeOverpaid.toFixed(0)}`,
+                      sub: "total above what CPI growth justifies",
+                      color: "text-purple-600 dark:text-purple-400",
+                      bg: "bg-purple-50 dark:bg-purple-950 border-purple-100 dark:border-purple-900",
+                    },
+                  ].map((s) => (
+                    <div key={s.label} className={`rounded-xl border p-4 ${s.bg}`}>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mb-1 leading-tight">{s.label}</div>
+                      <div className={`text-xl font-bold ${s.color}`}>{s.value}</div>
+                      <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 leading-tight">{s.sub}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Forward projection */}
+                <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-4">
+                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                    {calcProjectYears}-Year Forward Projection (from 2026)
+                  </div>
+                  <div className="flex flex-wrap gap-6">
+                    <div>
+                      <div className="text-xs text-gray-400 mb-0.5">At current creep rate ({calcResults.annualisedCreepRate.toFixed(2)}%/yr)</div>
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">{calcResults.sym}{calcResults.projectedPrice.toFixed(2)}<span className="text-sm font-normal text-gray-400">/mo</span></div>
+                      <div className="text-xs text-gray-400">{calcResults.sym}{(calcResults.projectedPrice * 12).toFixed(2)}/yr</div>
+                    </div>
+                    <div className="border-l border-gray-200 dark:border-gray-700 pl-6">
+                      <div className="text-xs text-gray-400 mb-0.5">If only CPI growth ({calcResults.annualisedCpiRate.toFixed(2)}%/yr)</div>
+                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{calcResults.sym}{calcResults.projectedIfCpi.toFixed(2)}<span className="text-sm font-normal text-gray-400">/mo</span></div>
+                      <div className="text-xs text-gray-400">{calcResults.sym}{(calcResults.projectedIfCpi * 12).toFixed(2)}/yr</div>
+                    </div>
+                    <div className="border-l border-gray-200 dark:border-gray-700 pl-6">
+                      <div className="text-xs text-gray-400 mb-0.5">Extra cost in {calcProjectYears} years vs CPI</div>
+                      <div className={`text-2xl font-bold ${calcResults.projectedPrice > calcResults.projectedIfCpi ? "text-red-600 dark:text-red-400" : "text-green-600 dark:text-green-400"}`}>
+                        {calcResults.projectedPrice >= calcResults.projectedIfCpi ? "+" : "-"}{calcResults.sym}{Math.abs((calcResults.projectedPrice - calcResults.projectedIfCpi) * 12 * calcProjectYears).toFixed(0)}
+                      </div>
+                      <div className="text-xs text-gray-400">cumulative over {calcProjectYears} years</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            ) : (
+              <div className="rounded-xl border border-dashed border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-8 text-center">
+                <DollarSign className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-400 dark:text-gray-500">
+                  {calcMode === "tracked"
+                    ? "Select a service and plan above to see your results."
+                    : "Fill in all fields above to calculate your subscription creep."}
+                </p>
+              </div>
+            )}
+
+          </div>
+        </div>
 
         {/* ── Main calculator card ── */}
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
