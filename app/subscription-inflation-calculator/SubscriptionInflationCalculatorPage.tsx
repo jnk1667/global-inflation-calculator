@@ -906,6 +906,76 @@ export default function SubscriptionInflationCalculatorPage() {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="mt-8 bg-gray-900 text-white rounded-lg overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+
+          {/* Col 1 — Tool name + description */}
+          <div>
+            <h3 className="text-xl font-bold mb-3">Subscription Inflation Calculator</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              Track the real cost of your streaming, music, software, and fitness subscriptions over time. See exactly how much prices have risen above official CPI inflation — and what you are paying extra every month because of it.
+            </p>
+          </div>
+
+          {/* Col 2 — Data Sources */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
+            <ul className="space-y-2 text-sm text-gray-300">
+              <li>• US Bureau of Labor Statistics (BLS) — CPI-U</li>
+              <li>• Netflix Inc. — Official pricing announcements</li>
+              <li>• Spotify Technology S.A. — Investor relations</li>
+              <li>• Amazon.com Inc. — Prime membership history</li>
+              <li>• Disney+ / The Walt Disney Company</li>
+              <li>• Apple Inc. — App Store & Apple TV+ pricing</li>
+              <li>• YouTube / Google LLC — Premium pricing history</li>
+              <li>• Microsoft Corporation — M365 pricing pages</li>
+              <li>• Adobe Inc. — Creative Cloud pricing history</li>
+              <li>• Hulu / Warner Bros. Discovery (Max)</li>
+            </ul>
+          </div>
+
+          {/* Col 3 — Quick Links */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2 text-sm">
+              {[
+                { href: "/shrinkflation-calculator",      label: "Shrinkflation Calculator"       },
+                { href: "/sneakflation-calculator",       label: "Sneakflation Calculator"        },
+                { href: "/skimpflation-calculator",       label: "Skimpflation Calculator"        },
+                { href: "/deflation-calculator",          label: "Deflation Calculator"           },
+                { href: "/investment-race-calculator",    label: "Investment Race Calculator"     },
+                { href: "/charts",                        label: "Charts & Analytics"             },
+                { href: "/mortgage-calculator",           label: "Mortgage Calculator"            },
+                { href: "/budget-calculator",             label: "Budget Calculator"              },
+                { href: "/salary-calculator",             label: "Salary Calculator"              },
+                { href: "/retirement-calculator",         label: "Retirement Calculator"          },
+                { href: "/emergency-fund-calculator",     label: "Emergency Fund Calculator"      },
+                { href: "/roi-calculator",                label: "ROI Calculator"                 },
+                { href: "/insurance-inflation-calculator",label: "Insurance Inflation Calculator" },
+                { href: "/global-compound-interest",      label: "Compound Interest Calculator"   },
+                { href: "/auto-loan-calculator",          label: "Auto Loan Calculator"           },
+                { href: "/about",                         label: "About Us"                       },
+                { href: "/privacy",                       label: "Privacy Policy"                 },
+                { href: "/terms",                         label: "Terms of Service"               },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="text-gray-300 hover:text-blue-400 transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p className="text-sm text-gray-500 mt-4">Last Updated: May 2026</p>
+          </div>
+
+        </div>
+        <div className="border-t border-gray-700 px-8 py-6 text-center">
+          <p className="text-sm text-gray-400">&copy; 2026 Global Inflation Calculator. Educational purposes only.</p>
+        </div>
+      </footer>
+
     </main>
   )
 }
