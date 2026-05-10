@@ -374,19 +374,6 @@ export default function SubscriptionInflationCalculatorPage() {
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {/* ── Header ── */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <nav className="flex items-center gap-4 text-sm">
-            <Link href="/" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-              Home
-            </Link>
-            <span className="text-gray-300 dark:text-gray-600">/</span>
-            <span className="text-gray-600 dark:text-gray-400">Subscription Inflation Calculator</span>
-          </nav>
-        </div>
-      </div>
-
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
 
         {/* ── Title ── */}
