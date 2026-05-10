@@ -44,15 +44,21 @@ interface Tier {
   priceHistory: PricePoint[]
 }
 
+interface CountryData {
+  country: string
+  currency: string
+  symbol: string
+  launchYear: number
+  tiers: Tier[]
+}
+
 interface Service {
   id: string
   name: string
   category: string
-  country: string
-  launchYear: number
   url: string
   description: string
-  tiers: Tier[]
+  countries: Record<string, CountryData>
 }
 
 interface SummaryStats {
@@ -68,13 +74,15 @@ interface SummaryStats {
   currentTierName: string
 }
 
+interface CpiBaseline {
+  source: string
+  index_base_year: number
+  data: { year: number; cpi: number }[]
+}
+
 interface SubscriptionData {
-  metadata: { lastUpdated: string; currency: string; sources: string[]; notes: string }
-  cpiBaseline: {
-    description: string
-    index_base_year: number
-    data: { year: number; cpi: number }[]
-  }
+  metadata: { lastUpdated: string; currencies: string[]; sources: string[]; notes: string }
+  cpiBaselines: Record<string, CpiBaseline>
   services: Service[]
   summaryStats: SummaryStats[]
 }
@@ -196,11 +204,12 @@ export default function SubscriptionInflationCalculatorPage() {
   useEffect(() => {
     if (!data || !addServiceId) { setAddTierId(""); return }
     const svc = data.services.find((s) => s.id === addServiceId)
-    if (svc?.tiers?.length) setAddTierId(svc.tiers[0].tierId)
+    const tiers = svc?.countries?.["USD"]?.tiers ?? []
+    if (tiers.length) setAddTierId(tiers[0].tierId)
   }, [addServiceId, data])
 
   const services = useMemo(() => data?.services ?? [], [data])
-  const cpiData = useMemo(() => data?.cpiBaseline.data ?? [], [data])
+  const cpiData = useMemo(() => data?.cpiBaselines?.["USD"]?.data ?? [], [data])
   const summaryStats = useMemo(() => data?.summaryStats ?? [], [data])
 
   const categories = useMemo(() => {
@@ -234,7 +243,7 @@ export default function SubscriptionInflationCalculatorPage() {
 
       selectedSubs.forEach((sel) => {
         const svc = services.find((s) => s.id === sel.serviceId)
-        const tier = svc?.tiers.find((t) => t.tierId === sel.tierId)
+        const tier = svc?.countries?.["USD"]?.tiers.find((t) => t.tierId === sel.tierId)
         if (!tier) return
         if (year < sel.startYear) return
         const price = getPriceForYear(tier, year)
@@ -248,7 +257,7 @@ export default function SubscriptionInflationCalculatorPage() {
       if (showInflationLine) {
         selectedSubs.forEach((sel) => {
           const svc = services.find((s) => s.id === sel.serviceId)
-          const tier = svc?.tiers.find((t) => t.tierId === sel.tierId)
+          const tier = svc?.countries?.["USD"]?.tiers.find((t) => t.tierId === sel.tierId)
           if (!tier) return
           if (year < sel.startYear) return
           const startPrice = getPriceForYear(tier, sel.startYear)
@@ -270,7 +279,7 @@ export default function SubscriptionInflationCalculatorPage() {
     if (!latest) return []
     return selectedSubs.map((sel) => {
       const svc = services.find((s) => s.id === sel.serviceId)
-      const tier = svc?.tiers.find((t) => t.tierId === sel.tierId)
+      const tier = svc?.countries?.["USD"]?.tiers.find((t) => t.tierId === sel.tierId)
       const startPrice = tier ? getPriceForYear(tier, sel.startYear) ?? 0 : 0
       const currentPrice = tier ? getPriceForYear(tier, 2026) ?? 0 : 0
       const cpiStart = getCpiForYear(cpiData, sel.startYear)
@@ -322,7 +331,7 @@ export default function SubscriptionInflationCalculatorPage() {
   const getLabelForSub = useCallback(
     (sel: SelectedSubscription) => {
       const svc = services.find((s) => s.id === sel.serviceId)
-      const tier = svc?.tiers.find((t) => t.tierId === sel.tierId)
+      const tier = svc?.countries?.["USD"]?.tiers.find((t) => t.tierId === sel.tierId)
       return `${svc?.name ?? sel.serviceId} — ${tier?.tierName ?? sel.tierId}`
     },
     [services]
@@ -454,7 +463,7 @@ export default function SubscriptionInflationCalculatorPage() {
                       disabled={!addServiceId}
                       className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
                     >
-                      {addServiceId && services.find((s) => s.id === addServiceId)?.tiers.map((t) => (
+                      {addServiceId && (services.find((s) => s.id === addServiceId)?.countries?.["USD"]?.tiers ?? []).map((t) => (
                         <option key={t.tierId} value={t.tierId}>{t.tierName}</option>
                       ))}
                     </select>
@@ -504,7 +513,7 @@ export default function SubscriptionInflationCalculatorPage() {
               <div className="space-y-2">
                 {selectedSubs.map((sel, idx) => {
                   const svc = services.find((s) => s.id === sel.serviceId)
-                  const tier = svc?.tiers.find((t) => t.tierId === sel.tierId)
+                  const tier = svc?.countries?.["USD"]?.tiers.find((t) => t.tierId === sel.tierId)
                   const totals = monthlyTotals.find((m) => m.uid === sel.uid)
                   const color = LINE_COLORS[idx % LINE_COLORS.length]
                   return (
@@ -796,7 +805,7 @@ export default function SubscriptionInflationCalculatorPage() {
 
                   {isExpanded && (
                     <div className="px-5 pb-5 bg-gray-50 dark:bg-gray-800/50">
-                      {svc.tiers.map((tier) => (
+                      {(svc.countries?.["USD"]?.tiers ?? []).map((tier) => (
                         <div key={tier.tierId} className="mb-4 last:mb-0">
                           <div className="flex items-center justify-between mb-2 pt-3">
                             <div>
