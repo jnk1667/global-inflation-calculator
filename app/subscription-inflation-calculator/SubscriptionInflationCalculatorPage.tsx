@@ -1355,17 +1355,37 @@ export default function SubscriptionInflationCalculatorPage() {
           {/* Col 2 — Data Sources */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Data Sources</h4>
-            <ul className="space-y-2 text-sm text-gray-300">
+
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">National CPI Statistics</p>
+            <ul className="space-y-1.5 text-sm text-gray-300 mb-4">
               <li>• US Bureau of Labor Statistics (BLS) — CPI-U</li>
+              <li>• UK Office for National Statistics (ONS) — CPIH</li>
+              <li>• Eurostat — HICP (Harmonised Index)</li>
+              <li>• Statistics Canada — CPI All-items</li>
+              <li>• Australian Bureau of Statistics (ABS) — CPI</li>
+              <li>• Swiss Federal Statistical Office (FSO) — CPI</li>
+              <li>• Statistics Bureau of Japan (SBJ) — CPI</li>
+              <li>• Statistics New Zealand — CPI All groups</li>
+            </ul>
+
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Subscription Pricing History</p>
+            <ul className="space-y-1.5 text-sm text-gray-300">
               <li>• Netflix Inc. — Official pricing announcements</li>
               <li>• Spotify Technology S.A. — Investor relations</li>
               <li>• Amazon.com Inc. — Prime membership history</li>
               <li>• Disney+ / The Walt Disney Company</li>
-              <li>• Apple Inc. — App Store & Apple TV+ pricing</li>
-              <li>• YouTube / Google LLC — Premium pricing history</li>
+              <li>• Apple Inc. — App Store & Apple TV+ / Music</li>
+              <li>• YouTube / Google LLC — Premium pricing</li>
               <li>• Microsoft Corporation — M365 pricing pages</li>
               <li>• Adobe Inc. — Creative Cloud pricing history</li>
               <li>• Hulu / Warner Bros. Discovery (Max)</li>
+              <li>• Dropbox Inc. — Plans & pricing pages</li>
+              <li>• LinkedIn / Microsoft — Premium pricing</li>
+              <li>• NordVPN — Subscription pricing history</li>
+              <li>• Planet Fitness — Membership price history</li>
+              <li>• Peloton Interactive Inc. — App pricing</li>
+              <li>• Duolingo Inc. — Super / Plus pricing</li>
+              <li>• The New York Times Co. — Digital pricing</li>
             </ul>
           </div>
 
@@ -1374,24 +1394,30 @@ export default function SubscriptionInflationCalculatorPage() {
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               {[
-                { href: "/shrinkflation-calculator",      label: "Shrinkflation Calculator"       },
-                { href: "/sneakflation-calculator",       label: "Sneakflation Calculator"        },
-                { href: "/skimpflation-calculator",       label: "Skimpflation Calculator"        },
-                { href: "/deflation-calculator",          label: "Deflation Calculator"           },
-                { href: "/investment-race-calculator",    label: "Investment Race Calculator"     },
-                { href: "/charts",                        label: "Charts & Analytics"             },
-                { href: "/mortgage-calculator",           label: "Mortgage Calculator"            },
-                { href: "/budget-calculator",             label: "Budget Calculator"              },
-                { href: "/salary-calculator",             label: "Salary Calculator"              },
-                { href: "/retirement-calculator",         label: "Retirement Calculator"          },
-                { href: "/emergency-fund-calculator",     label: "Emergency Fund Calculator"      },
-                { href: "/roi-calculator",                label: "ROI Calculator"                 },
-                { href: "/insurance-inflation-calculator",label: "Insurance Inflation Calculator" },
-                { href: "/global-compound-interest",      label: "Compound Interest Calculator"   },
-                { href: "/auto-loan-calculator",          label: "Auto Loan Calculator"           },
-                { href: "/about",                         label: "About Us"                       },
-                { href: "/privacy",                       label: "Privacy Policy"                 },
-                { href: "/terms",                         label: "Terms of Service"               },
+                { href: "/shrinkflation-calculator",       label: "Shrinkflation Calculator"        },
+                { href: "/sneakflation-calculator",        label: "Sneakflation Calculator"         },
+                { href: "/skimpflation-calculator",        label: "Skimpflation Calculator"         },
+                { href: "/deflation-calculator",           label: "Deflation Calculator"            },
+                { href: "/energy-inflation-calculator",    label: "Energy Inflation Calculator"     },
+                { href: "/insurance-inflation-calculator", label: "Insurance Inflation Calculator"  },
+                { href: "/investment-race-calculator",     label: "Investment Race Calculator"      },
+                { href: "/charts",                         label: "Charts & Analytics"              },
+                { href: "/ppp-calculator",                 label: "PPP Calculator"                  },
+                { href: "/global-net-worth-calculator",    label: "Global Net Worth Calculator"     },
+                { href: "/global-compound-interest",       label: "Compound Interest Calculator"    },
+                { href: "/mortgage-calculator",            label: "Mortgage Calculator"             },
+                { href: "/auto-loan-calculator",           label: "Auto Loan Calculator"            },
+                { href: "/student-loan-calculator",        label: "Student Loan Calculator"         },
+                { href: "/budget-calculator",              label: "Budget Calculator"               },
+                { href: "/salary-calculator",              label: "Salary Calculator"               },
+                { href: "/retirement-calculator",          label: "Retirement Calculator"           },
+                { href: "/legacy-planner",                 label: "Legacy Planner"                  },
+                { href: "/emergency-fund-calculator",      label: "Emergency Fund Calculator"       },
+                { href: "/roi-calculator",                 label: "ROI Calculator"                  },
+                { href: "/about",                          label: "About Us"                        },
+                { href: "/accessibility",                  label: "Accessibility"                   },
+                { href: "/privacy",                        label: "Privacy Policy"                  },
+                { href: "/terms",                          label: "Terms of Service"                },
               ].map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-gray-300 hover:text-blue-400 transition-colors">
