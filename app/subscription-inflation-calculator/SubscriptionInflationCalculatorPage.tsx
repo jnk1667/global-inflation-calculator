@@ -148,6 +148,27 @@ function formatCurrency(val: number): string {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
+function AddToTrackerButton({ onAdd }: { onAdd: () => void }) {
+  const [added, setAdded] = useState(false)
+  const handleClick = () => {
+    onAdd()
+    setAdded(true)
+    setTimeout(() => setAdded(false), 2000)
+  }
+  return (
+    <button
+      onClick={handleClick}
+      className={`text-xs px-2.5 py-1 rounded-lg transition-all duration-200 flex-shrink-0 ml-2 font-medium ${
+        added
+          ? "bg-green-500 text-white"
+          : "bg-blue-600 hover:bg-blue-700 text-white"
+      }`}
+    >
+      {added ? "Added!" : "+ Add to tracker"}
+    </button>
+  )
+}
+
 export default function SubscriptionInflationCalculatorPage() {
   const [data, setData] = useState<SubscriptionData | null>(null)
   const [loadingData, setLoadingData] = useState(true)
@@ -807,7 +828,7 @@ export default function SubscriptionInflationCalculatorPage() {
         </div>
 
         {/* ── Main calculator card ── */}
-        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
+        <div id="your-subscriptions-section" className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
 
           {/* Selected subscriptions */}
           <div className="p-5 border-b border-gray-100 dark:border-gray-800">
@@ -1209,18 +1230,16 @@ export default function SubscriptionInflationCalculatorPage() {
                               <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">{tier.tierName}</span>
                               <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">{tier.description}</span>
                             </div>
-                            <button
-                              onClick={() => {
+                            <AddToTrackerButton
+                              onAdd={() => {
                                 const uid = `sub-${Date.now()}-${tier.tierId}`
                                 setSelectedSubs((prev) => [
                                   ...prev,
                                   { uid, serviceId: svc.id, tierId: tier.tierId, startYear: tier.priceHistory[0]?.year ?? 2015 },
                                 ])
+                                document.getElementById("your-subscriptions-section")?.scrollIntoView({ behavior: "smooth", block: "start" })
                               }}
-                              className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-lg transition-colors flex-shrink-0 ml-2"
-                            >
-                              + Add
-                            </button>
+                            />
                           </div>
                           <div className="overflow-x-auto">
                             <table className="w-full text-xs">
