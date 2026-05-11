@@ -489,6 +489,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/subscription-inflation-calculator" className="text-blue-600 hover:underline">
+                      Subscription Inflation Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Track how much Netflix, Spotify, Amazon Prime, Disney+, Adobe, Microsoft 365 and 13 more services have raised prices above official CPI inflation. Add your subscriptions, select a start year and currency (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD), and see your personalised monthly subscription inflation tax with an interactive price history chart. Includes a custom subscription mode for any unlisted service.
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/global-compound-interest" className="text-blue-600 hover:underline">
                       Global Compound Interest Calculator
                     </Link>

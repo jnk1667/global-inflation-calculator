@@ -172,10 +172,10 @@ export default function SubscriptionInflationCalculatorRoute() {
       },
       {
         "@type": "Question",
-        name: "Are these US prices only?",
+        name: "Does this calculator support prices outside the US?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes, all prices in the current version of the calculator are US monthly prices in USD. Subscription services charge significantly different amounts in the UK, Australia, Canada and other markets. We plan to add multi-currency subscription pricing in a future update.",
+          text: "Yes. The calculator supports 8 currencies: USD, GBP, EUR, CAD, AUD, CHF, JPY, and NZD. Use the currency selector in the Your Subscriptions section to switch currency. The service list, tier prices, and CPI baseline all update automatically to the correct country dataset. Not every service has pricing data for every currency — the service dropdown filters to only show services available in the selected currency.",
         },
       },
     ],
