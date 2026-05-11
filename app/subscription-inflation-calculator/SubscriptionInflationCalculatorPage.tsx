@@ -17,6 +17,7 @@ import {
   Plus,
   Trash2,
   BookOpen,
+  Info,
   ChevronDown,
   ChevronUp,
   AlertTriangle,
@@ -1389,6 +1390,196 @@ export default function SubscriptionInflationCalculatorPage() {
             </div>
           </div>
         )}
+
+        {/* ── Sources & Methodology ── */}
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm p-6 sm:p-8">
+          <div className="flex items-center gap-2 mb-1">
+            <Info className="w-5 h-5 text-blue-500 shrink-0" />
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Sources &amp; Methodology</h2>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-8">
+            How every tool on this page works, what data powers it, and the formulas behind each calculation.
+          </p>
+
+          {/* ── Tool 1: Price History Browser ── */}
+          <div className="mb-8 pb-8 border-b border-gray-100 dark:border-gray-800">
+            <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-1">1. Browse All Tracked Services (Price History Browser)</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              The filterable table of all tracked subscription services, their tier breakdowns, and year-by-year price history.
+            </p>
+            <div className="grid md:grid-cols-2 gap-8 text-sm">
+              <div>
+                <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Data Sources</h4>
+                <div className="space-y-3">
+                  {[
+                    { src: "Netflix Inc.", detail: "Official press releases, Help Center pricing pages, and Investor Relations filings (2007–2026). Covers USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD." },
+                    { src: "Spotify Technology S.A.", detail: "Investor Relations reports, official blog announcements, and App Store / Google Play listing history (2011–2026). All 8 currencies." },
+                    { src: "Amazon.com Inc.", detail: "Prime membership announcement archives and AWS/Retail pricing history (2005–2026). USD, GBP, EUR, CAD, AUD, JPY." },
+                    { src: "The Walt Disney Company", detail: "Disney+ official press releases, earnings call transcripts, and local pricing pages (2019–2026). USD, GBP, EUR, AUD." },
+                    { src: "Apple Inc.", detail: "App Store subscription pricing history and Apple Newsroom announcements for Apple TV+, Apple Music, and iCloud+ (2015–2026). All 8 currencies." },
+                    { src: "YouTube / Google LLC", detail: "Google One and YouTube Premium pricing pages, Wayback Machine snapshots, and official announcements (2014–2026). USD, GBP, EUR, CAD, AUD." },
+                    { src: "Microsoft Corporation", detail: "Microsoft 365 (formerly Office 365) pricing pages, blog announcements, and MSRP history (2011–2026). USD, GBP, EUR, CAD, AUD, JPY, NZD." },
+                    { src: "Adobe Inc.", detail: "Creative Cloud pricing archives and Adobe Blog announcements (2012–2026). USD, GBP, EUR, AUD." },
+                    { src: "Warner Bros. Discovery / Hulu", detail: "Max (formerly HBO Max) and Hulu pricing announcement archives (2020–2026). USD." },
+                    { src: "Dropbox Inc.", detail: "Dropbox Plans page archives and official pricing announcements (2012–2026). USD, GBP, EUR." },
+                    { src: "LinkedIn / Microsoft", detail: "LinkedIn Premium pricing history sourced from LinkedIn Help Center and official announcements (2013–2026). USD, GBP, EUR." },
+                    { src: "NordVPN (Nord Security)", detail: "NordVPN pricing page history and press releases (2016–2026). USD, GBP, EUR, AUD." },
+                    { src: "Planet Fitness", detail: "Membership price announcements, franchise disclosure documents, and press releases (2010–2026). USD, CAD." },
+                    { src: "Peloton Interactive Inc.", detail: "Peloton App and All-Access membership pricing announcements (2018–2026). USD, GBP, CAD, AUD." },
+                    { src: "Duolingo Inc.", detail: "Duolingo Super (formerly Plus) pricing history from App Store listings and official blog posts (2017–2026). USD, GBP, EUR, AUD." },
+                    { src: "The New York Times Company", detail: "NYT Digital subscription pricing archives and press releases (2011–2026). USD, GBP, AUD." },
+                  ].map((item) => (
+                    <div key={item.src} className="flex items-start gap-2.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                      <div>
+                        <strong className="text-gray-800 dark:text-gray-200">{item.src}</strong>
+                        <p className="text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">{item.detail}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">How Price History is Built</h4>
+                <div className="space-y-3 text-gray-600 dark:text-gray-400">
+                  <p className="leading-relaxed">Each service entry contains a <strong className="text-gray-800 dark:text-gray-200">priceHistory</strong> array: an ordered list of {"{year, month, price, note}"} entries. Each entry represents a confirmed price change — the date is the month the new price took effect, not the announcement date.</p>
+                  <p className="leading-relaxed">Prices are the standard public retail price for that tier, in local currency, at the time of the change. Introductory offers, bundled discounts, student plans, and grandfathered rates are excluded unless they represent a structurally distinct tier (e.g. Disney+ Basic with Ads).</p>
+                  <p className="leading-relaxed">The <strong className="text-gray-800 dark:text-gray-200">Total Increase</strong> figure shown in the Browse section is: <span className="font-mono bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5 text-xs">(Current Price − Launch Price) ÷ Launch Price × 100</span></p>
+                  <p className="leading-relaxed">The <strong className="text-gray-800 dark:text-gray-200">vs CPI</strong> multiplier is: <span className="font-mono bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5 text-xs">Subscription Growth ÷ CPI Growth (same period)</span>. A value of 2.8x means the subscription rose 2.8 times faster than official inflation.</p>
+                  <p className="leading-relaxed">For any year between two recorded price changes, <strong className="text-gray-800 dark:text-gray-200">getPriceForYear</strong> returns the last known price before that year — reflecting that the old price was still in effect.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Tool 2: Your Subscriptions Tracker ── */}
+          <div className="mb-8 pb-8 border-b border-gray-100 dark:border-gray-800">
+            <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-1">2. Your Subscriptions Tracker</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              The personal tracker where users add subscriptions from the dataset, select a start year, and see a real vs CPI-adjusted price chart across all added services.
+            </p>
+            <div className="grid md:grid-cols-2 gap-8 text-sm">
+              <div>
+                <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">CPI Baseline Sources (per currency)</h4>
+                <div className="space-y-3">
+                  {[
+                    { currency: "USD", src: "US Bureau of Labor Statistics (BLS)", series: "CPI-U All Items, annual averages (2000–2026)" },
+                    { currency: "GBP", src: "UK Office for National Statistics (ONS)", series: "CPIH All Items Index, annual averages (2007–2026)" },
+                    { currency: "EUR", src: "Eurostat", series: "HICP All Items (EU27), annual averages (2007–2026)" },
+                    { currency: "CAD", src: "Statistics Canada", series: "CPI All-items, annual averages (2005–2026)" },
+                    { currency: "AUD", src: "Australian Bureau of Statistics (ABS)", series: "CPI All Groups Weighted Average, annual averages (2005–2026)" },
+                    { currency: "CHF", src: "Swiss Federal Statistical Office (FSO)", series: "National Consumer Price Index, annual averages (2007–2026)" },
+                    { currency: "JPY", src: "Statistics Bureau of Japan (SBJ)", series: "CPI All Items, annual averages (2007–2026)" },
+                    { currency: "NZD", src: "Statistics New Zealand (Stats NZ)", series: "CPI All Groups, annual averages (2007–2026)" },
+                  ].map((item) => (
+                    <div key={item.currency} className="flex items-start gap-2.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                      <div>
+                        <strong className="text-gray-800 dark:text-gray-200">{item.currency} — {item.src}</strong>
+                        <p className="text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">{item.series}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Calculation Methodology</h4>
+                <div className="space-y-3 text-gray-600 dark:text-gray-400">
+                  <div>
+                    <strong className="text-gray-800 dark:text-gray-200">CPI-Adjusted Baseline (what you should be paying):</strong>
+                    <div className="mt-1.5 bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2 font-mono text-xs text-gray-700 dark:text-gray-300">
+                      Adjusted Price (year Y) = Start Price × (CPI[Y] ÷ CPI[Start Year])
+                    </div>
+                    <p className="mt-1.5 leading-relaxed">This is the price the service would cost in year Y if it had risen exactly in line with official inflation since the user&apos;s chosen start year. It forms the dashed baseline on the chart.</p>
+                  </div>
+                  <div>
+                    <strong className="text-gray-800 dark:text-gray-200">Monthly Overcharge (per subscription):</strong>
+                    <div className="mt-1.5 bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2 font-mono text-xs text-gray-700 dark:text-gray-300">
+                      Overcharge = Current Price − CPI-Adjusted Price (2026)
+                    </div>
+                    <p className="mt-1.5 leading-relaxed">A positive value means the service has risen faster than inflation. A negative value means it has risen slower — the user is ahead.</p>
+                  </div>
+                  <div>
+                    <strong className="text-gray-800 dark:text-gray-200">Total Monthly Burden / Extra Above Inflation:</strong>
+                    <p className="mt-1 leading-relaxed">All selected subscriptions are summed to produce total monthly cost, total if-CPI-only cost, and the aggregate monthly overcharge across the entire bundle.</p>
+                  </div>
+                  <div>
+                    <strong className="text-gray-800 dark:text-gray-200">Chart:</strong>
+                    <p className="mt-1 leading-relaxed">Each service is rendered as a solid line (actual price, year by year) and a dashed line (CPI-adjusted baseline). The visual gap between the two lines is the &quot;subscription inflation tax&quot; accruing in real time.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Tool 3: Subscription Creep Calculator ── */}
+          <div className="mb-8 pb-8 border-b border-gray-100 dark:border-gray-800">
+            <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-1">3. Subscription Creep Calculator</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              The per-service deep-dive calculator that outputs a &quot;Subscription Inflation Tax&quot;, cumulative overpayment, annualised creep rate, and multi-year forward projection — for any tracked or custom service, in any of the 8 supported currencies.
+            </p>
+            <div className="grid md:grid-cols-2 gap-8 text-sm">
+              <div>
+                <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Formula Definitions</h4>
+                <div className="space-y-3 text-gray-600 dark:text-gray-400">
+                  <div>
+                    <strong className="text-gray-800 dark:text-gray-200">Subscription Inflation Tax (monthly excess):</strong>
+                    <div className="mt-1.5 bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2 font-mono text-xs text-gray-700 dark:text-gray-300">
+                      Tax = Current Price − (Start Price × CPI[2026] ÷ CPI[Start Year])
+                    </div>
+                    <p className="mt-1.5 leading-relaxed">The monthly amount you pay above what the service would cost if it had only ever risen with official inflation. This is the headline output of the calculator.</p>
+                  </div>
+                  <div>
+                    <strong className="text-gray-800 dark:text-gray-200">Annualised Creep Rate (CAGR):</strong>
+                    <div className="mt-1.5 bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2 font-mono text-xs text-gray-700 dark:text-gray-300">
+                      Rate = (Current Price ÷ Start Price) ^ (1 ÷ Years) − 1
+                    </div>
+                    <p className="mt-1.5 leading-relaxed">The compound annual growth rate of the subscription price over the selected period. Compared directly to the CPI CAGR for the same period and currency to show the excess.</p>
+                  </div>
+                  <div>
+                    <strong className="text-gray-800 dark:text-gray-200">Cumulative Overpaid (since start year):</strong>
+                    <div className="mt-1.5 bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2 font-mono text-xs text-gray-700 dark:text-gray-300">
+                      {"Σ (Actual Price[Y] − CPI-Adjusted Price[Y]) × 12 for each year Y"}
+                    </div>
+                    <p className="mt-1.5 leading-relaxed">Sums the annual overcharge for every year from the start year to 2026. For tracked services, it uses the exact recorded price for each year. For custom services, it linearly interpolates between the start and current price.</p>
+                  </div>
+                  <div>
+                    <strong className="text-gray-800 dark:text-gray-200">Forward Projection:</strong>
+                    <div className="mt-1.5 bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2 font-mono text-xs text-gray-700 dark:text-gray-300">
+                      Projected = Current Price × (1 + Creep Rate) ^ N years
+                    </div>
+                    <p className="mt-1.5 leading-relaxed">Projects the subscription price N years into the future at both the historical subscription CAGR and the historical CPI CAGR, for the same currency. The difference × 12 × N gives cumulative extra cost over the projection window.</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Custom Service Mode</h4>
+                <div className="space-y-3 text-gray-600 dark:text-gray-400">
+                  <p className="leading-relaxed">When a user enters a subscription not in the dataset (a gym, local newspaper, insurance premium, etc.), they provide a starting price, current price, and start year. The calculator uses the same CPI baselines as the tracked service mode — sourced from the national statistics office for the selected currency.</p>
+                  <p className="leading-relaxed">Cumulative overpayment in custom mode uses linear interpolation between the start and current price for intermediate years, rather than actual recorded price history. This is a conservative estimate — services with irregular price hike patterns may differ.</p>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200 mt-4 mb-3">Currency Scope</h4>
+                  <p className="leading-relaxed">When the user selects a currency, both the service prices and the CPI baseline automatically switch to that currency&apos;s dataset. The same formula is applied identically across all 8 currencies — the only variable is which national CPI index is used as the benchmark.</p>
+                  <p className="leading-relaxed">Not all services are available in all currencies. The service dropdown is filtered to only show services that have price history recorded for the selected currency, preventing null results from data gaps.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Technical Notes ── */}
+          <div>
+            <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-3">Technical Notes</h3>
+            <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-500 dark:text-gray-400 list-disc list-inside">
+              <li>All CPI data is stored as annual index values. Monthly granularity is not used — prices are compared at the annual level.</li>
+              <li>CPI baselines cover the period 2000–2026. Subscription start years outside this range will not produce a CPI benchmark comparison.</li>
+              <li>Prices shown are standard retail prices in local currency. No PPP conversion or exchange rate adjustment is applied between currencies.</li>
+              <li>For the Subscription Creep Calculator, the start year is automatically set to the service&apos;s recorded launch year in the selected currency, ensuring the calculator always produces results on first load.</li>
+              <li>The year dropdown in Tracked Service mode is clamped to the service&apos;s launch year — users cannot select a year before the service existed in that market.</li>
+              <li>All calculations run entirely in the browser. No subscription data or user inputs are transmitted to any server.</li>
+              <li>The &quot;vs CPI&quot; multiplier in the Browse section uses each service&apos;s USD launch year as the baseline, regardless of selected currency, because the global launch date is the most consistently documented reference point.</li>
+              <li>This page is for informational and educational purposes only and does not constitute financial advice.</li>
+            </ul>
+          </div>
+        </div>
 
         {/* ── FAQ ── */}
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm p-6 sm:p-8">
