@@ -109,8 +109,14 @@ export default function SubscriptionInflationCalculatorRoute() {
       name: "Global Inflation Calculator",
       logo: { "@type": "ImageObject", url: `${siteUrl}/favicon-96x96.png` },
     },
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/og-subscription-inflation.png`,
+      width: 1200,
+      height: 630,
+    },
     datePublished: "2026-05-09T00:00:00Z",
-    dateModified: "2026-05-09T00:00:00Z",
+    dateModified: "2026-05-11T00:00:00Z",
     mainEntityOfPage: { "@type": "WebPage", "@id": `${siteUrl}${PAGE_PATH}` },
   }
 
@@ -128,7 +134,10 @@ export default function SubscriptionInflationCalculatorRoute() {
       {
         "@type": "Dataset",
         name: "BLS Consumer Price Index — All Urban Consumers",
+        description:
+          "The Consumer Price Index for All Urban Consumers (CPI-U) published by the US Bureau of Labor Statistics. Annual average index values used as the official US inflation benchmark for subscription price comparisons on this page.",
         url: "https://www.bls.gov/cpi/",
+        license: "https://www.bls.gov/bls/linksite.htm",
         creator: { "@type": "Organization", name: "Bureau of Labor Statistics", url: "https://www.bls.gov" },
       },
     ],
