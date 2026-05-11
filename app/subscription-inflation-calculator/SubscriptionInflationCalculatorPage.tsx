@@ -142,8 +142,8 @@ function getCpiForYear(cpiData: { year: number; cpi: number }[], year: number): 
   return sorted[sorted.length - 1].cpi
 }
 
-function formatCurrency(val: number): string {
-  return `$${val.toFixed(2)}`
+function formatCurrency(val: number, symbol = "$"): string {
+  return `${symbol}${val.toFixed(2)}`
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
@@ -851,11 +851,29 @@ export default function SubscriptionInflationCalculatorPage() {
                 <select
                   value={trackerCurrency}
                   onChange={(e) => {
-                    setTrackerCurrency(e.target.value)
-                    setSelectedSubs([])
+                    const newCurrency = e.target.value
+                    setTrackerCurrency(newCurrency)
                     setAddServiceId("")
                     setAddTierId("")
                     setShowAddPanel(false)
+                    // Seed two defaults that exist in the selected currency
+                    const defaults: Record<string, { serviceId: string; tierId: string }[]> = {
+                      USD: [{ serviceId: "netflix", tierId: "standard" }, { serviceId: "spotify", tierId: "individual" }],
+                      GBP: [{ serviceId: "netflix", tierId: "standard" }, { serviceId: "spotify", tierId: "individual" }],
+                      EUR: [{ serviceId: "netflix", tierId: "standard" }, { serviceId: "spotify", tierId: "individual" }],
+                      CAD: [{ serviceId: "netflix", tierId: "standard" }, { serviceId: "spotify", tierId: "individual" }],
+                      AUD: [{ serviceId: "netflix", tierId: "standard" }, { serviceId: "spotify", tierId: "individual" }],
+                      CHF: [{ serviceId: "netflix", tierId: "standard" }, { serviceId: "spotify", tierId: "individual" }],
+                      JPY: [{ serviceId: "netflix", tierId: "standard" }, { serviceId: "microsoft365", tierId: "personal_annual" }],
+                      NZD: [{ serviceId: "netflix", tierId: "standard" }, { serviceId: "spotify", tierId: "individual" }],
+                    }
+                    const pairs = defaults[newCurrency] ?? defaults["USD"]
+                    setSelectedSubs(pairs.map((p, i) => ({
+                      uid: `default-${newCurrency}-${i}`,
+                      serviceId: p.serviceId,
+                      tierId: p.tierId,
+                      startYear: 2015,
+                    })))
                   }}
                   className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
@@ -975,11 +993,18 @@ export default function SubscriptionInflationCalculatorPage() {
                           Since {sel.startYear} &nbsp;·&nbsp;
                           {totals && (
                             <>
-                              Started at {formatCurrency(totals.startPrice)}/mo &nbsp;·&nbsp;
-                              Now {formatCurrency(totals.currentPrice)}/mo &nbsp;·&nbsp;
-                              <span className={totals.overcharge > 0 ? "text-red-500" : "text-green-500"}>
-                                {totals.overcharge > 0 ? "+" : ""}{formatCurrency(totals.overcharge)} above CPI
-                              </span>
+                              {(() => {
+                                const sym = CURRENCY_META[trackerCurrency]?.symbol ?? "$"
+                                return (
+                                  <>
+                                    Started at {formatCurrency(totals.startPrice, sym)}/mo &nbsp;·&nbsp;
+                                    Now {formatCurrency(totals.currentPrice, sym)}/mo &nbsp;·&nbsp;
+                                    <span className={totals.overcharge > 0 ? "text-red-500" : "text-green-500"}>
+                                      {totals.overcharge > 0 ? "+" : ""}{formatCurrency(totals.overcharge, sym)} above CPI
+                                    </span>
+                                  </>
+                                )
+                              })()}
                             </>
                           )}
                         </div>
@@ -1098,20 +1123,20 @@ export default function SubscriptionInflationCalculatorPage() {
                           </div>
                         </div>
                         <div className="text-right flex-shrink-0">
-                          <div className="text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(row.currentPrice)}<span className="text-xs font-normal text-gray-400">/mo</span></div>
+                          <div className="text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(row.currentPrice, CURRENCY_META[trackerCurrency]?.symbol ?? "$")}<span className="text-xs font-normal text-gray-400">/mo</span></div>
                           <div className={`text-xs font-semibold ${row.overcharge > 0 ? "text-red-500" : "text-green-500"}`}>
-                            {row.overcharge > 0 ? "+" : ""}{formatCurrency(row.overcharge)} above CPI/mo
+                            {row.overcharge > 0 ? "+" : ""}{formatCurrency(row.overcharge, CURRENCY_META[trackerCurrency]?.symbol ?? "$")} above CPI/mo
                           </div>
                         </div>
                       </div>
                       <div className="mt-3 grid grid-cols-3 gap-2 text-center">
                         <div>
                           <div className="text-xs text-gray-400 dark:text-gray-500">Started at</div>
-                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">{formatCurrency(row.startPrice)}</div>
+                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">{formatCurrency(row.startPrice, CURRENCY_META[trackerCurrency]?.symbol ?? "$")}</div>
                         </div>
                         <div>
                           <div className="text-xs text-gray-400 dark:text-gray-500">If CPI only</div>
-                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">{formatCurrency(row.ifCpiOnly)}</div>
+                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">{formatCurrency(row.ifCpiOnly, CURRENCY_META[trackerCurrency]?.symbol ?? "$")}</div>
                         </div>
                         <div>
                           <div className="text-xs text-gray-400 dark:text-gray-500">Actual increase</div>
@@ -1140,33 +1165,66 @@ export default function SubscriptionInflationCalculatorPage() {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <div className="text-center">
                     <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Monthly total (now)</div>
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(totalMonthly)}</div>
-                    <div className="text-xs text-gray-400">/month</div>
+                    {(() => {
+                      const sym = CURRENCY_META[trackerCurrency]?.symbol ?? "$"
+                      return (
+                        <>
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(totalMonthly, sym)}</div>
+                          <div className="text-xs text-gray-400">/month</div>
+                        </>
+                      )
+                    })()}
                   </div>
                   <div className="text-center">
                     <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Annual total</div>
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(totalMonthly * 12)}</div>
-                    <div className="text-xs text-gray-400">/year</div>
+                    {(() => {
+                      const sym = CURRENCY_META[trackerCurrency]?.symbol ?? "$"
+                      return (
+                        <>
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(totalMonthly * 12, sym)}</div>
+                          <div className="text-xs text-gray-400">/year</div>
+                        </>
+                      )
+                    })()}
                   </div>
                   <div className="text-center">
                     <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">If CPI only</div>
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">{formatCurrency(totalMonthlyIfCpi)}</div>
-                    <div className="text-xs text-gray-400">/month</div>
+                    {(() => {
+                      const sym = CURRENCY_META[trackerCurrency]?.symbol ?? "$"
+                      return (
+                        <>
+                          <div className="text-2xl font-bold text-green-600 dark:text-green-400">{formatCurrency(totalMonthlyIfCpi, sym)}</div>
+                          <div className="text-xs text-gray-400">/month</div>
+                        </>
+                      )
+                    })()}
                   </div>
                   <div className="text-center">
                     <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Extra above inflation</div>
-                    <div className="text-2xl font-bold text-red-500">{formatCurrency(totalOvercharge)}</div>
-                    <div className="text-xs text-gray-400">/month &nbsp;·&nbsp; {formatCurrency(totalOvercharge * 12)}/yr</div>
+                    {(() => {
+                      const sym = CURRENCY_META[trackerCurrency]?.symbol ?? "$"
+                      return (
+                        <>
+                          <div className="text-2xl font-bold text-red-500">{formatCurrency(totalOvercharge, sym)}</div>
+                          <div className="text-xs text-gray-400">/month &nbsp;·&nbsp; {formatCurrency(totalOvercharge * 12, sym)}/yr</div>
+                        </>
+                      )
+                    })()}
                   </div>
                 </div>
                 {totalOvercharge > 0 && (
                   <div className="mt-4 flex items-start gap-2 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg p-3">
                     <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-red-700 dark:text-red-300 leading-relaxed">
-                      You are paying <strong>{formatCurrency(totalOvercharge)}/month</strong> ({formatCurrency(totalOvercharge * 12)}/year) more
-                      than you would be if your subscriptions had only risen with official inflation since you started each one.
-                      Over 5 years that compounds to approximately <strong>{formatCurrency(totalOvercharge * 12 * 5)}</strong> in extra charges.
-                    </p>
+                    {(() => {
+                      const sym = CURRENCY_META[trackerCurrency]?.symbol ?? "$"
+                      return (
+                        <p className="text-xs text-red-700 dark:text-red-300 leading-relaxed">
+                          You are paying <strong>{formatCurrency(totalOvercharge, sym)}/month</strong> ({formatCurrency(totalOvercharge * 12, sym)}/year) more
+                          than you would be if your subscriptions had only risen with official inflation since you started each one.
+                          Over 5 years that compounds to approximately <strong>{formatCurrency(totalOvercharge * 12 * 5, sym)}</strong> in extra charges.
+                        </p>
+                      )
+                    })()}
                   </div>
                 )}
               </div>
