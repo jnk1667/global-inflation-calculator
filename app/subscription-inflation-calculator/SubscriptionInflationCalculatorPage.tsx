@@ -249,9 +249,11 @@ export default function SubscriptionInflationCalculatorPage() {
     const svc = data.services.find((s) => s.id === calcServiceId)
     const countryData = svc?.countries?.[calcCurrency]
     const tiers = countryData?.tiers ?? []
+    const launchYear = countryData?.launchYear ?? 2015
     if (tiers.length) {
       setCalcTierId(tiers[0].tierId)
-      setCalcStartYear(countryData?.launchYear ?? 2015)
+      // Always snap to launch year so the user always gets results immediately
+      setCalcStartYear(launchYear)
     }
   }, [calcServiceId, calcCurrency, data])
 
@@ -651,16 +653,22 @@ export default function SubscriptionInflationCalculatorPage() {
                 </div>
                 <div>
                   <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 block">I started paying in</label>
-                  <select
-                    value={calcStartYear}
-                    onChange={(e) => setCalcStartYear(Number(e.target.value))}
-                    disabled={!calcServiceId}
-                    className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-40"
-                  >
-                    {Array.from({ length: 2025 - 2005 + 1 }, (_, i) => 2005 + i).map((y) => (
-                      <option key={y} value={y}>{y}</option>
-                    ))}
-                  </select>
+                  {(() => {
+                    const launchYear = services.find((s) => s.id === calcServiceId)?.countries?.[calcCurrency]?.launchYear ?? 2005
+                    const years = Array.from({ length: 2025 - launchYear + 1 }, (_, i) => launchYear + i)
+                    return (
+                      <select
+                        value={calcStartYear}
+                        onChange={(e) => setCalcStartYear(Number(e.target.value))}
+                        disabled={!calcServiceId}
+                        className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-40"
+                      >
+                        {years.map((y) => (
+                          <option key={y} value={y}>{y === launchYear ? `${y} (launch year)` : `${y}`}</option>
+                        ))}
+                      </select>
+                    )
+                  })()}
                 </div>
               </div>
             ) : (
