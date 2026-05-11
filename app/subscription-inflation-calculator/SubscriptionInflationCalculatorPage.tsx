@@ -1250,7 +1250,7 @@ export default function SubscriptionInflationCalculatorPage() {
 
                   {isExpanded && (
                     <div className="px-5 pb-5 bg-gray-50 dark:bg-gray-800/50">
-                      {(svc.countries?.["USD"]?.tiers ?? []).map((tier) => { // browse section always shows USD data for reference
+                      {(svc.countries?.["USD"]?.tiers ?? []).map((tier) => (
                         <div key={tier.tierId} className="mb-4 last:mb-0">
                           <div className="flex items-center justify-between mb-2 pt-3">
                             <div>
