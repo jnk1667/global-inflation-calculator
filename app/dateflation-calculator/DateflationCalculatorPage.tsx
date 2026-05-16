@@ -841,14 +841,64 @@ export default function DateflationCalculatorPage() {
       {/* ── Blog essay ── always visible, never collapsible */}
       {!blogLoading && blogContent && (
         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 mb-6">
-          <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">
-            The Dateflation Nobody Budgeted For
-          </h2>
-          <div className="prose prose-sm dark:prose-invert max-w-none">
-            {blogContent.split("\n\n").map((para, i) => {
-              if (para.startsWith("## ")) return <h2 key={i} className="text-lg font-semibold text-gray-900 dark:text-gray-100 mt-6 mb-2">{para.replace("## ", "")}</h2>
-              if (para.startsWith("# "))  return <h2 key={i} className="text-xl font-bold text-gray-900 dark:text-gray-100 mt-6 mb-2">{para.replace("# ", "")}</h2>
-              return <p key={i} className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">{para}</p>
+          <div className="space-y-5 text-gray-700 dark:text-gray-300 leading-relaxed">
+            {blogContent.split("\n").map((line, index) => {
+              const trimmedLine = line.trim()
+              if (!trimmedLine) return null
+
+              // H1 — page title level
+              if (trimmedLine.startsWith("# ") && !trimmedLine.startsWith("## ")) {
+                return (
+                  <h2 key={index} className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-3">
+                    {trimmedLine.substring(2)}
+                  </h2>
+                )
+              }
+
+              // H2 — section headings
+              if (trimmedLine.startsWith("## ")) {
+                return (
+                  <h3 key={index} className="text-xl font-bold text-gray-900 dark:text-white mt-6 mb-3">
+                    {trimmedLine.substring(3)}
+                  </h3>
+                )
+              }
+
+              // H3 — sub-section headings
+              if (trimmedLine.startsWith("### ")) {
+                return (
+                  <h4 key={index} className="text-lg font-semibold text-gray-800 dark:text-gray-100 mt-5 mb-2">
+                    {trimmedLine.substring(4)}
+                  </h4>
+                )
+              }
+
+              // Inline bold: **text**
+              const parseBold = (text: string) => {
+                const parts: (string | JSX.Element)[] = []
+                const boldRegex = /\*\*(.+?)\*\*/g
+                let lastIndex = 0
+                let match
+                let key = 0
+                while ((match = boldRegex.exec(text)) !== null) {
+                  if (match.index > lastIndex) parts.push(text.substring(lastIndex, match.index))
+                  parts.push(
+                    <strong key={`bold-${key++}`} className="font-semibold text-gray-900 dark:text-white">
+                      {match[1]}
+                    </strong>
+                  )
+                  lastIndex = match.index + match[0].length
+                }
+                if (lastIndex < text.length) parts.push(text.substring(lastIndex))
+                return parts.length > 0 ? parts : text
+              }
+
+              // Regular paragraph
+              return (
+                <p key={index} className="text-base leading-7">
+                  {parseBold(trimmedLine)}
+                </p>
+              )
             })}
           </div>
         </div>
