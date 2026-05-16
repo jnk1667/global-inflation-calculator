@@ -1,0 +1,391 @@
+{
+  "_meta": {
+    "description": "Master metadata file for the Dateflation Calculator. Contains currency configuration, data quality ratings, UI transparency messaging, cultural context notes, key statistics, and a complete sources index. This is the single source of truth for the calculator's currency selector and data provenance UI.",
+    "version": "1.0.0",
+    "lastUpdated": "2026-05-16",
+    "dataFiles": [
+      "dateflation-cpi-indices.json",
+      "dateflation-survey-data.json",
+      "dateflation-date-types.json",
+      "dateflation-dating-apps.json",
+      "dateflation-meta.json"
+    ]
+  },
+
+  "currencies": [
+    {
+      "code": "USD",
+      "name": "US Dollar",
+      "country": "United States",
+      "flag": "🇺🇸",
+      "symbol": "$",
+      "locale": "en-US",
+      "dataQuality": "solid",
+      "dataQualityBadge": "High Confidence",
+      "dataQualityColor": "green",
+      "dataQualityMessage": "Based on the BMO Real Financial Progress Index (Ipsos, n=2,500 US adults annually, 2025–2026) corroborated by LendingTree, NerdWallet, and Global Dating Insights surveys. CPI trend uses the BLS 'Food Away From Home' sub-index — the most accurate proxy for dining-out inflation in the US.",
+      "cpiSubIndex": "BLS Food Away From Home (CUUS0000SEFV)",
+      "cpiSource": "US Bureau of Labor Statistics",
+      "cpiSourceUrl": "https://fred.stlouisfed.org/series/CUUS0000SEFV",
+      "surveyAnchor2025": 168,
+      "surveyAnchor2026": 189,
+      "historicalStartYear": 2015,
+      "defaultDateType": "dinner_and_drinks",
+      "keyStats": {
+        "annualDatingSpend2025": 2279,
+        "annualDatingSpend2026": 2323,
+        "typicalDatesPerYear2025": 14,
+        "typicalDatesPerYear2026": 12,
+        "percentSayDatingNotWorthIt": 47,
+        "percentGenZOverspendingOnDates": 45,
+        "dateflationIncreaseYoY2025to2026": 12.5
+      },
+      "culturalContext": "The US pioneered the concept of 'dateflation' — the term was popularised by US media in 2023–2024 as food-away-from-home prices spiked post-pandemic. Americans go on fewer dates year-over-year (14 in 2025, 12 in 2026) but spend more per date. Gen Z outspends older generations on dates, likely driven by experience-oriented preferences and social media pressure. 47% of singles say dating is not financially worth it (BMO 2026).",
+      "mediaHighlights": [
+        "BMO 2026: 'Date-flation Hits Hard: Average Date Spend Nears $200'",
+        "CNBC April 2026: 'Why some young Americans are dating less in 2026'",
+        "NerdWallet 2024: dating costs driving Gen Z to modify date habits"
+      ]
+    },
+    {
+      "code": "GBP",
+      "name": "British Pound",
+      "country": "United Kingdom",
+      "flag": "🇬🇧",
+      "symbol": "£",
+      "locale": "en-GB",
+      "dataQuality": "solid",
+      "dataQualityBadge": "High Confidence",
+      "dataQualityColor": "green",
+      "dataQualityMessage": "Based on the Velloy Dating Index 2024 (n=4,000 UK adults: 2,000 singles + 2,000 couples) and the Barclays 2025 Gen Z cost-of-dating report. CPI trend uses the ONS CPIH 'Restaurants & Cafes' sub-index (series L557, 2015=100) — a decade-spanning official dataset directly relevant to dating costs.",
+      "cpiSubIndex": "ONS CPIH 11.1.1 Restaurants & Cafes (L557, 2015=100)",
+      "cpiSource": "UK Office for National Statistics",
+      "cpiSourceUrl": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l557/mm23",
+      "surveyAnchor2024": 115,
+      "surveyAnchor2025": 120,
+      "historicalStartYear": 2015,
+      "defaultDateType": "dinner_and_drinks",
+      "keyStats": {
+        "typicalDatesPerMonth": "3–5 (44% of UK daters)",
+        "ukRestaurantCpiIncrease2015to2025": 50.0,
+        "barclaysGen_ZDatingCostConcern": "Rising significantly",
+        "cpiRestaurantsIncrease2019to2025": 35.0
+      },
+      "culturalContext": "UK daters have faced significant cost-of-living pressures that have directly impacted dating behaviour. Barclays 2025 data highlights Gen Z UK daters increasingly opting for lower-cost date formats (drinks only, coffee) over full restaurant dinners. The ONS restaurant CPI rose 35% between 2019 and 2025 — roughly double the pre-pandemic rate. London dates cost approximately 20–30% more than the national average.",
+      "mediaHighlights": [
+        "Barclays 2025: 'UK Unlocked — Cost of Dating'",
+        "Velloy Dating Index 2024: UK dating costs £90–£140 per date",
+        "The Guardian: Gen Z changing date formats due to cost pressures"
+      ]
+    },
+    {
+      "code": "CAD",
+      "name": "Canadian Dollar",
+      "country": "Canada",
+      "flag": "🇨🇦",
+      "symbol": "CA$",
+      "locale": "en-CA",
+      "dataQuality": "thin",
+      "dataQualityBadge": "Estimated Baseline",
+      "dataQualityColor": "amber",
+      "dataQualityMessage": "Direct survey data available for 2025 (CAD $173) and 2026 (CAD $174) from the BMO Real Financial Progress Index Canada edition (Ipsos, n=2,500 Canadian adults). Years prior to 2025 are estimated by applying Statistics Canada's 'Food Purchased from Restaurants' CPI sub-index to the 2025 anchor. The CPI trend data is official and precise; the pre-2025 per-date cost figures are calculated estimates, not direct survey measurements.",
+      "cpiSubIndex": "Statistics Canada — Food Purchased from Restaurants",
+      "cpiSource": "Statistics Canada",
+      "cpiSourceUrl": "https://www150.statcan.gc.ca/t1/tbl1/en/dtbl/54155460",
+      "surveyAnchor2025": 173,
+      "surveyAnchor2026": 174,
+      "historicalStartYear": 2015,
+      "defaultDateType": "dinner_and_drinks",
+      "keyStats": {
+        "annualDatingSpend2025": 3621,
+        "typicalDatesBeforeCommitting": "10–21",
+        "percentSayRisingCostsAffectDating": 56,
+        "percentAdjustedDatingPlansFinancially": 42,
+        "percentCancelledDatesToSaveMoney": 30,
+        "percentSingleWithZeroDatesLastYear": 55,
+        "percentUnwillingToSpendOnApps": 60,
+        "averageAppSpendAmongPayers": "CAD $16/year",
+        "percentSayDatingNotWorthIt": 50
+      },
+      "culturalContext": "Canada shows one of the strongest signals of dating cost fatigue among the five currencies. 55% of Canadian singles had zero dates in the past year. 50% say dating is not financially worth it. The cost-of-living crisis — Sal Guatieri, BMO Senior Economist, notes consumer prices are 17% higher than 4 years prior — has hit Canadian dating hard. The CAD $173–174/date figure is notably stable 2025–2026, suggesting Canadians are either cutting back or finding ways to contain costs rather than absorbing ongoing increases.",
+      "mediaHighlights": [
+        "BMO Canada 2025: 'Date-flation is Real — Canadians Spending $173 Per Date'",
+        "BMO Canada 2026: 'Half of Single Canadians Do Not Believe Dating is Financially Worth It'",
+        "Canadian Press coverage of BMO dating cost surveys"
+      ]
+    },
+    {
+      "code": "AUD",
+      "name": "Australian Dollar",
+      "country": "Australia",
+      "flag": "🇦🇺",
+      "symbol": "A$",
+      "locale": "en-AU",
+      "dataQuality": "thin",
+      "dataQualityBadge": "Estimated Baseline",
+      "dataQualityColor": "amber",
+      "dataQualityMessage": "One confirmed direct survey data point: AUD $154.16 for a first date (July 2022, Yahoo Finance Australia survey). All other years are estimated by applying the ABS 'Meals Out and Take Away Foods' CPI sub-index to this anchor. The CPI trend is official; the per-date cost baseline is derived from a single survey source with an undisclosed sample size. First-date costs may be slightly higher than average ongoing-date costs.",
+      "cpiSubIndex": "ABS CPI — Meals Out and Take Away Foods (Weighted Average of 8 Capital Cities)",
+      "cpiSource": "Australian Bureau of Statistics",
+      "cpiSourceUrl": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia",
+      "surveyAnchor2022": 154,
+      "historicalStartYear": 2017,
+      "defaultDateType": "dinner_and_drinks",
+      "keyStats": {
+        "mealsPriceIncrease2017to2025pct": 38.7,
+        "restaurantInflationVsGeneralInflation": "Restaurant prices rose ~39% vs general CPI ~25% since 2017",
+        "trendNote": "Sydney Morning Herald (July 2023) explicitly reported Australians shifting from restaurant dates to drinks-only dates due to cost-of-living pressures"
+      },
+      "culturalContext": "Australia's cost-of-living crisis has had a documented impact on dating behaviour. The ABS 'Meals Out' sub-index rose 38.7% between 2017 and 2025 — one of the steeper increases in this dataset. Sydney Morning Herald reporting from 2023 directly noted daters moving to cheaper date formats. Sydney and Melbourne see prices 15–25% above national averages, making city dating particularly expensive.",
+      "mediaHighlights": [
+        "Yahoo Finance Australia July 2022: 'Aussies spending $150 on a first date'",
+        "Sydney Morning Herald July 2023: Cost-of-living crisis affecting dating choices",
+        "ABS CPI March 2026: Meals out continues to outpace general inflation"
+      ]
+    },
+    {
+      "code": "JPY",
+      "name": "Japanese Yen",
+      "country": "Japan",
+      "flag": "🇯🇵",
+      "symbol": "¥",
+      "locale": "ja-JP",
+      "dataQuality": "solid",
+      "dataQualityBadge": "High Confidence",
+      "dataQualityColor": "green",
+      "dataQualityMessage": "Multiple independent Japanese surveys provide per-date cost data: trami.jp 2023 (combined date cost ¥12,491), kanetohonne.jp 2024 (by age group), laskoi.jp 2025 (spending guidelines by gender). The Statistics Bureau of Japan publishes an annual 'Eating Out' (gaishoku, 外食) CPI sub-index with data going back to 2010. Important: Japanese dating data represents per-person or gender-split costs — men traditionally pay more. All figures clearly note whether they are per-person or combined.",
+      "cpiSubIndex": "Statistics Bureau of Japan CPI — Eating Out (外食, Gaishoku), Base 2020=100",
+      "cpiSource": "Statistics Bureau of Japan, Ministry of Internal Affairs and Communications",
+      "cpiSourceUrl": "https://www.stat.go.jp/english/data/cpi/",
+      "surveyAnchors": {
+        "2023combined": 12491,
+        "2024male": 8900,
+        "2025maleLow": 7000,
+        "2025maleHigh": 12000,
+        "2025femaleLow": 3000,
+        "2025femaleHigh": 5000
+      },
+      "historicalStartYear": 2015,
+      "defaultDateType": "dinner_and_drinks",
+      "keyStats": {
+        "eatingOutCpiIncrease2020to2025pct": 19.2,
+        "eatingOutCpiIncrease2019to2025pct": 17.1,
+        "japanDatingNorm": "Men pay significantly more than women — this is a persistent cultural norm across age groups, though it is shifting gradually with younger generations",
+        "popularDateFormats": ["Restaurant dinner", "Izakaya (gastropub)", "Karaoke", "Amusement parks", "Cafe dates"],
+        "matchingAppDominant": "Pairs (Match Group) — men pay, women use free",
+        "typicalDatesBeforeRelationship": "3–5"
+      },
+      "culturalContext": "Japan's dating economy is culturally distinctive in several important ways. Men traditionally bear the majority of dating costs — this is reflected in Japanese dating surveys, where per-person costs are almost always broken down by gender. Japan's eating-out CPI was unusually stable from 2011–2021 (reflecting deflationary pressures), then accelerated sharply post-2021 as the yen weakened and import costs rose. By 2025 the eating-out index was 19.2% above its 2020 base. Dating apps in Japan operate on a gender-asymmetric model (men pay for messaging; women message free) — Pairs being the dominant example. The concept of 'konkatsu' (marriage-hunting activities) adds an additional formal and costly dating layer specific to Japan.",
+      "mediaHighlights": [
+        "trami.jp 2023: Japanese dating cost survey (per-gender breakdown)",
+        "kanetohonne.jp 2024: Dating costs by age group in Japan",
+        "laskoi.jp 2025: Cost guidelines for dating in Japan",
+        "Josei Jishin magazine: Regular coverage of Japanese dating economics"
+      ]
+    }
+  ],
+
+  "globalKeyFindings": {
+    "description": "Cross-currency headline statistics for the Dateflation Calculator summary section.",
+    "findings": [
+      {
+        "id": "us_dateflation_pace",
+        "finding": "US dating costs rose 12.5% from 2025 to 2026 — far outpacing general inflation of ~3%.",
+        "source": "BMO Real Financial Progress Index 2026",
+        "currency": "USD"
+      },
+      {
+        "id": "canada_singles_zero_dates",
+        "finding": "55% of single Canadians went on zero dates in the past 12 months.",
+        "source": "BMO Real Financial Progress Index Canada 2025",
+        "currency": "CAD"
+      },
+      {
+        "id": "uk_restaurant_cpi",
+        "finding": "UK restaurant prices rose 50% between 2015 and 2025 (ONS CPIH L557).",
+        "source": "ONS CPIH Restaurants & Cafes sub-index",
+        "currency": "GBP"
+      },
+      {
+        "id": "australia_meals_out",
+        "finding": "Australian meals-out prices rose 38.7% between 2017 and 2025, outpacing general CPI.",
+        "source": "ABS CPI — Meals Out and Take Away Foods",
+        "currency": "AUD"
+      },
+      {
+        "id": "japan_eating_out_acceleration",
+        "finding": "Japan's eating-out CPI rose 19.2% between 2020 and 2025, after nearly a decade of near-zero change.",
+        "source": "Statistics Bureau of Japan CPI — Eating Out (Gaishoku)",
+        "currency": "JPY"
+      },
+      {
+        "id": "us_not_worth_it",
+        "finding": "47% of American singles say dating is not financially worth it (2026).",
+        "source": "BMO Real Financial Progress Index 2026",
+        "currency": "USD"
+      },
+      {
+        "id": "canada_not_worth_it",
+        "finding": "50% of single Canadians say dating is not financially worth it (2026).",
+        "source": "BMO Real Financial Progress Index Canada 2026",
+        "currency": "CAD"
+      },
+      {
+        "id": "hinge_price_surge",
+        "finding": "Hinge Preferred (USD) rose from $12.99/month in 2019 to $34.99 in 2026 — a 169% increase in 7 years.",
+        "source": "Match Group filings, Business of Apps",
+        "currency": "USD"
+      },
+      {
+        "id": "us_annual_dating_spend",
+        "finding": "The average American who dates spends $2,323/year on dates in 2026, up from $2,279 in 2025.",
+        "source": "BMO Real Financial Progress Index 2026",
+        "currency": "USD"
+      },
+      {
+        "id": "japan_gender_split",
+        "finding": "Japanese men spend ¥7,000–12,000 per date vs ¥3,000–5,000 for women — a 2–3x gap driven by cultural payment norms.",
+        "source": "laskoi.jp 2025, trami.jp 2023",
+        "currency": "JPY"
+      }
+    ]
+  },
+
+  "sourcesIndex": [
+    {
+      "id": "bmo_us_2026",
+      "name": "BMO Real Financial Progress Index — US, February 2026",
+      "publisher": "BMO Financial Group / Ipsos",
+      "url": "https://usnewsroom.bmo.com/2026-02-11-Date-flation-Hits-Hard-Average-Date-Spend-Nears-200-BMO-Real-Financial-Progress-Index",
+      "methodology": "Online survey of 2,501 US adults 18+. Fieldwork: December 29 2025 – January 27 2026. Conducted by Ipsos.",
+      "keyFigures": ["$189 average per-date spend", "$2,323 annual dating spend", "12 typical dates/year", "47% of singles say dating not financially worth it"]
+    },
+    {
+      "id": "bmo_us_2025",
+      "name": "BMO Real Financial Progress Index — US, February 2025",
+      "publisher": "BMO Financial Group / Ipsos",
+      "url": "https://usnewsroom.bmo.com/2025-02-06-The-Price-of-Love-The-Average-American-Spends-over-2K-a-Year-on-Dates,-BMO-Survey-Finds",
+      "methodology": "Online survey of 2,500 US adults 18+. Fieldwork: December 23 2024 – January 20 2025. Conducted by Ipsos.",
+      "keyFigures": ["$168 average per-date spend", "$2,279 annual dating spend", "14 typical dates/year", "Gen Z: $194/date, Millennials: $191/date"]
+    },
+    {
+      "id": "bmo_ca_2025",
+      "name": "BMO Real Financial Progress Index — Canada, February 2025",
+      "publisher": "BMO Financial Group / Ipsos",
+      "url": "https://newsroom.bmo.com/2025-02-06-Date-flation-is-Real-BMO-Survey-Reveals-Canadians-are-Spending-173-Per-Date-Amid-Rising-Cost-of-Living",
+      "methodology": "Online survey of 2,500 Canadian adults 18+. Fieldwork: December 23 2024 – January 20 2025. Conducted by Ipsos.",
+      "keyFigures": ["CAD $173 average per-date spend", "CAD $3,621 annual dating spend", "55% of singles had zero dates in past year", "56% say rising costs affect dating"]
+    },
+    {
+      "id": "bmo_ca_2026",
+      "name": "BMO Real Financial Progress Index — Canada, February 2026",
+      "publisher": "BMO Financial Group / Ipsos",
+      "url": "https://newswire.ca/news-releases/in-this-economy-bmo-survey-reveals-half-of-single-canadians-do-not-believe-dating-is-financially-worth-it-855356707.html",
+      "methodology": "Online survey of 2,500 Canadian adults 18+. Conducted by Ipsos.",
+      "keyFigures": ["CAD $174 average per-date spend", "50% of single Canadians say dating not financially worth it"]
+    },
+    {
+      "id": "velloy_2024",
+      "name": "Velloy Dating Index 2024",
+      "publisher": "Velloy",
+      "url": "https://velloy.com/blog/dating-index",
+      "methodology": "Online survey of 4,000 UK adults: 2,000 singles and 2,000 people in relationships. UK-representative sample.",
+      "keyFigures": ["£90–£140 per date range", "44% of UK daters go on 3–5 dates per month"]
+    },
+    {
+      "id": "barclays_2025",
+      "name": "Barclays UK Unlocked — Cost of Dating 2025",
+      "publisher": "Barclays",
+      "url": "https://home.barclays/insights/2025/09/Cost-Of-Dating",
+      "methodology": "Barclays transaction data combined with consumer survey. UK adults, Gen Z focus.",
+      "keyFigures": ["Gen Z UK dating costs rising sharply", "Shift from restaurant to drinks-only dates observed in transaction data"]
+    },
+    {
+      "id": "yahoo_aus_2022",
+      "name": "Yahoo Finance Australia — Aussies spending $150 on a first date",
+      "publisher": "Yahoo Finance Australia",
+      "url": "https://au.finance.yahoo.com/news/150-on-a-first-date-aussies-are-breaking-the-bank-to-find-love-011428798.html",
+      "publicationDate": "July 2022",
+      "methodology": "Survey of Australians. Sample size not disclosed.",
+      "keyFigures": ["AUD $154.16 average first-date cost"]
+    },
+    {
+      "id": "trami_2023",
+      "name": "trami.jp Dating Cost Survey 2023",
+      "publisher": "trami.jp",
+      "url": "https://trami.jp/tramaga/archives/24004",
+      "methodology": "Japanese online survey. Gender-split results.",
+      "keyFigures": ["¥12,491 combined date cost", "¥8,339 male share", "¥3,361 female share", "¥28,353 monthly male dating spend", "¥11,427 monthly female dating spend"]
+    },
+    {
+      "id": "kanetohonne_2024",
+      "name": "kanetohonne.jp Dating Cost Survey 2024",
+      "publisher": "kanetohonne.jp",
+      "url": "https://kanetohonne.jp/3630",
+      "methodology": "Japanese online survey. Results broken down by age group.",
+      "keyFigures": ["¥8,353 (20s)", "¥9,093 (30s)", "¥10,693 (40s) per date"]
+    },
+    {
+      "id": "laskoi_2025",
+      "name": "laskoi.jp Dating Cost Guidelines 2025",
+      "publisher": "laskoi.jp",
+      "url": "https://laskoi.jp",
+      "methodology": "Japanese consumer survey / editorial guidelines based on survey data.",
+      "keyFigures": ["Men: ¥7,000–12,000 per date", "Women: ¥3,000–5,000 per date"]
+    },
+    {
+      "id": "bls_fafh",
+      "name": "BLS Consumer Price Index — Food Away From Home (CUUS0000SEFV)",
+      "publisher": "US Bureau of Labor Statistics",
+      "url": "https://fred.stlouisfed.org/series/CUUS0000SEFV",
+      "methodology": "Official US government CPI sub-index. Monthly data, annual averages used. Covers all food consumed away from home including restaurants, fast food, cafeteria meals.",
+      "keyFigures": ["2019 index: 265.5", "2025 index: 375.6", "Growth 2019–2025: 41.5%"]
+    },
+    {
+      "id": "ons_l557",
+      "name": "ONS CPIH Index 11.1.1 — Restaurants & Cafes (L557, 2015=100)",
+      "publisher": "UK Office for National Statistics",
+      "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l557/mm23",
+      "methodology": "Official UK government CPIH sub-index. Monthly data. Annual averages used in this dataset.",
+      "keyFigures": ["2015 index: 100.0", "2019 index: 111.1", "2024 index: 144.0", "2025 index: 150.0 (estimated)"]
+    },
+    {
+      "id": "statscan_restaurants",
+      "name": "Statistics Canada — Food Purchased from Restaurants CPI",
+      "publisher": "Statistics Canada",
+      "url": "https://www150.statcan.gc.ca/t1/tbl1/en/dtbl/54155460",
+      "methodology": "Official Canadian government CPI sub-index. Annual averages.",
+      "keyFigures": ["2019 index: 156.5", "2025 index: 199.2", "Growth 2019–2025: 27.3%"]
+    },
+    {
+      "id": "abs_meals_out",
+      "name": "ABS CPI — Meals Out and Take Away Foods",
+      "publisher": "Australian Bureau of Statistics",
+      "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia",
+      "methodology": "Official Australian government CPI sub-index. Quarterly data, annual averages used. Covers weighted average of 8 capital cities.",
+      "keyFigures": ["2017 index: 100.0 (base)", "2022 index: 116.3", "2025 index: 138.7", "Growth 2017–2025: 38.7%"]
+    },
+    {
+      "id": "sjb_eating_out",
+      "name": "Statistics Bureau of Japan CPI — Eating Out (Gaishoku/外食)",
+      "publisher": "Statistics Bureau, Ministry of Internal Affairs and Communications, Japan",
+      "url": "https://www.stat.go.jp/english/data/cpi/",
+      "methodology": "Official Japanese government CPI sub-index. Annual averages. Base year 2020=100.",
+      "keyFigures": ["2019 index: 101.8", "2020 index: 100.0 (base)", "2025 index: 119.2", "Growth 2020–2025: 19.2%"]
+    },
+    {
+      "id": "global_dating_insights_2024",
+      "name": "Global Dating Insights — Financial Costs of Dating in 2024",
+      "publisher": "Global Dating Insights",
+      "url": "https://www.globaldatinginsights.com/news/study-the-financial-costs-of-dating-in-2024",
+      "keyFigures": ["US average $58.84/date (narrower definition, excludes grooming/transport)", "Men average $67.87/date"]
+    },
+    {
+      "id": "smh_2023",
+      "name": "Sydney Morning Herald — Dating on a Budget, July 2023",
+      "publisher": "Sydney Morning Herald",
+      "url": "https://news.smh.com.au/lifestyle/life-and-relationships/dating-on-a-budget-how-the-cost-of-living-crisis-is-affecting-our-love-lives-20230710-p5dn33.html",
+      "keyFigures": ["Cost-of-living crisis pushing Australians to opt for drinks-only dates instead of full restaurant meals"]
+    }
+  ]
+}

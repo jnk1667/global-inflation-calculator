@@ -1,0 +1,269 @@
+{
+  "_meta": {
+    "description": "Date type presets with per-currency cost breakdowns. Used to populate the 'What kind of dates do you go on?' selector in the Dateflation Calculator. Each type has cost estimates broken down by component (dinner, drinks, activity, transport, grooming) with sources.",
+    "note": "All costs are per-person unless noted. 'totalCoupleCost' = realistic combined spend for a two-person date. Costs are 2025 estimates. The calculator applies the eating-out CPI sub-index to back-fill historical costs.",
+    "lastUpdated": "2026-05-16"
+  },
+  "dateTypes": [
+    {
+      "id": "dinner_and_drinks",
+      "label": "Dinner & Drinks",
+      "description": "A sit-down restaurant dinner followed by drinks at a bar. The classic date format.",
+      "icon": "wine",
+      "isDefault": true,
+      "costsByCountry": {
+        "USD": {
+          "perPersonDinner": 55,
+          "perPersonDrinks": 30,
+          "transport": 18,
+          "groomingPerPerson": 25,
+          "totalCoupleCost": 190,
+          "notes": "Based on NerdWallet 2024: avg restaurant date $65–80/person for food + drinks. Transport via Uber/Lyft avg $15–20 each way. Grooming: men ~$20 (haircut/products), women ~$30 (hair/makeup). BMO $168 avg per-date aligns with this breakdown.",
+          "sources": ["BMO RFPI 2025", "NerdWallet 2024 dating costs", "BLS FAFH index"]
+        },
+        "GBP": {
+          "perPersonDinner": 42,
+          "perPersonDrinks": 25,
+          "transport": 12,
+          "groomingPerPerson": 18,
+          "totalCoupleCost": 120,
+          "notes": "UK dinner avg £35–50/person in urban areas (ONS eating-out data). London skews higher. Drinks: 2–3 pints/cocktails avg £20–30. Transport: tube/bus £5 or Uber £10–15 each way. Velloy 2024 midpoint £115 aligns.",
+          "sources": ["Velloy Dating Index 2024", "Barclays 2025", "ONS CPIH L557"]
+        },
+        "CAD": {
+          "perPersonDinner": 50,
+          "perPersonDrinks": 28,
+          "transport": 20,
+          "groomingPerPerson": 22,
+          "totalCoupleCost": 173,
+          "notes": "Statistics Canada food service prices. Toronto/Vancouver skew 15–20% above national average. BMO 2025 CAD $173 benchmark used as calibration. Rideshare avg $18–22 round trip.",
+          "sources": ["BMO RFPI Canada 2025", "Statistics Canada restaurant CPI"]
+        },
+        "AUD": {
+          "perPersonDinner": 65,
+          "perPersonDrinks": 30,
+          "transport": 18,
+          "groomingPerPerson": 20,
+          "totalCoupleCost": 185,
+          "notes": "Australian restaurant prices have risen sharply — ABS meals-out index +30.8% since 2017. Sydney/Melbourne avg main course $35–45. Yahoo Finance AUD $154 (2022 first date) back-fills to ~$184 in 2025 terms.",
+          "sources": ["Yahoo Finance AUS 2022 survey", "ABS CPI meals out", "SMH 2023"]
+        },
+        "JPY": {
+          "perPersonDinner": 5000,
+          "perPersonDrinks": 2500,
+          "transport": 800,
+          "groomingPerPerson": 1500,
+          "totalCoupleCost": 14000,
+          "notes": "Japan: men typically pay more. Izakaya/restaurant avg ¥3,000–6,000 per person. Drinks at bar ¥2,000–3,000. Train transport ¥500–1,000. laskoi.jp 2025: men ¥7,000–12,000 / women ¥3,000–5,000. Combined ¥12,491 per trami.jp 2023.",
+          "sources": ["trami.jp 2023 survey", "laskoi.jp 2025", "kanetohonne.jp 2024", "Statistics Bureau of Japan eating-out CPI"]
+        }
+      }
+    },
+    {
+      "id": "coffee_and_walk",
+      "label": "Coffee & Walk",
+      "description": "A casual low-cost first date: coffee at a cafe plus a walk in a park or neighbourhood.",
+      "icon": "coffee",
+      "isDefault": false,
+      "costsByCountry": {
+        "USD": {
+          "perPersonCoffee": 8,
+          "transport": 5,
+          "groomingPerPerson": 15,
+          "totalCoupleCost": 40,
+          "notes": "Average specialty coffee $5–7 each. Light snacks optional +$5. Minimal transport. Popular Gen Z low-cost date format. The Hustle survey notes these dates cost roughly half of standard drinks dates.",
+          "sources": ["The Hustle dating economics survey", "NerdWallet 2024"]
+        },
+        "GBP": {
+          "perPersonCoffee": 6,
+          "transport": 4,
+          "groomingPerPerson": 10,
+          "totalCoupleCost": 28,
+          "notes": "UK specialty coffee £4–7. London prices skew higher. Tube/bus fare £2–5 each way. Increasingly popular as UK cost-of-living pressures grow — Barclays 2025 notes Gen Z UK daters opting for lower-cost formats.",
+          "sources": ["Barclays 2025 UK dating report", "ONS CPIH"]
+        },
+        "CAD": {
+          "perPersonCoffee": 7,
+          "transport": 6,
+          "groomingPerPerson": 12,
+          "totalCoupleCost": 34,
+          "notes": "Canadian specialty coffee avg CAD $5–8. Tim Hortons baseline much lower. Urban transport $3–6 each way. 30% of Canadians cancelled dates to save money — coffee dates are the budget-friendly alternative.",
+          "sources": ["BMO RFPI Canada 2025", "Statistics Canada"]
+        },
+        "AUD": {
+          "perPersonCoffee": 7,
+          "transport": 5,
+          "groomingPerPerson": 12,
+          "totalCoupleCost": 36,
+          "notes": "Australia has a strong coffee culture; specialty flat white avg AUD $5–7. Melbourne/Sydney cafes on the higher end. SMH 2023: Australians increasingly choosing cafe/walk formats due to cost-of-living pressures.",
+          "sources": ["ABS CPI", "SMH 2023 dating cost report"]
+        },
+        "JPY": {
+          "perPersonCoffee": 700,
+          "transport": 500,
+          "groomingPerPerson": 800,
+          "totalCoupleCost": 3500,
+          "notes": "Japanese cafe culture is strong. Coffee at a kissaten or specialty cafe ¥500–1,000. Convenience store coffee option much cheaper. Train transport ¥300–800. Japan's Josei Jishin surveys indicate cafe dates are popular for early-stage dating.",
+          "sources": ["Statistics Bureau of Japan CPI", "Japanese dating cost surveys"]
+        }
+      }
+    },
+    {
+      "id": "activity_date",
+      "label": "Activity Date",
+      "description": "Bowling, mini-golf, escape rooms, rock climbing, museums, cinema — an experience-based date.",
+      "icon": "zap",
+      "isDefault": false,
+      "costsByCountry": {
+        "USD": {
+          "activityPerPerson": 40,
+          "foodAndDrinks": 35,
+          "transport": 18,
+          "groomingPerPerson": 20,
+          "totalCoupleCost": 175,
+          "notes": "Activity costs: escape room $30–45/person, bowling $25–35/person, cinema $15–20/person. The Hustle survey: activity dates cost approximately 2x standard drinks dates. Gen Z preference for experience dates is growing.",
+          "sources": ["The Hustle dating economics survey", "BMO RFPI 2025"]
+        },
+        "GBP": {
+          "activityPerPerson": 30,
+          "foodAndDrinks": 25,
+          "transport": 10,
+          "groomingPerPerson": 14,
+          "totalCoupleCost": 120,
+          "notes": "UK escape rooms £25–40/person. Cinema £12–18. Bowling £15–25. Velloy 2024: 44% of UK daters go on 3–5 dates per month, activity dates are common.",
+          "sources": ["Velloy Dating Index 2024", "Barclays 2025"]
+        },
+        "CAD": {
+          "activityPerPerson": 35,
+          "foodAndDrinks": 30,
+          "transport": 15,
+          "groomingPerPerson": 15,
+          "totalCoupleCost": 160,
+          "notes": "Canadian escape rooms CAD $28–45/person. Cinema CAD $16–20. Bowling CAD $20–35. Toronto/Vancouver premium applies.",
+          "sources": ["BMO RFPI Canada 2025", "Statistics Canada CPI"]
+        },
+        "AUD": {
+          "activityPerPerson": 40,
+          "foodAndDrinks": 35,
+          "transport": 15,
+          "groomingPerPerson": 15,
+          "totalCoupleCost": 190,
+          "notes": "Australian escape rooms AUD $35–50/person. Cinema AUD $20–25. Bowling AUD $20–30. Australian cost-of-living pressures have made activity dates feel extravagant to many.",
+          "sources": ["ABS CPI", "Yahoo Finance AUS 2022"]
+        },
+        "JPY": {
+          "activityPerPerson": 3000,
+          "foodAndDrinks": 3000,
+          "transport": 800,
+          "groomingPerPerson": 1000,
+          "totalCoupleCost": 15000,
+          "notes": "Japan: karaoke (¥1,500–3,000/hr/person), bowling (¥1,500–2,500/person), amusement park day (¥5,000–8,000/person entry). Activity dates are very popular in Japan as structured experiences reduce awkwardness.",
+          "sources": ["laskoi.jp 2025", "trami.jp 2023", "Statistics Bureau of Japan CPI"]
+        }
+      }
+    },
+    {
+      "id": "drinks_only",
+      "label": "Drinks Only",
+      "description": "A bar or wine bar date — drinks only, no dinner. A popular mid-week date format.",
+      "icon": "beer",
+      "isDefault": false,
+      "costsByCountry": {
+        "USD": {
+          "perPersonDrinks": 45,
+          "transport": 15,
+          "groomingPerPerson": 20,
+          "totalCoupleCost": 120,
+          "notes": "2–3 cocktails/beers avg $12–18 each in urban bars. Uber/Lyft avg $12–18 round trip. NerdWallet notes drinks-only dates as a popular budget-management strategy.",
+          "sources": ["NerdWallet 2024", "The Hustle survey", "BLS FAFH"]
+        },
+        "GBP": {
+          "perPersonDrinks": 30,
+          "transport": 8,
+          "groomingPerPerson": 12,
+          "totalCoupleCost": 82,
+          "notes": "UK pint avg £5–7, cocktail £10–14. 2–3 rounds = £25–35/person. Barclays 2025 notes drinks-only dates rising as Gen Z daters manage costs.",
+          "sources": ["Barclays 2025", "Velloy Dating Index 2024", "ONS CPIH"]
+        },
+        "CAD": {
+          "perPersonDrinks": 35,
+          "transport": 15,
+          "groomingPerPerson": 15,
+          "totalCoupleCost": 110,
+          "notes": "Canadian pints CAD $8–12, cocktails $14–18. 42% of Canadians have adjusted date plans for financial reasons — drinks-only is a common downshift from dinner plans.",
+          "sources": ["BMO RFPI Canada 2025", "Statistics Canada"]
+        },
+        "AUD": {
+          "perPersonDrinks": 40,
+          "transport": 15,
+          "groomingPerPerson": 15,
+          "totalCoupleCost": 125,
+          "notes": "AUD pints $8–12, cocktails $18–22. SMH 2023: 'cost-of-living crisis pushing Australians to opt for drinks-only dates instead of full restaurant meals' — explicit corroboration that drinks dates are growing as a cost-management choice.",
+          "sources": ["SMH 2023", "ABS CPI meals out"]
+        },
+        "JPY": {
+          "perPersonDrinks": 2500,
+          "transport": 600,
+          "groomingPerPerson": 800,
+          "totalCoupleCost": 8000,
+          "notes": "Izakaya all-you-can-drink (nomihoudai) ¥1,500–2,500/person/2hrs. Regular bar ¥2,000–4,000/person. Very popular date format in Japan. Train transport ¥300–800.",
+          "sources": ["trami.jp 2023", "laskoi.jp 2025", "Statistics Bureau of Japan CPI"]
+        }
+      }
+    },
+    {
+      "id": "home_date",
+      "label": "Home / Cook Together",
+      "description": "Cooking a meal together at home, or a home movie night. The lowest-cost date format.",
+      "icon": "home",
+      "isDefault": false,
+      "costsByCountry": {
+        "USD": {
+          "groceriesPerCouple": 60,
+          "wine": 20,
+          "streaming": 2,
+          "groomingPerPerson": 15,
+          "totalCoupleCost": 97,
+          "notes": "Groceries for a home-cooked meal for 2: avg $50–70. Bottle of wine $15–25. Streaming platform fraction of monthly cost. Growing in popularity as dateflation pushes people indoors.",
+          "sources": ["BLS FAFH and food-at-home CPI", "BMO RFPI 2025 notes on budget-conscious dating"]
+        },
+        "GBP": {
+          "groceriesPerCouple": 35,
+          "wine": 12,
+          "streaming": 2,
+          "groomingPerPerson": 10,
+          "totalCoupleCost": 62,
+          "notes": "UK groceries for a home dinner: £25–45. Bottle of wine £10–15. Barclays 2025 notes homebound dates rising among UK Gen Z.",
+          "sources": ["Barclays 2025", "ONS CPIH food at home index"]
+        },
+        "CAD": {
+          "groceriesPerCouple": 45,
+          "wine": 18,
+          "streaming": 2,
+          "groomingPerPerson": 10,
+          "totalCoupleCost": 80,
+          "notes": "Canadian grocery prices have risen significantly (Statistics Canada food-at-home CPI up 20%+ since 2019). Home dates increasingly popular as 30% of Canadians cancel dates to save money.",
+          "sources": ["BMO RFPI Canada 2025", "Statistics Canada food-at-home CPI"]
+        },
+        "AUD": {
+          "groceriesPerCouple": 50,
+          "wine": 20,
+          "streaming": 2,
+          "groomingPerPerson": 12,
+          "totalCoupleCost": 90,
+          "notes": "Australian grocery inflation has been significant. Home cooking increasingly attractive vs restaurant prices up 30%+ since 2017.",
+          "sources": ["ABS CPI", "SMH 2023"]
+        },
+        "JPY": {
+          "groceriesPerCouple": 3000,
+          "alcohol": 1500,
+          "streaming": 200,
+          "groomingPerPerson": 600,
+          "totalCoupleCost": 6000,
+          "notes": "Japanese convenience store sushi/sashimi + cooking at home is a common budget date format. Home dates somewhat less culturally typical in Japan (smaller apartments, privacy considerations) but growing among younger generations.",
+          "sources": ["Statistics Bureau of Japan CPI", "laskoi.jp 2025"]
+        }
+      }
+    }
+  ]
+}

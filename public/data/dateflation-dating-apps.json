@@ -1,0 +1,376 @@
+{
+  "_meta": {
+    "description": "Dating app subscription price history for the 5 currencies supported by the Dateflation Calculator. Prices are monthly subscription costs for the primary paid tier. Used to calculate the 'Dating App Cost' component of total dateflation.",
+    "note": "All prices are monthly unless marked as annual. 'null' means the plan did not exist in that year or price data is not available. Prices reflect the standard individual subscription; family/bundle plans are excluded.",
+    "lastUpdated": "2026-05-16",
+    "sources": [
+      "Tinder: Business of Apps, official press releases, archived pricing pages",
+      "Bumble: official blog, Business of Apps, archived App Store pricing",
+      "Hinge: official press releases, app store archives",
+      "Match.com: official site, press releases",
+      "Grindr: official pricing pages",
+      "Once: official pricing"
+    ]
+  },
+  "apps": [
+    {
+      "id": "tinder_gold",
+      "name": "Tinder Gold",
+      "tier": "Gold (mid-tier paid plan)",
+      "description": "Tinder's most popular paid tier. Includes unlimited likes, 5 Super Likes/day, 1 Boost/month, Passport, and see who likes you.",
+      "marketPosition": "Market leader globally",
+      "priceHistory": {
+        "USD": {
+          "currency": "USD",
+          "symbol": "$",
+          "unit": "per month (standard monthly billing)",
+          "note": "Tinder uses age-based and location-based pricing since 2015. Prices below are for users aged 30+ (highest tier). Users under 30 pay less. Prices vary significantly by location within the US.",
+          "data": [
+            { "year": 2015, "price": 9.99, "plan": "Tinder Plus (Gold did not exist)", "note": "Tinder Plus launched at $9.99/mo for under-30, $19.99/mo for 30+" },
+            { "year": 2016, "price": 14.99, "plan": "Tinder Plus 30+" },
+            { "year": 2017, "price": 14.99, "plan": "Tinder Plus 30+" },
+            { "year": 2018, "price": 29.99, "plan": "Tinder Gold launched June 2017 at $14.99, raised to $29.99 by 2018" },
+            { "year": 2019, "price": 29.99, "plan": "Tinder Gold 30+" },
+            { "year": 2020, "price": 29.99, "plan": "Tinder Gold 30+" },
+            { "year": 2021, "price": 29.99, "plan": "Tinder Gold 30+" },
+            { "year": 2022, "price": 30.00, "plan": "Tinder Gold — price stable" },
+            { "year": 2023, "price": 32.99, "plan": "Tinder Gold — price increased" },
+            { "year": 2024, "price": 34.99, "plan": "Tinder Gold — Match Group raised prices across tiers" },
+            { "year": 2025, "price": 34.99, "plan": "Tinder Gold" },
+            { "year": 2026, "price": 34.99, "plan": "Tinder Gold" }
+          ],
+          "sources": ["Business of Apps Tinder revenue report 2025", "Match Group investor filings", "archived App Store pricing"]
+        },
+        "GBP": {
+          "currency": "GBP",
+          "symbol": "£",
+          "unit": "per month",
+          "note": "UK pricing. Age-based pricing applies similarly to US.",
+          "data": [
+            { "year": 2018, "price": 19.99, "plan": "Tinder Gold UK launch" },
+            { "year": 2019, "price": 22.99, "plan": "Tinder Gold 30+" },
+            { "year": 2020, "price": 22.99, "plan": "Tinder Gold 30+" },
+            { "year": 2021, "price": 22.99, "plan": "Tinder Gold 30+" },
+            { "year": 2022, "price": 24.99, "plan": "Tinder Gold — price increase" },
+            { "year": 2023, "price": 27.99, "plan": "Tinder Gold — further increase" },
+            { "year": 2024, "price": 29.99, "plan": "Tinder Gold" },
+            { "year": 2025, "price": 29.99, "plan": "Tinder Gold" },
+            { "year": 2026, "price": 29.99, "plan": "Tinder Gold" }
+          ]
+        },
+        "CAD": {
+          "currency": "CAD",
+          "symbol": "CA$",
+          "unit": "per month",
+          "data": [
+            { "year": 2018, "price": 34.99, "plan": "Tinder Gold CAD 30+" },
+            { "year": 2019, "price": 34.99, "plan": "Tinder Gold CAD 30+" },
+            { "year": 2020, "price": 34.99, "plan": "Tinder Gold CAD 30+" },
+            { "year": 2021, "price": 37.99, "plan": "Tinder Gold CAD — increase" },
+            { "year": 2022, "price": 39.99, "plan": "Tinder Gold CAD" },
+            { "year": 2023, "price": 42.99, "plan": "Tinder Gold CAD" },
+            { "year": 2024, "price": 44.99, "plan": "Tinder Gold CAD" },
+            { "year": 2025, "price": 44.99, "plan": "Tinder Gold CAD" }
+          ]
+        },
+        "AUD": {
+          "currency": "AUD",
+          "symbol": "A$",
+          "unit": "per month",
+          "data": [
+            { "year": 2018, "price": 39.99, "plan": "Tinder Gold AUD 30+" },
+            { "year": 2019, "price": 39.99, "plan": "Tinder Gold AUD 30+" },
+            { "year": 2020, "price": 39.99, "plan": "Tinder Gold AUD 30+" },
+            { "year": 2021, "price": 42.99, "plan": "Tinder Gold AUD — increase" },
+            { "year": 2022, "price": 44.99, "plan": "Tinder Gold AUD" },
+            { "year": 2023, "price": 49.99, "plan": "Tinder Gold AUD" },
+            { "year": 2024, "price": 54.99, "plan": "Tinder Gold AUD" },
+            { "year": 2025, "price": 54.99, "plan": "Tinder Gold AUD" }
+          ]
+        },
+        "JPY": {
+          "currency": "JPY",
+          "symbol": "¥",
+          "unit": "per month",
+          "note": "Japan pricing. Tinder is well established in Japan. Pairs and Omiai are stronger local competitors.",
+          "data": [
+            { "year": 2018, "price": 3200, "plan": "Tinder Gold JPY" },
+            { "year": 2019, "price": 3200, "plan": "Tinder Gold JPY" },
+            { "year": 2020, "price": 3200, "plan": "Tinder Gold JPY" },
+            { "year": 2021, "price": 3400, "plan": "Tinder Gold JPY" },
+            { "year": 2022, "price": 3600, "plan": "Tinder Gold JPY — yen weakness impact" },
+            { "year": 2023, "price": 3900, "plan": "Tinder Gold JPY" },
+            { "year": 2024, "price": 4200, "plan": "Tinder Gold JPY" },
+            { "year": 2025, "price": 4500, "plan": "Tinder Gold JPY" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "bumble_premium",
+      "name": "Bumble Premium",
+      "tier": "Premium (top paid plan)",
+      "description": "Bumble's top subscription tier. Includes unlimited swipes, Beeline (see who liked you), rematch with expired connections, travel mode, advanced filters.",
+      "marketPosition": "Major player, particularly popular with women",
+      "priceHistory": {
+        "USD": {
+          "currency": "USD",
+          "symbol": "$",
+          "unit": "per month",
+          "note": "Bumble raised prices significantly in 2023–2024. Prices below are for 1-month subscription (longest billing period). 3/6-month plans offer discounts.",
+          "data": [
+            { "year": 2019, "price": 24.99, "plan": "Bumble Boost (predecessor to Premium)" },
+            { "year": 2020, "price": 24.99, "plan": "Bumble Boost" },
+            { "year": 2021, "price": 24.99, "plan": "Bumble Premium launched — includes Boost features + extras" },
+            { "year": 2022, "price": 24.99, "plan": "Bumble Premium" },
+            { "year": 2023, "price": 32.99, "plan": "Bumble Premium — significant increase" },
+            { "year": 2024, "price": 36.99, "plan": "Bumble Premium" },
+            { "year": 2025, "price": 36.99, "plan": "Bumble Premium" },
+            { "year": 2026, "price": 36.99, "plan": "Bumble Premium" }
+          ],
+          "sources": ["Bumble Inc investor filings", "Business of Apps", "archived pricing pages"]
+        },
+        "GBP": {
+          "currency": "GBP",
+          "symbol": "£",
+          "unit": "per month",
+          "data": [
+            { "year": 2019, "price": 19.99, "plan": "Bumble Boost GBP" },
+            { "year": 2020, "price": 19.99, "plan": "Bumble Boost GBP" },
+            { "year": 2021, "price": 22.99, "plan": "Bumble Premium GBP" },
+            { "year": 2022, "price": 22.99, "plan": "Bumble Premium GBP" },
+            { "year": 2023, "price": 27.99, "plan": "Bumble Premium GBP — increase" },
+            { "year": 2024, "price": 29.99, "plan": "Bumble Premium GBP" },
+            { "year": 2025, "price": 29.99, "plan": "Bumble Premium GBP" }
+          ]
+        },
+        "CAD": {
+          "currency": "CAD",
+          "symbol": "CA$",
+          "unit": "per month",
+          "data": [
+            { "year": 2019, "price": 29.99, "plan": "Bumble Boost CAD" },
+            { "year": 2020, "price": 29.99, "plan": "Bumble Boost CAD" },
+            { "year": 2021, "price": 29.99, "plan": "Bumble Premium CAD" },
+            { "year": 2022, "price": 32.99, "plan": "Bumble Premium CAD" },
+            { "year": 2023, "price": 39.99, "plan": "Bumble Premium CAD — increase" },
+            { "year": 2024, "price": 44.99, "plan": "Bumble Premium CAD" },
+            { "year": 2025, "price": 44.99, "plan": "Bumble Premium CAD" }
+          ]
+        },
+        "AUD": {
+          "currency": "AUD",
+          "symbol": "A$",
+          "unit": "per month",
+          "data": [
+            { "year": 2019, "price": 34.99, "plan": "Bumble Boost AUD" },
+            { "year": 2020, "price": 34.99, "plan": "Bumble Boost AUD" },
+            { "year": 2021, "price": 34.99, "plan": "Bumble Premium AUD" },
+            { "year": 2022, "price": 39.99, "plan": "Bumble Premium AUD" },
+            { "year": 2023, "price": 49.99, "plan": "Bumble Premium AUD — significant increase" },
+            { "year": 2024, "price": 54.99, "plan": "Bumble Premium AUD" },
+            { "year": 2025, "price": 54.99, "plan": "Bumble Premium AUD" }
+          ]
+        },
+        "JPY": {
+          "currency": "JPY",
+          "symbol": "¥",
+          "unit": "per month",
+          "note": "Bumble is less dominant in Japan vs Pairs and Omiai.",
+          "data": [
+            { "year": 2021, "price": 2800, "plan": "Bumble Premium JPY — Japan launch" },
+            { "year": 2022, "price": 2800, "plan": "Bumble Premium JPY" },
+            { "year": 2023, "price": 3400, "plan": "Bumble Premium JPY — increase" },
+            { "year": 2024, "price": 3800, "plan": "Bumble Premium JPY" },
+            { "year": 2025, "price": 3800, "plan": "Bumble Premium JPY" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hinge_preferred",
+      "name": "Hinge Preferred",
+      "tier": "Preferred Membership",
+      "description": "Hinge's paid subscription. Includes unlimited likes, see who liked you, advanced filters, and priority likes.",
+      "marketPosition": "Strong in US, UK, AUS, growing in CA and JP",
+      "priceHistory": {
+        "USD": {
+          "currency": "USD",
+          "symbol": "$",
+          "unit": "per month",
+          "note": "Hinge uses dynamic pricing. Prices below are standard monthly rates; discounts available on longer subscriptions. Match Group raised Hinge prices alongside Tinder in 2023.",
+          "data": [
+            { "year": 2019, "price": 12.99, "plan": "Hinge Preferred — launch pricing" },
+            { "year": 2020, "price": 12.99, "plan": "Hinge Preferred" },
+            { "year": 2021, "price": 14.99, "plan": "Hinge Preferred — small increase" },
+            { "year": 2022, "price": 19.99, "plan": "Hinge Preferred — significant increase" },
+            { "year": 2023, "price": 29.99, "plan": "Hinge Preferred — major price increase (Match Group strategy)" },
+            { "year": 2024, "price": 32.99, "plan": "Hinge Preferred" },
+            { "year": 2025, "price": 32.99, "plan": "Hinge Preferred" },
+            { "year": 2026, "price": 34.99, "plan": "Hinge Preferred" }
+          ],
+          "sources": ["Match Group investor filings", "Business of Apps Hinge report", "The Verge 'Hinge price increases' coverage"]
+        },
+        "GBP": {
+          "currency": "GBP",
+          "symbol": "£",
+          "unit": "per month",
+          "data": [
+            { "year": 2019, "price": 9.99, "plan": "Hinge Preferred GBP" },
+            { "year": 2020, "price": 9.99, "plan": "Hinge Preferred GBP" },
+            { "year": 2021, "price": 12.99, "plan": "Hinge Preferred GBP" },
+            { "year": 2022, "price": 16.99, "plan": "Hinge Preferred GBP" },
+            { "year": 2023, "price": 24.99, "plan": "Hinge Preferred GBP — major increase" },
+            { "year": 2024, "price": 27.99, "plan": "Hinge Preferred GBP" },
+            { "year": 2025, "price": 29.99, "plan": "Hinge Preferred GBP" }
+          ]
+        },
+        "CAD": {
+          "currency": "CAD",
+          "symbol": "CA$",
+          "unit": "per month",
+          "data": [
+            { "year": 2019, "price": 15.99, "plan": "Hinge Preferred CAD" },
+            { "year": 2020, "price": 15.99, "plan": "Hinge Preferred CAD" },
+            { "year": 2021, "price": 18.99, "plan": "Hinge Preferred CAD" },
+            { "year": 2022, "price": 24.99, "plan": "Hinge Preferred CAD" },
+            { "year": 2023, "price": 34.99, "plan": "Hinge Preferred CAD — increase" },
+            { "year": 2024, "price": 39.99, "plan": "Hinge Preferred CAD" },
+            { "year": 2025, "price": 39.99, "plan": "Hinge Preferred CAD" }
+          ]
+        },
+        "AUD": {
+          "currency": "AUD",
+          "symbol": "A$",
+          "unit": "per month",
+          "data": [
+            { "year": 2019, "price": 17.99, "plan": "Hinge Preferred AUD" },
+            { "year": 2020, "price": 17.99, "plan": "Hinge Preferred AUD" },
+            { "year": 2021, "price": 19.99, "plan": "Hinge Preferred AUD" },
+            { "year": 2022, "price": 24.99, "plan": "Hinge Preferred AUD" },
+            { "year": 2023, "price": 36.99, "plan": "Hinge Preferred AUD — significant increase" },
+            { "year": 2024, "price": 44.99, "plan": "Hinge Preferred AUD" },
+            { "year": 2025, "price": 44.99, "plan": "Hinge Preferred AUD" }
+          ]
+        },
+        "JPY": {
+          "currency": "JPY",
+          "symbol": "¥",
+          "unit": "per month",
+          "note": "Hinge has limited penetration in Japan. Pairs (by Match Group) is the dominant premium app in Japan.",
+          "data": [
+            { "year": 2022, "price": 2200, "plan": "Hinge Preferred JPY — Japan launch" },
+            { "year": 2023, "price": 2800, "plan": "Hinge Preferred JPY" },
+            { "year": 2024, "price": 3200, "plan": "Hinge Preferred JPY" },
+            { "year": 2025, "price": 3600, "plan": "Hinge Preferred JPY" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "pairs_premium",
+      "name": "Pairs Premium (Japan-specific)",
+      "tier": "Premium (Pairs is Japan's leading dating app, owned by Match Group)",
+      "description": "Pairs is the most popular serious-relationship dating app in Japan. Premium membership unlocks messaging (men pay; women message free), profile ranking boosts, and advanced search.",
+      "marketPosition": "Market leader for serious dating in Japan",
+      "note": "Pairs uses a gender-split monetisation model: men pay for messaging access, women use the app free. This is a distinctive Japan-market feature.",
+      "priceHistory": {
+        "JPY": {
+          "currency": "JPY",
+          "symbol": "¥",
+          "unit": "per month (men's plan)",
+          "note": "Women's membership is free on Pairs. Men's standard monthly plan shown below.",
+          "data": [
+            { "year": 2016, "price": 3480, "plan": "Pairs Standard — men's monthly" },
+            { "year": 2017, "price": 3480, "plan": "Pairs Standard" },
+            { "year": 2018, "price": 3480, "plan": "Pairs Standard" },
+            { "year": 2019, "price": 3480, "plan": "Pairs Standard" },
+            { "year": 2020, "price": 3480, "plan": "Pairs Standard" },
+            { "year": 2021, "price": 3700, "plan": "Pairs Standard — first increase" },
+            { "year": 2022, "price": 3900, "plan": "Pairs Standard" },
+            { "year": 2023, "price": 4100, "plan": "Pairs Standard" },
+            { "year": 2024, "price": 4480, "plan": "Pairs Standard — significant increase" },
+            { "year": 2025, "price": 4980, "plan": "Pairs Standard" }
+          ],
+          "sources": ["Pairs official site", "trami.jp dating app cost surveys", "kanetohonne.jp 2024"]
+        }
+      }
+    },
+    {
+      "id": "match_standard",
+      "name": "Match.com Standard",
+      "tier": "Standard subscription",
+      "description": "Match.com's core subscription enabling messaging and full profile access.",
+      "marketPosition": "Veteran platform, skews 30+ demographic",
+      "priceHistory": {
+        "USD": {
+          "currency": "USD",
+          "symbol": "$",
+          "unit": "per month (1-month plan)",
+          "data": [
+            { "year": 2015, "price": 35.99, "plan": "Match Standard 1-month" },
+            { "year": 2016, "price": 35.99, "plan": "Match Standard" },
+            { "year": 2017, "price": 35.99, "plan": "Match Standard" },
+            { "year": 2018, "price": 35.99, "plan": "Match Standard" },
+            { "year": 2019, "price": 40.99, "plan": "Match Standard — price increase" },
+            { "year": 2020, "price": 40.99, "plan": "Match Standard" },
+            { "year": 2021, "price": 40.99, "plan": "Match Standard" },
+            { "year": 2022, "price": 44.99, "plan": "Match Standard" },
+            { "year": 2023, "price": 44.99, "plan": "Match Standard" },
+            { "year": 2024, "price": 49.99, "plan": "Match Standard" },
+            { "year": 2025, "price": 49.99, "plan": "Match Standard" }
+          ],
+          "sources": ["Match Group annual reports", "Business of Apps"]
+        },
+        "GBP": {
+          "currency": "GBP",
+          "symbol": "£",
+          "unit": "per month",
+          "data": [
+            { "year": 2019, "price": 29.99, "plan": "Match Standard GBP" },
+            { "year": 2020, "price": 29.99, "plan": "Match Standard GBP" },
+            { "year": 2021, "price": 29.99, "plan": "Match Standard GBP" },
+            { "year": 2022, "price": 34.99, "plan": "Match Standard GBP" },
+            { "year": 2023, "price": 39.99, "plan": "Match Standard GBP" },
+            { "year": 2024, "price": 39.99, "plan": "Match Standard GBP" },
+            { "year": 2025, "price": 39.99, "plan": "Match Standard GBP" }
+          ]
+        }
+      }
+    }
+  ],
+  "marketStats": {
+    "USD": {
+      "averageMonthlyAppSpendAmongPayers": 19,
+      "percentWhoPayForAtLeastOneApp": 35,
+      "sourceNote": "Morgan Stanley 2023 analysis; Pew Research 2022 (35% of app users pay for at least one platform)",
+      "averageNumberOfAppsUsedSimultaneously": 2.4,
+      "annualAppCostIfUsingTinderGoldAndHinge2025": 812,
+      "note": "Many daters subscribe to multiple apps simultaneously. Tinder Gold ($34.99) + Hinge Preferred ($32.99) = $67.98/month = $815.76/year."
+    },
+    "GBP": {
+      "averageMonthlyAppSpendAmongPayers": 18,
+      "percentWhoPayForAtLeastOneApp": 30,
+      "sourceNote": "Barclays 2025 UK dating report; Statista UK dating app revenue data",
+      "annualAppCostIfUsingTinderGoldAndHinge2025": 716,
+      "note": "Tinder Gold (£29.99) + Hinge Preferred (£29.99) = £59.98/month = £719.76/year."
+    },
+    "CAD": {
+      "averageMonthlyAppSpendAmongPayers": 16,
+      "percentWhoPayForAtLeastOneApp": 25,
+      "sourceNote": "BMO RFPI Canada 2025: avg CAD $16/year among those who pay for apps; 60% pay nothing for dating apps",
+      "note": "BMO CAD data shows significantly lower dating app spend than US, likely reflecting Canadian consumer sensitivity to subscription costs during cost-of-living crisis."
+    },
+    "AUD": {
+      "averageMonthlyAppSpendAmongPayers": 22,
+      "percentWhoPayForAtLeastOneApp": 28,
+      "sourceNote": "Statista AUS dating app revenue data; ABS consumer spending surveys"
+    },
+    "JPY": {
+      "averageMonthlyAppSpendAmongPayers": 4200,
+      "percentWhoPayForAtLeastOneApp": 22,
+      "sourceNote": "trami.jp 2023; kanetohonne.jp 2024 — Japan's pay-to-message model means male daters spend significantly more on apps than female daters",
+      "genderNote": "Japanese dating app economics are heavily gender-asymmetric: men pay for access/messaging, women use most apps free. Average male spend on apps: ¥4,200–5,000/month. Average female spend: ¥0–500/month."
+    }
+  }
+}
