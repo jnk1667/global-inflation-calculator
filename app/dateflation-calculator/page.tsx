@@ -213,38 +213,56 @@ export default function DateflationCalculatorRoute() {
       {
         "@type": "Dataset",
         name: "BMO Real Financial Progress Index — US & Canada (2025, 2026)",
+        description:
+          "Nationally representative annual survey of financial wellbeing and spending behaviour conducted by Ipsos for BMO Financial Group. Covers n=2,500 US adults and n=2,500 Canadian adults. Reports average per-date spending for respondents who dated in the prior 12 months: US $168 (2025), $189 (2026); Canada CA$173 (2025), CA$174 (2026).",
         creator: { "@type": "Organization", name: "BMO Financial Group / Ipsos" },
         url: "https://usnewsroom.bmo.com/2026-02-11-Date-flation-Hits-Hard-Average-Date-Spend-Nears-200-BMO-Real-Financial-Progress-Index",
+        license: "https://www.bmo.com/en-ca/main/about-bmo/legal/",
       },
       {
         "@type": "Dataset",
         name: "BLS CPI — Food Away From Home (CUUS0000SEFV)",
+        description:
+          "Official US Consumer Price Index sub-series CUUS0000SEFV, measuring price change for food consumed away from home (restaurants, fast food, cafes). Published monthly by the US Bureau of Labor Statistics; annual averages used here from 2010 to 2025 as the official CPI benchmark for US date cost comparisons.",
         creator: { "@type": "Organization", name: "US Bureau of Labor Statistics" },
         url: "https://fred.stlouisfed.org/series/CUUS0000SEFV",
+        license: "https://www.bls.gov/bls/linksite.htm",
       },
       {
         "@type": "Dataset",
         name: "ONS CPIH 11.1.1 Restaurants & Cafes (L557, 2015=100)",
+        description:
+          "UK Consumer Price Index including owner-occupiers' housing costs (CPIH) sub-index series L557, covering restaurants and cafes (division 11.1.1), base year 2015=100. Published by the UK Office for National Statistics; annual averages from 2015 to 2025 used as the official CPI benchmark for GBP date cost comparisons.",
         creator: { "@type": "Organization", name: "UK Office for National Statistics" },
         url: "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l557/mm23",
+        license: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
       },
       {
         "@type": "Dataset",
         name: "Statistics Canada CPI — Food Purchased from Restaurants (v41692930)",
+        description:
+          "Statistics Canada Consumer Price Index vector v41692930, measuring price change for food purchased from restaurants across Canada. Annual averages from 2015 to 2025 used as the official CPI benchmark for CAD date cost comparisons and historical back-calculation of Canadian date costs prior to the 2025 BMO survey anchor.",
         creator: { "@type": "Organization", name: "Statistics Canada" },
         url: "https://www150.statcan.gc.ca/t1/tbl1/en/dtbl/54155460",
+        license: "https://www.statcan.gc.ca/en/reference/licence",
       },
       {
         "@type": "Dataset",
         name: "ABS CPI — Meals Out and Take Away Foods (A2325807C)",
+        description:
+          "Australian Bureau of Statistics Consumer Price Index sub-series A2325807C, measuring price change for meals out and take-away foods across Australian capital cities. Annual averages from 2015 to 2025 used as the official CPI benchmark for AUD date cost comparisons and projection from the 2022 Yahoo Finance Australia survey anchor.",
         creator: { "@type": "Organization", name: "Australian Bureau of Statistics" },
         url: "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia",
+        license: "https://creativecommons.org/licenses/by/4.0/",
       },
       {
         "@type": "Dataset",
         name: "Statistics Bureau of Japan CPI — Eating Out (外食, 2020=100)",
+        description:
+          "Consumer Price Index eating-out sub-index published by the Statistics Bureau of Japan, Ministry of Internal Affairs and Communications, base year 2020=100. Annual averages from 2015 to 2025 used as the official CPI benchmark for JPY date cost comparisons and historical back-calculation from the 2023 trami.jp survey anchor (n=1,000+, average date cost ¥12,491).",
         creator: { "@type": "Organization", name: "Statistics Bureau of Japan, Ministry of Internal Affairs and Communications" },
         url: "https://www.stat.go.jp/english/data/cpi/",
+        license: "https://creativecommons.org/licenses/by/4.0/",
       },
     ],
   }
