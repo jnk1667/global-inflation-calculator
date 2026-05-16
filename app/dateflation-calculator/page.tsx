@@ -3,15 +3,15 @@ import { JsonLd } from "@/components/json-ld"
 import DateflationCalculatorPage from "./DateflationCalculatorPage"
 
 export const metadata: Metadata = {
-  title: "Free Dateflation Calculator 2026 | How Much More Expensive Is Dating?",
+  title: "Dateflation Calculator | How Much More Expensive Is Dating?",
   description:
     "Calculate your personal dateflation rate — how much more expensive dating has become since you started. Enter old vs current date costs and see your dateflation %, annual extra spend, and how it compares to official eating-out CPI. Covers USD, GBP, CAD, AUD, JPY.",
   keywords:
-    "dateflation calculator, free dateflation calculator, how expensive is dating, dating cost inflation, date cost calculator, dateflation 2026, cost of dating calculator, dating inflation rate, BMO dateflation, how much does a date cost",
+    "dateflation calculator, how expensive is dating, dating cost inflation, date cost calculator, cost of dating calculator, dating inflation rate, BMO dateflation, how much does a date cost, dateflation rate, date night cost inflation",
   openGraph: {
-    title: "Free Dateflation Calculator 2026 | How Much More Expensive Is Dating?",
+    title: "Dateflation Calculator | How Much More Expensive Is Dating?",
     description:
-      "Calculate your personal dateflation rate. Dating costs rose 12.5% in the US in 2026 alone — outpacing general inflation 4:1. See your annual extra dating spend and CPI comparison across 5 currencies.",
+      "Calculate your personal dateflation rate. Dating costs rose 12.5% in the US in a single year — outpacing general inflation 4:1. See your annual extra dating spend and CPI comparison across 5 currencies.",
     url: "https://www.globalinflationcalculator.com/dateflation-calculator",
     siteName: "Global Inflation Calculator",
     images: [
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Dateflation Calculator 2026 | Dating Costs Rising Fast",
+    title: "Dateflation Calculator | Dating Costs Rising Fast",
     description:
-      "US dating costs rose 12.5% in 2026 — far outpacing general inflation. Calculate your personal dateflation rate across 5 currencies.",
+      "US dating costs rose 12.5% in a single year — far outpacing general inflation. Calculate your personal dateflation rate across 5 currencies.",
     images: ["https://www.globalinflationcalculator.com/og-dateflation-calculator.jpg"],
   },
   alternates: {
@@ -43,7 +43,7 @@ export default function DateflationCalculatorRoute() {
   const calculatorSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Free Dateflation Calculator",
+    name: "Dateflation Calculator",
     applicationCategory: "FinanceApplication",
     description:
       "Calculate the personal dateflation rate — the rise in the cost of going on dates since a chosen year. Compares actual date cost increases against the official eating-out CPI sub-index for 5 currencies (USD, GBP, CAD, AUD, JPY), showing annual extra spend, a Dating Inflation Tax, and forward projections.",
@@ -79,7 +79,7 @@ export default function DateflationCalculatorRoute() {
   const reviewSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Free Dateflation Calculator",
+    name: "Dateflation Calculator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web",
     url: `${siteUrl}/dateflation-calculator`,
@@ -140,7 +140,7 @@ export default function DateflationCalculatorRoute() {
     "@context": "https://schema.org",
     "@type": "Article",
     headline:
-      "Free Dateflation Calculator 2026: How Much More Expensive Has Dating Become?",
+      "Dateflation Calculator: How Much More Expensive Has Dating Become?",
     description:
       "A comprehensive guide to understanding and calculating dateflation — the hidden inflation in the cost of going on dates. Covers survey data from the US, UK, Canada, Australia, and Japan, with a free interactive calculator comparing personal date cost increases to official eating-out CPI benchmarks.",
     image: {

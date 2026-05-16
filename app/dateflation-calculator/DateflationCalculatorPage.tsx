@@ -336,7 +336,7 @@ export default function DateflationCalculatorPage() {
           Dating costs are rising faster than inflation
         </div>
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-3 text-balance leading-tight">
-          Free Dateflation Calculator 2026
+          Dateflation Calculator
         </h1>
         <p className="text-gray-500 dark:text-gray-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed text-pretty">
           How much more expensive has dating become? Enter your old vs current date costs and see

@@ -489,6 +489,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/dateflation-calculator" className="text-blue-600 hover:underline">
+                      Dateflation Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate how much more expensive dating has become since you started. Enter old vs current date costs and see your personal dateflation rate, annual extra dating spend, and how it compares to the official eating-out CPI benchmark. Covers USD, GBP, CAD, AUD, and JPY with data from BMO, Velloy, ABS, ONS, and the Statistics Bureau of Japan.
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/subscription-inflation-calculator" className="text-blue-600 hover:underline">
                       Subscription Inflation Calculator
                     </Link>
