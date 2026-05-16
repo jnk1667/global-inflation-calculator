@@ -838,49 +838,117 @@ export default function DateflationCalculatorPage() {
         </div>
       </div>
 
-      {/* ── Blog essay ── */}
+      {/* ── Blog essay ── always visible, never collapsible */}
       {!blogLoading && blogContent && (
         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 mb-6">
-          <button
-            className="w-full flex items-center justify-between text-left"
-            onClick={() => setOpenSection(openSection === "blog" ? null : "blog")}
-          >
-            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">
-              The Dateflation Nobody Budgeted For
-            </h2>
-            {openSection === "blog"
-              ? <ChevronUp className="w-5 h-5 text-gray-400 shrink-0" />
-              : <ChevronDown className="w-5 h-5 text-gray-400 shrink-0" />
-            }
-          </button>
-          {openSection === "blog" && (
-            <div className="mt-4 prose prose-sm dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-gray-100 prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:leading-relaxed">
-              {blogContent.split("\n\n").map((para, i) => {
-                if (para.startsWith("## ")) return <h2 key={i} className="text-lg font-semibold text-gray-900 dark:text-gray-100 mt-6 mb-2">{para.replace("## ", "")}</h2>
-                if (para.startsWith("# "))  return <h2 key={i} className="text-xl font-bold text-gray-900 dark:text-gray-100 mt-6 mb-2">{para.replace("# ", "")}</h2>
-                return <p key={i} className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">{para}</p>
-              })}
-            </div>
-          )}
+          <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">
+            The Dateflation Nobody Budgeted For
+          </h2>
+          <div className="prose prose-sm dark:prose-invert max-w-none">
+            {blogContent.split("\n\n").map((para, i) => {
+              if (para.startsWith("## ")) return <h2 key={i} className="text-lg font-semibold text-gray-900 dark:text-gray-100 mt-6 mb-2">{para.replace("## ", "")}</h2>
+              if (para.startsWith("# "))  return <h2 key={i} className="text-xl font-bold text-gray-900 dark:text-gray-100 mt-6 mb-2">{para.replace("# ", "")}</h2>
+              return <p key={i} className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">{para}</p>
+            })}
+          </div>
         </div>
       )}
 
+      {/* ── Data Sources & Methodology ── upgraded, above FAQs */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 mb-6">
+        <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1">
+          Data Sources &amp; Methodology
+        </h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-5 leading-relaxed">
+          All date cost figures are sourced from independent consumer surveys and official government price indices.
+          CPI back-calculation is used to estimate historical costs where direct survey data is unavailable.
+          Data quality is rated per currency — see the badge shown when you select a currency.
+        </p>
+
+        <div className="space-y-4">
+
+          {/* USD */}
+          <div className="rounded-xl border border-gray-100 dark:border-gray-700 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-base">🇺🇸</span>
+              <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">USD — United States</span>
+              <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 font-medium border border-emerald-200 dark:border-emerald-800">High Confidence</span>
+            </div>
+            <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1.5 leading-relaxed">
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Survey data:</span> BMO Real Financial Progress Index 2025 &amp; 2026 (Ipsos, n=2,500 US adults). Direct per-date cost: $168 (2025), $189 (2026).</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">CPI benchmark:</span> BLS Food Away From Home CPI, series CUUS0000SEFV — annual averages 2010–2025.</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Corroborating sources:</span> Investopedia, NerdWallet, LendingTree annual dating cost surveys.</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Historical back-fill:</span> 2015–2024 costs derived by applying BLS FAFH CPI index ratios to the 2025 anchor.</li>
+            </ul>
+          </div>
+
+          {/* GBP */}
+          <div className="rounded-xl border border-gray-100 dark:border-gray-700 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-base">🇬🇧</span>
+              <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">GBP — United Kingdom</span>
+              <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 font-medium border border-emerald-200 dark:border-emerald-800">High Confidence</span>
+            </div>
+            <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1.5 leading-relaxed">
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Survey data:</span> Velloy Dating Index 2024 (n=4,000 UK adults, £114.40 avg per date); Barclays UK Unlocked 2025 (Gen Z dating spend £120/date).</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">CPI benchmark:</span> ONS CPIH sub-index 11.1.1 Restaurants &amp; Cafes, series L557 (2015=100) — annual averages 2015–2025.</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Historical back-fill:</span> 2015–2023 costs derived from ONS L557 index ratios applied to 2024 Velloy anchor.</li>
+            </ul>
+          </div>
+
+          {/* CAD */}
+          <div className="rounded-xl border border-gray-100 dark:border-gray-700 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-base">🇨🇦</span>
+              <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">CAD — Canada</span>
+              <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 font-medium border border-amber-200 dark:border-amber-800">Estimated Baseline</span>
+            </div>
+            <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1.5 leading-relaxed">
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Survey data:</span> BMO Real Financial Progress Index Canada 2025 &amp; 2026 (Ipsos, n=2,500 Canadians). Per-date cost: CA$173 (2025), CA$174 (2026).</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">CPI benchmark:</span> Statistics Canada Food Purchased from Restaurants CPI, series v41692930 — annual averages 2015–2025.</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Note:</span> Direct Canadian per-date survey data only available from 2025. Pre-2025 figures are CPI back-calculated estimates. Treat pre-2025 results as directional, not precise.</li>
+            </ul>
+          </div>
+
+          {/* AUD */}
+          <div className="rounded-xl border border-gray-100 dark:border-gray-700 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-base">🇦🇺</span>
+              <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">AUD — Australia</span>
+              <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 font-medium border border-amber-200 dark:border-amber-800">Estimated Baseline</span>
+            </div>
+            <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1.5 leading-relaxed">
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Survey data:</span> Yahoo Finance Australia (July 2022, A$154.16 avg first date); Sydney Morning Herald 2023 (A$170 avg date night); Relationships Australia 2024 (A$180–200 range).</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">CPI benchmark:</span> ABS Meals Out and Take Away Foods CPI, series A2325807C — annual averages 2015–2025.</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Note:</span> No single definitive annual Australian dating-cost survey exists. Baseline is anchored to the July 2022 Yahoo Finance figure and projected using ABS CPI. Results are directional estimates.</li>
+            </ul>
+          </div>
+
+          {/* JPY */}
+          <div className="rounded-xl border border-gray-100 dark:border-gray-700 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-base">🇯🇵</span>
+              <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">JPY — Japan</span>
+              <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 font-medium border border-emerald-200 dark:border-emerald-800">High Confidence</span>
+            </div>
+            <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1.5 leading-relaxed">
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Survey data:</span> trami.jp 2023 (¥12,491 avg per date, n=1,000+); kanetohonne.jp 2024 (¥7,000–12,000 men); laskoi.jp 2025 (¥9,500 men avg).</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">CPI benchmark:</span> Statistics Bureau of Japan Eating Out CPI (2020=100) — annual averages 2015–2025. Series from the Consumer Price Index Japan Yearly Average.</li>
+              <li><span className="font-medium text-gray-700 dark:text-gray-300">Historical back-fill:</span> Pre-2023 costs derived from Statistics Bureau CPI ratios applied to 2023 trami.jp anchor.</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-4 leading-relaxed">
+          All calculations run entirely in your browser. No personal data is stored or transmitted.
+          Methodology: actual cost growth is compared against the official eating-out CPI sub-index for each country
+          to isolate the portion of cost increase that exceeds general restaurant price inflation.
+        </p>
+      </div>
+
       {/* ── FAQ ── */}
       <FAQ category="dateflation" />
-
-      {/* ── Data sources ── */}
-      <div className="mt-8 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700">
-        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
-          Data Sources
-        </p>
-        <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1 leading-relaxed">
-          <li><span className="font-medium text-gray-700 dark:text-gray-300">USD:</span> BMO Real Financial Progress Index 2025–2026 (Ipsos, n=2,500); BLS Food Away From Home CPI (CUUS0000SEFV)</li>
-          <li><span className="font-medium text-gray-700 dark:text-gray-300">GBP:</span> Velloy Dating Index 2024 (n=4,000); Barclays UK Unlocked 2025; ONS CPIH Restaurants &amp; Cafes (L557, 2015=100)</li>
-          <li><span className="font-medium text-gray-700 dark:text-gray-300">CAD:</span> BMO Real Financial Progress Index Canada 2025–2026 (Ipsos, n=2,500); Statistics Canada Food Purchased from Restaurants CPI (v41692930)</li>
-          <li><span className="font-medium text-gray-700 dark:text-gray-300">AUD:</span> Yahoo Finance Australia survey, July 2022; ABS Meals Out and Take Away Foods CPI (A2325807C); Sydney Morning Herald 2023</li>
-          <li><span className="font-medium text-gray-700 dark:text-gray-300">JPY:</span> trami.jp 2023; kanetohonne.jp 2024; laskoi.jp 2025; Statistics Bureau of Japan Eating Out CPI (2020=100)</li>
-        </ul>
-      </div>
 
     </main>
   )

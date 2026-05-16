@@ -239,6 +239,7 @@ export default function RootLayout({
                   <div className="w-6 h-6 bg-black dark:bg-white rounded-full cursor-pointer hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors flex-shrink-0"></div>
                   <div className="absolute top-8 right-0 w-52 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800/95 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out">
                     <div className="py-2">
+                      <Link href="/dateflation-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Dateflation Calculator</Link>
                       <Link href="/subscription-inflation-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Subscription Inflation Calculator</Link>
                       <Link href="/investment-race-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Investment Race Calculator</Link>
                       <Link href="/shrinkflation-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Shrinkflation Calculator</Link>
