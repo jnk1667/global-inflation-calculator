@@ -9,6 +9,7 @@ import Link from "next/link"
 import { JsonLd } from "@/components/json-ld"
 import { ExternalScripts } from "@/components/external-scripts"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"], display: "swap", preload: true })
 
@@ -285,6 +286,7 @@ export default function RootLayout({
         </ThemeProvider>
 
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   )
