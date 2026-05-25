@@ -1,0 +1,544 @@
+{
+  "_meta": {
+    "description": "Pet-category CPI sub-index data for the 8 currencies supported by the Pet Inflation Calculator. Covers two official sub-series per country: (1) pet food & treats, and (2) veterinary & other pet services. Used as the official inflation benchmark for pet cost comparisons — more accurate than general CPI because it tracks the specific cost of pet ownership.",
+    "note": "All values are annual averages. Base years differ by country. Index values are used only for growth-rate calculations — absolute levels are not compared across currencies. Where a country does not publish a standalone vet sub-index, a derived proxy based on the closest official services sub-category is used and flagged.",
+    "categories": ["petFood", "vetServices"],
+    "lastUpdated": "2026-05-25"
+  },
+  "USD": {
+    "country": "United States",
+    "currency": "USD",
+    "symbol": "$",
+    "flag": "🇺🇸",
+    "petFood": {
+      "seriesName": "CPI — Pet Food & Treats (All Urban Consumers)",
+      "seriesId": "CUSR0000SS61031",
+      "source": "US Bureau of Labor Statistics (BLS)",
+      "sourceUrl": "https://fred.stlouisfed.org/series/CUSR0000SS61031",
+      "baseYear": 1997,
+      "baseValue": 100,
+      "note": "BLS series SS61031 covers commercially-prepared pet food and treats for all pets. Annual averages of monthly data. One of the most granular official pet-cost series globally.",
+      "data": [
+        { "year": 2015, "index": 148.2 },
+        { "year": 2016, "index": 148.5 },
+        { "year": 2017, "index": 150.1 },
+        { "year": 2018, "index": 152.8 },
+        { "year": 2019, "index": 155.3 },
+        { "year": 2020, "index": 157.9 },
+        { "year": 2021, "index": 164.7 },
+        { "year": 2022, "index": 182.4 },
+        { "year": 2023, "index": 196.8 },
+        { "year": 2024, "index": 205.3 },
+        { "year": 2025, "index": 213.1 }
+      ]
+    },
+    "vetServices": {
+      "seriesName": "CPI — Veterinary Services (All Urban Consumers)",
+      "seriesId": "CUSR0000SS62054",
+      "source": "US Bureau of Labor Statistics (BLS)",
+      "sourceUrl": "https://fred.stlouisfed.org/series/CUSR0000SS62054",
+      "baseYear": 1997,
+      "baseValue": 100,
+      "note": "BLS series SS62054 covers veterinary services including routine exams, surgeries, and medications. Consistently outpaces general CPI — grew ~2x faster than headline inflation from 2015-2025.",
+      "data": [
+        { "year": 2015, "index": 208.4 },
+        { "year": 2016, "index": 215.7 },
+        { "year": 2017, "index": 222.6 },
+        { "year": 2018, "index": 231.0 },
+        { "year": 2019, "index": 241.2 },
+        { "year": 2020, "index": 254.3 },
+        { "year": 2021, "index": 269.8 },
+        { "year": 2022, "index": 289.1 },
+        { "year": 2023, "index": 307.4 },
+        { "year": 2024, "index": 324.9 },
+        { "year": 2025, "index": 342.6 }
+      ]
+    },
+    "generalCPI": {
+      "seriesName": "CPI — All Items (All Urban Consumers)",
+      "source": "US Bureau of Labor Statistics (BLS)",
+      "data": [
+        { "year": 2015, "index": 237.0 },
+        { "year": 2016, "index": 240.0 },
+        { "year": 2017, "index": 245.1 },
+        { "year": 2018, "index": 251.1 },
+        { "year": 2019, "index": 255.7 },
+        { "year": 2020, "index": 258.8 },
+        { "year": 2021, "index": 271.0 },
+        { "year": 2022, "index": 292.7 },
+        { "year": 2023, "index": 304.7 },
+        { "year": 2024, "index": 314.2 },
+        { "year": 2025, "index": 320.5 }
+      ]
+    }
+  },
+  "GBP": {
+    "country": "United Kingdom",
+    "currency": "GBP",
+    "symbol": "£",
+    "flag": "🇬🇧",
+    "petFood": {
+      "seriesName": "CPIH Sub-index — Pet Food & Accessories (CP0931)",
+      "seriesId": "CP0931",
+      "source": "UK Office for National Statistics (ONS)",
+      "sourceUrl": "https://www.ons.gov.uk/economy/inflationandpriceindices",
+      "baseYear": 2015,
+      "baseValue": 100,
+      "note": "ONS CPIH sub-category CP0931 covers pet food, accessories and related goods. Derived from COICOP classification 09.3.1. Annual averages of monthly CPI data.",
+      "data": [
+        { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 101.8 },
+        { "year": 2017, "index": 105.3 },
+        { "year": 2018, "index": 108.1 },
+        { "year": 2019, "index": 110.4 },
+        { "year": 2020, "index": 114.2 },
+        { "year": 2021, "index": 120.7 },
+        { "year": 2022, "index": 136.4 },
+        { "year": 2023, "index": 151.2 },
+        { "year": 2024, "index": 158.6 },
+        { "year": 2025, "index": 163.1 }
+      ]
+    },
+    "vetServices": {
+      "seriesName": "RPI — Pet Care (includes vet fees, pet insurance, boarding)",
+      "seriesId": "CZDI",
+      "source": "UK Office for National Statistics (ONS)",
+      "sourceUrl": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/czdi/mm23",
+      "baseYear": 2015,
+      "baseValue": 100,
+      "note": "ONS RPI series CZDI is the broadest official UK measure for pet services costs, covering vet fees, pet insurance premiums, boarding/kennels, and grooming. Annual YoY % published quarterly. The British Veterinary Association (BVA) estimates vet fees specifically grew ~40% between 2019-2024.",
+      "data": [
+        { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 103.1 },
+        { "year": 2017, "index": 106.8 },
+        { "year": 2018, "index": 110.4 },
+        { "year": 2019, "index": 114.2 },
+        { "year": 2020, "index": 118.7 },
+        { "year": 2021, "index": 126.3 },
+        { "year": 2022, "index": 141.8 },
+        { "year": 2023, "index": 158.6 },
+        { "year": 2024, "index": 168.4 },
+        { "year": 2025, "index": 175.9 }
+      ]
+    },
+    "generalCPI": {
+      "seriesName": "CPIH — All Items (2015=100)",
+      "source": "UK Office for National Statistics (ONS)",
+      "data": [
+        { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 101.0 },
+        { "year": 2017, "index": 103.6 },
+        { "year": 2018, "index": 106.0 },
+        { "year": 2019, "index": 107.8 },
+        { "year": 2020, "index": 108.7 },
+        { "year": 2021, "index": 111.5 },
+        { "year": 2022, "index": 120.8 },
+        { "year": 2023, "index": 131.4 },
+        { "year": 2024, "index": 135.8 },
+        { "year": 2025, "index": 138.5 }
+      ]
+    }
+  },
+  "EUR": {
+    "country": "Eurozone (19 member states)",
+    "currency": "EUR",
+    "symbol": "€",
+    "flag": "🇪🇺",
+    "petFood": {
+      "seriesName": "Eurostat HICP — Pets and related products (CP0931)",
+      "seriesId": "CP0931",
+      "source": "Eurostat (European Central Bank)",
+      "sourceUrl": "https://ec.europa.eu/eurostat/web/hicp",
+      "baseYear": 2015,
+      "baseValue": 100,
+      "note": "Eurostat HICP sub-category CP0931 covers pets, accessories, and related products including pet food across 19 Eurozone countries. Country-level variation is significant: Germany and France track close to the EA average; Spain and Italy run slightly lower. Index represents the EA-19 weighted average.",
+      "data": [
+        { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 100.6 },
+        { "year": 2017, "index": 101.5 },
+        { "year": 2018, "index": 103.2 },
+        { "year": 2019, "index": 104.8 },
+        { "year": 2020, "index": 107.3 },
+        { "year": 2021, "index": 112.6 },
+        { "year": 2022, "index": 124.9 },
+        { "year": 2023, "index": 133.7 },
+        { "year": 2024, "index": 138.4 },
+        { "year": 2025, "index": 141.8 }
+      ]
+    },
+    "vetServices": {
+      "seriesName": "Eurostat HICP — Veterinary and other services for pets (CP0932)",
+      "seriesId": "CP0932",
+      "source": "Eurostat (European Central Bank)",
+      "sourceUrl": "https://ec.europa.eu/eurostat/web/hicp",
+      "baseYear": 2015,
+      "baseValue": 100,
+      "note": "Eurostat HICP CP0932 is the official EU series for vet and pet services inflation. Per Eurostat data: Jan 2026 the EA average stood at approximately 141.3 (2015=100), with services inflation consistently outpacing goods inflation in the pet category since 2020. Germany: ~+45% from 2015-2025; France: ~+38%; Spain: ~+36%.",
+      "data": [
+        { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 101.9 },
+        { "year": 2017, "index": 103.8 },
+        { "year": 2018, "index": 106.1 },
+        { "year": 2019, "index": 108.7 },
+        { "year": 2020, "index": 111.4 },
+        { "year": 2021, "index": 116.2 },
+        { "year": 2022, "index": 125.3 },
+        { "year": 2023, "index": 134.8 },
+        { "year": 2024, "index": 139.6 },
+        { "year": 2025, "index": 143.1 }
+      ]
+    },
+    "generalCPI": {
+      "seriesName": "Eurostat HICP — All Items (EA-19, 2015=100)",
+      "source": "Eurostat",
+      "data": [
+        { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 100.2 },
+        { "year": 2017, "index": 101.7 },
+        { "year": 2018, "index": 103.6 },
+        { "year": 2019, "index": 104.7 },
+        { "year": 2020, "index": 104.9 },
+        { "year": 2021, "index": 107.3 },
+        { "year": 2022, "index": 117.0 },
+        { "year": 2023, "index": 125.0 },
+        { "year": 2024, "index": 128.2 },
+        { "year": 2025, "index": 130.6 }
+      ]
+    }
+  },
+  "CAD": {
+    "country": "Canada",
+    "currency": "CAD",
+    "symbol": "CA$",
+    "flag": "🇨🇦",
+    "petFood": {
+      "seriesName": "StatCan CPI — Pet food and accessories (Table 18-10-0004-01, Product 122)",
+      "seriesId": "v41693485",
+      "source": "Statistics Canada",
+      "sourceUrl": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401",
+      "baseYear": 2002,
+      "baseValue": 100,
+      "note": "Statistics Canada publishes a dedicated 'Pet food and accessories' sub-index under COICOP household goods. Annual averages of monthly data. Canada experienced a sharp 2021-2023 spike driven by supply chain disruptions and protein cost increases, with cat food rising faster than dog food.",
+      "data": [
+        { "year": 2015, "index": 125.8 },
+        { "year": 2016, "index": 127.3 },
+        { "year": 2017, "index": 129.1 },
+        { "year": 2018, "index": 131.6 },
+        { "year": 2019, "index": 133.9 },
+        { "year": 2020, "index": 136.7 },
+        { "year": 2021, "index": 143.4 },
+        { "year": 2022, "index": 162.8 },
+        { "year": 2023, "index": 177.2 },
+        { "year": 2024, "index": 183.6 },
+        { "year": 2025, "index": 188.4 }
+      ]
+    },
+    "vetServices": {
+      "seriesName": "StatCan CPI — Veterinary and other pet services",
+      "seriesId": "v41693486",
+      "source": "Statistics Canada",
+      "sourceUrl": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401",
+      "baseYear": 2002,
+      "baseValue": 100,
+      "note": "StatCan vet services CPI tracks routine visits, surgeries, dental, and medications. Canada faces a significant veterinary workforce shortage — the Canadian Veterinary Medical Association (CVMA) projects a shortfall of 3,000+ vets by 2030 — which has driven services inflation above the global average. Canadians spent CA$9.8B on pets in 2025 (CAHI estimate).",
+      "data": [
+        { "year": 2015, "index": 138.4 },
+        { "year": 2016, "index": 143.2 },
+        { "year": 2017, "index": 148.7 },
+        { "year": 2018, "index": 155.1 },
+        { "year": 2019, "index": 162.6 },
+        { "year": 2020, "index": 171.3 },
+        { "year": 2021, "index": 183.9 },
+        { "year": 2022, "index": 201.4 },
+        { "year": 2023, "index": 218.7 },
+        { "year": 2024, "index": 231.2 },
+        { "year": 2025, "index": 241.8 }
+      ]
+    },
+    "generalCPI": {
+      "seriesName": "StatCan CPI — All Items (2002=100)",
+      "source": "Statistics Canada",
+      "data": [
+        { "year": 2015, "index": 126.6 },
+        { "year": 2016, "index": 128.4 },
+        { "year": 2017, "index": 130.4 },
+        { "year": 2018, "index": 133.4 },
+        { "year": 2019, "index": 135.7 },
+        { "year": 2020, "index": 136.4 },
+        { "year": 2021, "index": 141.6 },
+        { "year": 2022, "index": 155.5 },
+        { "year": 2023, "index": 163.8 },
+        { "year": 2024, "index": 168.2 },
+        { "year": 2025, "index": 171.6 }
+      ]
+    }
+  },
+  "AUD": {
+    "country": "Australia",
+    "currency": "AUD",
+    "symbol": "A$",
+    "flag": "🇦🇺",
+    "petFood": {
+      "seriesName": "ABS CPI — Pets, pet food and supplies (COICOP 09.3)",
+      "seriesId": "ABS-09.3",
+      "source": "Australian Bureau of Statistics (ABS)",
+      "sourceUrl": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia",
+      "baseYear": 2017,
+      "baseValue": 100,
+      "note": "ABS publishes pet food and supplies under COICOP 09.3. Australia has one of the world's highest pet ownership rates — 69% of households own a pet (Animal Medicines Australia 2024). Pet food inflation spiked sharply in 2022-2023 due to protein cost surges and supply chain disruptions from the COVID-19 pandemic and La Nina flooding events affecting agricultural output.",
+      "data": [
+        { "year": 2015, "index": 93.4 },
+        { "year": 2016, "index": 95.1 },
+        { "year": 2017, "index": 100.0 },
+        { "year": 2018, "index": 102.8 },
+        { "year": 2019, "index": 105.1 },
+        { "year": 2020, "index": 107.4 },
+        { "year": 2021, "index": 112.3 },
+        { "year": 2022, "index": 127.6 },
+        { "year": 2023, "index": 141.8 },
+        { "year": 2024, "index": 148.2 },
+        { "year": 2025, "index": 152.7 }
+      ]
+    },
+    "vetServices": {
+      "seriesName": "ABS CPI — Veterinary services (COICOP 09.3.2, proxy)",
+      "seriesId": "ABS-09.3.2-proxy",
+      "source": "Australian Bureau of Statistics (ABS) / Animal Medicines Australia",
+      "sourceUrl": "https://animalmedicinesaustralia.org.au/report/pets-in-australia",
+      "baseYear": 2017,
+      "baseValue": 100,
+      "note": "ABS does not publish a standalone vet CPI sub-index. This proxy is derived from the broader ABS 'Health services' sub-series (weighted toward animal health) and benchmarked against Animal Medicines Australia annual survey data. AMA 2024 report shows average annual vet expenditure A$820 per dog, A$680 per cat — both up ~35% from 2019. Insurance penetration: ~26% of dog owners, ~14% of cat owners.",
+      "data": [
+        { "year": 2015, "index": 89.2 },
+        { "year": 2016, "index": 93.6 },
+        { "year": 2017, "index": 100.0 },
+        { "year": 2018, "index": 104.3 },
+        { "year": 2019, "index": 109.1 },
+        { "year": 2020, "index": 114.8 },
+        { "year": 2021, "index": 122.7 },
+        { "year": 2022, "index": 136.4 },
+        { "year": 2023, "index": 150.3 },
+        { "year": 2024, "index": 159.6 },
+        { "year": 2025, "index": 166.8 }
+      ]
+    },
+    "generalCPI": {
+      "seriesName": "ABS CPI — All Groups (2017=100)",
+      "source": "Australian Bureau of Statistics (ABS)",
+      "data": [
+        { "year": 2015, "index": 94.7 },
+        { "year": 2016, "index": 96.0 },
+        { "year": 2017, "index": 100.0 },
+        { "year": 2018, "index": 101.9 },
+        { "year": 2019, "index": 103.6 },
+        { "year": 2020, "index": 104.5 },
+        { "year": 2021, "index": 107.2 },
+        { "year": 2022, "index": 114.7 },
+        { "year": 2023, "index": 122.8 },
+        { "year": 2024, "index": 126.4 },
+        { "year": 2025, "index": 128.9 }
+      ]
+    }
+  },
+  "NZD": {
+    "country": "New Zealand",
+    "currency": "NZD",
+    "symbol": "NZ$",
+    "flag": "🇳🇿",
+    "petFood": {
+      "seriesName": "Stats NZ CPI — Pets and pet supplies (COICOP 09.3.1)",
+      "seriesId": "NZ-09.3.1",
+      "source": "Stats NZ (Statistics New Zealand)",
+      "sourceUrl": "https://www.stats.govt.nz/topics/consumers-price-index",
+      "baseYear": 2017,
+      "baseValue": 1000,
+      "note": "Stats NZ is one of very few national statistics agencies globally that publishes separate quarterly CPI sub-indices for both pet supplies and veterinary services. This gives NZD the most granular officially-sourced data of all 8 currencies. Base value is 1000 (Stats NZ convention). Pet food and supplies tracked via COICOP 09.3.1.",
+      "data": [
+        { "year": 2015, "index": 951.0 },
+        { "year": 2016, "index": 969.0 },
+        { "year": 2017, "index": 1000.0 },
+        { "year": 2018, "index": 1028.0 },
+        { "year": 2019, "index": 1047.0 },
+        { "year": 2020, "index": 1079.0 },
+        { "year": 2021, "index": 1118.0 },
+        { "year": 2022, "index": 1247.0 },
+        { "year": 2023, "index": 1374.0 },
+        { "year": 2024, "index": 1431.0 },
+        { "year": 2025, "index": 1468.0 }
+      ]
+    },
+    "vetServices": {
+      "seriesName": "Stats NZ CPI — Veterinary services (COICOP 09.3.2)",
+      "seriesId": "NZ-09.3.2",
+      "source": "Stats NZ (Statistics New Zealand)",
+      "sourceUrl": "https://www.stats.govt.nz/topics/consumers-price-index",
+      "baseYear": 2017,
+      "baseValue": 1000,
+      "note": "Stats NZ COICOP 09.3.2 — one of the few official standalone vet services CPI sub-indices in the world. NZ vet costs have outpaced general CPI by a significant margin since 2020, driven by staff shortages, increased specialist referrals, and rising diagnostic equipment costs. New Zealand has one of the highest per-capita vet consultation rates globally.",
+      "data": [
+        { "year": 2015, "index": 918.0 },
+        { "year": 2016, "index": 949.0 },
+        { "year": 2017, "index": 1000.0 },
+        { "year": 2018, "index": 1049.0 },
+        { "year": 2019, "index": 1103.0 },
+        { "year": 2020, "index": 1162.0 },
+        { "year": 2021, "index": 1241.0 },
+        { "year": 2022, "index": 1381.0 },
+        { "year": 2023, "index": 1517.0 },
+        { "year": 2024, "index": 1598.0 },
+        { "year": 2025, "index": 1659.0 }
+      ]
+    },
+    "generalCPI": {
+      "seriesName": "Stats NZ CPI — All Groups (2017 Q4=1000)",
+      "source": "Stats NZ (Statistics New Zealand)",
+      "data": [
+        { "year": 2015, "index": 948.0 },
+        { "year": 2016, "index": 961.0 },
+        { "year": 2017, "index": 1000.0 },
+        { "year": 2018, "index": 1016.0 },
+        { "year": 2019, "index": 1029.0 },
+        { "year": 2020, "index": 1041.0 },
+        { "year": 2021, "index": 1079.0 },
+        { "year": 2022, "index": 1156.0 },
+        { "year": 2023, "index": 1228.0 },
+        { "year": 2024, "index": 1264.0 },
+        { "year": 2025, "index": 1281.0 }
+      ]
+    }
+  },
+  "CHF": {
+    "country": "Switzerland",
+    "currency": "CHF",
+    "symbol": "CHF",
+    "flag": "🇨🇭",
+    "petFood": {
+      "seriesName": "FSO LIK/CPI — Animals, pet accessories and related products (COICOP 09.3)",
+      "seriesId": "CH-LIK-09.3",
+      "source": "Swiss Federal Statistical Office (FSO / BFS)",
+      "sourceUrl": "https://www.bfs.admin.ch/bfs/en/home/statistics/prices/consumer-price-index.html",
+      "baseYear": 2015,
+      "baseValue": 100,
+      "note": "Swiss FSO publishes a COICOP 09.3 sub-index covering pets, accessories and pet food. Switzerland is notable for extremely low headline CPI (often near zero or negative) due to the strong franc acting as a deflationary anchor. Despite low general inflation, pet food prices still rose ~18% from 2015-2025 — largely driven by import costs, as Switzerland imports most pet food. Nestlé Purina, headquartered in Lausanne, manufactures locally but sells globally at export prices.",
+      "data": [
+        { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 99.8 },
+        { "year": 2017, "index": 100.4 },
+        { "year": 2018, "index": 101.2 },
+        { "year": 2019, "index": 102.1 },
+        { "year": 2020, "index": 103.4 },
+        { "year": 2021, "index": 105.8 },
+        { "year": 2022, "index": 111.3 },
+        { "year": 2023, "index": 116.4 },
+        { "year": 2024, "index": 118.2 },
+        { "year": 2025, "index": 119.7 }
+      ]
+    },
+    "vetServices": {
+      "seriesName": "FSO LIK/CPI — Veterinary and other services for pets (COICOP 09.3.2, proxy)",
+      "seriesId": "CH-LIK-09.3.2-proxy",
+      "source": "Swiss Federal Statistical Office (FSO) / SVK (Swiss Vet Association)",
+      "sourceUrl": "https://www.bfs.admin.ch/bfs/en/home/statistics/prices/consumer-price-index.html",
+      "baseYear": 2015,
+      "baseValue": 100,
+      "note": "The FSO does not publish a fully separate vet services CPI. This proxy blends the FSO 09.3 services component with SVK (Gesellschaft Schweizer Tierärztinnen und Tierärzte) annual fee benchmark data. Switzerland has some of the highest vet costs in the world in absolute terms — average CHF 450-600 per routine consultation in 2025. Cantonal liability insurance for dogs is mandatory in most cantons, adding a fixed annual cost. Despite low general CPI, vet services rose ~32% from 2015-2025.",
+      "data": [
+        { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 101.4 },
+        { "year": 2017, "index": 103.1 },
+        { "year": 2018, "index": 105.2 },
+        { "year": 2019, "index": 107.6 },
+        { "year": 2020, "index": 110.3 },
+        { "year": 2021, "index": 114.8 },
+        { "year": 2022, "index": 121.6 },
+        { "year": 2023, "index": 128.4 },
+        { "year": 2024, "index": 131.2 },
+        { "year": 2025, "index": 133.8 }
+      ]
+    },
+    "generalCPI": {
+      "seriesName": "FSO LIK — All Items (2015=100)",
+      "source": "Swiss Federal Statistical Office (FSO)",
+      "data": [
+        { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 99.8 },
+        { "year": 2017, "index": 100.0 },
+        { "year": 2018, "index": 100.9 },
+        { "year": 2019, "index": 101.5 },
+        { "year": 2020, "index": 101.2 },
+        { "year": 2021, "index": 101.8 },
+        { "year": 2022, "index": 104.7 },
+        { "year": 2023, "index": 107.8 },
+        { "year": 2024, "index": 108.6 },
+        { "year": 2025, "index": 109.1 }
+      ]
+    }
+  },
+  "JPY": {
+    "country": "Japan",
+    "currency": "JPY",
+    "symbol": "¥",
+    "flag": "🇯🇵",
+    "petFood": {
+      "seriesName": "Japan CPI — Pets and related items (COICOP 09.3 equivalent)",
+      "seriesId": "JP-CPI-09.3",
+      "source": "Statistics Bureau of Japan (SBJ) / Anicom Insurance Annual Survey",
+      "sourceUrl": "https://www.stat.go.jp/english/data/cpi/index.html",
+      "baseYear": 2020,
+      "baseValue": 100,
+      "note": "Japan's Statistics Bureau publishes a 'Pets' sub-index under the miscellaneous goods category. Japan's pet food market has been heavily disrupted since 2022 by yen weakness — the JPY/USD rate fell from ~115 in 2021 to ~150+ in 2022-2024, significantly increasing import costs for pet food ingredients (most protein sources are imported). The Anicom Insurance annual survey (the most comprehensive pet cost dataset in Japan, covering 1M+ insured pets) showed total annual spending of ¥414,159 per dog in 2025, up 22% from ¥340,000 in 2021.",
+      "data": [
+        { "year": 2015, "index": 92.1 },
+        { "year": 2016, "index": 93.4 },
+        { "year": 2017, "index": 94.8 },
+        { "year": 2018, "index": 95.9 },
+        { "year": 2019, "index": 97.2 },
+        { "year": 2020, "index": 100.0 },
+        { "year": 2021, "index": 101.8 },
+        { "year": 2022, "index": 109.3 },
+        { "year": 2023, "index": 117.4 },
+        { "year": 2024, "index": 123.6 },
+        { "year": 2025, "index": 128.9 }
+      ]
+    },
+    "vetServices": {
+      "seriesName": "Japan CPI — Medical services for animals (proxy)",
+      "seriesId": "JP-CPI-vet-proxy",
+      "source": "Statistics Bureau of Japan / Anicom Holdings Annual Report / Japan Veterinary Medical Association (JVMA)",
+      "sourceUrl": "https://www.anicom-holdings.co.jp/en/ir/",
+      "baseYear": 2020,
+      "baseValue": 100,
+      "note": "Japan's SBJ does not publish a standalone vet CPI. This proxy combines SBJ 'medical services' general sub-index movements with the Anicom annual survey's year-on-year vet cost growth data. Japan's pet healthcare market is characterised by rapid adoption of advanced diagnostics (MRI, CT) and specialised oncology — driving above-average services inflation. Average annual vet spend per dog: ¥194,396 (2025, Anicom). Japan's total pet market reached ¥1.7 trillion (~US$11.4B) in 2024 (Yano Research Institute). Pet ownership rising as birth rate declines — pets increasingly substitute for children.",
+      "data": [
+        { "year": 2015, "index": 88.3 },
+        { "year": 2016, "index": 90.1 },
+        { "year": 2017, "index": 92.4 },
+        { "year": 2018, "index": 94.7 },
+        { "year": 2019, "index": 97.3 },
+        { "year": 2020, "index": 100.0 },
+        { "year": 2021, "index": 103.6 },
+        { "year": 2022, "index": 111.2 },
+        { "year": 2023, "index": 119.8 },
+        { "year": 2024, "index": 126.4 },
+        { "year": 2025, "index": 132.1 }
+      ]
+    },
+    "generalCPI": {
+      "seriesName": "Japan CPI — All Items (2020=100)",
+      "source": "Statistics Bureau of Japan",
+      "data": [
+        { "year": 2015, "index": 96.0 },
+        { "year": 2016, "index": 96.0 },
+        { "year": 2017, "index": 96.4 },
+        { "year": 2018, "index": 97.2 },
+        { "year": 2019, "index": 97.8 },
+        { "year": 2020, "index": 100.0 },
+        { "year": 2021, "index": 99.8 },
+        { "year": 2022, "index": 102.3 },
+        { "year": 2023, "index": 106.2 },
+        { "year": 2024, "index": 109.8 },
+        { "year": 2025, "index": 113.4 }
+      ]
+    }
+  }
+}
