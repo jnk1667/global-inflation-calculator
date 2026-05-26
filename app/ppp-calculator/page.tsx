@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
-import PPPCalculatorPage from "./PPPCalculatorPage"
+import dynamic from "next/dynamic"
+const PPPCalculatorPage = dynamic(() => import("./PPPCalculatorPage"), { ssr: false })
 
 export const metadata: Metadata = {
   title: "PPP Calculator | Compare Purchasing Power Globally",

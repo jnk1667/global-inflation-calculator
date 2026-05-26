@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
-import EnergyInflationCalculatorPage from "./EnergyInflationCalculatorPage"
+import dynamic from "next/dynamic"
+const EnergyInflationCalculatorPage = dynamic(() => import("./EnergyInflationCalculatorPage"), { ssr: false })
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 

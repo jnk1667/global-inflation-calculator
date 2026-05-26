@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
-import InvestmentRaceCalculatorPage from "./InvestmentRaceCalculatorPage"
+import dynamic from "next/dynamic"
+const InvestmentRaceCalculatorPage = dynamic(() => import("./InvestmentRaceCalculatorPage"), { ssr: false })
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 

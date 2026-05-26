@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 const BudgetCalculatorPage = dynamic(() => import("./BudgetCalculatorPage"), {
+  ssr: false,
   loading: () => (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
       <div className="text-center mb-8">

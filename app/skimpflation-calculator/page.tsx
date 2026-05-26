@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
-import SkimpflationCalculatorPage from "./SkimpflationCalculatorPage"
+import dynamic from "next/dynamic"
+const SkimpflationCalculatorPage = dynamic(() => import("./SkimpflationCalculatorPage"), { ssr: false })
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 

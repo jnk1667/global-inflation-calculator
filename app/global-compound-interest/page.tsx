@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
-import GlobalCompoundInterestPage from "./GlobalCompoundInterestPage"
+import dynamic from "next/dynamic"
+const GlobalCompoundInterestPage = dynamic(() => import("./GlobalCompoundInterestPage"), { ssr: false })
 
 export const metadata: Metadata = {
   title: "Global Compound Interest Calculator | 8 Currencies",
