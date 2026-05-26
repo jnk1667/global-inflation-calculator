@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
-import dynamic from "next/dynamic"
-const AutoLoanCalculatorPage = dynamic(() => import("./AutoLoanCalculatorPage"), { ssr: false })
+import AutoLoanCalculatorPage from "./AutoLoanCalculatorPage"
 
 const siteUrl = (() => {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim()

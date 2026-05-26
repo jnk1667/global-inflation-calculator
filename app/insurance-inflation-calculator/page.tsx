@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
-import dynamic from "next/dynamic"
-const InsuranceInflationCalculatorPage = dynamic(() => import("./InsuranceInflationCalculatorPage"), { ssr: false })
+import InsuranceInflationCalculatorPage from "./InsuranceInflationCalculatorPage"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.globalinflationcalculator.com"
 

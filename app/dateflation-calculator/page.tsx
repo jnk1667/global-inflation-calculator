@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
-import dynamic from "next/dynamic"
-const DateflationCalculatorPage = dynamic(() => import("./DateflationCalculatorPage"), { ssr: false })
+import DateflationCalculatorPage from "./DateflationCalculatorPage"
 
 export const metadata: Metadata = {
   title: "Dateflation Calculator | How Much More Expensive Is Dating?",

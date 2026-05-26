@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
-import dynamic from "next/dynamic"
-const ChartsPage = dynamic(() => import("./ChartsPage"), { ssr: false })
+import ChartsPage from "./ChartsPage"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
