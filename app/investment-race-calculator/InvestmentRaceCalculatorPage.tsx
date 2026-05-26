@@ -282,6 +282,9 @@ export default function InvestmentRaceCalculatorPage() {
   )
   const [blogContent, setBlogContent] = useState("")
   const [blogLoading, setBlogLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
 
   // ─── Dynamic data state ──────────────────────────────────────────────────────
   const [nominalReturns, setNominalReturns] = useState<Record<string, Record<number, number>>>({
@@ -750,7 +753,7 @@ export default function InvestmentRaceCalculatorPage() {
             {inflationAdjusted ? "Real (inflation-adjusted) returns" : "Nominal returns"} · {CURRENCIES[currency].name} · {endYear - startYear} year window
           </p>
           <div className="h-72 sm:h-96">
-            <ResponsiveContainer width="100%" height="100%">
+            {mounted && <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(100,116,139,0.15)" />
                 <XAxis
@@ -799,7 +802,7 @@ export default function InvestmentRaceCalculatorPage() {
                   wrapperStyle={{ fontSize: 12, paddingTop: 12 }}
                 />
               </LineChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer>}
           </div>
         </div>
 
