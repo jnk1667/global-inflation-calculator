@@ -27,7 +27,7 @@ import {
 import FAQ from "@/components/faq"
 import { supabase } from "@/lib/supabase"
 import { getCachedContent } from "@/lib/cached-content"
-import { fetchCryptoCurrentPrices } from "@/lib/api/coingecko-api"
+import { fetchCryptoCurrentPrices, fetchCryptoHistoricalDate } from "@/lib/api/coingecko-api"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -431,17 +431,24 @@ export default function InvestmentRaceCalculatorPage() {
   const fetchLiveBitcoin = useCallback(async () => {
     setBtcLiveLoading(true)
     try {
-      const data = await fetchCryptoCurrentPrices(["bitcoin"], "usd")
-      const btcNow = data?.[0]?.current_price
-      if (btcNow && btcNow > 0) {
-        // Bitcoin end-2024 price ≈ $93,400 (from hardcoded 2024 return basis)
-        // Approximate YTD 2025 return using current price vs Jan 1 2025 ~$93,400
-        const btcJan2025 = 93400
-        const ytdReturn = ((btcNow - btcJan2025) / btcJan2025) * 100
+      const currentYear = new Date().getFullYear()
+
+      // Fetch Jan 1 of the current year as the YTD baseline (format: DD-MM-YYYY)
+      const jan1Date = `01-01-${currentYear}`
+      const [currentData, jan1Data] = await Promise.all([
+        fetchCryptoCurrentPrices(["bitcoin"], "usd"),
+        fetchCryptoHistoricalDate("bitcoin", jan1Date),
+      ])
+
+      const btcNow = currentData?.[0]?.current_price
+      const btcJan1 = jan1Data?.market_data?.current_price?.usd
+
+      if (btcNow && btcNow > 0 && btcJan1 && btcJan1 > 0) {
+        const ytdReturn = ((btcNow - btcJan1) / btcJan1) * 100
         setLiveBtcReturn(Math.round(ytdReturn * 100) / 100)
         setNominalReturns((prev) => ({
           ...prev,
-          bitcoin: { ...prev.bitcoin, 2025: Math.round(ytdReturn * 100) / 100 },
+          bitcoin: { ...prev.bitcoin, [currentYear]: Math.round(ytdReturn * 100) / 100 },
         }))
       }
     } catch (err) {
@@ -576,7 +583,7 @@ export default function InvestmentRaceCalculatorPage() {
             {liveBtcReturn !== null && (
               <span className="inline-flex items-center gap-1.5 text-xs text-orange-500 dark:text-orange-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                BTC 2025 YTD: {liveBtcReturn >= 0 ? "+" : ""}{liveBtcReturn.toFixed(1)}% (live)
+                BTC {new Date().getFullYear()} YTD: {liveBtcReturn >= 0 ? "+" : ""}{liveBtcReturn.toFixed(1)}% (live)
                 {btcLiveLoading && <RefreshCw className="w-3 h-3 animate-spin ml-0.5" />}
               </span>
             )}
