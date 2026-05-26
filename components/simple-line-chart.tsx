@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
@@ -70,8 +70,6 @@ export default function SimpleLineChart({
   allInflationData = {},
 }: SimpleLineChartProps) {
   const [isComparing, setIsComparing] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => { setMounted(true) }, [])
 
   // Safe data validation
   const safeSelectedCurrency = selectedCurrency && typeof selectedCurrency === "string" ? selectedCurrency : "USD"
@@ -179,7 +177,7 @@ export default function SimpleLineChart({
       </CardHeader>
       <CardContent>
         <div className="h-[400px] w-full" style={{ contain: "layout style", minHeight: "400px" }}>
-          {mounted && <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
               <XAxis dataKey="year" tick={{ fontSize: 12 }} tickLine={{ stroke: "#666" }} />
@@ -228,7 +226,7 @@ export default function SimpleLineChart({
                 />
               )}
             </LineChart>
-          </ResponsiveContainer>}
+          </ResponsiveContainer>
         </div>
 
         {/* Currency Legend - Only show when comparing */}
