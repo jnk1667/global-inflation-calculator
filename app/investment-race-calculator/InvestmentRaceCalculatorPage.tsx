@@ -176,7 +176,7 @@ const BIS_COUNTRY_FOR_CURRENCY: Record<CurrencyCode, string> = {
 }
 
 const MIN_YEAR = 2000
-const MAX_YEAR = 2025
+const MAX_YEAR = 2026
 
 // ─── Helper: derive annual % returns from an index series ────────────────────
 function indexToAnnualReturns(indexData: Record<string, number>): Record<number, number> {
@@ -270,7 +270,7 @@ function CustomTooltip({ active, payload, label, symbol }: any) {
 export default function InvestmentRaceCalculatorPage() {
   const [currency, setCurrency] = useState<CurrencyCode>("USD")
   const [startYear, setStartYear] = useState(2010)
-  const [endYear, setEndYear] = useState(2025)
+  const [endYear, setEndYear] = useState(2026)
   const [initialAmount, setInitialAmount] = useState("10000")
   const [inflationAdjusted, setInflationAdjusted] = useState(true)
   const [logScale, setLogScale] = useState(true)
@@ -434,14 +434,13 @@ export default function InvestmentRaceCalculatorPage() {
       const data = await fetchCryptoCurrentPrices(["bitcoin"], "usd")
       const btcNow = data?.[0]?.current_price
       if (btcNow && btcNow > 0) {
-        // Bitcoin end-2024 price ≈ $93,400 (from hardcoded 2024 return basis)
-        // Approximate YTD 2025 return using current price vs Jan 1 2025 ~$93,400
-        const btcJan2025 = 93400
-        const ytdReturn = ((btcNow - btcJan2025) / btcJan2025) * 100
+        // Bitcoin Jan 1 2026 opening price ≈ $94,200
+        const btcJan2026 = 94200
+        const ytdReturn = ((btcNow - btcJan2026) / btcJan2026) * 100
         setLiveBtcReturn(Math.round(ytdReturn * 100) / 100)
         setNominalReturns((prev) => ({
           ...prev,
-          bitcoin: { ...prev.bitcoin, 2025: Math.round(ytdReturn * 100) / 100 },
+          bitcoin: { ...prev.bitcoin, 2026: Math.round(ytdReturn * 100) / 100 },
         }))
       }
     } catch (err) {
@@ -576,7 +575,7 @@ export default function InvestmentRaceCalculatorPage() {
             {liveBtcReturn !== null && (
               <span className="inline-flex items-center gap-1.5 text-xs text-orange-500 dark:text-orange-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                BTC 2025 YTD: {liveBtcReturn >= 0 ? "+" : ""}{liveBtcReturn.toFixed(1)}% (live)
+                BTC 2026 YTD: {liveBtcReturn >= 0 ? "+" : ""}{liveBtcReturn.toFixed(1)}% (live)
                 {btcLiveLoading && <RefreshCw className="w-3 h-3 animate-spin ml-0.5" />}
               </span>
             )}
