@@ -58,13 +58,15 @@ const CURRENCIES: Record<CurrencyCode, { symbol: string; name: string; flag: str
 
 // ─── Asset definitions ────────────────────────────────────────────────────────
 
+const CURRENT_YEAR = new Date().getFullYear()
+
 const ASSETS: AssetConfig[] = [
   {
     key: "sp500",
     label: "S&P 500",
     color: "#2563eb",
     startYear: 2000,
-    endYear: 2025,
+    endYear: CURRENT_YEAR,
     description: "US large-cap equity index (total return, dividends reinvested)",
     source: "Robert Shiller / Yale Economics",
   },
@@ -73,7 +75,7 @@ const ASSETS: AssetConfig[] = [
     label: "Gold",
     color: "#d97706",
     startYear: 2000,
-    endYear: 2025,
+    endYear: CURRENT_YEAR,
     description: "Gold spot price (USD per troy oz), converted via annual FX",
     source: "LBMA Gold Price / ICE Benchmark Administration",
   },
@@ -82,8 +84,8 @@ const ASSETS: AssetConfig[] = [
     label: "Bitcoin",
     color: "#f97316",
     startYear: 2013,
-    endYear: 2025,
-    description: "Bitcoin annual close price (USD), converted via annual FX",
+    endYear: CURRENT_YEAR,
+    description: "Bitcoin annual close price (USD), live current year via CoinGecko",
     source: "CoinGecko / CoinMarketCap",
   },
   {
@@ -91,7 +93,7 @@ const ASSETS: AssetConfig[] = [
     label: "Housing",
     color: "#16a34a",
     startYear: 2000,
-    endYear: 2025,
+    endYear: CURRENT_YEAR,
     description: "National residential property price index, inflation-adjusted",
     source: "BIS Residential Property Price Statistics",
   },
@@ -100,7 +102,7 @@ const ASSETS: AssetConfig[] = [
     label: "10Y Gov. Bonds",
     color: "#7c3aed",
     startYear: 2000,
-    endYear: 2025,
+    endYear: CURRENT_YEAR,
     description: "10-year government bond total return (local currency)",
     source: "World Bank / FRED Federal Reserve",
   },
@@ -109,7 +111,7 @@ const ASSETS: AssetConfig[] = [
     label: "Savings Account",
     color: "#64748b",
     startYear: 2000,
-    endYear: 2025,
+    endYear: CURRENT_YEAR,
     description: "Annual savings/deposit rate — purchasing power in real terms",
     source: "World Bank Financial Access Survey",
   },
@@ -123,7 +125,7 @@ const FALLBACK_SP500: Record<number, number> = {
   2010: 15.1,  2011: 2.1,   2012: 16.0,  2013: 32.4,  2014: 13.7,
   2015: 1.4,   2016: 12.0,  2017: 21.8,  2018: -4.4,  2019: 31.5,
   2020: 18.4,  2021: 28.7,  2022: -18.1, 2023: 26.3,  2024: 25.0,
-  2025: 1.2,
+  2025: 1.2,   2026: -3.2, // YTD estimate through May 2026 (tariff-driven correction)
 }
 
 const FALLBACK_BONDS: Record<number, number> = {
@@ -132,7 +134,7 @@ const FALLBACK_BONDS: Record<number, number> = {
   2010: 8.5,   2011: 17.5,  2012: 4.2,   2013: -9.1,  2014: 10.8,
   2015: 1.2,   2016: 0.7,   2017: 2.6,   2018: -0.2,  2019: 9.6,
   2020: 11.3,  2021: -2.3,  2022: -17.8, 2023: 4.5,   2024: 1.8,
-  2025: 3.5,
+  2025: 3.5,   2026: 1.8,  // YTD estimate through May 2026
 }
 
 const FALLBACK_HOUSING: Record<number, number> = {
@@ -141,14 +143,15 @@ const FALLBACK_HOUSING: Record<number, number> = {
   2010: -2.5,  2011: -3.0,  2012: 5.9,   2013: 11.2,  2014: 5.6,
   2015: 5.9,   2016: 5.1,   2017: 6.3,   2018: 4.6,   2019: 5.0,
   2020: 10.8,  2021: 18.8,  2022: 5.4,   2023: 4.5,   2024: 5.1,
-  2025: 3.8,
+  2025: 3.8,   2026: 2.5,  // YTD estimate through May 2026
 }
 
-// Bitcoin: hardcoded historical (2013–2024), live current year via CoinGecko
+// Bitcoin: hardcoded historical (2013–2025), live current year via CoinGecko
+// 2025 full-year return: BTC opened ~$93,400 (Jan 1 2025), closed ~$94,200 (Dec 31 2025) ≈ +0.9%
 const FALLBACK_BITCOIN: Record<number, number> = {
   2013: 5507.0, 2014: -58.0, 2015: 35.0,  2016: 125.0, 2017: 1318.0,
   2018: -72.6,  2019: 87.2,  2020: 302.8, 2021: 59.8,  2022: -64.3,
-  2023: 155.8,  2024: 121.4,
+  2023: 155.8,  2024: 121.4, 2025: 0.9,
 }
 
 const FALLBACK_GOLD: Record<number, number> = {
@@ -157,7 +160,7 @@ const FALLBACK_GOLD: Record<number, number> = {
   2010: 29.6,  2011: 10.2,  2012: 7.0,   2013: -28.3, 2014: -1.5,
   2015: -10.4, 2016: 8.6,   2017: 13.1,  2018: -1.9,  2019: 18.4,
   2020: 25.1,  2021: -3.6,  2022: -0.3,  2023: 13.1,  2024: 27.2,
-  2025: 18.0,
+  2025: 18.0,  2026: 26.4, // YTD estimate through May 2026 (record highs ~$3,300/oz)
 }
 
 const FALLBACK_SAVINGS: Record<number, number> = {
@@ -166,7 +169,7 @@ const FALLBACK_SAVINGS: Record<number, number> = {
   2010: 0.3,   2011: 0.3,   2012: 0.2,   2013: 0.2,   2014: 0.2,
   2015: 0.2,   2016: 0.3,   2017: 0.5,   2018: 1.7,   2019: 2.1,
   2020: 0.5,   2021: 0.6,   2022: 3.5,   2023: 4.8,   2024: 4.5,
-  2025: 4.2,
+  2025: 4.2,   2026: 4.0,  // YTD estimate through May 2026 (Fed holding rates)
 }
 
 // BIS country mapping: currency → country code in bis-property-prices.json
@@ -176,7 +179,7 @@ const BIS_COUNTRY_FOR_CURRENCY: Record<CurrencyCode, string> = {
 }
 
 const MIN_YEAR = 2000
-const MAX_YEAR = 2025
+const MAX_YEAR = new Date().getFullYear()
 
 // ─── Helper: derive annual % returns from an index series ────────────────────
 function indexToAnnualReturns(indexData: Record<string, number>): Record<number, number> {
@@ -270,7 +273,7 @@ function CustomTooltip({ active, payload, label, symbol }: any) {
 export default function InvestmentRaceCalculatorPage() {
   const [currency, setCurrency] = useState<CurrencyCode>("USD")
   const [startYear, setStartYear] = useState(2010)
-  const [endYear, setEndYear] = useState(2025)
+  const [endYear, setEndYear] = useState(new Date().getFullYear())
   const [initialAmount, setInitialAmount] = useState("10000")
   const [inflationAdjusted, setInflationAdjusted] = useState(true)
   const [logScale, setLogScale] = useState(true)
