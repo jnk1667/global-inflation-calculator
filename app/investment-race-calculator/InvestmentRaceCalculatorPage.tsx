@@ -58,7 +58,7 @@ const CURRENCIES: Record<CurrencyCode, { symbol: string; name: string; flag: str
 
 // ─── Asset definitions ────────────────────────────────────────────────────────
 
-const CURRENT_YEAR = new Date().getFullYear()
+const CURRENT_YEAR = 2026
 
 const ASSETS: AssetConfig[] = [
   {
@@ -179,7 +179,7 @@ const BIS_COUNTRY_FOR_CURRENCY: Record<CurrencyCode, string> = {
 }
 
 const MIN_YEAR = 2000
-const MAX_YEAR = new Date().getFullYear()
+const MAX_YEAR = 2026
 
 // ─── Helper: derive annual % returns from an index series ────────────────────
 function indexToAnnualReturns(indexData: Record<string, number>): Record<number, number> {
@@ -273,7 +273,7 @@ function CustomTooltip({ active, payload, label, symbol }: any) {
 export default function InvestmentRaceCalculatorPage() {
   const [currency, setCurrency] = useState<CurrencyCode>("USD")
   const [startYear, setStartYear] = useState(2010)
-  const [endYear, setEndYear] = useState(new Date().getFullYear())
+  const [endYear, setEndYear] = useState(CURRENT_YEAR)
   const [initialAmount, setInitialAmount] = useState("10000")
   const [inflationAdjusted, setInflationAdjusted] = useState(true)
   const [logScale, setLogScale] = useState(true)
@@ -586,7 +586,7 @@ export default function InvestmentRaceCalculatorPage() {
             {liveBtcReturn !== null && (
               <span className="inline-flex items-center gap-1.5 text-xs text-orange-500 dark:text-orange-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                BTC {new Date().getFullYear()} YTD: {liveBtcReturn >= 0 ? "+" : ""}{liveBtcReturn.toFixed(1)}% (live)
+                BTC {CURRENT_YEAR} YTD: {liveBtcReturn >= 0 ? "+" : ""}{liveBtcReturn.toFixed(1)}% (live)
                 {btcLiveLoading && <RefreshCw className="w-3 h-3 animate-spin ml-0.5" />}
               </span>
             )}
