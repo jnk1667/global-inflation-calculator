@@ -401,7 +401,7 @@ export default function InvestmentRaceCalculatorPage() {
         }
       }
 
-      setNominalReturns(newNominal)
+      setNominalReturns((prev) => ({ ...newNominal, bitcoin: { ...newNominal.bitcoin, ...prev.bitcoin } }))
       // Fill any missing CPI years with fallback values from FALLBACK_CPI
       const FALLBACK_CPI: Record<CurrencyCode, Record<number, number>> = {
         USD: { 2000:3.4,2001:2.8,2002:1.6,2003:2.3,2004:2.7,2005:3.4,2006:3.2,2007:2.9,2008:3.8,2009:-0.4,2010:1.6,2011:3.2,2012:2.1,2013:1.5,2014:1.6,2015:0.1,2016:1.3,2017:2.1,2018:2.4,2019:1.8,2020:1.2,2021:4.7,2022:8.0,2023:4.1,2024:2.9,2025:2.5 },
