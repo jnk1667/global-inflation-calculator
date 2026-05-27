@@ -39,6 +39,7 @@ export default function DeflationCalculatorPage() {
   const [blogLoading, setBlogLoading] = useState(true)
   const [isLoadingLiveData, setIsLoadingLiveData] = useState(false)
   const [liveDataStatus, setLiveDataStatus] = useState<Record<string, boolean>>({})
+  const [livePrices, setLivePrices] = useState<Record<string, number>>({})
   const [priceData, setPriceData] = useState<any>(null)
 
   const mockData = {
@@ -381,6 +382,7 @@ The key to understanding deflationary assets is recognizing the inverse relation
       if (endYear === "2026") {
         const livePrice = await fetchLiveData(selectedAsset, 2026)
         if (livePrice) {
+          setLivePrices((prev) => ({ ...prev, [selectedAsset]: livePrice }))
           // Update mock data with live price
           setPriceData((prev: any) => ({
             ...prev,
@@ -422,13 +424,26 @@ The key to understanding deflationary assets is recognizing the inverse relation
             Discover how scarce assets preserve and grow your purchasing power over time. See the opposite of inflation
             with deflationary asset appreciation.
           </p>
-          <div style={{ minHeight: "32px" }}>
-            {liveDataStatus[selectedAsset] && (
-              <div className="mt-4 inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-sm">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                Using Live {assetInfo[selectedAsset as keyof typeof assetInfo]?.name} Price Data
-              </div>
-            )}
+          <div className="flex items-center justify-center gap-2 mt-4 flex-wrap" style={{ minHeight: "28px" }}>
+            {isLoadingLiveData ? (
+              <span className="inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500">
+                <RefreshCw className="w-3 h-3 animate-spin" />
+                Loading live data...
+              </span>
+            ) : liveDataStatus[selectedAsset] ? (
+              <>
+                <span className="inline-flex items-center gap-1.5 text-xs text-green-600 dark:text-green-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                  Live data loaded
+                </span>
+                {livePrices[selectedAsset] && (
+                  <span className="inline-flex items-center gap-1.5 text-xs text-orange-500 dark:text-orange-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                    {assetInfo[selectedAsset as keyof typeof assetInfo]?.name} 2026 Price: ${livePrices[selectedAsset].toLocaleString()} (live)
+                  </span>
+                )}
+              </>
+            ) : null}
           </div>
         </div>
 
