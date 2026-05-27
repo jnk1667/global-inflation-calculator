@@ -333,7 +333,7 @@ The key to understanding deflationary assets is recognizing the inverse relation
       if (asset === "bitcoin" || asset === "ethereum") {
         // Use CoinGecko for cryptocurrencies
         const coinId = asset === "bitcoin" ? "bitcoin" : "ethereum"
-        const historicalData = await getCryptoHistoricalPrices(coinId, year === 2025 ? 365 : 30)
+        const historicalData = await getCryptoHistoricalPrices(coinId, year === 2026 ? 365 : 30)
 
         if (historicalData && historicalData.length > 0) {
           setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
@@ -356,6 +356,14 @@ The key to understanding deflationary assets is recognizing the inverse relation
           setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
           return price
         }
+      } else if (asset === "platinum") {
+        // Use Alpha Vantage for platinum
+        const price = await getCommodityPrice("PPLT") // Aberdeen Physical Platinum ETF
+
+        if (price) {
+          setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
+          return price
+        }
       }
 
       return null
@@ -370,15 +378,15 @@ The key to understanding deflationary assets is recognizing the inverse relation
 
   useEffect(() => {
     const fetchCurrentPrices = async () => {
-      if (endYear === "2025") {
-        const livePrice = await fetchLiveData(selectedAsset, 2025)
+      if (endYear === "2026") {
+        const livePrice = await fetchLiveData(selectedAsset, 2026)
         if (livePrice) {
           // Update mock data with live price
           setPriceData((prev: any) => ({
             ...prev,
             [selectedAsset]: {
               ...mockData[selectedAsset as keyof typeof mockData],
-              2025: livePrice,
+              2026: livePrice,
             },
           }))
         }
