@@ -1,16 +1,21 @@
 /**
- * Commodities API
- * - Gold, Silver, Platinum: api.gold-api.com (no API key required, live spot prices)
- * - Crude Oil: Yahoo Finance CL=F WTI futures (no API key required)
+ * Commodities API — all calls route through /api/commodity-price to avoid CORS.
+ * The proxy handles:
+ *   - Gold (XAU), Silver (XAG), Platinum (XPT): api.gold-api.com, spot price USD/troy oz
+ *   - Crude Oil (OIL): Yahoo Finance CL=F WTI futures, USD/barrel
  */
 
 type MetalSymbol = "XAU" | "XAG" | "XPT"
 
-interface GoldApiResponse {
-  price: number
-  name: string
-  symbol: string
-  updatedAt: string
+async function fetchFromProxy(symbol: string): Promise<number | null> {
+  try {
+    const res = await fetch(`/api/commodity-price?symbol=${symbol}`)
+    if (!res.ok) return null
+    const data = await res.json()
+    return typeof data?.price === "number" ? data.price : null
+  } catch {
+    return null
+  }
 }
 
 /**
@@ -18,33 +23,13 @@ interface GoldApiResponse {
  * Returns price in USD per troy ounce
  */
 export async function getMetalSpotPrice(symbol: MetalSymbol): Promise<number | null> {
-  try {
-    const res = await fetch(`https://api.gold-api.com/price/${symbol}`, {
-      next: { revalidate: 300 }, // cache 5 minutes
-    })
-    if (!res.ok) return null
-    const data: GoldApiResponse = await res.json()
-    return data?.price ?? null
-  } catch {
-    return null
-  }
+  return fetchFromProxy(symbol)
 }
 
 /**
- * Fetch live WTI crude oil price via Yahoo Finance (CL=F futures)
+ * Fetch live WTI crude oil price (CL=F futures)
  * Returns price in USD per barrel
  */
 export async function getCrudeOilPrice(): Promise<number | null> {
-  try {
-    const res = await fetch("https://query1.finance.yahoo.com/v8/finance/chart/CL=F", {
-      headers: { "User-Agent": "Mozilla/5.0" },
-      next: { revalidate: 300 }, // cache 5 minutes
-    })
-    if (!res.ok) return null
-    const data = await res.json()
-    const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice
-    return typeof price === "number" ? price : null
-  } catch {
-    return null
-  }
+  return fetchFromProxy("OIL")
 }
