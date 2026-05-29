@@ -26,8 +26,8 @@ import { supabase } from "@/lib/supabase"
 import { getCachedContent } from "@/lib/cached-content"
 import Link from "next/link"
 import FAQ from "@/components/faq"
-import { getCryptoHistoricalPrices } from "@/lib/api/coingecko-api"
-import { getCommodityPrice } from "@/lib/api/alphavantage-api"
+import { fetchCryptoCurrentPrices } from "@/lib/api/coingecko-api"
+import { getMetalSpotPrice, getCrudeOilPrice } from "@/lib/api/commodities-api"
 
 export default function DeflationCalculatorPage() {
   const [amount, setAmount] = useState("1000")
@@ -332,36 +332,39 @@ The key to understanding deflationary assets is recognizing the inverse relation
       setIsLoadingLiveData(true)
 
       if (asset === "bitcoin" || asset === "ethereum") {
-        // Use CoinGecko for cryptocurrencies
+        // Use CoinGecko current price — returns actual live market price
         const coinId = asset === "bitcoin" ? "bitcoin" : "ethereum"
-        const historicalData = await getCryptoHistoricalPrices(coinId, year === 2026 ? 365 : 30)
-
-        if (historicalData && historicalData.length > 0) {
-          setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
-          return historicalData[0].price // Return latest price
-        }
-      } else if (asset === "gold" || asset === "silver") {
-        // Use Alpha Vantage for precious metals
-        const symbol = asset === "gold" ? "GLD" : "SLV"
-        const price = await getCommodityPrice(symbol)
-
-        if (price) {
+        const data = await fetchCryptoCurrentPrices([coinId], "usd")
+        const price = data?.[0]?.current_price
+        if (price && price > 0) {
           setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
           return price
         }
-      } else if (asset === "oil") {
-        // Use Alpha Vantage for oil
-        const price = await getCommodityPrice("USO") // US Oil Fund ETF
-
-        if (price) {
+      } else if (asset === "gold") {
+        // api.gold-api.com — live spot price USD per troy oz, no API key
+        const price = await getMetalSpotPrice("XAU")
+        if (price && price > 0) {
+          setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
+          return price
+        }
+      } else if (asset === "silver") {
+        // api.gold-api.com — live spot price USD per troy oz, no API key
+        const price = await getMetalSpotPrice("XAG")
+        if (price && price > 0) {
           setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
           return price
         }
       } else if (asset === "platinum") {
-        // Use Alpha Vantage for platinum
-        const price = await getCommodityPrice("PPLT") // Aberdeen Physical Platinum ETF
-
-        if (price) {
+        // api.gold-api.com — live spot price USD per troy oz, no API key
+        const price = await getMetalSpotPrice("XPT")
+        if (price && price > 0) {
+          setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
+          return price
+        }
+      } else if (asset === "oil") {
+        // Yahoo Finance CL=F — live WTI crude futures price USD per barrel, no API key
+        const price = await getCrudeOilPrice()
+        if (price && price > 0) {
           setLiveDataStatus((prev) => ({ ...prev, [asset]: true }))
           return price
         }
