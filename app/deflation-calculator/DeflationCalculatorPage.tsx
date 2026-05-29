@@ -433,18 +433,16 @@ The key to understanding deflationary assets is recognizing the inverse relation
                 <RefreshCw className="w-3 h-3 animate-spin" />
                 Loading live data...
               </span>
-            ) : liveDataStatus[selectedAsset] ? (
+            ) : livePrices[selectedAsset] ? (
               <>
                 <span className="inline-flex items-center gap-1.5 text-xs text-green-600 dark:text-green-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
                   Live data loaded
                 </span>
-                {livePrices[selectedAsset] && (
-                  <span className="inline-flex items-center gap-1.5 text-xs text-orange-500 dark:text-orange-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                    {assetInfo[selectedAsset as keyof typeof assetInfo]?.name} 2026 Price: ${livePrices[selectedAsset].toLocaleString()} (live)
-                  </span>
-                )}
+                <span className="inline-flex items-center gap-1.5 text-xs text-orange-500 dark:text-orange-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                  {assetInfo[selectedAsset as keyof typeof assetInfo]?.name} 2026 Price: ${livePrices[selectedAsset].toLocaleString()} (live)
+                </span>
               </>
             ) : null}
           </div>
