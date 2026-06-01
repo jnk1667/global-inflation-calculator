@@ -199,7 +199,7 @@ const datasetSchema = {
 }
 
 export const metadata: Metadata = {
-  title: "Cost of Living Comparison Tool | 80+ Global Cities",
+  title: "Regional Cost of Living Comparison",
   description:
     "Compare cost of living across 80+ cities worldwide. Analyze housing, utilities, food & transport costs with official government data from BLS, ONS, Eurostat.",
   keywords:
@@ -250,7 +250,6 @@ export default function RegionalCostOfLivingRoute() {
       <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
       <JsonLd id="schema-faq" data={faqSchema} />
       <JsonLd id="schema-dataset" data={datasetSchema} />
-      <h1 className="sr-only">Regional Cost of Living Comparison</h1>
       <RegionalCostOfLivingPage />
 
       <noscript>
