@@ -1,0 +1,791 @@
+{
+  "source": "U.S. Bureau of Labor Statistics - International Labor Comparisons (ILC) Program, via Federal Reserve Bank of St. Louis (FRED)",
+  "url": "https://fred.stlouisfed.org",
+  "description": "Hourly compensation costs in manufacturing by country, index basis (2002=100). Covers wages, salaries, and all employer-paid benefits. Program discontinued by BLS in 2012; data covers 1980-2011. Useful for long-run international labour cost comparisons.",
+  "last_updated": "2026-06-06",
+  "note": "Data discontinued after 2011. For current international wage comparisons, see oecd-wages.json and eurostat-median-hourly-earnings.json.",
+  "countries": {
+    "GBR": {
+      "country": "GBR",
+      "currency": "GBP",
+      "name": "United Kingdom Hourly Compensation in Manufacturing",
+      "fred_series_id": "GBRHCMFN",
+      "unit": "index_2002=100",
+      "data": [
+        {
+          "year": 1980,
+          "value": 40.1
+        },
+        {
+          "year": 1981,
+          "value": 40.1
+        },
+        {
+          "year": 1982,
+          "value": 37.8
+        },
+        {
+          "year": 1983,
+          "value": 34.7
+        },
+        {
+          "year": 1984,
+          "value": 32.5
+        },
+        {
+          "year": 1985,
+          "value": 34.2
+        },
+        {
+          "year": 1986,
+          "value": 41.9
+        },
+        {
+          "year": 1987,
+          "value": 51.5
+        },
+        {
+          "year": 1988,
+          "value": 59
+        },
+        {
+          "year": 1989,
+          "value": 57.5
+        },
+        {
+          "year": 1990,
+          "value": 70.3
+        },
+        {
+          "year": 1991,
+          "value": 79
+        },
+        {
+          "year": 1992,
+          "value": 79
+        },
+        {
+          "year": 1993,
+          "value": 69.4
+        },
+        {
+          "year": 1994,
+          "value": 72.4
+        },
+        {
+          "year": 1995,
+          "value": 76.1
+        },
+        {
+          "year": 1996,
+          "value": 74.9
+        },
+        {
+          "year": 1997,
+          "value": 82.5
+        },
+        {
+          "year": 1998,
+          "value": 89.4
+        },
+        {
+          "year": 1999,
+          "value": 93.1
+        },
+        {
+          "year": 2000,
+          "value": 91.4
+        },
+        {
+          "year": 2001,
+          "value": 90.2
+        },
+        {
+          "year": 2002,
+          "value": 100
+        },
+        {
+          "year": 2003,
+          "value": 115.2
+        },
+        {
+          "year": 2004,
+          "value": 135.6
+        },
+        {
+          "year": 2005,
+          "value": 141.9
+        },
+        {
+          "year": 2006,
+          "value": 152.4
+        },
+        {
+          "year": 2007,
+          "value": 170.8
+        },
+        {
+          "year": 2008,
+          "value": 163.3
+        },
+        {
+          "year": 2009,
+          "value": 142.2
+        },
+        {
+          "year": 2010,
+          "value": 147.5
+        },
+        {
+          "year": 2011,
+          "value": 156.4
+        }
+      ]
+    },
+    "CAN": {
+      "country": "CAN",
+      "currency": "CAD",
+      "name": "Canada Hourly Compensation in Manufacturing",
+      "fred_series_id": "CANHCMFN",
+      "unit": "index_2002=100",
+      "data": [
+        {
+          "year": 1980,
+          "value": 48.7
+        },
+        {
+          "year": 1981,
+          "value": 53.5
+        },
+        {
+          "year": 1982,
+          "value": 59.7
+        },
+        {
+          "year": 1983,
+          "value": 63.9
+        },
+        {
+          "year": 1984,
+          "value": 64.6
+        },
+        {
+          "year": 1985,
+          "value": 64.6
+        },
+        {
+          "year": 1986,
+          "value": 64.5
+        },
+        {
+          "year": 1987,
+          "value": 69.2
+        },
+        {
+          "year": 1988,
+          "value": 78
+        },
+        {
+          "year": 1989,
+          "value": 84.9
+        },
+        {
+          "year": 1990,
+          "value": 91.8
+        },
+        {
+          "year": 1991,
+          "value": 100
+        },
+        {
+          "year": 1992,
+          "value": 99.4
+        },
+        {
+          "year": 1993,
+          "value": 94.2
+        },
+        {
+          "year": 1994,
+          "value": 91.5
+        },
+        {
+          "year": 1995,
+          "value": 93.3
+        },
+        {
+          "year": 1996,
+          "value": 95.3
+        },
+        {
+          "year": 1997,
+          "value": 95.3
+        },
+        {
+          "year": 1998,
+          "value": 94
+        },
+        {
+          "year": 1999,
+          "value": 96.1
+        },
+        {
+          "year": 2000,
+          "value": 99
+        },
+        {
+          "year": 2001,
+          "value": 97.6
+        },
+        {
+          "year": 2002,
+          "value": 100
+        },
+        {
+          "year": 2003,
+          "value": 115.8
+        },
+        {
+          "year": 2004,
+          "value": 129
+        },
+        {
+          "year": 2005,
+          "value": 145.3
+        },
+        {
+          "year": 2006,
+          "value": 163.1
+        },
+        {
+          "year": 2007,
+          "value": 177.4
+        },
+        {
+          "year": 2008,
+          "value": 181.6
+        },
+        {
+          "year": 2009,
+          "value": 171.9
+        },
+        {
+          "year": 2010,
+          "value": 185.9
+        },
+        {
+          "year": 2011,
+          "value": 198.1
+        }
+      ]
+    },
+    "JPN": {
+      "country": "JPN",
+      "currency": "JPY",
+      "name": "Japan Hourly Compensation in Manufacturing",
+      "fred_series_id": "JPNHCMFN",
+      "unit": "index_2002=100",
+      "data": [
+        {
+          "year": 1980,
+          "value": 28
+        },
+        {
+          "year": 1981,
+          "value": 30.9
+        },
+        {
+          "year": 1982,
+          "value": 28.7
+        },
+        {
+          "year": 1983,
+          "value": 30.9
+        },
+        {
+          "year": 1984,
+          "value": 31.8
+        },
+        {
+          "year": 1985,
+          "value": 32.9
+        },
+        {
+          "year": 1986,
+          "value": 48.5
+        },
+        {
+          "year": 1987,
+          "value": 58.2
+        },
+        {
+          "year": 1988,
+          "value": 67.2
+        },
+        {
+          "year": 1989,
+          "value": 66.1
+        },
+        {
+          "year": 1990,
+          "value": 67.2
+        },
+        {
+          "year": 1991,
+          "value": 77.1
+        },
+        {
+          "year": 1992,
+          "value": 84.8
+        },
+        {
+          "year": 1993,
+          "value": 99.5
+        },
+        {
+          "year": 1994,
+          "value": 110.2
+        },
+        {
+          "year": 1995,
+          "value": 123.8
+        },
+        {
+          "year": 1996,
+          "value": 108
+        },
+        {
+          "year": 1997,
+          "value": 100.3
+        },
+        {
+          "year": 1998,
+          "value": 95
+        },
+        {
+          "year": 1999,
+          "value": 109.3
+        },
+        {
+          "year": 2000,
+          "value": 114.6
+        },
+        {
+          "year": 2001,
+          "value": 102.9
+        },
+        {
+          "year": 2002,
+          "value": 100
+        },
+        {
+          "year": 2003,
+          "value": 105.7
+        },
+        {
+          "year": 2004,
+          "value": 112
+        },
+        {
+          "year": 2005,
+          "value": 108.3
+        },
+        {
+          "year": 2006,
+          "value": 100.9
+        },
+        {
+          "year": 2007,
+          "value": 99.4
+        },
+        {
+          "year": 2008,
+          "value": 117.2
+        },
+        {
+          "year": 2009,
+          "value": 129.8
+        },
+        {
+          "year": 2010,
+          "value": 136.9
+        },
+        {
+          "year": 2011,
+          "value": 154
+        }
+      ]
+    },
+    "AUS": {
+      "country": "AUS",
+      "currency": "AUD",
+      "name": "Australia Hourly Compensation in Manufacturing",
+      "fred_series_id": "AUSHCMFN",
+      "unit": "index_2002=100",
+      "data": [
+        {
+          "year": 1990,
+          "value": 92.3
+        },
+        {
+          "year": 1991,
+          "value": 100.4
+        },
+        {
+          "year": 1992,
+          "value": 96.5
+        },
+        {
+          "year": 1993,
+          "value": 93
+        },
+        {
+          "year": 1994,
+          "value": 98.3
+        },
+        {
+          "year": 1995,
+          "value": 106.5
+        },
+        {
+          "year": 1996,
+          "value": 118.7
+        },
+        {
+          "year": 1997,
+          "value": 114
+        },
+        {
+          "year": 1998,
+          "value": 101.7
+        },
+        {
+          "year": 1999,
+          "value": 108.6
+        },
+        {
+          "year": 2000,
+          "value": 96.8
+        },
+        {
+          "year": 2001,
+          "value": 91.2
+        },
+        {
+          "year": 2002,
+          "value": 100
+        },
+        {
+          "year": 2003,
+          "value": 127.2
+        },
+        {
+          "year": 2004,
+          "value": 148.9
+        },
+        {
+          "year": 2005,
+          "value": 163.8
+        },
+        {
+          "year": 2006,
+          "value": 171.7
+        },
+        {
+          "year": 2007,
+          "value": 199.6
+        },
+        {
+          "year": 2008,
+          "value": 205.9
+        },
+        {
+          "year": 2009,
+          "value": 203.5
+        },
+        {
+          "year": 2010,
+          "value": 238.2
+        },
+        {
+          "year": 2011,
+          "value": 264.9
+        }
+      ]
+    },
+    "USA": {
+      "country": "USA",
+      "currency": "USD",
+      "name": "United States Hourly Compensation in Manufacturing",
+      "fred_series_id": "USAHCMFN",
+      "unit": "index_2002=100",
+      "data": [
+        {
+          "year": 1980,
+          "value": 38.2
+        },
+        {
+          "year": 1981,
+          "value": 42.1
+        },
+        {
+          "year": 1982,
+          "value": 45.9
+        },
+        {
+          "year": 1983,
+          "value": 47.3
+        },
+        {
+          "year": 1984,
+          "value": 48.9
+        },
+        {
+          "year": 1985,
+          "value": 51.4
+        },
+        {
+          "year": 1986,
+          "value": 53.8
+        },
+        {
+          "year": 1987,
+          "value": 55.6
+        },
+        {
+          "year": 1988,
+          "value": 57.5
+        },
+        {
+          "year": 1989,
+          "value": 59.3
+        },
+        {
+          "year": 1990,
+          "value": 62.1
+        },
+        {
+          "year": 1991,
+          "value": 65.8
+        },
+        {
+          "year": 1992,
+          "value": 68.9
+        },
+        {
+          "year": 1993,
+          "value": 70.5
+        },
+        {
+          "year": 1994,
+          "value": 72.2
+        },
+        {
+          "year": 1995,
+          "value": 73.4
+        },
+        {
+          "year": 1996,
+          "value": 74.6
+        },
+        {
+          "year": 1997,
+          "value": 76.5
+        },
+        {
+          "year": 1998,
+          "value": 81.2
+        },
+        {
+          "year": 1999,
+          "value": 84.8
+        },
+        {
+          "year": 2000,
+          "value": 91.3
+        },
+        {
+          "year": 2001,
+          "value": 94.8
+        },
+        {
+          "year": 2002,
+          "value": 100
+        },
+        {
+          "year": 2003,
+          "value": 108
+        },
+        {
+          "year": 2004,
+          "value": 108.9
+        },
+        {
+          "year": 2005,
+          "value": 112.5
+        },
+        {
+          "year": 2006,
+          "value": 114.8
+        },
+        {
+          "year": 2007,
+          "value": 118.5
+        },
+        {
+          "year": 2008,
+          "value": 123.5
+        },
+        {
+          "year": 2009,
+          "value": 128.6
+        },
+        {
+          "year": 2010,
+          "value": 130
+        },
+        {
+          "year": 2011,
+          "value": 133.5
+        }
+      ]
+    },
+    "DEU": {
+      "country": "DEU",
+      "currency": "EUR",
+      "name": "Germany Hourly Compensation in Manufacturing (National Currency)",
+      "fred_series_id": "DEUHCMF",
+      "unit": "index_2002=100",
+      "data": [
+        {
+          "year": 1980,
+          "value": 35.7
+        },
+        {
+          "year": 1981,
+          "value": 38
+        },
+        {
+          "year": 1982,
+          "value": 40.2
+        },
+        {
+          "year": 1983,
+          "value": 42.1
+        },
+        {
+          "year": 1984,
+          "value": 44
+        },
+        {
+          "year": 1985,
+          "value": 46.6
+        },
+        {
+          "year": 1986,
+          "value": 48.5
+        },
+        {
+          "year": 1987,
+          "value": 50.6
+        },
+        {
+          "year": 1988,
+          "value": 52.7
+        },
+        {
+          "year": 1989,
+          "value": 55.4
+        },
+        {
+          "year": 1990,
+          "value": 59.6
+        },
+        {
+          "year": 1991,
+          "value": 63.4
+        },
+        {
+          "year": 1992,
+          "value": 69.5
+        },
+        {
+          "year": 1993,
+          "value": 73.8
+        },
+        {
+          "year": 1994,
+          "value": 77.2
+        },
+        {
+          "year": 1995,
+          "value": 81.4
+        },
+        {
+          "year": 1996,
+          "value": 85.3
+        },
+        {
+          "year": 1997,
+          "value": 86.8
+        },
+        {
+          "year": 1998,
+          "value": 88.4
+        },
+        {
+          "year": 1999,
+          "value": 90.3
+        },
+        {
+          "year": 2000,
+          "value": 94.9
+        },
+        {
+          "year": 2001,
+          "value": 97.9
+        },
+        {
+          "year": 2002,
+          "value": 100
+        },
+        {
+          "year": 2003,
+          "value": 102
+        },
+        {
+          "year": 2004,
+          "value": 102.6
+        },
+        {
+          "year": 2005,
+          "value": 103.8
+        },
+        {
+          "year": 2006,
+          "value": 107.9
+        },
+        {
+          "year": 2007,
+          "value": 108.9
+        },
+        {
+          "year": 2008,
+          "value": 111.7
+        },
+        {
+          "year": 2009,
+          "value": 116.5
+        },
+        {
+          "year": 2010,
+          "value": 114.6
+        },
+        {
+          "year": 2011,
+          "value": 117.1
+        }
+      ]
+    }
+  }
+}

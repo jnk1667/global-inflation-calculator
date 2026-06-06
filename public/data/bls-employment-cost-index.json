@@ -1,0 +1,3912 @@
+{
+  "source": "U.S. Bureau of Labor Statistics - Employment Cost Index (ECI) and Employer Costs for Employee Compensation (ECEC)",
+  "urls": [
+    "https://www.bls.gov/eci/",
+    "https://www.bls.gov/ect/"
+  ],
+  "description": "Quarterly measures of the change in the cost of labor, including wages/salaries and benefits. Also includes nonfarm business sector productivity and unit labor costs.",
+  "last_updated": "2026-06-06",
+  "series": {
+    "CIU1010000000000A": {
+      "name": "Employment Cost Index - Total Compensation, Private Industry",
+      "unit": "index",
+      "base": "Dec 2005=100",
+      "series_id": "CIU1010000000000A",
+      "data": [
+        {
+          "year": 2004,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.7
+        },
+        {
+          "year": 2004,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.8
+        },
+        {
+          "year": 2004,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.8
+        },
+        {
+          "year": 2004,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.7
+        },
+        {
+          "year": 2005,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.6
+        },
+        {
+          "year": 2005,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.2
+        },
+        {
+          "year": 2005,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3
+        },
+        {
+          "year": 2005,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.1
+        },
+        {
+          "year": 2006,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2006,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3
+        },
+        {
+          "year": 2006,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.3
+        },
+        {
+          "year": 2006,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.3
+        },
+        {
+          "year": 2007,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.5
+        },
+        {
+          "year": 2007,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.3
+        },
+        {
+          "year": 2007,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.3
+        },
+        {
+          "year": 2007,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.3
+        },
+        {
+          "year": 2008,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.3
+        },
+        {
+          "year": 2008,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.1
+        },
+        {
+          "year": 2008,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.9
+        },
+        {
+          "year": 2008,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2009,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.1
+        },
+        {
+          "year": 2009,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.8
+        },
+        {
+          "year": 2009,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.5
+        },
+        {
+          "year": 2009,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.4
+        },
+        {
+          "year": 2010,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.7
+        },
+        {
+          "year": 2010,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2010,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2010,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2
+        },
+        {
+          "year": 2011,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2
+        },
+        {
+          "year": 2011,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.2
+        },
+        {
+          "year": 2011,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2
+        },
+        {
+          "year": 2011,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2
+        },
+        {
+          "year": 2012,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2012,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.7
+        },
+        {
+          "year": 2012,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2012,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2013,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2013,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2013,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2013,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2
+        },
+        {
+          "year": 2014,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.8
+        },
+        {
+          "year": 2014,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2
+        },
+        {
+          "year": 2014,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.2
+        },
+        {
+          "year": 2014,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.2
+        },
+        {
+          "year": 2015,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2015,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2
+        },
+        {
+          "year": 2015,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2
+        },
+        {
+          "year": 2015,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2
+        },
+        {
+          "year": 2016,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2016,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2016,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2016,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.2
+        },
+        {
+          "year": 2017,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.4
+        },
+        {
+          "year": 2017,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.4
+        },
+        {
+          "year": 2017,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.5
+        },
+        {
+          "year": 2017,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2018,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.7
+        },
+        {
+          "year": 2018,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2018,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2018,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.9
+        },
+        {
+          "year": 2019,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2019,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.7
+        },
+        {
+          "year": 2019,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2019,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.7
+        },
+        {
+          "year": 2020,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2020,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.7
+        },
+        {
+          "year": 2020,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.4
+        },
+        {
+          "year": 2020,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.5
+        },
+        {
+          "year": 2021,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2021,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.9
+        },
+        {
+          "year": 2021,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.7
+        },
+        {
+          "year": 2021,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 4
+        },
+        {
+          "year": 2022,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 4.5
+        },
+        {
+          "year": 2022,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 5.1
+        },
+        {
+          "year": 2022,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 5
+        },
+        {
+          "year": 2022,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 5.1
+        },
+        {
+          "year": 2023,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 4.8
+        },
+        {
+          "year": 2023,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 4.5
+        },
+        {
+          "year": 2023,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 4.3
+        },
+        {
+          "year": 2023,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 4.2
+        }
+      ]
+    },
+    "CIU2010000000000A": {
+      "name": "Employment Cost Index - Total Compensation, State/Local Govt",
+      "unit": "index",
+      "base": "Dec 2005=100",
+      "series_id": "CIU2010000000000A",
+      "data": [
+        {
+          "year": 2004,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.8
+        },
+        {
+          "year": 2004,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.9
+        },
+        {
+          "year": 2004,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.8
+        },
+        {
+          "year": 2004,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.8
+        },
+        {
+          "year": 2005,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.5
+        },
+        {
+          "year": 2005,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.1
+        },
+        {
+          "year": 2005,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.9
+        },
+        {
+          "year": 2005,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.9
+        },
+        {
+          "year": 2006,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2006,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2006,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3
+        },
+        {
+          "year": 2006,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.2
+        },
+        {
+          "year": 2007,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.2
+        },
+        {
+          "year": 2007,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.1
+        },
+        {
+          "year": 2007,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.1
+        },
+        {
+          "year": 2007,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3
+        },
+        {
+          "year": 2008,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.2
+        },
+        {
+          "year": 2008,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3
+        },
+        {
+          "year": 2008,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2008,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.4
+        },
+        {
+          "year": 2009,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2009,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.5
+        },
+        {
+          "year": 2009,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.2
+        },
+        {
+          "year": 2009,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.2
+        },
+        {
+          "year": 2010,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.6
+        },
+        {
+          "year": 2010,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2010,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2
+        },
+        {
+          "year": 2010,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.1
+        },
+        {
+          "year": 2011,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2
+        },
+        {
+          "year": 2011,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2011,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.1
+        },
+        {
+          "year": 2011,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.2
+        },
+        {
+          "year": 2012,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.1
+        },
+        {
+          "year": 2012,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.8
+        },
+        {
+          "year": 2012,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2012,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.8
+        },
+        {
+          "year": 2013,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2013,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2013,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2013,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2
+        },
+        {
+          "year": 2014,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.7
+        },
+        {
+          "year": 2014,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2
+        },
+        {
+          "year": 2014,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2014,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2015,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2015,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2015,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2015,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2016,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.8
+        },
+        {
+          "year": 2016,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.4
+        },
+        {
+          "year": 2016,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2016,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.2
+        },
+        {
+          "year": 2017,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2017,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.4
+        },
+        {
+          "year": 2017,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.5
+        },
+        {
+          "year": 2017,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2018,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2018,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.9
+        },
+        {
+          "year": 2018,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.9
+        },
+        {
+          "year": 2018,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3
+        },
+        {
+          "year": 2019,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2019,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2019,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.7
+        },
+        {
+          "year": 2019,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.7
+        },
+        {
+          "year": 2020,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2020,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.7
+        },
+        {
+          "year": 2020,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.4
+        },
+        {
+          "year": 2020,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2021,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2021,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.1
+        },
+        {
+          "year": 2021,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 4.1
+        },
+        {
+          "year": 2021,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 4.4
+        },
+        {
+          "year": 2022,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 4.8
+        },
+        {
+          "year": 2022,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 5.5
+        },
+        {
+          "year": 2022,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 5.2
+        },
+        {
+          "year": 2022,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 5.1
+        },
+        {
+          "year": 2023,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 4.8
+        },
+        {
+          "year": 2023,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 4.5
+        },
+        {
+          "year": 2023,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 4.3
+        },
+        {
+          "year": 2023,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 4.1
+        }
+      ]
+    },
+    "PRS85006092": {
+      "name": "Nonfarm Business Labor Productivity",
+      "unit": "percent_change",
+      "frequency": "quarterly",
+      "series_id": "PRS85006092",
+      "data": [
+        {
+          "year": 2004,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -1.2
+        },
+        {
+          "year": 2004,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 4.2
+        },
+        {
+          "year": 2004,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2004,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.8
+        },
+        {
+          "year": 2005,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 4.3
+        },
+        {
+          "year": 2005,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -0.4
+        },
+        {
+          "year": 2005,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2005,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 0
+        },
+        {
+          "year": 2006,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2006,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -0.4
+        },
+        {
+          "year": 2006,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -0.8
+        },
+        {
+          "year": 2006,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2007,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.4
+        },
+        {
+          "year": 2007,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.2
+        },
+        {
+          "year": 2007,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.6
+        },
+        {
+          "year": 2007,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.2
+        },
+        {
+          "year": 2008,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -2.6
+        },
+        {
+          "year": 2008,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 4.8
+        },
+        {
+          "year": 2008,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1
+        },
+        {
+          "year": 2008,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -2.1
+        },
+        {
+          "year": 2009,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 4.6
+        },
+        {
+          "year": 2009,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 9.5
+        },
+        {
+          "year": 2009,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 6.5
+        },
+        {
+          "year": 2009,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 5.5
+        },
+        {
+          "year": 2010,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 0.4
+        },
+        {
+          "year": 2010,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.3
+        },
+        {
+          "year": 2010,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2010,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.3
+        },
+        {
+          "year": 2011,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -2.9
+        },
+        {
+          "year": 2011,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 0.3
+        },
+        {
+          "year": 2011,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -0.7
+        },
+        {
+          "year": 2011,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2012,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2
+        },
+        {
+          "year": 2012,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.1
+        },
+        {
+          "year": 2012,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -1.2
+        },
+        {
+          "year": 2012,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -1.5
+        },
+        {
+          "year": 2013,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2
+        },
+        {
+          "year": 2013,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -1
+        },
+        {
+          "year": 2013,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.9
+        },
+        {
+          "year": 2013,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.9
+        },
+        {
+          "year": 2014,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -3.3
+        },
+        {
+          "year": 2014,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2014,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.5
+        },
+        {
+          "year": 2014,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -1.4
+        },
+        {
+          "year": 2015,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2015,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2
+        },
+        {
+          "year": 2015,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.1
+        },
+        {
+          "year": 2015,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -2.4
+        },
+        {
+          "year": 2016,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.7
+        },
+        {
+          "year": 2016,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 0.3
+        },
+        {
+          "year": 2016,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.4
+        },
+        {
+          "year": 2016,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.7
+        },
+        {
+          "year": 2017,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 0.7
+        },
+        {
+          "year": 2017,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 0.2
+        },
+        {
+          "year": 2017,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.3
+        },
+        {
+          "year": 2017,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3
+        },
+        {
+          "year": 2018,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.3
+        },
+        {
+          "year": 2018,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 0
+        },
+        {
+          "year": 2018,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.2
+        },
+        {
+          "year": 2018,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -0.7
+        },
+        {
+          "year": 2019,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.4
+        },
+        {
+          "year": 2019,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.5
+        },
+        {
+          "year": 2019,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 4.6
+        },
+        {
+          "year": 2019,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.8
+        },
+        {
+          "year": 2020,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -1.6
+        },
+        {
+          "year": 2020,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 20.9
+        },
+        {
+          "year": 2020,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 6.4
+        },
+        {
+          "year": 2020,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -3.2
+        },
+        {
+          "year": 2021,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.9
+        },
+        {
+          "year": 2021,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 0.8
+        },
+        {
+          "year": 2021,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -2.4
+        },
+        {
+          "year": 2021,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2022,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -4.9
+        },
+        {
+          "year": 2022,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -2.9
+        },
+        {
+          "year": 2022,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 0.2
+        },
+        {
+          "year": 2022,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2023,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 0.9
+        },
+        {
+          "year": 2023,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 4.1
+        },
+        {
+          "year": 2023,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 5.1
+        },
+        {
+          "year": 2023,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.9
+        }
+      ]
+    },
+    "PRS85006112": {
+      "name": "Nonfarm Business Unit Labor Costs",
+      "unit": "percent_change",
+      "frequency": "quarterly",
+      "series_id": "PRS85006112",
+      "data": [
+        {
+          "year": 2004,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 0.4
+        },
+        {
+          "year": 2004,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.5
+        },
+        {
+          "year": 2004,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 5.7
+        },
+        {
+          "year": 2004,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -0.2
+        },
+        {
+          "year": 2005,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -1.9
+        },
+        {
+          "year": 2005,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.1
+        },
+        {
+          "year": 2005,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.6
+        },
+        {
+          "year": 2005,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2006,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 4.8
+        },
+        {
+          "year": 2006,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.1
+        },
+        {
+          "year": 2006,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2006,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.7
+        },
+        {
+          "year": 2007,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 7.9
+        },
+        {
+          "year": 2007,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -1.5
+        },
+        {
+          "year": 2007,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -1.7
+        },
+        {
+          "year": 2007,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.7
+        },
+        {
+          "year": 2008,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 6.6
+        },
+        {
+          "year": 2008,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -3.9
+        },
+        {
+          "year": 2008,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.2
+        },
+        {
+          "year": 2008,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 7.6
+        },
+        {
+          "year": 2009,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -14.3
+        },
+        {
+          "year": 2009,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.3
+        },
+        {
+          "year": 2009,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -3.1
+        },
+        {
+          "year": 2009,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -3.5
+        },
+        {
+          "year": 2010,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -4.2
+        },
+        {
+          "year": 2010,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.5
+        },
+        {
+          "year": 2010,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -0.2
+        },
+        {
+          "year": 2010,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 0.1
+        },
+        {
+          "year": 2011,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 11.1
+        },
+        {
+          "year": 2011,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -3.7
+        },
+        {
+          "year": 2011,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 4
+        },
+        {
+          "year": 2011,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -7.6
+        },
+        {
+          "year": 2012,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 7.7
+        },
+        {
+          "year": 2012,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 0
+        },
+        {
+          "year": 2012,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.1
+        },
+        {
+          "year": 2012,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 12.4
+        },
+        {
+          "year": 2013,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -7.7
+        },
+        {
+          "year": 2013,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.7
+        },
+        {
+          "year": 2013,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -3.7
+        },
+        {
+          "year": 2013,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -0.6
+        },
+        {
+          "year": 2014,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 11.5
+        },
+        {
+          "year": 2014,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -4.7
+        },
+        {
+          "year": 2014,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -1.2
+        },
+        {
+          "year": 2014,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 5.9
+        },
+        {
+          "year": 2015,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.4
+        },
+        {
+          "year": 2015,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.6
+        },
+        {
+          "year": 2015,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.4
+        },
+        {
+          "year": 2015,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.7
+        },
+        {
+          "year": 2016,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -1.5
+        },
+        {
+          "year": 2016,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.2
+        },
+        {
+          "year": 2016,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 0.4
+        },
+        {
+          "year": 2016,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.6
+        },
+        {
+          "year": 2017,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.4
+        },
+        {
+          "year": 2017,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.3
+        },
+        {
+          "year": 2017,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2017,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.4
+        },
+        {
+          "year": 2018,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.1
+        },
+        {
+          "year": 2018,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2
+        },
+        {
+          "year": 2018,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.8
+        },
+        {
+          "year": 2018,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.1
+        },
+        {
+          "year": 2019,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 6.2
+        },
+        {
+          "year": 2019,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -2.4
+        },
+        {
+          "year": 2019,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -4.2
+        },
+        {
+          "year": 2019,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.2
+        },
+        {
+          "year": 2020,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 11.5
+        },
+        {
+          "year": 2020,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.9
+        },
+        {
+          "year": 2020,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -11.4
+        },
+        {
+          "year": 2020,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 14.2
+        },
+        {
+          "year": 2021,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -2.5
+        },
+        {
+          "year": 2021,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 5.8
+        },
+        {
+          "year": 2021,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 8
+        },
+        {
+          "year": 2021,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 3.5
+        },
+        {
+          "year": 2022,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 7.2
+        },
+        {
+          "year": 2022,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.5
+        },
+        {
+          "year": 2022,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 7
+        },
+        {
+          "year": 2022,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -1.7
+        },
+        {
+          "year": 2023,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 2.2
+        },
+        {
+          "year": 2023,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2.4
+        },
+        {
+          "year": 2023,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.2
+        },
+        {
+          "year": 2023,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.2
+        }
+      ]
+    },
+    "PRS85006152": {
+      "name": "Nonfarm Business Real Hourly Compensation",
+      "unit": "percent_change",
+      "frequency": "quarterly",
+      "series_id": "PRS85006152",
+      "data": [
+        {
+          "year": 2004,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -4.2
+        },
+        {
+          "year": 2004,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 4.6
+        },
+        {
+          "year": 2004,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 4.9
+        },
+        {
+          "year": 2004,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -2.7
+        },
+        {
+          "year": 2005,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 0.4
+        },
+        {
+          "year": 2005,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -0.1
+        },
+        {
+          "year": 2005,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -0.8
+        },
+        {
+          "year": 2005,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -1.4
+        },
+        {
+          "year": 2006,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 5.5
+        },
+        {
+          "year": 2006,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -2.9
+        },
+        {
+          "year": 2006,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -2.6
+        },
+        {
+          "year": 2006,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 8.2
+        },
+        {
+          "year": 2007,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 5.3
+        },
+        {
+          "year": 2007,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -4.6
+        },
+        {
+          "year": 2007,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -0.8
+        },
+        {
+          "year": 2007,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 0
+        },
+        {
+          "year": 2008,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -0.6
+        },
+        {
+          "year": 2008,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -4.4
+        },
+        {
+          "year": 2008,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -2
+        },
+        {
+          "year": 2008,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 15.5
+        },
+        {
+          "year": 2009,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -7.8
+        },
+        {
+          "year": 2009,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 8.7
+        },
+        {
+          "year": 2009,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -0.2
+        },
+        {
+          "year": 2009,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -1.3
+        },
+        {
+          "year": 2010,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -4.4
+        },
+        {
+          "year": 2010,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 5.1
+        },
+        {
+          "year": 2010,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.2
+        },
+        {
+          "year": 2010,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -1.9
+        },
+        {
+          "year": 2011,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 3.3
+        },
+        {
+          "year": 2011,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -7.7
+        },
+        {
+          "year": 2011,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 0.6
+        },
+        {
+          "year": 2011,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -7.5
+        },
+        {
+          "year": 2012,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 7.4
+        },
+        {
+          "year": 2012,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 1.2
+        },
+        {
+          "year": 2012,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -1.9
+        },
+        {
+          "year": 2012,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 7.7
+        },
+        {
+          "year": 2013,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -7.4
+        },
+        {
+          "year": 2013,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.1
+        },
+        {
+          "year": 2013,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -3.1
+        },
+        {
+          "year": 2013,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.7
+        },
+        {
+          "year": 2014,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 5.2
+        },
+        {
+          "year": 2014,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -4.3
+        },
+        {
+          "year": 2014,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.1
+        },
+        {
+          "year": 2014,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 5.4
+        },
+        {
+          "year": 2015,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 7.4
+        },
+        {
+          "year": 2015,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 0.8
+        },
+        {
+          "year": 2015,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 0.9
+        },
+        {
+          "year": 2015,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -0.8
+        },
+        {
+          "year": 2016,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 0.4
+        },
+        {
+          "year": 2016,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -1.8
+        },
+        {
+          "year": 2016,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 0
+        },
+        {
+          "year": 2016,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 1.8
+        },
+        {
+          "year": 2017,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 1.1
+        },
+        {
+          "year": 2017,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 2
+        },
+        {
+          "year": 2017,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 3.3
+        },
+        {
+          "year": 2017,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.2
+        },
+        {
+          "year": 2018,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -1
+        },
+        {
+          "year": 2018,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -0.1
+        },
+        {
+          "year": 2018,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.2
+        },
+        {
+          "year": 2018,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -0.3
+        },
+        {
+          "year": 2019,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 8.7
+        },
+        {
+          "year": 2019,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -2.9
+        },
+        {
+          "year": 2019,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -1.2
+        },
+        {
+          "year": 2019,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 4.1
+        },
+        {
+          "year": 2020,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 8.2
+        },
+        {
+          "year": 2020,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 30.1
+        },
+        {
+          "year": 2020,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -10
+        },
+        {
+          "year": 2020,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 7.5
+        },
+        {
+          "year": 2021,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -3.8
+        },
+        {
+          "year": 2021,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -1.2
+        },
+        {
+          "year": 2021,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": -1.1
+        },
+        {
+          "year": 2021,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -2.8
+        },
+        {
+          "year": 2022,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -6.7
+        },
+        {
+          "year": 2022,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": -8.6
+        },
+        {
+          "year": 2022,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 1.9
+        },
+        {
+          "year": 2022,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": -3.6
+        },
+        {
+          "year": 2023,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": -0.5
+        },
+        {
+          "year": 2023,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 3.6
+        },
+        {
+          "year": 2023,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 2.7
+        },
+        {
+          "year": 2023,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 2.3
+        }
+      ]
+    },
+    "CMU1010000000000D": {
+      "name": "Employer Cost Per Hour Worked - Total Compensation, All Civilian Workers",
+      "unit": "USD_per_hour",
+      "series_id": "CMU1010000000000D",
+      "data": [
+        {
+          "year": 2004,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 24.95
+        },
+        {
+          "year": 2004,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 24.96
+        },
+        {
+          "year": 2004,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 25.36
+        },
+        {
+          "year": 2004,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 25.57
+        },
+        {
+          "year": 2005,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 25.87
+        },
+        {
+          "year": 2005,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 25.86
+        },
+        {
+          "year": 2005,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 26.05
+        },
+        {
+          "year": 2005,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 26.46
+        },
+        {
+          "year": 2006,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 26.86
+        },
+        {
+          "year": 2006,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 26.86
+        },
+        {
+          "year": 2006,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 27.31
+        },
+        {
+          "year": 2006,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 27.54
+        },
+        {
+          "year": 2007,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 27.82
+        },
+        {
+          "year": 2007,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 27.75
+        },
+        {
+          "year": 2007,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 28.03
+        },
+        {
+          "year": 2007,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 28.11
+        },
+        {
+          "year": 2008,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 28.46
+        },
+        {
+          "year": 2008,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 28.48
+        },
+        {
+          "year": 2008,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 28.87
+        },
+        {
+          "year": 2008,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 29.18
+        },
+        {
+          "year": 2009,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 29.39
+        },
+        {
+          "year": 2009,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 29.31
+        },
+        {
+          "year": 2009,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 29.4
+        },
+        {
+          "year": 2009,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 29.37
+        },
+        {
+          "year": 2010,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 29.71
+        },
+        {
+          "year": 2010,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 29.52
+        },
+        {
+          "year": 2010,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 29.75
+        },
+        {
+          "year": 2010,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 29.72
+        },
+        {
+          "year": 2011,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 30.07
+        },
+        {
+          "year": 2011,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 29.98
+        },
+        {
+          "year": 2011,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 30.11
+        },
+        {
+          "year": 2011,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 30.45
+        },
+        {
+          "year": 2012,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 30.69
+        },
+        {
+          "year": 2012,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 30.61
+        },
+        {
+          "year": 2012,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 30.78
+        },
+        {
+          "year": 2012,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 30.82
+        },
+        {
+          "year": 2013,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 31.09
+        },
+        {
+          "year": 2013,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 31
+        },
+        {
+          "year": 2013,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 31.16
+        },
+        {
+          "year": 2013,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 31.57
+        },
+        {
+          "year": 2014,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 31.93
+        },
+        {
+          "year": 2014,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 31.96
+        },
+        {
+          "year": 2014,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 32.2
+        },
+        {
+          "year": 2014,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 33.13
+        },
+        {
+          "year": 2015,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 33.49
+        },
+        {
+          "year": 2015,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 33.19
+        },
+        {
+          "year": 2015,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 33.37
+        },
+        {
+          "year": 2015,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 33.58
+        },
+        {
+          "year": 2016,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 33.94
+        },
+        {
+          "year": 2016,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 34.05
+        },
+        {
+          "year": 2016,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 34.15
+        },
+        {
+          "year": 2016,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 34.9
+        },
+        {
+          "year": 2017,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 35.28
+        },
+        {
+          "year": 2017,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 35.28
+        },
+        {
+          "year": 2017,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 35.64
+        },
+        {
+          "year": 2017,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 35.87
+        },
+        {
+          "year": 2018,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 36.32
+        },
+        {
+          "year": 2018,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 36.22
+        },
+        {
+          "year": 2018,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 36.63
+        },
+        {
+          "year": 2018,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 36.32
+        },
+        {
+          "year": 2019,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 36.77
+        },
+        {
+          "year": 2019,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 36.61
+        },
+        {
+          "year": 2019,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 37.03
+        },
+        {
+          "year": 2019,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 37.1
+        },
+        {
+          "year": 2020,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 37.73
+        },
+        {
+          "year": 2020,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 38.2
+        },
+        {
+          "year": 2020,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 38.26
+        },
+        {
+          "year": 2020,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 38.6
+        },
+        {
+          "year": 2021,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 39.01
+        },
+        {
+          "year": 2021,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 38.91
+        },
+        {
+          "year": 2021,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 39.55
+        },
+        {
+          "year": 2021,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 40.35
+        },
+        {
+          "year": 2022,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 40.9
+        },
+        {
+          "year": 2022,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 41.03
+        },
+        {
+          "year": 2022,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 41.86
+        },
+        {
+          "year": 2022,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 42.48
+        },
+        {
+          "year": 2023,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 43.07
+        },
+        {
+          "year": 2023,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 43.26
+        },
+        {
+          "year": 2023,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 43.93
+        },
+        {
+          "year": 2023,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 45.42
+        }
+      ]
+    },
+    "CMU1020000000000D": {
+      "name": "Employer Cost Per Hour Worked - Total Compensation, Private Industry",
+      "unit": "USD_per_hour",
+      "series_id": "CMU1020000000000D",
+      "data": [
+        {
+          "year": 2004,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 17.71
+        },
+        {
+          "year": 2004,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 17.7
+        },
+        {
+          "year": 2004,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 17.96
+        },
+        {
+          "year": 2004,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 18.07
+        },
+        {
+          "year": 2005,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 18.22
+        },
+        {
+          "year": 2005,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 18.21
+        },
+        {
+          "year": 2005,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 18.28
+        },
+        {
+          "year": 2005,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 18.59
+        },
+        {
+          "year": 2006,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 18.82
+        },
+        {
+          "year": 2006,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 18.8
+        },
+        {
+          "year": 2006,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 19.12
+        },
+        {
+          "year": 2006,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 19.24
+        },
+        {
+          "year": 2007,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 19.47
+        },
+        {
+          "year": 2007,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 19.38
+        },
+        {
+          "year": 2007,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 19.56
+        },
+        {
+          "year": 2007,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 19.62
+        },
+        {
+          "year": 2008,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 19.83
+        },
+        {
+          "year": 2008,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 19.85
+        },
+        {
+          "year": 2008,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 20.13
+        },
+        {
+          "year": 2008,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 20.37
+        },
+        {
+          "year": 2009,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 20.49
+        },
+        {
+          "year": 2009,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 20.42
+        },
+        {
+          "year": 2009,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 20.5
+        },
+        {
+          "year": 2009,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 20.49
+        },
+        {
+          "year": 2010,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 20.67
+        },
+        {
+          "year": 2010,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 20.55
+        },
+        {
+          "year": 2010,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 20.69
+        },
+        {
+          "year": 2010,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 20.71
+        },
+        {
+          "year": 2011,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 20.91
+        },
+        {
+          "year": 2011,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 20.8
+        },
+        {
+          "year": 2011,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 20.91
+        },
+        {
+          "year": 2011,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 21.14
+        },
+        {
+          "year": 2012,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 21.27
+        },
+        {
+          "year": 2012,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 21.22
+        },
+        {
+          "year": 2012,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 21.32
+        },
+        {
+          "year": 2012,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 21.35
+        },
+        {
+          "year": 2013,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 21.5
+        },
+        {
+          "year": 2013,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 21.44
+        },
+        {
+          "year": 2013,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 21.54
+        },
+        {
+          "year": 2013,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 21.77
+        },
+        {
+          "year": 2014,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 21.96
+        },
+        {
+          "year": 2014,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 21.95
+        },
+        {
+          "year": 2014,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 22.13
+        },
+        {
+          "year": 2014,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 22.65
+        },
+        {
+          "year": 2015,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 22.88
+        },
+        {
+          "year": 2015,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 22.72
+        },
+        {
+          "year": 2015,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 22.88
+        },
+        {
+          "year": 2015,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 23.06
+        },
+        {
+          "year": 2016,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 23.25
+        },
+        {
+          "year": 2016,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 23.35
+        },
+        {
+          "year": 2016,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 23.42
+        },
+        {
+          "year": 2016,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 23.87
+        },
+        {
+          "year": 2017,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 24.1
+        },
+        {
+          "year": 2017,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 24.1
+        },
+        {
+          "year": 2017,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 24.33
+        },
+        {
+          "year": 2017,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 24.49
+        },
+        {
+          "year": 2018,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 24.77
+        },
+        {
+          "year": 2018,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 24.72
+        },
+        {
+          "year": 2018,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 25.03
+        },
+        {
+          "year": 2018,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 24.91
+        },
+        {
+          "year": 2019,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 25.22
+        },
+        {
+          "year": 2019,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 25.12
+        },
+        {
+          "year": 2019,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 25.43
+        },
+        {
+          "year": 2019,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 25.47
+        },
+        {
+          "year": 2020,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 25.91
+        },
+        {
+          "year": 2020,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 26.17
+        },
+        {
+          "year": 2020,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 26.25
+        },
+        {
+          "year": 2020,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 26.53
+        },
+        {
+          "year": 2021,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 26.84
+        },
+        {
+          "year": 2021,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 26.85
+        },
+        {
+          "year": 2021,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 27.35
+        },
+        {
+          "year": 2021,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 27.83
+        },
+        {
+          "year": 2022,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 28.16
+        },
+        {
+          "year": 2022,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 28.31
+        },
+        {
+          "year": 2022,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 28.88
+        },
+        {
+          "year": 2022,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 29.32
+        },
+        {
+          "year": 2023,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 29.7
+        },
+        {
+          "year": 2023,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 29.86
+        },
+        {
+          "year": 2023,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 30.35
+        },
+        {
+          "year": 2023,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 31.29
+        }
+      ]
+    },
+    "CMU1030000000000D": {
+      "name": "Employer Cost Per Hour Worked - Total Compensation, State/Local Govt",
+      "unit": "USD_per_hour",
+      "series_id": "CMU1030000000000D",
+      "data": [
+        {
+          "year": 2004,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 7.23
+        },
+        {
+          "year": 2004,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 7.26
+        },
+        {
+          "year": 2004,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 7.4
+        },
+        {
+          "year": 2004,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 7.5
+        },
+        {
+          "year": 2005,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 7.65
+        },
+        {
+          "year": 2005,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 7.64
+        },
+        {
+          "year": 2005,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 7.77
+        },
+        {
+          "year": 2005,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 7.87
+        },
+        {
+          "year": 2006,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 8.04
+        },
+        {
+          "year": 2006,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 8.06
+        },
+        {
+          "year": 2006,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 8.18
+        },
+        {
+          "year": 2006,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 8.3
+        },
+        {
+          "year": 2007,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 8.35
+        },
+        {
+          "year": 2007,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 8.37
+        },
+        {
+          "year": 2007,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 8.47
+        },
+        {
+          "year": 2007,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 8.49
+        },
+        {
+          "year": 2008,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 8.63
+        },
+        {
+          "year": 2008,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 8.64
+        },
+        {
+          "year": 2008,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 8.74
+        },
+        {
+          "year": 2008,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 8.81
+        },
+        {
+          "year": 2009,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 8.9
+        },
+        {
+          "year": 2009,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 8.89
+        },
+        {
+          "year": 2009,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 8.9
+        },
+        {
+          "year": 2009,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 8.88
+        },
+        {
+          "year": 2010,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 9.04
+        },
+        {
+          "year": 2010,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 8.96
+        },
+        {
+          "year": 2010,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 9.06
+        },
+        {
+          "year": 2010,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 9.02
+        },
+        {
+          "year": 2011,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 9.15
+        },
+        {
+          "year": 2011,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 9.17
+        },
+        {
+          "year": 2011,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 9.21
+        },
+        {
+          "year": 2011,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 9.3
+        },
+        {
+          "year": 2012,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 9.42
+        },
+        {
+          "year": 2012,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 9.39
+        },
+        {
+          "year": 2012,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 9.46
+        },
+        {
+          "year": 2012,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 9.47
+        },
+        {
+          "year": 2013,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 9.59
+        },
+        {
+          "year": 2013,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 9.56
+        },
+        {
+          "year": 2013,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 9.61
+        },
+        {
+          "year": 2013,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 9.8
+        },
+        {
+          "year": 2014,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 9.97
+        },
+        {
+          "year": 2014,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 10
+        },
+        {
+          "year": 2014,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 10.07
+        },
+        {
+          "year": 2014,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 10.49
+        },
+        {
+          "year": 2015,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 10.61
+        },
+        {
+          "year": 2015,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 10.47
+        },
+        {
+          "year": 2015,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 10.48
+        },
+        {
+          "year": 2015,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 10.52
+        },
+        {
+          "year": 2016,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 10.7
+        },
+        {
+          "year": 2016,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 10.7
+        },
+        {
+          "year": 2016,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 10.73
+        },
+        {
+          "year": 2016,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 11.03
+        },
+        {
+          "year": 2017,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 11.18
+        },
+        {
+          "year": 2017,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 11.18
+        },
+        {
+          "year": 2017,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 11.31
+        },
+        {
+          "year": 2017,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 11.38
+        },
+        {
+          "year": 2018,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 11.55
+        },
+        {
+          "year": 2018,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 11.5
+        },
+        {
+          "year": 2018,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 11.6
+        },
+        {
+          "year": 2018,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 11.41
+        },
+        {
+          "year": 2019,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 11.55
+        },
+        {
+          "year": 2019,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 11.48
+        },
+        {
+          "year": 2019,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 11.6
+        },
+        {
+          "year": 2019,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 11.63
+        },
+        {
+          "year": 2020,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 11.82
+        },
+        {
+          "year": 2020,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 12.04
+        },
+        {
+          "year": 2020,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 12.01
+        },
+        {
+          "year": 2020,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 12.07
+        },
+        {
+          "year": 2021,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 12.18
+        },
+        {
+          "year": 2021,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 12.06
+        },
+        {
+          "year": 2021,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 12.2
+        },
+        {
+          "year": 2021,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 12.52
+        },
+        {
+          "year": 2022,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 12.74
+        },
+        {
+          "year": 2022,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 12.72
+        },
+        {
+          "year": 2022,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 12.98
+        },
+        {
+          "year": 2022,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 13.17
+        },
+        {
+          "year": 2023,
+          "period": "Q01",
+          "periodName": "1st Quarter",
+          "value": 13.36
+        },
+        {
+          "year": 2023,
+          "period": "Q02",
+          "periodName": "2nd Quarter",
+          "value": 13.39
+        },
+        {
+          "year": 2023,
+          "period": "Q03",
+          "periodName": "3rd Quarter",
+          "value": 13.58
+        },
+        {
+          "year": 2023,
+          "period": "Q04",
+          "periodName": "4th Quarter",
+          "value": 14.13
+        }
+      ]
+    }
+  }
+}

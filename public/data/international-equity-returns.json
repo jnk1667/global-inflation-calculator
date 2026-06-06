@@ -1,0 +1,1480 @@
+{
+  "source": "Federal Reserve Bank of St. Louis (FRED) - OECD Total Return Stock Market Indices",
+  "url": "https://fred.stlouisfed.org",
+  "description": "Annual total return (price + dividends reinvested) for major international stock markets. Computed as year-over-year percentage change from end-of-year index levels. Covers GBP, EUR, CAD, AUD, JPY, CHF, NZD, and USD markets.",
+  "last_updated": "2026-06-06",
+  "markets": {
+    "GBR": {
+      "country": "GBR",
+      "currency": "GBP",
+      "name": "FTSE All-Share Total Return",
+      "fred_series_id": "SPASTT01GBM661N",
+      "unit": "percent_return",
+      "data": [
+        {
+          "year": 1991,
+          "return_pct": 11.39,
+          "index_level": 36.55
+        },
+        {
+          "year": 1992,
+          "return_pct": 15.25,
+          "index_level": 42.12
+        },
+        {
+          "year": 1993,
+          "return_pct": 19.28,
+          "index_level": 50.25
+        },
+        {
+          "year": 1994,
+          "return_pct": -8.66,
+          "index_level": 45.89
+        },
+        {
+          "year": 1995,
+          "return_pct": 20.57,
+          "index_level": 55.33
+        },
+        {
+          "year": 1996,
+          "return_pct": 10.68,
+          "index_level": 61.24
+        },
+        {
+          "year": 1997,
+          "return_pct": 25.96,
+          "index_level": 77.14
+        },
+        {
+          "year": 1998,
+          "return_pct": 11.77,
+          "index_level": 86.22
+        },
+        {
+          "year": 1999,
+          "return_pct": 18.18,
+          "index_level": 101.9
+        },
+        {
+          "year": 2000,
+          "return_pct": -7.3,
+          "index_level": 94.46
+        },
+        {
+          "year": 2001,
+          "return_pct": -16.83,
+          "index_level": 78.56
+        },
+        {
+          "year": 2002,
+          "return_pct": -23.79,
+          "index_level": 59.87
+        },
+        {
+          "year": 2003,
+          "return_pct": 11.36,
+          "index_level": 66.67
+        },
+        {
+          "year": 2004,
+          "return_pct": 8.05,
+          "index_level": 72.04
+        },
+        {
+          "year": 2005,
+          "return_pct": 16.86,
+          "index_level": 84.18
+        },
+        {
+          "year": 2006,
+          "return_pct": 11.2,
+          "index_level": 93.61
+        },
+        {
+          "year": 2007,
+          "return_pct": 4.25,
+          "index_level": 97.59
+        },
+        {
+          "year": 2008,
+          "return_pct": -33.71,
+          "index_level": 64.69
+        },
+        {
+          "year": 2009,
+          "return_pct": 24.65,
+          "index_level": 80.63
+        },
+        {
+          "year": 2010,
+          "return_pct": 10.59,
+          "index_level": 89.17
+        },
+        {
+          "year": 2011,
+          "return_pct": -6.76,
+          "index_level": 83.14
+        },
+        {
+          "year": 2012,
+          "return_pct": 8.07,
+          "index_level": 89.85
+        },
+        {
+          "year": 2013,
+          "return_pct": 11.11,
+          "index_level": 99.84
+        },
+        {
+          "year": 2014,
+          "return_pct": -0.54,
+          "index_level": 99.3
+        },
+        {
+          "year": 2015,
+          "return_pct": -5.77,
+          "index_level": 93.56
+        },
+        {
+          "year": 2016,
+          "return_pct": 12.97,
+          "index_level": 105.7
+        },
+        {
+          "year": 2017,
+          "return_pct": 7.48,
+          "index_level": 113.61
+        },
+        {
+          "year": 2018,
+          "return_pct": -9.49,
+          "index_level": 102.82
+        },
+        {
+          "year": 2019,
+          "return_pct": 9.49,
+          "index_level": 112.58
+        },
+        {
+          "year": 2020,
+          "return_pct": -12.22,
+          "index_level": 98.83
+        },
+        {
+          "year": 2021,
+          "return_pct": 11.83,
+          "index_level": 110.51
+        },
+        {
+          "year": 2022,
+          "return_pct": 2.55,
+          "index_level": 113.33
+        },
+        {
+          "year": 2023,
+          "return_pct": 1.89,
+          "index_level": 115.47
+        },
+        {
+          "year": 2024,
+          "return_pct": 8.05,
+          "index_level": 124.77
+        },
+        {
+          "year": 2025,
+          "return_pct": 18.8,
+          "index_level": 148.22
+        }
+      ]
+    },
+    "JPN": {
+      "country": "JPN",
+      "currency": "JPY",
+      "name": "Japan Total Return Stock Market",
+      "fred_series_id": "SPASTT01JPM661N",
+      "unit": "percent_return",
+      "data": [
+        {
+          "year": 1991,
+          "return_pct": -2.92,
+          "index_level": 109.17
+        },
+        {
+          "year": 1992,
+          "return_pct": -21.93,
+          "index_level": 85.23
+        },
+        {
+          "year": 1993,
+          "return_pct": 9.13,
+          "index_level": 93.01
+        },
+        {
+          "year": 1994,
+          "return_pct": 5.79,
+          "index_level": 98.4
+        },
+        {
+          "year": 1995,
+          "return_pct": 0.89,
+          "index_level": 99.27
+        },
+        {
+          "year": 1996,
+          "return_pct": -2.32,
+          "index_level": 96.97
+        },
+        {
+          "year": 1997,
+          "return_pct": -19.96,
+          "index_level": 77.61
+        },
+        {
+          "year": 1998,
+          "return_pct": -7.98,
+          "index_level": 71.42
+        },
+        {
+          "year": 1999,
+          "return_pct": 47.8,
+          "index_level": 105.56
+        },
+        {
+          "year": 2000,
+          "return_pct": -18.37,
+          "index_level": 86.17
+        },
+        {
+          "year": 2001,
+          "return_pct": -23.83,
+          "index_level": 65.64
+        },
+        {
+          "year": 2002,
+          "return_pct": -16.92,
+          "index_level": 54.53
+        },
+        {
+          "year": 2003,
+          "return_pct": 19.63,
+          "index_level": 65.23
+        },
+        {
+          "year": 2004,
+          "return_pct": 9.95,
+          "index_level": 71.72
+        },
+        {
+          "year": 2005,
+          "return_pct": 44.91,
+          "index_level": 103.93
+        },
+        {
+          "year": 2006,
+          "return_pct": 2.11,
+          "index_level": 106.13
+        },
+        {
+          "year": 2007,
+          "return_pct": -8.49,
+          "index_level": 97.12
+        },
+        {
+          "year": 2008,
+          "return_pct": -44.93,
+          "index_level": 53.48
+        },
+        {
+          "year": 2009,
+          "return_pct": 7.75,
+          "index_level": 57.63
+        },
+        {
+          "year": 2010,
+          "return_pct": 0.14,
+          "index_level": 57.71
+        },
+        {
+          "year": 2011,
+          "return_pct": -18.22,
+          "index_level": 47.19
+        },
+        {
+          "year": 2012,
+          "return_pct": 11.34,
+          "index_level": 52.55
+        },
+        {
+          "year": 2013,
+          "return_pct": 54.2,
+          "index_level": 81.03
+        },
+        {
+          "year": 2014,
+          "return_pct": 12.29,
+          "index_level": 90.99
+        },
+        {
+          "year": 2015,
+          "return_pct": 9.84,
+          "index_level": 99.94
+        },
+        {
+          "year": 2016,
+          "return_pct": -1.73,
+          "index_level": 98.22
+        },
+        {
+          "year": 2017,
+          "return_pct": 18.77,
+          "index_level": 116.65
+        },
+        {
+          "year": 2018,
+          "return_pct": -13.86,
+          "index_level": 100.48
+        },
+        {
+          "year": 2019,
+          "return_pct": 10.63,
+          "index_level": 111.16
+        },
+        {
+          "year": 2020,
+          "return_pct": 3.32,
+          "index_level": 114.86
+        },
+        {
+          "year": 2021,
+          "return_pct": 10.99,
+          "index_level": 127.48
+        },
+        {
+          "year": 2022,
+          "return_pct": -2.17,
+          "index_level": 124.72
+        },
+        {
+          "year": 2023,
+          "return_pct": 21.37,
+          "index_level": 151.37
+        },
+        {
+          "year": 2024,
+          "return_pct": 16.82,
+          "index_level": 176.84
+        },
+        {
+          "year": 2025,
+          "return_pct": 23.54,
+          "index_level": 218.46
+        }
+      ]
+    },
+    "CAN": {
+      "country": "CAN",
+      "currency": "CAD",
+      "name": "Canada Total Return Stock Market",
+      "fred_series_id": "SPASTT01CAM661N",
+      "unit": "percent_return",
+      "data": [
+        {
+          "year": 1991,
+          "return_pct": 7.85,
+          "index_level": 24.5
+        },
+        {
+          "year": 1992,
+          "return_pct": -4.61,
+          "index_level": 23.37
+        },
+        {
+          "year": 1993,
+          "return_pct": 28.98,
+          "index_level": 30.14
+        },
+        {
+          "year": 1994,
+          "return_pct": -2.5,
+          "index_level": 29.39
+        },
+        {
+          "year": 1995,
+          "return_pct": 11.86,
+          "index_level": 32.87
+        },
+        {
+          "year": 1996,
+          "return_pct": 25.74,
+          "index_level": 41.33
+        },
+        {
+          "year": 1997,
+          "return_pct": 13.03,
+          "index_level": 46.72
+        },
+        {
+          "year": 1998,
+          "return_pct": -3.19,
+          "index_level": 45.23
+        },
+        {
+          "year": 1999,
+          "return_pct": 29.72,
+          "index_level": 58.68
+        },
+        {
+          "year": 2000,
+          "return_pct": 7.16,
+          "index_level": 62.88
+        },
+        {
+          "year": 2001,
+          "return_pct": -16.3,
+          "index_level": 52.63
+        },
+        {
+          "year": 2002,
+          "return_pct": -12.48,
+          "index_level": 46.06
+        },
+        {
+          "year": 2003,
+          "return_pct": 21.88,
+          "index_level": 56.14
+        },
+        {
+          "year": 2004,
+          "return_pct": 13.5,
+          "index_level": 63.72
+        },
+        {
+          "year": 2005,
+          "return_pct": 22.13,
+          "index_level": 77.82
+        },
+        {
+          "year": 2006,
+          "return_pct": 15.06,
+          "index_level": 89.55
+        },
+        {
+          "year": 2007,
+          "return_pct": 6.48,
+          "index_level": 95.35
+        },
+        {
+          "year": 2008,
+          "return_pct": -38.14,
+          "index_level": 58.99
+        },
+        {
+          "year": 2009,
+          "return_pct": 37.08,
+          "index_level": 80.86
+        },
+        {
+          "year": 2010,
+          "return_pct": 14.57,
+          "index_level": 92.65
+        },
+        {
+          "year": 2011,
+          "return_pct": -10.67,
+          "index_level": 82.76
+        },
+        {
+          "year": 2012,
+          "return_pct": 3.63,
+          "index_level": 85.77
+        },
+        {
+          "year": 2013,
+          "return_pct": 8.6,
+          "index_level": 93.14
+        },
+        {
+          "year": 2014,
+          "return_pct": 7.48,
+          "index_level": 100.11
+        },
+        {
+          "year": 2015,
+          "return_pct": -8.52,
+          "index_level": 91.58
+        },
+        {
+          "year": 2016,
+          "return_pct": 16.21,
+          "index_level": 106.43
+        },
+        {
+          "year": 2017,
+          "return_pct": 5.49,
+          "index_level": 112.28
+        },
+        {
+          "year": 2018,
+          "return_pct": -10.1,
+          "index_level": 100.94
+        },
+        {
+          "year": 2019,
+          "return_pct": 17.69,
+          "index_level": 118.8
+        },
+        {
+          "year": 2020,
+          "return_pct": 2.91,
+          "index_level": 122.25
+        },
+        {
+          "year": 2021,
+          "return_pct": 19.48,
+          "index_level": 146.07
+        },
+        {
+          "year": 2022,
+          "return_pct": -5.77,
+          "index_level": 137.65
+        },
+        {
+          "year": 2023,
+          "return_pct": 4.47,
+          "index_level": 143.79
+        },
+        {
+          "year": 2024,
+          "return_pct": 21.91,
+          "index_level": 175.29
+        },
+        {
+          "year": 2025,
+          "return_pct": 25.57,
+          "index_level": 220.11
+        }
+      ]
+    },
+    "AUS": {
+      "country": "AUS",
+      "currency": "AUD",
+      "name": "Australia Total Return Stock Market",
+      "fred_series_id": "SPASTT01AUM661N",
+      "unit": "percent_return",
+      "data": [
+        {
+          "year": 1991,
+          "return_pct": 29.03,
+          "index_level": 30.07
+        },
+        {
+          "year": 1992,
+          "return_pct": -8.42,
+          "index_level": 27.54
+        },
+        {
+          "year": 1993,
+          "return_pct": 33.94,
+          "index_level": 36.88
+        },
+        {
+          "year": 1994,
+          "return_pct": -9.18,
+          "index_level": 33.5
+        },
+        {
+          "year": 1995,
+          "return_pct": 17.3,
+          "index_level": 39.29
+        },
+        {
+          "year": 1996,
+          "return_pct": 6.89,
+          "index_level": 42
+        },
+        {
+          "year": 1997,
+          "return_pct": 8.54,
+          "index_level": 45.58
+        },
+        {
+          "year": 1998,
+          "return_pct": 5.94,
+          "index_level": 48.29
+        },
+        {
+          "year": 1999,
+          "return_pct": 15.96,
+          "index_level": 56
+        },
+        {
+          "year": 2000,
+          "return_pct": 5.89,
+          "index_level": 59.29
+        },
+        {
+          "year": 2001,
+          "return_pct": 3.03,
+          "index_level": 61.09
+        },
+        {
+          "year": 2002,
+          "return_pct": -10.21,
+          "index_level": 54.85
+        },
+        {
+          "year": 2003,
+          "return_pct": 7.41,
+          "index_level": 58.91
+        },
+        {
+          "year": 2004,
+          "return_pct": 22.87,
+          "index_level": 72.39
+        },
+        {
+          "year": 2005,
+          "return_pct": 17.23,
+          "index_level": 84.86
+        },
+        {
+          "year": 2006,
+          "return_pct": 18.86,
+          "index_level": 100.87
+        },
+        {
+          "year": 2007,
+          "return_pct": 16.02,
+          "index_level": 117.03
+        },
+        {
+          "year": 2008,
+          "return_pct": -44.2,
+          "index_level": 65.31
+        },
+        {
+          "year": 2009,
+          "return_pct": 31.51,
+          "index_level": 85.89
+        },
+        {
+          "year": 2010,
+          "return_pct": 0.58,
+          "index_level": 86.39
+        },
+        {
+          "year": 2011,
+          "return_pct": -12.06,
+          "index_level": 75.97
+        },
+        {
+          "year": 2012,
+          "return_pct": 10.04,
+          "index_level": 83.59
+        },
+        {
+          "year": 2013,
+          "return_pct": 13.66,
+          "index_level": 95.02
+        },
+        {
+          "year": 2014,
+          "return_pct": 1.84,
+          "index_level": 96.76
+        },
+        {
+          "year": 2015,
+          "return_pct": -3.25,
+          "index_level": 93.62
+        },
+        {
+          "year": 2016,
+          "return_pct": 8.26,
+          "index_level": 101.35
+        },
+        {
+          "year": 2017,
+          "return_pct": 8.29,
+          "index_level": 109.75
+        },
+        {
+          "year": 2018,
+          "return_pct": -7,
+          "index_level": 102.06
+        },
+        {
+          "year": 2019,
+          "return_pct": 20.73,
+          "index_level": 123.22
+        },
+        {
+          "year": 2020,
+          "return_pct": -1.62,
+          "index_level": 121.21
+        },
+        {
+          "year": 2021,
+          "return_pct": 10.51,
+          "index_level": 133.95
+        },
+        {
+          "year": 2022,
+          "return_pct": -2.52,
+          "index_level": 130.57
+        },
+        {
+          "year": 2023,
+          "return_pct": 2.62,
+          "index_level": 133.99
+        },
+        {
+          "year": 2024,
+          "return_pct": 12.86,
+          "index_level": 151.22
+        },
+        {
+          "year": 2025,
+          "return_pct": 4.19,
+          "index_level": 157.56
+        }
+      ]
+    },
+    "CHE": {
+      "country": "CHE",
+      "currency": "CHF",
+      "name": "Switzerland Total Return Stock Market",
+      "fred_series_id": "SPASTT01CHM661N",
+      "unit": "percent_return",
+      "data": [
+        {
+          "year": 1991,
+          "return_pct": 13.31,
+          "index_level": 18.13
+        },
+        {
+          "year": 1992,
+          "return_pct": 17.05,
+          "index_level": 21.22
+        },
+        {
+          "year": 1993,
+          "return_pct": 48.31,
+          "index_level": 31.47
+        },
+        {
+          "year": 1994,
+          "return_pct": -7.37,
+          "index_level": 29.15
+        },
+        {
+          "year": 1995,
+          "return_pct": 22.88,
+          "index_level": 35.82
+        },
+        {
+          "year": 1996,
+          "return_pct": 16.57,
+          "index_level": 41.76
+        },
+        {
+          "year": 1997,
+          "return_pct": 51.81,
+          "index_level": 63.39
+        },
+        {
+          "year": 1998,
+          "return_pct": 14.17,
+          "index_level": 72.37
+        },
+        {
+          "year": 1999,
+          "return_pct": 10.23,
+          "index_level": 79.78
+        },
+        {
+          "year": 2000,
+          "return_pct": 10.74,
+          "index_level": 88.35
+        },
+        {
+          "year": 2001,
+          "return_pct": -22.94,
+          "index_level": 68.08
+        },
+        {
+          "year": 2002,
+          "return_pct": -23.28,
+          "index_level": 52.23
+        },
+        {
+          "year": 2003,
+          "return_pct": 13.07,
+          "index_level": 59.06
+        },
+        {
+          "year": 2004,
+          "return_pct": 5.17,
+          "index_level": 62.11
+        },
+        {
+          "year": 2005,
+          "return_pct": 33.76,
+          "index_level": 83.08
+        },
+        {
+          "year": 2006,
+          "return_pct": 17.26,
+          "index_level": 97.43
+        },
+        {
+          "year": 2007,
+          "return_pct": 0.19,
+          "index_level": 97.61
+        },
+        {
+          "year": 2008,
+          "return_pct": -36.35,
+          "index_level": 62.12
+        },
+        {
+          "year": 2009,
+          "return_pct": 18.02,
+          "index_level": 73.32
+        },
+        {
+          "year": 2010,
+          "return_pct": 1.81,
+          "index_level": 74.65
+        },
+        {
+          "year": 2011,
+          "return_pct": -13.17,
+          "index_level": 64.82
+        },
+        {
+          "year": 2012,
+          "return_pct": 17.41,
+          "index_level": 76.11
+        },
+        {
+          "year": 2013,
+          "return_pct": 17.39,
+          "index_level": 89.34
+        },
+        {
+          "year": 2014,
+          "return_pct": 12.2,
+          "index_level": 100.24
+        },
+        {
+          "year": 2015,
+          "return_pct": -1.87,
+          "index_level": 98.36
+        },
+        {
+          "year": 2016,
+          "return_pct": -4.96,
+          "index_level": 93.48
+        },
+        {
+          "year": 2017,
+          "return_pct": 17.54,
+          "index_level": 109.88
+        },
+        {
+          "year": 2018,
+          "return_pct": -8.92,
+          "index_level": 100.07
+        },
+        {
+          "year": 2019,
+          "return_pct": 23.15,
+          "index_level": 123.24
+        },
+        {
+          "year": 2020,
+          "return_pct": -1.08,
+          "index_level": 121.91
+        },
+        {
+          "year": 2021,
+          "return_pct": 20.77,
+          "index_level": 147.23
+        },
+        {
+          "year": 2022,
+          "return_pct": -15.7,
+          "index_level": 124.12
+        },
+        {
+          "year": 2023,
+          "return_pct": 0.83,
+          "index_level": 125.15
+        },
+        {
+          "year": 2024,
+          "return_pct": 3.9,
+          "index_level": 130.04
+        },
+        {
+          "year": 2025,
+          "return_pct": 12.1,
+          "index_level": 145.78
+        }
+      ]
+    },
+    "NZL": {
+      "country": "NZL",
+      "currency": "NZD",
+      "name": "New Zealand Total Return Stock Market",
+      "fred_series_id": "SPASTT01NZM661N",
+      "unit": "percent_return",
+      "data": [
+        {
+          "year": 1991,
+          "return_pct": 16.18,
+          "index_level": 41.78
+        },
+        {
+          "year": 1992,
+          "return_pct": 8.81,
+          "index_level": 45.46
+        },
+        {
+          "year": 1993,
+          "return_pct": 40.56,
+          "index_level": 63.89
+        },
+        {
+          "year": 1994,
+          "return_pct": -7.89,
+          "index_level": 58.85
+        },
+        {
+          "year": 1995,
+          "return_pct": 10.05,
+          "index_level": 64.76
+        },
+        {
+          "year": 1996,
+          "return_pct": 12.05,
+          "index_level": 72.57
+        },
+        {
+          "year": 1997,
+          "return_pct": -2.82,
+          "index_level": 70.52
+        },
+        {
+          "year": 1998,
+          "return_pct": -10.3,
+          "index_level": 63.26
+        },
+        {
+          "year": 1999,
+          "return_pct": 9.88,
+          "index_level": 69.51
+        },
+        {
+          "year": 2000,
+          "return_pct": -14.65,
+          "index_level": 59.33
+        },
+        {
+          "year": 2001,
+          "return_pct": 8.58,
+          "index_level": 64.42
+        },
+        {
+          "year": 2002,
+          "return_pct": -3.33,
+          "index_level": 62.27
+        },
+        {
+          "year": 2003,
+          "return_pct": 16.78,
+          "index_level": 72.72
+        },
+        {
+          "year": 2004,
+          "return_pct": 18.47,
+          "index_level": 86.15
+        },
+        {
+          "year": 2005,
+          "return_pct": 0.62,
+          "index_level": 86.69
+        },
+        {
+          "year": 2006,
+          "return_pct": 13.04,
+          "index_level": 97.99
+        },
+        {
+          "year": 2007,
+          "return_pct": -2.98,
+          "index_level": 95.07
+        },
+        {
+          "year": 2008,
+          "return_pct": -37.02,
+          "index_level": 59.88
+        },
+        {
+          "year": 2009,
+          "return_pct": 10.76,
+          "index_level": 66.32
+        },
+        {
+          "year": 2010,
+          "return_pct": -0.57,
+          "index_level": 65.94
+        },
+        {
+          "year": 2011,
+          "return_pct": -4.13,
+          "index_level": 63.22
+        },
+        {
+          "year": 2012,
+          "return_pct": 20.66,
+          "index_level": 76.28
+        },
+        {
+          "year": 2013,
+          "return_pct": 14.13,
+          "index_level": 87.06
+        },
+        {
+          "year": 2014,
+          "return_pct": 11.73,
+          "index_level": 97.27
+        },
+        {
+          "year": 2015,
+          "return_pct": 6.25,
+          "index_level": 103.35
+        },
+        {
+          "year": 2016,
+          "return_pct": 7.94,
+          "index_level": 111.56
+        },
+        {
+          "year": 2017,
+          "return_pct": 16.92,
+          "index_level": 130.43
+        },
+        {
+          "year": 2018,
+          "return_pct": 1.97,
+          "index_level": 133.01
+        },
+        {
+          "year": 2019,
+          "return_pct": 25.21,
+          "index_level": 166.54
+        },
+        {
+          "year": 2020,
+          "return_pct": 11.08,
+          "index_level": 184.99
+        },
+        {
+          "year": 2021,
+          "return_pct": -2.08,
+          "index_level": 181.14
+        },
+        {
+          "year": 2022,
+          "return_pct": -12.97,
+          "index_level": 157.64
+        },
+        {
+          "year": 2023,
+          "return_pct": -3.36,
+          "index_level": 152.34
+        },
+        {
+          "year": 2024,
+          "return_pct": 8.13,
+          "index_level": 164.72
+        },
+        {
+          "year": 2025,
+          "return_pct": 1.5,
+          "index_level": 167.19
+        }
+      ]
+    },
+    "EUZ": {
+      "country": "EUZ",
+      "currency": "EUR",
+      "name": "Euro Area Total Return Stock Market",
+      "fred_series_id": "SPASTT01EZM661N",
+      "unit": "percent_return",
+      "data": [
+        {
+          "year": 1991,
+          "return_pct": 4.18,
+          "index_level": 27.48
+        },
+        {
+          "year": 1992,
+          "return_pct": 0.04,
+          "index_level": 27.49
+        },
+        {
+          "year": 1993,
+          "return_pct": 37.06,
+          "index_level": 37.68
+        },
+        {
+          "year": 1994,
+          "return_pct": -5.19,
+          "index_level": 35.72
+        },
+        {
+          "year": 1995,
+          "return_pct": 7.17,
+          "index_level": 38.28
+        },
+        {
+          "year": 1996,
+          "return_pct": 20.84,
+          "index_level": 46.26
+        },
+        {
+          "year": 1997,
+          "return_pct": 36.11,
+          "index_level": 62.97
+        },
+        {
+          "year": 1998,
+          "return_pct": 26.74,
+          "index_level": 79.8
+        },
+        {
+          "year": 1999,
+          "return_pct": 36.87,
+          "index_level": 109.23
+        },
+        {
+          "year": 2000,
+          "return_pct": 1.38,
+          "index_level": 110.73
+        },
+        {
+          "year": 2001,
+          "return_pct": -21.86,
+          "index_level": 86.53
+        },
+        {
+          "year": 2002,
+          "return_pct": -30.65,
+          "index_level": 60.01
+        },
+        {
+          "year": 2003,
+          "return_pct": 12.07,
+          "index_level": 67.25
+        },
+        {
+          "year": 2004,
+          "return_pct": 10.55,
+          "index_level": 74.35
+        },
+        {
+          "year": 2005,
+          "return_pct": 22.99,
+          "index_level": 91.44
+        },
+        {
+          "year": 2006,
+          "return_pct": 19.58,
+          "index_level": 109.35
+        },
+        {
+          "year": 2007,
+          "return_pct": 6.4,
+          "index_level": 116.35
+        },
+        {
+          "year": 2008,
+          "return_pct": -47.16,
+          "index_level": 61.48
+        },
+        {
+          "year": 2009,
+          "return_pct": 23.38,
+          "index_level": 75.86
+        },
+        {
+          "year": 2010,
+          "return_pct": 2.33,
+          "index_level": 77.62
+        },
+        {
+          "year": 2011,
+          "return_pct": -19.63,
+          "index_level": 62.38
+        },
+        {
+          "year": 2012,
+          "return_pct": 16.94,
+          "index_level": 72.95
+        },
+        {
+          "year": 2013,
+          "return_pct": 17.46,
+          "index_level": 85.69
+        },
+        {
+          "year": 2014,
+          "return_pct": 4.92,
+          "index_level": 89.91
+        },
+        {
+          "year": 2015,
+          "return_pct": 8.02,
+          "index_level": 97.13
+        },
+        {
+          "year": 2016,
+          "return_pct": -0.91,
+          "index_level": 96.25
+        },
+        {
+          "year": 2017,
+          "return_pct": 13.65,
+          "index_level": 109.39
+        },
+        {
+          "year": 2018,
+          "return_pct": -14.21,
+          "index_level": 93.84
+        },
+        {
+          "year": 2019,
+          "return_pct": 20.1,
+          "index_level": 112.71
+        },
+        {
+          "year": 2020,
+          "return_pct": -1.83,
+          "index_level": 110.64
+        },
+        {
+          "year": 2021,
+          "return_pct": 19.02,
+          "index_level": 131.68
+        },
+        {
+          "year": 2022,
+          "return_pct": -10.88,
+          "index_level": 117.35
+        },
+        {
+          "year": 2023,
+          "return_pct": 12.96,
+          "index_level": 132.56
+        },
+        {
+          "year": 2024,
+          "return_pct": 7.34,
+          "index_level": 142.29
+        },
+        {
+          "year": 2025,
+          "return_pct": 19.29,
+          "index_level": 169.73
+        }
+      ]
+    },
+    "USA": {
+      "country": "USA",
+      "currency": "USD",
+      "name": "US Total Return Stock Market",
+      "fred_series_id": "SPASTT01USM661N",
+      "unit": "percent_return",
+      "data": [
+        {
+          "year": 1991,
+          "return_pct": 19.32,
+          "index_level": 21.22
+        },
+        {
+          "year": 1992,
+          "return_pct": 11.77,
+          "index_level": 23.72
+        },
+        {
+          "year": 1993,
+          "return_pct": 7.62,
+          "index_level": 25.52
+        },
+        {
+          "year": 1994,
+          "return_pct": -3.52,
+          "index_level": 24.62
+        },
+        {
+          "year": 1995,
+          "return_pct": 31.87,
+          "index_level": 32.47
+        },
+        {
+          "year": 1996,
+          "return_pct": 19.43,
+          "index_level": 38.78
+        },
+        {
+          "year": 1997,
+          "return_pct": 28.87,
+          "index_level": 49.98
+        },
+        {
+          "year": 1998,
+          "return_pct": 14.13,
+          "index_level": 57.04
+        },
+        {
+          "year": 1999,
+          "return_pct": 10.8,
+          "index_level": 63.2
+        },
+        {
+          "year": 2000,
+          "return_pct": 1.09,
+          "index_level": 63.89
+        },
+        {
+          "year": 2001,
+          "return_pct": -9.64,
+          "index_level": 57.73
+        },
+        {
+          "year": 2002,
+          "return_pct": -17.68,
+          "index_level": 47.52
+        },
+        {
+          "year": 2003,
+          "return_pct": 23.14,
+          "index_level": 58.52
+        },
+        {
+          "year": 2004,
+          "return_pct": 14.23,
+          "index_level": 66.85
+        },
+        {
+          "year": 2005,
+          "return_pct": 9.14,
+          "index_level": 72.96
+        },
+        {
+          "year": 2006,
+          "return_pct": 16.67,
+          "index_level": 85.12
+        },
+        {
+          "year": 2007,
+          "return_pct": 7.95,
+          "index_level": 91.88
+        },
+        {
+          "year": 2008,
+          "return_pct": -43.69,
+          "index_level": 51.74
+        },
+        {
+          "year": 2009,
+          "return_pct": 29.82,
+          "index_level": 67.16
+        },
+        {
+          "year": 2010,
+          "return_pct": 9.34,
+          "index_level": 73.44
+        },
+        {
+          "year": 2011,
+          "return_pct": -5.54,
+          "index_level": 69.37
+        },
+        {
+          "year": 2012,
+          "return_pct": 13.01,
+          "index_level": 78.39
+        },
+        {
+          "year": 2013,
+          "return_pct": 21.3,
+          "index_level": 95.09
+        },
+        {
+          "year": 2014,
+          "return_pct": 6.61,
+          "index_level": 101.38
+        },
+        {
+          "year": 2015,
+          "return_pct": -5.74,
+          "index_level": 95.55
+        },
+        {
+          "year": 2016,
+          "return_pct": 8.68,
+          "index_level": 103.84
+        },
+        {
+          "year": 2017,
+          "return_pct": 14.64,
+          "index_level": 119.04
+        },
+        {
+          "year": 2018,
+          "return_pct": -8.64,
+          "index_level": 108.76
+        },
+        {
+          "year": 2019,
+          "return_pct": 18.17,
+          "index_level": 128.52
+        },
+        {
+          "year": 2020,
+          "return_pct": 4.73,
+          "index_level": 134.59
+        },
+        {
+          "year": 2021,
+          "return_pct": 16.9,
+          "index_level": 157.34
+        },
+        {
+          "year": 2022,
+          "return_pct": -8.99,
+          "index_level": 143.19
+        },
+        {
+          "year": 2023,
+          "return_pct": 8.16,
+          "index_level": 154.88
+        },
+        {
+          "year": 2024,
+          "return_pct": 18.47,
+          "index_level": 183.49
+        },
+        {
+          "year": 2025,
+          "return_pct": 12.03,
+          "index_level": 205.57
+        }
+      ]
+    }
+  }
+}
