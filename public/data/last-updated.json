@@ -1,7 +1,16 @@
 {
   "lastUpdate": "2026-04-29T00:00:00.000Z",
   "autoUpdateEnabled": true,
-  "currencies": ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY", "NZD"],
+  "currencies": [
+    "USD",
+    "GBP",
+    "EUR",
+    "CAD",
+    "AUD",
+    "CHF",
+    "JPY",
+    "NZD"
+  ],
   "nextScheduledUpdate": "2026-05-29T12:00:00.000Z",
   "updateFrequency": "monthly",
   "currentMonth": "April",
@@ -73,5 +82,11 @@
       "treasury_30y": "4.73%",
       "treasury_2y": "3.81%"
     }
-  }
+  },
+  "eurostat-hicp-education": "2026-06-07",
+  "education-cpi-international": "2026-06-07",
+  "canada-tuition": "2026-06-07",
+  "education-attainment-by-country": "2026-06-07",
+  "uk-tuition-history": "2026-06-07",
+  "ons-uk-education-cpi": "2026-06-07"
 }

@@ -1,0 +1,244 @@
+{
+  "description": "United Kingdom undergraduate tuition fee caps for home (domestic) students. Fees are legally capped by government and publicly documented. England, Wales, Scotland, and Northern Ireland have different policies.",
+  "lastUpdated": "2026-06-07",
+  "source": "UK Parliament Research Briefing CBP-8151; OfS fee limit data",
+  "sourceUrl": "https://commonslibrary.parliament.uk/research-briefings/cbp-8151/",
+  "currency": "GBP",
+  "note": "Tuition fees for home (UK-domiciled) undergraduate students. International student fees are unregulated and much higher. Scotland charges no fees to Scottish students. Amounts shown are annual fee caps/limits per academic year.",
+  "england": {
+    "description": "England - annual maximum fee for home undergraduates",
+    "policyHistory": [
+      {
+        "from": 1963,
+        "to": 1997,
+        "annualFee": 0,
+        "note": "University education free for all UK students; mandatory grants provided"
+      },
+      {
+        "from": 1998,
+        "to": 2005,
+        "annualFee": 1000,
+        "note": "First tuition fees introduced (Teaching and Higher Education Act 1998). Means-tested; £1,000 maximum"
+      },
+      {
+        "from": 2006,
+        "to": 2011,
+        "annualFee": 3000,
+        "note": "Variable fees up to £3,000 introduced (Higher Education Act 2004). Deferred payment via income-contingent loans"
+      },
+      {
+        "from": 2012,
+        "to": 2016,
+        "annualFee": 9000,
+        "note": "Fees trebled to £9,000 following Browne Review. Most universities charged maximum"
+      },
+      {
+        "from": 2017,
+        "to": 2022,
+        "annualFee": 9250,
+        "note": "Cap raised to £9,250 with Teaching Excellence Framework adjustments"
+      },
+      {
+        "from": 2023,
+        "to": 2024,
+        "annualFee": 9250,
+        "note": "Cap held at £9,250 (freeze maintained despite inflation)"
+      },
+      {
+        "from": 2025,
+        "to": 2025,
+        "annualFee": 9535,
+        "note": "First real-terms increase since 2017; announced by Labour government September 2024"
+      }
+    ],
+    "annualSeries": {
+      "1998": 1000,
+      "1999": 1000,
+      "2000": 1000,
+      "2001": 1025,
+      "2002": 1050,
+      "2003": 1075,
+      "2004": 1100,
+      "2005": 1175,
+      "2006": 3000,
+      "2007": 3000,
+      "2008": 3000,
+      "2009": 3000,
+      "2010": 3000,
+      "2011": 3375,
+      "2012": 9000,
+      "2013": 9000,
+      "2014": 9000,
+      "2015": 9000,
+      "2016": 9000,
+      "2017": 9250,
+      "2018": 9250,
+      "2019": 9250,
+      "2020": 9250,
+      "2021": 9250,
+      "2022": 9250,
+      "2023": 9250,
+      "2024": 9250,
+      "2025": 9535
+    }
+  },
+  "scotland": {
+    "description": "Scotland - home (Scottish domiciled) undergraduates pay NO tuition fees; funded by Scottish Government via SAAS",
+    "policyHistory": [
+      {
+        "from": 1998,
+        "to": 1999,
+        "annualFee": 1000,
+        "note": "Brief period of fees, same as England"
+      },
+      {
+        "from": 2000,
+        "to": 2000,
+        "annualFee": 0,
+        "note": "Graduate Endowment replaced fees (£2,000 payable after graduation)"
+      },
+      {
+        "from": 2001,
+        "to": 2007,
+        "annualFee": 0,
+        "note": "Scottish Parliament abolished upfront fees. Graduate Endowment applied."
+      },
+      {
+        "from": 2008,
+        "to": 2099,
+        "annualFee": 0,
+        "note": "Graduate Endowment abolished. Scottish students study FREE. Remains at £0 through 2025."
+      }
+    ],
+    "annualSeries": {},
+    "note": "Scottish-domiciled students pay £0 in fees at Scottish universities. Non-Scottish UK students pay same as England rate."
+  },
+  "wales": {
+    "description": "Wales - Welsh Government provides tuition fee grants to reduce student costs",
+    "policyHistory": [
+      {
+        "from": 1998,
+        "to": 2005,
+        "annualFee": 1000,
+        "note": "Same as England"
+      },
+      {
+        "from": 2006,
+        "to": 2011,
+        "annualFee": 3000,
+        "note": "Same cap as England; Assembly Grant reduced effective cost"
+      },
+      {
+        "from": 2012,
+        "to": 2016,
+        "annualFee": 3810,
+        "note": "Fee cap at £9,000 but Welsh Government grant brought student contribution to ~£3,810"
+      },
+      {
+        "from": 2017,
+        "to": 2017,
+        "annualFee": 4046,
+        "note": "Welsh Government grant adjusted"
+      },
+      {
+        "from": 2018,
+        "to": 2022,
+        "annualFee": 9000,
+        "note": "Diamond Review 2018: means-tested grants replaced fee grants; net cost increased"
+      },
+      {
+        "from": 2023,
+        "to": 2025,
+        "annualFee": 9250,
+        "note": "Same cap as England at £9,250"
+      }
+    ],
+    "annualSeries": {
+      "1998": 1000,
+      "2006": 3000,
+      "2012": 3810,
+      "2017": 4046,
+      "2018": 9000,
+      "2023": 9250,
+      "2025": 9250
+    }
+  },
+  "northernIreland": {
+    "description": "Northern Ireland - kept lower fees than England after 2012",
+    "policyHistory": [
+      {
+        "from": 1998,
+        "to": 2005,
+        "annualFee": 1000,
+        "note": "Same as England"
+      },
+      {
+        "from": 2006,
+        "to": 2011,
+        "annualFee": 3000,
+        "note": "Same as England cap"
+      },
+      {
+        "from": 2012,
+        "to": 2019,
+        "annualFee": 3805,
+        "note": "NI did not raise fees to £9,000; kept at lower level"
+      },
+      {
+        "from": 2020,
+        "to": 2025,
+        "annualFee": 4710,
+        "note": "Gradual increases; still well below England"
+      }
+    ],
+    "annualSeries": {
+      "1998": 1000,
+      "2006": 3000,
+      "2012": 3805,
+      "2015": 3805,
+      "2017": 3925,
+      "2019": 4030,
+      "2020": 4275,
+      "2021": 4395,
+      "2022": 4530,
+      "2023": 4710,
+      "2025": 4710
+    }
+  },
+  "international": {
+    "description": "International student fees - unregulated, set by each university",
+    "note": "International undergraduate fees are unregulated. Typical ranges shown. Russell Group universities are at the higher end.",
+    "typicalRanges": {
+      "2000": {
+        "min": 6000,
+        "max": 10000,
+        "note": "Typical international fees circa 2000"
+      },
+      "2005": {
+        "min": 7500,
+        "max": 13000
+      },
+      "2010": {
+        "min": 10000,
+        "max": 18000
+      },
+      "2015": {
+        "min": 12000,
+        "max": 22000
+      },
+      "2019": {
+        "min": 14000,
+        "max": 26000
+      },
+      "2022": {
+        "min": 17000,
+        "max": 35000
+      },
+      "2024": {
+        "min": 20000,
+        "max": 40000,
+        "note": "Top medical/engineering courses at elite universities can exceed £40,000"
+      }
+    }
+  }
+}
