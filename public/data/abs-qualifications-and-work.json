@@ -1,0 +1,2663 @@
+{
+  "description": "ABS Qualifications and Work, 2022-23 (QAW2223). Survey covering non-school qualifications held by Australians, their relevance to current employment, income levels by qualification, reasons for incomplete study, and qualification attainment among migrants. Released 19 April 2024. Includes comparison data from 2018-19 wave.",
+  "lastUpdated": "2026-06-08",
+  "source": "Australian Bureau of Statistics (ABS)",
+  "publication": "4235.0.55.002 Qualifications and Work, Australia, 2022-23",
+  "sourceUrl": "https://www.abs.gov.au/statistics/people/education/qualifications-and-work-australia/2022-23",
+  "surveyYears": [
+    "2018-19",
+    "2022-23"
+  ],
+  "population": "Persons aged 15-74 years",
+  "surveyDate": "2022-23",
+  "summaryPopulations2223": {
+    "description": "Table 1: Summary populations, 2022-23 — total persons with/without non-school qualifications, employment status",
+    "data": {
+      "colHeaders": [
+        "Males",
+        "Females",
+        "Persons",
+        "",
+        "Table number",
+        "",
+        "",
+        ""
+      ],
+      "unit": "Estimate ('000)",
+      "sections": {
+        "Table populations": {
+          "Persons aged 15–74 years": {
+            "Males": 0,
+            "Females": 0,
+            "Persons": 0,
+            "Table number": 2
+          },
+          "Employed persons aged 15–74 years": {
+            "Males": 0.4,
+            "Females": 0.8,
+            "Persons": 0.5,
+            "Table number": 3
+          },
+          "Persons aged 15–74 years with one or more non-school qualifications": {
+            "Males": 1,
+            "Females": 0.8,
+            "Persons": 0.6,
+            "Table number": 45
+          },
+          "Employed persons aged 15–74 years with one or more non-school qualifications": {
+            "Males": 1.1,
+            "Females": 1,
+            "Persons": 0.7,
+            "Table number": 68101112
+          },
+          "Employed persons aged 15–74 years with highest non-school qualification not relevant to current job": {
+            "Males": 4.1,
+            "Females": 3.5,
+            "Persons": 2.9,
+            "Table number": 7
+          },
+          "Employed persons aged 15–74 years with a qualification relevant to current job": {
+            "Males": 1.3,
+            "Females": 1.1,
+            "Persons": 0.8,
+            "Table number": 9
+          },
+          "Persons aged 15–74 years with an incomplete non-school qualification": {
+            "Males": 3.3,
+            "Females": 2.4,
+            "Persons": 1.6,
+            "Table number": 1314
+          },
+          "Migrants aged 15–74 years": {
+            "Males": 2.2,
+            "Females": 1.6,
+            "Persons": 1.3,
+            "Table number": 1516
+          },
+          "Employed migrants aged 15–74 years with one or more non-school qualifications": {
+            "Males": 2.7,
+            "Females": 2.1,
+            "Persons": 1.6,
+            "Table number": 17
+          }
+        },
+        "Additional sub-populations": {
+          "Persons aged 15–74 years without a non-school qualification": {
+            "Males": 1.9,
+            "Females": 1.6,
+            "Persons": 1.2,
+            "Table number": 2
+          },
+          "Persons aged 15–74 years with multiple non-school qualifications (more than 1)": {
+            "Males": 1.8,
+            "Females": 2.1,
+            "Persons": 1.5,
+            "Table number": 2
+          },
+          "Unemployed persons aged 15–74 years with one or more non-school qualifications": {
+            "Males": 133.9,
+            "Females": 125.1,
+            "Persons": 258.2,
+            "Table number": 2
+          },
+          "Migrants aged 15–74 years with a qualification before arrival": {
+            "Males": 3.2,
+            "Females": 2.7,
+            "Persons": 2.1,
+            "Table number": 15
+          },
+          "Migrants aged 15–74 years with a qualification completed after arrival": {
+            "Males": 3.6,
+            "Females": 2.1,
+            "Persons": 2.2,
+            "Table number": 15
+          },
+          "Unemployed persons aged 15–74 years with a non-school qualification": {
+            "Males": 11.2,
+            "Females": 8.7,
+            "Persons": 7.2,
+            "Table number": 2
+          }
+        }
+      }
+    }
+  },
+  "summaryComparison201819vs202223": {
+    "description": "Table 1a: Summary populations comparison between 2018-19 and 2022-23 survey waves",
+    "data": {
+      "colHeaders": [
+        "Males",
+        "Females",
+        "Persons",
+        "",
+        "Males",
+        "Females",
+        "Persons"
+      ],
+      "unit": "Estimate ('000)",
+      "sections": {
+        "Table populations": {
+          "Persons aged 15–74 years": {
+            "Males": 0,
+            "Females": 0,
+            "Persons": 0
+          },
+          "Employed persons aged 15–74 years": {
+            "Males": 0.6,
+            "Females": 0.6,
+            "Persons": 0.4
+          },
+          "Persons aged 15–74 years with one or more non-school qualifications": {
+            "Males": 0.6,
+            "Females": 0.9,
+            "Persons": 0.5
+          },
+          "Employed persons aged 15–74 years with one or more non-school qualifications": {
+            "Males": 0.9,
+            "Females": 1.3,
+            "Persons": 0.7
+          },
+          "Employed persons aged 15–74 years with highest non-school qualification not relevant to current job": {
+            "Males": 4.1,
+            "Females": 3.5,
+            "Persons": 2.8
+          },
+          "Employed persons aged 15–74 years with a qualification relevant to current job": {
+            "Males": 1.2,
+            "Females": 1.6,
+            "Persons": 0.9
+          },
+          "Persons aged 15–74 years with an incomplete non-school qualification": {
+            "Males": 2.7,
+            "Females": 2.4,
+            "Persons": 1.8
+          },
+          "Migrants aged 15–74 years": {
+            "Males": 1.8,
+            "Females": 1.6,
+            "Persons": 1.2
+          },
+          "Employed migrants aged 15–74 years with one or more non-school qualifications": {
+            "Males": 2.5,
+            "Females": 2.4,
+            "Persons": 2
+          }
+        },
+        "Additional sub-populations": {
+          "Persons aged 15–74 years without a non-school qualification": {
+            "Males": 1,
+            "Females": 1.4,
+            "Persons": 0.9
+          },
+          "Persons aged 15–74 years with multiple non-school qualifications (more than 1)": {
+            "Males": 1.7,
+            "Females": 2.1,
+            "Persons": 1.4
+          },
+          "Unemployed persons aged 15–74 years with one or more non-school qualifications": {
+            "Males": 158.8,
+            "Females": 163.2,
+            "Persons": 323.3
+          },
+          "Unemployed persons aged 15–74 years with a non-school qualification": {
+            "Males": 8.8,
+            "Females": 6.9,
+            "Persons": 5.5
+          }
+        }
+      }
+    }
+  },
+  "nonSchoolQualsByLabourForce": {
+    "description": "Table 2: Non-school qualifications by labour force status and educational level",
+    "data": {
+      "colHeaders": [
+        "Employed full-time",
+        "Employed part-time",
+        "Total employed",
+        "Unemployed",
+        "Total labour force",
+        "Not in the labour force",
+        "Total",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "unit": "Estimate ('000)",
+      "sections": {
+        "Males": {},
+        "Number of non-school qualifications": {
+          "One": {
+            "Employed full-time": 1.2,
+            "Employed part-time": 0.8,
+            "Total employed": 0.8,
+            "Unemployed": 0.4,
+            "Total labour force": 0.8,
+            "Not in the labour force": 0.7,
+            "Total": 0
+          },
+          "Two or more": {
+            "Employed full-time": 1.9,
+            "Employed part-time": 1.2,
+            "Total employed": 1.3,
+            "Unemployed": 0.5,
+            "Total labour force": 1.3,
+            "Not in the labour force": 1.3,
+            "Total": 0
+          }
+        },
+        "Level of most recent non-school qualification": {
+          "Postgraduate degree": {
+            "Employed full-time": 2.6,
+            "Employed part-time": 2.1,
+            "Total employed": 2.3,
+            "Unemployed": 0.9,
+            "Total labour force": 2.4,
+            "Not in the labour force": 1.6,
+            "Total": 0
+          },
+          "Graduate diploma and graduate certificate": {
+            "Employed full-time": 4.1,
+            "Employed part-time": 3.5,
+            "Total employed": 3.1,
+            "Unemployed": 0.7,
+            "Total labour force": 2.4,
+            "Not in the labour force": 2.2,
+            "Total": 0
+          },
+          "Bachelor degree": {
+            "Employed full-time": 2.2,
+            "Employed part-time": 1.1,
+            "Total employed": 1.9,
+            "Unemployed": 0.4,
+            "Total labour force": 1.9,
+            "Not in the labour force": 0.9,
+            "Total": 0
+          },
+          "Advanced diploma and diploma": {
+            "Employed full-time": 2.6,
+            "Employed part-time": 1.5,
+            "Total employed": 1.8,
+            "Unemployed": 0.7,
+            "Total labour force": 1.5,
+            "Not in the labour force": 2.1,
+            "Total": 0
+          },
+          "Certificate III and IV": {
+            "Employed full-time": 1.9,
+            "Employed part-time": 1.3,
+            "Total employed": 1.2,
+            "Unemployed": 0.5,
+            "Total labour force": 1.3,
+            "Not in the labour force": 1.5,
+            "Total": 0
+          },
+          "Certificate I and II": {
+            "Employed full-time": 5.4,
+            "Employed part-time": 5,
+            "Total employed": 4.7,
+            "Unemployed": 4,
+            "Total labour force": 6.7,
+            "Not in the labour force": 3.9,
+            "Total": 0
+          }
+        },
+        "Level of highest non-school qualification": {
+          "Postgraduate degree": {
+            "Employed full-time": 2.6,
+            "Employed part-time": 1.9,
+            "Total employed": 1.7,
+            "Unemployed": 0.7,
+            "Total labour force": 1.7,
+            "Not in the labour force": 1.5,
+            "Total": 0
+          },
+          "Graduate diploma and graduate certificate": {
+            "Employed full-time": 3.2,
+            "Employed part-time": 4,
+            "Total employed": 0,
+            "Unemployed": 0.7,
+            "Total labour force": 0,
+            "Not in the labour force": 2.5,
+            "Total": 0
+          },
+          "Bachelor degree": {
+            "Employed full-time": 1.7,
+            "Employed part-time": 1.2,
+            "Total employed": 1.6,
+            "Unemployed": 0.4,
+            "Total labour force": 1.6,
+            "Not in the labour force": 1,
+            "Total": 0
+          },
+          "Advanced diploma and diploma": {
+            "Employed full-time": 2.7,
+            "Employed part-time": 2,
+            "Total employed": 2.1,
+            "Unemployed": 0.8,
+            "Total labour force": 1.8,
+            "Not in the labour force": 2.1,
+            "Total": 0
+          },
+          "Certificate III and IV": {
+            "Employed full-time": 2.2,
+            "Employed part-time": 1.5,
+            "Total employed": 1.5,
+            "Unemployed": 0.5,
+            "Total labour force": 1.5,
+            "Not in the labour force": 1.7,
+            "Total": 0
+          },
+          "Certificate I and II": {
+            "Employed full-time": 5.4,
+            "Employed part-time": 5.2,
+            "Total employed": 5.1,
+            "Unemployed": 5,
+            "Total labour force": 7,
+            "Not in the labour force": 4.9,
+            "Total": 0
+          }
+        },
+        "Main field of highest non-school qualification": {
+          "Natural and physical sciences": {
+            "Employed full-time": 5.2,
+            "Employed part-time": 4.8,
+            "Total employed": 6.5,
+            "Total labour force": 6.1,
+            "Not in the labour force": 3.2,
+            "Total": 0
+          },
+          "Information technology": {
+            "Employed full-time": 5.1,
+            "Employed part-time": 3.9,
+            "Total employed": 4.3,
+            "Unemployed": 1.8,
+            "Total labour force": 2,
+            "Not in the labour force": 2.9,
+            "Total": 0
+          },
+          "Engineering and related technologies": {
+            "Employed full-time": 2.5,
+            "Employed part-time": 1.3,
+            "Total employed": 1.7,
+            "Unemployed": 0.7,
+            "Total labour force": 2.2,
+            "Not in the labour force": 2.3,
+            "Total": 0
+          },
+          "Architecture and building": {
+            "Employed full-time": 2.9,
+            "Employed part-time": 2,
+            "Total employed": 2.1,
+            "Unemployed": 1,
+            "Total labour force": 1.5,
+            "Not in the labour force": 2.6,
+            "Total": 0
+          },
+          "Agriculture, environmental and related studies": {
+            "Employed full-time": 6.4,
+            "Employed part-time": 4.5,
+            "Total employed": 5.7,
+            "Unemployed": 2,
+            "Total labour force": 5.6,
+            "Not in the labour force": 4.6,
+            "Total": 0
+          },
+          "Health": {
+            "Employed full-time": 3.8,
+            "Employed part-time": 2.3,
+            "Total employed": 2.2,
+            "Unemployed": 0.3,
+            "Total labour force": 2.2,
+            "Not in the labour force": 2,
+            "Total": 0
+          },
+          "Education": {
+            "Employed full-time": 3.5,
+            "Employed part-time": 2.8,
+            "Total employed": 2.9,
+            "Unemployed": 0.5,
+            "Total labour force": 2.9,
+            "Not in the labour force": 2.5,
+            "Total": 0
+          },
+          "Management and commerce": {
+            "Employed full-time": 1.7,
+            "Employed part-time": 1.4,
+            "Total employed": 1.1,
+            "Unemployed": 0.6,
+            "Total labour force": 1,
+            "Not in the labour force": 1.6,
+            "Total": 0
+          },
+          "Society and culture": {
+            "Employed full-time": 2.9,
+            "Employed part-time": 2,
+            "Total employed": 3,
+            "Unemployed": 0.8,
+            "Total labour force": 2.8,
+            "Not in the labour force": 2.3,
+            "Total": 0
+          },
+          "Creative arts": {
+            "Employed full-time": 6.3,
+            "Employed part-time": 5.1,
+            "Total employed": 6.3,
+            "Unemployed": 3,
+            "Total labour force": 5.7,
+            "Not in the labour force": 3.5,
+            "Total": 0
+          },
+          "Food, hospitality and personal services": {
+            "Employed full-time": 6.2,
+            "Employed part-time": 2.8,
+            "Total employed": 5.5,
+            "Unemployed": 2.1,
+            "Total labour force": 6,
+            "Not in the labour force": 3.9,
+            "Total": 0
+          },
+          "Total with a non-school qualification": {
+            "Employed full-time": 0.9,
+            "Employed part-time": 0.8,
+            "Total employed": 0.6,
+            "Unemployed": 0.3,
+            "Total labour force": 0.6,
+            "Not in the labour force": 0.7,
+            "Total": 0
+          },
+          "No non-school qualification": {
+            "Employed full-time": 1.4,
+            "Employed part-time": 0.8,
+            "Total employed": 1.5,
+            "Unemployed": 0.6,
+            "Total labour force": 1.5,
+            "Not in the labour force": 1.4,
+            "Total": 0
+          },
+          "Total males": {
+            "Employed full-time": 1,
+            "Employed part-time": 0.8,
+            "Total employed": 0.6,
+            "Unemployed": 0.4,
+            "Total labour force": 0.8,
+            "Not in the labour force": 0.8,
+            "Total": 0
+          },
+          "Total females": {
+            "Employed full-time": 1,
+            "Employed part-time": 0.9,
+            "Total employed": 1.1,
+            "Unemployed": 0.4,
+            "Total labour force": 1.1,
+            "Not in the labour force": 1.1,
+            "Total": 0
+          },
+          "Total persons": {
+            "Employed full-time": 0.7,
+            "Employed part-time": 0.6,
+            "Total employed": 0.7,
+            "Unemployed": 0.3,
+            "Total labour force": 0.7,
+            "Not in the labour force": 0.7,
+            "Total": 0
+          }
+        },
+        "Females": {},
+        "Persons": {}
+      }
+    }
+  },
+  "nonSchoolQualsByIncome": {
+    "description": "Table 3: Non-school qualifications by personal income and educational level — key dataset for education-income analysis",
+    "data": {
+      "colHeaders": [
+        "Lowest quintile",
+        "Second quintile",
+        "Third quintile",
+        "Fourth quintile",
+        "Highest quintile",
+        "Total",
+        "",
+        "Average weekly personal income",
+        "Median weekly personal income",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "unit": "Estimate ('000)",
+      "sections": {
+        "Employed full-time": {},
+        "Males": {
+          "Has one or more non-school qualifications": {
+            "Lowest quintile": 0.4,
+            "Second quintile": 0.8,
+            "Third quintile": 0.8,
+            "Fourth quintile": 1.4,
+            "Highest quintile": 1.4,
+            "Total": 0
+          },
+          "One": {
+            "Lowest quintile": 0.6,
+            "Second quintile": 0.9,
+            "Third quintile": 1.3,
+            "Fourth quintile": 1.9,
+            "Highest quintile": 1.6,
+            "Total": 0
+          },
+          "Two": {
+            "Lowest quintile": 1.1,
+            "Second quintile": 1,
+            "Third quintile": 1.5,
+            "Fourth quintile": 2.9,
+            "Highest quintile": 3.4,
+            "Total": 0
+          },
+          "Three or more": {
+            "Lowest quintile": 1.2,
+            "Second quintile": 1.6,
+            "Third quintile": 3.6,
+            "Fourth quintile": 3.4,
+            "Highest quintile": 4.1,
+            "Total": 0
+          },
+          "No non-school qualification": {
+            "Lowest quintile": 1.7,
+            "Second quintile": 1.6,
+            "Third quintile": 1.8,
+            "Fourth quintile": 2.4,
+            "Highest quintile": 1.5,
+            "Total": 0
+          },
+          "Total males": {
+            "Lowest quintile": 0.6,
+            "Second quintile": 0.8,
+            "Third quintile": 0.9,
+            "Fourth quintile": 1,
+            "Highest quintile": 1,
+            "Total": 0
+          }
+        },
+        "Females": {
+          "Has one or more non-school qualifications": {
+            "Lowest quintile": 0.7,
+            "Second quintile": 0.9,
+            "Third quintile": 1.6,
+            "Fourth quintile": 1.3,
+            "Highest quintile": 1,
+            "Total": 0
+          },
+          "One": {
+            "Lowest quintile": 0.8,
+            "Second quintile": 0.9,
+            "Third quintile": 2.3,
+            "Fourth quintile": 2,
+            "Highest quintile": 1,
+            "Total": 0
+          },
+          "Two": {
+            "Lowest quintile": 1,
+            "Second quintile": 1.8,
+            "Third quintile": 2.4,
+            "Fourth quintile": 2.3,
+            "Highest quintile": 1.9,
+            "Total": 0
+          },
+          "Three or more": {
+            "Lowest quintile": 1.9,
+            "Second quintile": 2.9,
+            "Third quintile": 4.3,
+            "Fourth quintile": 3.3,
+            "Highest quintile": 4.1,
+            "Total": 0
+          },
+          "No non-school qualification": {
+            "Lowest quintile": 2.9,
+            "Second quintile": 1.9,
+            "Third quintile": 2.6,
+            "Fourth quintile": 2.1,
+            "Highest quintile": 1.2,
+            "Total": 0
+          },
+          "Total females": {
+            "Lowest quintile": 0.8,
+            "Second quintile": 0.8,
+            "Third quintile": 1.3,
+            "Fourth quintile": 1,
+            "Highest quintile": 0.9,
+            "Total": 0
+          }
+        },
+        "Persons": {
+          "Has one or more non-school qualifications": {
+            "Lowest quintile": 0.4,
+            "Second quintile": 0.6,
+            "Third quintile": 0.9,
+            "Fourth quintile": 0.6,
+            "Highest quintile": 1,
+            "Total": 0
+          },
+          "One": {
+            "Lowest quintile": 0.4,
+            "Second quintile": 0.6,
+            "Third quintile": 1.3,
+            "Fourth quintile": 1,
+            "Highest quintile": 1.1,
+            "Total": 0
+          },
+          "Two": {
+            "Lowest quintile": 0.7,
+            "Second quintile": 1.1,
+            "Third quintile": 1.3,
+            "Fourth quintile": 1.7,
+            "Highest quintile": 1.9,
+            "Total": 0
+          },
+          "Three or more": {
+            "Lowest quintile": 1.1,
+            "Second quintile": 1.5,
+            "Third quintile": 2.5,
+            "Fourth quintile": 2.2,
+            "Highest quintile": 3.4,
+            "Total": 0
+          },
+          "No non-school qualification": {
+            "Lowest quintile": 1.7,
+            "Second quintile": 1.3,
+            "Third quintile": 1.4,
+            "Fourth quintile": 1.5,
+            "Highest quintile": 1.1,
+            "Total": 0
+          },
+          "Total persons employed full-time": {
+            "Lowest quintile": 0.4,
+            "Second quintile": 0.4,
+            "Third quintile": 0.9,
+            "Fourth quintile": 0.7,
+            "Highest quintile": 1,
+            "Total": 0
+          },
+          "Total persons employed part-time": {
+            "Lowest quintile": 1.4,
+            "Second quintile": 1.7,
+            "Third quintile": 1.4,
+            "Fourth quintile": 1.1,
+            "Highest quintile": 0.9,
+            "Total": 0
+          },
+          "Total employed persons": {
+            "Lowest quintile": 0.5,
+            "Second quintile": 0.6,
+            "Third quintile": 0.9,
+            "Fourth quintile": 0.6,
+            "Highest quintile": 0.8,
+            "Total": 0
+          }
+        },
+        "Employed part-time": {},
+        "Total employed": {}
+      }
+    }
+  },
+  "combinationOfQuals": {
+    "description": "Table 4: Combination of non-school qualifications completed (single vs multiple)",
+    "data": {
+      "colHeaders": [
+        "Persons with all qualifications at bachelor degree level or above",
+        "Persons with all qualifications below bachelor degree level",
+        "Persons with qualifications both at or above and below bachelor degree",
+        "Total persons with one or more non-school qualifications",
+        "",
+        ""
+      ],
+      "unit": "Estimate ('000)",
+      "sections": {
+        "Sex": {
+          "Males": {
+            "Persons with all qualifications at bachelor degree level or above": 1.6,
+            "Persons with all qualifications below bachelor degree level": 1.2,
+            "Persons with qualifications both at or above and below bachelor degree": 0.7,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Females": {
+            "Persons with all qualifications at bachelor degree level or above": 1.3,
+            "Persons with all qualifications below bachelor degree level": 1.6,
+            "Persons with qualifications both at or above and below bachelor degree": 0.9,
+            "Total persons with one or more non-school qualifications": 0
+          }
+        },
+        "Age group (years)": {
+          "15–24": {
+            "Persons with all qualifications at bachelor degree level or above": 3.6,
+            "Persons with all qualifications below bachelor degree level": 4.6,
+            "Persons with qualifications both at or above and below bachelor degree": 1.3,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "25–34": {
+            "Persons with all qualifications at bachelor degree level or above": 2.3,
+            "Persons with all qualifications below bachelor degree level": 2.9,
+            "Persons with qualifications both at or above and below bachelor degree": 0.9,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "35–44": {
+            "Persons with all qualifications at bachelor degree level or above": 2.5,
+            "Persons with all qualifications below bachelor degree level": 2,
+            "Persons with qualifications both at or above and below bachelor degree": 1,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "45–54": {
+            "Persons with all qualifications at bachelor degree level or above": 2.6,
+            "Persons with all qualifications below bachelor degree level": 2.4,
+            "Persons with qualifications both at or above and below bachelor degree": 2,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "55–64": {
+            "Persons with all qualifications at bachelor degree level or above": 2.5,
+            "Persons with all qualifications below bachelor degree level": 2.7,
+            "Persons with qualifications both at or above and below bachelor degree": 1.1,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "65–74": {
+            "Persons with all qualifications at bachelor degree level or above": 2.7,
+            "Persons with all qualifications below bachelor degree level": 2.6,
+            "Persons with qualifications both at or above and below bachelor degree": 1.4,
+            "Total persons with one or more non-school qualifications": 0
+          }
+        },
+        "Labour force status": {
+          "In the labour force": {
+            "Persons with all qualifications at bachelor degree level or above": 1.3,
+            "Persons with all qualifications below bachelor degree level": 1.1,
+            "Persons with qualifications both at or above and below bachelor degree": 0.5,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Employed": {
+            "Persons with all qualifications at bachelor degree level or above": 1.3,
+            "Persons with all qualifications below bachelor degree level": 1.1,
+            "Persons with qualifications both at or above and below bachelor degree": 0.5,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Employed full-time": {
+            "Persons with all qualifications at bachelor degree level or above": 1.6,
+            "Persons with all qualifications below bachelor degree level": 1.3,
+            "Persons with qualifications both at or above and below bachelor degree": 0.8,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Employed part-time": {
+            "Persons with all qualifications at bachelor degree level or above": 1.7,
+            "Persons with all qualifications below bachelor degree level": 2.3,
+            "Persons with qualifications both at or above and below bachelor degree": 1.3,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Unemployed": {
+            "Persons with all qualifications at bachelor degree level or above": 6.1,
+            "Persons with all qualifications below bachelor degree level": 8.1,
+            "Persons with qualifications both at or above and below bachelor degree": 3.7,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Not in the labour force": {
+            "Persons with all qualifications at bachelor degree level or above": 1.4,
+            "Persons with all qualifications below bachelor degree level": 2.6,
+            "Persons with qualifications both at or above and below bachelor degree": 1.5,
+            "Total persons with one or more non-school qualifications": 0
+          }
+        },
+        "Number of non-school qualifications": {
+          "One": {
+            "Persons with all qualifications at bachelor degree level or above": 1.3,
+            "Persons with all qualifications below bachelor degree level": 1.1,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Two": {
+            "Persons with all qualifications at bachelor degree level or above": 2.2,
+            "Persons with all qualifications below bachelor degree level": 1.4,
+            "Persons with qualifications both at or above and below bachelor degree": 1.4,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Three or more": {
+            "Persons with all qualifications at bachelor degree level or above": 2.7,
+            "Persons with all qualifications below bachelor degree level": 2.6,
+            "Persons with qualifications both at or above and below bachelor degree": 2.6,
+            "Total persons with one or more non-school qualifications": 0
+          }
+        },
+        "Level of most recent non-school qualification": {
+          "Postgraduate degree": {
+            "Persons with all qualifications at bachelor degree level or above": 1.9,
+            "Persons with qualifications both at or above and below bachelor degree": 1.7,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Graduate diploma and graduate certificate": {
+            "Persons with all qualifications at bachelor degree level or above": 4.2,
+            "Persons with qualifications both at or above and below bachelor degree": 2.4,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Bachelor degree": {
+            "Persons with all qualifications at bachelor degree level or above": 1,
+            "Persons with qualifications both at or above and below bachelor degree": 1,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Advanced diploma and diploma": {
+            "Persons with all qualifications below bachelor degree level": 1.6,
+            "Persons with qualifications both at or above and below bachelor degree": 1.4,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Certificate III and IV": {
+            "Persons with all qualifications below bachelor degree level": 1.1,
+            "Persons with qualifications both at or above and below bachelor degree": 0.7,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Certificate I and II": {
+            "Persons with all qualifications below bachelor degree level": 3.1,
+            "Persons with qualifications both at or above and below bachelor degree": 2.7,
+            "Total persons with one or more non-school qualifications": 0
+          }
+        },
+        "Main field of most recent non-school qualification": {
+          "Natural and physical sciences": {
+            "Persons with all qualifications at bachelor degree level or above": 4.9,
+            "Persons with all qualifications below bachelor degree level": 4,
+            "Persons with qualifications both at or above and below bachelor degree": 3.2,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Information technology": {
+            "Persons with all qualifications at bachelor degree level or above": 6.5,
+            "Persons with all qualifications below bachelor degree level": 4.4,
+            "Persons with qualifications both at or above and below bachelor degree": 3.5,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Engineering and related technologies": {
+            "Persons with all qualifications at bachelor degree level or above": 1.8,
+            "Persons with all qualifications below bachelor degree level": 3.7,
+            "Persons with qualifications both at or above and below bachelor degree": 1,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Architecture and building": {
+            "Persons with all qualifications at bachelor degree level or above": 2.6,
+            "Persons with all qualifications below bachelor degree level": 3.9,
+            "Persons with qualifications both at or above and below bachelor degree": 2.1,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Agriculture, environmental and related studies": {
+            "Persons with all qualifications at bachelor degree level or above": 3.8,
+            "Persons with all qualifications below bachelor degree level": 2.3,
+            "Persons with qualifications both at or above and below bachelor degree": 3.6,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Health": {
+            "Persons with all qualifications at bachelor degree level or above": 3.2,
+            "Persons with all qualifications below bachelor degree level": 1.7,
+            "Persons with qualifications both at or above and below bachelor degree": 2.2,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Education": {
+            "Persons with all qualifications at bachelor degree level or above": 4.2,
+            "Persons with all qualifications below bachelor degree level": 1.8,
+            "Persons with qualifications both at or above and below bachelor degree": 2.8,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Management and commerce": {
+            "Persons with all qualifications at bachelor degree level or above": 1.9,
+            "Persons with all qualifications below bachelor degree level": 1.7,
+            "Persons with qualifications both at or above and below bachelor degree": 1.2,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Society and culture": {
+            "Persons with all qualifications at bachelor degree level or above": 1.8,
+            "Persons with all qualifications below bachelor degree level": 3,
+            "Persons with qualifications both at or above and below bachelor degree": 1.5,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Creative arts": {
+            "Persons with all qualifications at bachelor degree level or above": 5.4,
+            "Persons with all qualifications below bachelor degree level": 5.1,
+            "Persons with qualifications both at or above and below bachelor degree": 3.2,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Food, hospitality and personal services": {
+            "Persons with all qualifications at bachelor degree level or above": 1.6,
+            "Persons with all qualifications below bachelor degree level": 2.9,
+            "Persons with qualifications both at or above and below bachelor degree": 2.2,
+            "Total persons with one or more non-school qualifications": 0
+          }
+        },
+        "Level of highest non-school qualification": {
+          "Postgraduate degree": {
+            "Persons with all qualifications at bachelor degree level or above": 2.8,
+            "Persons with qualifications both at or above and below bachelor degree": 1.4,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Graduate diploma and graduate certificate": {
+            "Persons with all qualifications at bachelor degree level or above": 4.6,
+            "Persons with qualifications both at or above and below bachelor degree": 2.2,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Bachelor degree": {
+            "Persons with all qualifications at bachelor degree level or above": 1.5,
+            "Persons with qualifications both at or above and below bachelor degree": 1.4,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Below bachelor degree": {
+            "Persons with all qualifications below bachelor degree level": 3.1,
+            "Total persons with one or more non-school qualifications": 0
+          },
+          "Total persons": {
+            "Persons with all qualifications at bachelor degree level or above": 1.2,
+            "Persons with all qualifications below bachelor degree level": 0.8,
+            "Persons with qualifications both at or above and below bachelor degree": 0.5,
+            "Total persons with one or more non-school qualifications": 0
+          }
+        }
+      }
+    }
+  },
+  "levelOfQualsByState": {
+    "description": "Table 5: Level of non-school qualifications completed by state/territory",
+    "data": null
+  },
+  "relevanceOfQualToCurrentJob": {
+    "description": "Table 6: Relevance of highest non-school qualification to current job — key for qualification utility analysis",
+    "data": {
+      "colHeaders": [
+        "Working in same field of highest qualification",
+        "Not working in same field of highest qualification, but relevant to current job",
+        "Highest qualification relevant to current job",
+        "Highest qualification not relevant to current job",
+        "Total",
+        "",
+        "",
+        ""
+      ],
+      "unit": "Estimate ('000)",
+      "sections": {
+        "Sex": {
+          "Males": {
+            "Working in same field of highest qualification": 1.8,
+            "Not working in same field of highest qualification, but relevant to current job": 1.2,
+            "Highest qualification relevant to current job": 1.1,
+            "Highest qualification not relevant to current job": 1.6,
+            "Total": 0
+          },
+          "Females": {
+            "Working in same field of highest qualification": 0.6,
+            "Not working in same field of highest qualification, but relevant to current job": 1.2,
+            "Highest qualification relevant to current job": 1.1,
+            "Highest qualification not relevant to current job": 1.4,
+            "Total": 0
+          }
+        },
+        "Age group (years)": {
+          "15–24": {
+            "Working in same field of highest qualification": 3.4,
+            "Not working in same field of highest qualification, but relevant to current job": 3.3,
+            "Highest qualification relevant to current job": 3.6,
+            "Highest qualification not relevant to current job": 4.3,
+            "Total": 0
+          },
+          "25–34": {
+            "Working in same field of highest qualification": 1.5,
+            "Not working in same field of highest qualification, but relevant to current job": 1.7,
+            "Highest qualification relevant to current job": 0,
+            "Highest qualification not relevant to current job": 1.6,
+            "Total": 0
+          },
+          "35–44": {
+            "Working in same field of highest qualification": 1.7,
+            "Not working in same field of highest qualification, but relevant to current job": 1.5,
+            "Highest qualification relevant to current job": 1.4,
+            "Highest qualification not relevant to current job": 1.8,
+            "Total": 0
+          },
+          "45–54": {
+            "Working in same field of highest qualification": 2.1,
+            "Not working in same field of highest qualification, but relevant to current job": 1.6,
+            "Highest qualification relevant to current job": 2.1,
+            "Highest qualification not relevant to current job": 1.7,
+            "Total": 0
+          },
+          "55–64": {
+            "Working in same field of highest qualification": 3.3,
+            "Not working in same field of highest qualification, but relevant to current job": 1.7,
+            "Highest qualification relevant to current job": 2.5,
+            "Highest qualification not relevant to current job": 2.9,
+            "Total": 0
+          },
+          "65–74": {
+            "Working in same field of highest qualification": 3.1,
+            "Not working in same field of highest qualification, but relevant to current job": 3.9,
+            "Highest qualification relevant to current job": 1.4,
+            "Highest qualification not relevant to current job": 4.4,
+            "Total": 0
+          }
+        },
+        "Number of non-school qualifications": {
+          "One": {
+            "Working in same field of highest qualification": 1.1,
+            "Not working in same field of highest qualification, but relevant to current job": 1,
+            "Highest qualification relevant to current job": 0,
+            "Highest qualification not relevant to current job": 1.5,
+            "Total": 0
+          },
+          "Two": {
+            "Working in same field of highest qualification": 2.1,
+            "Not working in same field of highest qualification, but relevant to current job": 1.7,
+            "Highest qualification relevant to current job": 1.9,
+            "Highest qualification not relevant to current job": 1.6,
+            "Total": 0
+          },
+          "Three or more": {
+            "Working in same field of highest qualification": 3.1,
+            "Not working in same field of highest qualification, but relevant to current job": 2.5,
+            "Highest qualification relevant to current job": 2.4,
+            "Highest qualification not relevant to current job": 2.3,
+            "Total": 0
+          }
+        },
+        "Recency of highest non-school qualification": {
+          "Completed in last 5 years": {
+            "Working in same field of highest qualification": 1.4,
+            "Not working in same field of highest qualification, but relevant to current job": 2,
+            "Highest qualification relevant to current job": 1.6,
+            "Highest qualification not relevant to current job": 2.2,
+            "Total": 0
+          },
+          "Completed more than 5 years ago": {
+            "Working in same field of highest qualification": 1.1,
+            "Not working in same field of highest qualification, but relevant to current job": 0.9,
+            "Highest qualification relevant to current job": 0.9,
+            "Highest qualification not relevant to current job": 1.1,
+            "Total": 0
+          }
+        },
+        "Skill level of current job": {
+          "Level 1": {
+            "Working in same field of highest qualification": 1.3,
+            "Not working in same field of highest qualification, but relevant to current job": 1,
+            "Highest qualification relevant to current job": 0,
+            "Highest qualification not relevant to current job": 0.8,
+            "Total": 0
+          },
+          "Level 2": {
+            "Working in same field of highest qualification": 3.6,
+            "Not working in same field of highest qualification, but relevant to current job": 3.1,
+            "Highest qualification relevant to current job": 2.5,
+            "Highest qualification not relevant to current job": 2.7,
+            "Total": 0
+          },
+          "Level 3": {
+            "Working in same field of highest qualification": 4.7,
+            "Not working in same field of highest qualification, but relevant to current job": 2.2,
+            "Highest qualification relevant to current job": 3.8,
+            "Highest qualification not relevant to current job": 2.8,
+            "Total": 0
+          },
+          "Level 4": {
+            "Working in same field of highest qualification": 2.7,
+            "Not working in same field of highest qualification, but relevant to current job": 1.9,
+            "Highest qualification relevant to current job": 2.9,
+            "Highest qualification not relevant to current job": 2.7,
+            "Total": 0
+          },
+          "Level 5": {
+            "Working in same field of highest qualification": 4.2,
+            "Not working in same field of highest qualification, but relevant to current job": 3.8,
+            "Highest qualification relevant to current job": 4.9,
+            "Highest qualification not relevant to current job": 3.3,
+            "Total": 0
+          }
+        },
+        "Weekly personal income": {
+          "Lowest quintile": {
+            "Working in same field of highest qualification": 8.2,
+            "Not working in same field of highest qualification, but relevant to current job": 5.8,
+            "Highest qualification relevant to current job": 9.4,
+            "Highest qualification not relevant to current job": 2.8,
+            "Total": 0
+          },
+          "Second quintile": {
+            "Working in same field of highest qualification": 5,
+            "Not working in same field of highest qualification, but relevant to current job": 4.4,
+            "Highest qualification relevant to current job": 6,
+            "Highest qualification not relevant to current job": 6.3,
+            "Total": 0
+          },
+          "Third quintile": {
+            "Working in same field of highest qualification": 3.9,
+            "Not working in same field of highest qualification, but relevant to current job": 2.1,
+            "Highest qualification relevant to current job": 3.6,
+            "Highest qualification not relevant to current job": 2.7,
+            "Total": 0
+          },
+          "Fourth quintile": {
+            "Working in same field of highest qualification": 2.6,
+            "Not working in same field of highest qualification, but relevant to current job": 1.6,
+            "Highest qualification relevant to current job": 2.2,
+            "Highest qualification not relevant to current job": 1.9,
+            "Total": 0
+          },
+          "Highest quintile": {
+            "Working in same field of highest qualification": 1.9,
+            "Not working in same field of highest qualification, but relevant to current job": 1.4,
+            "Highest qualification relevant to current job": 0,
+            "Highest qualification not relevant to current job": 1.1,
+            "Total": 0
+          }
+        },
+        "State or territory of usual residence": {
+          "New South Wales": {
+            "Working in same field of highest qualification": 1.9,
+            "Not working in same field of highest qualification, but relevant to current job": 1.7,
+            "Highest qualification relevant to current job": 1.6,
+            "Highest qualification not relevant to current job": 2.1,
+            "Total": 0
+          },
+          "Victoria": {
+            "Working in same field of highest qualification": 1.9,
+            "Not working in same field of highest qualification, but relevant to current job": 1.6,
+            "Highest qualification relevant to current job": 1.7,
+            "Highest qualification not relevant to current job": 2.3,
+            "Total": 0
+          },
+          "Queensland": {
+            "Working in same field of highest qualification": 2.6,
+            "Not working in same field of highest qualification, but relevant to current job": 2.1,
+            "Highest qualification relevant to current job": 0.9,
+            "Highest qualification not relevant to current job": 2.5,
+            "Total": 0
+          },
+          "South Australia": {
+            "Working in same field of highest qualification": 4.5,
+            "Not working in same field of highest qualification, but relevant to current job": 2.4,
+            "Highest qualification relevant to current job": 3.3,
+            "Highest qualification not relevant to current job": 2.7,
+            "Total": 0
+          },
+          "Western Australia": {
+            "Working in same field of highest qualification": 3.2,
+            "Not working in same field of highest qualification, but relevant to current job": 2.1,
+            "Highest qualification relevant to current job": 4.1,
+            "Highest qualification not relevant to current job": 2.2,
+            "Total": 0
+          },
+          "Tasmania": {
+            "Working in same field of highest qualification": 4.9,
+            "Not working in same field of highest qualification, but relevant to current job": 3.4,
+            "Highest qualification relevant to current job": 2.9,
+            "Highest qualification not relevant to current job": 3.1,
+            "Total": 0
+          },
+          "Northern Territory": {
+            "Working in same field of highest qualification": 2.7,
+            "Not working in same field of highest qualification, but relevant to current job": 4.4,
+            "Highest qualification relevant to current job": 5.1,
+            "Highest qualification not relevant to current job": 2.4,
+            "Total": 0
+          },
+          "Australian Capital Territory": {
+            "Working in same field of highest qualification": 4.1,
+            "Not working in same field of highest qualification, but relevant to current job": 4.1,
+            "Highest qualification relevant to current job": 2.9,
+            "Highest qualification not relevant to current job": 3.8,
+            "Total": 0
+          }
+        },
+        "Greater capital city statistical area": {
+          "Greater capital city": {
+            "Working in same field of highest qualification": 1.1,
+            "Not working in same field of highest qualification, but relevant to current job": 0.9,
+            "Highest qualification relevant to current job": 0.6,
+            "Highest qualification not relevant to current job": 1.1,
+            "Total": 0
+          },
+          "Rest of state": {
+            "Working in same field of highest qualification": 1.5,
+            "Not working in same field of highest qualification, but relevant to current job": 1.9,
+            "Highest qualification relevant to current job": 1.2,
+            "Highest qualification not relevant to current job": 2.5,
+            "Total": 0
+          }
+        },
+        "Remoteness area": {
+          "Major cities": {
+            "Working in same field of highest qualification": 0.6,
+            "Not working in same field of highest qualification, but relevant to current job": 0.8,
+            "Highest qualification relevant to current job": 0.9,
+            "Highest qualification not relevant to current job": 1.3,
+            "Total": 0
+          },
+          "Inner regional": {
+            "Working in same field of highest qualification": 0,
+            "Not working in same field of highest qualification, but relevant to current job": 1.9,
+            "Highest qualification relevant to current job": 3.1,
+            "Highest qualification not relevant to current job": 3.3,
+            "Total": 0
+          },
+          "Outer regional": {
+            "Working in same field of highest qualification": 3.1,
+            "Not working in same field of highest qualification, but relevant to current job": 3.2,
+            "Highest qualification relevant to current job": 3.4,
+            "Highest qualification not relevant to current job": 4.2,
+            "Total": 0
+          },
+          "Remote and very remote": {
+            "Working in same field of highest qualification": 13,
+            "Not working in same field of highest qualification, but relevant to current job": 6.9,
+            "Highest qualification relevant to current job": 9.9,
+            "Highest qualification not relevant to current job": 6.8,
+            "Total": 0
+          }
+        },
+        "Country of birth": {
+          "Born in Australia": {
+            "Working in same field of highest qualification": 1.6,
+            "Not working in same field of highest qualification, but relevant to current job": 0.9,
+            "Highest qualification relevant to current job": 1.1,
+            "Highest qualification not relevant to current job": 1.2,
+            "Total": 0
+          },
+          "Born overseas": {
+            "Working in same field of highest qualification": 1.8,
+            "Not working in same field of highest qualification, but relevant to current job": 1.4,
+            "Highest qualification relevant to current job": 1.5,
+            "Highest qualification not relevant to current job": 1.9,
+            "Total": 0
+          },
+          "Gained highest non-school qualification through Australian institution": {
+            "Working in same field of highest qualification": 2.4,
+            "Not working in same field of highest qualification, but relevant to current job": 1.8,
+            "Highest qualification relevant to current job": 2.5,
+            "Highest qualification not relevant to current job": 2.1,
+            "Total": 0
+          },
+          "Gained highest non-school qualification through overseas institution": {
+            "Working in same field of highest qualification": 2.8,
+            "Not working in same field of highest qualification, but relevant to current job": 2.2,
+            "Highest qualification relevant to current job": 2.3,
+            "Highest qualification not relevant to current job": 2.6,
+            "Total": 0
+          }
+        },
+        "Proficiency in spoken English": {
+          "Mainly speaks English at home": {
+            "Working in same field of highest qualification": 1,
+            "Not working in same field of highest qualification, but relevant to current job": 1,
+            "Highest qualification relevant to current job": 0.6,
+            "Highest qualification not relevant to current job": 1.2,
+            "Total": 0
+          },
+          "Speaks language other than English at home": {
+            "Working in same field of highest qualification": 3,
+            "Not working in same field of highest qualification, but relevant to current job": 1.9,
+            "Highest qualification relevant to current job": 2.1,
+            "Highest qualification not relevant to current job": 2.1,
+            "Total": 0
+          },
+          "Very well/well": {
+            "Working in same field of highest qualification": 3,
+            "Not working in same field of highest qualification, but relevant to current job": 1.9,
+            "Highest qualification relevant to current job": 2,
+            "Highest qualification not relevant to current job": 2,
+            "Total": 0
+          },
+          "Not well/not at all": {
+            "Working in same field of highest qualification": 9.6,
+            "Not working in same field of highest qualification, but relevant to current job": 7.1,
+            "Highest qualification relevant to current job": 9.5,
+            "Highest qualification not relevant to current job": 11,
+            "Total": 0
+          }
+        },
+        "Citizenship status": {
+          "Australian or New Zealand citizen": {
+            "Working in same field of highest qualification": 1,
+            "Not working in same field of highest qualification, but relevant to current job": 1,
+            "Highest qualification relevant to current job": 0.6,
+            "Highest qualification not relevant to current job": 1.2,
+            "Total": 0
+          },
+          "Neither Australian nor New Zealand citizen": {
+            "Working in same field of highest qualification": 2.9,
+            "Not working in same field of highest qualification, but relevant to current job": 2.4,
+            "Highest qualification relevant to current job": 1.9,
+            "Highest qualification not relevant to current job": 3.4,
+            "Total": 0
+          },
+          "Total employed persons with a qualification": {
+            "Working in same field of highest qualification": 0.9,
+            "Not working in same field of highest qualification, but relevant to current job": 0.9,
+            "Highest qualification relevant to current job": 0.6,
+            "Highest qualification not relevant to current job": 1.1,
+            "Total": 0
+          }
+        }
+      }
+    }
+  },
+  "reasonsNotWorkingInField": {
+    "description": "Table 7: Reasons not working in field of highest non-school qualification",
+    "data": {
+      "colHeaders": [
+        "Lack of positions available",
+        "Would need to take pay or conditions cut to work in a relevant field",
+        "No longer interested in field of qualification/wanted career change",
+        "Comfortable in current job",
+        "Personal reasons",
+        "Other reasons",
+        "Total",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "unit": "Estimate ('000)",
+      "sections": {
+        "Sex": {
+          "Males": {
+            "Lack of positions available": 3.5,
+            "Would need to take pay or conditions cut to work in a relevant field": 2.6,
+            "No longer interested in field of qualification/wanted career change": 0.8,
+            "Comfortable in current job": 3.7,
+            "Personal reasons": 2.7,
+            "Other reasons": 3.1,
+            "Total": 0
+          },
+          "Females": {
+            "Lack of positions available": 2.7,
+            "Would need to take pay or conditions cut to work in a relevant field": 2.4,
+            "No longer interested in field of qualification/wanted career change": 3.2,
+            "Comfortable in current job": 2.3,
+            "Personal reasons": 2.9,
+            "Other reasons": 2.5,
+            "Total": 0
+          }
+        },
+        "Age group (years)": {
+          "15–24": {
+            "Lack of positions available": 7.5,
+            "Would need to take pay or conditions cut to work in a relevant field": 5.3,
+            "No longer interested in field of qualification/wanted career change": 7.2,
+            "Comfortable in current job": 5.7,
+            "Personal reasons": 5.4,
+            "Other reasons": 5.7,
+            "Total": 0
+          },
+          "25–34": {
+            "Lack of positions available": 5.7,
+            "Would need to take pay or conditions cut to work in a relevant field": 3.7,
+            "No longer interested in field of qualification/wanted career change": 4.6,
+            "Comfortable in current job": 4.5,
+            "Personal reasons": 3.1,
+            "Other reasons": 4.4,
+            "Total": 0
+          },
+          "35–44": {
+            "Lack of positions available": 2.4,
+            "Would need to take pay or conditions cut to work in a relevant field": 3.8,
+            "No longer interested in field of qualification/wanted career change": 4.9,
+            "Comfortable in current job": 3.4,
+            "Personal reasons": 4.2,
+            "Other reasons": 4.1,
+            "Total": 0
+          },
+          "45–54": {
+            "Lack of positions available": 3.4,
+            "Would need to take pay or conditions cut to work in a relevant field": 3.6,
+            "No longer interested in field of qualification/wanted career change": 6.7,
+            "Comfortable in current job": 3.8,
+            "Personal reasons": 5.7,
+            "Other reasons": 3.9,
+            "Total": 0
+          },
+          "55–64": {
+            "Lack of positions available": 4.7,
+            "Would need to take pay or conditions cut to work in a relevant field": 3.1,
+            "No longer interested in field of qualification/wanted career change": 7,
+            "Comfortable in current job": 5.2,
+            "Personal reasons": 5.3,
+            "Other reasons": 4.9,
+            "Total": 0
+          },
+          "65–74": {
+            "Lack of positions available": 11.2,
+            "Would need to take pay or conditions cut to work in a relevant field": 6.9,
+            "No longer interested in field of qualification/wanted career change": 7.8,
+            "Comfortable in current job": 6.1,
+            "Personal reasons": 8,
+            "Other reasons": 8.4,
+            "Total": 0
+          }
+        },
+        "Level of highest non-school qualification": {
+          "Above bachelor degree": {
+            "Lack of positions available": 6.3,
+            "Would need to take pay or conditions cut to work in a relevant field": 4.3,
+            "No longer interested in field of qualification/wanted career change": 7.1,
+            "Comfortable in current job": 4.2,
+            "Personal reasons": 3.9,
+            "Other reasons": 6.1,
+            "Total": 0
+          },
+          "Bachelor degree": {
+            "Lack of positions available": 5.2,
+            "Would need to take pay or conditions cut to work in a relevant field": 2.3,
+            "No longer interested in field of qualification/wanted career change": 4.8,
+            "Comfortable in current job": 3.4,
+            "Personal reasons": 3.7,
+            "Other reasons": 4.2,
+            "Total": 0
+          },
+          "Below bachelor degree": {
+            "Lack of positions available": 3,
+            "Would need to take pay or conditions cut to work in a relevant field": 2.9,
+            "No longer interested in field of qualification/wanted career change": 1.4,
+            "Comfortable in current job": 2.7,
+            "Personal reasons": 2.9,
+            "Other reasons": 2.3,
+            "Total": 0
+          }
+        },
+        "Main field of highest non-school qualification": {
+          "Natural and physical sciences and Information technology": {
+            "Lack of positions available": 9.2,
+            "Would need to take pay or conditions cut to work in a relevant field": 4.6,
+            "No longer interested in field of qualification/wanted career change": 7.9,
+            "Comfortable in current job": 4.9,
+            "Personal reasons": 6.2,
+            "Other reasons": 7.5,
+            "Total": 0
+          },
+          "Engineering and related technologies and Architecture and building": {
+            "Lack of positions available": 6.1,
+            "Would need to take pay or conditions cut to work in a relevant field": 3.7,
+            "No longer interested in field of qualification/wanted career change": 5.9,
+            "Comfortable in current job": 5.4,
+            "Personal reasons": 4.1,
+            "Other reasons": 4.2,
+            "Total": 0
+          },
+          "Health": {
+            "Lack of positions available": 5.3,
+            "Would need to take pay or conditions cut to work in a relevant field": 5.6,
+            "No longer interested in field of qualification/wanted career change": 10,
+            "Comfortable in current job": 5.2,
+            "Personal reasons": 10.8,
+            "Other reasons": 10.2,
+            "Total": 0
+          },
+          "Management and commerce": {
+            "Lack of positions available": 5.6,
+            "Would need to take pay or conditions cut to work in a relevant field": 2.7,
+            "No longer interested in field of qualification/wanted career change": 6.9,
+            "Comfortable in current job": 5.1,
+            "Personal reasons": 3.6,
+            "Other reasons": 5,
+            "Total": 0
+          },
+          "Society and culture": {
+            "Lack of positions available": 5.6,
+            "Would need to take pay or conditions cut to work in a relevant field": 3.5,
+            "No longer interested in field of qualification/wanted career change": 4.9,
+            "Comfortable in current job": 4.4,
+            "Personal reasons": 5.1,
+            "Other reasons": 4.4,
+            "Total": 0
+          },
+          "Other": {
+            "Lack of positions available": 3.2,
+            "Would need to take pay or conditions cut to work in a relevant field": 3.9,
+            "No longer interested in field of qualification/wanted career change": 2.8,
+            "Comfortable in current job": 2.8,
+            "Personal reasons": 4.4,
+            "Other reasons": 3.1,
+            "Total": 0
+          }
+        },
+        "Occupation in current main job or business": {
+          "Managers": {
+            "Lack of positions available": 8.8,
+            "Would need to take pay or conditions cut to work in a relevant field": 4.9,
+            "No longer interested in field of qualification/wanted career change": 3.9,
+            "Comfortable in current job": 6.2,
+            "Personal reasons": 5,
+            "Other reasons": 3.7,
+            "Total": 0
+          },
+          "Professionals": {
+            "Lack of positions available": 5.5,
+            "Would need to take pay or conditions cut to work in a relevant field": 4,
+            "No longer interested in field of qualification/wanted career change": 10.9,
+            "Comfortable in current job": 6.7,
+            "Personal reasons": 4.6,
+            "Other reasons": 7.6,
+            "Total": 0
+          },
+          "Technicians and trade workers": {
+            "Lack of positions available": 8.7,
+            "Would need to take pay or conditions cut to work in a relevant field": 4.7,
+            "No longer interested in field of qualification/wanted career change": 4.3,
+            "Comfortable in current job": 7.6,
+            "Personal reasons": 6.1,
+            "Other reasons": 5.9,
+            "Total": 0
+          },
+          "Community and personal service workers": {
+            "Lack of positions available": 5.6,
+            "Would need to take pay or conditions cut to work in a relevant field": 2.8,
+            "No longer interested in field of qualification/wanted career change": 5.2,
+            "Comfortable in current job": 5.6,
+            "Personal reasons": 5.6,
+            "Other reasons": 4.8,
+            "Total": 0
+          },
+          "Clerical and administrative workers": {
+            "Lack of positions available": 4.2,
+            "Would need to take pay or conditions cut to work in a relevant field": 4.2,
+            "No longer interested in field of qualification/wanted career change": 4.1,
+            "Comfortable in current job": 4.2,
+            "Personal reasons": 4.6,
+            "Other reasons": 3.5,
+            "Total": 0
+          },
+          "Sales workers": {
+            "Lack of positions available": 5.8,
+            "Would need to take pay or conditions cut to work in a relevant field": 5.8,
+            "No longer interested in field of qualification/wanted career change": 8.6,
+            "Comfortable in current job": 5.1,
+            "Personal reasons": 6.1,
+            "Other reasons": 8.3,
+            "Total": 0
+          },
+          "Machinery operators and drivers": {
+            "Lack of positions available": 7.4,
+            "Would need to take pay or conditions cut to work in a relevant field": 5,
+            "No longer interested in field of qualification/wanted career change": 6.7,
+            "Comfortable in current job": 5.9,
+            "Personal reasons": 5.9,
+            "Other reasons": 5.4,
+            "Total": 0
+          },
+          "Labourers": {
+            "Lack of positions available": 7.9,
+            "Would need to take pay or conditions cut to work in a relevant field": 4,
+            "No longer interested in field of qualification/wanted career change": 6.4,
+            "Comfortable in current job": 3.8,
+            "Personal reasons": 5.9,
+            "Other reasons": 6.1,
+            "Total": 0
+          },
+          "Total employed persons with highest qualification not relevant to current job": {
+            "Lack of positions available": 2,
+            "Would need to take pay or conditions cut to work in a relevant field": 2,
+            "No longer interested in field of qualification/wanted career change": 2,
+            "Comfortable in current job": 2.2,
+            "Personal reasons": 2.2,
+            "Other reasons": 2,
+            "Total": 0
+          }
+        }
+      }
+    }
+  },
+  "incompleteNonSchoolQuals": {
+    "description": "Table 13: Most recent incomplete non-school qualification by level and reason",
+    "data": {
+      "colHeaders": [
+        "Level of most recent incomplete non-school qualification",
+        "",
+        "",
+        "Time since most recent incomplete non-school qualification",
+        "",
+        "Total",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "unit": "Above bachelor degree",
+      "sections": {
+        "Sex": {
+          "Males": {
+            "Level of most recent incomplete non-school qualification": 1.4,
+            "Time since most recent incomplete non-school qualification": 2.1,
+            "Total": 0
+          },
+          "Females": {
+            "Level of most recent incomplete non-school qualification": 1.4,
+            "Time since most recent incomplete non-school qualification": 3.9,
+            "Total": 0
+          }
+        },
+        "Age group (years)": {
+          "15–24": {
+            "Level of most recent incomplete non-school qualification": 0.6,
+            "Time since most recent incomplete non-school qualification": 0,
+            "Total": 0
+          },
+          "25–34": {
+            "Level of most recent incomplete non-school qualification": 2.1,
+            "Time since most recent incomplete non-school qualification": 3.2,
+            "Total": 0
+          },
+          "35–44": {
+            "Level of most recent incomplete non-school qualification": 2.2,
+            "Time since most recent incomplete non-school qualification": 3.7,
+            "Total": 0
+          },
+          "45–54": {
+            "Level of most recent incomplete non-school qualification": 3.2,
+            "Time since most recent incomplete non-school qualification": 4.1,
+            "Total": 0
+          },
+          "55–64": {
+            "Level of most recent incomplete non-school qualification": 3.2,
+            "Time since most recent incomplete non-school qualification": 4.4,
+            "Total": 0
+          },
+          "65–74": {
+            "Level of most recent incomplete non-school qualification": 3.7,
+            "Time since most recent incomplete non-school qualification": 2.3,
+            "Total": 0
+          }
+        },
+        "Greater capital city statistical area": {
+          "Greater capital city": {
+            "Level of most recent incomplete non-school qualification": 1.4,
+            "Time since most recent incomplete non-school qualification": 3.2,
+            "Total": 0
+          },
+          "Rest of state": {
+            "Level of most recent incomplete non-school qualification": 1.6,
+            "Time since most recent incomplete non-school qualification": 3.9,
+            "Total": 0
+          }
+        },
+        "Country of birth": {
+          "Born in Australia": {
+            "Level of most recent incomplete non-school qualification": 1,
+            "Time since most recent incomplete non-school qualification": 2.4,
+            "Total": 0
+          },
+          "Born overseas": {
+            "Level of most recent incomplete non-school qualification": 2.6,
+            "Time since most recent incomplete non-school qualification": 5,
+            "Total": 0
+          }
+        },
+        "Labour force status": {
+          "In the labour force": {
+            "Level of most recent incomplete non-school qualification": 1,
+            "Time since most recent incomplete non-school qualification": 2.5,
+            "Total": 0
+          },
+          "Employed": {
+            "Level of most recent incomplete non-school qualification": 1,
+            "Time since most recent incomplete non-school qualification": 2.6,
+            "Total": 0
+          },
+          "Employed full-time": {
+            "Level of most recent incomplete non-school qualification": 1.4,
+            "Time since most recent incomplete non-school qualification": 3.2,
+            "Total": 0
+          },
+          "Employed part-time": {
+            "Level of most recent incomplete non-school qualification": 1.8,
+            "Time since most recent incomplete non-school qualification": 4.4,
+            "Total": 0
+          },
+          "Unemployed": {
+            "Level of most recent incomplete non-school qualification": 7.8,
+            "Time since most recent incomplete non-school qualification": 16.5,
+            "Total": 0
+          },
+          "Not in the labour force": {
+            "Level of most recent incomplete non-school qualification": 2.2,
+            "Time since most recent incomplete non-school qualification": 4.4,
+            "Total": 0
+          }
+        },
+        "Non-school qualification status": {
+          "Has non-school qualification": {
+            "Level of most recent incomplete non-school qualification": 1.4,
+            "Time since most recent incomplete non-school qualification": 2.5,
+            "Total": 0
+          },
+          "No non-school qualification": {
+            "Level of most recent incomplete non-school qualification": 0.9,
+            "Time since most recent incomplete non-school qualification": 4.9,
+            "Total": 0
+          },
+          "Total persons with an incomplete qualification": {
+            "Level of most recent incomplete non-school qualification": 1,
+            "Time since most recent incomplete non-school qualification": 2.5,
+            "Total": 0
+          }
+        }
+      }
+    }
+  },
+  "reasonsStoppedStudying": {
+    "description": "Table 14: Main reason stopped studying most recent incomplete non-school qualification",
+    "data": {
+      "colHeaders": [
+        "Level of most recent incomplete non-school qualification",
+        "",
+        "",
+        "Whether completed a non-school qualification after most recent incomplete qualification",
+        "",
+        "Sex",
+        "",
+        "Age group (years)",
+        "",
+        "",
+        "Total",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "unit": "Above bachelor degree",
+      "sections": {
+        "Main reason stopped studying most recent incomplete non-school qualification": {
+          "Course related": {
+            "Level of most recent incomplete non-school qualification": 5.6,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 5.2,
+            "Sex": 3.5,
+            "Age group (years)": 8,
+            "Total": 2.2
+          },
+          "No longer interested": {
+            "Level of most recent incomplete non-school qualification": 4.7,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 4.8,
+            "Sex": 3.2,
+            "Age group (years)": 5.3,
+            "Total": 1.9
+          },
+          "Not happy with course": {
+            "Level of most recent incomplete non-school qualification": 2.4,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 1.9,
+            "Sex": 1.5,
+            "Age group (years)": 7.1,
+            "Total": 1.2
+          },
+          "Failed course or it was too difficult": {
+            "Whether completed a non-school qualification after most recent incomplete qualification": 1.6,
+            "Sex": 1.4,
+            "Age group (years)": 2.5,
+            "Total": 1.1
+          },
+          "Course was cancelled/Institution closed": {
+            "Level of most recent incomplete non-school qualification": 1,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 1.1,
+            "Sex": 1,
+            "Total": 0.6
+          },
+          "Personal": {
+            "Level of most recent incomplete non-school qualification": 6.2,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 3.3,
+            "Sex": 3,
+            "Age group (years)": 7.4,
+            "Total": 1.6
+          },
+          "Personal, family or health": {
+            "Level of most recent incomplete non-school qualification": 5.7,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 2.9,
+            "Sex": 2.4,
+            "Age group (years)": 6.3,
+            "Total": 1.7
+          },
+          "Employment": {
+            "Level of most recent incomplete non-school qualification": 4,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 2.2,
+            "Sex": 2.6,
+            "Age group (years)": 4.2,
+            "Total": 1.7
+          },
+          "Financial": {
+            "Level of most recent incomplete non-school qualification": 2.8,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 1.6,
+            "Sex": 1.2,
+            "Total": 0.7
+          },
+          "Completed enough study to meet needs": {
+            "Level of most recent incomplete non-school qualification": 1.1,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 0.9,
+            "Sex": 0.9,
+            "Age group (years)": 1.9,
+            "Total": 0.6
+          },
+          "Location": {
+            "Level of most recent incomplete non-school qualification": 2.5,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 1.3,
+            "Sex": 0.9,
+            "Age group (years)": 2.6,
+            "Total": 0.6
+          },
+          "Other reason": {
+            "Level of most recent incomplete non-school qualification": 3,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 1.4,
+            "Sex": 1.9,
+            "Age group (years)": 5.8,
+            "Total": 1.3
+          },
+          "Total persons with an incomplete non-school qualification": {
+            "Level of most recent incomplete non-school qualification": 0,
+            "Whether completed a non-school qualification after most recent incomplete qualification": 0,
+            "Sex": 0,
+            "Age group (years)": 0,
+            "Total": 0
+          }
+        }
+      }
+    }
+  },
+  "migrantQualifications": {
+    "description": "Table 15: Non-school qualifications of migrants by labour force status and qualification level",
+    "data": {
+      "colHeaders": [
+        "Employed full-time",
+        "Employed part-time",
+        "Total employed",
+        "Unemployed",
+        "Total labour force",
+        "Not in the labour force",
+        "Total",
+        ""
+      ],
+      "unit": "Estimate ('000)",
+      "sections": {
+        "Males": {},
+        "Age group (years)": {
+          "15–24": {
+            "Employed full-time": 3.5,
+            "Employed part-time": 5.6,
+            "Total employed": 5.2,
+            "Unemployed": 2.1,
+            "Total labour force": 4.9,
+            "Not in the labour force": 3.6,
+            "Total": 0
+          },
+          "25–34": {
+            "Employed full-time": 3,
+            "Employed part-time": 2.6,
+            "Total employed": 2.6,
+            "Unemployed": 1.3,
+            "Total labour force": 2.4,
+            "Not in the labour force": 2.2,
+            "Total": 0
+          },
+          "35–44": {
+            "Employed full-time": 2.5,
+            "Employed part-time": 2.2,
+            "Total employed": 1.8,
+            "Unemployed": 0.7,
+            "Total labour force": 1.5,
+            "Not in the labour force": 1.7,
+            "Total": 0
+          },
+          "45–54": {
+            "Employed full-time": 2.7,
+            "Employed part-time": 2.1,
+            "Total employed": 2.1,
+            "Unemployed": 1.1,
+            "Total labour force": 1.8,
+            "Not in the labour force": 2.9,
+            "Total": 0
+          },
+          "55–64": {
+            "Employed full-time": 3,
+            "Employed part-time": 2.7,
+            "Total employed": 2.5,
+            "Unemployed": 1.2,
+            "Total labour force": 2.3,
+            "Not in the labour force": 2.8,
+            "Total": 0
+          },
+          "65–74": {
+            "Employed full-time": 2.2,
+            "Employed part-time": 2.2,
+            "Total employed": 2.2,
+            "Unemployed": 0,
+            "Total labour force": 2.3,
+            "Not in the labour force": 2.4,
+            "Total": 0
+          }
+        },
+        "Time since arrival": {
+          "Less than 5 years ago": {
+            "Employed full-time": 3.8,
+            "Employed part-time": 3,
+            "Total employed": 3.9,
+            "Unemployed": 1.8,
+            "Total labour force": 4.5,
+            "Not in the labour force": 4.3,
+            "Total": 0
+          },
+          "Between 5 and 9 years ago": {
+            "Employed full-time": 3.2,
+            "Employed part-time": 2.6,
+            "Total employed": 2.3,
+            "Unemployed": 1.4,
+            "Total labour force": 2.8,
+            "Not in the labour force": 2.5,
+            "Total": 0
+          },
+          "10 or more years ago": {
+            "Employed full-time": 1.5,
+            "Employed part-time": 1.2,
+            "Total employed": 1.7,
+            "Unemployed": 0.4,
+            "Total labour force": 1.7,
+            "Not in the labour force": 1.4,
+            "Total": 0
+          }
+        },
+        "Level of highest non-school qualification": {
+          "Has a non-school qualification": {
+            "Employed full-time": 0.9,
+            "Employed part-time": 1.2,
+            "Total employed": 0,
+            "Unemployed": 0.5,
+            "Total labour force": 0,
+            "Not in the labour force": 1.2,
+            "Total": 0
+          },
+          "Above bachelor degree": {
+            "Employed full-time": 2.9,
+            "Employed part-time": 2.3,
+            "Total employed": 0,
+            "Unemployed": 0.9,
+            "Total labour force": 1.5,
+            "Not in the labour force": 2,
+            "Total": 0
+          },
+          "Bachelor degree": {
+            "Employed full-time": 2.1,
+            "Employed part-time": 2.2,
+            "Total employed": 0,
+            "Unemployed": 0.7,
+            "Total labour force": 1.7,
+            "Not in the labour force": 1.3,
+            "Total": 0
+          },
+          "Below bachelor degree": {
+            "Employed full-time": 3.2,
+            "Employed part-time": 2.8,
+            "Total employed": 1.1,
+            "Unemployed": 1.1,
+            "Total labour force": 2.2,
+            "Not in the labour force": 1.9,
+            "Total": 0
+          },
+          "No non-school qualification": {
+            "Employed full-time": 2.2,
+            "Employed part-time": 2.4,
+            "Total employed": 2.9,
+            "Unemployed": 1,
+            "Total labour force": 2.6,
+            "Not in the labour force": 2.2,
+            "Total": 0
+          }
+        },
+        "Non-school qualifications before arrival": {
+          "Had a non-school qualification before arrival": {
+            "Employed full-time": 1.4,
+            "Employed part-time": 2.1,
+            "Total employed": 1.8,
+            "Unemployed": 0.7,
+            "Total labour force": 1.1,
+            "Not in the labour force": 1.5,
+            "Total": 0
+          }
+        },
+        "Level of highest non-school qualification before arrival": {
+          "Above bachelor degree": {
+            "Employed full-time": 3.7,
+            "Employed part-time": 3.4,
+            "Total employed": 3.7,
+            "Unemployed": 1.6,
+            "Total labour force": 3.8,
+            "Not in the labour force": 3.2,
+            "Total": 0
+          },
+          "Bachelor degree": {
+            "Employed full-time": 3,
+            "Employed part-time": 2.8,
+            "Total employed": 2.3,
+            "Unemployed": 0.8,
+            "Total labour force": 1.1,
+            "Not in the labour force": 2.1,
+            "Total": 0
+          },
+          "Below bachelor degree": {
+            "Employed full-time": 4.1,
+            "Employed part-time": 4.4,
+            "Total employed": 4.9,
+            "Unemployed": 2.1,
+            "Total labour force": 4.7,
+            "Not in the labour force": 4.4,
+            "Total": 0
+          }
+        },
+        "Number of non-school qualifications before arrival": {
+          "One qualification": {
+            "Employed full-time": 1.6,
+            "Employed part-time": 2.5,
+            "Total employed": 2.1,
+            "Unemployed": 0.9,
+            "Total labour force": 1.5,
+            "Not in the labour force": 1.4,
+            "Total": 0
+          },
+          "Two to five qualifications": {
+            "Employed full-time": 3.1,
+            "Employed part-time": 4.1,
+            "Total employed": 2.6,
+            "Unemployed": 1.4,
+            "Total labour force": 3.8,
+            "Not in the labour force": 3.8,
+            "Total": 0
+          },
+          "No non-school qualification before arrival": {
+            "Employed full-time": 1.5,
+            "Employed part-time": 1.3,
+            "Total employed": 1.5,
+            "Unemployed": 0.6,
+            "Total labour force": 1.5,
+            "Not in the labour force": 1.5,
+            "Total": 0
+          }
+        },
+        "Non-school qualifications after arrival": {
+          "Has a non-school qualification completed after arrival": {
+            "Employed full-time": 1012.9,
+            "Employed part-time": 148.4,
+            "Total employed": 1159.3,
+            "Unemployed": 30.9,
+            "Total labour force": 1194.7,
+            "Not in the labour force": 209,
+            "Total": 1403.6
+          }
+        },
+        "Level of highest non-school qualification completed after arrival": {
+          "Above bachelor degree": {
+            "Employed full-time": 4.4,
+            "Employed part-time": 3.2,
+            "Total employed": 2.7,
+            "Unemployed": 1.1,
+            "Total labour force": 3.7,
+            "Not in the labour force": 2.6,
+            "Total": 0
+          },
+          "Bachelor degree": {
+            "Employed full-time": 1.2,
+            "Employed part-time": 4,
+            "Total employed": 4.4,
+            "Unemployed": 1.4,
+            "Total labour force": 2.2,
+            "Not in the labour force": 2.6,
+            "Total": 0
+          },
+          "Below bachelor degree": {
+            "Employed full-time": 3,
+            "Employed part-time": 2.5,
+            "Total employed": 1.3,
+            "Unemployed": 1.2,
+            "Total labour force": 1.9,
+            "Not in the labour force": 2.3,
+            "Total": 0
+          }
+        },
+        "Number of non-school qualifications completed after arrival": {
+          "One qualification": {
+            "Employed full-time": 2.7,
+            "Employed part-time": 2.1,
+            "Total employed": 1.9,
+            "Unemployed": 1,
+            "Total labour force": 2.2,
+            "Not in the labour force": 1.9,
+            "Total": 0
+          },
+          "Two to five qualifications": {
+            "Employed full-time": 3.5,
+            "Employed part-time": 2.3,
+            "Total employed": 1.4,
+            "Unemployed": 1.2,
+            "Total labour force": 2.1,
+            "Not in the labour force": 2.7,
+            "Total": 0
+          },
+          "No non-school qualification completed after arrival": {
+            "Employed full-time": 1.3,
+            "Employed part-time": 1.4,
+            "Total employed": 1.7,
+            "Unemployed": 0.6,
+            "Total labour force": 1.5,
+            "Not in the labour force": 1.3,
+            "Total": 0
+          },
+          "Total males": {
+            "Employed full-time": 0,
+            "Employed part-time": 1.3,
+            "Total employed": 1.1,
+            "Unemployed": 0.7,
+            "Total labour force": 1.6,
+            "Not in the labour force": 1.2,
+            "Total": 0
+          },
+          "Total females": {
+            "Employed full-time": 1.5,
+            "Employed part-time": 1.8,
+            "Total employed": 1.5,
+            "Unemployed": 0.5,
+            "Total labour force": 1.8,
+            "Not in the labour force": 1.8,
+            "Total": 0
+          },
+          "Total persons": {
+            "Employed full-time": 0.9,
+            "Employed part-time": 1,
+            "Total employed": 1,
+            "Unemployed": 0.5,
+            "Total labour force": 1.3,
+            "Not in the labour force": 1,
+            "Total": 0
+          }
+        },
+        "Females": {},
+        "Non-school qualifications completed after arrival": {
+          "Has a non-school qualification completed after arrival": {
+            "Employed full-time": 1.6,
+            "Employed part-time": 1.6,
+            "Total employed": 0,
+            "Unemployed": 0.8,
+            "Total labour force": 1.1,
+            "Not in the labour force": 1.8,
+            "Total": 0
+          }
+        },
+        "Persons": {}
+      }
+    }
+  }
+}
