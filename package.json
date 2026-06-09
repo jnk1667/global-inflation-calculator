@@ -84,6 +84,7 @@
     "@types/react-dom": "^19",
     "eslint": "^8",
     "eslint-config-next": "15.2.8",
+    "iconv-lite": "^0.7.2",
     "postcss": "^8.5",
     "typescript": "^5",
     "xlsx": "^0.18.5"
