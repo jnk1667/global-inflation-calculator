@@ -1,0 +1,219 @@
+{
+  "description": "Australia HECS-HELP maximum student contribution amounts per Equivalent Full-Time Student Load (EFTSL) by discipline band, 1989-2026. From 1989-1996 a flat rate applied; three-band structure introduced in 1997. Job-Ready Graduates Package restructured to four bands from 2021. Sources: Department of Education (Study Assist), Higher Education Support Act 2003 schedules, legislation.gov.au.",
+  "lastUpdated": "2026-06-10",
+  "source": "Australian Department of Education (Study Assist)",
+  "sourceUrl": "https://www.studyassist.gov.au/help-loans/hecs-help/student-contribution-amounts",
+  "country": "Australia",
+  "currency": "AUD",
+  "frequency": "Annual (per calendar year)",
+  "note": "Amounts are maximum student contribution per 1.0 EFTSL (one full year of full-time study). Universities may charge less. National Priorities band (nursing, education, maths/science) existed 2005-2009, reducing amounts for those disciplines — not shown separately here (NP band was lower than Band 2). Job-Ready Graduates Package from 2021 restructured disciplines: Band 1 (law/commerce), Band 2 (maths/science/IT/agriculture), Band 3 (humanities/communications/social science), Band 4 (medicine/dentistry/vet science). Pre-2021 band structure was different: Band 1=humanities/education, Band 2=computing/science/engineering/health, Band 3=law/accounting/medicine. Direct comparisons across 2020-2021 boundary require caution.",
+  "history": {
+    "1989": {
+      "note": "Single flat HECS rate introduced: $1,800 per year (all disciplines)",
+      "band1": 1800
+    },
+    "1990": {
+      "note": "Flat rate",
+      "band1": 1800
+    },
+    "1991": {
+      "note": "Flat rate increased",
+      "band1": 2324
+    },
+    "1992": {
+      "note": "Flat rate",
+      "band1": 2324
+    },
+    "1993": {
+      "note": "Flat rate",
+      "band1": 2424
+    },
+    "1994": {
+      "note": "Flat rate",
+      "band1": 2424
+    },
+    "1995": {
+      "note": "Flat rate",
+      "band1": 2524
+    },
+    "1996": {
+      "note": "Flat rate",
+      "band1": 2524
+    },
+    "1997": {
+      "note": "Three-band structure introduced",
+      "band1": 3330,
+      "band2": 4755,
+      "band3": 5500
+    },
+    "1998": {
+      "band1": 3412,
+      "band2": 4872,
+      "band3": 5634
+    },
+    "1999": {
+      "band1": 3510,
+      "band2": 5012,
+      "band3": 5800
+    },
+    "2000": {
+      "band1": 3612,
+      "band2": 5157,
+      "band3": 5964
+    },
+    "2001": {
+      "band1": 3696,
+      "band2": 5277,
+      "band3": 6103
+    },
+    "2002": {
+      "band1": 3764,
+      "band2": 5374,
+      "band3": 6215
+    },
+    "2003": {
+      "band1": 3818,
+      "band2": 5451,
+      "band3": 6305
+    },
+    "2004": {
+      "band1": 3874,
+      "band2": 5532,
+      "band3": 6400
+    },
+    "2005": {
+      "band1": 3874,
+      "band2": 5532,
+      "band3": 6400,
+      "note": "National Priorities band added for nursing/education: ~$3,874"
+    },
+    "2006": {
+      "band1": 3986,
+      "band2": 5694,
+      "band3": 6592
+    },
+    "2007": {
+      "band1": 4106,
+      "band2": 5864,
+      "band3": 6788
+    },
+    "2008": {
+      "band1": 4162,
+      "band2": 5944,
+      "band3": 6880
+    },
+    "2009": {
+      "band1": 4240,
+      "band2": 6054,
+      "band3": 7006
+    },
+    "2010": {
+      "band1": 4355,
+      "band2": 6218,
+      "band3": 7196
+    },
+    "2011": {
+      "band1": 4520,
+      "band2": 6453,
+      "band3": 7471
+    },
+    "2012": {
+      "band1": 4640,
+      "band2": 6626,
+      "band3": 7669
+    },
+    "2013": {
+      "band1": 4753,
+      "band2": 6787,
+      "band3": 7855
+    },
+    "2014": {
+      "band1": 5866,
+      "band2": 8363,
+      "band3": 9784,
+      "note": "Significant increase from 2014 under Higher Education Reform proposals (some deregulation); note actual enacted increase."
+    },
+    "2015": {
+      "band1": 6044,
+      "band2": 8613,
+      "band3": 10085
+    },
+    "2016": {
+      "band1": 6256,
+      "band2": 8917,
+      "band3": 10440
+    },
+    "2017": {
+      "band1": 6349,
+      "band2": 9050,
+      "band3": 10596
+    },
+    "2018": {
+      "band1": 6566,
+      "band2": 9359,
+      "band3": 10958
+    },
+    "2019": {
+      "band1": 6566,
+      "band2": 9359,
+      "band3": 10958
+    },
+    "2020": {
+      "band1": 6566,
+      "band2": 9355,
+      "band3": 10958
+    },
+    "2021": {
+      "note": "Job-Ready Graduates Package restructure: new Band 1=law/commerce/economics (HIGH), Band 2=maths/science/IT/agriculture, Band 3=humanities/comms/social science (REDUCED), Band 4=medicine/dentistry/vet",
+      "band1": 14630,
+      "band2": 7826,
+      "band3": 3950,
+      "band4": 11401
+    },
+    "2022": {
+      "band1": 15481,
+      "band2": 8021,
+      "band3": 3985,
+      "band4": 12077
+    },
+    "2023": {
+      "band1": 16302,
+      "band2": 8021,
+      "band3": 4124,
+      "band4": 12732
+    },
+    "2024": {
+      "band1": 16323,
+      "band2": 8948,
+      "band3": 4445,
+      "band4": 12720,
+      "note": "Band structure confirmed: Band 1=law/accounting/commerce, Band 2=science/computing/engineering, Band 3=humanities/education/nursing, Band 4=medicine/dentistry/vet"
+    },
+    "2025": {
+      "band1": 16992,
+      "band2": 9314,
+      "band3": 4627,
+      "band4": 13241
+    },
+    "2026": {
+      "band1": 17399,
+      "band2": 9540,
+      "band3": 4738,
+      "band4": 13567
+    }
+  },
+  "disciplineMapping": {
+    "preTo2021": {
+      "band1": "Humanities, behavioural science, social studies, education, nursing, foreign languages, visual and performing arts",
+      "band2": "Mathematics, statistics, computing, built environment, health, engineering, science, surveying, agriculture",
+      "band3": "Law, accounting, commerce, economics, administration, dentistry, medicine, veterinary science"
+    },
+    "from2021": {
+      "band1": "Law, accounting, commerce, economics, administration (high-income professions)",
+      "band2": "Mathematics, science, statistics, computing, IT, engineering, surveying, agriculture, environmental science",
+      "band3": "Humanities, communications, social studies, education, nursing, visual arts (subsidised to encourage domestic demand)",
+      "band4": "Medicine, dentistry, veterinary science"
+    }
+  },
+  "keyTrend": "Band 1 (humanities/education) rose from $3,330 in 1997 to $6,566 in 2020, then was cut to $3,950 in 2021 under the Job-Ready Graduates Package. Law/commerce (Band 3 pre-2021, Band 1 post-2021) rose from $5,500 to $17,399."
+}

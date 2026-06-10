@@ -1,0 +1,188 @@
+{
+  "description": "University tuition fees for domestic students in key Eurozone countries, annual series in EUR. Covers France, Germany, Netherlands, and Italy — representing the four largest Eurozone economies. Eurozone countries range from near-zero fees (France, Germany) to moderate fees (Netherlands, Italy). This data covers domestic/EU student fees at public universities only.",
+  "lastUpdated": "2026-06-10",
+  "source": "MESRI (France), national education ministries, DUO (Netherlands), ANVUR (Italy), various government decrees",
+  "country": "Eurozone",
+  "currency": "EUR",
+  "frequency": "Annual (per academic year)",
+  "france": {
+    "description": "France university national registration fees (droits nationaux d'inscription) for Licence (undergraduate), set annually by interministerial decree. Extremely low by international standards — represent a symbolic access fee, not cost-recovery. The actual cost of education is covered by state subsidy (~EUR 10,000+ per student per year). Separate \"contribution vie étudiante et de campus\" (CVEC) of EUR 103 added from 2018-19.",
+    "feeType": "droits nationaux d'inscription — annual fee for Licence (L1-L3)",
+    "licenceFeeHistory": {
+      "2000": 143,
+      "2001": 148,
+      "2002": 152,
+      "2003": 157,
+      "2004": 157,
+      "2005": 159,
+      "2006": 162,
+      "2007": 163,
+      "2008": 165,
+      "2009": 166,
+      "2010": 174,
+      "2011": 177,
+      "2012": 181,
+      "2013": 184,
+      "2014": 184,
+      "2015": 184,
+      "2016": 184,
+      "2017": 184,
+      "2018": 170,
+      "2019": 170,
+      "2020": 170,
+      "2021": 170,
+      "2022": 170,
+      "2023": 170,
+      "2024": 175,
+      "2025": 178
+    },
+    "masterFeeHistory": {
+      "2010": 237,
+      "2016": 256,
+      "2020": 243,
+      "2025": 254
+    },
+    "notes": [
+      "France maintains near-zero fees as a matter of republican egalitarian principle",
+      "Fee has barely changed in 25 years — EUR 143 (2000) to EUR 178 (2025)",
+      "CVEC (student campus life contribution) of EUR 103/year added from 2018",
+      "International students from non-EU countries subject to much higher fees since 2019 (EUR 2,770 Licence)",
+      "Grande écoles charge much higher fees than regular public universities"
+    ]
+  },
+  "germany": {
+    "description": "Germany federal states policy on university tuition fees (Studiengebühren) for domestic/EU students at public universities.",
+    "feeHistory": {
+      "2005": {
+        "policy": "BVerfG ruling allows state fees",
+        "averageFee": 0,
+        "note": "Most states still free"
+      },
+      "2006": {
+        "policy": "Several states introduce EUR 500/semester fee",
+        "averageFeeWhereCharged": 1000,
+        "statesWithFees": 7,
+        "note": "Baden-Württemberg, Bavaria, Hamburg, Lower Saxony, Hesse, Saarland, North Rhine-Westphalia introduce ~EUR 500/semester"
+      },
+      "2007": {
+        "averageFeeWhereCharged": 1000
+      },
+      "2008": {
+        "averageFeeWhereCharged": 1000
+      },
+      "2009": {
+        "policy": "Some states abolish fees",
+        "statesWithFees": 5
+      },
+      "2010": {
+        "statesWithFees": 4
+      },
+      "2011": {
+        "statesWithFees": 3,
+        "policy": "North Rhine-Westphalia abolishes fees"
+      },
+      "2012": {
+        "statesWithFees": 2,
+        "policy": "Hesse, Saarland abolish fees"
+      },
+      "2013": {
+        "statesWithFees": 1,
+        "policy": "Baden-Württemberg and Lower Saxony abolish fees"
+      },
+      "2014": {
+        "statesWithFees": 0,
+        "policy": "Bavaria abolishes fees — all German states now fee-free for domestic/EU students",
+        "averageFee": 0
+      },
+      "2025": {
+        "policy": "Free for domestic and EU students at all public universities",
+        "averageFee": 0,
+        "note": "Administration/student services fee (Semesterbeitrag ~EUR 200-350/semester) still applies"
+      }
+    },
+    "semesterbeitrag": {
+      "note": "Semesterbeitrag (semester administrative/student services fee) applies everywhere — typically EUR 150-350 per semester, covering student union, transport pass, admin. Not tuition. Approx EUR 300-700 per year.",
+      "approximateRange": "300-700 EUR per year total (two semesters)"
+    },
+    "keyFacts": [
+      "Free tertiary education was the norm until 2006 Constitutional Court ruling",
+      "Short-lived fees 2006-2014 in some states (max 7 at peak)",
+      "All states returned to fee-free by 2014",
+      "Students pay only Semesterbeitrag (admin/services fee, ~EUR 300-700/year) not tuition"
+    ]
+  },
+  "netherlands": {
+    "description": "Netherlands statutory tuition fee (wettelijk collegegeld) per academic year in EUR, set annually by the Dutch government for all public higher education institutions. This is the standard full-time rate for domestic and EU students in bachelor and master programmes at research universities (WO) and universities of applied sciences (HBO).",
+    "annualFeeHistory": {
+      "2000-01": 1452,
+      "2001-02": 1492,
+      "2002-03": 1535,
+      "2003-04": 1577,
+      "2004-05": 1620,
+      "2005-06": 1670,
+      "2006-07": 1519,
+      "2007-08": 1538,
+      "2008-09": 1565,
+      "2009-10": 1620,
+      "2010-11": 1713,
+      "2011-12": 1771,
+      "2012-13": 1771,
+      "2013-14": 1835,
+      "2014-15": 1906,
+      "2015-16": 1951,
+      "2016-17": 1984,
+      "2017-18": 2006,
+      "2018-19": 2060,
+      "2019-20": 2083,
+      "2020-21": 2143,
+      "2021-22": 2168,
+      "2022-23": 2209,
+      "2023-24": 2314,
+      "2024-25": 2530,
+      "2025-26": 2601,
+      "2026-27": 2694
+    },
+    "keyFacts": [
+      "Government sets a single statutory fee rate applied uniformly across all public HEIs",
+      "Halved first-year fee (\"halvering collegegeld eerste jaar\") 2018-2024: first-year students paid 50% rate",
+      "Fee returned to standard rate from 2024-25 after policy ended",
+      "Indexed to CPI with additional structural increases 2009-2018 (EUR 22/year extra)"
+    ]
+  },
+  "italy": {
+    "description": "Italy average annual university tuition fees (tasse universitarie) for domestic students at public universities in EUR. Italy uses an income-based (ISEE) fee structure where wealthier students pay more; fees shown are system averages. \"No-tax area\" policy since 2017 exempts students with ISEE below EUR 20,000-22,000.",
+    "averageFeeHistory": {
+      "2000": 450,
+      "2001": 490,
+      "2002": 530,
+      "2003": 570,
+      "2004": 620,
+      "2005": 775,
+      "2006": 840,
+      "2007": 880,
+      "2008": 950,
+      "2009": 1025,
+      "2010": 1114,
+      "2011": 1150,
+      "2012": 1200,
+      "2013": 1230,
+      "2014": 1240,
+      "2015": 1250,
+      "2016": 1200,
+      "2017": 1100,
+      "2018": 1000,
+      "2019": 980,
+      "2020": 960,
+      "2021": 950,
+      "2022": 960,
+      "2023": 980,
+      "2024": 1000
+    },
+    "notes": [
+      "Income-based (ISEE) system: lowest-income students pay near zero, highest pay up to EUR 3,000+",
+      "\"No-tax area\" (no tassa) introduced 2017: students with ISEE < EUR 20,000 pay no fees",
+      "System average dropped significantly after 2017 no-tax area introduction",
+      "Data represents unweighted average across public university students; actual fee depends heavily on family income"
+    ]
+  }
+}

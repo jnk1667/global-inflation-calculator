@@ -1,0 +1,86 @@
+{
+  "description": "Switzerland university tuition fees (Studiengebühren) per semester in CHF, annual series for ETH Zurich (Eidgenössische Technische Hochschule Zürich) and University of Zurich (Universität Zürich). ETH Zurich is the flagship Swiss federal technical university; UZH is the largest cantonal university. Annual fee = 2 × semester fee.",
+  "lastUpdated": "2026-06-10",
+  "source": "ETH Zurich (Registrar); University of Zurich; Swiss rectors conference (swissuniversities)",
+  "sourceUrl": "https://ethz.ch/students/en/studies/administrative/fees-scholarships/semester-fees.html",
+  "country": "Switzerland",
+  "currency": "CHF",
+  "frequency": "Per semester (annual = 2 × semester fee)",
+  "note": "Fees shown are for domestic (Swiss resident/EU) bachelor and master students in standard programmes. From autumn 2025, ETH introduced a threefold fee (CHF 2,190/semester) for students not meeting Swiss residency/citizenship criteria. UZH fees vary slightly by faculty. All fees are per semester; multiply by 2 for annual cost. Swiss universities do not have differential fees by discipline at the undergraduate level.",
+  "ethZurich": {
+    "semesterFeeHistory": {
+      "1995": 452,
+      "1996": 452,
+      "1997": 452,
+      "1998": 452,
+      "1999": 452,
+      "2000": 580,
+      "2001": 580,
+      "2002": 580,
+      "2003": 580,
+      "2004": 580,
+      "2005": 580,
+      "2006": 580,
+      "2007": 580,
+      "2008": 580,
+      "2009": 580,
+      "2010": 580,
+      "2011": 580,
+      "2012": 580,
+      "2013": 580,
+      "2014": 580,
+      "2015": 580,
+      "2016": 580,
+      "2017": 580,
+      "2018": 580,
+      "2020": 730,
+      "2021": 730,
+      "2022": 730,
+      "2023": 730,
+      "2024": 730,
+      "2025": 730,
+      "2019 (spring)": 580,
+      "2019 (autumn)": 660
+    },
+    "annualFeeHistory": {
+      "2000": 1160,
+      "2005": 1160,
+      "2010": 1160,
+      "2015": 1160,
+      "2016": 1160,
+      "2017": 1160,
+      "2018": 1160,
+      "2019": 1240,
+      "2020": 1460,
+      "2021": 1460,
+      "2022": 1460,
+      "2023": 1460,
+      "2024": 1460,
+      "2025": 1460
+    },
+    "notes": [
+      "ETH Zurich semester fee was CHF 452 until ~1999, then raised to CHF 580 around 2000",
+      "Remained flat at CHF 580 for nearly 20 years (2000-2018)",
+      "ETH Board decision July 2018: two-stage increase to CHF 660 (autumn 2019) then CHF 730 (autumn 2020)",
+      "From autumn 2025: CHF 2,190/semester for non-residents/non-citizens (three times standard)"
+    ]
+  },
+  "universityOfZurich": {
+    "note": "UZH fees are set by the Canton of Zurich and differ slightly from ETH. Approximate annual totals (including standard student services fees).",
+    "annualFeeApprox": {
+      "2000": 1200,
+      "2005": 1200,
+      "2010": 1300,
+      "2015": 1380,
+      "2020": 1540,
+      "2024": 1540
+    }
+  },
+  "keyFacts": [
+    "Swiss tuition fees are among the lowest in the world for developed countries",
+    "ETH Zurich fee was flat for ~20 years at CHF 580/semester (CHF 1,160/year)",
+    "First increase in nearly 20 years: 2019 to CHF 660, then 2020 to CHF 730/semester",
+    "Annual cost 2024: CHF 1,460 at ETH (~USD 1,650) vs. USD 60,000+ at US private universities",
+    "Swissuniversities data: average annual fee at Swiss cantonal universities ~CHF 1,200-2,000"
+  ]
+}

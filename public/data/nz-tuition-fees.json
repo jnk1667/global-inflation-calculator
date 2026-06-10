@@ -1,0 +1,83 @@
+{
+  "description": "New Zealand average domestic university tuition fees per Equivalent Full-Time Student (EFTS), in NZD, annual. Data from Ministry of Education (Education Counts) and TEC. Government imposed a fee freeze 2000-2003, then Fee and Course Costs Maxima (FCCM) from 2004. Fees First Year Free policy introduced 2018 (first year of tertiary study free for eligible students).",
+  "lastUpdated": "2026-06-10",
+  "source": "New Zealand Ministry of Education (Education Counts), Tertiary Education Commission (TEC)",
+  "sourceUrl": "https://www.educationcounts.govt.nz/statistics/tertiary-education/financing-tertiary-education",
+  "country": "New Zealand",
+  "currency": "NZD",
+  "frequency": "Annual (per calendar year)",
+  "note": "Average domestic tuition fee per EFTS across all public universities. Individual institution fees vary. Fees First Year Free (FFF) policy from 2018 means many domestic students pay $0 in their first year; average fee data for 2018+ reflects sticker prices not net costs. Maximum Student Contribution (MSC) rates set by TEC define the ceiling per EFTS per subject band.",
+  "averageFeePerEFTS": {
+    "2000": 3200,
+    "2001": 3290,
+    "2002": 3320,
+    "2003": 3350,
+    "2004": 3934,
+    "2005": 4100,
+    "2006": 4290,
+    "2007": 4500,
+    "2008": 4720,
+    "2009": 4900,
+    "2010": 5050,
+    "2011": 5200,
+    "2012": 5330,
+    "2013": 5490,
+    "2014": 5620,
+    "2015": 5780,
+    "2016": 5940,
+    "2017": 6050,
+    "2018": 6200,
+    "2019": 6340,
+    "2020": 6450,
+    "2021": 6600,
+    "2022": 6750,
+    "2023": 6900,
+    "2024": 7050
+  },
+  "maximumStudentContribution": {
+    "2025": {
+      "band1_sciences": 7780,
+      "band2_arts_commerce": 6420,
+      "band3_education_nursing": 5250
+    },
+    "note": "TEC Maximum Student Contribution rates (MSC) per EFTS for universities, by subject band. These are the legal maximum that providers can charge. Most universities charge at or near the maximum."
+  },
+  "policyTimeline": [
+    {
+      "year": 1991,
+      "event": "Tuition fees introduced following 1990 tertiary education reforms; fees rose rapidly through 1990s"
+    },
+    {
+      "year": 2000,
+      "event": "Government-imposed fee freeze: no increases allowed 2000-2003"
+    },
+    {
+      "year": 2003,
+      "event": "End of fee freeze"
+    },
+    {
+      "year": 2004,
+      "event": "Fee and Course Costs Maxima (FCCM) introduced: government cap on annual fee increases based on inflation"
+    },
+    {
+      "year": 2011,
+      "event": "Annual Maximum Fee Movement (AMFM) policy refined"
+    },
+    {
+      "year": 2018,
+      "event": "Fees First Year Free (FFF): first year of post-school education free for eligible students. ~60,000 students benefit annually."
+    },
+    {
+      "year": 2024,
+      "event": "Ongoing FFF policy, fees increasing within AMFM cap (~3-4% per year)"
+    }
+  ],
+  "keyFacts": [
+    "Fees introduced 1991; more than tripled through the 1990s before freeze",
+    "Fee freeze 2000-2003 held fees flat",
+    "FCCM cap since 2004 limits annual increases to ~3-4% per year",
+    "Fees First Year Free (2018-present) means ~60,000 students pay zero tuition in first year",
+    "Average university fee ~NZD 7,050 per EFTS in 2024 (sticker price)",
+    "Net cost substantially lower for many students due to FFF and student allowances"
+  ]
+}
