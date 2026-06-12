@@ -473,6 +473,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/education-inflation-calculator" className="text-blue-600 hover:underline">
+                      Education Inflation Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate how university tuition has risen vs official Education CPI since 1990. Compare personal tuition costs across 8 currencies (USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD) with data from BLS, ONS, Eurostat, Statistics Canada, ABS, Swiss FSO, MEXT, and Stats NZ. Includes global tuition comparison table and 5/10-year projections.
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/skimpflation-calculator" className="text-blue-600 hover:underline">
                       Skimpflation Calculator
                     </Link>

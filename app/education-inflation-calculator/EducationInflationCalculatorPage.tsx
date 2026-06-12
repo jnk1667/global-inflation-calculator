@@ -441,7 +441,7 @@ export default function EducationInflationCalculatorPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
 
-      {/* ─── Hero ──────────────────────────────────────────────────────────── */}
+      {/* ─── Hero ────────────────────────���─────────────────────────────────── */}
       <section className="bg-gradient-to-b from-blue-50 to-background dark:from-blue-950/20 dark:to-background border-b border-border">
         <div className="max-w-5xl mx-auto px-4 pt-32 pb-10 text-center">
           <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium px-3 py-1 rounded-full mb-4">
@@ -815,23 +815,40 @@ export default function EducationInflationCalculatorPage() {
                     <p className="text-xs text-muted-foreground mt-0.5">{fromYear} → {toYear}</p>
                   </div>
                   <div className="p-4">
-                    <ResponsiveContainer width="100%" height={220}>
-                      <BarChart data={barData} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                        <XAxis dataKey="name" tick={{ fontSize: 11 }} />
-                        <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${v}%`} />
+                    <ResponsiveContainer width="100%" height={260}>
+                      <BarChart data={barData} margin={{ top: 10, right: 20, left: 10, bottom: 40 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+                        <XAxis
+                          dataKey="name"
+                          tick={{ fontSize: 12, fill: "var(--muted-foreground)" }}
+                          axisLine={{ stroke: "var(--border)" }}
+                          tickLine={{ stroke: "var(--border)" }}
+                          interval={0}
+                          height={50}
+                        />
+                        <YAxis
+                          tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
+                          tickFormatter={v => `${v}%`}
+                          axisLine={false}
+                          tickLine={false}
+                          width={50}
+                        />
                         <Tooltip
                           formatter={(v: number) => [`${v.toFixed(1)}%`, "Total Change"]}
                           contentStyle={{ fontSize: 12, borderRadius: 8 }}
+                          cursor={{ fill: "var(--muted)", opacity: 0.3 }}
                         />
                         <ReferenceLine y={0} stroke="var(--border)" />
-                        <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                        <Bar dataKey="value" radius={[4, 4, 0, 0]} maxBarSize={80}>
                           {barData.map((entry, i) => (
                             <Cell key={i} fill={entry.fill} />
                           ))}
                         </Bar>
                       </BarChart>
                     </ResponsiveContainer>
+                    <p className="text-xs text-muted-foreground mt-1 text-center">
+                      Blue = your tuition change. Gray = official Education CPI change over the same period.
+                    </p>
                   </div>
                 </div>
               )}
