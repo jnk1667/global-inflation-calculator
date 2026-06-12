@@ -248,6 +248,7 @@ export default function RootLayout({
                       <Link href="/global-compound-interest" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Compound Interest Calculator</Link>
                       <Link href="/ppp-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">PPP Calculator</Link>
                       <Link href="/roi-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">ROI Calculator</Link>
+                      <Link href="/education-inflation-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Education Inflation Calculator</Link>
                       <Link href="/insurance-inflation-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Insurance Inflation Calculator</Link>
                       <Link href="/salary-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Salary Calculator</Link>
                       <Link href="/retirement-calculator" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Retirement Calculator</Link>
