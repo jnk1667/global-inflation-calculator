@@ -73,11 +73,12 @@ const CURRENCIES: Record<CurrencyCode, {
 
 // ─── Period presets ───────────────────────────────────────────────────────────
 
+const CURRENT_YEAR = new Date().getFullYear()
 const PRESETS = [
-  { label: "Pre-GFC Decade",   fromYear: 2000, toYear: 2010, description: "2000s tuition explosion" },
-  { label: "Post-2008 Rise",   fromYear: 2010, toYear: 2020, description: "Austerity & fee hikes"   },
-  { label: "Recent 5 Years",   fromYear: 2019, toYear: 2024, description: "COVID & post-COVID era"  },
-  { label: "Full 25 Years",    fromYear: 2000, toYear: 2025, description: "All available data"      },
+  { label: "Pre-GFC Decade",   fromYear: 2000,              toYear: 2010,          description: "2000s tuition explosion" },
+  { label: "Post-2008 Rise",   fromYear: 2010,              toYear: 2020,          description: "Austerity & fee hikes"   },
+  { label: "Recent 5 Years",   fromYear: CURRENT_YEAR - 5,  toYear: CURRENT_YEAR,  description: "COVID & post-COVID era"  },
+  { label: "Full Period",      fromYear: 2000,              toYear: CURRENT_YEAR,  description: "All available data"      },
 ]
 
 // ─── Tuition benchmarks per currency (annual, local currency) ─────────────────
@@ -140,7 +141,7 @@ const KEY_STATS = [
 ]
 
 const MIN_YEAR = 1990
-const MAX_YEAR = 2025
+const MAX_YEAR = new Date().getFullYear()   // always current calendar year (2026, 2027, …)
 
 // ─── Markdown renderer (same pattern as other calculators) ────────────────────
 
@@ -185,7 +186,7 @@ function parseBold(text: string): React.ReactNode[] {
 export default function EducationInflationCalculatorPage() {
   const [currency, setCurrency]       = useState<CurrencyCode>("USD")
   const [fromYear, setFromYear]       = useState(2000)
-  const [toYear, setToYear]           = useState(2024)
+  const [toYear, setToYear]           = useState(MAX_YEAR)
   const [oldTuition, setOldTuition]   = useState("3510")
   const [newTuition, setNewTuition]   = useState("11260")
   const [blogContent, setBlogContent] = useState("")
@@ -352,13 +353,15 @@ export default function EducationInflationCalculatorPage() {
 
   useEffect(() => {
     const benchmarks = TUITION_BENCHMARKS[currency]
-    // Pick the two closest to current fromYear/toYear
     const sorted = [...benchmarks].sort((a, b) => a.year - b.year)
     if (sorted.length >= 2) {
+      const lastBenchmark = sorted[sorted.length - 1]
+      // "Then" = oldest benchmark; "Now" = current year (not just the last benchmark year)
       setFromYear(sorted[0].year)
-      setToYear(sorted[sorted.length - 1].year)
+      setToYear(MAX_YEAR)
       setOldTuition(String(sorted[0].amount))
-      setNewTuition(String(sorted[sorted.length - 1].amount))
+      // Re-use the most recent benchmark amount — user can edit freely for their actual current cost
+      setNewTuition(String(lastBenchmark.amount))
     }
   }, [currency])
 
