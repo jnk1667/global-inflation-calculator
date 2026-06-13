@@ -9,6 +9,7 @@ import Link from "next/link"
 import {
   GraduationCap, TrendingUp, TrendingDown, Info, BookOpen,
   ShieldCheck, ShieldAlert, BarChart3, Calculator,
+  Sparkles, DollarSign, Users, ChevronDown,
 } from "lucide-react"
 import FAQ from "@/components/faq"
 import { supabase } from "@/lib/supabase"
@@ -143,6 +144,50 @@ const KEY_STATS = [
 const MIN_YEAR = 1990
 const MAX_YEAR = new Date().getFullYear()   // always current calendar year (2026, 2027, …)
 
+// ─── Advanced mode: fields of study (from BLS ACS data in earnings-by-major.json) ──
+
+const FIELDS_OF_STUDY = [
+  { cip: "11",  label: "Computer & Information Sciences", medianSalary: 95000,  p25: 72000,  p75: 121000 },
+  { cip: "14",  label: "Engineering",                     medianSalary: 104000, p25: 82000,  p75: 131000 },
+  { cip: "52",  label: "Business & Management",           medianSalary: 72000,  p25: 56000,  p75: 94000  },
+  { cip: "51",  label: "Health Professions",              medianSalary: 82000,  p25: 65000,  p75: 104000 },
+  { cip: "27",  label: "Mathematics & Statistics",        medianSalary: 86000,  p25: 67000,  p75: 107000 },
+  { cip: "26",  label: "Biological & Biomedical Sciences",medianSalary: 70000,  p25: 54000,  p75: 88000  },
+  { cip: "45",  label: "Social Sciences",                 medianSalary: 62000,  p25: 49000,  p75: 78000  },
+  { cip: "13",  label: "Education",                       medianSalary: 55000,  p25: 47000,  p75: 66000  },
+  { cip: "23",  label: "English & Literature",            medianSalary: 52000,  p25: 41000,  p75: 64000  },
+  { cip: "50",  label: "Visual & Performing Arts",        medianSalary: 48000,  p25: 38000,  p75: 62000  },
+  { cip: "54",  label: "History",                         medianSalary: 55000,  p25: 43000,  p75: 70000  },
+  { cip: "40",  label: "Physical Sciences",               medianSalary: 73000,  p25: 56000,  p75: 94000  },
+  { cip: "22",  label: "Legal Professions / Law",         medianSalary: 88000,  p25: 65000,  p75: 118000 },
+]
+
+// ─── Advanced mode: country ISO3 codes for attainment data ───────────────────
+
+const ATTAINMENT_COUNTRIES: { iso3: string; name: string }[] = [
+  { iso3: "USA", name: "United States" },
+  { iso3: "GBR", name: "United Kingdom" },
+  { iso3: "CAN", name: "Canada" },
+  { iso3: "AUS", name: "Australia" },
+  { iso3: "NZL", name: "New Zealand" },
+  { iso3: "CHE", name: "Switzerland" },
+  { iso3: "JPN", name: "Japan" },
+  { iso3: "DEU", name: "Germany" },
+  { iso3: "FRA", name: "France" },
+  { iso3: "NLD", name: "Netherlands" },
+  { iso3: "KOR", name: "South Korea" },
+  { iso3: "SWE", name: "Sweden" },
+]
+
+// Map currency → default attainment country
+const CURRENCY_TO_ISO3: Record<CurrencyCode, string> = {
+  USD: "USA", GBP: "GBR", EUR: "DEU", CAD: "CAN",
+  AUD: "AUS", CHF: "CHE", JPY: "JPN", NZD: "NZL",
+}
+
+// High-school-only median earnings (no-degree counterfactual, US BLS data)
+const HS_ONLY_MEDIAN_USD = 38000
+
 // ─── Markdown renderer (same pattern as other calculators) ────────────────────
 
 function renderMarkdown(content: string) {
@@ -197,6 +242,20 @@ export default function EducationInflationCalculatorPage() {
   const [generalCpiData, setGeneralCpiData] = useState<Record<string, any> | null>(null)
   const [tuitionData,    setTuitionData]    = useState<Record<string, any> | null>(null)
   const [dataLoading,    setDataLoading]    = useState(true)
+
+  // ─── Advanced mode ────────────────────────────────────────────────────────
+  const [advancedMode,      setAdvancedMode]      = useState(false)
+  // Degree ROI inputs
+  const [fieldOfStudy,      setFieldOfStudy]      = useState(FIELDS_OF_STUDY[0].cip)
+  const [studyYears,        setStudyYears]        = useState(4)
+  const [startingSalary,    setStartingSalary]    = useState(FIELDS_OF_STUDY[0].medianSalary)
+  const [salaryGrowthRate,  setSalaryGrowthRate]  = useState(3.0)   // % per year
+  const [noDegreeSalary,    setNoDegreeSalary]    = useState(HS_ONLY_MEDIAN_USD)
+  const [workingYears,      setWorkingYears]      = useState(40)
+  // Degree Dilution inputs
+  const [dilutionCountry,   setDilutionCountry]   = useState("USA")
+  const [attainmentData,    setAttainmentData]    = useState<Record<string, any> | null>(null)
+  const [attainDataLoading, setAttainDataLoading] = useState(false)
 
   // ─── Helper: convert any CPI series to a plain { year: index } map ─────────
 
@@ -356,14 +415,139 @@ export default function EducationInflationCalculatorPage() {
     const sorted = [...benchmarks].sort((a, b) => a.year - b.year)
     if (sorted.length >= 2) {
       const lastBenchmark = sorted[sorted.length - 1]
-      // "Then" = oldest benchmark; "Now" = current year (not just the last benchmark year)
       setFromYear(sorted[0].year)
       setToYear(MAX_YEAR)
       setOldTuition(String(sorted[0].amount))
-      // Re-use the most recent benchmark amount — user can edit freely for their actual current cost
       setNewTuition(String(lastBenchmark.amount))
     }
+    // Sync dilution country to currency
+    setDilutionCountry(CURRENCY_TO_ISO3[currency])
   }, [currency])
+
+  // ─── Load attainment data when advanced mode first opened ────────────────
+
+  useEffect(() => {
+    if (!advancedMode || attainmentData) return
+    setAttainDataLoading(true)
+    fetch("/data/education-attainment-by-country.json")
+      .then(r => r.json())
+      .then(d => setAttainmentData(d))
+      .catch(() => {})
+      .finally(() => setAttainDataLoading(false))
+  }, [advancedMode])
+
+  // ─── Sync salary prefill when field of study changes ─────────────────────
+
+  useEffect(() => {
+    const field = FIELDS_OF_STUDY.find(f => f.cip === fieldOfStudy)
+    if (field) setStartingSalary(field.medianSalary)
+  }, [fieldOfStudy])
+
+  // ─── Degree ROI calculation ───────────────────────────────────────────────
+
+  const roiResults = useMemo(() => {
+    const totalCost = parseFloat(newTuition) * studyYears   // total tuition paid
+    if (!totalCost || totalCost <= 0 || startingSalary <= 0 || workingYears <= 0) return null
+
+    // Opportunity cost: lost wages during study (no-degree salary × study years)
+    const opportunityCost = noDegreeSalary * studyYears
+    const totalInvestment = totalCost + opportunityCost
+
+    // Annual earnings premium at graduation = startingSalary − noDegreeSalary
+    // Both grow at salaryGrowthRate, so the premium itself also grows at that rate
+    const annualGrowth = salaryGrowthRate / 100
+
+    // Payback period: find year where cumulative premium >= totalInvestment
+    let cumulativePremium = 0
+    let paybackYear: number | null = null
+    for (let y = 1; y <= workingYears; y++) {
+      const yearPremium = (startingSalary - noDegreeSalary) * Math.pow(1 + annualGrowth, y - 1)
+      cumulativePremium += yearPremium
+      if (paybackYear === null && cumulativePremium >= totalInvestment) paybackYear = y
+    }
+
+    // Lifetime earnings premium (nominal, not discounted)
+    let lifetimePremium = 0
+    for (let y = 1; y <= workingYears; y++) {
+      lifetimePremium += (startingSalary - noDegreeSalary) * Math.pow(1 + annualGrowth, y - 1)
+    }
+    const netLifetimePremium = lifetimePremium - totalInvestment
+
+    // IRR: solve NPV=0 using bisection
+    // Cash flows: −totalInvestment at t=0, then annual premiums for workingYears years
+    const npv = (rate: number) => {
+      let pv = -totalInvestment
+      for (let y = 1; y <= workingYears; y++) {
+        const cf = (startingSalary - noDegreeSalary) * Math.pow(1 + annualGrowth, y - 1)
+        pv += cf / Math.pow(1 + rate, y)
+      }
+      return pv
+    }
+    let lo = -0.5, hi = 5.0
+    let irr: number | null = null
+    if (npv(lo) * npv(hi) < 0) {
+      for (let i = 0; i < 60; i++) {
+        const mid = (lo + hi) / 2
+        if (npv(mid) > 0) lo = mid; else hi = mid
+      }
+      irr = (lo + hi) / 2
+    }
+
+    return {
+      totalCost,
+      opportunityCost,
+      totalInvestment,
+      paybackYear,
+      lifetimePremium: Math.round(lifetimePremium),
+      netLifetimePremium: Math.round(netLifetimePremium),
+      irr: irr !== null ? irr * 100 : null,
+      annualPremiumAtStart: startingSalary - noDegreeSalary,
+    }
+  }, [newTuition, studyYears, startingSalary, salaryGrowthRate, noDegreeSalary, workingYears])
+
+  // ─── Degree Dilution calculation ─────────────────────────────────────────
+
+  const dilutionResults = useMemo(() => {
+    if (!attainmentData) return null
+    const indicator = attainmentData?.indicators?.["SE.TER.CUAT.BA.ZS"]
+    if (!indicator) return null
+    const countryData = indicator.countries?.[dilutionCountry]
+    if (!countryData?.data) return null
+
+    const yearMap = countryData.data as Record<string, number>
+    const years = Object.keys(yearMap).map(Number).sort((a, b) => a - b)
+    if (years.length < 2) return null
+
+    // Compare attainment at fromYear (or earliest available) vs toYear (or latest available)
+    const getNearest = (target: number) => {
+      const sorted = years.slice().sort((a, b) => Math.abs(a - target) - Math.abs(b - target))
+      return sorted[0]
+    }
+    const earlyYear  = getNearest(fromYear)
+    const recentYear = getNearest(toYear)
+    const earlyPct   = yearMap[earlyYear]
+    const recentPct  = yearMap[recentYear]
+    if (!earlyPct || !recentPct) return null
+
+    const absoluteChange = recentPct - earlyPct
+    const relativeChange = ((recentPct / earlyPct) - 1) * 100
+
+    // Scarcity score: inverse of attainment — lower attainment = higher scarcity premium
+    // Score 10 = very rare degree (< 10%), score 1 = very common (> 50%)
+    const scarcityScore = Math.max(1, Math.min(10, Math.round(10 - (recentPct / 5))))
+
+    return {
+      country: countryData.name ?? dilutionCountry,
+      earlyYear,
+      recentYear,
+      earlyPct:   Math.round(earlyPct  * 10) / 10,
+      recentPct:  Math.round(recentPct * 10) / 10,
+      absoluteChange: Math.round(absoluteChange * 10) / 10,
+      relativeChange: Math.round(relativeChange * 10) / 10,
+      scarcityScore,
+      chartData: years.map(y => ({ year: y, pct: Math.round(yearMap[y] * 10) / 10 })),
+    }
+  }, [attainmentData, dilutionCountry, fromYear, toYear])
 
   // ─── Get normalised CPI series for selected currency ─────────────────────
   // cpiData[currency] is already a normalised { year: index } map after load
@@ -575,9 +759,24 @@ export default function EducationInflationCalculatorPage() {
 
         {/* ─── Calculator card ────────────────────────────────────────────── */}
         <div className="bg-card border border-border rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-border flex items-center gap-2">
-            <Calculator className="w-4 h-4 text-blue-600" />
-            <h2 className="font-semibold text-sm">Your Education Costs</h2>
+          <div className="px-5 py-4 border-b border-border flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <Calculator className="w-4 h-4 text-blue-600" />
+              <h2 className="font-semibold text-sm">Your Education Costs</h2>
+            </div>
+            <button
+              onClick={() => setAdvancedMode(v => !v)}
+              className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border transition-all ${
+                advancedMode
+                  ? "bg-blue-600 text-white border-blue-600 shadow-sm"
+                  : "border-border text-muted-foreground hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+              }`}
+              aria-pressed={advancedMode}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              {advancedMode ? "Advanced On" : "Advanced Mode"}
+              <ChevronDown className={`w-3 h-3 transition-transform ${advancedMode ? "rotate-180" : ""}`} />
+            </button>
           </div>
 
           {/* Period presets */}
@@ -716,6 +915,159 @@ export default function EducationInflationCalculatorPage() {
                 <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{cfg.dataNote}</p>
               </div>
             </div>
+
+            {/* ─── Advanced mode inputs ──────────────────────────────────── */}
+            {advancedMode && (
+              <div className="space-y-5 mt-2">
+
+                {/* Divider */}
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-px bg-border" />
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-full px-3 py-1">
+                    <Sparkles className="w-3 h-3" />
+                    Advanced Analysis
+                  </div>
+                  <div className="flex-1 h-px bg-border" />
+                </div>
+
+                {/* ── Degree ROI Calculator inputs ────────────────────── */}
+                <div className="rounded-xl border border-border bg-muted/20 overflow-hidden">
+                  <div className="px-4 py-3 border-b border-border flex items-center gap-2 bg-card">
+                    <DollarSign className="w-4 h-4 text-green-600" />
+                    <span className="text-sm font-semibold">Degree ROI Calculator</span>
+                    <span className="ml-auto text-xs text-muted-foreground">Was the degree worth it?</span>
+                  </div>
+                  <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    {/* Field of study */}
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">Field of Study</label>
+                      <select
+                        value={fieldOfStudy}
+                        onChange={e => setFieldOfStudy(e.target.value)}
+                        className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        {FIELDS_OF_STUDY.map(f => (
+                          <option key={f.cip} value={f.cip}>{f.label}</option>
+                        ))}
+                      </select>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Median: {fmt(FIELDS_OF_STUDY.find(f => f.cip === fieldOfStudy)?.medianSalary ?? 0)} &nbsp;|&nbsp;
+                        P25: {fmt(FIELDS_OF_STUDY.find(f => f.cip === fieldOfStudy)?.p25 ?? 0)} &nbsp;|&nbsp;
+                        P75: {fmt(FIELDS_OF_STUDY.find(f => f.cip === fieldOfStudy)?.p75 ?? 0)} &nbsp;·&nbsp;
+                        Source: BLS ACS 2025
+                      </p>
+                    </div>
+
+                    {/* Study years */}
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                        Years of Study
+                      </label>
+                      <select
+                        value={studyYears}
+                        onChange={e => setStudyYears(Number(e.target.value))}
+                        className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        {[2,3,4,5,6,7,8].map(y => (
+                          <option key={y} value={y}>{y} years {y === 4 ? "(standard)" : y <= 3 ? "(associate/short)" : "(postgrad)"}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Working years */}
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                        Expected Working Years
+                      </label>
+                      <select
+                        value={workingYears}
+                        onChange={e => setWorkingYears(Number(e.target.value))}
+                        className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        {[20,25,30,35,40,45].map(y => (
+                          <option key={y} value={y}>{y} years</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Starting salary */}
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                        Expected Starting Salary (USD)
+                      </label>
+                      <input
+                        type="number" min="0" step="1000"
+                        value={startingSalary}
+                        onChange={e => setStartingSalary(Number(e.target.value))}
+                        className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Pre-filled from field median — edit freely</p>
+                    </div>
+
+                    {/* No-degree salary */}
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                        No-Degree Salary (USD)
+                      </label>
+                      <input
+                        type="number" min="0" step="1000"
+                        value={noDegreeSalary}
+                        onChange={e => setNoDegreeSalary(Number(e.target.value))}
+                        className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Median high-school-only wage — BLS data</p>
+                    </div>
+
+                    {/* Salary growth rate */}
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                        Annual Salary Growth Rate: <strong>{salaryGrowthRate.toFixed(1)}% / yr</strong>
+                      </label>
+                      <input
+                        type="range" min="0" max="8" step="0.5"
+                        value={salaryGrowthRate}
+                        onChange={e => setSalaryGrowthRate(Number(e.target.value))}
+                        className="w-full accent-blue-600"
+                      />
+                      <div className="flex justify-between text-xs text-muted-foreground mt-0.5">
+                        <span>0% (flat)</span>
+                        <span>3% (typical)</span>
+                        <span>8% (fast track)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Degree Dilution Index inputs ─────────────────────── */}
+                <div className="rounded-xl border border-border bg-muted/20 overflow-hidden">
+                  <div className="px-4 py-3 border-b border-border flex items-center gap-2 bg-card">
+                    <Users className="w-4 h-4 text-purple-600" />
+                    <span className="text-sm font-semibold">Degree Dilution Index</span>
+                    <span className="ml-auto text-xs text-muted-foreground">How rare is your degree?</span>
+                  </div>
+                  <div className="p-4">
+                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">Country</label>
+                    <select
+                      value={dilutionCountry}
+                      onChange={e => setDilutionCountry(e.target.value)}
+                      className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-xs"
+                    >
+                      {ATTAINMENT_COUNTRIES.map(c => (
+                        <option key={c.iso3} value={c.iso3}>{c.name}</option>
+                      ))}
+                    </select>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Shows bachelor degree attainment (% of pop. 25+) from {fromYear} → {toYear} for the selected country. Source: World Bank EdStats.
+                    </p>
+                    {attainDataLoading && (
+                      <p className="text-xs text-muted-foreground mt-2 animate-pulse">Loading attainment data…</p>
+                    )}
+                  </div>
+                </div>
+
+              </div>
+            )}
           </div>
         </div>
 
@@ -1058,6 +1410,157 @@ export default function EducationInflationCalculatorPage() {
           </div>
         )}
 
+        {/* ─── Advanced results ────────────────────────────────────────────── */}
+        {advancedMode && (
+          <div className="space-y-4">
+
+            {/* ── Degree ROI Results ─────────────────────────────────────── */}
+            {roiResults && (
+              <div className="bg-card border border-border rounded-xl overflow-hidden">
+                <div className="px-5 py-4 border-b border-border flex items-center gap-2">
+                  <DollarSign className="w-4 h-4 text-green-600" />
+                  <h2 className="font-semibold text-sm">Degree ROI Results</h2>
+                  <span className="ml-auto text-xs text-muted-foreground">
+                    {FIELDS_OF_STUDY.find(f => f.cip === fieldOfStudy)?.label} · {studyYears}-year degree
+                  </span>
+                </div>
+                <div className="p-5 space-y-4">
+
+                  {/* Key ROI metrics */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="bg-muted/30 rounded-xl p-4 border border-border">
+                      <p className="text-xs text-muted-foreground mb-1">Total Investment</p>
+                      <p className="text-xl font-bold text-foreground">${(roiResults.totalInvestment / 1000).toFixed(0)}k</p>
+                      <p className="text-xs text-muted-foreground mt-1">Tuition + opportunity cost</p>
+                    </div>
+                    <div className={`rounded-xl p-4 border ${roiResults.paybackYear !== null && roiResults.paybackYear <= 15 ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-900" : "bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900"}`}>
+                      <p className="text-xs text-muted-foreground mb-1">Payback Period</p>
+                      <p className={`text-xl font-bold ${roiResults.paybackYear !== null && roiResults.paybackYear <= 15 ? "text-green-700 dark:text-green-400" : "text-amber-700 dark:text-amber-400"}`}>
+                        {roiResults.paybackYear !== null ? `${roiResults.paybackYear} yrs` : "> career"}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">After graduation</p>
+                    </div>
+                    <div className={`rounded-xl p-4 border ${roiResults.netLifetimePremium > 0 ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-900" : "bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-900"}`}>
+                      <p className="text-xs text-muted-foreground mb-1">Net Lifetime Premium</p>
+                      <p className={`text-xl font-bold ${roiResults.netLifetimePremium > 0 ? "text-green-700 dark:text-green-400" : "text-red-600"}`}>
+                        {roiResults.netLifetimePremium > 0 ? "+" : ""}${(roiResults.netLifetimePremium / 1000).toFixed(0)}k
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">vs no-degree path</p>
+                    </div>
+                    <div className={`rounded-xl p-4 border ${roiResults.irr !== null && roiResults.irr > 5 ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-900" : "bg-muted/30 border-border"}`}>
+                      <p className="text-xs text-muted-foreground mb-1">IRR</p>
+                      <p className={`text-xl font-bold ${roiResults.irr !== null && roiResults.irr > 5 ? "text-green-700 dark:text-green-400" : "text-foreground"}`}>
+                        {roiResults.irr !== null ? `${roiResults.irr.toFixed(1)}%` : "N/A"}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">Internal rate of return</p>
+                    </div>
+                  </div>
+
+                  {/* Breakdown bar */}
+                  <div className="bg-muted/20 rounded-xl border border-border p-4 space-y-3">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Investment Breakdown</p>
+                    <div className="flex items-center gap-3">
+                      <span className="w-32 text-xs text-muted-foreground shrink-0">Tuition cost</span>
+                      <div className="flex-1 bg-muted rounded-full h-3 overflow-hidden">
+                        <div className="h-3 rounded-full bg-red-400" style={{ width: `${Math.round(roiResults.totalCost / roiResults.totalInvestment * 100)}%` }} />
+                      </div>
+                      <span className="w-20 text-right text-sm font-bold text-foreground">${(roiResults.totalCost / 1000).toFixed(0)}k</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="w-32 text-xs text-muted-foreground shrink-0">Lost wages</span>
+                      <div className="flex-1 bg-muted rounded-full h-3 overflow-hidden">
+                        <div className="h-3 rounded-full bg-orange-400" style={{ width: `${Math.round(roiResults.opportunityCost / roiResults.totalInvestment * 100)}%` }} />
+                      </div>
+                      <span className="w-20 text-right text-sm font-bold text-foreground">${(roiResults.opportunityCost / 1000).toFixed(0)}k</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="w-32 text-xs text-muted-foreground shrink-0">Annual premium</span>
+                      <div className="flex-1 bg-muted rounded-full h-3 overflow-hidden">
+                        <div className="h-3 rounded-full bg-green-500" style={{ width: "100%" }} />
+                      </div>
+                      <span className="w-20 text-right text-sm font-bold text-green-600">+${(roiResults.annualPremiumAtStart / 1000).toFixed(0)}k/yr</span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Assumes salary starts at {fmt(startingSalary)} and grows {salaryGrowthRate}%/yr. No-degree baseline: {fmt(noDegreeSalary)}/yr (BLS median, high school diploma). Opportunity cost = {studyYears} years × {fmt(noDegreeSalary)}/yr. IRR discounts all future premiums back to the investment date. All figures in nominal USD — not inflation-adjusted.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* ── Degree Dilution Index Results ──────────────────────────── */}
+            <div className="bg-card border border-border rounded-xl overflow-hidden">
+              <div className="px-5 py-4 border-b border-border flex items-center gap-2">
+                <Users className="w-4 h-4 text-purple-600" />
+                <h2 className="font-semibold text-sm">Degree Dilution Index</h2>
+                <span className="ml-auto text-xs text-muted-foreground">
+                  {dilutionResults?.country ?? ATTAINMENT_COUNTRIES.find(c => c.iso3 === dilutionCountry)?.name}
+                </span>
+              </div>
+              <div className="p-5">
+                {attainDataLoading ? (
+                  <p className="text-sm text-muted-foreground animate-pulse text-center py-4">Loading attainment data…</p>
+                ) : !dilutionResults ? (
+                  <p className="text-sm text-muted-foreground text-center py-4">No attainment data available for the selected country and period.</p>
+                ) : (
+                  <div className="space-y-4">
+
+                    {/* Key metrics */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      <div className="bg-muted/30 rounded-xl p-4 border border-border">
+                        <p className="text-xs text-muted-foreground mb-1">{dilutionResults.earlyYear} Attainment</p>
+                        <p className="text-2xl font-bold text-foreground">{dilutionResults.earlyPct}%</p>
+                        <p className="text-xs text-muted-foreground mt-1">of pop. 25+ held a degree</p>
+                      </div>
+                      <div className="bg-muted/30 rounded-xl p-4 border border-border">
+                        <p className="text-xs text-muted-foreground mb-1">{dilutionResults.recentYear} Attainment</p>
+                        <p className="text-2xl font-bold text-foreground">{dilutionResults.recentPct}%</p>
+                        <p className="text-xs text-muted-foreground mt-1">of pop. 25+ hold a degree</p>
+                      </div>
+                      <div className={`rounded-xl p-4 border ${dilutionResults.absoluteChange > 10 ? "bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900" : "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-900"}`}>
+                        <p className="text-xs text-muted-foreground mb-1">Change</p>
+                        <p className={`text-2xl font-bold ${dilutionResults.absoluteChange > 10 ? "text-amber-700 dark:text-amber-400" : "text-green-700 dark:text-green-400"}`}>
+                          +{dilutionResults.absoluteChange}pp
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">percentage points</p>
+                      </div>
+                      <div className={`rounded-xl p-4 border ${dilutionResults.scarcityScore >= 7 ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-900" : dilutionResults.scarcityScore >= 4 ? "bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900" : "bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-900"}`}>
+                        <p className="text-xs text-muted-foreground mb-1">Scarcity Score</p>
+                        <p className={`text-2xl font-bold ${dilutionResults.scarcityScore >= 7 ? "text-green-700 dark:text-green-400" : dilutionResults.scarcityScore >= 4 ? "text-amber-700 dark:text-amber-400" : "text-red-600"}`}>
+                          {dilutionResults.scarcityScore}/10
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">{dilutionResults.scarcityScore >= 7 ? "Rare — high premium" : dilutionResults.scarcityScore >= 4 ? "Moderate premium" : "Common — diluted"}</p>
+                      </div>
+                    </div>
+
+                    {/* Attainment trend sparkline */}
+                    {dilutionResults.chartData.length > 3 && (
+                      <div>
+                        <p className="text-xs font-medium text-muted-foreground mb-2">Bachelor Degree Attainment Over Time (%)</p>
+                        <ResponsiveContainer width="100%" height={140}>
+                          <LineChart data={dilutionResults.chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+                            <XAxis dataKey="year" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} interval="preserveStartEnd" />
+                            <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${v}%`} axisLine={false} tickLine={false} width={40} domain={["auto","auto"]} />
+                            <Tooltip formatter={(v: number) => [`${v}%`, "Attainment"]} contentStyle={{ fontSize: 12, borderRadius: 8 }} />
+                            <Line type="monotone" dataKey="pct" stroke="#9333ea" strokeWidth={2} dot={false} activeDot={{ r: 4 }} />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </div>
+                    )}
+
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      Degree attainment in {dilutionResults.country} rose by <strong>{dilutionResults.relativeChange}%</strong> in relative terms between {dilutionResults.earlyYear} and {dilutionResults.recentYear}. As more people hold your credential, the scarcity premium embedded in your wage tends to erode — this is the "degree dilution" effect. A score of 10/10 means fewer than 5% of adults hold the degree; 1/10 means more than 45%. Source: World Bank EdStats.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+          </div>
+        )}
+
         {/* ─── Global key stats panel ─────────────────────────────────────── */}
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-border flex items-center gap-2">
@@ -1130,7 +1633,7 @@ export default function EducationInflationCalculatorPage() {
           </div>
         </div>
 
-        {/* ─── How to use ─────────────────────────────────────────────────── */}
+        {/* ─── How to use ──────────────────��──────────────────────────────── */}
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-border">
             <h2 className="font-semibold text-sm">How to Use This Calculator</h2>
