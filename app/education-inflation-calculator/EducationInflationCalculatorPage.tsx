@@ -192,9 +192,39 @@ export default function EducationInflationCalculatorPage() {
   const [blogLoading, setBlogLoading] = useState(true)
 
   // Data
-  const [cpiData,     setCpiData]     = useState<Record<string, any> | null>(null)
-  const [tuitionData, setTuitionData] = useState<Record<string, any> | null>(null)
-  const [dataLoading, setDataLoading] = useState(true)
+  const [cpiData,        setCpiData]        = useState<Record<string, any> | null>(null)
+  const [generalCpiData, setGeneralCpiData] = useState<Record<string, any> | null>(null)
+  const [tuitionData,    setTuitionData]    = useState<Record<string, any> | null>(null)
+  const [dataLoading,    setDataLoading]    = useState(true)
+
+  // ─── Helper: convert any CPI series to a plain { year: index } map ─────────
+
+  function normaliseToYearMap(raw: any): Record<number, number> | null {
+    if (!raw) return null
+    // Already a plain object with numeric or string year keys e.g. { 2000: 93.1 }
+    if (typeof raw === "object" && !Array.isArray(raw)) {
+      const first = Object.keys(raw)[0]
+      if (!isNaN(Number(first))) {
+        const out: Record<number, number> = {}
+        for (const [k, v] of Object.entries(raw)) {
+          if (!isNaN(Number(k)) && typeof v === "number") out[Number(k)] = v
+        }
+        return Object.keys(out).length > 0 ? out : null
+      }
+    }
+    // Array of [year_string, value] pairs e.g. [["2007", 699.1], ...]
+    if (Array.isArray(raw)) {
+      const out: Record<number, number> = {}
+      for (const item of raw) {
+        if (Array.isArray(item) && item.length === 2) {
+          const yr = Number(item[0]); const val = Number(item[1])
+          if (!isNaN(yr) && !isNaN(val)) out[yr] = val
+        }
+      }
+      return Object.keys(out).length > 0 ? out : null
+    }
+    return null
+  }
 
   // ─── Load all data on mount ───────────────────────────────────────────────
 
@@ -203,8 +233,8 @@ export default function EducationInflationCalculatorPage() {
       setDataLoading(true)
       try {
         const [
-          eduCpi, onsCpi, eurostatCpi, canadaCpi, absCpi, intlCpi, japanCpi, nzCpi,
-          usTuition, ukTuition, eurTuition, canTuition, ausTuition, chfTuition, jpnTuition, nzTuition,
+          usdEduRaw, gbpEduRaw, eurEduRaw, cadEduRaw, audEduRaw, chfEduRaw, jpyEduRaw, nzdEduRaw,
+          usdGenRaw, gbpGenRaw, eurGenRaw, cadGenRaw, audGenRaw, chfGenRaw, jpyGenRaw, nzdGenRaw,
         ] = await Promise.all([
           fetch("/data/education-inflation.json").then(r => r.json()).catch(() => null),
           fetch("/data/ons-uk-education-cpi.json").then(r => r.json()).catch(() => null),
@@ -214,18 +244,79 @@ export default function EducationInflationCalculatorPage() {
           fetch("/data/education-cpi-international.json").then(r => r.json()).catch(() => null),
           fetch("/data/japan-education-cpi.json").then(r => r.json()).catch(() => null),
           fetch("/data/nz-education-cpi.json").then(r => r.json()).catch(() => null),
-          fetch("/data/education-inflation.json").then(r => r.json()).catch(() => null),
-          fetch("/data/uk-tuition-history.json").then(r => r.json()).catch(() => null),
-          fetch("/data/eurozone-tuition-fees.json").then(r => r.json()).catch(() => null),
-          fetch("/data/canada-tuition.json").then(r => r.json()).catch(() => null),
-          fetch("/data/australia-tuition-hecs.json").then(r => r.json()).catch(() => null),
-          fetch("/data/switzerland-tuition-fees.json").then(r => r.json()).catch(() => null),
-          fetch("/data/japan-tuition-mext.json").then(r => r.json()).catch(() => null),
-          fetch("/data/nz-tuition-fees.json").then(r => r.json()).catch(() => null),
+          // General (all-items) CPI per currency
+          fetch("/data/usd-inflation.json").then(r => r.json()).catch(() => null),
+          fetch("/data/gbp-inflation.json").then(r => r.json()).catch(() => null),
+          fetch("/data/eur-inflation.json").then(r => r.json()).catch(() => null),
+          fetch("/data/cad-inflation.json").then(r => r.json()).catch(() => null),
+          fetch("/data/aud-inflation.json").then(r => r.json()).catch(() => null),
+          fetch("/data/chf-inflation.json").then(r => r.json()).catch(() => null),
+          fetch("/data/jpy-inflation.json").then(r => r.json()).catch(() => null),
+          fetch("/data/nzd-inflation.json").then(r => r.json()).catch(() => null),
         ])
 
-        setCpiData({ USD: eduCpi, GBP: onsCpi, EUR: eurostatCpi, CAD: canadaCpi, AUD: absCpi, CHF: intlCpi, JPY: japanCpi, NZD: nzCpi })
-        setTuitionData({ USD: usTuition, GBP: ukTuition, EUR: eurTuition, CAD: canTuition, AUD: ausTuition, CHF: chfTuition, JPY: jpnTuition, NZD: nzTuition })
+        // ── Education CPI: extract to normalised { year: index } maps ────────
+
+        // USD: data is array [{year, educationCPI, generalCPI}]
+        const usdEduSeries: Record<number, number> = {}
+        if (Array.isArray(usdEduRaw?.data)) {
+          for (const row of usdEduRaw.data) {
+            if (row.year && row.educationCPI) usdEduSeries[Number(row.year)] = row.educationCPI
+          }
+        }
+
+        // GBP: series.D7C5.annualAvg keyed by number year
+        const gbpEduSeries = normaliseToYearMap(gbpEduRaw?.series?.D7C5?.annualAvg)
+
+        // EUR: countries.EU27_2020.annualIndex is array of [year_string, value]
+        const eurCountry = eurEduRaw?.countries?.["EU27_2020"] ??
+                           eurEduRaw?.countries?.["EA19"] ??
+                           eurEduRaw?.countries?.["DE"] ??
+                           Object.values(eurEduRaw?.countries ?? {})[0] as any
+        const eurEduSeries = normaliseToYearMap(eurCountry?.annualIndex)
+
+        // CAD: education.annual keyed by number year ✓
+        const cadEduSeries = normaliseToYearMap(cadEduRaw?.education?.annual)
+
+        // AUD: nationalSeries.totalEducation.annual keyed by string year
+        const audEduSeries = normaliseToYearMap(
+          audEduRaw?.nationalSeries?.totalEducation?.annual ??
+          audEduRaw?.nationalSeries?.tertiary?.annual
+        )
+
+        // CHF: countries.CHE.annualAvg keyed by number year (starts 2010)
+        const chfEduSeries = normaliseToYearMap(chfEduRaw?.countries?.CHE?.annualAvg)
+
+        // JPY: education.annual keyed by number year ✓
+        const jpyEduSeries = normaliseToYearMap(jpyEduRaw?.education?.annual)
+
+        // NZD: education.annual is array of [year_string, value] ✓
+        const nzdEduSeries = normaliseToYearMap(nzdEduRaw?.education?.annual)
+
+        setCpiData({
+          USD: usdEduSeries,
+          GBP: gbpEduSeries,
+          EUR: eurEduSeries,
+          CAD: cadEduSeries,
+          AUD: audEduSeries,
+          CHF: chfEduSeries,
+          JPY: jpyEduSeries,
+          NZD: nzdEduSeries,
+        })
+
+        // ── General CPI: all files have { data: { year: index } } ─────────
+        setGeneralCpiData({
+          USD: normaliseToYearMap(usdGenRaw?.data),
+          GBP: normaliseToYearMap(gbpGenRaw?.data),
+          EUR: normaliseToYearMap(eurGenRaw?.data),
+          CAD: normaliseToYearMap(cadGenRaw?.data),
+          AUD: normaliseToYearMap(audGenRaw?.data),
+          CHF: normaliseToYearMap(chfGenRaw?.data),
+          JPY: normaliseToYearMap(jpyGenRaw?.data),
+          NZD: normaliseToYearMap(nzdGenRaw?.data),
+        })
+
+        setTuitionData({ USD: usdEduRaw, GBP: gbpEduRaw })
       } catch {
         // silent fail — calculator still works with user-entered values
       } finally {
@@ -271,63 +362,28 @@ export default function EducationInflationCalculatorPage() {
     }
   }, [currency])
 
-  // ─── Get CPI annual series for selected currency ──────────────────────────
+  // ─── Get normalised CPI series for selected currency ─────────────────────
+  // cpiData[currency] is already a normalised { year: index } map after load
 
   const educationCpiSeries = useMemo((): Record<number, number> | null => {
     if (!cpiData) return null
-    const d = cpiData[currency]
-    if (!d) return null
-
-    // USD — education-inflation.json has data.cpi as { year: index }
-    if (currency === "USD") {
-      const raw = d?.data?.cpi
-      if (raw) return raw as Record<number, number>
-      // fallback: try d.education.annual
-      return d?.education?.annual ?? null
-    }
-    // GBP — ons-uk-education-cpi.json series D7C5.annual
-    if (currency === "GBP") {
-      return d?.series?.D7C5?.annual ?? d?.education?.annual ?? null
-    }
-    // EUR — eurostat-hicp-education.json countries.DEU.annual or similar
-    if (currency === "EUR") {
-      const countries = d?.countries
-      if (countries) {
-        // Use EU27 or DEU as representative
-        const eu = countries["EU27_2020"] ?? countries["DEU"] ?? countries["FRA"] ?? Object.values(countries)[0]
-        return (eu as any)?.annual ?? (eu as any)?.annualAvg ?? null
-      }
-      return null
-    }
-    // CAD — canada-education-cpi.json education.annual
-    if (currency === "CAD") {
-      return d?.education?.annual ?? null
-    }
-    // AUD — abs-education-cpi.json nationalSeries tertiary annual (quarterly → annual approx)
-    if (currency === "AUD") {
-      // education.annual if available, else try nationalSeries
-      if (d?.education?.annual) return d.education.annual
-      const ns = d?.nationalSeries
-      if (ns) {
-        const tertiary = ns["Tertiary education"] ?? ns["Education"] ?? Object.values(ns)[0]
-        return (tertiary as any)?.annual ?? null
-      }
-      return null
-    }
-    // CHF — education-cpi-international.json countries.CHE.annualAvg
-    if (currency === "CHF") {
-      return d?.countries?.CHE?.annualAvg ?? null
-    }
-    // JPY — japan-education-cpi.json education.annual
-    if (currency === "JPY") {
-      return d?.education?.annual ?? null
-    }
-    // NZD — nz-education-cpi.json education.annual
-    if (currency === "NZD") {
-      return d?.education?.annual ?? null
-    }
-    return null
+    return (cpiData[currency] as Record<number, number>) ?? null
   }, [cpiData, currency])
+
+  const generalCpiSeries = useMemo((): Record<number, number> | null => {
+    if (!generalCpiData) return null
+    return (generalCpiData[currency] as Record<number, number>) ?? null
+  }, [generalCpiData, currency])
+
+  // ─── Helper: get % change from a series between two years ────────────────
+
+  function seriesPct(series: Record<number, number> | null, y1: number, y2: number): number | null {
+    if (!series) return null
+    const start = series[y1]
+    const end   = series[y2] ?? series[y2 - 1]
+    if (!start || !end) return null
+    return ((end / start) - 1) * 100
+  }
 
   // ─── Core calculations ────────────────────────────────────────────────────
 
@@ -340,40 +396,57 @@ export default function EducationInflationCalculatorPage() {
     const totalPct = ((curr / old) - 1) * 100
     const cagr = (Math.pow(curr / old, 1 / years) - 1) * 100
 
-    // CPI comparison
-    let cpiPct: number | null = null
-    let excessOverCpi: number | null = null
-    let cpiAdjustedCost: number | null = null
+    // Education CPI comparison
+    const cpiPct = seriesPct(educationCpiSeries, fromYear, toYear)
+    const excessOverCpi = cpiPct !== null ? totalPct - cpiPct : null
 
-    if (educationCpiSeries) {
-      const startIdx = educationCpiSeries[fromYear]
-      const endIdx   = educationCpiSeries[toYear] ?? educationCpiSeries[toYear - 1]
-      if (startIdx && endIdx) {
-        cpiPct = ((endIdx / startIdx) - 1) * 100
-        excessOverCpi  = totalPct - cpiPct
-        cpiAdjustedCost = old * (endIdx / startIdx)
-      }
-    }
+    // General (all-items) CPI comparison
+    const generalCpiPct = seriesPct(generalCpiSeries, fromYear, toYear)
+    const excessOverGeneral = generalCpiPct !== null ? totalPct - generalCpiPct : null
+
+    // CPI-adjusted cost baseline (what tuition should cost if it had only risen with education CPI)
+    const cpiAdjustedCost = (() => {
+      if (!educationCpiSeries) return null
+      const start = educationCpiSeries[fromYear]
+      const end   = educationCpiSeries[toYear] ?? educationCpiSeries[toYear - 1]
+      if (!start || !end) return null
+      return old * (end / start)
+    })()
+
+    // General-CPI-adjusted baseline
+    const generalAdjustedCost = (() => {
+      if (!generalCpiSeries) return null
+      const start = generalCpiSeries[fromYear]
+      const end   = generalCpiSeries[toYear] ?? generalCpiSeries[toYear - 1]
+      if (!start || !end) return null
+      return old * (end / start)
+    })()
 
     // Projections at historical CAGR
     const proj5yr  = curr * Math.pow(1 + cagr / 100, 5)
     const proj10yr = curr * Math.pow(1 + cagr / 100, 10)
 
-    // What CPI-adjusted cost should have been
+    // Education Inflation Tax = how much you paid above what education CPI alone justifies
     const inflationTax = cpiAdjustedCost !== null ? curr - cpiAdjustedCost : null
 
-    return { old, curr, totalPct, cagr, cpiPct, excessOverCpi, cpiAdjustedCost, inflationTax, years, proj5yr, proj10yr }
-  }, [oldTuition, newTuition, fromYear, toYear, educationCpiSeries])
+    return {
+      old, curr, totalPct, cagr,
+      cpiPct, excessOverCpi, cpiAdjustedCost, inflationTax,
+      generalCpiPct, excessOverGeneral, generalAdjustedCost,
+      years, proj5yr, proj10yr
+    }
+  }, [oldTuition, newTuition, fromYear, toYear, educationCpiSeries, generalCpiSeries])
 
-  // ─── Summary stats (CPI changes across full period for selected currency) ──
+  // ─── Summary stats (Education CPI change over selected period) ───────────
 
   const summaryStats = useMemo(() => {
     if (!educationCpiSeries) return null
+    const pct = seriesPct(educationCpiSeries, fromYear, toYear)
+    if (pct === null) return null
+    const yrs = toYear - fromYear || 1
     const startIdx = educationCpiSeries[fromYear]
     const endIdx   = educationCpiSeries[toYear] ?? educationCpiSeries[toYear - 1]
     if (!startIdx || !endIdx) return null
-    const pct = ((endIdx / startIdx) - 1) * 100
-    const yrs = toYear - fromYear || 1
     const cagr = (Math.pow(endIdx / startIdx, 1 / yrs) - 1) * 100
     return {
       pct:  Math.round(pct  * 10) / 10,
@@ -381,36 +454,51 @@ export default function EducationInflationCalculatorPage() {
     }
   }, [educationCpiSeries, fromYear, toYear])
 
-  // ─── Line chart: CPI-adjusted baseline vs user's actual tuition ───────────
+  // ─── Line chart: CPI-adjusted baseline vs general CPI vs actual ──────────
 
   const lineChartData = useMemo(() => {
-    if (!results || !educationCpiSeries) return []
-    const startIdx = educationCpiSeries[fromYear]
-    if (!startIdx) return []
+    if (!results) return []
+    const eduStart = educationCpiSeries?.[fromYear]
+    const genStart = generalCpiSeries?.[fromYear]
 
     const out: any[] = []
     for (let y = fromYear; y <= toYear; y++) {
-      const idx = educationCpiSeries[y]
-      if (!idx) continue
-      const cpiLine = results.old * (idx / startIdx)
-      out.push({
-        year: y,
-        "CPI-Adjusted Baseline": Math.round(cpiLine),
-        "Actual Cost": y === fromYear ? results.old : y === toYear ? results.curr : null,
-      })
+      const entry: any = { year: y }
+
+      // Education CPI trajectory
+      if (eduStart && educationCpiSeries?.[y]) {
+        entry["Edu CPI Baseline"] = Math.round(results.old * (educationCpiSeries[y] / eduStart))
+      }
+      // General CPI trajectory
+      if (genStart && generalCpiSeries?.[y]) {
+        entry["General CPI Baseline"] = Math.round(results.old * (generalCpiSeries[y] / genStart))
+      }
+      // Actual tuition (only mark start and end, interpolate linearly for visual)
+      if (y === fromYear) entry["Your Tuition"] = results.old
+      else if (y === toYear) entry["Your Tuition"] = results.curr
+      else {
+        // Linear interpolation for a clean line
+        const frac = (y - fromYear) / (toYear - fromYear)
+        entry["Your Tuition"] = Math.round(results.old + frac * (results.curr - results.old))
+      }
+
+      out.push(entry)
     }
     return out
-  }, [results, educationCpiSeries, fromYear, toYear])
+  }, [results, educationCpiSeries, generalCpiSeries, fromYear, toYear])
 
-  // ─── Bar chart: % change comparison ──────────────────────────────────────
+  // ─── Bar chart: 3-bar % change comparison ────────────────────────────────
 
   const barData = useMemo(() => {
     if (!results) return []
-    const items = [
+    const items: { name: string; value: number; fill: string }[] = [
       { name: "Your Tuition", value: Math.round(results.totalPct * 10) / 10, fill: "#2563eb" },
     ]
     if (results.cpiPct !== null) {
       items.push({ name: "Education CPI", value: Math.round(results.cpiPct * 10) / 10, fill: "#6b7280" })
+    }
+    if (results.generalCpiPct !== null) {
+      items.push({ name: "General CPI", value: Math.round(results.generalCpiPct * 10) / 10, fill: "#9ca3af" })
     }
     return items
   }, [results])
@@ -659,7 +747,7 @@ export default function EducationInflationCalculatorPage() {
                 </div>
               </div>
 
-              {/* Stat cards */}
+              {/* Stat cards — row 1: your tuition / edu CPI / general CPI / inflation tax */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="bg-card border border-border rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-1">
@@ -672,34 +760,27 @@ export default function EducationInflationCalculatorPage() {
 
                 <div className="bg-card border border-border rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-1">
-                    <BarChart3 className="w-4 h-4 text-muted-foreground" />
+                    <BarChart3 className="w-4 h-4 text-slate-500" />
                     <span className="text-xs text-muted-foreground">Education CPI</span>
                   </div>
                   <p className="text-2xl font-bold text-foreground">
                     {results.cpiPct !== null ? fmtPct(results.cpiPct) : "—"}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">Official benchmark</p>
+                  <p className="text-xs text-muted-foreground mt-1">Official edu benchmark</p>
                 </div>
 
-                {results.excessOverCpi !== null && (
-                  <div className="bg-card border border-border rounded-xl p-4">
-                    <div className="flex items-center gap-2 mb-1">
-                      {results.excessOverCpi > 0
-                        ? <TrendingUp className="w-4 h-4 text-orange-500" />
-                        : <TrendingDown className="w-4 h-4 text-green-500" />
-                      }
-                      <span className="text-xs text-muted-foreground">vs Education CPI</span>
-                    </div>
-                    <p className={`text-2xl font-bold ${results.excessOverCpi > 0 ? "text-orange-500" : "text-green-600"}`}>
-                      {results.excessOverCpi > 0 ? "+" : ""}{results.excessOverCpi.toFixed(1)}pp
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {results.excessOverCpi > 0 ? "above" : "below"} CPI
-                    </p>
+                <div className="bg-card border border-border rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <BarChart3 className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground">General CPI</span>
                   </div>
-                )}
+                  <p className="text-2xl font-bold text-foreground">
+                    {results.generalCpiPct !== null ? fmtPct(results.generalCpiPct) : "—"}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">All-items inflation</p>
+                </div>
 
-                {results.inflationTax !== null && results.inflationTax > 0 && (
+                {results.inflationTax !== null && results.inflationTax > 0 ? (
                   <div className="bg-card border border-border rounded-xl p-4">
                     <div className="flex items-center gap-2 mb-1">
                       <Info className="w-4 h-4 text-red-500" />
@@ -708,8 +789,71 @@ export default function EducationInflationCalculatorPage() {
                     <p className="text-2xl font-bold text-red-500">{fmt(results.inflationTax)}</p>
                     <p className="text-xs text-muted-foreground mt-1">above CPI-adjusted cost</p>
                   </div>
+                ) : (
+                  <div className="bg-card border border-border rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      <TrendingUp className="w-4 h-4 text-blue-500" />
+                      <span className="text-xs text-muted-foreground">Annual Rate</span>
+                    </div>
+                    <p className="text-2xl font-bold text-foreground">{results.cagr.toFixed(2)}%</p>
+                    <p className="text-xs text-muted-foreground mt-1">CAGR per year</p>
+                  </div>
                 )}
               </div>
+
+              {/* CPI comparison panel */}
+              {(results.cpiPct !== null || results.generalCpiPct !== null) && (
+                <div className="bg-card border border-border rounded-xl p-5">
+                  <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-blue-600" />
+                    How Your Education Inflation Compares — {fromYear} to {toYear}
+                  </h3>
+                  <div className="space-y-3">
+                    {/* Your tuition */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-32 text-xs text-muted-foreground shrink-0">Your Tuition</div>
+                      <div className="flex-1 bg-muted rounded-full h-3 relative overflow-hidden">
+                        <div
+                          className="h-3 rounded-full bg-blue-600"
+                          style={{ width: `${Math.min(100, Math.max(2, results.totalPct / Math.max(results.totalPct, results.cpiPct ?? 0, results.generalCpiPct ?? 0, 1) * 100))}%` }}
+                        />
+                      </div>
+                      <div className="w-20 text-right text-sm font-bold text-blue-600">{fmtPct(results.totalPct)}</div>
+                    </div>
+                    {/* Education CPI */}
+                    {results.cpiPct !== null && (
+                      <div className="flex items-center gap-3">
+                        <div className="w-32 text-xs text-muted-foreground shrink-0">Education CPI</div>
+                        <div className="flex-1 bg-muted rounded-full h-3 relative overflow-hidden">
+                          <div
+                            className="h-3 rounded-full bg-slate-500"
+                            style={{ width: `${Math.min(100, Math.max(2, results.cpiPct / Math.max(results.totalPct, results.cpiPct, results.generalCpiPct ?? 0, 1) * 100))}%` }}
+                          />
+                        </div>
+                        <div className="w-20 text-right text-sm font-bold text-slate-600 dark:text-slate-400">{fmtPct(results.cpiPct)}</div>
+                      </div>
+                    )}
+                    {/* General CPI */}
+                    {results.generalCpiPct !== null && (
+                      <div className="flex items-center gap-3">
+                        <div className="w-32 text-xs text-muted-foreground shrink-0">General CPI</div>
+                        <div className="flex-1 bg-muted rounded-full h-3 relative overflow-hidden">
+                          <div
+                            className="h-3 rounded-full bg-gray-400"
+                            style={{ width: `${Math.min(100, Math.max(2, results.generalCpiPct / Math.max(results.totalPct, results.cpiPct ?? 0, results.generalCpiPct, 1) * 100))}%` }}
+                          />
+                        </div>
+                        <div className="w-20 text-right text-sm font-bold text-gray-500 dark:text-gray-400">{fmtPct(results.generalCpiPct)}</div>
+                      </div>
+                    )}
+                  </div>
+                  {results.excessOverGeneral !== null && (
+                    <p className="text-xs text-muted-foreground mt-3 pt-3 border-t border-border">
+                      Your tuition rose <strong className="text-foreground">{results.excessOverGeneral > 0 ? "+" : ""}{results.excessOverGeneral.toFixed(1)} percentage points</strong> {results.excessOverGeneral > 0 ? "faster" : "slower"} than general inflation — meaning education absorbed {results.excessOverGeneral > 0 ? "a disproportionately larger" : "a smaller"} share of a typical household budget.
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* Projections */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -783,25 +927,35 @@ export default function EducationInflationCalculatorPage() {
                         <Legend wrapperStyle={{ fontSize: 12 }} />
                         <Line
                           type="monotone"
-                          dataKey="CPI-Adjusted Baseline"
-                          stroke="#6b7280"
+                          dataKey="General CPI Baseline"
+                          stroke="#9ca3af"
+                          strokeWidth={1.5}
+                          strokeDasharray="3 3"
+                          dot={false}
+                          activeDot={{ r: 3 }}
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="Edu CPI Baseline"
+                          stroke="#64748b"
                           strokeWidth={2}
-                          strokeDasharray="5 3"
+                          strokeDasharray="6 3"
                           dot={false}
                           activeDot={{ r: 4 }}
                         />
                         <Line
                           type="monotone"
-                          dataKey="Actual Cost"
+                          dataKey="Your Tuition"
                           stroke="#2563eb"
                           strokeWidth={2.5}
-                          dot={{ r: 5 }}
-                          connectNulls={false}
+                          dot={false}
+                          activeDot={{ r: 5 }}
+                          connectNulls
                         />
                       </LineChart>
                     </ResponsiveContainer>
                     <p className="text-xs text-muted-foreground mt-2 text-center">
-                      Dashed = what tuition would cost if it only rose with Education CPI. Solid dots = your actual tuition entries.
+                      Blue = your tuition. Dark dashed = Education CPI baseline. Light dashed = General CPI (all-items) baseline.
                     </p>
                   </div>
                 </div>
@@ -847,7 +1001,7 @@ export default function EducationInflationCalculatorPage() {
                       </BarChart>
                     </ResponsiveContainer>
                     <p className="text-xs text-muted-foreground mt-1 text-center">
-                      Blue = your tuition change. Gray = official Education CPI change over the same period.
+                      Blue = your tuition change &nbsp;|&nbsp; Dark gray = Education CPI &nbsp;|&nbsp; Light gray = General (all-items) CPI
                     </p>
                   </div>
                 </div>
