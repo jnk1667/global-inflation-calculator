@@ -1676,7 +1676,7 @@ export default function EducationInflationCalculatorPage() {
           </div>
         </div>
 
-        {/* ─── Data Sources & Methodology ─────────────────────────────────── */}
+        {/* ─── Data Sources & Methodology ────��────────────────────────────── */}
         <div className="bg-muted/30 border border-border rounded-xl p-5">
           <div className="flex items-start gap-2 mb-3">
             <Info className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
@@ -1834,6 +1834,7 @@ export default function EducationInflationCalculatorPage() {
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-sm">
                 {[
+                  { href: "/",                                                label: "Home - Inflation Calculator"      },
                   { href: "/mortgage-calculator",                              label: "Mortgage Calculator"              },
                   { href: "/home-affordability-calculator/inflation-adjusted", label: "Home Affordability Calculator"    },
                   { href: "/deflation-calculator",                             label: "Deflation Calculator"             },
@@ -1841,6 +1842,7 @@ export default function EducationInflationCalculatorPage() {
                   { href: "/skimpflation-calculator",                          label: "Skimpflation Calculator"          },
                   { href: "/sneakflation-calculator",                          label: "Sneakflation Calculator"          },
                   { href: "/energy-inflation-calculator",                      label: "Energy Inflation Calculator"      },
+                  { href: "/subscription-inflation-calculator",                label: "Subscription Inflation Calculator" },
                   { href: "/charts",                                           label: "Charts & Analytics"               },
                   { href: "/investment-race-calculator",                       label: "Investment Race Calculator"       },
                   { href: "/global-compound-interest",                         label: "Compound Interest Calculator"     },
@@ -1848,12 +1850,15 @@ export default function EducationInflationCalculatorPage() {
                   { href: "/ppp-calculator",                                   label: "PPP Calculator"                   },
                   { href: "/auto-loan-calculator",                             label: "Auto Loan Calculator"             },
                   { href: "/salary-calculator",                                label: "Salary Calculator"                },
+                  { href: "/salary-calculator/regional-cost-of-living",        label: "Regional Cost of Living"          },
                   { href: "/retirement-calculator",                            label: "Retirement Calculator"            },
                   { href: "/student-loan-calculator",                          label: "Student Loan Calculator"          },
                   { href: "/budget-calculator",                                label: "Budget Calculator"                },
                   { href: "/emergency-fund-calculator",                        label: "Emergency Fund Calculator"        },
                   { href: "/roi-calculator",                                   label: "ROI Calculator"                   },
                   { href: "/insurance-inflation-calculator",                   label: "Insurance Inflation Calculator"   },
+                  { href: "/legacy-planner",                                   label: "Legacy Planner"                   },
+                  { href: "/dateflation-calculator",                           label: "Dateflation Calculator"           },
                   { href: "/about",                                            label: "About Us"                         },
                   { href: "/privacy",                                          label: "Privacy Policy"                   },
                   { href: "/terms",                                            label: "Terms of Service"                 },
