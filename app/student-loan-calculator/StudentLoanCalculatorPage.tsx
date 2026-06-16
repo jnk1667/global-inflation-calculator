@@ -729,81 +729,43 @@ export default function StudentLoanCalculatorPage() {
               <div>
                 <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul className="text-gray-300 space-y-2">
-                  <li>
-                    <Link href="/" className="hover:text-blue-400 transition-colors">
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/deflation-calculator" className="hover:text-blue-400 transition-colors">
-                      Deflation Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/charts" className="hover:text-blue-400 transition-colors">
-                      Charts & Analytics
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/ppp-calculator" className="hover:text-blue-400 transition-colors">
-                      PPP Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/salary-calculator" className="hover:text-blue-400 transition-colors">
-                      Salary Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/retirement-calculator" className="hover:text-blue-400 transition-colors">
-                      Retirement Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/student-loan-calculator" className="hover:text-blue-400 transition-colors">
-                      Student Loan Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/mortgage-calculator" className="hover:text-blue-400 transition-colors">
-                      Mortgage Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/budget-calculator" className="hover:text-blue-400 transition-colors">
-                      Budget Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/emergency-fund-calculator" className="hover:text-blue-400 transition-colors">
-                      Emergency Fund Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/roi-calculator" className="hover:text-blue-400 transition-colors">
-                      ROI Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/legacy-planner" className="hover:text-blue-400 transition-colors">
-                      Legacy Planner
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/about" className="hover:text-blue-400 transition-colors">
-                      About Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/privacy" className="hover:text-blue-400 transition-colors">
-                      Privacy Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/terms" className="hover:text-blue-400 transition-colors">
-                      Terms of Service
-                    </Link>
-                  </li>
+                  {[
+                    { href: "/",                                                   label: "Home - Inflation Calculator"       },
+                    { href: "/mortgage-calculator",                                label: "Mortgage Calculator"               },
+                    { href: "/home-affordability-calculator/inflation-adjusted",   label: "Home Affordability Calculator"     },
+                    { href: "/deflation-calculator",                               label: "Deflation Calculator"              },
+                    { href: "/shrinkflation-calculator",                           label: "Shrinkflation Calculator"          },
+                    { href: "/energy-inflation-calculator",                        label: "Energy Inflation Calculator"       },
+                    { href: "/skimpflation-calculator",                            label: "Skimpflation Calculator"           },
+                    { href: "/sneakflation-calculator",                            label: "Sneakflation Calculator"           },
+                    { href: "/subscription-inflation-calculator",                  label: "Subscription Inflation Calculator" },
+                    { href: "/charts",                                             label: "Charts & Analytics"                },
+                    { href: "/investment-race-calculator",                         label: "Investment Race Calculator"        },
+                    { href: "/global-compound-interest",                           label: "Compound Interest Calculator"      },
+                    { href: "/global-net-worth-calculator",                        label: "Global Net Worth Calculator"       },
+                    { href: "/ppp-calculator",                                     label: "PPP Calculator"                    },
+                    { href: "/auto-loan-calculator",                               label: "Auto Loan Calculator"              },
+                    { href: "/salary-calculator",                                  label: "Salary Calculator"                 },
+                    { href: "/retirement-calculator",                              label: "Retirement Calculator"             },
+                    { href: "/student-loan-calculator",                            label: "Student Loan Calculator"           },
+                    { href: "/budget-calculator",                                  label: "Budget Calculator"                 },
+                    { href: "/emergency-fund-calculator",                          label: "Emergency Fund Calculator"         },
+                    { href: "/roi-calculator",                                     label: "ROI Calculator"                    },
+                    { href: "/insurance-inflation-calculator",                     label: "Insurance Inflation Calculator"    },
+                    { href: "/legacy-planner",                                     label: "Legacy Planner"                    },
+                    { href: "/education-inflation-calculator",                     label: "Education Inflation Calculator"    },
+                    { href: "/salary-calculator/regional-cost-of-living",          label: "Regional Cost of Living"           },
+                    { href: "/dateflation-calculator",                             label: "Dateflation Calculator"            },
+                    { href: "/about",                                              label: "About Us"                          },
+                    { href: "/privacy",                                            label: "Privacy Policy"                    },
+                    { href: "/terms",                                              label: "Terms of Service"                  },
+                  ].map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} className="hover:text-blue-400 transition-colors">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
