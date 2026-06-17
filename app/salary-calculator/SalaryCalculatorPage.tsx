@@ -2304,22 +2304,13 @@ In today's economic landscape, understanding how inflation affects your salary i
                           ))}
                         </ul>
                       </div>
-                      {/* </CHANGE> */}
-                              Terms of Service
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* </CHANGE> */}
                     </div>
 
                     {/* Copyright Footer */}
                     <div className="mt-8 pt-8 border-t border-gray-800 text-center">
-                      {/* Updated copyright year */}
                       <p className="text-gray-500 text-sm">
                         © 2026 Global Inflation Calculator. Educational purposes only.
                       </p>
-                      {/* </CHANGE> */}
                     </div>
                   </div>
                 </footer>
