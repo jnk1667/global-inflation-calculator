@@ -167,11 +167,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/llms.txt`,
+      url: `${baseUrl}/accessibility`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/llms`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/sitemap.xml`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
     },
+
     {
       url: `${baseUrl}/sitemap.xml`,
       lastModified: new Date(),
