@@ -250,7 +250,6 @@ export default function RegionalCostOfLivingRoute() {
       <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
       <JsonLd id="schema-faq" data={faqSchema} />
       <JsonLd id="schema-dataset" data={datasetSchema} />
-      <h1 className="sr-only">Regional Cost of Living Comparison</h1>
       <RegionalCostOfLivingPage />
 
       <noscript>
@@ -274,7 +273,6 @@ export default function RegionalCostOfLivingRoute() {
           </nav>
 
           <header className="mb-8">
-            <h1 className="text-4xl font-bold mb-4">Regional Cost of Living Comparison</h1>
             <p className="text-lg text-muted-foreground">
               This tool requires JavaScript to function. Please enable JavaScript to compare cost of living across 80+
               cities worldwide.
