@@ -250,6 +250,7 @@ export default function RegionalCostOfLivingRoute() {
       <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
       <JsonLd id="schema-faq" data={faqSchema} />
       <JsonLd id="schema-dataset" data={datasetSchema} />
+      <h1 className="sr-only">Regional Cost of Living Comparison</h1>
       <RegionalCostOfLivingPage />
 
       <noscript>
