@@ -193,7 +193,11 @@ const faqSchema = {
   ],
 }
 
-export const metadata: Metadata = {}
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.globalinflationcalculator.com/",
+  },
+}
 
 const ClientPage = dynamic(() => import("./ClientPage"), {
   loading: () => (
