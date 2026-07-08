@@ -1,0 +1,131 @@
+{
+  "metadata": {
+    "lastUpdated": "2026-07",
+    "version": "1.0",
+    "description": "Restaurants and Hotels CPI indices (COICOP CP11) for all 8 currencies. Covers meals and non-alcoholic drinks consumed outside the home: restaurants, cafes, fast food, canteens, and accommodation services.",
+    "currencies": ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY", "NZD"],
+    "indexBase": "2015=100 for GBP, EUR, CAD, CHF, NZD, JPY. USD: 1982-84=100 native (BLS CUUR0000SEFV). AUD: 2011-Q3=100 native.",
+    "sources": {
+      "USD": "BLS CPI-U Food Away from Home (CUUR0000SEFV), native base 1982-84=100.",
+      "GBP": "ONS CPI Restaurants and Hotels (COICOP CP11), 2015=100. FRED GBRCP110000IXNBQ (2000-2022), ONS CPI detailed reference tables 2023-2025.",
+      "EUR": "Eurostat HICP Euro area (EA) CP11 Restaurants and Hotels, annual average 2015=100. Dataset: prc_hicp_aind.",
+      "CAD": "Statistics Canada CPI Food Purchased from Restaurants. FRED CANCP110000IXNBM (2015-2022), Stats Canada Table 18-10-0004-01 YoY rates 2023-2025.",
+      "AUD": "ABS CPI Hotels, Cafes and Restaurants (COICOP CP11). FRED AUSCP110000IXNBQ (2012-2022), ABS CPI quarterly release annual YoY rates 2023-2025.",
+      "CHF": "Swiss FSO CPI Restaurants and Hotels (CP11). FRED CP1100CHM086NEST (2005-2025, complete).",
+      "JPY": "Statistics Bureau of Japan CPI Eating Out. FRED JPNCP110000GPM monthly, annual averages computed. 2021-2025 from Japan Stats Bureau annual CPI release (2020=100), chain-linked.",
+      "NZD": "Stats NZ CPI Restaurant Meals and Ready-to-Eat Food (COICOP CP11). FRED NZLCP110000IXNBQ (2007-2022), Stats NZ Infoshare annual rates 2023-2025."
+    },
+    "notes": "USD Food Away from Home has risen consistently faster than overall CPI, driven by labour costs. Japan's eating-out category remained nearly flat 2000-2020 (deflationary era) then surged post-2022 on energy and food input cost pass-through. CHF restaurants are the most expensive globally in absolute terms but have relatively low inflation due to already-high base prices."
+  },
+
+  "diningIndex": {
+    "USD": {
+      "description": "BLS CPI-U Food Away from Home (CUUR0000SEFV), native base 1982-84=100",
+      "base": "1982-84=100",
+      "data": [
+        { "year": 2000, "index": 246.2 }, { "year": 2001, "index": 256.2 }, { "year": 2002, "index": 263.7 },
+        { "year": 2003, "index": 271.0 }, { "year": 2004, "index": 280.0 }, { "year": 2005, "index": 290.3 },
+        { "year": 2006, "index": 301.7 }, { "year": 2007, "index": 315.1 }, { "year": 2008, "index": 330.6 },
+        { "year": 2009, "index": 339.1 }, { "year": 2010, "index": 349.1 }, { "year": 2011, "index": 362.9 },
+        { "year": 2012, "index": 375.0 }, { "year": 2013, "index": 386.5 }, { "year": 2014, "index": 400.4 },
+        { "year": 2015, "index": 411.3 }, { "year": 2016, "index": 421.4 }, { "year": 2017, "index": 432.5 },
+        { "year": 2018, "index": 444.8 }, { "year": 2019, "index": 459.5 }, { "year": 2020, "index": 469.6 },
+        { "year": 2021, "index": 493.4 }, { "year": 2022, "index": 536.0 }, { "year": 2023, "index": 561.4 },
+        { "year": 2024, "index": 580.4 }, { "year": 2025, "index": 596.7 }
+      ]
+    },
+    "GBP": {
+      "description": "ONS CPI Restaurants and Hotels (COICOP CP11), 2015=100",
+      "source": "FRED GBRCP110000IXNBQ (2000-2022), ONS CPI detailed reference tables (2023-2025)",
+      "data": [
+        { "year": 2000, "index": 63.5 }, { "year": 2001, "index": 65.6 }, { "year": 2002, "index": 67.8 },
+        { "year": 2003, "index": 70.2 }, { "year": 2004, "index": 72.8 }, { "year": 2005, "index": 75.2 },
+        { "year": 2006, "index": 77.5 }, { "year": 2007, "index": 80.3 }, { "year": 2008, "index": 83.8 },
+        { "year": 2009, "index": 85.9 }, { "year": 2010, "index": 88.5 }, { "year": 2011, "index": 93.0 },
+        { "year": 2012, "index": 96.2 }, { "year": 2013, "index": 98.0 }, { "year": 2014, "index": 99.2 },
+        { "year": 2015, "index": 100.0 }, { "year": 2016, "index": 102.1 }, { "year": 2017, "index": 104.6 },
+        { "year": 2018, "index": 107.8 }, { "year": 2019, "index": 111.4 }, { "year": 2020, "index": 113.8 },
+        { "year": 2021, "index": 116.9 }, { "year": 2022, "index": 125.9 }, { "year": 2023, "index": 137.6 },
+        { "year": 2024, "index": 144.6 }, { "year": 2025, "index": 149.5 }
+      ]
+    },
+    "EUR": {
+      "description": "Eurostat HICP Euro area (EA) Restaurants and Hotels (CP11), annual average 2015=100",
+      "source": "Eurostat prc_hicp_aind, geo=EA, coicop=CP11",
+      "data": [
+        { "year": 1996, "index": 68.0 }, { "year": 1997, "index": 69.8 }, { "year": 1998, "index": 71.7 },
+        { "year": 1999, "index": 73.8 }, { "year": 2000, "index": 76.2 }, { "year": 2001, "index": 79.2 },
+        { "year": 2002, "index": 82.6 }, { "year": 2003, "index": 85.4 }, { "year": 2004, "index": 87.9 },
+        { "year": 2005, "index": 90.3 }, { "year": 2006, "index": 92.7 }, { "year": 2007, "index": 95.5 },
+        { "year": 2008, "index": 98.5 }, { "year": 2009, "index": 99.9 }, { "year": 2010, "index": 101.3 },
+        { "year": 2011, "index": 103.8 }, { "year": 2012, "index": 106.1 }, { "year": 2013, "index": 107.6 },
+        { "year": 2014, "index": 108.8 }, { "year": 2015, "index": 100.0 }, { "year": 2016, "index": 101.3 },
+        { "year": 2017, "index": 102.9 }, { "year": 2018, "index": 104.6 }, { "year": 2019, "index": 106.8 },
+        { "year": 2020, "index": 108.0 }, { "year": 2021, "index": 110.2 }, { "year": 2022, "index": 118.0 },
+        { "year": 2023, "index": 126.4 }, { "year": 2024, "index": 132.1 }, { "year": 2025, "index": 135.8 }
+      ]
+    },
+    "CAD": {
+      "description": "Statistics Canada CPI Food Purchased from Restaurants, 2015=100",
+      "source": "FRED CANCP110000IXNBM (2015-2022), Stats Canada Table 18-10-0004-01 annual YoY rates 2023-2025",
+      "data": [
+        { "year": 2015, "index": 101.5 }, { "year": 2016, "index": 103.3 }, { "year": 2017, "index": 105.4 },
+        { "year": 2018, "index": 108.5 }, { "year": 2019, "index": 111.4 }, { "year": 2020, "index": 113.0 },
+        { "year": 2021, "index": 116.6 }, { "year": 2022, "index": 125.2 }, { "year": 2023, "index": 133.3 },
+        { "year": 2024, "index": 138.1 }, { "year": 2025, "index": 141.7 }
+      ]
+    },
+    "AUD": {
+      "description": "ABS CPI Hotels, Cafes and Restaurants (COICOP CP11), 2011-Q3=100 native",
+      "source": "FRED AUSCP110000IXNBQ (2012-2022), ABS CPI quarterly release annual YoY rates 2023-2025",
+      "data": [
+        { "year": 2012, "index": 102.8 }, { "year": 2013, "index": 104.8 }, { "year": 2014, "index": 106.7 },
+        { "year": 2015, "index": 107.8 }, { "year": 2016, "index": 110.2 }, { "year": 2017, "index": 112.5 },
+        { "year": 2018, "index": 116.6 }, { "year": 2019, "index": 125.7 }, { "year": 2020, "index": 133.9 },
+        { "year": 2021, "index": 138.8 }, { "year": 2022, "index": 156.2 }, { "year": 2023, "index": 161.5 },
+        { "year": 2024, "index": 164.1 }, { "year": 2025, "index": 167.2 }
+      ]
+    },
+    "CHF": {
+      "description": "Swiss FSO CPI Restaurants and Hotels (CP11), 2015=100",
+      "source": "FRED CP1100CHM086NEST (2005-2025, complete)",
+      "data": [
+        { "year": 2005, "index": 89.2 }, { "year": 2006, "index": 90.8 }, { "year": 2007, "index": 92.3 },
+        { "year": 2008, "index": 94.6 }, { "year": 2009, "index": 96.1 }, { "year": 2010, "index": 97.5 },
+        { "year": 2011, "index": 98.6 }, { "year": 2012, "index": 98.8 }, { "year": 2013, "index": 99.0 },
+        { "year": 2014, "index": 99.3 }, { "year": 2015, "index": 97.5 }, { "year": 2016, "index": 98.1 },
+        { "year": 2017, "index": 98.9 }, { "year": 2018, "index": 99.8 }, { "year": 2019, "index": 100.7 },
+        { "year": 2020, "index": 99.1 }, { "year": 2021, "index": 98.5 }, { "year": 2022, "index": 102.3 },
+        { "year": 2023, "index": 105.9 }, { "year": 2024, "index": 107.8 }, { "year": 2025, "index": 100.0 }
+      ]
+    },
+    "JPY": {
+      "description": "Japan Statistics Bureau CPI Eating Out, 2015=100 chain-linked",
+      "source": "FRED JPNCP110000GPM monthly annual averages (2000-2020); Japan Stats Bureau annual CPI release 2021-2025 (2020=100) chain-linked via 2020 anchor=102.8",
+      "data": [
+        { "year": 2000, "index": 95.7 }, { "year": 2001, "index": 95.5 }, { "year": 2002, "index": 95.3 },
+        { "year": 2003, "index": 95.0 }, { "year": 2004, "index": 94.6 }, { "year": 2005, "index": 94.4 },
+        { "year": 2006, "index": 94.6 }, { "year": 2007, "index": 95.0 }, { "year": 2008, "index": 96.6 },
+        { "year": 2009, "index": 96.7 }, { "year": 2010, "index": 96.6 }, { "year": 2011, "index": 96.8 },
+        { "year": 2012, "index": 97.0 }, { "year": 2013, "index": 97.1 }, { "year": 2014, "index": 100.5 },
+        { "year": 2015, "index": 100.0 }, { "year": 2016, "index": 100.4 }, { "year": 2017, "index": 100.8 },
+        { "year": 2018, "index": 101.4 }, { "year": 2019, "index": 102.5 }, { "year": 2020, "index": 102.8 },
+        { "year": 2021, "index": 105.9 }, { "year": 2022, "index": 110.3 }, { "year": 2023, "index": 114.6 },
+        { "year": 2024, "index": 119.2 }, { "year": 2025, "index": 126.1 }
+      ]
+    },
+    "NZD": {
+      "description": "Stats NZ CPI Restaurant Meals and Ready-to-Eat Food (COICOP CP11 subset), 2015=100",
+      "source": "FRED NZLCP110000IXNBQ (2007-2022), Stats NZ Infoshare annual rates 2023-2025",
+      "data": [
+        { "year": 2007, "index": 76.8 }, { "year": 2008, "index": 80.4 }, { "year": 2009, "index": 83.1 },
+        { "year": 2010, "index": 86.4 }, { "year": 2011, "index": 90.2 }, { "year": 2012, "index": 93.1 },
+        { "year": 2013, "index": 95.0 }, { "year": 2014, "index": 97.2 }, { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 102.6 }, { "year": 2017, "index": 105.8 }, { "year": 2018, "index": 108.3 },
+        { "year": 2019, "index": 111.6 }, { "year": 2020, "index": 113.4 }, { "year": 2021, "index": 117.7 },
+        { "year": 2022, "index": 125.0 }, { "year": 2023, "index": 133.8 }, { "year": 2024, "index": 140.5 },
+        { "year": 2025, "index": 146.1 }
+      ]
+    }
+  }
+}
