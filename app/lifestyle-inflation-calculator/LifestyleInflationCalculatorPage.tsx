@@ -146,7 +146,7 @@ export default function LifestyleInflationCalculatorPage() {
   const [incomeNow, setIncomeNow] = useState(6500)
   const [categories, setCategories] = useState<SpendingCategory[]>(() => buildDefaultCategories("USD"))
   const [activeTab, setActiveTab] = useState("calculator")
-  const [showMethodology, setShowMethodology] = useState(false)
+  const [showMethodology, setShowMethodology] = useState(true)
   const [blogEssay, setBlogEssay] = useState("")
 
   // When currency changes, reset to defaults for that currency
