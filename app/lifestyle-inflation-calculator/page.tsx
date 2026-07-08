@@ -181,50 +181,74 @@ const datasetSchema = {
     {
       "@type": "Dataset",
       name: "US Bureau of Labor Statistics — CPI Sub-Categories",
+      description:
+        "U.S. Consumer Price Index sub-category series including food away from home (CUSR0000SEFV), transportation (CUSR0000SAT), apparel (CUSR0000SAA), shelter (CUSR0000SAH), airline fares (CUSR0000SETG01), and motor vehicle insurance. Annual index values 2000–2025. Used to compute official inflation benchmarks for USD lifestyle category spending.",
       url: "https://www.bls.gov/cpi/",
       creator: { "@type": "Organization", name: "U.S. Bureau of Labor Statistics" },
+      license: "https://www.bls.gov/bls/linksite.htm",
     },
     {
       "@type": "Dataset",
       name: "UK Office for National Statistics — CPIH Sub-Categories",
+      description:
+        "UK Consumer Prices Index including owner occupiers' housing costs (CPIH) sub-category data covering clothing & footwear (CP03), transport (CP07), restaurants & hotels (CP11), and airfares (CP073). Annual index values 2000–2025, base year 2015=100. Used to compute official GBP inflation benchmarks per spending category.",
       url: "https://www.ons.gov.uk/economy/inflationandpriceindices",
       creator: { "@type": "Organization", name: "UK Office for National Statistics" },
+      license: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
     },
     {
       "@type": "Dataset",
       name: "Eurostat — HICP Sub-Categories",
+      description:
+        "Harmonised Index of Consumer Prices (HICP) sub-category data for the Euro area covering clothing & footwear (CP03), transport (CP07), restaurants & hotels (CP11), and package holidays (CP096). Annual index values 2000–2025, base year 2015=100. Used to compute official EUR inflation benchmarks per spending category.",
       url: "https://ec.europa.eu/eurostat/web/hicp",
       creator: { "@type": "Organization", name: "Eurostat" },
+      license: "https://creativecommons.org/licenses/by/4.0/",
     },
     {
       "@type": "Dataset",
       name: "Statistics Canada — CPI Components",
+      description:
+        "Statistics Canada Consumer Price Index components covering clothing & footwear, transportation, food purchased from restaurants, and travel services for Canada. Annual index values 2000–2025, base year 2002=100. Used to compute official CAD inflation benchmarks per spending category.",
       url: "https://www.statcan.gc.ca/en/subjects-start/prices_and_price_indexes/consumer_price_indexes",
       creator: { "@type": "Organization", name: "Statistics Canada" },
+      license: "https://www.statcan.gc.ca/en/reference/licence",
     },
     {
       "@type": "Dataset",
       name: "Australian Bureau of Statistics — CPI Groups",
+      description:
+        "Australian Consumer Price Index CPI groups covering clothing & footwear, transport, food & non-alcoholic beverages (dining-out component), and recreation & culture. Annual index values 2000–2025, base year 2011–12=100. Used to compute official AUD inflation benchmarks per spending category.",
       url: "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia",
       creator: { "@type": "Organization", name: "Australian Bureau of Statistics" },
+      license: "https://creativecommons.org/licenses/by/4.0/",
     },
     {
       "@type": "Dataset",
       name: "Swiss Federal Statistical Office — CPI Components",
+      description:
+        "Swiss Federal Statistical Office Consumer Price Index components covering clothing & footwear, transport, restaurants & hotels, and package holidays for Switzerland. Annual index values 2000–2025, base year 2020=100. Used to compute official CHF inflation benchmarks per spending category.",
       url: "https://www.bfs.admin.ch/bfs/en/home/statistics/prices/consumer-price-index.html",
       creator: { "@type": "Organization", name: "Swiss Federal Statistical Office" },
+      license: "https://www.admin.ch/gov/en/start/terms-and-conditions.html",
     },
     {
       "@type": "Dataset",
       name: "Statistics Bureau of Japan — CPI by Sub-Group",
+      description:
+        "Statistics Bureau of Japan Consumer Price Index by sub-group covering clothing & footwear, transport & communication, food (eating out), and travel. Annual index values 2000–2025, base year 2020=100. Used to compute official JPY inflation benchmarks per spending category.",
       url: "https://www.stat.go.jp/english/data/cpi/",
       creator: { "@type": "Organization", name: "Statistics Bureau of Japan" },
+      license: "https://creativecommons.org/licenses/by/4.0/",
     },
     {
       "@type": "Dataset",
       name: "Stats NZ — CPI by Division",
+      description:
+        "Statistics New Zealand Consumer Price Index by division covering clothing & footwear, transport, restaurant meals & ready-to-eat food, and accommodation for New Zealand. Annual index values 2000–2025, base year 2017 Q2=1000. Used to compute official NZD inflation benchmarks per spending category.",
       url: "https://www.stats.govt.nz/topics/consumers-price-index",
       creator: { "@type": "Organization", name: "Stats NZ" },
+      license: "https://creativecommons.org/licenses/by/4.0/",
     },
   ],
 }
