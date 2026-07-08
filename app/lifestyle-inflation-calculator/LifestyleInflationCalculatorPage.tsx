@@ -146,7 +146,13 @@ export default function LifestyleInflationCalculatorPage() {
   const [incomeNow, setIncomeNow] = useState(6500)
   const [categories, setCategories] = useState<SpendingCategory[]>(() => buildDefaultCategories("USD"))
   const [activeTab, setActiveTab] = useState("calculator")
-  const [showMethodology, setShowMethodology] = useState(true)
+  const [showMethodology, setShowMethodology] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    setShowMethodology(true)
+  }, [])
   const [blogEssay, setBlogEssay] = useState("")
 
   // When currency changes, reset to defaults for that currency
@@ -800,11 +806,11 @@ Lifestyle creep dynamics differ meaningfully by currency. In Switzerland (CHF), 
                     <Info className="h-5 w-5 text-primary" />
                     Methodology & Data Sources
                   </CardTitle>
-                  {showMethodology ? <ChevronUp className="h-5 w-5 text-slate-400" /> : <ChevronDown className="h-5 w-5 text-slate-400" />}
+                  {mounted && showMethodology ? <ChevronUp className="h-5 w-5 text-slate-400" /> : <ChevronDown className="h-5 w-5 text-slate-400" />}
                 </button>
                 <CardDescription>How the Lifestyle Inflation Calculator works and where the category data comes from</CardDescription>
               </CardHeader>
-              {showMethodology && (
+              {mounted && showMethodology && (
                 <CardContent className="space-y-6">
                   <div>
                     <h3 className="font-semibold text-slate-900 dark:text-white mb-2">How It Works</h3>
