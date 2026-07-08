@@ -229,10 +229,52 @@ const datasetSchema = {
   ],
 }
 
-export const metadata: Metadata = {
-  title: "Lifestyle Inflation Calculator 2026 – Track Creep & Real Costs",
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to Calculate Your Personal Lifestyle Inflation Rate",
   description:
-    "Calculate your personal lifestyle inflation and creep for free. See exactly how much of your income growth is going to higher spending vs real price inflation. Get category breakdowns and long-term projections.",
+    "Step-by-step guide to using the Lifestyle Inflation Calculator to measure your spending creep vs real price inflation.",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Select your currency",
+      text: "Choose from USD, GBP, EUR, CAD, AUD, CHF, JPY, or NZD. The calculator loads the official CPI sub-category data for your country automatically.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Enter your income then and now",
+      text: "Input your annual income for a past year and your current annual income. The calculator uses this to compute how much of your income growth is available for savings versus spending.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Enter your spending by category",
+      text: "Fill in your past and present monthly spending across housing, transport, dining out, clothing, subscriptions, and travel. Each category is benchmarked against its official CPI sub-index.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Read your personal lifestyle inflation rate",
+      text: "The calculator splits your total spending increase into two parts: the portion explained by official price inflation (unavoidable) and the portion driven by lifestyle creep (voluntary). Your personal lifestyle inflation rate is the creep component expressed as an annual percentage.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 5,
+      name: "View your projections and savings opportunity",
+      text: "See how much wealth you would accumulate over 5, 10, and 20 years if you redirected your lifestyle creep spending into savings or investment instead.",
+    },
+  ],
+}
+
+export const metadata: Metadata = {
+  // Title: 57 chars — within 0–60 char / 580px limit
+  title: "Lifestyle Inflation Calculator | Track Creep & Real Costs",
+  // Description: 148 chars — within 120–158 char / 920px limit
+  description:
+    "Calculate your personal lifestyle inflation rate free. See how much of your income growth is lifestyle creep vs real price inflation — 8 currencies.",
   keywords: [
     "lifestyle inflation calculator",
     "lifestyle creep calculator",
@@ -248,6 +290,9 @@ export const metadata: Metadata = {
     "personal lifestyle inflation rate",
     "how much am I spending on lifestyle",
     "lifestyle creep vs inflation",
+    "social media spending habits",
+    "paycheck to paycheck calculator",
+    "subscription creep calculator",
   ],
   authors: [{ name: "Global Inflation Calculator" }],
   creator: "Global Inflation Calculator",
@@ -255,19 +300,34 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   alternates: { canonical: `${siteUrl}${PAGE_PATH}` },
   openGraph: {
-    title: "Lifestyle Inflation Calculator 2026 – Track Creep & Real Costs",
+    // OG title kept slightly longer for social share readability
+    title: "Lifestyle Inflation Calculator 2026 — Track Creep & Real Costs",
     description:
-      "Calculate your personal lifestyle inflation and creep. See exactly how much of your income growth is going to higher spending vs real price inflation.",
+      "See exactly how much of your income growth is going to higher spending vs real price inflation. Free calculator with category breakdowns and long-term projections across 8 currencies.",
     url: `${siteUrl}${PAGE_PATH}`,
     siteName: "Global Inflation Calculator",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "Lifestyle Inflation Calculator — Track Creep & Real Costs",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lifestyle Inflation Calculator 2026 – Track Creep & Real Costs",
+    title: "Lifestyle Inflation Calculator — Track Creep & Real Costs",
     description:
       "See exactly how much of your income growth is going to lifestyle creep vs real price inflation. Free, with category breakdowns and projections.",
+    images: [`${siteUrl}/og-image.png`],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
 }
 
@@ -279,6 +339,7 @@ export default function Page() {
       <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
       <JsonLd id="schema-faq" data={faqSchema} />
       <JsonLd id="schema-dataset" data={datasetSchema} />
+      <JsonLd id="schema-howto" data={howToSchema} />
       <LifestyleInflationCalculatorPage />
 
       <noscript>

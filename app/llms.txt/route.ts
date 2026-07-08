@@ -33,6 +33,9 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 - 3 month emergency fund, 6 month emergency fund, financial safety net
 - economic uncertainty 2025, recession planning, emergency savings goal
 - purchasing power parity calculator, PPP calculator, international salary comparison
+- lifestyle inflation calculator, lifestyle creep calculator, personal inflation rate calculator
+- lifestyle inflation 2026, spending creep tracker, social media spending habits
+- paycheck to paycheck calculator, hedonic treadmill, income vs spending growth calculator
 
 ## Site URLs and Tools
 
@@ -588,6 +591,69 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
   - Context: Essential tool for globalized economy where salary and cost comparisons must account for local purchasing power
   - Update Frequency: Annually (World Bank PPP data updated yearly, historical data static)
 
+- **Lifestyle Inflation Calculator (/lifestyle-inflation-calculator)**
+  - URL: https://www.globalinflationcalculator.com/lifestyle-inflation-calculator
+  - Purpose: Calculate personal lifestyle inflation rate and measure voluntary spending creep versus unavoidable real price inflation across 8 currencies and 6 spending categories
+  - Features:
+    * Personal lifestyle inflation rate calculation — separates official CPI from voluntary creep
+    * Category-by-category spending analysis: housing, transport, dining out, clothing, subscriptions, travel
+    * Income growth vs spending growth comparison with surplus/gap calculation
+    * Future wealth projection at 5, 10, and 20 years if creep spending is redirected to savings
+    * Savings opportunity calculator — dollar/pound/euro value of reversing lifestyle creep
+    * 8 currency support: USD, GBP, EUR, CAD, AUD, CHF, JPY, NZD
+    * Official CPI sub-category benchmarks per currency from BLS, ONS, Eurostat, Statistics Canada, ABS, Swiss FSO, Statistics Bureau of Japan, Stats NZ
+    * 6 detailed FAQ entries on lifestyle inflation, paycheck-to-paycheck dynamics, and behavioural finance
+    * Full 2,500-word editorial essay covering: social media-driven spending, hedonic treadmill psychology, impact on marriage rates and birth rates, average wages by country (real PPP-adjusted 2024 data), and data-backed discussion of gender differences in social comparison spending
+  - Calculations:
+    * Total spending growth %: ((current_spend − past_spend) ÷ past_spend) × 100
+    * Official inflation component: CPI-weighted rate for selected currency over selected year range
+    * Lifestyle creep rate: total_spending_growth % − official_CPI %
+    * Creep cost per month: current_spend − (past_spend × (1 + CPI_rate))
+    * Savings opportunity (n years, r% return): PMT × [((1+r)^n − 1) ÷ r]
+    * Personal lifestyle inflation rate: annualised CAGR of the creep component
+  - Category CPI Sources:
+    * Housing: CPI shelter (BLS series CUSR0000SAH) — USD; equivalent ONS/Eurostat/ABS series for other currencies
+    * Transport: CPI transportation (CUSR0000SAT) — USD, 2000–2025
+    * Dining out: CPI food away from home (CUSR0000SEFV) — USD, 2000–2025; 3.79% CAGR 2015–2025
+    * Clothing: CPI apparel (CUSR0000SAA) — USD, near-flat 0.05% CAGR 2000–2025
+    * Subscriptions: Proprietary price history dataset — 17 major services 2005–2026; avg 7.8% CAGR
+    * Travel/airfares: CPI airline fares (CUSR0000SETG01) and accommodation CPI — USD
+  - Key Data Points Used in the Essay:
+    * US average annual wage 2024: $82,992 PPP-adjusted (OECD)
+    * UK average annual wage 2024: $49,100 PPP-adjusted (OECD)
+    * Germany: $49,014; Canada: $64,152; Australia: $67,037; Switzerland: $70,581; Japan: $41,600; New Zealand: $65,406
+    * Netflix US: $7.99 (2011) → $22.99 (2025); 7.8% annual CAGR vs 3.1% general CPI
+    * US food-away-from-home CPI: index 246 (2000) → 597 (2025); 142% nominal increase
+    * Japan TFR 2023: 1.20; South Korea 2023: 0.72; UK: 1.49; US: 1.62
+    * US household debt ex-mortgage 2024: $4.9 trillion
+  - Educational Content:
+    * What lifestyle inflation is vs official inflation — and why the distinction matters for wealth building
+    * Social media and the Instagram effect on reference group spending norms
+    * Hedonic treadmill psychology (Brickman & Campbell, 1971) and its financial implications
+    * Gender differences in social comparison and compensatory purchasing behaviour
+    * Marriage delay, income expectations, and demographic consequences
+    * The compounding cost of lifestyle creep vs investing the same amount
+    * How to use pre-commitment savings to defeat the lifestyle inflation impulse
+  - Target Users: Working adults who have received pay rises but feel no better off financially; people tracking spending category by category; personal finance researchers; journalists covering the cost-of-living crisis; economic researchers studying hedonic adaptation
+  - Unique Value Proposition:
+    * Only calculator that splits total personal spending growth into official inflation vs voluntary creep with per-category CPI benchmarking
+    * Covers 8 currencies with country-specific CPI sub-category data — not US-only
+    * Combines quantitative calculator with 2,500-word evidence-based essay and 6 expert FAQs
+    * Directly addresses the social media and demographic angle not covered by any other inflation tool
+  - SEO Sibling Pages: /subscription-inflation-calculator (subscription price creep), /budget-calculator (50/30/20 planning), /dateflation-calculator (dating cost inflation), /sneakflation-calculator (hidden fee inflation)
+  - Data Sources:
+    * BLS CPI sub-categories (food away from home, apparel, transportation, shelter, airline fares)
+    * ONS CPIH sub-categories (UK)
+    * Eurostat HICP sub-categories (EUR)
+    * Statistics Canada CPI components
+    * Australian Bureau of Statistics CPI groups
+    * Swiss Federal Statistical Office CPI components
+    * Statistics Bureau of Japan CPI by sub-group
+    * Stats NZ CPI by division
+    * OECD Average Annual Wages dataset (PPP-adjusted, constant 2022 USD)
+    * Subscription price history dataset (17 services, 2005–2026, sourced from company announcements)
+  - Update Frequency: Annual (CPI sub-category data updated as national agencies release yearly figures)
+
 ### Administrative and Content Management
 
 - **Admin Content Management (/admin-manage-content)**
@@ -788,8 +854,8 @@ The Global Inflation Calculator (https://www.globalinflationcalculator.com) is a
 
 ---
 
-Last Updated: January 2025
-Version: 2.0
+Last Updated: July 2026
+Version: 2.1
 Maintained by: Global Inflation Calculator Team`
 
   const acceptHeader = request.headers.get("accept") || ""

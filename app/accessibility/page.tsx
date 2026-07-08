@@ -513,6 +513,14 @@ export default function AccessibilityPage() {
                     </p>
                   </li>
                   <li>
+                    <Link href="/lifestyle-inflation-calculator" className="text-blue-600 hover:underline">
+                      Lifestyle Inflation Calculator
+                    </Link>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 ml-4">
+                      Calculate your personal lifestyle inflation rate and measure lifestyle creep across 8 currencies. Enter past and current income and spending by category — housing, transport, dining out, clothing, subscriptions, travel — and see exactly how much of your income growth is voluntary lifestyle creep versus unavoidable real price inflation. Includes 5, 10, and 20-year wealth projection and savings opportunity calculation. Data sourced from BLS, ONS, Eurostat, Statistics Canada, ABS, Swiss FSO, Statistics Bureau of Japan, and Stats NZ.
+                    </p>
+                  </li>
+                  <li>
                     <Link href="/global-compound-interest" className="text-blue-600 hover:underline">
                       Global Compound Interest Calculator
                     </Link>
