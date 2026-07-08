@@ -1,0 +1,234 @@
+{
+  "metadata": {
+    "lastUpdated": "2026-07",
+    "version": "1.0",
+    "description": "Transportation CPI indices (COICOP CP07) for all 8 currencies. Covers private transport: new/used vehicles, motor fuel, auto insurance, maintenance/repair, and public transport fares. USD includes BLS sub-category breakdowns.",
+    "currencies": ["USD", "GBP", "EUR", "CAD", "AUD", "CHF", "JPY", "NZD"],
+    "indexBase": "2015=100 for all currencies unless noted",
+    "sources": {
+      "USD": "BLS CPI-U series: CUUR0000SAT1 (private transport), CUUR0000SETA01 (new vehicles), CUUR0000SETA02 (used cars/trucks), CUUR0000SETB (motor fuel), CUUR0000SETA04 (maintenance/repair), CUUR0000SETG01 (airline fares). Base: 1982-84=100 native; rebased to 2015=100 for this file.",
+      "GBP": "ONS CPI Transport (COICOP CP07), index 2015=100. Sources: FRED GBRCP070000IXNBQ (2000–2022), ONS CPI detailed reference tables (2023–2025).",
+      "EUR": "Eurostat HICP Euro area (EA) CP07 Transport, annual average index 2015=100. Dataset: prc_hicp_aind.",
+      "CAD": "Statistics Canada CPI Transportation. FRED CANCP070000IXNBM (2015–2022), Stats Canada Table 18-10-0004-01 YoY rates for 2023–2025.",
+      "AUD": "ABS CPI Transport (COICOP CP07). FRED AUSCP070000IXNBQ (2012–2022), ABS CPI quarterly release annual YoY rates for 2023–2025.",
+      "CHF": "Swiss Federal Statistical Office CPI Transport (CP07). FRED CP0700CHM086NEST (2005–2025, complete).",
+      "JPY": "Statistics Bureau of Japan CPI Transport and Communication. FRED JPNCP070000IXOBQ (2000–2020, 2015=100); Japan Stats Bureau annual data 2021–2025 (2020=100 series, chain-linked).",
+      "NZD": "Stats NZ CPI Transport (COICOP CP07). FRED NZLCP070000IXOBQ (2007–2024), NZLCP070000GYQ YoY rates for 2025."
+    },
+    "notes": "USD sub-categories use BLS native base (1982-84=100) and are NOT rebased — they are provided as-is for trend analysis. The composite transport index for each currency is COICOP CP07 rebased to 2015=100. NZD and JPY 2023–2025 final values are chain-linked from official annual rates where index-level FRED data was unavailable."
+  },
+
+  "transportIndex": {
+    "USD": {
+      "description": "BLS CPI-U Private Transportation (CUUR0000SAT1), native base 1982-84=100, rebased to 2015=100",
+      "nativeBase": "1982-84=100",
+      "rebaseYear": 2015,
+      "nativeValue2015": 193.698,
+      "data": [
+        { "year": 2000, "index": 77.1 }, { "year": 2001, "index": 77.4 },
+        { "year": 2002, "index": 76.8 }, { "year": 2003, "index": 79.3 },
+        { "year": 2004, "index": 82.3 }, { "year": 2005, "index": 87.9 },
+        { "year": 2006, "index": 91.4 }, { "year": 2007, "index": 93.3 },
+        { "year": 2008, "index": 98.6 }, { "year": 2009, "index": 90.2 },
+        { "year": 2010, "index": 97.4 }, { "year": 2011, "index": 107.2 },
+        { "year": 2012, "index": 109.8 }, { "year": 2013, "index": 109.6 },
+        { "year": 2014, "index": 108.9 }, { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 97.8 }, { "year": 2017, "index": 101.5 },
+        { "year": 2018, "index": 106.6 }, { "year": 2019, "index": 106.2 },
+        { "year": 2020, "index": 102.6 }, { "year": 2021, "index": 118.6 },
+        { "year": 2022, "index": 136.9 }, { "year": 2023, "index": 137.5 },
+        { "year": 2024, "index": 139.6 }, { "year": 2025, "index": 140.6 }
+      ]
+    },
+    "GBP": {
+      "description": "ONS CPI Transport (COICOP CP07), 2015=100",
+      "source": "FRED GBRCP070000IXNBQ (2000-2022), ONS CPI detailed reference tables (2023-2025)",
+      "data": [
+        { "year": 2000, "index": 66.8 }, { "year": 2001, "index": 66.8 },
+        { "year": 2002, "index": 67.2 }, { "year": 2003, "index": 69.3 },
+        { "year": 2004, "index": 71.7 }, { "year": 2005, "index": 74.7 },
+        { "year": 2006, "index": 76.8 }, { "year": 2007, "index": 79.0 },
+        { "year": 2008, "index": 83.6 }, { "year": 2009, "index": 84.4 },
+        { "year": 2010, "index": 91.4 }, { "year": 2011, "index": 98.6 },
+        { "year": 2012, "index": 101.0 }, { "year": 2013, "index": 101.9 },
+        { "year": 2014, "index": 102.2 }, { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 100.5 }, { "year": 2017, "index": 104.9 },
+        { "year": 2018, "index": 109.4 }, { "year": 2019, "index": 111.6 },
+        { "year": 2020, "index": 112.0 }, { "year": 2021, "index": 120.2 },
+        { "year": 2022, "index": 134.3 }, { "year": 2023, "index": 134.5 },
+        { "year": 2024, "index": 134.2 }, { "year": 2025, "index": 137.7 }
+      ]
+    },
+    "EUR": {
+      "description": "Eurostat HICP Euro area (EA) Transport (CP07), annual average 2015=100",
+      "source": "Eurostat prc_hicp_aind, geo=EA, coicop=CP07",
+      "data": [
+        { "year": 2000, "index": 73.1 }, { "year": 2001, "index": 74.0 },
+        { "year": 2002, "index": 75.3 }, { "year": 2003, "index": 77.0 },
+        { "year": 2004, "index": 79.5 }, { "year": 2005, "index": 82.9 },
+        { "year": 2006, "index": 85.5 }, { "year": 2007, "index": 87.6 },
+        { "year": 2008, "index": 91.5 }, { "year": 2009, "index": 89.0 },
+        { "year": 2010, "index": 93.1 }, { "year": 2011, "index": 98.1 },
+        { "year": 2012, "index": 102.0 }, { "year": 2013, "index": 102.5 },
+        { "year": 2014, "index": 102.4 }, { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 98.7 }, { "year": 2017, "index": 101.9 },
+        { "year": 2018, "index": 105.2 }, { "year": 2019, "index": 106.4 },
+        { "year": 2020, "index": 104.0 }, { "year": 2021, "index": 110.6 },
+        { "year": 2022, "index": 123.0 }, { "year": 2023, "index": 126.1 },
+        { "year": 2024, "index": 127.2 }, { "year": 2025, "index": 128.3 }
+      ]
+    },
+    "CAD": {
+      "description": "Statistics Canada CPI Transportation, 2015=100",
+      "source": "FRED CANCP070000IXNBM (2015-2022), Stats Canada Table 18-10-0004-01 annual YoY rates 2023-2025",
+      "data": [
+        { "year": 2015, "index": 101.4 }, { "year": 2016, "index": 102.8 },
+        { "year": 2017, "index": 107.2 }, { "year": 2018, "index": 112.7 },
+        { "year": 2019, "index": 113.9 }, { "year": 2020, "index": 112.1 },
+        { "year": 2021, "index": 122.2 }, { "year": 2022, "index": 136.5 },
+        { "year": 2023, "index": 137.7 }, { "year": 2024, "index": 139.9 },
+        { "year": 2025, "index": 140.3 }
+      ]
+    },
+    "AUD": {
+      "description": "ABS CPI Transport (COICOP CP07), 2011-Q3=100 native, trend from 2012",
+      "source": "FRED AUSCP070000IXNBQ (2012-2022), AUSCP070000GYQ annual YoY rates 2023-2025",
+      "data": [
+        { "year": 2012, "index": 100.7 }, { "year": 2013, "index": 102.5 },
+        { "year": 2014, "index": 103.3 }, { "year": 2015, "index": 101.2 },
+        { "year": 2016, "index": 98.5 }, { "year": 2017, "index": 101.0 },
+        { "year": 2018, "index": 106.4 }, { "year": 2019, "index": 112.2 },
+        { "year": 2020, "index": 112.7 }, { "year": 2021, "index": 111.1 },
+        { "year": 2022, "index": 128.0 }, { "year": 2023, "index": 133.2 },
+        { "year": 2024, "index": 132.9 }, { "year": 2025, "index": 134.9 }
+      ]
+    },
+    "CHF": {
+      "description": "Swiss FSO CPI Transport (CP07), 2015=100",
+      "source": "FRED CP0700CHM086NEST (2005-2025, complete)",
+      "data": [
+        { "year": 2005, "index": 97.8 }, { "year": 2006, "index": 100.4 },
+        { "year": 2007, "index": 101.3 }, { "year": 2008, "index": 104.2 },
+        { "year": 2009, "index": 100.5 }, { "year": 2010, "index": 102.3 },
+        { "year": 2011, "index": 103.0 }, { "year": 2012, "index": 100.5 },
+        { "year": 2013, "index": 99.9 }, { "year": 2014, "index": 98.6 },
+        { "year": 2015, "index": 94.6 }, { "year": 2016, "index": 91.8 },
+        { "year": 2017, "index": 92.8 }, { "year": 2018, "index": 95.1 },
+        { "year": 2019, "index": 95.7 }, { "year": 2020, "index": 92.3 },
+        { "year": 2021, "index": 95.3 }, { "year": 2022, "index": 102.8 },
+        { "year": 2023, "index": 102.7 }, { "year": 2024, "index": 102.3 },
+        { "year": 2025, "index": 100.0 }
+      ]
+    },
+    "JPY": {
+      "description": "Japan Statistics Bureau CPI Transport and Communication (COICOP CP07), 2015=100 chain-linked",
+      "source": "FRED JPNCP070000IXOBQ (2000-2020, 2015=100); Japan Stats Bureau annual averages 2021-2025 (2020=100) chain-linked via 2020 anchor=102.3",
+      "data": [
+        { "year": 2000, "index": 91.8 }, { "year": 2001, "index": 91.8 },
+        { "year": 2002, "index": 90.6 }, { "year": 2003, "index": 90.8 },
+        { "year": 2004, "index": 92.1 }, { "year": 2005, "index": 94.5 },
+        { "year": 2006, "index": 96.6 }, { "year": 2007, "index": 97.6 },
+        { "year": 2008, "index": 102.1 }, { "year": 2009, "index": 94.2 },
+        { "year": 2010, "index": 96.6 }, { "year": 2011, "index": 99.1 },
+        { "year": 2012, "index": 99.3 }, { "year": 2013, "index": 100.7 },
+        { "year": 2014, "index": 104.3 }, { "year": 2015, "index": 100.0 },
+        { "year": 2016, "index": 97.0 }, { "year": 2017, "index": 99.5 },
+        { "year": 2018, "index": 102.9 }, { "year": 2019, "index": 102.7 },
+        { "year": 2020, "index": 102.3 }, { "year": 2021, "index": 103.0 },
+        { "year": 2022, "index": 106.6 }, { "year": 2023, "index": 98.1 },
+        { "year": 2024, "index": 99.6 }, { "year": 2025, "index": 102.3 }
+      ]
+    },
+    "NZD": {
+      "description": "Stats NZ CPI Transport (COICOP CP07), 2015=100",
+      "source": "FRED NZLCP070000IXOBQ (2007-2024), NZLCP070000GYQ YoY rate for 2025",
+      "data": [
+        { "year": 2007, "index": 88.5 }, { "year": 2008, "index": 94.5 },
+        { "year": 2009, "index": 91.8 }, { "year": 2010, "index": 97.0 },
+        { "year": 2011, "index": 105.1 }, { "year": 2012, "index": 106.4 },
+        { "year": 2013, "index": 106.0 }, { "year": 2014, "index": 105.9 },
+        { "year": 2015, "index": 100.0 }, { "year": 2016, "index": 95.9 },
+        { "year": 2017, "index": 97.9 }, { "year": 2018, "index": 100.7 },
+        { "year": 2019, "index": 100.2 }, { "year": 2020, "index": 97.7 },
+        { "year": 2021, "index": 107.3 }, { "year": 2022, "index": 120.4 },
+        { "year": 2023, "index": 123.7 }, { "year": 2024, "index": 122.5 },
+        { "year": 2025, "index": 121.5 }
+      ]
+    }
+  },
+
+  "usdSubCategories": {
+    "description": "BLS CPI-U sub-category indices for USD. Native base 1982-84=100. Useful for identifying which transport components are driving inflation.",
+    "base": "1982-84=100",
+    "newVehicles": {
+      "seriesId": "CUUR0000SETA01",
+      "data": [
+        { "year": 2000, "index": 142.8 }, { "year": 2001, "index": 142.1 }, { "year": 2002, "index": 140.0 },
+        { "year": 2003, "index": 137.9 }, { "year": 2004, "index": 137.1 }, { "year": 2005, "index": 137.9 },
+        { "year": 2006, "index": 137.6 }, { "year": 2007, "index": 136.3 }, { "year": 2008, "index": 134.2 },
+        { "year": 2009, "index": 135.6 }, { "year": 2010, "index": 138.0 }, { "year": 2011, "index": 141.9 },
+        { "year": 2012, "index": 144.2 }, { "year": 2013, "index": 145.8 }, { "year": 2014, "index": 146.3 },
+        { "year": 2015, "index": 147.1 }, { "year": 2016, "index": 147.4 }, { "year": 2017, "index": 147.0 },
+        { "year": 2018, "index": 146.3 }, { "year": 2019, "index": 146.8 }, { "year": 2020, "index": 147.6 },
+        { "year": 2021, "index": 156.2 }, { "year": 2022, "index": 172.5 }, { "year": 2023, "index": 178.9 },
+        { "year": 2024, "index": 177.9 }, { "year": 2025, "index": 178.5 }
+      ]
+    },
+    "usedCarsAndTrucks": {
+      "seriesId": "CUUR0000SETA02",
+      "data": [
+        { "year": 2000, "index": 155.8 }, { "year": 2001, "index": 158.7 }, { "year": 2002, "index": 152.0 },
+        { "year": 2003, "index": 142.9 }, { "year": 2004, "index": 133.3 }, { "year": 2005, "index": 139.4 },
+        { "year": 2006, "index": 140.0 }, { "year": 2007, "index": 135.7 }, { "year": 2008, "index": 134.0 },
+        { "year": 2009, "index": 127.0 }, { "year": 2010, "index": 143.1 }, { "year": 2011, "index": 149.0 },
+        { "year": 2012, "index": 150.3 }, { "year": 2013, "index": 149.9 }, { "year": 2014, "index": 149.1 },
+        { "year": 2015, "index": 147.1 }, { "year": 2016, "index": 143.5 }, { "year": 2017, "index": 138.3 },
+        { "year": 2018, "index": 138.4 }, { "year": 2019, "index": 139.8 }, { "year": 2020, "index": 144.2 },
+        { "year": 2021, "index": 182.6 }, { "year": 2022, "index": 205.9 }, { "year": 2023, "index": 191.2 },
+        { "year": 2024, "index": 179.8 }, { "year": 2025, "index": 184.9 }
+      ]
+    },
+    "motorFuel": {
+      "seriesId": "CUUR0000SETB",
+      "data": [
+        { "year": 2000, "index": 129.3 }, { "year": 2001, "index": 124.7 }, { "year": 2002, "index": 116.6 },
+        { "year": 2003, "index": 135.8 }, { "year": 2004, "index": 160.4 }, { "year": 2005, "index": 195.7 },
+        { "year": 2006, "index": 221.0 }, { "year": 2007, "index": 239.1 }, { "year": 2008, "index": 279.7 },
+        { "year": 2009, "index": 202.0 }, { "year": 2010, "index": 239.2 }, { "year": 2011, "index": 302.6 },
+        { "year": 2012, "index": 312.7 }, { "year": 2013, "index": 303.9 }, { "year": 2014, "index": 292.4 },
+        { "year": 2015, "index": 213.1 }, { "year": 2016, "index": 188.4 }, { "year": 2017, "index": 212.7 },
+        { "year": 2018, "index": 241.9 }, { "year": 2019, "index": 233.2 }, { "year": 2020, "index": 195.2 },
+        { "year": 2021, "index": 265.1 }, { "year": 2022, "index": 350.3 }, { "year": 2023, "index": 313.3 },
+        { "year": 2024, "index": 296.7 }, { "year": 2025, "index": 280.0 }
+      ]
+    },
+    "maintenanceAndRepair": {
+      "seriesId": "CUUR0000SETA04",
+      "data": [
+        { "year": 2000, "index": 107.7 }, { "year": 2001, "index": 103.5 }, { "year": 2002, "index": 109.3 },
+        { "year": 2003, "index": 108.1 }, { "year": 2004, "index": 105.1 }, { "year": 2005, "index": 106.7 },
+        { "year": 2006, "index": 110.4 }, { "year": 2007, "index": 113.7 }, { "year": 2008, "index": 117.7 },
+        { "year": 2009, "index": 127.6 }, { "year": 2010, "index": 123.8 }, { "year": 2011, "index": 123.9 },
+        { "year": 2012, "index": 123.6 }, { "year": 2013, "index": 125.8 }, { "year": 2014, "index": 127.9 },
+        { "year": 2015, "index": 127.8 }, { "year": 2016, "index": 131.1 }, { "year": 2017, "index": 128.3 },
+        { "year": 2018, "index": 126.7 }, { "year": 2019, "index": 127.5 }, { "year": 2020, "index": 128.3 },
+        { "year": 2021, "index": 190.4 }, { "year": 2022, "index": 193.7 }, { "year": 2023, "index": 177.4 },
+        { "year": 2024, "index": 162.5 }, { "year": 2025, "index": 158.0 }
+      ]
+    },
+    "airlineFares": {
+      "seriesId": "CUUR0000SETG01",
+      "data": [
+        { "year": 2000, "index": 239.4 }, { "year": 2001, "index": 239.4 }, { "year": 2002, "index": 231.6 },
+        { "year": 2003, "index": 231.3 }, { "year": 2004, "index": 227.2 }, { "year": 2005, "index": 236.6 },
+        { "year": 2006, "index": 247.3 }, { "year": 2007, "index": 251.7 }, { "year": 2008, "index": 282.0 },
+        { "year": 2009, "index": 258.0 }, { "year": 2010, "index": 278.2 }, { "year": 2011, "index": 304.0 },
+        { "year": 2012, "index": 305.0 }, { "year": 2013, "index": 312.7 }, { "year": 2014, "index": 307.7 },
+        { "year": 2015, "index": 292.2 }, { "year": 2016, "index": 282.6 }, { "year": 2017, "index": 275.8 },
+        { "year": 2018, "index": 264.9 }, { "year": 2019, "index": 265.4 }, { "year": 2020, "index": 217.5 },
+        { "year": 2021, "index": 217.5 }, { "year": 2022, "index": 283.1 }, { "year": 2023, "index": 267.2 },
+        { "year": 2024, "index": 261.6 }, { "year": 2025, "index": 256.1 }
+      ]
+    }
+  }
+}
