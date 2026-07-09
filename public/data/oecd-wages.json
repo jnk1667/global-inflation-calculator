@@ -3,7 +3,8 @@
     "source": "OECD Data Explorer — Employment: Average Annual Wages",
     "dataset": "OECD.ELS.SAE,DSD_EARNINGS@DF_EARNINGS_AVERAGES,1.0",
     "measure": "AVUSDPPP — average annual wages in constant 2022 USD PPP",
-    "snapshotDate": "2026-04-29",
+    "snapshotDate": "2026-07-09",
+    "note": "2025 figures are OECD preliminary estimates. 2026 not yet published.",
     "note": "Average annual full-time equivalent wages, PPP-adjusted to constant 2022 USD for cross-country comparability. Source: OECD Employment database."
   },
   "data": {

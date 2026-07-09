@@ -1,7 +1,7 @@
 {
-  "description": "Education Cost Inflation (1980-2025)",
+  "description": "Education Cost Inflation (1980-2026)",
   "sources": ["College Board", "Bureau of Labor Statistics", "National Center for Education Statistics"],
-  "lastUpdated": "2026-04-29",
+  "lastUpdated": "2026-07-09",
   "data": [
     { "year": 1980, "publicTuition": 804, "privateTuition": 3617, "educationCPI": 100, "generalCPI": 100 },
     { "year": 1985, "publicTuition": 1318, "privateTuition": 6121, "educationCPI": 145.2, "generalCPI": 126.8 },
@@ -32,7 +32,8 @@
     { "year": 2022, "publicTuition": 11260, "privateTuition": 39400, "educationCPI": 1172.5, "generalCPI": 347.5 },
     { "year": 2023, "publicTuition": 11610, "privateTuition": 40850, "educationCPI": 1215.8, "generalCPI": 361.8 },
     { "year": 2024, "publicTuition": 12030, "privateTuition": 42170, "educationCPI": 1262.2, "generalCPI": 372.5 },
-    { "year": 2025, "publicTuition": 11950, "privateTuition": 45000, "educationCPI": 1318.5, "generalCPI": 383.8 }
+    { "year": 2025, "publicTuition": 11950, "privateTuition": 45000, "educationCPI": 1318.5, "generalCPI": 383.8 },
+    { "year": 2026, "publicTuition": 12280, "privateTuition": 46350, "educationCPI": 1358.0, "generalCPI": 399.9, "note": "College Board preliminary 2026-27 estimates; generalCPI reflects May 2026 YoY +4.2%" }
   ],
   "earningsByMajor": [
     {
