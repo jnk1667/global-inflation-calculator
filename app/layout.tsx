@@ -287,6 +287,7 @@ export default function RootLayout({
                       <Link href="/privacy" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Privacy Policy</Link>
                       <Link href="/terms" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Terms of Service</Link>
                       <Link href="/sitemap.xml" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Sitemap</Link>
+                      <Link href="/llms.txt" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">LLMs.txt</Link>
                     </div>
                   </div>
                 </div>
