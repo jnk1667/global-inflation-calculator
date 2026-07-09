@@ -64,7 +64,7 @@ const ASSETS: AssetConfig[] = [
     label: "S&P 500",
     color: "#2563eb",
     startYear: 2000,
-    endYear: 2025,
+    endYear: 2026,
     description: "US large-cap equity index (total return, dividends reinvested)",
     source: "Robert Shiller / Yale Economics",
   },
@@ -73,7 +73,7 @@ const ASSETS: AssetConfig[] = [
     label: "Gold",
     color: "#d97706",
     startYear: 2000,
-    endYear: 2025,
+    endYear: 2026,
     description: "Gold spot price (USD per troy oz), converted via annual FX",
     source: "LBMA Gold Price / ICE Benchmark Administration",
   },
@@ -82,8 +82,8 @@ const ASSETS: AssetConfig[] = [
     label: "Bitcoin",
     color: "#f97316",
     startYear: 2013,
-    endYear: 2025,
-    description: "Bitcoin annual close price (USD), converted via annual FX",
+    endYear: 2026,
+    description: "Bitcoin annual close/YTD price (USD), converted via annual FX",
     source: "CoinGecko / CoinMarketCap",
   },
   {
@@ -91,7 +91,7 @@ const ASSETS: AssetConfig[] = [
     label: "Housing",
     color: "#16a34a",
     startYear: 2000,
-    endYear: 2025,
+    endYear: 2026,
     description: "National residential property price index, inflation-adjusted",
     source: "BIS Residential Property Price Statistics",
   },
@@ -100,7 +100,7 @@ const ASSETS: AssetConfig[] = [
     label: "10Y Gov. Bonds",
     color: "#7c3aed",
     startYear: 2000,
-    endYear: 2025,
+    endYear: 2026,
     description: "10-year government bond total return (local currency)",
     source: "World Bank / FRED Federal Reserve",
   },
@@ -109,7 +109,7 @@ const ASSETS: AssetConfig[] = [
     label: "Savings Account",
     color: "#64748b",
     startYear: 2000,
-    endYear: 2025,
+    endYear: 2026,
     description: "Annual savings/deposit rate — purchasing power in real terms",
     source: "World Bank Financial Access Survey",
   },
@@ -122,8 +122,8 @@ const FALLBACK_SP500: Record<number, number> = {
   2005: 4.9,   2006: 15.8,  2007: 5.5,   2008: -37.0, 2009: 26.5,
   2010: 15.1,  2011: 2.1,   2012: 16.0,  2013: 32.4,  2014: 13.7,
   2015: 1.4,   2016: 12.0,  2017: 21.8,  2018: -4.4,  2019: 31.5,
-  2020: 18.4,  2021: 28.7,  2022: -18.1, 2023: 26.3,  2024: 25.0,
-  2025: 1.2,
+  2020: 18.4,  2021: 28.7,  2022: -18.1, 2023: 26.3,  2024: 25.02,
+  2025: 15.96, 2026: 9.0,
 }
 
 const FALLBACK_BONDS: Record<number, number> = {
@@ -132,7 +132,7 @@ const FALLBACK_BONDS: Record<number, number> = {
   2010: 8.5,   2011: 17.5,  2012: 4.2,   2013: -9.1,  2014: 10.8,
   2015: 1.2,   2016: 0.7,   2017: 2.6,   2018: -0.2,  2019: 9.6,
   2020: 11.3,  2021: -2.3,  2022: -17.8, 2023: 4.5,   2024: 1.8,
-  2025: 3.5,
+  2025: 3.5,   2026: 4.4,
 }
 
 const FALLBACK_HOUSING: Record<number, number> = {
@@ -141,7 +141,7 @@ const FALLBACK_HOUSING: Record<number, number> = {
   2010: -2.5,  2011: -3.0,  2012: 5.9,   2013: 11.2,  2014: 5.6,
   2015: 5.9,   2016: 5.1,   2017: 6.3,   2018: 4.6,   2019: 5.0,
   2020: 10.8,  2021: 18.8,  2022: 5.4,   2023: 4.5,   2024: 5.1,
-  2025: 3.8,
+  2025: 3.8,   2026: 2.4,
 }
 
 // Bitcoin: hardcoded historical (2013–2024), live current year via CoinGecko
@@ -157,7 +157,7 @@ const FALLBACK_GOLD: Record<number, number> = {
   2010: 29.6,  2011: 10.2,  2012: 7.0,   2013: -28.3, 2014: -1.5,
   2015: -10.4, 2016: 8.6,   2017: 13.1,  2018: -1.9,  2019: 18.4,
   2020: 25.1,  2021: -3.6,  2022: -0.3,  2023: 13.1,  2024: 27.2,
-  2025: 18.0,
+  2025: 27.2,  2026: 27.5,
 }
 
 const FALLBACK_SAVINGS: Record<number, number> = {
@@ -166,7 +166,7 @@ const FALLBACK_SAVINGS: Record<number, number> = {
   2010: 0.3,   2011: 0.3,   2012: 0.2,   2013: 0.2,   2014: 0.2,
   2015: 0.2,   2016: 0.3,   2017: 0.5,   2018: 1.7,   2019: 2.1,
   2020: 0.5,   2021: 0.6,   2022: 3.5,   2023: 4.8,   2024: 4.5,
-  2025: 4.2,
+  2025: 4.2,   2026: 4.0,
 }
 
 // BIS country mapping: currency → country code in bis-property-prices.json
@@ -404,14 +404,14 @@ export default function InvestmentRaceCalculatorPage() {
       setNominalReturns((prev) => ({ ...newNominal, bitcoin: { ...newNominal.bitcoin, ...prev.bitcoin } }))
       // Fill any missing CPI years with fallback values from FALLBACK_CPI
       const FALLBACK_CPI: Record<CurrencyCode, Record<number, number>> = {
-        USD: { 2000:3.4,2001:2.8,2002:1.6,2003:2.3,2004:2.7,2005:3.4,2006:3.2,2007:2.9,2008:3.8,2009:-0.4,2010:1.6,2011:3.2,2012:2.1,2013:1.5,2014:1.6,2015:0.1,2016:1.3,2017:2.1,2018:2.4,2019:1.8,2020:1.2,2021:4.7,2022:8.0,2023:4.1,2024:2.9,2025:2.5 },
-        GBP: { 2000:0.8,2001:1.2,2002:1.3,2003:1.4,2004:1.3,2005:2.1,2006:2.3,2007:2.3,2008:3.6,2009:2.2,2010:3.3,2011:4.5,2012:2.8,2013:2.6,2014:1.5,2015:0.0,2016:0.7,2017:2.7,2018:2.5,2019:1.8,2020:0.9,2021:2.6,2022:9.1,2023:7.3,2024:2.6,2025:2.8 },
-        EUR: { 2000:2.1,2001:2.3,2002:2.3,2003:2.1,2004:2.1,2005:2.2,2006:2.2,2007:2.1,2008:3.3,2009:0.3,2010:1.6,2011:2.7,2012:2.5,2013:1.4,2014:0.4,2015:0.0,2016:0.2,2017:1.5,2018:1.8,2019:1.2,2020:0.3,2021:2.6,2022:8.4,2023:5.4,2024:2.4,2025:2.3 },
-        CAD: { 2000:2.7,2001:2.5,2002:2.3,2003:2.8,2004:1.9,2005:2.2,2006:2.0,2007:2.1,2008:2.4,2009:0.3,2010:1.8,2011:2.9,2012:1.5,2013:0.9,2014:2.0,2015:1.1,2016:1.4,2017:1.6,2018:2.3,2019:1.9,2020:0.7,2021:3.4,2022:6.8,2023:3.9,2024:2.6,2025:2.4 },
-        AUD: { 2000:4.5,2001:4.4,2002:3.0,2003:2.8,2004:2.3,2005:2.7,2006:3.5,2007:2.3,2008:4.4,2009:1.8,2010:2.8,2011:3.3,2012:1.8,2013:2.4,2014:2.5,2015:1.5,2016:1.3,2017:1.9,2018:1.9,2019:1.6,2020:0.9,2021:2.9,2022:6.6,2023:5.6,2024:3.2,2025:2.6 },
-        CHF: { 2000:1.6,2001:1.0,2002:0.6,2003:0.6,2004:0.8,2005:1.2,2006:1.1,2007:0.7,2008:2.4,2009:-0.5,2010:0.7,2011:0.2,2012:-0.7,2013:-0.2,2014:0.0,2015:-1.1,2016:-0.4,2017:0.5,2018:0.9,2019:0.4,2020:-0.7,2021:0.6,2022:2.8,2023:2.1,2024:1.1,2025:0.8 },
-        JPY: { 2000:-0.7,2001:-0.7,2002:-0.9,2003:-0.3,2004:0.0,2005:-0.3,2006:0.3,2007:0.1,2008:1.4,2009:-1.3,2010:-0.7,2011:-0.3,2012:0.0,2013:0.4,2014:2.7,2015:0.8,2016:-0.1,2017:0.5,2018:1.0,2019:0.5,2020:0.0,2021:-0.2,2022:2.5,2023:3.3,2024:2.7,2025:2.2 },
-        NZD: { 2000:2.6,2001:2.6,2002:2.7,2003:1.8,2004:2.3,2005:3.0,2006:3.4,2007:2.4,2008:4.0,2009:2.1,2010:2.3,2011:4.0,2012:1.1,2013:1.1,2014:1.2,2015:0.4,2016:0.6,2017:1.8,2018:1.6,2019:1.6,2020:1.7,2021:3.9,2022:7.2,2023:5.7,2024:3.3,2025:2.5 },
+        USD: { 2000:3.4,2001:2.8,2002:1.6,2003:2.3,2004:2.7,2005:3.4,2006:3.2,2007:2.9,2008:3.8,2009:-0.4,2010:1.6,2011:3.2,2012:2.1,2013:1.5,2014:1.6,2015:0.1,2016:1.3,2017:2.1,2018:2.4,2019:1.8,2020:1.2,2021:4.7,2022:8.0,2023:4.1,2024:2.9,2025:2.7,2026:4.2 },
+        GBP: { 2000:0.8,2001:1.2,2002:1.3,2003:1.4,2004:1.3,2005:2.1,2006:2.3,2007:2.3,2008:3.6,2009:2.2,2010:3.3,2011:4.5,2012:2.8,2013:2.6,2014:1.5,2015:0.0,2016:0.7,2017:2.7,2018:2.5,2019:1.8,2020:0.9,2021:2.6,2022:9.1,2023:7.3,2024:2.6,2025:2.8,2026:2.8 },
+        EUR: { 2000:2.1,2001:2.3,2002:2.3,2003:2.1,2004:2.1,2005:2.2,2006:2.2,2007:2.1,2008:3.3,2009:0.3,2010:1.6,2011:2.7,2012:2.5,2013:1.4,2014:0.4,2015:0.0,2016:0.2,2017:1.5,2018:1.8,2019:1.2,2020:0.3,2021:2.6,2022:8.4,2023:5.4,2024:2.4,2025:2.3,2026:2.8 },
+        CAD: { 2000:2.7,2001:2.5,2002:2.3,2003:2.8,2004:1.9,2005:2.2,2006:2.0,2007:2.1,2008:2.4,2009:0.3,2010:1.8,2011:2.9,2012:1.5,2013:0.9,2014:2.0,2015:1.1,2016:1.4,2017:1.6,2018:2.3,2019:1.9,2020:0.7,2021:3.4,2022:6.8,2023:3.9,2024:2.6,2025:2.4,2026:3.2 },
+        AUD: { 2000:4.5,2001:4.4,2002:3.0,2003:2.8,2004:2.3,2005:2.7,2006:3.5,2007:2.3,2008:4.4,2009:1.8,2010:2.8,2011:3.3,2012:1.8,2013:2.4,2014:2.5,2015:1.5,2016:1.3,2017:1.9,2018:1.9,2019:1.6,2020:0.9,2021:2.9,2022:6.6,2023:5.6,2024:3.2,2025:2.6,2026:4.0 },
+        CHF: { 2000:1.6,2001:1.0,2002:0.6,2003:0.6,2004:0.8,2005:1.2,2006:1.1,2007:0.7,2008:2.4,2009:-0.5,2010:0.7,2011:0.2,2012:-0.7,2013:-0.2,2014:0.0,2015:-1.1,2016:-0.4,2017:0.5,2018:0.9,2019:0.4,2020:-0.7,2021:0.6,2022:2.8,2023:2.1,2024:1.1,2025:0.8,2026:0.6 },
+        JPY: { 2000:-0.7,2001:-0.7,2002:-0.9,2003:-0.3,2004:0.0,2005:-0.3,2006:0.3,2007:0.1,2008:1.4,2009:-1.3,2010:-0.7,2011:-0.3,2012:0.0,2013:0.4,2014:2.7,2015:0.8,2016:-0.1,2017:0.5,2018:1.0,2019:0.5,2020:0.0,2021:-0.2,2022:2.5,2023:3.3,2024:2.7,2025:2.2,2026:1.4 },
+        NZD: { 2000:2.6,2001:2.6,2002:2.7,2003:1.8,2004:2.3,2005:3.0,2006:3.4,2007:2.4,2008:4.0,2009:2.1,2010:2.3,2011:4.0,2012:1.1,2013:1.1,2014:1.2,2015:0.4,2016:0.6,2017:1.8,2018:1.6,2019:1.6,2020:1.7,2021:3.9,2022:7.2,2023:5.7,2024:3.3,2025:2.5,2026:3.1 },
       }
       const mergedCpi: Record<CurrencyCode, Record<number, number>> = {} as Record<CurrencyCode, Record<number, number>>
       for (const ccy of currencyCodes) {
@@ -954,7 +954,7 @@ export default function InvestmentRaceCalculatorPage() {
                 </div>
                 <div>
                   <strong className="text-gray-900 dark:text-gray-100">CPI data:</strong>
-                  <p className="mt-1 leading-relaxed">Annual headline CPI derived from our currency inflation JSON files (usd-inflation.json, gbp-inflation.json, etc.) sourced from BLS, ONS, Eurostat, Statistics Canada, ABS, SFSO, Statistics Bureau of Japan, and Stats NZ. Coverage: 2000–2025. S&P 500 annual returns sourced from sp500-returns.json (Shiller/Yale). Housing returns derived from BIS Residential Property Price Statistics (bis-property-prices.json) per currency. Bond returns calculated from bond-yields.json (FRED). Bitcoin 2025 return updated live via CoinGecko API.</p>
+                  <p className="mt-1 leading-relaxed">Annual headline CPI derived from our currency inflation JSON files (usd-inflation.json, gbp-inflation.json, etc.) sourced from BLS, ONS, Eurostat, Statistics Canada, ABS, SFSO, Statistics Bureau of Japan, and Stats NZ. Coverage: 2000–2026. S&P 500 annual returns sourced from sp500-returns.json (Shiller/Yale). Housing returns derived from BIS Residential Property Price Statistics (bis-property-prices.json) per currency. Bond returns calculated from bond-yields.json (FRED). Bitcoin 2026 YTD return updated live via CoinGecko API.</p>
                 </div>
               </div>
             </div>

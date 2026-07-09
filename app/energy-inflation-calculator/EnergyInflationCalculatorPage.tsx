@@ -50,15 +50,15 @@ const CURRENCIES: Record<CurrencyCode, {
 }
 
 const MIN_YEAR = 2000
-const MAX_YEAR = 2025
+const MAX_YEAR = 2026
 
 // ─── Scenario presets ─────────────────────────────────────────────────────────
 
 const SCENARIOS = [
   { label: "Pre-Crisis Decade",   fromYear: 2000, toYear: 2010, description: "Energy in the 2000s boom" },
   { label: "Green Transition",    fromYear: 2010, toYear: 2020, description: "Renewables rise, shale boom" },
-  { label: "Energy Crisis",       fromYear: 2020, toYear: 2025, description: "Post-COVID & Ukraine shock" },
-  { label: "Full History",        fromYear: 2000, toYear: 2025, description: "All 25 years of data" },
+  { label: "Energy Crisis",       fromYear: 2020, toYear: 2026, description: "Post-COVID, Ukraine & Hormuz shock" },
+  { label: "Full History",        fromYear: 2000, toYear: 2026, description: "All 26 years of data" },
 ]
 
 // ─── Main component ───────────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ const SCENARIOS = [
 export default function EnergyInflationCalculatorPage() {
   const [currency, setCurrency]     = useState<CurrencyCode>("USD")
   const [fromYear, setFromYear]     = useState(2000)
-  const [toYear, setToYear]         = useState(2025)
+  const [toYear, setToYear]         = useState(2026)
   const [monthlyBill, setMonthlyBill] = useState("150")
   const [energyType, setEnergyType] = useState<EnergyType>("all")
   const [viewMode, setViewMode]     = useState<ViewMode>("index")
@@ -268,13 +268,13 @@ export default function EnergyInflationCalculatorPage() {
         <div className="max-w-5xl mx-auto px-4 pt-32 pb-10 text-center">
           <div className="inline-flex items-center gap-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium px-3 py-1 rounded-full mb-4">
             <Zap className="w-3 h-3" />
-            Live Energy Data 2000–2025
+            Live Energy Data 2000–2026
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-balance mb-3">
             Energy Inflation Calculator
           </h1>
           <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed text-pretty">
-            See how electricity, petrol, and fuel prices have outpaced general inflation since 2000. Enter your monthly energy bill to find out how much more you would pay today. 8 currencies.
+            See how electricity, petrol, and fuel prices have outpaced general inflation since 2000. Enter your monthly energy bill to find out how much more you would pay today. 8 currencies. Data through 2026.
           </p>
         </div>
       </section>
