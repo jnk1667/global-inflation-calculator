@@ -100,8 +100,12 @@
     { "year": 2022, "yield": 3.01 },
     { "year": 2023, "yield": 4.05 },
     { "year": 2024, "yield": 4.25 },
-    { "year": 2025, "yield": 4.29 }
+    { "year": 2025, "yield": 4.58 },
+    { "year": 2026, "yield": 4.56 }
   ],
   "averageYield": 4.8,
-  "methodology": "Annual average of daily 10-year Treasury constant maturity rates"
+  "lastUpdated": "2026-07-09",
+  "currentYield": 4.56,
+  "currentDate": "2026-07-09",
+  "methodology": "Annual average of daily 10-year Treasury constant maturity rates. 2026 reflects July 9, 2026 spot rate."
 }

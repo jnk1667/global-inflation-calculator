@@ -4,8 +4,9 @@
     "label": "Inflation, average consumer prices (Annual percent change)",
     "source": "IMF World Economic Outlook (April 2026)",
     "note": "Static fallback — reflects real IMF WEO data as of April 2026. Live data fetched from https://www.imf.org/external/datamapper/api/v1/PCPIPCH",
-    "snapshotDate": "2026-04-14",
-    "projectionYears": ["2025", "2026", "2027", "2028", "2029", "2030"]
+    "snapshotDate": "2026-07-09",
+    "note_usa_update": "US CPI actual through May 2026: +4.2% YoY (BLS). IMF April projection of 2.1% for 2026 predated Hormuz-driven energy shock.",
+    "projectionYears": ["2026", "2027", "2028", "2029", "2030"]
   },
   "values": {
     "PCPIPCH": {

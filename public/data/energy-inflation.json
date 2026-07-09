@@ -1,7 +1,7 @@
 {
-  "description": "Energy Price Inflation Data (1994-2025)",
+  "description": "Energy Price Inflation Data (1994-2026)",
   "sources": ["EIA (Energy Information Administration)", "Bureau of Labor Statistics"],
-  "lastUpdated": "2026-04-29",
+  "lastUpdated": "2026-07-09",
   "data": [
     { "year": 1994, "gasoline": 1.11, "electricity": 8.38, "naturalGas": 6.12, "energyCPI": 100, "generalCPI": 100 },
     { "year": 1995, "gasoline": 1.15, "electricity": 8.4, "naturalGas": 5.8, "energyCPI": 101.8, "generalCPI": 102.8 },
@@ -230,6 +230,15 @@
       "naturalGas": 12.98,
       "energyCPI": 249.8,
       "generalCPI": 215.8
+    },
+    {
+      "year": 2026,
+      "gasoline": 3.64,
+      "electricity": 17.85,
+      "naturalGas": 13.50,
+      "energyCPI": 281.4,
+      "generalCPI": 225.9,
+      "note": "EIA 2026 forecast; Strait of Hormuz impact drove crude oil to ~$115/bbl mid-2026"
     }
   ],
   "statistics": {

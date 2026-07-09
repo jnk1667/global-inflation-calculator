@@ -36,10 +36,10 @@
     { "year": 2023, "healthcareInflation": 3.2, "generalInflation": 4.1 },
     { "year": 2024, "healthcareInflation": 3.7, "generalInflation": 3.2 },
     { "year": 2025, "healthcareInflation": 5.2, "generalInflation": 2.7 },
-    { "year": 2026, "healthcareInflation": 5.4, "generalInflation": 2.7 }
+    { "year": 2026, "healthcareInflation": 2.6, "generalInflation": 4.2, "note": "BLS medical care CPI +2.6% YoY May 2026; general CPI +4.2% YoY May 2026" }
   ],
   "averageHealthcareInflation": 5.8,
   "averageGeneralInflation": 3.2,
   "healthcareMultiplier": 1.81,
-  "lastUpdated": "2026-04-29"
+  "lastUpdated": "2026-07-09"
 }

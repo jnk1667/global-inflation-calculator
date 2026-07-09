@@ -97,8 +97,9 @@
     { "year": 2022, "return": -18.11 },
     { "year": 2023, "return": 26.29 },
     { "year": 2024, "return": 25.02 },
-    { "year": 2025, "return": 24.89 }
+    { "year": 2025, "return": 15.96 },
+    { "year": 2026, "return": 9.0, "note": "Year-to-date as of July 9, 2026" }
   ],
   "averageReturn": 10.5,
-  "lastUpdated": "2026-04-29"
+  "lastUpdated": "2026-07-09"
 }

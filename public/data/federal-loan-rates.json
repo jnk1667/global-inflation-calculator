@@ -1,8 +1,16 @@
 {
+  "lastUpdated": "2026-07-09",
+  "currentAcademicYear": "2026-2027",
   "subsidized": [
     {
+      "year": 2026,
+      "rate": 6.52,
+      "academicYear": "2026-2027"
+    },
+    {
       "year": 2025,
-      "rate": 6.39
+      "rate": 6.39,
+      "academicYear": "2025-2026"
     },
     {
       "year": 2024,
@@ -55,8 +63,14 @@
   ],
   "unsubsidized": [
     {
+      "year": 2026,
+      "rate": 6.52,
+      "academicYear": "2026-2027"
+    },
+    {
       "year": 2025,
-      "rate": 6.39
+      "rate": 6.39,
+      "academicYear": "2025-2026"
     },
     {
       "year": 2024,
@@ -109,8 +123,14 @@
   ],
   "gradPlus": [
     {
+      "year": 2026,
+      "rate": 9.07,
+      "academicYear": "2026-2027"
+    },
+    {
       "year": 2025,
-      "rate": 8.94
+      "rate": 8.94,
+      "academicYear": "2025-2026"
     },
     {
       "year": 2024,

@@ -1,7 +1,7 @@
 {
-  "description": "Real Wages vs Inflation (1979-2025)",
+  "description": "Real Wages vs Inflation (1979-2026)",
   "sources": ["Bureau of Labor Statistics", "Federal Reserve Economic Data"],
-  "lastUpdated": "2025-12-29",
+  "lastUpdated": "2026-07-09",
   "data": [
     { "year": 1979, "nominalWage": 6.33, "realWage": 23.12, "cpi": 72.6, "purchasingPower": 100 },
     { "year": 1980, "nominalWage": 6.85, "realWage": 22.26, "cpi": 82.4, "purchasingPower": 96.3 },
@@ -49,7 +49,8 @@
     { "year": 2022, "nominalWage": 27.47, "realWage": 21.49, "cpi": 292.6, "purchasingPower": 93.0 },
     { "year": 2023, "nominalWage": 28.82, "realWage": 21.68, "cpi": 304.7, "purchasingPower": 93.8 },
     { "year": 2024, "nominalWage": 30.05, "realWage": 21.93, "cpi": 313.5, "purchasingPower": 94.8 },
-    { "year": 2025, "nominalWage": 35.84, "realWage": 22.58, "cpi": 321.2, "purchasingPower": 97.6 }
+    { "year": 2025, "nominalWage": 31.38, "realWage": 22.16, "cpi": 321.2, "purchasingPower": 95.9 },
+    { "year": 2026, "nominalWage": 32.48, "realWage": 21.62, "cpi": 334.6, "purchasingPower": 93.5, "note": "Through May 2026; CPI 4.2% YoY, wage growth 3.5% YoY" }
   ],
   "occupations": [
     { "name": "Software Developers", "wage2000": 28.25, "wage2025": 62.5, "nominalGrowth": 121, "realGrowth": 18.5 },

@@ -2,7 +2,10 @@
   "description": "BIS Residential Property Price Index (2010 = 100). Both nominal and real (inflation-adjusted) values. Sourced from Bank for International Settlements — WS_SPP dataset. Annual averages of quarterly data. Used as static fallback when live BIS API is unavailable.",
   "source": "Bank for International Settlements (BIS) — https://data.bis.org/topics/RPP",
   "baseYear": 2010,
-  "lastUpdated": "2026-Q1",
+  "lastUpdated": "2026-07-09",
+  "latestDataPeriod": "Q1 2026",
+  "globalNominalGrowthQ42025": "2.1%",
+  "globalRealGrowthQ42025": "-0.6%",
   "countries": ["US", "GB", "DE", "JP", "CA", "AU", "CH", "FR"],
   "nominalSeries": [
     {

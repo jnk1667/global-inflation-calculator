@@ -69,6 +69,11 @@
     "2022": 8.228,
     "2023": 8.628,
     "2024": 8.878,
-    "2025": 9.128
-  }
+    "2025": 9.128,
+    "2026": 9.438
+  },
+  "lastUpdated": "2026-07-09",
+  "latestAnnualRate": "3.4%",
+  "latestPeriod": "May 2026",
+  "source_note": "BEA Core PCE Price Index excluding food and energy, annual averages. 2026 reflects May 2026 annualised rate of 3.4%."
 }
