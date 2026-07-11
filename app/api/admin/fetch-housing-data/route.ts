@@ -1,14 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server"
+import { requireAdminAuth } from "@/lib/admin-auth"
 
 export async function POST(request: NextRequest) {
   try {
     // Verify admin password
     const body = await request.json()
-    const { password } = body
-
-    if (password !== process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    const authError = requireAdminAuth(request)
+    if (authError) return authError
 
     const FRED_API_KEY = process.env.FRED_API_KEY
 

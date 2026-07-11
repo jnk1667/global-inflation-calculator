@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { requireAdminAuth } from "@/lib/admin-auth"
 
 // FRED series IDs for inflation data
 const FRED_SERIES = {
@@ -12,12 +13,8 @@ export async function POST(request: Request) {
     console.log("[v0] FRED data fetch API called")
 
     const body = await request.json()
-    const { password, currency } = body
-
-    if (password !== process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      console.log("[v0] Unauthorized - password mismatch")
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    const authError = requireAdminAuth(request)
+    if (authError) return authError
 
     if (!currency || !FRED_SERIES[currency as keyof typeof FRED_SERIES]) {
       return NextResponse.json({ error: "Invalid currency. Supported: DKK, SEK, PLN" }, { status: 400 })

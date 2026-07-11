@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
+import { requireAdminAuth } from "@/lib/admin-auth"
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
 
@@ -25,15 +26,18 @@ async function submitFAQUpdateToIndexNow() {
 }
 
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  const authError = requireAdminAuth(request)
+  if (authError) return authError
+
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-    if (!supabaseUrl || !supabaseAnonKey) {
+    if (!supabaseUrl || !serviceRoleKey) {
       return NextResponse.json({ error: "Database configuration error" }, { status: 500 })
     }
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    const supabase = createClient(supabaseUrl, serviceRoleKey)
     const body = await request.json()
     const { question, answer, category } = body
 
@@ -67,15 +71,18 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 }
 
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+  const authError = requireAdminAuth(request)
+  if (authError) return authError
+
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-    if (!supabaseUrl || !supabaseAnonKey) {
+    if (!supabaseUrl || !serviceRoleKey) {
       return NextResponse.json({ error: "Database configuration error" }, { status: 500 })
     }
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    const supabase = createClient(supabaseUrl, serviceRoleKey)
 
     const { error } = await supabase.from("faqs").delete().eq("id", params.id)
 

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
+import { requireAdminAuth } from "@/lib/admin-auth"
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://globalinflationcalculator.com"
 
@@ -34,14 +35,15 @@ export async function GET(request: Request) {
     console.log("[v0] FAQ API: Received GET request for category:", category || "all")
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-    if (!supabaseUrl || !supabaseAnonKey) {
+    if (!supabaseUrl || !serviceRoleKey) {
       console.error("Missing Supabase environment variables")
       return NextResponse.json({ error: "Database configuration error" }, { status: 500 })
     }
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    // Use service role key so this read works regardless of RLS policy
+    const supabase = createClient(supabaseUrl, serviceRoleKey)
 
     let query = supabase.from("faqs").select("*").eq("is_active", true).order("order_index")
 
@@ -81,16 +83,19 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const authError = requireAdminAuth(request)
+  if (authError) return authError
+
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-    if (!supabaseUrl || !supabaseAnonKey) {
+    if (!supabaseUrl || !serviceRoleKey) {
       console.error("Missing Supabase environment variables")
       return NextResponse.json({ error: "Database configuration error" }, { status: 500 })
     }
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    const supabase = createClient(supabaseUrl, serviceRoleKey)
     const body = await request.json()
 
     const { question, answer, category = "general" } = body

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { requireAdminAuth } from "@/lib/admin-auth"
 import { writeFile } from "fs/promises"
 import path from "path"
 
@@ -29,11 +30,8 @@ const US_CITY_SERIES = {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { password } = body
-
-    if (password !== process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    const authError = requireAdminAuth(request)
+    if (authError) return authError
 
     const apiKey = process.env.BLS_API_KEY
 

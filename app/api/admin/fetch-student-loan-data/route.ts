@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { requireAdminAuth } from "@/lib/admin-auth"
 
 export async function POST(request: Request) {
   try {
@@ -6,12 +7,8 @@ export async function POST(request: Request) {
 
     // Check admin password
     const body = await request.json()
-    const { password } = body
-
-    if (password !== process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      console.log("[v0] Unauthorized - password mismatch")
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    const authError = requireAdminAuth(request)
+    if (authError) return authError
 
     console.log("[v0] Authentication successful, returning data...")
 

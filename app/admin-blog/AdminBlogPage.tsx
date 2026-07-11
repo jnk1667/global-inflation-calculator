@@ -20,6 +20,13 @@ interface BlogContent {
   updated_at: string
 }
 
+function getAdminHeaders(): HeadersInit {
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_SECRET ?? ""}`,
+  }
+}
+
 export default function AdminBlogPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState("")
@@ -90,7 +97,7 @@ export default function AdminBlogPage() {
     try {
       const response = await fetch("/api/seo-content", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAdminHeaders(),
         body: JSON.stringify({
           id: postId,
           title: newPost.title,
@@ -127,7 +134,7 @@ export default function AdminBlogPage() {
     try {
       const response = await fetch(`/api/seo-content/${post.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAdminHeaders(),
         body: JSON.stringify({
           title: post.title,
           content: post.content,
@@ -158,6 +165,7 @@ export default function AdminBlogPage() {
     try {
       const response = await fetch(`/api/seo-content/${id}`, {
         method: "DELETE",
+        headers: getAdminHeaders(),
       })
 
       const result = await response.json()

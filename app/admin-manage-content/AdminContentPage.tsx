@@ -9,7 +9,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { supabase } from "@/lib/supabase"
 import {
   Save,
   Plus,
@@ -85,6 +84,18 @@ interface AboutContentItem {
     url: string
     icon: string
   }>
+}
+
+/**
+ * Returns headers for all admin API write calls.
+ * NEXT_PUBLIC_ADMIN_SECRET is the client-safe token the browser sends to
+ * the API routes. The routes then verify it against the server-only ADMIN_SECRET.
+ */
+function getAdminHeaders(): HeadersInit {
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_SECRET ?? ""}`,
+  }
 }
 
 const AdminContentPage: React.FC = () => {
@@ -354,16 +365,21 @@ The key to successful multi-generational wealth planning lies in balancing growt
       const contentItem = aboutContent.find((item) => item.section === section)
       if (!contentItem) return
 
-      const { error } = await supabase.from("about_content").upsert({
-        id: section,
-        section: section,
-        title: contentItem.title,
-        content: contentItem.content,
-        social_links: Array.isArray(contentItem.social_links) ? contentItem.social_links : [],
-        updated_at: new Date().toISOString(),
+      const response = await fetch("/api/about-content", {
+        method: "PUT",
+        headers: getAdminHeaders(),
+        body: JSON.stringify({
+          id: section,
+          section,
+          title: contentItem.title,
+          content: contentItem.content,
+          social_links: Array.isArray(contentItem.social_links) ? contentItem.social_links : [],
+        }),
       })
-
-      if (error) throw error
+      if (!response.ok) {
+        const json = await response.json()
+        throw new Error(json.error || "Failed to save")
+      }
       setMessage(`${section} content saved successfully!`)
       setTimeout(() => setMessage(""), 3000)
     } catch (err) {
@@ -378,20 +394,12 @@ The key to successful multi-generational wealth planning lies in balancing growt
   const handleLogin = () => {
     const envPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD
 
-    console.log("=== ADMIN LOGIN DEBUG ===")
-    console.log("Entered password:", `"${password}"`, "Length:", password.length)
-    console.log("Environment password:", `"${envPassword}"`, "Length:", envPassword?.length || 0)
-    console.log("Environment password type:", typeof envPassword)
-    console.log("Exact match:", password === envPassword)
-    console.log("Trimmed match:", password.trim() === envPassword?.trim())
-    console.log("Environment variable set:", !!envPassword)
-
     if (password && envPassword && password === envPassword) {
       setIsAuthenticated(true)
       setError("")
       loadAllContent()
     } else {
-      setError(`Invalid password. Please check your credentials.`)
+      setError("Invalid password.")
     }
   }
 
@@ -400,54 +408,34 @@ The key to successful multi-generational wealth planning lies in balancing growt
     setLoading(true)
     setError("") // Clear previous errors
     try {
-      // Load content from seo_content table
-      const { data: contentData, error: contentError } = await supabase.from("seo_content").select("*")
-      if (contentError) {
-        console.error("Error loading seo_content:", contentError)
-      }
+      // Load content from seo_content table (via API — service role, works with RLS)
+      const [contentRes, settingsRes, faqRes] = await Promise.all([
+        fetch("/api/seo-content"),
+        fetch("/api/site-settings"),
+        fetch("/api/faqs"),
+      ])
+      const contentJson   = contentRes.ok   ? await contentRes.json()   : { data: [] }
+      const settingsJson  = settingsRes.ok  ? await settingsRes.json()  : { data: null }
+      const faqJson       = faqRes.ok       ? await faqRes.json()       : []
 
-      // Load settings from site_settings table
-      const { data: settingsData, error: settingsError } = await supabase.from("site_settings").select("*")
-      if (settingsError) {
-        console.error("Error loading site_settings:", settingsError)
-      }
-
-      // Load FAQs
-      const { data: faqData, error: faqError } = await supabase.from("faqs").select("*").order("id")
-      if (faqError) {
-        console.error("Error loading faqs:", faqError)
-      }
-
-      // Load usage stats
-      const { data: statsData, error: statsError } = await supabase
-        .from("usage_stats")
-        .select("*")
-        .order("date", { ascending: false })
-        .limit(30)
-      if (statsError) {
-        console.error("Error loading usage_stats:", statsError)
-      }
+      const contentData  = contentJson.data  ?? []
+      const settingsData = settingsJson.data ?? null
+      const faqData      = Array.isArray(faqJson) ? faqJson : []
+      const statsData    = null // usage_stats not shown in admin for now
 
       // Transform contentData into a map
       const contentMap: Record<string, string> = {}
-      if (contentData) {
-        contentData.forEach((item) => {
+      if (Array.isArray(contentData)) {
+        contentData.forEach((item: any) => {
           contentMap[item.id] = item.content || ""
         })
       }
 
-      const settingsMap: Record<string, string> = {}
-      if (settingsData) {
-        settingsData.forEach((item) => {
-          settingsMap[item.setting_key] = item.setting_value || ""
-        })
-      }
-
       setContent({
-        site_title: settingsMap["site_name"] || "", // Changed from site_title to site_name based on probable DB schema
-        site_description: settingsMap["site_description"] || "",
-        footer_text: settingsMap["footer_text"] || "",
-        logo_url: settingsMap["logo_url"] || "",
+        site_title: settingsData?.site_name || "",
+        site_description: settingsData?.site_description || "",
+        footer_text: settingsData?.footer_text || "",
+        logo_url: settingsData?.logo_url || "",
         seo_essay: contentMap["main_essay"] || "",
         salary_essay: contentMap["salary_essay"] || "",
         retirement_essay: contentMap["retirement_essay"] || "",
@@ -471,14 +459,9 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
       // Load Legacy Planner Content
       try {
-        const { data: legacyData, error: legacyError } = await supabase
-          .from("legacy_planner_content")
-          .select("*")
-          .eq("id", "main")
-          .single()
-        if (legacyError && legacyError.code !== "PGRST116") {
-          console.error("Error loading legacy_planner_content:", legacyError)
-        }
+        const legacyRes = await fetch("/api/legacy-planner-content")
+        const legacyJson = legacyRes.ok ? await legacyRes.json() : { data: null }
+        const legacyData = legacyJson.data
         if (legacyData) {
           setContent((prev) => ({
             ...prev,
@@ -526,10 +509,10 @@ The key to successful multi-generational wealth planning lies in balancing growt
       }
 
       // Load About Content with proper social_links handling
-      const { data: aboutData, error: aboutError } = await supabase.from("about_content").select("*").order("section")
-      if (aboutError) {
-        console.error("Error loading about_content:", aboutError)
-      }
+      const aboutRes = await fetch("/api/about-content")
+      const aboutJson = aboutRes.ok ? await aboutRes.json() : { data: [] }
+      const aboutData = aboutJson.data ?? []
+      const aboutError = !aboutRes.ok
 
       if (aboutData && aboutData.length > 0) {
         // Ensure social_links is always an array
@@ -571,17 +554,19 @@ The key to successful multi-generational wealth planning lies in balancing growt
     }
   }
 
-  // Save content
+  // Save content — routed through /api/seo-content with admin auth
   const saveContent = async (contentType: string, contentValue: string) => {
     setSaving(true)
     try {
-      const { error } = await supabase.from("seo_content").upsert({
-        id: contentType,
-        content: contentValue,
-        updated_at: new Date().toISOString(),
+      const response = await fetch(`/api/seo-content/${contentType}`, {
+        method: "PUT",
+        headers: getAdminHeaders(),
+        body: JSON.stringify({ content: contentValue, title: contentType }),
       })
-
-      if (error) throw error
+      if (!response.ok) {
+        const json = await response.json()
+        throw new Error(json.error || "Failed to save")
+      }
       setMessage(`${contentType} saved successfully!`)
       setTimeout(() => setMessage(""), 3000)
     } catch (err) {
@@ -592,20 +577,24 @@ The key to successful multi-generational wealth planning lies in balancing growt
     }
   }
 
-  // Save site settings
+  // Save site settings — routed through /api/site-settings with admin auth
   const saveSiteSettings = async () => {
     setSaving(true)
     try {
-      const { error } = await supabase.from("site_settings").upsert({
-        id: "main", // Assuming 'main' is the identifier for site settings
-        site_title: content.site_title, // This was changed in loadAllContent, ensure consistency if site_name is the correct key
-        site_description: content.site_description,
-        footer_text: content.footer_text, // Saving footer_text
-        logo_url: content.logo_url,
-        updated_at: new Date().toISOString(),
+      const response = await fetch("/api/site-settings", {
+        method: "PUT",
+        headers: getAdminHeaders(),
+        body: JSON.stringify({
+          site_title: content.site_title,
+          site_description: content.site_description,
+          footer_text: content.footer_text,
+          logo_url: content.logo_url,
+        }),
       })
-
-      if (error) throw error
+      if (!response.ok) {
+        const json = await response.json()
+        throw new Error(json.error || "Failed to save")
+      }
       setMessage("Site settings saved successfully!")
       setTimeout(() => setMessage(""), 3000)
     } catch (err) {
@@ -616,18 +605,22 @@ The key to successful multi-generational wealth planning lies in balancing growt
     }
   }
 
-  // Save legacy planner content
+  // Save legacy planner content — routed through /api/legacy-planner-content with admin auth
   const saveLegacyPlannerContent = async () => {
     setSaving(true)
     try {
-      const { error } = await supabase.from("legacy_planner_content").upsert({
-        id: "main",
-        title: content.legacy_planner_title,
-        content: content.legacy_planner_content,
-        updated_at: new Date().toISOString(),
+      const response = await fetch("/api/legacy-planner-content", {
+        method: "PUT",
+        headers: getAdminHeaders(),
+        body: JSON.stringify({
+          title: content.legacy_planner_title,
+          content: content.legacy_planner_content,
+        }),
       })
-
-      if (error) throw error
+      if (!response.ok) {
+        const json = await response.json()
+        throw new Error(json.error || "Failed to save")
+      }
       setMessage("Legacy planner content saved successfully!")
       setTimeout(() => setMessage(""), 3000)
     } catch (err) {
@@ -643,9 +636,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
     try {
       const response = await fetch("/api/student-loan-blog", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAdminHeaders(),
         body: JSON.stringify({
           title: content.student_loan_blog_title,
           content: content.student_loan_blog_content,
@@ -673,9 +664,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
     try {
       const response = await fetch("/api/faqs", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAdminHeaders(),
         body: JSON.stringify({
           question: newFaq.question.trim(),
           answer: newFaq.answer.trim(),
@@ -706,6 +695,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
     try {
       const response = await fetch(`/api/faqs/${id}`, {
         method: "DELETE",
+        headers: getAdminHeaders(),
       })
 
       if (!response.ok) {
@@ -725,9 +715,7 @@ The key to successful multi-generational wealth planning lies in balancing growt
     try {
       const response = await fetch(`/api/faqs/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAdminHeaders(),
         body: JSON.stringify({
           question,
           answer,
@@ -756,12 +744,8 @@ The key to successful multi-generational wealth planning lies in balancing growt
     try {
       const response = await fetch("/api/admin/fetch-student-loan-data", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
-        }),
+        headers: getAdminHeaders(),
+        body: JSON.stringify({}),
       })
 
       const result = await response.json()
@@ -789,12 +773,8 @@ The key to successful multi-generational wealth planning lies in balancing growt
     try {
       const response = await fetch(`/api/admin/fetch-${currency.toLowerCase()}-data`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
-        }),
+        headers: getAdminHeaders(),
+        body: JSON.stringify({}),
       })
 
       const result = await response.json()
@@ -847,12 +827,8 @@ The key to successful multi-generational wealth planning lies in balancing growt
 
       const response = await fetch("/api/admin/fetch-housing-data", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
-        }),
+        headers: getAdminHeaders(),
+        body: JSON.stringify({}),
       })
 
       console.log("[v0] Response status:", response.status)
@@ -909,10 +885,6 @@ The key to successful multi-generational wealth planning lies in balancing growt
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleLogin()}
               />
-            </div>
-
-            <div className="text-xs text-gray-500 bg-gray-100 p-2 rounded">
-              Environment variable set: {process.env.NEXT_PUBLIC_ADMIN_PASSWORD ? "✅ Yes" : "❌ No"}
             </div>
 
             <Button onClick={handleLogin} className="w-full">

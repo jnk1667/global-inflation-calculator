@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
+import { requireAdminAuth } from "@/lib/admin-auth"
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -29,6 +30,9 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
 // PUT - Update seo_content entry
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  const authError = requireAdminAuth(request)
+  if (authError) return authError
+
   try {
     const body = await request.json()
     const { title, content, meta_description, keywords } = body
@@ -62,6 +66,9 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
 // DELETE - Delete seo_content entry
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+  const authError = requireAdminAuth(request)
+  if (authError) return authError
+
   try {
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 

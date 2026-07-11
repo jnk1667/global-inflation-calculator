@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { requireAdminAuth } from "@/lib/admin-auth"
 import { writeFile } from "fs/promises"
 import path from "path"
 
@@ -21,11 +22,8 @@ const UK_CITIES = [
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { password } = body
-
-    if (password !== process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
+    const authError = requireAdminAuth(request)
+    if (authError) return authError
 
     console.log("[v0] Fetching cost of living data for UK cities from ONS...")
 
