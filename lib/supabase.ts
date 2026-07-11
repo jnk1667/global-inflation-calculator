@@ -158,31 +158,8 @@ export const getAboutContent = async () => {
   return data as AboutContent[]
 }
 
-export const updateAboutContent = async (id: string, updates: Partial<AboutContent>) => {
-  const { data, error } = await supabase.from("about_content").update(updates).eq("id", id).select().single()
-
-  if (error) throw error
-  return data as AboutContent
-}
-
 export const getLegacyPlannerContent = async () => {
   const { data, error } = await supabase.from("legacy_planner_content").select("*").eq("id", "main").single()
-
-  if (error) throw error
-  return data as LegacyPlannerContent
-}
-
-export const updateLegacyPlannerContent = async (title: string, content: string) => {
-  const { data, error } = await supabase
-    .from("legacy_planner_content")
-    .upsert({
-      id: "main",
-      title: title,
-      content: content,
-      updated_at: new Date().toISOString(),
-    })
-    .select()
-    .single()
 
   if (error) throw error
   return data as LegacyPlannerContent
