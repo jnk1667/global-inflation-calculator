@@ -5,14 +5,15 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export const metadata: Metadata = {
-  title: "Salary Calculator | Inflation Adjustment Calculator",
+  title: "Salary Inflation Calculator | Real Wage & Purchasing Power Adjuster",
   description:
-    "Calculate how inflation affects your salary over time. Compare purchasing power and real wages from 1913-2026 with official CPI data.",
-  keywords: "salary calculator, inflation adjustment, real wages, purchasing power, salary inflation, wage calculator",
+    "Free salary inflation calculator and wage inflation calculator. See how much your salary is worth in real terms — adjust for CPI from 1913 to 2026 across USD, GBP, EUR, CAD, AUD and more.",
+  keywords:
+    "salary inflation calculator, wage inflation calculator, salary calculator, real wages calculator, purchasing power salary, inflation adjusted salary, wage calculator, salary comparison inflation",
   openGraph: {
-    title: "Salary Calculator - Adjust for Inflation",
+    title: "Salary Inflation Calculator | Real Wage & Purchasing Power Adjuster",
     description:
-      "Calculate how inflation affects your salary over time. Compare purchasing power and real wages across different years.",
+      "Free salary inflation and wage inflation calculator. Adjust your salary for CPI from 1913 to 2026 across 8 currencies and see your real purchasing power.",
     url: "https://www.globalinflationcalculator.com/salary-calculator",
     siteName: "Global Inflation Calculator",
     images: [
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
         url: "https://www.globalinflationcalculator.com/og-salary-calculator.jpg",
         width: 1200,
         height: 630,
-        alt: "Salary Calculator - Global Inflation Calculator",
+        alt: "Salary Inflation Calculator — Real Wage Purchasing Power Adjuster",
       },
     ],
     locale: "en_US",
@@ -28,8 +29,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Salary Calculator - Adjust for Inflation",
-    description: "Calculate how inflation affects your salary over time. Compare purchasing power and real wages.",
+    title: "Salary Inflation Calculator | Real Wage & Purchasing Power Adjuster",
+    description:
+      "Free salary inflation calculator. Adjust your wages for CPI 1913–2026 across USD, GBP, EUR, CAD, AUD and more.",
     images: ["https://www.globalinflationcalculator.com/og-salary-calculator.jpg"],
   },
   alternates: {

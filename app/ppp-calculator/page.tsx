@@ -3,15 +3,15 @@ import { JsonLd } from "@/components/json-ld"
 import PPPCalculatorPage from "./PPPCalculatorPage"
 
 export const metadata: Metadata = {
-  title: "PPP Calculator | Compare Purchasing Power Globally",
+  title: "PPP Calculator | Purchasing Power Parity — Compare Costs Across Countries",
   description:
-    "Calculate purchasing power parity across major economies. Compare real value of money using live IMF World Economic Outlook data — including projections through 2029.",
+    "Free purchasing power parity (PPP) calculator. Compare real cost of living and salary value across 200+ countries using IMF and World Bank data — including projections through 2029.",
   keywords:
-    "PPP calculator, purchasing power parity, currency comparison, cost of living, salary comparison, World Bank PPP, international cost comparison",
+    "ppp calculator, purchasing power parity calculator, purchasing power calculator, currency comparison, cost of living comparison, salary purchasing power, World Bank PPP, international cost comparison",
   openGraph: {
-    title: "PPP Calculator - Purchasing Power Parity Comparison",
+    title: "PPP Calculator | Purchasing Power Parity — Compare Costs Across Countries",
     description:
-      "Compare the real purchasing power of money across major economies using official World Bank PPP data. Historical trends, sector breakdowns, and unique insights.",
+      "Free purchasing power parity (PPP) calculator. Compare real cost of living and salary value across 200+ countries using official IMF and World Bank data.",
     url: "https://www.globalinflationcalculator.com/ppp-calculator",
     siteName: "Global Inflation Calculator",
     images: [
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
         url: "https://www.globalinflationcalculator.com/og-ppp-calculator.jpg",
         width: 1200,
         height: 630,
-        alt: "PPP Calculator - Global Inflation Calculator",
+        alt: "PPP Calculator — Purchasing Power Parity Comparison Across Countries",
       },
     ],
     locale: "en_US",
@@ -27,8 +27,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PPP Calculator - Purchasing Power Parity Comparison",
-    description: "Compare purchasing power across major economies with official World Bank PPP data.",
+    title: "PPP Calculator | Purchasing Power Parity — Compare Costs Across Countries",
+    description:
+      "Free PPP calculator. Compare purchasing power parity and real cost of living across 200+ countries with official IMF data.",
     images: ["https://www.globalinflationcalculator.com/og-ppp-calculator.jpg"],
   },
   alternates: {

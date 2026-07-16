@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: "%s | Global Inflation Calculator",
   },
   description:
-    "Calculate historical inflation and purchasing power across multiple currencies. USD, GBP, CAD, AUD, CHF, JPY from 1913; EUR from 1996; NZD from 1960. Official government data.",
+    "Free inflation calculator for USD, GBP, EUR, CAD, AUD and more. Calculate purchasing power, real wages, and historical inflation from 1913 to 2026 using official government data.",
   keywords: [
     "inflation calculator",
     "purchasing power",
@@ -65,27 +65,28 @@ export const metadata: Metadata = {
     "llms-txt": "/llms.txt",
   },
   openGraph: {
-    title: "Global Inflation Calculator - Track Purchasing Power",
+    title: "Global Inflation Calculator - USD, GBP, EUR & More",
     description:
-      "Calculate historical inflation across multiple currencies. USD, GBP, CAD from 1913; EUR from 1996; NZD from 1960. Real government data.",
-    url: "/",
+      "Free inflation calculator for USD, GBP, EUR, CAD, AUD and more. Calculate purchasing power and real wages from 1913 to 2026 with official CPI data.",
+    url: "https://www.globalinflationcalculator.com/",
     siteName: "Global Inflation Calculator",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "/placeholder.svg?height=630&width=1200&text=Global+Inflation+Calculator",
+        url: "https://www.globalinflationcalculator.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Global Inflation Calculator - Historical Currency Analysis",
+        alt: "Global Inflation Calculator - Calculate Purchasing Power Across 8 Currencies",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Global Inflation Calculator - Track Purchasing Power",
-    description: "Calculate historical inflation across multiple currencies. USD, GBP, CAD from 1913; EUR from 1996.",
-    images: ["/placeholder.svg?height=630&width=1200&text=Global+Inflation+Calculator"],
+    title: "Global Inflation Calculator - USD, GBP, EUR & More",
+    description:
+      "Free inflation calculator for USD, GBP, EUR, CAD, AUD and more. Historical CPI data from 1913 to 2026.",
+    images: ["https://www.globalinflationcalculator.com/og-image.png"],
   },
   robots: {
     index: true,
@@ -170,6 +171,51 @@ export default function RootLayout({
         "@type": "WebPage",
         name: "Shrinkflation Calculator",
         url: `${siteUrl}/shrinkflation-calculator`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Salary Calculator",
+        url: `${siteUrl}/salary-calculator`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Regional Cost of Living Comparison",
+        url: `${siteUrl}/salary-calculator/regional-cost-of-living`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Mortgage Calculator",
+        url: `${siteUrl}/mortgage-calculator`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Retirement Calculator",
+        url: `${siteUrl}/retirement-calculator`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Global Net Worth Calculator",
+        url: `${siteUrl}/global-net-worth-calculator`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Compound Interest Calculator",
+        url: `${siteUrl}/global-compound-interest`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Education Inflation Calculator",
+        url: `${siteUrl}/education-inflation-calculator`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Energy Inflation Calculator",
+        url: `${siteUrl}/energy-inflation-calculator`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Student Loan Calculator",
+        url: `${siteUrl}/student-loan-calculator`,
       },
     ],
   }

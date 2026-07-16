@@ -194,6 +194,33 @@ const faqSchema = {
 }
 
 export const metadata: Metadata = {
+  title: "Inflation Calculator | USD, GBP, EUR & 8 Currencies — 1913 to 2026",
+  description:
+    "Free inflation calculator for USD, GBP, EUR, CAD, AUD, CHF, JPY and NZD. Calculate purchasing power, dollar inflation, and real wages from 1913 to 2026 with official CPI data.",
+  openGraph: {
+    title: "Inflation Calculator | USD, GBP, EUR & 8 Currencies — 1913 to 2026",
+    description:
+      "Free inflation calculator for USD, GBP, EUR, CAD, AUD, CHF, JPY and NZD. Calculate purchasing power, dollar inflation, and real wages from 1913 to 2026 with official CPI data.",
+    url: "https://www.globalinflationcalculator.com/",
+    siteName: "Global Inflation Calculator",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "https://www.globalinflationcalculator.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Global Inflation Calculator — Calculate USD, GBP, EUR Inflation from 1913 to 2026",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Inflation Calculator | USD, GBP, EUR & 8 Currencies — 1913 to 2026",
+    description:
+      "Free inflation calculator for USD, GBP, EUR, CAD, AUD and more. Official CPI data from 1913 to 2026.",
+    images: ["https://www.globalinflationcalculator.com/og-image.png"],
+  },
   alternates: {
     canonical: "https://www.globalinflationcalculator.com/",
   },

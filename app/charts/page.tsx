@@ -5,34 +5,33 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export const metadata: Metadata = {
-  title: "Inflation Charts & Analytics | Global Calculator",
+  title: "Inflation Charts | Historical Inflation Rate by Year — 8 Currencies",
   description:
-    "Interactive inflation charts across 8 currencies from 1913-2025. Visualize purchasing power erosion, currency stability, and historical trends.",
+    "Interactive historical inflation charts for USD, GBP, EUR and 5 more currencies from 1913–2026. See inflation rate by year, purchasing power over time, healthcare vs general inflation, and decade-by-decade trends.",
   keywords: [
+    "inflation chart",
+    "historical inflation chart",
+    "inflation rate by year",
+    "us inflation chart",
+    "inflation over time",
     "inflation charts",
-    "currency analytics",
-    "inflation calculator usd",
-    "purchasing power charts",
+    "purchasing power chart",
     "inflation visualization",
-    "currency stability",
-    "healthcare inflation",
     "historical inflation data",
     "inflation trends",
     "global inflation calculator",
     "currency comparison",
     "inflation rate distribution",
-    "cross currency correlation",
-    "regional inflation analysis",
+    "healthcare inflation chart",
     "rolling average inflation",
-    "purchasing power convergence",
   ],
   alternates: {
     canonical: "https://www.globalinflationcalculator.com/charts",
   },
   openGraph: {
-    title: "Inflation Charts & Analytics | Global Calculator",
+    title: "Inflation Charts | Historical Inflation Rate by Year — 8 Currencies",
     description:
-      "Interactive inflation charts across 8 currencies from 1913-2025. Visualize purchasing power erosion, currency stability, and historical trends.",
+      "Interactive historical inflation charts for USD, GBP, EUR and 5 more currencies from 1913–2026. See inflation rate by year, purchasing power trends, and decade-by-decade analysis.",
     url: "https://www.globalinflationcalculator.com/charts",
     siteName: "Global Inflation Calculator",
     type: "website",
@@ -41,14 +40,15 @@ export const metadata: Metadata = {
         url: "https://www.globalinflationcalculator.com/og-charts.png",
         width: 1200,
         height: 630,
-        alt: "Global Inflation Calculator Charts",
+        alt: "Historical Inflation Charts — Inflation Rate by Year for USD, GBP, EUR and more",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Inflation Charts & Analytics | Global Calculator",
-    description: "Interactive inflation charts across 8 currencies from 1913-2025",
+    title: "Inflation Charts | Historical Inflation Rate by Year — 8 Currencies",
+    description:
+      "Interactive historical inflation charts for USD, GBP, EUR and more. Inflation rate by year from 1913 to 2026.",
     images: ["https://www.globalinflationcalculator.com/og-charts.png"],
   },
   robots: {
@@ -312,21 +312,41 @@ export default function Page() {
                 </section>
 
                 <nav className="mt-6" aria-label="Navigation">
-                  <h3 className="font-semibold mb-2">Navigation:</h3>
+                  <h3 className="font-semibold mb-2">Related Calculators:</h3>
                   <ul className="space-y-2">
                     <li>
                       <Link href="/" className="text-blue-600 hover:underline">
-                        Home - Inflation Calculator
+                        Inflation Calculator — USD, GBP, EUR &amp; More
                       </Link>
                     </li>
                     <li>
-                      <Link href="/deflation-calculator" className="text-blue-600 hover:underline">
-                        Deflation Calculator
+                      <Link href="/ppp-calculator" className="text-blue-600 hover:underline">
+                        PPP Calculator — Purchasing Power Parity
                       </Link>
                     </li>
                     <li>
                       <Link href="/salary-calculator" className="text-blue-600 hover:underline">
-                        Salary Calculator
+                        Salary Inflation Calculator — Real Wage Adjustment
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/deflation-calculator" className="text-blue-600 hover:underline">
+                        Deflation Calculator — Gold, Silver &amp; Scarce Assets
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/investment-race-calculator" className="text-blue-600 hover:underline">
+                        Investment Race Calculator — Beat Inflation?
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/global-net-worth-calculator" className="text-blue-600 hover:underline">
+                        Global Net Worth Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/global-compound-interest" className="text-blue-600 hover:underline">
+                        Compound Interest Calculator — Inflation Adjusted
                       </Link>
                     </li>
                     <li>
@@ -335,8 +355,28 @@ export default function Page() {
                       </Link>
                     </li>
                     <li>
+                      <Link href="/mortgage-calculator" className="text-blue-600 hover:underline">
+                        Mortgage Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/education-inflation-calculator" className="text-blue-600 hover:underline">
+                        Education Inflation Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/energy-inflation-calculator" className="text-blue-600 hover:underline">
+                        Energy Inflation Calculator
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shrinkflation-calculator" className="text-blue-600 hover:underline">
+                        Shrinkflation Calculator
+                      </Link>
+                    </li>
+                    <li>
                       <Link href="/about" className="text-blue-600 hover:underline">
-                        About Us
+                        About Global Inflation Calculator
                       </Link>
                     </li>
                   </ul>

@@ -199,15 +199,15 @@ const datasetSchema = {
 }
 
 export const metadata: Metadata = {
-  title: "Regional Cost of Living Comparison",
+  title: "Cost of Living Comparison | Compare 80+ Cities Worldwide",
   description:
-    "Compare cost of living across 80+ cities worldwide. Analyze housing, utilities, food & transport costs with official government data from BLS, ONS, Eurostat.",
+    "Compare cost of living by city across 80+ global cities. Analyze housing, utilities, food & transport costs side by side using official government data — BLS, ONS, Eurostat, Statistics Canada.",
   keywords:
-    "cost of living comparison, city comparison, housing costs, regional comparison, salary comparison, purchasing power, relocation calculator, moving cost calculator",
+    "cost of living comparison, cost of living by city, cost of living calculator, city cost of living, cost of living index, relocation calculator, housing cost comparison, international cost of living",
   openGraph: {
-    title: "Regional Cost of Living Comparison | 80+ Global Cities",
+    title: "Cost of Living Comparison | Compare 80+ Cities Worldwide",
     description:
-      "Compare cost of living across 80+ cities worldwide with comprehensive data from official government sources including BLS, UK ONS, Eurostat, and more.",
+      "Compare cost of living across 80+ global cities side by side. Housing, utilities, food & transport costs from official sources — BLS, ONS, Eurostat, Statistics Canada.",
     url: "https://www.globalinflationcalculator.com/salary-calculator/regional-cost-of-living",
     siteName: "Global Inflation Calculator",
     images: [
@@ -215,7 +215,7 @@ export const metadata: Metadata = {
         url: "https://www.globalinflationcalculator.com/og-regional-comparison.jpg",
         width: 1200,
         height: 630,
-        alt: "Regional Cost of Living Comparison Tool - Compare 80+ Cities",
+        alt: "Cost of Living Comparison — Compare 80+ Global Cities Side by Side",
       },
     ],
     locale: "en_US",
@@ -223,8 +223,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cost of Living Comparison | 80+ Global Cities",
-    description: "Compare cost of living across 80+ cities worldwide with comprehensive government data.",
+    title: "Cost of Living Comparison | Compare 80+ Cities Worldwide",
+    description:
+      "Compare cost of living by city across 80+ global cities. Housing, utilities, food & transport costs with official government data.",
     images: ["https://www.globalinflationcalculator.com/og-regional-comparison.jpg"],
   },
   alternates: {
