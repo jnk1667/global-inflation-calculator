@@ -174,11 +174,14 @@ export default function RegionalCostOfLivingPage() {
   useEffect(() => {
     const loadCitiesData = async () => {
       try {
-        const response = await fetch("/api/cost-of-living/cities")
-        const data = await response.json()
+        const data = await getCachedContent<CitiesData>("cost_of_living_cities", async () => {
+          const response = await fetch("/api/cost-of-living/cities")
+          if (!response.ok) throw new Error("Failed to fetch cities data")
+          return response.json()
+        })
         setCitiesData(data)
       } catch (error) {
-        console.error("[v0] Error loading cities data:", error)
+        console.error("Error loading cities data:", error)
       } finally {
         setLoading(false)
       }

@@ -32,8 +32,6 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
     const category = searchParams.get("category")
 
-    console.log("[v0] FAQ API: Received GET request for category:", category || "all")
-
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
@@ -53,9 +51,6 @@ export async function GET(request: Request) {
 
     const { data: faqs, error } = await query
 
-    console.log("[v0] FAQ API: Query results - Found", faqs?.length || 0, "FAQs")
-    console.log("[v0] FAQ API: Categories in results:", faqs?.map((f) => f.category).join(", ") || "none")
-
     if (error) {
       console.error("Error fetching FAQs:", error)
       return NextResponse.json({ error: "Failed to fetch FAQs" }, { status: 500 })
@@ -69,11 +64,11 @@ export async function GET(request: Request) {
       tags: faq.tags || [],
     }))
 
-    console.log("[v0] FAQ API: Returning", transformedFaqs.length, "transformed FAQs")
-
     return NextResponse.json(transformedFaqs, {
       headers: {
-        "Cache-Control": "public, max-age=0, must-revalidate",
+        // Cache at the edge for 1 hour, allow stale for up to 24 hours while revalidating.
+        // FAQ edits go directly to the database so a 1-hour edge cache is acceptable.
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
       },
     })
   } catch (error) {
