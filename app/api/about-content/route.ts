@@ -11,7 +11,12 @@ export async function GET() {
     const supabase = getServerClient()
     const { data, error } = await supabase.from("about_content").select("*").order("section")
     if (error) throw error
-    return NextResponse.json({ success: true, data })
+    return NextResponse.json({ success: true, data }, {
+      headers: {
+        // About content changes rarely — cache at edge for 1h, stale up to 24h
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      },
+    })
   } catch (error) {
     console.error("Error fetching about_content:", error)
     return NextResponse.json({ success: false, error: "Failed to fetch content" }, { status: 500 })

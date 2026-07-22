@@ -29,7 +29,8 @@ export async function GET() {
       },
     }, {
       headers: {
-        "Cache-Control": "public, max-age=0, must-revalidate",
+        // Blog essay content rarely changes — cache at edge for 24h, stale up to 7 days
+        "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
       },
     })
   } catch (error) {

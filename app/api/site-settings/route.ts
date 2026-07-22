@@ -11,7 +11,12 @@ export async function GET() {
     const supabase = getServerClient()
     const { data, error } = await supabase.from("site_settings").select("*").eq("id", "main").single()
     if (error) throw error
-    return NextResponse.json({ success: true, data })
+    return NextResponse.json({ success: true, data }, {
+      headers: {
+        // Site settings (header/footer) — shorter cache so changes appear within 10 minutes
+        "Cache-Control": "public, s-maxage=600, stale-while-revalidate=3600",
+      },
+    })
   } catch (error) {
     console.error("Error fetching site_settings:", error)
     return NextResponse.json({ success: false, error: "Failed to fetch settings" }, { status: 500 })

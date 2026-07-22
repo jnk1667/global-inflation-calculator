@@ -13,17 +13,18 @@ export async function GET() {
     const { data, error } = await supabase.from("seo_content").select("*").order("updated_at", { ascending: false })
 
     if (error) {
-      console.error("[v0] Error fetching seo_content:", error)
+      console.error("Error fetching seo_content:", error)
       return NextResponse.json({ success: false, error: "Failed to fetch content" }, { status: 500 })
     }
 
     return NextResponse.json({ success: true, data }, {
       headers: {
-        "Cache-Control": "public, max-age=0, must-revalidate",
+        // SEO content changes infrequently — cache at edge for 1h, stale up to 24h
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
       },
     })
   } catch (error) {
-    console.error("[v0] Error in seo_content GET:", error)
+    console.error("Error in seo_content GET:", error)
     return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 })
   }
 }

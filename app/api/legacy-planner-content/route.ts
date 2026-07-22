@@ -15,7 +15,12 @@ export async function GET() {
       .eq("id", "main")
       .single()
     if (error && error.code !== "PGRST116") throw error
-    return NextResponse.json({ success: true, data: data || null })
+    return NextResponse.json({ success: true, data: data || null }, {
+      headers: {
+        // Legacy planner content changes rarely — cache at edge for 1h, stale up to 24h
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      },
+    })
   } catch (error) {
     console.error("Error fetching legacy_planner_content:", error)
     return NextResponse.json({ success: false, error: "Failed to fetch content" }, { status: 500 })
