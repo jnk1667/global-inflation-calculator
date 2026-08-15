@@ -1284,7 +1284,7 @@ export default function ClientPage() {
                         {/* Info text */}
                         <div className="text-center text-[10px] text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-gray-800 p-1.5 rounded mt-2">
                           💡 Drag the slider or tap the year buttons above • Data available from {minYear} to{" "}
-                          {currentYear} • Updated February 2026
+                          {currentYear} • Updated August 2026
                         </div>
                       </div>
                     </CardContent>
