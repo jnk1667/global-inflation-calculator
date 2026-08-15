@@ -2178,7 +2178,7 @@ export default function ClientPage() {
                     </Link>
                   </li>
                 </ul>
-                <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">Last Updated: August 2026</p>
+                <p className="text-sm text-gray-400 dark:text-gray-600 mt-4">{"Last Updated: August 2026"}</p>
               </div>
             </div>
             <div className="border-t border-gray-700 dark:border-gray-600 mt-8 pt-8 text-center text-gray-400 dark:text-gray-500">
